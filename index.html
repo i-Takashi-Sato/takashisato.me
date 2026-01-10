@@ -14,7 +14,20 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="no-referrer" />
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self' data:; form-action 'self' mailto:; upgrade-insecure-requests">
+  <!-- Security (document-level CSP for single-file architecture) -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    base-uri 'self';
+    object-src 'none';
+    frame-ancestors 'none';
+    img-src 'self' data:;
+    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self' data:;
+    form-action 'self' mailto:;
+    upgrade-insecure-requests
+  ">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()" />
 
   <meta property="og:title" content="Takashi Sato · AI Governance Archive" />
@@ -94,13 +107,22 @@
   </script>
 
   <style>
+    /* ================================
+       Final polish (award-safe):
+       - content-driven motion (fast)
+       - scoped EN tracking (no UI drift)
+       - subliminal scroll texture (readability-safe)
+       ================================ */
+
     :root{
       --bg:#050505;
       --bg2:#000000;
+
       --fg:rgba(255,255,255,.94);
       --muted:rgba(255,255,255,.66);
       --faint:rgba(255,255,255,.26);
       --rule:rgba(255,255,255,.10);
+
       --accent:#ff0000;
       --tear:#880000;
 
@@ -119,24 +141,35 @@
 
       --scroll:0;
 
-      /* ================================
-         A + C: underline + rail system
-         ================================ */
+      /* underline system */
       --u-thick:1px;
-      --u-offset:6px; /* baseline位置（paper-title内） */
-      --u-dur:520ms;
-      --u-ease:cubic-bezier(.2,.8,.2,1);
-      --u-base:rgba(255,255,255,.10);          /* 常時の薄い基線 */
-      --u-ink:rgba(255,0,0,.70);               /* 走るインク */
-      --u-ink-hot:rgba(255,0,0,.95);           /* hover時の芯 */
+      --u-offset:6px;
+      --u-dur:320ms;
+      --u-ease:cubic-bezier(.2,.7,.2,1);
+      --u-base:rgba(255,255,255,.10);
+      --u-ink:rgba(255,0,0,.68);
+      --u-ink-hot:rgba(255,0,0,.92);
       --u-drop:0.6px;
 
+      /* "ink sets" */
+      --ink-blur:1.15px;
+
+      /* rail */
       --rail-hot:rgba(255,0,0,.55);
-      --rail-shadow:drop-shadow(0 0 4px rgba(255,0,0,.40)); /* “光を絞る” */
+      --rail-shadow:drop-shadow(0 0 4px rgba(255,0,0,.40));
+
+      /* typography */
+      --en-track-body:0.012em;
+      --en-track-title:0.008em;
+
+      /* scroll texture (safe range) */
+      --noise-base:.045;
+      --noise-gain:.018;
     }
 
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;overflow-x:hidden}
+
     body{
       background:
         radial-gradient(1200px 900px at 15% -10%, rgba(255,0,0,.06), transparent 60%),
@@ -151,7 +184,7 @@
       font-feature-settings:"palt";
     }
 
-    /* subtle texture */
+    /* subtle texture (subliminal) */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -159,9 +192,10 @@
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
       background-size:220px 220px;
       mix-blend-mode:soft-light;
-      opacity:calc(.05 + (var(--scroll) * .02));
+      opacity:calc(var(--noise-base) + (var(--scroll) * var(--noise-gain)));
       transform:translateZ(0);
     }
+
     body::after{
       content:"";
       position:fixed; inset:-20vh -10vw;
@@ -170,6 +204,7 @@
       opacity:.55;
     }
 
+    /* Skip link */
     .skip{
       position:absolute;left:10px;top:10px;z-index:9999;
       padding:10px 12px;background:#111;border:1px solid var(--rule);border-radius:10px;
@@ -181,6 +216,7 @@
     .skip:focus{transform:translateY(0)}
 
     main{max-width:var(--max);margin:0 auto;padding:var(--pad-y) var(--left-pad);position:relative}
+
     header.hero{padding:var(--hero-gap) 0 var(--label-gap) 0}
     header.hero h1{margin:0;font-weight:400;letter-spacing:.01em;font-size:var(--h1);line-height:1.05}
 
@@ -191,6 +227,7 @@
       font-family:ui-sans-serif,system-ui,sans-serif;
       font-size:clamp(13px,1.2vw + 10px,14px);
       line-height:1.65;
+      letter-spacing:var(--en-track-body);
     }
 
     header.hero p.who{
@@ -224,9 +261,7 @@
     article.paper{margin:0 0 var(--entry-gap) 0}
     .paper-header{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
 
-    /* ================================
-       A: paper-title underline system
-       ================================ */
+    /* Title: underline system */
     .paper-title{
       display:inline-block;
       font-size:var(--title);
@@ -235,8 +270,8 @@
       text-decoration:none;
       padding-bottom:6px;
       position:relative;
+      letter-spacing:var(--en-track-title);
 
-      /* 常時の薄い基線（動かない） */
       background:
         linear-gradient(90deg, var(--u-base), var(--u-base))
         0 calc(100% - var(--u-offset)) / 100% var(--u-thick) no-repeat;
@@ -250,16 +285,18 @@
       bottom:calc(var(--u-offset));
       pointer-events:none;
 
-      /* 走るインク（中央が濃い） */
       background:linear-gradient(90deg, transparent, var(--u-ink), transparent);
       transform:scaleX(0);
       transform-origin:left;
       opacity:0;
 
+      filter:blur(var(--ink-blur));
+
       transition:
         transform var(--u-dur) var(--u-ease),
-        opacity 180ms ease,
-        background 180ms ease;
+        opacity 140ms ease,
+        background 140ms ease,
+        filter 160ms ease;
     }
 
     .paper-title:hover::after,
@@ -267,6 +304,7 @@
       transform:scaleX(1) translateY(var(--u-drop));
       opacity:1;
       background:linear-gradient(90deg, transparent, var(--u-ink-hot), transparent);
+      filter:blur(0);
     }
 
     .paper-signal{
@@ -301,28 +339,32 @@
 
     .fragments{margin-top:var(--frag-gap);display:grid;gap:12px}
 
-    /* ================================
-       A: fragment rail + C: mobile active
-       ================================ */
+    /* Fragment rail */
     blockquote.fragment{
       margin:0;
       position:relative;
       padding:14px 16px;
       border-left:1px solid var(--rule);
       color:var(--muted);
-      transition:border-color .35s ease, color .35s ease, transform .35s ease, background-color .35s ease;
       background-color:transparent;
+      transition:
+        border-color .30s ease,
+        color .30s ease,
+        transform .30s ease,
+        background-color .30s ease;
     }
 
-    /* “芯”が入るレール（hover/focusで点火） */
     blockquote.fragment::before{
       content:"";
       position:absolute;left:-1px;top:0;bottom:0;width:1px;
-      background:linear-gradient(180deg, rgba(255,0,0,.0), var(--rail-hot), rgba(255,0,0,.0));
+      background:linear-gradient(180deg, rgba(255,0,0,0), var(--rail-hot), rgba(255,0,0,0));
       opacity:0;
       transform:translateY(8px);
-      transition:opacity 320ms ease, transform 420ms ease, filter 420ms ease;
       filter:none;
+      transition:
+        opacity 220ms ease,
+        transform 320ms var(--u-ease),
+        filter 320ms var(--u-ease);
     }
 
     blockquote.fragment:hover,
@@ -338,7 +380,7 @@
       filter:var(--rail-shadow);
     }
 
-    .fragment .en{display:block}
+    .fragment .en{display:block; letter-spacing:var(--en-track-title);}
     .fragment .ja-wrap{display:block;margin-top:6px}
     .fragment .ja{display:inline-block;color:rgba(255,255,255,.68);letter-spacing:.02em}
     blockquote.fragment:hover .ja,
@@ -430,14 +472,14 @@
       .pill{padding:8px 11px}
     }
 
-    /* ================================
-       C: hoverなし環境の“指先”保証
-       ================================ */
+    /* Mobile: finger certainty */
     @media (hover:none){
       .paper-title:active::after{
         transform:scaleX(1) translateY(var(--u-drop));
         opacity:1;
         background:linear-gradient(90deg, transparent, var(--u-ink-hot), transparent);
+        filter:blur(0);
+        transition-duration:200ms;
       }
 
       blockquote.fragment:active{
@@ -450,14 +492,16 @@
         opacity:1;
         transform:translateY(0);
         filter:var(--rail-shadow);
+        transition-duration:200ms;
       }
     }
 
-    /* Reduced motion: 動きだけ止めて見た目は維持 */
+    /* Reduced motion: stop motion, keep structure */
     @media (prefers-reduced-motion: reduce){
       *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
-      .paper-title::after{opacity:0!important;transform:none!important}
+      .paper-title::after{opacity:0!important;transform:none!important;filter:none!important}
       blockquote.fragment::before{opacity:0!important;transform:none!important;filter:none!important}
+      body::before{opacity:var(--noise-base)!important}
     }
   </style>
 </head>
