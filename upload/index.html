@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#050505" />
+
+  <title>Takashi Sato · AI Governance Archive (Workflow-Centric Oversight, Human-in-the-Loop, Sociotechnical Failure)</title>
+
+  <meta name="description" content="Takashi Sato — Research archive on AI governance and workflow-centric oversight architectures (ALTRION), human-in-the-loop decision systems, and sociotechnical institutional failure modes (Resolution Collapse, pre-abuse failure)." />
+  <link rel="canonical" href="https://takashisato.me/" />
+
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="referrer" content="no-referrer" />
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self' data:; form-action 'self' mailto:; upgrade-insecure-requests">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()" />
+
+  <meta property="og:title" content="Takashi Sato · AI Governance Archive" />
+  <meta property="og:description" content="Research archive on AI governance, workflow-centric oversight (ALTRION), human-in-the-loop decision systems, and sociotechnical failure (Resolution Collapse)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://takashisato.me/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Person",
+        "@id":"https://takashisato.me/#person",
+        "name":"Takashi Sato",
+        "url":"https://takashisato.me/",
+        "email":"mailto:i@takashisato.me",
+        "sameAs":[
+          "https://orcid.org/0009-0003-1584-6965",
+          "https://x.com/takashisato_me",
+          "https://instagram.com/takashisato_me"
+        ]
+      },
+      {
+        "@type":"WebSite",
+        "@id":"https://takashisato.me/#website",
+        "name":"Takashi Sato · AI Governance Archive",
+        "url":"https://takashisato.me/",
+        "inLanguage":"en",
+        "publisher":{"@id":"https://takashisato.me/#person"}
+      },
+      {
+        "@type":"ItemList",
+        "@id":"https://takashisato.me/#works",
+        "name":"Research papers",
+        "itemListOrder":"http://schema.org/ItemListOrderAscending",
+        "numberOfItems":3,
+        "itemListElement":[
+          {
+            "@type":"ListItem",
+            "position":1,
+            "item":{
+              "@type":"CreativeWork",
+              "name":"Part I: The Cold Genesis",
+              "url":"https://takashisato.me/papers/part1.html",
+              "encodingFormat":"text/html",
+              "author":{"@id":"https://takashisato.me/#person"}
+            }
+          },
+          {
+            "@type":"ListItem",
+            "position":2,
+            "item":{
+              "@type":"CreativeWork",
+              "name":"Part II: The Silent Decay",
+              "url":"https://takashisato.me/papers/part2.html",
+              "encodingFormat":"text/html",
+              "author":{"@id":"https://takashisato.me/#person"}
+            }
+          },
+          {
+            "@type":"ListItem",
+            "position":3,
+            "item":{
+              "@type":"CreativeWork",
+              "name":"Part III: The Proper Ending",
+              "url":"https://takashisato.me/papers/part3.html",
+              "encodingFormat":"text/html",
+              "author":{"@id":"https://takashisato.me/#person"}
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg:#050505;
+      --bg2:#000000;
+      --fg:rgba(255,255,255,.94);
+      --muted:rgba(255,255,255,.66);
+      --faint:rgba(255,255,255,.26);
+      --rule:rgba(255,255,255,.10);
+      --accent:#ff0000;
+      --tear:#880000;
+
+      --max:74ch;
+      --body:clamp(16px,1.8vw + 11px,19px);
+      --leading:clamp(1.70,0.5vw + 1.55,1.85);
+      --h1:clamp(30px,6.2vw,46px);
+      --title:clamp(21px,3vw + 10px,28px);
+
+      --pad-y:clamp(52px,7.5vw,104px);
+      --hero-gap:clamp(38px,7vw,96px);
+      --entry-gap:clamp(74px,10vw,128px);
+      --label-gap:clamp(32px,6.2vw,54px);
+      --frag-gap:clamp(22px,4.0vw,36px);
+      --left-pad:clamp(18px,4.5vw,28px);
+
+      --scroll:0;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;overflow-x:hidden}
+    body{
+      background:
+        radial-gradient(1200px 900px at 15% -10%, rgba(255,0,0,.06), transparent 60%),
+        radial-gradient(900px 700px at 95% 10%, rgba(255,255,255,.03), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2) 85%);
+      color:var(--fg);
+      font-family:ui-serif, Charter, "Iowan Old Style", Palatino, "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho", serif;
+      font-size:var(--body);
+      line-height:var(--leading);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      font-feature-settings:"palt";
+    }
+
+    /* subtle texture */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      background-size:220px 220px;
+      mix-blend-mode:soft-light;
+      opacity:calc(.05 + (var(--scroll) * .02));
+      transform:translateZ(0);
+    }
+    body::after{
+      content:"";
+      position:fixed; inset:-20vh -10vw;
+      pointer-events:none;
+      background:radial-gradient(70% 55% at 50% 20%, transparent 35%, rgba(0,0,0,.55) 82%);
+      opacity:.55;
+    }
+
+    .skip{
+      position:absolute;left:10px;top:10px;z-index:9999;
+      padding:10px 12px;background:#111;border:1px solid var(--rule);border-radius:10px;
+      color:var(--fg);text-decoration:none;
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:12px;letter-spacing:.06em;
+      transform:translateY(-160%);transition:transform .25s ease;
+    }
+    .skip:focus{transform:translateY(0)}
+
+    main{max-width:var(--max);margin:0 auto;padding:var(--pad-y) var(--left-pad);position:relative}
+    header.hero{padding:var(--hero-gap) 0 var(--label-gap) 0}
+    header.hero h1{margin:0;font-weight:400;letter-spacing:.01em;font-size:var(--h1);line-height:1.05}
+
+    /* Lead paragraph (existing) */
+    header.hero p.lead{
+      margin:18px 0 0 0;
+      color:var(--muted);
+      max-width:62ch;
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:clamp(13px,1.2vw + 10px,14px);
+      line-height:1.65;
+    }
+
+    /* NEW: Who this is for (single line, low-noise) */
+    header.hero p.who{
+      margin:12px 0 0 0;
+      color:var(--faint);
+      max-width:58ch;
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:11.5px;
+      letter-spacing:.02em;
+      line-height:1.6;
+    }
+
+    noscript p{
+      margin-top:14px;
+      color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:12px;
+    }
+
+    .section-label{
+      margin:0 0 var(--label-gap) 0;
+      color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:11px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      border-bottom:1px solid var(--rule);
+      padding-bottom:12px;
+    }
+
+    article.paper{margin:0 0 var(--entry-gap) 0}
+    .paper-header{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+
+    /* Title now points to the scholarly landing page (expected behavior). */
+    .paper-title{
+      display:inline-block;
+      font-size:var(--title);
+      font-weight:400;
+      color:var(--fg);
+      text-decoration:none;
+      border-bottom:1px solid transparent;
+      padding-bottom:4px;
+    }
+    .paper-title:hover{border-bottom-color:var(--accent)}
+
+    /* Academic micro-signal: 1-line summary + keywords (minimal, non-spam). */
+    .paper-signal{
+      margin-top:10px;
+      color:rgba(255,255,255,.78);
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:12.5px;
+      line-height:1.65;
+      max-width:66ch;
+    }
+    .paper-signal .k{
+      display:block;
+      margin-top:6px;
+      color:rgba(255,255,255,.44);
+      letter-spacing:.02em;
+      font-size:11.5px;
+    }
+    .paper-signal .k span{
+      border-bottom:1px solid rgba(255,255,255,.12);
+      padding-bottom:2px;
+    }
+
+    /* Focus: make it visible (border-only is too subtle for strict accessibility review). */
+    .paper-title:focus-visible,
+    .pill:focus-visible,
+    .close:focus-visible,
+    .social a:focus-visible,
+    .skip:focus-visible{
+      outline:2px solid rgba(255,0,0,.65);
+      outline-offset:3px;
+      border-color:rgba(255,0,0,.65);
+      color:#fff;
+    }
+
+    .fragments{margin-top:var(--frag-gap);display:grid;gap:12px}
+    blockquote.fragment{
+      margin:0;
+      position:relative;
+      padding:14px 16px;
+      border-left:1px solid var(--rule);
+      color:var(--muted);
+      transition:border-color .35s ease, color .35s ease, transform .35s ease;
+    }
+    blockquote.fragment::before{
+      content:"";
+      position:absolute;left:-1px;top:0;bottom:0;width:1px;
+      background:linear-gradient(180deg, rgba(255,0,0,.0), rgba(255,0,0,.45), rgba(255,0,0,.0));
+      opacity:0;
+      transition:opacity .35s ease;
+    }
+    blockquote.fragment:hover, blockquote.fragment:focus-within{
+      border-left-color:rgba(255,255,255,.22);
+      color:rgba(255,255,255,.82)
+    }
+    blockquote.fragment:hover::before, blockquote.fragment:focus-within::before{opacity:1}
+    .fragment .en{display:block}
+    .fragment .ja-wrap{display:block;margin-top:6px}
+    .fragment .ja{display:inline-block;color:rgba(255,255,255,.68);letter-spacing:.02em}
+    blockquote.fragment:hover .ja,
+    blockquote.fragment:focus-within .ja{color:rgba(255,255,255,.82)}
+
+    .fragment .shadow{
+      display:block;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:rgba(255,255,255,.36);
+      opacity:0;
+      transition:opacity .35s ease;
+    }
+    blockquote.fragment:hover .shadow{opacity:1}
+
+    .meta{
+      margin-top:16px;
+      display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+      color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:12px;
+      letter-spacing:.02em;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--rule);
+      border-radius:999px;
+      text-decoration:none;
+      color:var(--faint);
+      transition:border-color .25s ease, color .25s ease, transform .25s ease, background-color .25s ease;
+      background:rgba(255,255,255,.02);
+    }
+    .pill:hover{border-color:rgba(255,0,0,.55);color:#fff;background:rgba(255,0,0,.08);transform:translateY(-1px)}
+    .pill em{font-style:italic;opacity:.9}
+
+    .viewer-wrap{
+      position:relative;
+      margin-top:18px;
+      border-left:1px solid var(--rule);
+      padding-left:16px;
+      display:none;
+    }
+    .viewer-wrap.is-open{display:block}
+    .viewer{
+      width:100%;
+      height:min(70vh,900px);
+      border:1px solid var(--rule);
+      border-radius:18px;
+      background:#000;
+      display:none;
+    }
+    .viewer.active{display:block}
+    .close{
+      position:absolute;top:10px;right:10px;
+      display:none;background:transparent;border:1px solid var(--rule);color:var(--faint);
+      padding:7px 11px;border-radius:999px;
+      font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;
+      letter-spacing:.10em;text-transform:uppercase;cursor:pointer;
+    }
+    .viewer-wrap.is-open .close{display:inline-flex}
+    .close:hover{color:#fff;border-color:var(--accent)}
+
+    /* NEW: Non-expert entry line (kept minimal) */
+    .entry-note{
+      margin:calc(var(--entry-gap) * 0.72) 0 0 0;
+      color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:11px;
+      letter-spacing:.02em;
+      text-align:center;
+    }
+    .entry-note a{
+      color:inherit;
+      text-decoration:none;
+      border-bottom:1px solid rgba(255,255,255,.18);
+    }
+    .entry-note a:hover{border-bottom-color:rgba(255,0,0,.55)}
+
+    footer{
+      margin-top:clamp(130px,16vw,190px);
+      padding:clamp(40px,6.5vw,58px) 0;
+      border-top:1px solid var(--rule);
+      text-align:center;
+      position:relative;
+    }
+    .social{
+      display:flex;gap:22px;justify-content:center;flex-wrap:wrap;
+      margin-bottom:clamp(26px,5vw,38px);
+      font-size:12px;font-family:ui-sans-serif,system-ui,sans-serif;
+      letter-spacing:.06em;
+    }
+    .social a{
+      color:var(--faint);text-decoration:none;
+      border-bottom:1px solid rgba(255,255,255,.18);
+      transition:color .35s,border-color .35s;
+      padding:2px 0;
+    }
+    .social a:hover{color:#fff;border-bottom-color:var(--accent)}
+    .footer-sig{
+      color:var(--faint);
+      font-size:10px;
+      letter-spacing:.30em;
+      opacity:.42;
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      text-transform:uppercase;
+      margin:0;
+      font-variant-numeric:tabular-nums;
+    }
+
+    @media (max-width: 560px){
+      :root{ --entry-gap:clamp(58px,10vw,90px); --hero-gap:clamp(28px,9vw,64px); }
+      blockquote.fragment{padding:13px 14px}
+      .pill{padding:8px 11px}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+    }
+  </style>
+</head>
+
+<body>
+<a class="skip" href="#archive">Skip to archive</a>
+
+<main>
+  <header class="hero" aria-label="Site header">
+    <h1>Optimizing Decay,<br>Architecting Eternity.</h1>
+
+    <!-- NEW: who this is for (single, low-noise line) -->
+    <p class="who">Peer-citable research archive on AI governance and sociotechnical failure.</p>
+
+    <p class="lead">Peer-citable landing pages for scholarly indexing—an archive engineered for trust, scanability, and low-noise retrieval.</p>
+
+    <!-- FINAL: year separation (papers vs archive) -->
+    <div class="meta" aria-label="Dates">
+      <span>Papers completed · 2025</span>
+      <span aria-hidden="true">·</span>
+      <span>Archive published · 2026</span>
+    </div>
+
+    <noscript>
+      <p>JavaScript is disabled. PDF viewers will open in a new tab via “Open PDF”.</p>
+    </noscript>
+  </header>
+
+  <section id="archive" aria-label="Archive">
+    <p class="section-label">Archive</p>
+
+    <article class="paper" data-entry="p1">
+      <div class="paper-header">
+        <a class="paper-title"
+           href="/papers/part1.html">
+          Part I: The Cold Genesis
+        </a>
+      </div>
+
+      <p class="paper-signal">
+        Workflow-centric oversight architecture for human–AI decision-making (ALTRION).
+        <span class="k"><span>Keywords</span> AI governance · workflow-centric oversight · human-in-the-loop · sociotechnical systems</span>
+      </p>
+
+      <div class="fragments">
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“Do not trust the machine. Disbelief is the only contract for co-existence.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">不信こそが、機械との唯一の契約。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“To preserve the human, we must engineer the friction of thought.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">人間を残すとは、思考に摩擦を仕込むという設計</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“Governance is the sanctuary where humans stand still as algorithms accelerate.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">人間が立ち止まるための場所。論理が加速する世界における、統治という聖域。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“Etch your dissent into the silence of logic.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">論理の静寂に、異議を刻め。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“A beautiful architecture craves the weight of human resistance.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">美しき構造は、常に人間の抵抗という重みを求める。</span></span>
+        </blockquote>
+      </div>
+
+      <div class="meta">
+        <span aria-hidden="true">2025</span>
+        <a class="pill" href="/papers/part1.html"><em>Abstract</em> &amp; Citation</a>
+        <a class="pill" href="/pdf/part1.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <button class="pill" type="button" data-toggle="viewer" data-id="p1" data-pdf="/pdf/part1.pdf" aria-controls="p1" aria-expanded="false">View inline</button>
+      </div>
+
+      <div class="viewer-wrap" data-wrap="p1">
+        <button class="close" type="button" data-close="p1" aria-label="Close PDF viewer">Close</button>
+        <iframe id="p1" class="viewer" data-src="/pdf/part1.pdf" title="PDF viewer: Part I: The Cold Genesis" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
+          <a href="/pdf/part1.pdf">Open PDF</a>
+        </iframe>
+      </div>
+    </article>
+
+    <article class="paper" data-entry="p2">
+      <div class="paper-header">
+        <a class="paper-title"
+           href="/papers/part2.html">
+          Part II: The Silent Decay
+        </a>
+      </div>
+
+      <p class="paper-signal">
+        Failure forecasting: how governance decays into ritual (pre-abuse failure) and institutional pathology.
+        <span class="k"><span>Keywords</span> institutional failure · governance drift · dissent exhaustion · pre-abuse failure</span>
+      </p>
+
+      <div class="fragments">
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“The perfect system rots in silence, beautiful and hollow.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">完璧な装置は、静寂の中で、美しく、空虚に腐る。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“Entropy wears the mask of efficiency.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">散逸は、効率という名の仮面を被る。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“When the form is perfected, the essence becomes a corpse.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">形式が完成したとき、本質は死体になる。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“The system shatters under its own weight before it is ever abused.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">悪用される前に、自らの重みで砕け散る。</span></span>
+          <span class="shadow" aria-hidden="true">
+            <span class="shadow-en">“It is a physical suicide, executed by goodwill.”</span><br>
+            <span class="shadow-ja" lang="ja">それは、善意によって完遂される、自死。</span>
+          </span>
+        </blockquote>
+      </div>
+
+      <div class="meta">
+        <span aria-hidden="true">2025</span>
+        <a class="pill" href="/papers/part2.html"><em>Abstract</em> &amp; Citation</a>
+        <a class="pill" href="/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <button class="pill" type="button" data-toggle="viewer" data-id="p2" data-pdf="/pdf/part2.pdf" aria-controls="p2" aria-expanded="false">View inline</button>
+      </div>
+
+      <div class="viewer-wrap" data-wrap="p2">
+        <button class="close" type="button" data-close="p2" aria-label="Close PDF viewer">Close</button>
+        <iframe id="p2" class="viewer" data-src="/pdf/part2.pdf" title="PDF viewer: Part II: The Silent Decay" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
+          <a href="/pdf/part2.pdf">Open PDF</a>
+        </iframe>
+      </div>
+    </article>
+
+    <article class="paper" data-entry="p3">
+      <div class="paper-header">
+        <a class="paper-title"
+           href="/papers/part3.html">
+          Part III: The Proper Ending
+        </a>
+      </div>
+
+      <p class="paper-signal">
+        Resolution Collapse: semantic entropy, dissent exhaustion, and circuit breakers for governance failure.
+        <span class="k"><span>Keywords</span> Resolution Collapse · semantic entropy · circuit breakers · AI governance</span>
+      </p>
+
+      <div class="fragments">
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“Silence is the scream of a failing system.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">沈黙とは、破綻へ向かう装置の咆哮。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“When words lose their resolution, the world turns into a transparent hell.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">言葉が解像度を失ったとき、世界は透明な地獄へと変貌する。</span></span>
+        </blockquote>
+        <blockquote class="fragment" aria-label="Epigraph">
+          <span class="en">“End the ritual. Break the circuit. Let the machine die properly.”</span>
+          <span class="ja-wrap"><span class="ja" lang="ja">儀式を終わらせよ。回路を断て。機械を、正しく死なせよ。</span></span>
+        </blockquote>
+      </div>
+
+      <div class="meta">
+        <span aria-hidden="true">2025</span>
+        <a class="pill" href="/papers/part3.html"><em>Abstract</em> &amp; Citation</a>
+        <a class="pill" href="/pdf/part3.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <button class="pill" type="button" data-toggle="viewer" data-id="p3" data-pdf="/pdf/part3.pdf" aria-controls="p3" aria-expanded="false">View inline</button>
+      </div>
+
+      <div class="viewer-wrap" data-wrap="p3">
+        <button class="close" type="button" data-close="p3" aria-label="Close PDF viewer">Close</button>
+        <iframe id="p3" class="viewer" data-src="/pdf/part3.pdf" title="PDF viewer: Part III: The Proper Ending" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
+          <a href="/pdf/part3.pdf">Open PDF</a>
+        </iframe>
+      </div>
+    </article>
+
+    <!-- NEW: non-expert entry (kept to a single line) -->
+    <p class="entry-note">New to this topic? Start with <a href="/papers/part1.html">Part I</a>.</p>
+  </section>
+
+  <footer>
+    <nav class="social" aria-label="Professional Links">
+      <a href="mailto:i@takashisato.me" rel="me">Email</a>
+      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID</a>
+      <a href="https://x.com/takashisato_me" target="_blank" rel="me noopener noreferrer">X</a>
+      <a href="https://instagram.com/takashisato_me" target="_blank" rel="me noopener noreferrer">Instagram</a>
+    </nav>
+    <p class="footer-sig">TAKASHI SATO · SIGNAL OVER SPECTACLE · 2025</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const qs  = (s, r=document) => r.querySelector(s);
+
+  let lastToggle = null;
+
+  function closeAll({ restoreFocus = true } = {}){
+    qsa('.viewer').forEach(v => v.classList.remove('active'));
+    qsa('.viewer-wrap').forEach(w => w.classList.remove('is-open'));
+    qsa('[data-toggle="viewer"]').forEach(t => t.setAttribute('aria-expanded','false'));
+
+    if(restoreFocus && lastToggle){
+      try { lastToggle.focus({ preventScroll:true }); }
+      catch(e){ lastToggle.focus(); }
+      lastToggle = null;
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+
+    const c = t.closest('[data-close]');
+    if(c){
+      closeAll({ restoreFocus:true });
+      return;
+    }
+
+    const btn = t.closest('button[data-toggle="viewer"]');
+    if(!btn) return;
+
+    if(e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+
+    const id = btn.getAttribute('data-id');
+    const frame = document.getElementById(id);
+    const wrap  = qs('[data-wrap="'+id+'"]');
+    const isActive = frame && frame.classList.contains('active');
+
+    closeAll({ restoreFocus:false });
+
+    if(frame && wrap && !isActive){
+      lastToggle = btn;
+
+      if(!frame.getAttribute('src')) frame.setAttribute('src', frame.getAttribute('data-src'));
+      frame.classList.add('active');
+      wrap.classList.add('is-open');
+      btn.setAttribute('aria-expanded','true');
+      wrap.scrollIntoView({behavior:'smooth', block:'start'});
+
+      const closeBtn = wrap.querySelector('[data-close="'+id+'"]');
+      if(closeBtn){
+        setTimeout(() => {
+          try { closeBtn.focus({ preventScroll:true }); }
+          catch(e){ closeBtn.focus(); }
+        }, 0);
+      }
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeAll({ restoreFocus:true });
+
+    if(e.key === ' ' || e.key === 'Spacebar'){
+      const btn = document.activeElement && document.activeElement.closest
+        ? document.activeElement.closest('button[data-toggle="viewer"]')
+        : null;
+      if(btn){
+        e.preventDefault();
+        btn.click();
+      }
+    }
+  });
+
+  const root = document.documentElement;
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const h = Math.max(1, document.body.scrollHeight - innerHeight);
+      const v = Math.min(1, Math.max(0, scrollY / (h * 0.65)));
+      root.style.setProperty('--scroll', v.toFixed(4));
+      ticking = false;
+    });
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

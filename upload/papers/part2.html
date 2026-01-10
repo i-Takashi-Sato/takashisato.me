@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#050505" />
+
+  <title>Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused · Takashi Sato</title>
+  <meta name="description" content="Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse. An ALTRION-based analysis of failure trajectories." />
+  <link rel="canonical" href="https://takashisato.me/papers/part2.html" />
+
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="referrer" content="no-referrer" />
+
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self' data:; form-action 'self' mailto:; upgrade-insecure-requests">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()" />
+
+  <meta name="citation_title" content="Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused" />
+  <meta name="citation_author" content="Sato, Takashi" />
+  <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
+  <meta name="citation_publication_date" content="2025" />
+  <meta name="citation_online_date" content="2026" />
+  <meta name="citation_pdf_url" content="https://takashisato.me/pdf/part2.pdf" />
+  <meta name="citation_abstract_html_url" content="https://takashisato.me/papers/part2.html" />
+  <meta name="citation_public_url" content="https://takashisato.me/papers/part2.html" />
+  <meta name="citation_language" content="en" />
+  <meta name="citation_author_orcid" content="0009-0003-1584-6965" />
+
+  <meta property="og:title" content="Forecasting Failure · Takashi Sato" />
+  <meta property="og:description" content="Pre-abuse failure: collapse before misuse, driven by entropy and cognitive economy." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://takashisato.me/papers/part2.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ScholarlyArticle",
+    "headline":"Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
+    "description":"Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse. An ALTRION-based analysis of failure trajectories.",
+    "inLanguage":"en",
+    "author":{
+      "@type":"Person",
+      "name":"Takashi Sato",
+      "email":"mailto:i@takashisato.me",
+      "url":"https://takashisato.me/",
+      "identifier":"https://orcid.org/0009-0003-1584-6965",
+      "sameAs":[
+        "https://orcid.org/0009-0003-1584-6965",
+        "https://x.com/takashisato_me",
+        "https://instagram.com/takashisato_me"
+      ]
+    },
+    "datePublished":"2025",
+    "dateOnline":"2026",
+    "url":"https://takashisato.me/papers/part2.html",
+    "encoding":{
+      "@type":"MediaObject",
+      "contentUrl":"https://takashisato.me/pdf/part2.pdf",
+      "encodingFormat":"application/pdf"
+    },
+    "isPartOf":{
+      "@type":"CreativeWorkSeries",
+      "name":"Takashi Sato · Archive",
+      "url":"https://takashisato.me/"
+    }
+  }
+  </script>
+
+  <style>
+    :root{
+      --bg:#050505; --bg2:#000;
+      --fg:rgba(255,255,255,.94); --muted:rgba(255,255,255,.66); --faint:rgba(255,255,255,.26);
+      --rule:rgba(255,255,255,.10);
+      --accent:#ff0000; --tear:#880000;
+      --max:78ch;
+
+      --body:clamp(16px,1.65vw + 11px,19px);
+      --leading:clamp(1.72,0.5vw + 1.55,1.88);
+      --h1:clamp(26px,3.2vw + 14px,40px);
+
+      --pad-y:clamp(40px,6.5vw,84px);
+      --pad-x:clamp(18px,4.5vw,28px);
+
+      --scroll:0;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;overflow-x:hidden}
+    body{
+      background:
+        radial-gradient(1100px 820px at 12% -10%, rgba(255,0,0,.065), transparent 60%),
+        radial-gradient(900px 700px at 95% 10%, rgba(255,255,255,.03), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2) 86%);
+      color:var(--fg);
+      font-family:ui-serif, Charter, "Iowan Old Style", Palatino, "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho", serif;
+      font-size:var(--body);
+      line-height:var(--leading);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      font-feature-settings:"palt";
+    }
+    body::before{
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      background-size:220px 220px;
+      mix-blend-mode:soft-light;
+      opacity:calc(.05 + (var(--scroll) * .02));
+      transform:translateZ(0);
+    }
+    body::after{
+      content:""; position:fixed; inset:-20vh -10vw; pointer-events:none;
+      background:radial-gradient(70% 55% at 50% 20%, transparent 35%, rgba(0,0,0,.55) 82%);
+      opacity:.55;
+    }
+
+    /* Links + visible focus ring */
+    a{color:inherit; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.16)}
+    a:hover{border-bottom-color:rgba(255,0,0,.62)}
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible{
+      outline:2px solid rgba(255,0,0,.65);
+      outline-offset:3px;
+      border-bottom-color:rgba(255,0,0,.72);
+    }
+
+    .skip{
+      position:absolute;left:10px;top:10px;z-index:9999;
+      padding:10px 12px;background:#111;border:1px solid var(--rule);border-radius:10px;
+      color:var(--fg);text-decoration:none;font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:12px;letter-spacing:.06em;
+      transform:translateY(-160%);transition:transform .25s ease;
+    }
+    .skip:focus{transform:translateY(0)}
+
+    .top{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(5,5,5,.86), rgba(5,5,5,.54));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .top-inner{
+      max-width:var(--max);margin:0 auto;padding:14px var(--pad-x);
+      display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-variant-numeric:tabular-nums;
+    }
+    .brand{
+      display:inline-flex;gap:10px;align-items:baseline;
+      letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--faint);
+      border-bottom:0;
+    }
+    .brand strong{letter-spacing:.08em;color:rgba(255,255,255,.70);font-weight:600}
+    .nav{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .nav a{border-bottom:0;color:var(--faint);font-size:12px}
+    .nav a:hover{color:#fff}
+    .sep{opacity:.25}
+
+    main{position:relative;max-width:var(--max);margin:0 auto;padding:var(--pad-y) var(--pad-x);}
+
+    .part{
+      display:inline-flex;gap:10px;align-items:center;
+      font-family:ui-sans-serif,system-ui,sans-serif;color:var(--faint);
+      font-size:11px;letter-spacing:.28em;text-transform:uppercase;border-bottom:0;
+    }
+    .part .dot{width:6px;height:6px;border-radius:999px;background:rgba(255,0,0,.85);box-shadow:0 0 18px rgba(255,0,0,.35)}
+    h1{margin:16px 0 10px 0;font-weight:400;font-size:var(--h1);line-height:1.12;letter-spacing:.01em;}
+
+    /* Epigraph */
+    blockquote.epigraph{
+      margin:18px 0 0 0;
+      padding:14px 16px;
+      border-left:1px solid var(--rule);
+      color:var(--muted);
+      position:relative;
+    }
+    blockquote.epigraph::before{
+      content:"";
+      position:absolute;left:-1px;top:0;bottom:0;width:1px;
+      background:linear-gradient(180deg, rgba(255,0,0,.0), rgba(255,0,0,.55), rgba(255,0,0,.0));
+      opacity:.9;
+    }
+    .epigraph .en{display:block}
+    .epigraph .ja{display:block;margin-top:6px;color:rgba(255,255,255,.60)}
+    .epigraph .shadow{
+      display:block;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:rgba(255,255,255,.36);
+      opacity:0;
+      transition:opacity .3s ease;
+    }
+    .epigraph:hover .shadow{opacity:1}
+    .epigraph:focus-within .shadow{opacity:1}
+
+    /* STRUCTURE: minimal reading map */
+    .structure{
+      margin:16px 0 0 0;
+      padding-left:16px;
+      border-left:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.38);
+      font-family:ui-sans-serif,system-ui,sans-serif;
+      font-size:11.5px;
+      letter-spacing:.04em;
+      line-height:1.6;
+    }
+    .structure strong{
+      color:rgba(255,255,255,.72);
+      font-weight:600;
+      letter-spacing:.06em;
+    }
+    .structure .arrow{opacity:.65}
+
+    /* Actions */
+    .actions{
+      margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      font-family:ui-serif, Charter, "Iowan Old Style", Palatino, serif;
+      font-variant-numeric:tabular-nums;
+      letter-spacing:.06em;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:0;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      color:var(--faint);
+      text-decoration:none;
+      border-bottom:1px solid rgba(255,255,255,.14);
+      transition:color .2s ease, border-bottom-color .2s ease;
+      font-family:ui-serif, Charter, "Iowan Old Style", Palatino, serif;
+      font-size:0.9em;
+      letter-spacing:.06em;
+    }
+    .pill:hover{
+      transform:none;
+      color:#fff;
+      border-bottom-color:rgba(255,0,0,.55);
+      background:transparent;
+    }
+    .pill strong{font-weight:500; letter-spacing:.02em}
+
+    .meta{
+      margin-top:14px;color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;
+      display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .label{
+      margin:34px 0 14px 0;color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;
+      letter-spacing:.28em;text-transform:uppercase;
+      border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:12px;
+    }
+    .box{border-left:1px solid var(--rule);padding-left:16px;color:var(--muted);}
+    .box p{margin:0 0 12px 0}
+    .box p:last-child{margin-bottom:0}
+    ul.clean{margin:0;padding-left:18px}
+    ul.clean li{margin:8px 0}
+
+    .grid{display:grid;gap:18px}
+    @media (min-width: 920px){.grid{grid-template-columns:1.1fr .9fr;gap:26px}}
+
+    details{border-left:1px solid rgba(255,255,255,.08);padding-left:16px}
+    details summary{
+      cursor:pointer;color:rgba(255,255,255,.78);
+      font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;
+      letter-spacing:.10em;list-style:none;margin-bottom:12px;user-select:none;
+    }
+    details summary::-webkit-details-marker{display:none}
+    details[open] summary{color:#fff}
+
+    pre{
+      margin:0;padding:14px 14px;border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;background:rgba(0,0,0,.35);color:rgba(255,255,255,.80);
+      overflow:auto;font-size:12px;line-height:1.6;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-variant-numeric:tabular-nums;
+    }
+    .cite-wrap{display:grid;gap:12px}
+
+    /* Copy buttons */
+    .copy{
+      justify-self:start; border:1px solid rgba(255,255,255,.10); border-radius:14px;
+      padding:8px 12px; background:rgba(255,255,255,.02); color:var(--faint);
+      font-family:ui-sans-serif,system-ui,sans-serif; font-size:12px; cursor:pointer;
+      transition:transform .2s ease, border-color .2s ease, background-color .2s ease, color .2s ease;
+      font-variant-numeric:tabular-nums;
+    }
+    .copy:hover{transform:translateY(-1px); border-color:rgba(255,0,0,.55); background:rgba(255,0,0,.08); color:#fff}
+    .copy.is-flash{border-color:rgba(255,0,0,.7); color:#fff}
+
+    footer{margin-top:54px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.28);font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;font-variant-numeric:tabular-nums}
+    .foot-nav{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+    .foot-nav a{border-bottom:0;color:rgba(255,255,255,.34)}
+    .foot-nav a:hover{color:#fff}
+
+    @media (max-width: 560px){
+      .top-inner{padding:12px var(--pad-x)}
+      blockquote.epigraph{padding:13px 14px}
+      pre{padding:12px 12px}
+    }
+    @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+  </style>
+</head>
+
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="top" role="banner">
+  <div class="top-inner">
+    <a class="brand" href="/"><strong>Archive</strong> <span aria-hidden="true">·</span> <span>Takashi Sato</span></a>
+    <nav class="nav" aria-label="Paper navigation">
+      <a href="/papers/part1.html" rel="prev">Prev: Part I</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="/papers/part3.html" rel="next">Next: Part III</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="https://takashisato.me/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <section aria-label="Paper header">
+    <a class="part" href="/"><span class="dot" aria-hidden="true"></span><span>Part II · The Silent Decay</span></a>
+    <h1>Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused</h1>
+
+    <blockquote class="epigraph" aria-label="Representative fragment">
+      <span class="en">“The system shatters under its own weight before it is ever abused.”</span>
+      <span class="ja" lang="ja">悪用される前に、自らの重みで砕け散る。</span>
+      <span class="shadow" aria-hidden="true">
+        “It is a physical suicide, executed by goodwill.”<br>
+        <span lang="ja">それは、善意によって完遂される、自死。</span>
+      </span>
+    </blockquote>
+
+    <div class="structure" aria-label="Paper structure">
+      <strong>Structure.</strong>
+      Framing <span class="arrow">→</span> Pre-abuse Failure <span class="arrow">→</span> Four Failure Trajectories <span class="arrow">→</span> ALTRION as Analytical Probe <span class="arrow">→</span> Design Targets.
+    </div>
+
+    <div class="actions" aria-label="Actions">
+      <a class="pill" href="https://takashisato.me/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer"><strong>Open PDF</strong></a>
+      <a class="pill" href="#cite"><strong>Cite</strong></a>
+      <a class="pill" href="mailto:i@takashisato.me"><strong>Contact</strong></a>
+    </div>
+
+    <div class="meta">
+      <span>Takashi Sato</span>
+      <span>Independent Researcher (Japan)</span>
+      <a href="mailto:i@takashisato.me">i@takashisato.me</a>
+      <span aria-hidden="true">·</span>
+      <span>2025</span>
+    </div>
+
+    <noscript>
+      <p class="meta">JavaScript is disabled. Copy buttons will not work; you can still select and copy the citation manually.</p>
+    </noscript>
+  </section>
+
+  <div class="grid">
+    <section>
+      <div class="label">Abstract</div>
+      <div class="box">
+        <p>
+          Current discourse on AI governance predominantly focuses on adversarial robustness, regulatory non-compliance, and malicious misuse. This paper argues that such framing overlooks a more pervasive and insidious risk: <strong>pre-abuse failure</strong>, defined as the structural collapse of governance mechanisms that occurs not through malice or external attack, but through the thermodynamic inevitability (as an analytical analogy) of organizational entropy and cognitive economy.
+        </p>
+        <p>
+          Using a procedurally explicit workflow architecture (<strong>ALTRION</strong>) as an analytical probe, we identify four self-reinforcing trajectories of failure: Cognitive Externalization, Responsibility Inversion, Organizational Entropy, and Legibility Capture. We conclude that long-term AI safety requires not just stronger enforcement against bad actors, but a fundamental redesign of how human oversight interacts with the physics of institutional bureaucracy.
+        </p>
+      </div>
+
+      <div class="label">Keywords</div>
+      <p class="box">AI Governance; Sociotechnical Systems; Organizational Failure; pre-abuse failure; ALTRION</p>
+    </section>
+
+    <aside>
+      <div class="label">Why it matters</div>
+      <div class="box">
+        <ul class="clean">
+          <li>Reframes risk from “misuse” to <strong>collapse-before-misuse</strong>—the dominant real-world mode.</li>
+          <li>Names the mechanism: entropy + cognitive economy, not adversarial cleverness.</li>
+          <li>Provides a design target: governance architectures that survive good-faith operation at scale.</li>
+        </ul>
+      </div>
+
+      <div class="label" id="cite">Citation</div>
+      <details open>
+        <summary>Copy-ready BibTeX / RIS</summary>
+        <div class="cite-wrap">
+          <button class="copy" type="button" data-copy="bibtex">Copy BibTeX</button>
+          <pre id="bibtex">@misc{sato2025forecastingfailure,
+  title        = {Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused},
+  author       = {Sato, Takashi},
+  year         = {2025},
+  note         = {Preprint},
+  url          = {https://takashisato.me/pdf/part2.pdf},
+  howpublished = {\url{https://takashisato.me/papers/part2.html}}
+}</pre>
+
+          <button class="copy" type="button" data-copy="ris">Copy RIS</button>
+          <pre id="ris">TY  - RPRT
+TI  - Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused
+AU  - Sato, Takashi
+PY  - 2025
+UR  - https://takashisato.me/papers/part2.html
+L1  - https://takashisato.me/pdf/part2.pdf
+ER  -</pre>
+        </div>
+      </details>
+    </aside>
+  </div>
+
+  <footer>
+    <div>Landing page for scholarly indexing. Full text in PDF.</div>
+    <nav class="foot-nav" aria-label="Footer navigation">
+      <a href="/">Archive</a>
+      <a href="/papers/part1.html">Part I</a>
+      <a href="/papers/part3.html">Part III</a>
+      <a href="https://takashisato.me/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+    </nav>
+  </footer>
+</main>
+
+<script>
+(function(){
+  function flash(btn, msg){
+    const prev = btn.textContent;
+    btn.textContent = msg;
+    btn.classList.add('is-flash');
+    setTimeout(()=>{ btn.textContent = prev; btn.classList.remove('is-flash'); }, 900);
+  }
+  function fallbackCopy(text, btn){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try{ document.execCommand('copy'); flash(btn,'Copied.'); }
+    catch(e){ flash(btn,'Copy failed'); }
+    document.body.removeChild(ta);
+  }
+  async function doCopy(id, btn){
+    const el = document.getElementById(id);
+    if(!el) return;
+    const text = (el.innerText || '').trim();
+    if(navigator.clipboard && window.isSecureContext){
+      try{ await navigator.clipboard.writeText(text); flash(btn,'Copied.'); }
+      catch(e){ fallbackCopy(text, btn); }
+    } else {
+      fallbackCopy(text, btn);
+    }
+  }
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('[data-copy]');
+    if(!btn) return;
+    e.preventDefault();
+    doCopy(btn.getAttribute('data-copy'), btn);
+  });
+
+  const root = document.documentElement;
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const h = Math.max(1, document.body.scrollHeight - innerHeight);
+      const v = Math.min(1, Math.max(0, scrollY / (h * 0.65)));
+      root.style.setProperty('--scroll', v.toFixed(4));
+      ticking = false;
+    });
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
