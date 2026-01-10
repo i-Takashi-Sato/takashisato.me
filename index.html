@@ -307,6 +307,14 @@
       filter:blur(0);
     }
 
+    /* Added: show the red signal on focus as well (helps iOS tap / keyboard) */
+    .paper-title:focus::after{
+      transform:scaleX(1) translateY(var(--u-drop));
+      opacity:1;
+      background:linear-gradient(90deg, transparent, var(--u-ink-hot), transparent);
+      filter:blur(0);
+    }
+
     .paper-signal{
       margin-top:10px;
       color:rgba(255,255,255,.78);
@@ -496,12 +504,32 @@
       }
     }
 
-    /* Reduced motion: stop motion, keep structure */
+    /* Reduced motion: stop motion, keep the red signal */
     @media (prefers-reduced-motion: reduce){
-      *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
-      .paper-title::after{opacity:0!important;transform:none!important;filter:none!important}
-      blockquote.fragment::before{opacity:0!important;transform:none!important;filter:none!important}
-      body::before{opacity:var(--noise-base)!important}
+      *{
+        scroll-behavior:auto!important;
+        transition:none!important;
+        animation:none!important;
+      }
+
+      /* 赤は残す（動かさない） */
+      .paper-title::after{
+        opacity:1!important;
+        transform:scaleX(1)!important;
+        filter:none!important;
+        background:linear-gradient(90deg, transparent, var(--u-ink-hot), transparent)!important;
+      }
+
+      blockquote.fragment::before{
+        opacity:1!important;
+        transform:none!important;
+        filter:var(--rail-shadow)!important;
+      }
+
+      /* ノイズは固定（読みやすさ優先） */
+      body::before{
+        opacity:var(--noise-base)!important;
+      }
     }
   </style>
 </head>
