@@ -169,7 +169,6 @@
     header.hero{padding:var(--hero-gap) 0 var(--label-gap) 0}
     header.hero h1{margin:0;font-weight:400;letter-spacing:.01em;font-size:var(--h1);line-height:1.05}
 
-    /* Lead paragraph (existing) */
     header.hero p.lead{
       margin:18px 0 0 0;
       color:var(--muted);
@@ -179,7 +178,6 @@
       line-height:1.65;
     }
 
-    /* NEW: Who this is for (single line, low-noise) */
     header.hero p.who{
       margin:12px 0 0 0;
       color:var(--faint);
@@ -211,7 +209,6 @@
     article.paper{margin:0 0 var(--entry-gap) 0}
     .paper-header{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
 
-    /* Title now points to the scholarly landing page (expected behavior). */
     .paper-title{
       display:inline-block;
       font-size:var(--title);
@@ -223,7 +220,6 @@
     }
     .paper-title:hover{border-bottom-color:var(--accent)}
 
-    /* Academic micro-signal: 1-line summary + keywords (minimal, non-spam). */
     .paper-signal{
       margin-top:10px;
       color:rgba(255,255,255,.78);
@@ -244,7 +240,6 @@
       padding-bottom:2px;
     }
 
-    /* Focus: make it visible (border-only is too subtle for strict accessibility review). */
     .paper-title:focus-visible,
     .pill:focus-visible,
     .close:focus-visible,
@@ -344,7 +339,6 @@
     .viewer-wrap.is-open .close{display:inline-flex}
     .close:hover{color:#fff;border-color:var(--accent)}
 
-    /* NEW: Non-expert entry line (kept minimal) */
     .entry-note{
       margin:calc(var(--entry-gap) * 0.72) 0 0 0;
       color:var(--faint);
@@ -410,12 +404,10 @@
   <header class="hero" aria-label="Site header">
     <h1>Optimizing Decay,<br>Architecting Eternity.</h1>
 
-    <!-- NEW: who this is for (single, low-noise line) -->
     <p class="who">Peer-citable research archive on AI governance and sociotechnical failure.</p>
 
     <p class="lead">Peer-citable landing pages for scholarly indexing—an archive engineered for trust, scanability, and low-noise retrieval.</p>
 
-    <!-- FINAL: year separation (papers vs archive) -->
     <div class="meta" aria-label="Dates">
       <span>Papers completed · 2025</span>
       <span aria-hidden="true">·</span>
@@ -432,10 +424,7 @@
 
     <article class="paper" data-entry="p1">
       <div class="paper-header">
-        <a class="paper-title"
-           href="/papers/part1.html">
-          Part I: The Cold Genesis
-        </a>
+        <a class="paper-title" href="/papers/part1.html">Part I: The Cold Genesis</a>
       </div>
 
       <p class="paper-signal">
@@ -469,24 +458,21 @@
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part1.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/part1.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-        <button class="pill" type="button" data-toggle="viewer" data-id="p1" data-pdf="/pdf/part1.pdf" aria-controls="p1" aria-expanded="false">View inline</button>
+        <a class="pill" href="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <button class="pill" type="button" data-toggle="viewer" data-id="p1" data-pdf="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" aria-controls="p1" aria-expanded="false">View inline</button>
       </div>
 
       <div class="viewer-wrap" data-wrap="p1">
         <button class="close" type="button" data-close="p1" aria-label="Close PDF viewer">Close</button>
-        <iframe id="p1" class="viewer" data-src="/pdf/part1.pdf" title="PDF viewer: Part I: The Cold Genesis" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
-          <a href="/pdf/part1.pdf">Open PDF</a>
+        <iframe id="p1" class="viewer" data-src="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" title="PDF viewer: Part I: The Cold Genesis" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
+          <a href="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf">Open PDF</a>
         </iframe>
       </div>
     </article>
 
     <article class="paper" data-entry="p2">
       <div class="paper-header">
-        <a class="paper-title"
-           href="/papers/part2.html">
-          Part II: The Silent Decay
-        </a>
+        <a class="paper-title" href="/papers/part2.html">Part II: The Silent Decay</a>
       </div>
 
       <p class="paper-signal">
@@ -520,24 +506,21 @@
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part2.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-        <button class="pill" type="button" data-toggle="viewer" data-id="p2" data-pdf="/pdf/part2.pdf" aria-controls="p2" aria-expanded="false">View inline</button>
+        <a class="pill" href="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <button class="pill" type="button" data-toggle="viewer" data-id="p2" data-pdf="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" aria-controls="p2" aria-expanded="false">View inline</button>
       </div>
 
       <div class="viewer-wrap" data-wrap="p2">
         <button class="close" type="button" data-close="p2" aria-label="Close PDF viewer">Close</button>
-        <iframe id="p2" class="viewer" data-src="/pdf/part2.pdf" title="PDF viewer: Part II: The Silent Decay" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
-          <a href="/pdf/part2.pdf">Open PDF</a>
+        <iframe id="p2" class="viewer" data-src="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" title="PDF viewer: Part II: The Silent Decay" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
+          <a href="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf">Open PDF</a>
         </iframe>
       </div>
     </article>
 
     <article class="paper" data-entry="p3">
       <div class="paper-header">
-        <a class="paper-title"
-           href="/papers/part3.html">
-          Part III: The Proper Ending
-        </a>
+        <a class="paper-title" href="/papers/part3.html">Part III: The Proper Ending</a>
       </div>
 
       <p class="paper-signal">
@@ -563,19 +546,18 @@
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part3.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/part3.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-        <button class="pill" type="button" data-toggle="viewer" data-id="p3" data-pdf="/pdf/part3.pdf" aria-controls="p3" aria-expanded="false">View inline</button>
+        <a class="pill" href="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <button class="pill" type="button" data-toggle="viewer" data-id="p3" data-pdf="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" aria-controls="p3" aria-expanded="false">View inline</button>
       </div>
 
       <div class="viewer-wrap" data-wrap="p3">
         <button class="close" type="button" data-close="p3" aria-label="Close PDF viewer">Close</button>
-        <iframe id="p3" class="viewer" data-src="/pdf/part3.pdf" title="PDF viewer: Part III: The Proper Ending" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
-          <a href="/pdf/part3.pdf">Open PDF</a>
+        <iframe id="p3" class="viewer" data-src="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" title="PDF viewer: Part III: The Proper Ending" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
+          <a href="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf">Open PDF</a>
         </iframe>
       </div>
     </article>
 
-    <!-- NEW: non-expert entry (kept to a single line) -->
     <p class="entry-note">New to this topic? Start with <a href="/papers/part1.html">Part I</a>.</p>
   </section>
 
