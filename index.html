@@ -242,7 +242,6 @@
 
     .paper-title:focus-visible,
     .pill:focus-visible,
-    .close:focus-visible,
     .social a:focus-visible,
     .skip:focus-visible{
       outline:2px solid rgba(255,0,0,.65);
@@ -311,33 +310,6 @@
     }
     .pill:hover{border-color:rgba(255,0,0,.55);color:#fff;background:rgba(255,0,0,.08);transform:translateY(-1px)}
     .pill em{font-style:italic;opacity:.9}
-
-    .viewer-wrap{
-      position:relative;
-      margin-top:18px;
-      border-left:1px solid var(--rule);
-      padding-left:16px;
-      display:none;
-    }
-    .viewer-wrap.is-open{display:block}
-    .viewer{
-      width:100%;
-      height:min(70vh,900px);
-      border:1px solid var(--rule);
-      border-radius:18px;
-      background:#000;
-      display:none;
-    }
-    .viewer.active{display:block}
-    .close{
-      position:absolute;top:10px;right:10px;
-      display:none;background:transparent;border:1px solid var(--rule);color:var(--faint);
-      padding:7px 11px;border-radius:999px;
-      font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;
-      letter-spacing:.10em;text-transform:uppercase;cursor:pointer;
-    }
-    .viewer-wrap.is-open .close{display:inline-flex}
-    .close:hover{color:#fff;border-color:var(--accent)}
 
     .entry-note{
       margin:calc(var(--entry-gap) * 0.72) 0 0 0;
@@ -415,7 +387,7 @@
     </div>
 
     <noscript>
-      <p>JavaScript is disabled. PDF viewers will open in a new tab via “Open PDF”.</p>
+      <p>JavaScript is disabled. PDFs will open in a new tab via “Open PDF”.</p>
     </noscript>
   </header>
 
@@ -459,14 +431,6 @@
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part1.html"><em>Abstract</em> &amp; Citation</a>
         <a class="pill" href="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-        <button class="pill" type="button" data-toggle="viewer" data-id="p1" data-pdf="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" aria-controls="p1" aria-expanded="false">View inline</button>
-      </div>
-
-      <div class="viewer-wrap" data-wrap="p1">
-        <button class="close" type="button" data-close="p1" aria-label="Close PDF viewer">Close</button>
-        <iframe id="p1" class="viewer" data-src="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" title="PDF viewer: Part I: The Cold Genesis" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
-          <a href="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf">Open PDF</a>
-        </iframe>
       </div>
     </article>
 
@@ -507,14 +471,6 @@
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part2.html"><em>Abstract</em> &amp; Citation</a>
         <a class="pill" href="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-        <button class="pill" type="button" data-toggle="viewer" data-id="p2" data-pdf="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" aria-controls="p2" aria-expanded="false">View inline</button>
-      </div>
-
-      <div class="viewer-wrap" data-wrap="p2">
-        <button class="close" type="button" data-close="p2" aria-label="Close PDF viewer">Close</button>
-        <iframe id="p2" class="viewer" data-src="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" title="PDF viewer: Part II: The Silent Decay" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
-          <a href="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf">Open PDF</a>
-        </iframe>
       </div>
     </article>
 
@@ -547,14 +503,6 @@
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part3.html"><em>Abstract</em> &amp; Citation</a>
         <a class="pill" href="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-        <button class="pill" type="button" data-toggle="viewer" data-id="p3" data-pdf="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" aria-controls="p3" aria-expanded="false">View inline</button>
-      </div>
-
-      <div class="viewer-wrap" data-wrap="p3">
-        <button class="close" type="button" data-close="p3" aria-label="Close PDF viewer">Close</button>
-        <iframe id="p3" class="viewer" data-src="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" title="PDF viewer: Part III: The Proper Ending" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer">
-          <a href="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf">Open PDF</a>
-        </iframe>
       </div>
     </article>
 
@@ -574,80 +522,9 @@
 
 <script>
 (function(){
-  const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
-  const qs  = (s, r=document) => r.querySelector(s);
-
-  let lastToggle = null;
-
-  function closeAll({ restoreFocus = true } = {}){
-    qsa('.viewer').forEach(v => v.classList.remove('active'));
-    qsa('.viewer-wrap').forEach(w => w.classList.remove('is-open'));
-    qsa('[data-toggle="viewer"]').forEach(t => t.setAttribute('aria-expanded','false'));
-
-    if(restoreFocus && lastToggle){
-      try { lastToggle.focus({ preventScroll:true }); }
-      catch(e){ lastToggle.focus(); }
-      lastToggle = null;
-    }
-  }
-
-  document.addEventListener('click', (e) => {
-    const t = e.target;
-
-    const c = t.closest('[data-close]');
-    if(c){
-      closeAll({ restoreFocus:true });
-      return;
-    }
-
-    const btn = t.closest('button[data-toggle="viewer"]');
-    if(!btn) return;
-
-    if(e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-
-    const id = btn.getAttribute('data-id');
-    const frame = document.getElementById(id);
-    const wrap  = qs('[data-wrap="'+id+'"]');
-    const isActive = frame && frame.classList.contains('active');
-
-    closeAll({ restoreFocus:false });
-
-    if(frame && wrap && !isActive){
-      lastToggle = btn;
-
-      if(!frame.getAttribute('src')) frame.setAttribute('src', frame.getAttribute('data-src'));
-      frame.classList.add('active');
-      wrap.classList.add('is-open');
-      btn.setAttribute('aria-expanded','true');
-      wrap.scrollIntoView({behavior:'smooth', block:'start'});
-
-      const closeBtn = wrap.querySelector('[data-close="'+id+'"]');
-      if(closeBtn){
-        setTimeout(() => {
-          try { closeBtn.focus({ preventScroll:true }); }
-          catch(e){ closeBtn.focus(); }
-        }, 0);
-      }
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if(e.key === 'Escape') closeAll({ restoreFocus:true });
-
-    if(e.key === ' ' || e.key === 'Spacebar'){
-      const btn = document.activeElement && document.activeElement.closest
-        ? document.activeElement.closest('button[data-toggle="viewer"]')
-        : null;
-      if(btn){
-        e.preventDefault();
-        btn.click();
-      }
-    }
-  });
-
   const root = document.documentElement;
   let ticking = false;
+
   function onScroll(){
     if(ticking) return;
     ticking = true;
@@ -658,6 +535,7 @@
       ticking = false;
     });
   }
+
   addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 })();
