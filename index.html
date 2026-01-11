@@ -14,27 +14,18 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="no-referrer" />
 
-  <!-- Security (document-level CSP for single-file architecture) -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    base-uri 'self';
-    object-src 'none';
-    frame-ancestors 'none';
-    img-src 'self' data:;
-    style-src 'self' 'unsafe-inline';
-    script-src 'self' 'unsafe-inline';
-    connect-src 'self';
-    font-src 'self' data:;
-    form-action 'self' mailto:;
-    upgrade-insecure-requests
-  ">
+  <!-- Security (document-level CSP for single-file architecture; no unsafe-inline) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self' 'sha256-8vwJ2PFT50uao3Yl7En7XZksPXpPp20K97/0R9k+TPU='; style-src-attr 'none'; script-src 'self' 'sha256-KKieIYqtais4Bzw3n9l3MgsNa+Aic9+GRJ4U3MhAmA4=' 'sha256-iFX041/4idhi5+oEExkUoGp8PsiFJFA8w+vMVqcFVaY='; script-src-attr 'none'; connect-src 'self'; font-src 'self' data:; form-action 'self' mailto:; upgrade-insecure-requests">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()" />
 
   <meta property="og:title" content="Takashi Sato · AI Governance Archive" />
   <meta property="og:description" content="Research archive on AI governance, workflow-centric oversight (ALTRION), human-in-the-loop decision systems, and sociotechnical failure (Resolution Collapse)." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://takashisato.me/" />
+  <meta property="og:image" content="https://takashisato.me/og.jpg" />
+  <meta property="og:image:alt" content="Takashi Sato · AI Governance Archive" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://takashisato.me/og.jpg" />
 
   <script type="application/ld+json">
   {
@@ -576,7 +567,7 @@
         </blockquote>
         <blockquote class="fragment" aria-label="Epigraph">
           <span class="en">“To preserve the human, we must engineer the friction of thought.”</span>
-          <span class="ja-wrap"><span class="ja" lang="ja">人間を残すとは、思考に摩擦を仕込むという設計</span></span>
+          <span class="ja-wrap"><span class="ja" lang="ja">人間を残すとは、思考に摩擦を仕込むという設計。</span></span>
         </blockquote>
         <blockquote class="fragment" aria-label="Epigraph">
           <span class="en">“Governance is the sanctuary where humans stand still as algorithms accelerate.”</span>
@@ -595,7 +586,7 @@
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part1.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/Part_I_Workflow_Centric_Architecture_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <a class="pill" href="/pdf/part1.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
       </div>
     </article>
 
@@ -635,7 +626,7 @@
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part2.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/Part_II_Forecasting_Failure_Pathology_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <a class="pill" href="/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
       </div>
     </article>
 
@@ -667,7 +658,7 @@
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part3.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/Part_III_Resolution_Collapse_Termination_Sato.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <a class="pill" href="/pdf/part3.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
       </div>
     </article>
 
