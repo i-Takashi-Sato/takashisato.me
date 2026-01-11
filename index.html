@@ -14,19 +14,31 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="no-referrer" />
 
-  <!-- Security (document-level CSP for single-file architecture) -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self' data:; style-src 'self' sha256-2Iu/RVNpYLG9g7H0jKZm6fQRtKpP19j3x9bV+Atv6uE=; script-src 'self' sha256-eFpw9X1hx+WSYHeMXe0d5gZIVd77dqovN7QLNbGWUM8=; script-src-attr 'none'; style-src-attr 'none'; connect-src 'self'; form-action 'self' mailto:; upgrade-insecure-requests">
+  <!-- Security (document-level CSP for single-file architecture)
+       NOTE: This version is intentionally "stable" (allows inline CSS/JS),
+       so the page never collapses into unstyled HTML during iteration. -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    base-uri 'self';
+    object-src 'none';
+    frame-ancestors 'none';
+    img-src 'self' data:;
+    style-src 'self' 'unsafe-inline';
+    script-src 'self' 'unsafe-inline';
+    connect-src 'self';
+    font-src 'self' data:;
+    form-action 'self' mailto:;
+    upgrade-insecure-requests
+  ">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()" />
 
   <meta property="og:title" content="Takashi Sato · AI Governance Archive" />
   <meta property="og:description" content="Research archive on AI governance, workflow-centric oversight (ALTRION), human-in-the-loop decision systems, and sociotechnical failure (Resolution Collapse)." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://takashisato.me/" />
+  <!-- If you have /og.jpg at repo root, keep this line. If not, remove it. -->
   <meta property="og:image" content="https://takashisato.me/og.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://takashisato.me/og.jpg" />
-  <meta name="twitter:title" content="Takashi Sato · AI Governance Archive" />
-  <meta name="twitter:description" content="Research archive on AI governance, workflow-centric oversight (ALTRION), and sociotechnical failure (Resolution Collapse)." />
 
   <script type="application/ld+json">
   {
@@ -99,13 +111,6 @@
   </script>
 
   <style>
-    /* ================================
-       Final polish (award-safe):
-       - content-driven motion (fast)
-       - scoped EN tracking (no UI drift)
-       - subliminal scroll texture (readability-safe)
-       ================================ */
-
     :root{
       --bg:#050505;
       --bg2:#000000;
@@ -496,29 +501,24 @@
       }
     }
 
-    /* Reduced motion: stop motion, keep the red signal */
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       *{
         scroll-behavior:auto!important;
         transition:none!important;
         animation:none!important;
       }
-
-      /* 赤は残す（動かさない） */
       .paper-title::after{
         opacity:1!important;
         transform:scaleX(1)!important;
         filter:none!important;
         background:linear-gradient(90deg, transparent, var(--u-ink-hot), transparent)!important;
       }
-
       blockquote.fragment::before{
         opacity:1!important;
         transform:none!important;
         filter:var(--rail-shadow)!important;
       }
-
-      /* ノイズは固定（読みやすさ優先） */
       body::before{
         opacity:var(--noise-base)!important;
       }
@@ -568,7 +568,7 @@
         </blockquote>
         <blockquote class="fragment" aria-label="Epigraph">
           <span class="en">“To preserve the human, we must engineer the friction of thought.”</span>
-          <span class="ja-wrap"><span class="ja" lang="ja">人間を残すとは、思考に摩擦を仕込むという設計</span></span>
+          <span class="ja-wrap"><span class="ja" lang="ja">人間を残すとは、思考に摩擦を仕込むという設計。</span></span>
         </blockquote>
         <blockquote class="fragment" aria-label="Epigraph">
           <span class="en">“Governance is the sanctuary where humans stand still as algorithms accelerate.”</span>
