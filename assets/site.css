@@ -209,6 +209,15 @@ blockquote.fragment{
   background-color:transparent;
 }
 
+/* Epigraph: force two-line without blank gap */
+blockquote.fragment .en,
+blockquote.fragment .ja-wrap{
+  display:block;
+}
+blockquote.fragment p{
+  margin:0;
+}
+
 .meta{
   margin-top:16px;
   display:flex;gap:12px;align-items:center;flex-wrap:wrap;
