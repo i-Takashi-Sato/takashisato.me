@@ -123,18 +123,12 @@ article.paper{margin-bottom:var(--entry-gap)}
   padding-bottom:6px;
   letter-spacing:var(--en-track-title);
   background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--u-ink-hot),
-      transparent
-    )
+    linear-gradient(var(--u-ink-hot), var(--u-ink-hot))
     0 calc(100% - var(--u-offset))
     / 100% var(--u-thick)
     no-repeat;
 }
 
-/* ホバー・アニメーション完全排除 */
 .paper-title::after,
 .paper-title:hover::after,
 .paper-title:focus-visible::after{
@@ -168,7 +162,6 @@ blockquote.fragment{
   color:var(--muted);
 }
 
-/* エピグラフ：必ず2段・空行なし */
 blockquote.fragment p{
   margin:0;
 }
@@ -186,7 +179,6 @@ blockquote.fragment .ja{
   font-size:12px;
 }
 
-/* pill：色付け完全禁止 */
 .pill{
   color:var(--faint);
   text-decoration:none;
@@ -200,7 +192,6 @@ blockquote.fragment .ja{
   background:none;
 }
 
-/* entry-note link：目立たせない */
 .entry-note{
   margin-top:calc(var(--entry-gap) * .72);
   color:rgba(255,255,255,.55);
