@@ -140,6 +140,7 @@ noscript p{
 article.paper{margin:0 0 var(--entry-gap) 0}
 .paper-header{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
 
+/* ===== 修正ここから ===== */
 .paper-title{
   display:inline-block;
   font-size:var(--title);
@@ -149,37 +150,20 @@ article.paper{margin:0 0 var(--entry-gap) 0}
   padding-bottom:6px;
   position:relative;
   letter-spacing:var(--en-track-title);
+
+  /* 最初から赤を表示 */
   background:
-    linear-gradient(90deg, var(--u-base), var(--u-base))
+    linear-gradient(90deg, transparent, var(--u-ink-hot), transparent)
     0 calc(100% - var(--u-offset)) / 100% var(--u-thick) no-repeat;
 }
 
-.paper-title::after{
-  content:"";
-  position:absolute;
-  left:0; right:0;
-  height:var(--u-thick);
-  bottom:calc(var(--u-offset));
-  pointer-events:none;
-  background:linear-gradient(90deg, transparent, var(--u-ink), transparent);
-  transform:scaleX(0);
-  transform-origin:left;
-  opacity:0;
-  filter:blur(var(--ink-blur));
-  transition:
-    transform var(--u-dur) var(--u-ease),
-    opacity 140ms ease,
-    background 140ms ease,
-    filter 160ms ease;
-}
-
+/* ホバー演出完全無効 */
+.paper-title::after,
 .paper-title:hover::after,
 .paper-title:focus-visible::after{
-  transform:scaleX(1) translateY(var(--u-drop));
-  opacity:1;
-  background:linear-gradient(90deg, transparent, var(--u-ink-hot), transparent);
-  filter:blur(0);
+  content:none;
 }
+/* ===== 修正ここまで ===== */
 
 .paper-signal{
   margin-top:10px;
