@@ -21,7 +21,6 @@
   <meta property="og:image" content="https://takashisato.me/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- CSS moved out to remove 'unsafe-inline' requirement -->
   <link rel="stylesheet" href="/assets/site.css">
 
   <script type="application/ld+json">
@@ -106,24 +105,18 @@
 
     <p class="lead">Peer-citable landing pages for scholarly indexing—an archive engineered for trust, scanability, and low-noise retrieval.</p>
 
-    <!-- Fix: aria-label on div requires non-generic role -->
     <div class="meta" role="group" aria-label="Dates">
       <span>Papers completed · 2025</span>
       <span aria-hidden="true">·</span>
       <span>Archive published · 2026</span>
     </div>
-
-    <noscript>
-      <p>JavaScript is disabled. PDFs will open in a new tab via “Open PDF”.</p>
-    </noscript>
   </header>
 
   <section id="archive" aria-label="Archive">
     <p class="section-label">Archive</p>
 
-    <article class="paper" data-entry="p1" aria-labelledby="p1-heading">
-      <h2 class="sr-only" id="p1-heading">Part I: The Cold Genesis</h2>
-
+    <!-- Part I -->
+    <article class="paper">
       <div class="paper-header">
         <a class="paper-title" href="/papers/part1.html">Part I: The Cold Genesis</a>
       </div>
@@ -134,22 +127,21 @@
       </p>
 
       <div class="fragments">
-        <blockquote class="fragment" aria-label="Epigraph">
-          <span class="en">“To preserve the human, we must engineer the friction of thought.”</span>
-          <span class="ja-wrap"><span class="ja" lang="ja">思考に摩擦を仕込むという設計。</span></span>
+        <blockquote class="fragment">
+          <p class="en">“To preserve the human, we must engineer the friction of thought.”</p>
+          <p class="ja" lang="ja">思考に摩擦を仕込むという設計。</p>
         </blockquote>
       </div>
 
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part1.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/part1.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener">Open PDF</a>
       </div>
     </article>
 
-    <article class="paper" data-entry="p2" aria-labelledby="p2-heading">
-      <h2 class="sr-only" id="p2-heading">Part II: The Silent Decay</h2>
-
+    <!-- Part II -->
+    <article class="paper">
       <div class="paper-header">
         <a class="paper-title" href="/papers/part2.html">Part II: The Silent Decay</a>
       </div>
@@ -160,22 +152,21 @@
       </p>
 
       <div class="fragments">
-        <blockquote class="fragment" aria-label="Epigraph">
-          <span class="en">“The system shatters under its own weight before it is ever abused.”</span>
-          <span class="ja-wrap"><span class="ja" lang="ja">悪用される前に、自らの重みで砕け散る。</span></span>
+        <blockquote class="fragment">
+          <p class="en">“The system shatters under its own weight before it is ever abused.”</p>
+          <p class="ja" lang="ja">悪用される前に、自らの重みで砕け散る。</p>
         </blockquote>
       </div>
 
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part2.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/part2.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <a class="pill" href="/pdf/part2.pdf" target="_blank" rel="noopener">Open PDF</a>
       </div>
     </article>
 
-    <article class="paper" data-entry="p3" aria-labelledby="p3-heading">
-      <h2 class="sr-only" id="p3-heading">Part III: The Proper Ending</h2>
-
+    <!-- Part III -->
+    <article class="paper">
       <div class="paper-header">
         <a class="paper-title" href="/papers/part3.html">Part III: The Proper Ending</a>
       </div>
@@ -186,16 +177,16 @@
       </p>
 
       <div class="fragments">
-        <blockquote class="fragment" aria-label="Epigraph">
-          <span class="en">“Silence is the scream of a failing system.”</span>
-          <span class="ja-wrap"><span class="ja" lang="ja">沈黙とは、破綻へ向かう装置の咆哮。</span></span>
+        <blockquote class="fragment">
+          <p class="en">“Silence is the scream of a failing system.”</p>
+          <p class="ja" lang="ja">沈黙とは、破綻へ向かう装置の咆哮。</p>
         </blockquote>
       </div>
 
       <div class="meta">
         <span aria-hidden="true">2025</span>
         <a class="pill" href="/papers/part3.html"><em>Abstract</em> &amp; Citation</a>
-        <a class="pill" href="/pdf/part3.pdf" type="application/pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        <a class="pill" href="/pdf/part3.pdf" target="_blank" rel="noopener">Open PDF</a>
       </div>
     </article>
 
@@ -203,17 +194,16 @@
   </section>
 
   <footer>
-    <nav class="social" aria-label="Professional Links">
-      <a href="mailto:i@takashisato.me" rel="me">Email</a>
-      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID</a>
-      <a href="https://x.com/takashisato_me" target="_blank" rel="me noopener noreferrer">X</a>
-      <a href="https://instagram.com/takashisato_me" target="_blank" rel="me noopener noreferrer">Instagram</a>
+    <nav class="social">
+      <a href="mailto:i@takashisato.me">Email</a>
+      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank">ORCID</a>
+      <a href="https://x.com/takashisato_me" target="_blank">X</a>
+      <a href="https://instagram.com/takashisato_me" target="_blank">Instagram</a>
     </nav>
     <p class="footer-sig">TAKASHI SATO · SIGNAL OVER SPECTACLE · 2025</p>
   </footer>
 </main>
 
-<!-- JS moved out to remove 'unsafe-inline' requirement -->
 <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
