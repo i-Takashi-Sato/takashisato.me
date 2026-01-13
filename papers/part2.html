@@ -16,17 +16,30 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self' data:; form-action 'self' mailto:; upgrade-insecure-requests">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=()" />
 
+  <!-- Scholar / citation -->
   <meta name="citation_title" content="Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused" />
-  <meta name="citation_author" content="Sato, Takashi" />
+  <meta name="citation_author" content="Takashi Sato" />
   <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
-  <meta name="citation_publication_date" content="2025" />
-  <meta name="citation_online_date" content="2026" />
+
+  <!-- Use YYYY/MM/DD to reduce parsing ambiguity in Google Scholar -->
+  <meta name="citation_publication_date" content="2025/12/13" />
+  <meta name="citation_online_date" content="2026/01/12" />
+
   <meta name="citation_pdf_url" content="https://takashisato.me/pdf/part2.pdf" />
   <meta name="citation_abstract_html_url" content="https://takashisato.me/papers/part2.html" />
   <meta name="citation_public_url" content="https://takashisato.me/papers/part2.html" />
   <meta name="citation_language" content="en" />
   <meta name="citation_author_orcid" content="0009-0003-1584-6965" />
 
+  <!-- Helpful for clustering / relevance -->
+  <meta name="citation_keywords" content="AI governance; sociotechnical systems; accountable AI; workflow governance; auditability; risk governance; pre-abuse failure; ALTRION" />
+
+  <!-- SSRN identification -->
+  <meta name="citation_technical_report_institution" content="SSRN" />
+  <meta name="citation_technical_report_number" content="5913703" />
+  <meta name="citation_publisher" content="SSRN" />
+
+  <!-- Social -->
   <meta property="og:title" content="Forecasting Failure · Takashi Sato" />
   <meta property="og:description" content="Pre-abuse failure: collapse before misuse, driven by entropy and cognitive economy." />
   <meta property="og:type" content="article" />
@@ -37,6 +50,7 @@
   {
     "@context":"https://schema.org",
     "@type":"ScholarlyArticle",
+    "@id":"https://takashisato.me/papers/part2.html#article",
     "headline":"Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
     "description":"Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse. An ALTRION-based analysis of failure trajectories.",
     "inLanguage":"en",
@@ -46,20 +60,23 @@
       "email":"mailto:i@takashisato.me",
       "url":"https://takashisato.me/",
       "identifier":"https://orcid.org/0009-0003-1584-6965",
-      "sameAs":[
-        "https://orcid.org/0009-0003-1584-6965",
-        "https://x.com/takashisato_me",
-        "https://instagram.com/takashisato_me"
-      ]
+      "affiliation":{"@type":"Organization","name":"Independent Researcher (Japan)"}
     },
-    "datePublished":"2025",
-    "dateOnline":"2026",
     "url":"https://takashisato.me/papers/part2.html",
+    "mainEntityOfPage":"https://takashisato.me/papers/part2.html",
+    "sameAs":[
+      "https://orcid.org/0009-0003-1584-6965",
+      "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703"
+    ],
+    "identifier":{"@type":"PropertyValue","propertyID":"SSRN","value":"5913703"},
+    "publisher":{"@type":"Organization","name":"SSRN"},
     "encoding":{
       "@type":"MediaObject",
       "contentUrl":"https://takashisato.me/pdf/part2.pdf",
       "encodingFormat":"application/pdf"
     },
+    "datePublished":"2025-12-13",
+    "dateModified":"2026-01-12",
     "isPartOf":{
       "@type":"CreativeWorkSeries",
       "name":"Takashi Sato · Archive",
@@ -479,4 +496,5 @@ ER  -</pre>
 })();
 </script>
 </body>
+
 </html>
