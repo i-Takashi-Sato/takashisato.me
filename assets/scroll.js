@@ -1,36 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
   
-  // 1. Text Splitter for "Redaction" effect
-  // 対象の要素をラップして、アニメーション用のクラスを付与する準備
-  const revealElements = document.querySelectorAll('h1, .lead, .paper-title');
-  
-  revealElements.forEach(el => {
-    el.classList.add('reveal-text');
-  });
-
-  // 2. Intersection Observer (The Unveiling)
+  // Luxury Reveal: Slow and Deliberate
   const observerOptions = {
-    threshold: 0.15,
-    rootMargin: "0px 0px -10% 0px"
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px" // 少し早めに表示開始
   };
 
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 遅延を入れて、順次「黒塗り」が剥がれるようにする
-        setTimeout(() => {
-          entry.target.classList.add('is-visible');
-        }, 100);
+        entry.target.classList.add('is-visible');
         obs.unobserve(entry.target);
       }
     });
   }, observerOptions);
 
-  document.querySelectorAll('.reveal-text, .paper, .who').forEach(el => {
+  // 対象要素を監視
+  const targets = document.querySelectorAll('h1, .who, .lead, .paper, footer');
+  targets.forEach((el, i) => {
+    el.classList.add('reveal');
+    // 遅延を少し長めにして、順番に現れる「儀式感」を出す
+    el.style.transitionDelay = `${i * 0.1}s`;
     observer.observe(el);
   });
-
-  // 3. Custom Cursor Logic (Optional but recommended for brutalism)
-  // カーソル付近のグリッドを少し歪ませるなどの高度な処理はここに入るが、
-  // 今回はCSSの cursor: crosshair で世界観を作っているので、過度なJSは不要。
 });
