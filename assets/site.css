@@ -18,7 +18,7 @@
   --border-sharp: rgba(255, 255, 255, 0.08);
 
   /* --- New Accent: Armani Blue --- */
-  /* 深みと気品のあるロイヤルブルー */
+  /* テキストと固定ラインのみに使用。ホバーには使いません。 */
   --armani-blue: #4169E1;   
   
   /* Fonts */
@@ -31,7 +31,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* 【修正】ドラッグ時の色変更を廃止（プラチナ色に戻す） */
+/* ドラッグ時の色はプラチナ（元通り） */
 ::selection {
   background: var(--platinum-dim); 
   color: #fff;
@@ -99,7 +99,7 @@ h1 em {
   margin-bottom: 1rem;
 }
 
-/* Leadの縦線を青に変更 */
+/* 【青を残す場所 1】リード文の左線（静的アクセント） */
 .lead {
   text-align: left; font-size: 1.3rem;
   color: var(--text-muted); 
@@ -108,7 +108,7 @@ h1 em {
   font-weight: 300; 
   line-height: 1.8;
   
-  border-left: 1px solid var(--armani-blue); /* 青 */
+  border-left: 1px solid var(--armani-blue); /* ここは青のまま */
   padding-left: 2rem;
   margin-left: 2px;
 }
@@ -138,10 +138,10 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   transition: 0.4s var(--ease-sharp); margin-left: 3rem; 
   letter-spacing: 0.15em; position: relative;
 }
-/* ナビゲーションのホバーラインを青に */
+/* 【修正】ヘッダーの下線ホバー：プラチナ（白）に戻す */
 .nav a::after {
   content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px;
-  background: var(--armani-blue); 
+  background: var(--platinum); /* 白銀に戻す */
   transition: 0.4s var(--ease-sharp);
 }
 .nav a:hover { color: #fff; }
@@ -163,11 +163,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   transition: all 0.6s var(--ease-sharp);
 }
 
-/* カードホバー時のボーダーを青に */
+/* 【修正】カードホバー時の枠線：プラチナ（白）に戻す */
 .paper:hover {
   transform: translateX(10px);
   background: #0e0e11;
-  border-color: var(--armani-blue); /* 青 */
+  border-color: var(--platinum-dim); /* 白銀（薄め）に戻す */
 }
 
 .paper-title {
@@ -177,6 +177,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   display: block; margin-bottom: 1.5rem; text-decoration: none;
   line-height: 1; transition: color 0.4s;
 }
+/* タイトルはホバーでプラチナ色に */
 .paper:hover .paper-title { color: var(--platinum); }
 
 .paper-signal {
@@ -201,11 +202,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   text-decoration: none; transition: all 0.4s var(--ease-sharp);
 }
 
-/* ボタンホバー時の背景色を青に */
+/* 【修正】ボタンホバー：プラチナ（白）で塗りつぶす元の仕様に戻す */
 .pill:hover {
-  border-color: var(--armani-blue);
-  color: #fff;
-  background: var(--armani-blue); 
+  border-color: var(--platinum);
+  color: var(--bg); /* 文字を黒くして可読性を確保 */
+  background: var(--platinum); /* 白銀で塗りつぶし */
 }
 
 /* Footer */
@@ -225,10 +226,10 @@ footer {
 }
 .social-link:hover { color: #fff; }
 
-/* フッターリンクのホバーラインも青に */
+/* 【修正】フッターリンクのホバー：プラチナ（白）に戻す */
 .social-link::after {
   content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px;
-  background: var(--armani-blue);
+  background: var(--platinum); /* 白銀に戻す */
   transition: width 0.3s var(--ease-sharp);
 }
 .social-link:hover::after { width: 100%; }
@@ -255,7 +256,8 @@ footer {
 .back-link::before {
   content: "←"; margin-right: 0.5rem; transition: transform 0.3s var(--ease-sharp);
 }
-.back-link:hover { color: var(--armani-blue); } /* 青 */
+/* 【修正】戻るリンクのホバー：プラチナ（白）に戻す */
+.back-link:hover { color: var(--platinum); }
 .back-link:hover::before { transform: translateX(-4px); }
 
 /* Article Header */
@@ -285,10 +287,10 @@ footer {
   border-left: 1px solid var(--platinum); 
 }
 
-/* Blockquote（引用）の左線を青に */
+/* 【青を残す場所 2】引用の左線（静的アクセント） */
 .article-body blockquote {
   margin: 3rem 0; padding: 1rem 0 1rem 2rem;
-  border-left: 1px solid var(--armani-blue); /* 青 */
+  border-left: 1px solid var(--armani-blue); /* ここは青のまま */
   font-style: italic; color: var(--text-muted);
 }
 
@@ -307,7 +309,7 @@ footer {
 }
 
 /* --- Utilities --- */
-/* クラス名を t-blue に変更 */
+/* 【青を残す場所 3】警告テキスト */
 .t-blue { color: var(--armani-blue) !important; opacity: 1 !important; }
 
 /* --- Mobile Adjustments --- */
