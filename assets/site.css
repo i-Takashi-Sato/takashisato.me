@@ -81,7 +81,7 @@ h1 em {
   font-size: 0.65rem;
 }
 
-/* 重なり防止レイアウト（修正済み） */
+/* 重なり防止レイアウト */
 .who {
   display: block;
   color: var(--platinum);
@@ -264,8 +264,16 @@ footer {
 .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 1.2s var(--ease-sharp); }
 .is-visible { opacity: 1; transform: translateY(0) scale(1); }
 
+/* --- Mobile Adjustments (FIXED) --- */
 @media (max-width: 768px) {
-  h1 { font-size: 3.5rem; margin-top: 4rem; text-align: left; }
+  h1 { 
+    /* 見切れ防止修正：余白を大幅に増やす */
+    font-size: 3.2rem; 
+    margin-top: 9rem; /* 4rem -> 9rem に変更 */
+    text-align: left; 
+    line-height: 1.1;
+  }
+
   .paper { padding: 3rem 2rem; }
   .lead, .paper-signal { border-left: none; padding-left: 0; }
   .who::before { width: 40px; }
