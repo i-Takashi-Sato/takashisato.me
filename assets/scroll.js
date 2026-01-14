@@ -1,58 +1,106 @@
 /**
- * Takashi Sato · Interaction Engine v3.0
- * Refined for Academic Trust and Global Standards
+ * Takashi Sato · Research Archive System
+ * Interaction Engine: Award-Winning Edition
+ * Sequential Reveal | Seamless Transition | Custom Cursor | Progress Line
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  // --- 1. スクロール・プログレスバーの生成 ---
+  const header = document.querySelector('.top');
+  const progressLine = document.createElement('div');
+  progressLine.className = 'scroll-progress';
+  if (header) header.appendChild(progressLine);
 
-  // --- 1. Sequential Reveal ---
-  if (!isReducedMotion) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
+  // --- 2. カスタムカーソルの生成 (PC/非タッチデバイスのみ) ---
+  if (!('ontouchstart' in window)) {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+
+    document.addEventListener('mousemove', e => {
+      // requestAnimationFrameで描画を最適化
+      requestAnimationFrame(() => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
       });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    });
 
-    // Target mapping without inline delays
-    document.querySelectorAll('.hero > *, .paper, footer').forEach((el, i) => {
-      el.classList.add('reveal');
-      // Using CSS Classes for delays would be P1, for now keeping logic clean
-      el.style.setProperty('--delay', `${i * 0.1}s`); 
-      observer.observe(el);
+    // 論文カード (.paper) に乗った時のインタラクション
+    document.querySelectorAll('.paper').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        cursor.classList.add('cursor-active');
+        cursor.setAttribute('data-label', 'READ');
+      });
+      card.addEventListener('mouseleave', () => {
+        cursor.classList.remove('cursor-active');
+        cursor.removeAttribute('data-label');
+      });
     });
   }
 
-  // --- 2. Scoped Transitions ---
+  // --- 3. Sequential Reveal (階層的表示) ---
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -80px 0px"
+  };
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // A. Hero要素: 重厚にゆっくりと登場
+  document.querySelectorAll('h1, .who, .lead').forEach((el, i) => {
+    el.classList.add('reveal', 'reveal-hero');
+    el.style.transitionDelay = `${0.3 + (i * 0.25)}s`;
+    observer.observe(el);
+  });
+
+  // B. 論文カード: テンポよくリストアップ
+  document.querySelectorAll('.paper').forEach((el, i) => {
+    el.classList.add('reveal', 'reveal-card');
+    el.style.transitionDelay = `${0.1 + (i * 0.15)}s`;
+    observer.observe(el);
+  });
+
+  // C. ラベル・フッター
+  document.querySelectorAll('.section-label, footer').forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  // --- 4. Seamless Page Transition (滑らかな画面遷移) ---
   const handleTransition = (e) => {
     const link = e.currentTarget;
-    const isInternal = link.hostname === window.location.hostname;
-    const isSamePage = link.pathname === window.location.pathname;
-    const isHash = link.hash !== "";
-
-    if (isInternal && !link.target && !isHash && !e.metaKey && !e.ctrlKey) {
+    if (link.hostname === window.location.hostname && !link.target && !e.metaKey && !e.ctrlKey) {
       e.preventDefault();
+      const destination = link.href;
       document.body.classList.add('fade-out');
-      setTimeout(() => { window.location.href = link.href; }, 600);
+      setTimeout(() => { window.location.href = destination; }, 600);
     }
   };
 
-  // Only apply to actual page links, avoiding anchors and external
-  document.querySelectorAll('a:not([href^="#"]):not([target="_blank"])').forEach(link => {
+  document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', handleTransition);
   });
 
-  // --- 3. Progress Line ---
-  const progressLine = document.querySelector('.scroll-progress');
-  if (progressLine) {
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (maxScroll > 0) {
-        progressLine.style.width = `${(scrolled / maxScroll) * 100}%`;
-      }
-    }, { passive: true });
-  }
+  // --- 5. Scroll Events (プログレス & パララックス) ---
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    
+    // プログレスバーの計算
+    if (maxScroll > 0) {
+      const scrollPercent = (scrolled / maxScroll) * 100;
+      progressLine.style.width = `${scrollPercent}%`;
+    }
+
+    // 背景ノイズのパララックス
+    document.body.style.backgroundPositionY = `${scrolled * 0.08}px`;
+  }, { passive: true });
 });
