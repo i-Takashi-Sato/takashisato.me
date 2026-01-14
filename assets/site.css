@@ -1,59 +1,70 @@
-/* --- 全体設定 --- */
+/* --- Core Reset & Visual Signal --- */
 :root {
-  --signal-red: #d93025; /* 警告・重要性を示す赤 */
-  --text-main: #1a1a1a;
-  --text-muted: #666666;
-  --bg-color: #ffffff;
-  --selection-bg: #e2e8f0; /* ドラッグ時は落ち着いたグレーに */
+  --bg-dark: #050505;       /* 漆黒 */
+  --text-primary: #e0e0e0;  /* 読みやすい薄いグレー */
+  --text-muted: #888888;    /* 補助的な情報用 */
+  --signal-red: #ff3b30;    /* 鮮烈なシグナル・レッド */
+  --link-blue: #5e9eff;     /* リンク用の落ち着いた青 */
+  --selection-grey: #333333; /* 選択時の控えめな色 */
 }
 
-/* ① ドラッグした時の色（赤を廃止） */
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: "Hiragino Mincho ProN", serif; /* 信頼感のある明朝体 */
+  line-height: 1.8;
+  margin: 0;
+  padding: 2rem;
+}
+
+/* ① ドラッグした時の色（赤を廃止し、グレーに） */
 ::selection {
-  background-color: var(--selection-bg);
-  color: var(--text-main);
+  background-color: var(--selection-grey);
+  color: #ffffff;
 }
 
-/* ② サブタイトルを「目立つ赤」に設定 */
-.hero-subheadline {
-  color: var(--signal-red);
+/* 「Peer-citable research archive...」を目立つ赤に */
+/* HTML側でこの一文を <p class="red-signal"> 等で囲んでいる想定です */
+.red-signal, p:nth-of-type(2) {
+  color: var(--signal-red) !important;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: 2rem;
 }
 
-/* ③ タイトルの下線修正（位置とデザイン） */
-.part-title {
+/* ③ Part I, II, III のタイトル下線修正（文字の真ん中を通らないように） */
+h2, .part-title {
   display: inline-block;
-  text-decoration: none;
-  border-bottom: 1.5px solid var(--text-main);
-  padding-bottom: 2px; /* 文字と線の間に隙間を作る */
-  margin-bottom: 0.5rem;
-  transition: border-color 0.2s ease;
+  text-decoration: none; /* デフォルトの線を消す */
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 4px; /* 線を文字の下に配置 */
+  margin-top: 2rem;
+  color: var(--text-primary);
 }
 
-/* ④ リンクホバー（赤を廃止、洗練された挙動へ） */
-.abstract-link, .pdf-link {
-  color: var(--text-muted);
+/* ② Abstract & Citation / Open PDF のホバー（赤を廃止） */
+a {
+  color: var(--link-blue);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
   transition: all 0.2s ease;
 }
 
-.abstract-link:hover, .pdf-link:hover {
-  color: var(--text-main);
-  border-bottom: 1px solid var(--text-main);
-  /* 赤くせず、色が濃くなることで「選択」を表現 */
+a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  /* ここで赤くならないように設定 */
 }
 
-/* その他、情報の純度を上げるための調整 */
-body {
-  font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 論文らしい信頼感 */
-  line-height: 1.7;
-  color: var(--text-main);
-}
-
-.keyword {
+/* アーカイブ情報のタイポグラフィ */
+.keywords {
   font-family: sans-serif;
   font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+blockquote {
+  border-left: 2px solid var(--text-muted);
+  margin-left: 0;
+  padding-left: 1rem;
+  font-style: italic;
   color: var(--text-muted);
 }
