@@ -1,493 +1,293 @@
-/* =========================================================
-   Signal Archive v6 — Structural Noir (award-grade, static-first)
-   - Editorial typography, red as instrument, low-noise UI
-   - One stylesheet for index + paper landing pages
-   ========================================================= */
+/* ==========================================================================
+   THE MONOLITH ARCHIVE - Objective Best / Neo-Brutalist Editorial
+   ========================================================================== */
 
-:root{
-  /* Palette */
-  --bg0:#050505;
-  --bg1:#000000;
-  --fg:rgba(255,255,255,.94);
-  --muted:rgba(255,255,255,.66);
-  --faint:rgba(255,255,255,.28);
-  --rule:rgba(255,255,255,.10);
-  --rule2:rgba(255,255,255,.06);
+/* 外部フォントの読み込み：あえて最も標準的で強力な Helvetica/Inter を基調とする */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@400;700&display=swap');
 
-  --accent:#ff0000;
-  --accentA:rgba(255,0,0,.60);
-  --accentB:rgba(255,0,0,.14);
+:root {
+  /* Color Palette: Absolute Contrast */
+  --bg: #000000;
+  --fg: #ffffff;
+  --accent: #ff0000; /* 純粋な赤 */
+  --border-color: #ffffff;
 
-  /* Layout */
-  --max:78ch;
-  --pad-x:clamp(18px,4.5vw,32px);
-  --pad-y:clamp(44px,6.8vw,96px);
+  /* Typography */
+  /* 見出しは圧倒的な質量を持つサンセリフ */
+  --font-display: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  /* データは機械的なモノスペース */
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
-  /* Type scale */
-  --body:clamp(16px,1.65vw + 11px,19px);
-  --leading:clamp(1.72,0.5vw + 1.55,1.92);
-  --h1:clamp(30px,3.6vw + 14px,52px);
-  --h2:clamp(18px,1.25vw + 12px,22px);
-
-  /* Motion */
-  --ease:cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* Runtime vars (JS updates) */
-  --scroll:0;
-  --mx:50%;
-  --my:18%;
+  /* Layout Dimensions */
+  --grid-gap: 2rem;
+  --container-width: 1440px;
+  --header-height: 60px;
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;overflow-x:hidden}
-html{
-  color-scheme:dark;
-  scroll-behavior:smooth;
-}
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto}
-  *{transition:none!important;animation:none!important}
+/* Reset & Base Structure */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* =========================================================
-   Base
-   ========================================================= */
-body{
-  background:
-    radial-gradient(900px 700px at 92% 10%, rgba(255,255,255,.03), transparent 55%),
-    radial-gradient(1100px 820px at 12% -10%, rgba(255,0,0,.06), transparent 60%),
-    radial-gradient(760px 560px at var(--mx) var(--my), rgba(255,0,0,.085), transparent 60%),
-    linear-gradient(180deg, var(--bg0), var(--bg1) 86%);
-  color:var(--fg);
-  font-family: ui-serif, Charter, "Iowan Old Style", Palatino,
-               "Hiragino Mincho ProN","Yu Mincho","BIZ UDPMincho", serif;
-  font-size:var(--body);
-  line-height:var(--leading);
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  font-feature-settings:"palt";
+html {
+  font-size: 16px;
+  background-color: var(--bg);
+  /* 慣性スクロールを排除し、機械的な操作感を強調する */
+  scroll-behavior: auto; 
+  cursor: crosshair; /* カーソルを十字にして計測機器感を出す */
 }
 
-/* Cinematic grain (subtle) */
-body::before{
-  content:""; position:fixed; inset:0; pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  background-size:220px 220px;
-  mix-blend-mode:soft-light;
-  opacity:calc(.045 + (var(--scroll) * .02));
-  transform:translateZ(0);
-}
-body::after{
-  content:""; position:fixed; inset:-20vh -10vw; pointer-events:none;
-  background:radial-gradient(72% 58% at 50% 20%, transparent 34%, rgba(0,0,0,.58) 82%);
-  opacity:.55;
+body {
+  color: var(--fg);
+  font-family: var(--font-display);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  border-left: 2px solid var(--fg);
+  border-right: 2px solid var(--fg);
+  min-height: 100vh;
+  margin: 0 auto;
+  max-width: var(--container-width);
 }
 
-/* Top progress (polish) */
-.progress{
-  position:fixed; left:0; right:0; top:0;
-  height:2px; z-index:9999;
-  background:linear-gradient(90deg, rgba(255,0,0,.92), rgba(255,0,0,.18));
-  transform-origin:left;
-  transform:scaleX(var(--scroll));
-  opacity:.92;
+/* リンクの挙動: 下線ではなく「反転」による強いフィードバック */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.1s linear;
 }
-@media (prefers-reduced-motion: reduce){
-  .progress{display:none}
-}
-
-/* Selection */
-::selection{background:rgba(255,255,255,.12); color:var(--fg)}
-
-/* Links + focus */
-a{
-  color:inherit;
-  text-decoration:none;
-  border-bottom:1px solid rgba(255,255,255,.16);
-  transition:border-bottom-color .2s var(--ease), color .2s var(--ease);
-}
-a:hover{border-bottom-color:var(--accentA)}
-a:focus-visible,
-button:focus-visible,
-summary:focus-visible{
-  outline:2px solid rgba(255,0,0,.65);
-  outline-offset:3px;
-  border-bottom-color:rgba(255,0,0,.72);
+a:hover {
+  background-color: var(--fg);
+  color: var(--bg) !important;
+  /* リンクホバー時に強制的にインラインブロック化して背景を塗る */
+  display: inline-block; 
+  padding: 0 0.2em;
 }
 
-/* Skip link */
-.skip{
-  position:absolute; left:10px; top:10px; z-index:10000;
-  padding:10px 12px;
-  background:#111;
-  border:1px solid var(--rule);
-  border-radius:10px;
-  color:var(--fg);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.06em;
-  transform:translateY(-160%);
-  transition:transform .25s var(--ease);
-}
-.skip:focus{transform:translateY(0)}
+/* ==========================================================================
+   Typography System
+   ========================================================================== */
 
-/* =========================================================
-   Shared chrome (paper pages)
-   ========================================================= */
-.top{
-  position:sticky; top:0; z-index:50;
-  backdrop-filter:saturate(140%) blur(10px);
-  background:linear-gradient(180deg, rgba(5,5,5,.86), rgba(5,5,5,.54));
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.top-inner{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:14px var(--pad-x);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-variant-numeric:tabular-nums;
-}
-.brand{
-  display:inline-flex; gap:10px; align-items:baseline;
-  letter-spacing:.22em; text-transform:uppercase;
-  font-size:11px; color:var(--faint);
-  border-bottom:0;
-}
-.brand strong{letter-spacing:.08em; color:rgba(255,255,255,.70); font-weight:600}
-.nav{display:flex; gap:14px; flex-wrap:wrap; align-items:center}
-.nav a{border-bottom:0; color:var(--faint); font-size:12px}
-.nav a:hover{color:#fff}
-.sep{opacity:.25}
-
-/* =========================================================
-   Main wrapper
-   ========================================================= */
-main{
-  position:relative;
-  max-width:var(--max);
-  margin:0 auto;
-  padding:var(--pad-y) var(--pad-x);
+/* 巨大な見出し */
+h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  /* 画面幅に応じて極端に巨大化させる */
+  font-size: clamp(4rem, 15vw, 11rem);
+  line-height: 0.85;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  margin: 4rem 0;
+  border-bottom: 4px solid var(--fg); /* 太い境界線 */
+  padding-bottom: 2rem;
+  word-break: break-word; /* 長い単語は強制改行 */
 }
 
-/* =========================================================
-   Index (home)
-   ========================================================= */
-.hero{
-  padding-top:8px;
-  position:relative;
-}
-.hero h1{
-  margin:12px 0 10px 0;
-  font-weight:340;
-  font-size:var(--h1);
-  line-height:1.06;
-  letter-spacing:.012em;
-}
-.hero .who{margin:12px 0 0 0; color:var(--muted)}
-.hero .lead{margin:10px 0 0 0; color:rgba(255,255,255,.80)}
-.hero::after{
-  content:"";
-  position:absolute; left:0; right:0; bottom:-18px;
-  height:1px;
-  background:linear-gradient(90deg, rgba(255,0,0,.0), rgba(255,0,0,.38), rgba(255,0,0,.0));
-  opacity:calc(.18 + (var(--scroll) * .10));
+/* サブタイトルや強調 */
+.lead, .who, h2 {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.meta{
-  margin-top:14px;
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  align-items:center;
-  font-variant-numeric:tabular-nums;
+.who {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: block;
 }
 
-.section-label{
-  margin:54px 0 14px 0;
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:11px;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  padding-bottom:12px;
+.lead {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 60ch;
+  border-left: 4px solid var(--accent);
+  padding-left: 2rem;
+  margin-top: 2rem;
 }
 
-/* Archive cards */
-.paper{
-  margin:18px 0;
-  padding:18px 16px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.07);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.0)),
-    radial-gradient(700px 220px at var(--mx) calc(var(--my) + 18%), rgba(255,0,0,.06), transparent 55%);
-  box-shadow:0 10px 44px rgba(0,0,0,.25);
-  position:relative;
-  overflow:hidden;
-  transform:translateZ(0);
-  transition:border-color .25s var(--ease), transform .25s var(--ease);
-}
-.paper::before{
-  content:"";
-  position:absolute; inset:0;
-  border-radius:18px;
-  pointer-events:none;
-  background:linear-gradient(90deg, rgba(255,0,0,.0), rgba(255,0,0,.20), rgba(255,0,0,.0));
-  opacity:0;
-  transition:opacity .25s var(--ease);
-}
-.paper:hover{
-  border-color:rgba(255,0,0,.16);
-  transform:translateY(-1px);
-}
-.paper:hover::before{opacity:1}
-
-.paper-header{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
-.paper-title{
-  font-size:var(--h2);
-  font-weight:460;
-  line-height:1.25;
-  border-bottom:0;
-}
-.paper-title{border-bottom:0}
-.paper-title a{border-bottom-color:rgba(255,255,255,.18)}
-.paper-title a:hover{border-bottom-color:rgba(255,0,0,.55)}
-
-.paper-signal{
-  margin:10px 0 0 0;
-  color:rgba(255,255,255,.80);
-}
-.k{
-  display:block;
-  margin-top:8px;
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.02em;
-}
-.k span{color:rgba(255,255,255,.70); font-weight:600; margin-right:8px}
-
-.fragments{margin-top:12px; display:grid; gap:10px}
-.fragment{
-  margin:0;
-  padding:12px 14px;
-  border-left:1px solid var(--rule);
-  color:var(--muted);
-  position:relative;
-}
-.fragment::before{
-  content:"";
-  position:absolute; left:-1px; top:0; bottom:0; width:1px;
-  background:linear-gradient(180deg, rgba(255,0,0,.0), rgba(255,0,0,.55), rgba(255,0,0,.0));
-  opacity:.9;
-}
-.fragment .en{display:block}
-.fragment .ja{display:block; margin-top:6px; color:rgba(255,255,255,.60)}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
-  color:var(--faint);
-  border-bottom:1px solid rgba(255,255,255,.14);
-  transition:color .2s var(--ease), border-bottom-color .2s var(--ease);
-  font-family:ui-serif, Charter, "Iowan Old Style", Palatino, serif;
-  font-size:.95em;
-  letter-spacing:.06em;
-}
-.pill:hover{color:#fff; border-bottom-color:rgba(255,0,0,.55)}
-
-.entry-note{
-  margin-top:18px;
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
+p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
 }
 
-/* =========================================================
-   Paper landing pages
-   ========================================================= */
-.part{
-  display:inline-flex; gap:10px; align-items:center;
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  color:var(--faint);
-  font-size:11px;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  border-bottom:0;
+/* メタデータは完全に機械的な表示にする */
+.meta, .structure {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  border-top: 2px solid var(--fg);
+  padding-top: 1rem;
+  margin-top: 2rem;
+  display: flex;
+  gap: 2rem;
 }
-.part .dot{
-  width:6px; height:6px; border-radius:999px;
-  background:rgba(255,0,0,.85);
-  box-shadow:0 0 18px rgba(255,0,0,.35);
-}
-h1{
-  margin:16px 0 10px 0;
-  font-weight:400;
-  font-size:clamp(26px,3.2vw + 14px,44px);
-  line-height:1.12;
-  letter-spacing:.01em;
+.structure strong { color: var(--accent); }
+
+/* ==========================================================================
+   Layout & Components
+   ========================================================================== */
+
+/* Header Navigation */
+.top {
+  border-bottom: 2px solid var(--fg);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
 }
 
-.epigraph{
-  margin:18px 0 0 0;
-  padding:14px 16px;
-  border-left:1px solid var(--rule);
-  color:var(--muted);
-  position:relative;
+.top-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.9rem;
 }
-.epigraph::before{
-  content:"";
-  position:absolute; left:-1px; top:0; bottom:0; width:1px;
-  background:linear-gradient(180deg, rgba(255,0,0,.0), rgba(255,0,0,.55), rgba(255,0,0,.0));
-  opacity:.9;
-}
-.epigraph .en{display:block}
-.epigraph .ja{display:block; margin-top:6px; color:rgba(255,255,255,.60)}
+.brand strong { font-weight: 900; letter-spacing: 0.1em;}
+.nav { display: flex; gap: 2rem; }
+.nav a { border-bottom: 2px solid transparent; }
+.nav a:hover { border-bottom-color: var(--fg); background: none; color: var(--fg)!important; }
 
-.structure{
-  margin:16px 0 0 0;
-  padding-left:16px;
-  border-left:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.44);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  line-height:1.65;
-  letter-spacing:.02em;
-}
-.structure strong{color:rgba(255,255,255,.72); font-weight:600; letter-spacing:.06em}
-.structure .arrow{opacity:.65}
-
-.actions{
-  margin-top:18px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-  font-variant-numeric:tabular-nums;
-  letter-spacing:.06em;
+main {
+  padding: 0 2rem 8rem;
 }
 
-.label{
-  margin:34px 0 14px 0;
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:11px;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  padding-bottom:12px;
+/* Section Labels */
+.section-label, .label {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-bottom: 4px solid var(--fg);
+  padding-bottom: 1rem;
+  margin: 6rem 0 2rem;
+  display: block;
 }
 
-.box{
-  border-left:1px solid var(--rule);
-  padding-left:16px;
-  color:var(--muted);
-}
-.box p{margin:0 0 12px 0}
-.box p:last-child{margin-bottom:0}
-
-.grid{display:grid; gap:18px}
-@media (min-width: 920px){
-  .grid{grid-template-columns:1.1fr .9fr; gap:26px}
-}
-ul.clean{margin:0; padding-left:18px}
-ul.clean li{margin:8px 0}
-
-details{border-left:1px solid rgba(255,255,255,.08); padding-left:16px}
-details summary{
-  cursor:pointer;
-  color:rgba(255,255,255,.78);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.10em;
-  list-style:none;
-  margin-bottom:12px;
-  user-select:none;
-}
-details summary::-webkit-details-marker{display:none}
-details[open] summary{color:#fff}
-
-pre{
-  margin:0;
-  padding:14px 14px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;
-  background:rgba(0,0,0,.35);
-  color:rgba(255,255,255,.80);
-  overflow:auto;
-  font-size:12px;
-  line-height:1.6;
-  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-variant-numeric:tabular-nums;
-}
-.cite-wrap{display:grid; gap:12px}
-
-.copy{
-  justify-self:start;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:14px;
-  padding:8px 12px;
-  background:rgba(255,255,255,.02);
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  cursor:pointer;
-  transition:transform .2s var(--ease), border-color .2s var(--ease), background-color .2s var(--ease), color .2s var(--ease);
-  font-variant-numeric:tabular-nums;
-}
-.copy:hover{
-  transform:translateY(-1px);
-  border-color:rgba(255,0,0,.55);
-  background:rgba(255,0,0,.08);
-  color:#fff;
-}
-.copy.is-flash{border-color:rgba(255,0,0,.7); color:#fff}
-
-footer{
-  margin-top:60px;
-  padding-top:26px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.28);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  font-variant-numeric:tabular-nums;
-}
-.social, .foot-nav{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  margin-top:10px;
-}
-.social a, .foot-nav a{border-bottom:0; color:rgba(255,255,255,.34)}
-.social a:hover, .foot-nav a:hover{color:#fff}
-
-@media (max-width: 560px){
-  .top-inner{padding:12px var(--pad-x)}
-  .epigraph{padding:13px 14px}
-  pre{padding:12px 12px}
+/* Archive Items (The "Slabs") */
+.paper {
+  border: 2px solid var(--fg);
+  margin-bottom: -2px; /* ボーダーを重ねて太く見せる */
+  padding: 3rem;
+  transition: background 0.1s linear;
 }
 
-/* Print: become clean paper */
-@media print{
-  html{color-scheme:light}
-  body{background:#fff!important; color:#111!important;}
-  body::before, body::after, .progress, .top, .skip{display:none!important}
-  a{border-bottom:0; color:#111}
-  main{max-width:80ch}
-  .box, .epigraph, .structure, details{border-left:1px solid #ddd}
-  pre{background:#f6f6f6; color:#111; border-color:#ddd}
+.paper:hover {
+  background: #1a1a1a; /* わずかな背景変化 */
+}
+
+.paper-header { margin-bottom: 1.5rem; }
+
+.paper-title {
+  font-weight: 900;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  /* タイトルは反転させない */
+  pointer-events: none; 
+}
+.paper-title::before {
+    content: "→ ";
+    color: var(--accent);
+}
+
+.paper-signal {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  border-left: 2px solid var(--accent);
+  padding-left: 1rem;
+}
+
+.k {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.k span { color: var(--fg); font-weight: 400; }
+
+/* Fragments (Quotes) */
+.fragment, .epigraph {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  border: 2px solid var(--fg);
+  padding: 2rem;
+  margin: 2rem 0;
+  background: var(--bg);
+}
+.fragment .ja, .epigraph .ja {
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-top: 1rem;
+  color: var(--accent);
+}
+
+/* Actions / Pills */
+.actions {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pill {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  border: 2px solid var(--fg);
+  padding: 1rem 1.5rem;
+  /* ブルータリストなボタン：角丸なし */
+  border-radius: 0; 
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.pill:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* Code Blocks */
+pre {
+  background: var(--bg);
+  border: 2px solid var(--fg);
+  padding: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Footer */
+footer {
+  margin-top: 8rem;
+  padding: 3rem 0;
+  border-top: 4px solid var(--fg);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.social { display: flex; gap: 2rem; font-weight: 700;}
+.footer-sig { margin-top: 0; text-align: right; color: var(--accent);}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .paper { padding: 1.5rem; }
+  h1 { font-size: 4rem; }
+  footer { flex-direction: column; gap: 2rem; }
 }
