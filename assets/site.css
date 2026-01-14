@@ -1,38 +1,35 @@
 /* =========================================================
-   THEME: "Champagne & Obsidian" (High-End Luxury)
+   THEME: "Platinum Brutalism" (Elegant & Sharp)
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
 
 :root {
-  /* --- Palette: The Definition of Luxury --- */
-  --bg: #020202;           /* 完全な黒に近い、深みのある黒 */
-  --card-bg: #080808;      /* わずかに明るい黒 */
+  /* --- Palette: Cold & Sharp --- */
+  --bg: #050507;           /* 青みのある深い黒 (Midnight Black) */
+  --card-bg: #0a0a0c;      /* わずかに明るい黒 */
   
-  --text-main: #e0e0e0;    /* シルクのような白 */
-  --text-muted: #888888;   /* 銀色 */
+  --text-main: #f0f0f0;    /* 冷たい白 */
+  --text-muted: #888fa0;   /* 青みがかったグレー */
   
-  /* The Accent: Muted Champagne Gold */
-  --gold: #C5A059;         
-  --gold-dim: rgba(197, 160, 89, 0.3);
-  --gold-glow: rgba(197, 160, 89, 0.1);
-
-  --border: rgba(255, 255, 255, 0.06);
+  /* The Accent: Platinum Silver */
+  --platinum: #d0d5e0;     /* 光沢のあるプラチナ */
+  --platinum-dim: rgba(208, 213, 224, 0.3);
+  --border-sharp: rgba(255, 255, 255, 0.08);
   
   /* Fonts */
-  --font-serif: "Cormorant Garamond", serif; /* 主役 */
-  --font-sans: "Montserrat", sans-serif;     /* 脇役（機能用） */
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Montserrat", sans-serif;
 
-  /* Easing: Slow and elegant */
-  --ease-luxury: cubic-bezier(0.25, 1, 0.5, 1);
+  /* Easing: Sharp and precise */
+  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* Text Selection: Gold background for premium feel */
 ::selection {
-  background: var(--gold);
-  color: #000;
+  background: var(--platinum-dim);
+  color: #fff;
 }
 
 html {
@@ -45,160 +42,170 @@ body {
   margin: 0; padding: 0;
   color: var(--text-main);
   font-family: var(--font-serif);
-  line-height: 1.8; /* 行間を広げて優雅に */
+  line-height: 1.7;
   overflow-x: hidden;
   background: var(--bg);
 }
 
-/* Texture: Subtle Grain (Leather-like quality) */
+/* Texture: Brushed Metal Subtle Grain */
 body::before {
   content: ""; position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: -1; mix-blend-mode: overlay;
 }
 
-/* --- Typography: Sharp & Elegant --- */
+/* --- Typography: High Contrast & Asymmetric --- */
 
 h1 {
+  font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(3rem, 5vw, 4.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin: 0 0 2rem;
-  text-align: center;
+  font-size: clamp(4rem, 8vw, 7rem); /* 巨大化 */
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin: 6rem 0 4rem;
+  text-align: left; /* 左寄せで緊張感を出す */
   color: #fff;
-  font-style: italic; /* Cormorantのイタリック体は非常に美しい */
+  max-width: 12ch; /* あえて改行させる */
+}
+h1 em {
+  font-style: italic;
+  color: var(--platinum); /* 一部だけプラチナ色に */
 }
 
 /* Subtitles / Labels */
 .who, .section-label, .brand, .pill, .k {
   font-family: var(--font-sans);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 300; /* 極細 */
+  font-size: 0.65rem;
 }
 
 .who {
-  display: flex; justify-content: center; align-items: center; gap: 1rem;
-  font-size: 0.65rem; color: var(--gold);
-  margin-bottom: 3rem;
+  display: flex; align-items: center; gap: 1.5rem;
+  color: var(--text-muted);
+  margin-bottom: -2rem; /* H1に食い込ませる */
+  padding-left: 4px;
 }
-.who::before, .who::after {
-  content: ""; width: 30px; height: 1px; background: var(--gold-dim);
+.who::before {
+  content: ""; width: 60px; height: 1px; background: var(--platinum-dim);
 }
+.who::after { display: none; } /* 片側だけのラインで非対称に */
 
 .lead {
-  text-align: center; font-size: 1.3rem;
-  color: var(--text-muted); max-width: 48ch; /* 幅を狭くして上品に */
-  margin: 0 auto 5rem;
-  font-weight: 300;
+  text-align: left; font-size: 1.4rem;
+  color: var(--text-muted); max-width: 42ch;
+  margin: 0 0 8rem;
+  font-weight: 300; padding-left: 4px;
+  border-left: 1px solid var(--border-sharp);
+  padding-left: 2rem;
 }
 
 /* --- Layout --- */
 
-main { max-width: 960px; /* 幅を絞ることで高級感を出す */ margin: 0 auto; padding: 0 2rem 10rem; }
+main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 
-/* Header: Minimalist & Transparent */
+/* Header: Architectural & Sharp */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(2, 2, 2, 0.85); /* 濃い背景 */
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  height: 80px; /* 高さを出して余裕を持たせる */
-  display: flex; align-items: center;
+  background: rgba(5, 5, 7, 0.8); /* 青みのある黒 */
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-sharp);
+  height: 90px; display: flex; align-items: center;
 }
 .top-inner {
-  width: 100%; max-width: 960px; margin: 0 auto; padding: 0 2rem;
+  width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 5vw;
   display: flex; justify-content: space-between; align-items: center;
 }
-.brand { color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em; }
-.brand strong { color: var(--gold); font-weight: 400; }
-.nav a { color: #666; font-family: var(--font-sans); font-size: 0.7rem; text-decoration: none; transition: 0.5s var(--ease-luxury); margin-left: 2rem; letter-spacing: 0.1em; }
-.nav a:hover { color: var(--gold); }
+.brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
+.brand strong { color: var(--platinum); font-weight: 400; }
+.nav a { 
+  color: var(--text-muted); font-family: var(--font-sans); 
+  font-size: 0.65rem; text-decoration: none; 
+  transition: 0.4s var(--ease-sharp); margin-left: 3rem; 
+  letter-spacing: 0.15em; position: relative;
+}
+.nav a::after { /* ホバー時に下線がスッと出る */
+  content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px;
+  background: var(--platinum); transition: 0.4s var(--ease-sharp);
+}
+.nav a:hover { color: #fff; }
+.nav a:hover::after { width: 100%; }
 
-/* --- Cards: Museum Showcase Style --- */
+/* --- Cards: The Monoliths --- */
 .section-label {
-  text-align: center; font-size: 0.65rem; color: #444; 
-  margin: 6rem 0 3rem; display: block;
+  text-align: left; color: var(--platinum);
+  margin: 10rem 0 2rem; display: block; padding-left: 4px;
 }
 
 .paper {
   position: relative;
   background: var(--card-bg);
-  border: 1px solid var(--border); 
-  padding: 4rem 3rem; /* 余白を大きく */
-  margin-bottom: 3rem;
-  transition: all 0.6s var(--ease-luxury);
-  overflow: hidden;
-}
-
-/* The Gold Shine Effect on Hover */
-.paper::after {
-  content: ""; position: absolute; inset: 0;
-  border: 1px solid var(--gold);
-  opacity: 0;
-  transition: opacity 0.6s var(--ease-luxury);
-  pointer-events: none;
+  /* ボーダーは上と左だけ（非対称） */
+  border-top: 1px solid var(--border-sharp);
+  border-left: 1px solid var(--border-sharp);
+  padding: 5rem 4rem;
+  margin-bottom: 5rem; /* 余白を巨大に */
+  transition: all 0.6s var(--ease-sharp);
 }
 
 .paper:hover {
-  transform: translateY(-5px);
-  border-color: transparent; /* ボーダーを消して... */
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
-.paper:hover::after {
-  opacity: 1; /* 金のボーダーを浮かび上がらせる */
+  transform: translateX(10px); /* 上ではなく右に動く */
+  background: #0e0e11;
+  border-color: var(--platinum-dim);
 }
 
 .paper-title {
-  font-size: 2.2rem; font-weight: 400; color: #fff;
-  display: block; margin-bottom: 1rem; text-decoration: none;
-  transition: color 0.4s;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 300; color: #fff;
+  display: block; margin-bottom: 1.5rem; text-decoration: none;
+  line-height: 1; transition: color 0.4s;
 }
-.paper-title:hover { color: var(--gold); }
+.paper:hover .paper-title { color: var(--platinum); }
 
 .paper-signal {
-  font-size: 1rem; color: var(--text-muted); line-height: 1.8;
-  font-family: var(--font-serif);
+  font-size: 1.1rem; color: var(--text-muted); line-height: 1.7;
+  font-family: var(--font-serif); max-width: 50ch;
 }
 
 .k {
-  display: block; margin-top: 1.5rem; font-size: 0.65rem;
-  color: #555; border-top: 1px solid #222; padding-top: 1rem; width: 100%;
+  display: inline-block; margin-top: 2.5rem;
+  color: #666; border: 1px solid var(--border-sharp);
+  padding: 0.8rem 1.2rem;
 }
-.k span { color: var(--gold); }
+.k span { color: var(--platinum); }
 
-/* Buttons: Minimalist Gold Wire */
-.actions { display: flex; gap: 1rem; margin-top: 2.5rem; }
+/* Buttons: Sharp Platinum Wire */
+.actions { display: flex; gap: 1.5rem; margin-top: 3rem; }
 
 .pill {
-  display: inline-flex; align-items: center; height: 36px; padding: 0 20px;
-  border-radius: 0; /* 角を立てる（シャープに） */
-  background: transparent;
-  color: #ccc; font-size: 0.7rem;
-  border: 1px solid rgba(255,255,255,0.15);
-  text-decoration: none; transition: all 0.4s var(--ease-luxury);
+  display: inline-flex; align-items: center; height: 40px; padding: 0 24px;
+  border: 1px solid var(--border-sharp);
+  color: var(--text-muted); background: transparent;
+  text-decoration: none; transition: all 0.4s var(--ease-sharp);
 }
 
 .pill:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: rgba(197, 160, 89, 0.05); /* ほんのり金を敷く */
+  border-color: var(--platinum);
+  color: var(--bg);
+  background: var(--platinum); /* プラチナ色で塗りつぶす */
 }
 
 /* Footer */
 footer {
-  margin-top: 10rem; padding: 4rem 0; 
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: center; gap: 2rem;
+  margin-top: 12rem; padding: 5rem 0; 
+  border-top: 1px solid var(--border-sharp);
+  display: flex; justify-content: flex-start; /* 左寄せ */
   font-family: var(--font-sans); font-size: 0.65rem; color: #444;
 }
 
-/* Animations */
-.reveal { opacity: 0; transform: translateY(30px); transition: all 1s var(--ease-luxury); }
-.is-visible { opacity: 1; transform: translateY(0); }
+/* Animations: Sharp Reveal */
+.reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 1.2s var(--ease-sharp); }
+.is-visible { opacity: 1; transform: translateY(0) scale(1); }
 
 @media (max-width: 768px) {
-  .paper { padding: 2rem; }
-  h1 { font-size: 3rem; }
+  h1 { font-size: 3.5rem; text-align: left; }
+  .paper { padding: 3rem 2rem; }
+  .lead, .paper-signal { border-left: none; padding-left: 0; }
 }
