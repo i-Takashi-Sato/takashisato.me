@@ -18,7 +18,7 @@
   --border-sharp: rgba(255, 255, 255, 0.12); /* 枠線を少しはっきりさせる */
 
   /* --- New Accent: Armani Blue --- */
-  /* PC用のメインアクセント（知的な青） */
+  /* テキストと固定ラインのみに使用 */
   --armani-blue: #4169E1;   
   
   /* Fonts */
@@ -64,7 +64,8 @@ body::before {
 h1 {
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(4rem, 8vw, 7rem);
+  /* 【修正】PCの大画面でさらに巨大に見せる */
+  font-size: clamp(4rem, 9vw, 8.5rem); 
   line-height: 0.95;
   letter-spacing: -0.03em;
   margin: 6rem 0 3rem;
@@ -113,9 +114,15 @@ h1 em {
   margin-left: 2px;
 }
 
-/* --- Layout --- */
+/* --- Layout (Wide Update) --- */
 
-main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
+/* 【修正】最大幅を1100px -> 1600pxに拡張し、画面を広く使う */
+main { 
+  max-width: 1600px; 
+  width: 92%; /* 左右に少しだけ余白を残す */
+  margin: 0 auto; 
+  padding: 0 0 10rem; 
+}
 
 /* Header (PC Default) */
 .top {
@@ -128,7 +135,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   height: 90px; display: flex; align-items: center;
 }
 .top-inner {
-  width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 5vw;
+  /* 【修正】ヘッダーの中身もワイドに合わせる */
+  width: 92%; 
+  max-width: 1600px; 
+  margin: 0 auto; 
+  padding: 0;
   display: flex; justify-content: space-between; align-items: center;
 }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
@@ -227,6 +238,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 /* Footer */
 .footer-inner {
   display: flex; flex-direction: column; gap: 2rem; align-items: flex-start;
+  /* 【修正】フッターの中身もpadding調整 */
+  padding-left: 2rem; 
 }
 footer {
   margin-top: 12rem; padding: 5rem 0; 
@@ -263,7 +276,12 @@ footer {
    ARTICLE PAGE EXTENSIONS
    ========================================================= */
 
-.article-container { max-width: 800px; margin: 0 auto; padding: 0 5vw 8rem; }
+/* 【修正】記事ページは読みやすさ重視で幅を制限するが、少し広げる (800->900px) */
+.article-container { 
+  max-width: 900px; 
+  margin: 0 auto; 
+  padding: 0 2rem 8rem; /* 左右の余白は固定値でシンプルに */
+}
 
 /* Back Link */
 .back-link {
@@ -327,7 +345,7 @@ footer {
 }
 
 /* --- Utilities --- */
-/* 警告テキスト（PC/スマホ共通で青のままにするか、ここも赤にするかは好みですが、テキストは青のままが知的に見えます） */
+/* 警告テキスト（青） */
 .t-blue { color: var(--armani-blue) !important; opacity: 1 !important; }
 
 /* CSP対策用のユーティリティクラス */
@@ -350,6 +368,7 @@ footer {
   }
 
   .top-inner {
+    width: 100%; /* スマホでは幅100% */
     padding: 0 1.5rem; 
   }
 
@@ -446,7 +465,7 @@ footer {
     padding-top: 3rem;
   }
   
-  .footer-inner { gap: 3rem; }
+  .footer-inner { gap: 3rem; padding-left: 0; /* スマホではパディングリセット */ }
   .social-nav { flex-direction: column; gap: 1rem; }
 
   .citation-box {
@@ -461,5 +480,6 @@ footer {
   
   main {
     padding-bottom: 0; 
+    width: 100%; /* スマホでは100% */
   }
 }
