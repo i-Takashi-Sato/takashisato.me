@@ -1,6 +1,6 @@
 /* =========================================================
    THEME: "Platinum Brutalism" (Elegant & Sharp)
-   REFINED EDITION: Strategic Friction & Silence
+   REFINED EDITION: Absolute Minimalism
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -21,30 +21,18 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* PCのみカスタムカーソルを使用するため標準カーソルを非表示 */
+/* PCのみ標準カーソルを非表示 */
 @media (min-width: 769px) {
-  html, body, a, .paper { cursor: none !important; }
+  html, body, a, .paper, .pill { cursor: none !important; }
 }
 
 ::selection { background: var(--platinum-dim); color: #fff; }
 
 html { font-size: 16px; background-color: var(--bg); scroll-behavior: smooth; }
+body { margin: 0; padding: 0; color: var(--text-main); font-family: var(--font-serif); line-height: 1.7; overflow-x: hidden; background: var(--bg); opacity: 1; }
 
-body { 
-  margin: 0; padding: 0; 
-  color: var(--text-main); font-family: var(--font-serif); line-height: 1.7; 
-  overflow-x: hidden; background: var(--bg);
-  opacity: 1;
-}
-
-/* --- ⑤ ページ遷移フェードアウト（戻るボタン対策用） --- */
-body.fade-out { 
-  opacity: 0; 
-  transform: scale(0.99); 
-  filter: blur(10px); 
-  pointer-events: none; 
-  transition: all 0.6s var(--ease-sharp); 
-}
+/* ページ遷移 */
+body.fade-out { opacity: 0; transform: scale(0.99); filter: blur(10px); pointer-events: none; transition: all 0.6s var(--ease-sharp); }
 
 /* 背景ノイズ */
 body::before {
@@ -53,140 +41,48 @@ body::before {
   pointer-events: none; z-index: -1; mix-blend-mode: overlay;
 }
 
-/* --- Typography: Hero --- */
-h1 {
-  font-family: var(--font-serif); font-weight: 300;
-  font-size: clamp(3.5rem, 8vw, 8rem); line-height: 0.95; letter-spacing: -0.03em;
-  margin: 6rem 0 3rem; text-align: left; color: #fff; max-width: 14ch; 
-}
-.who, .section-label, .brand, .pill, .k { font-family: var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; font-size: 0.65rem; }
-.who { display: block; color: var(--platinum); margin-bottom: 2rem; padding-left: 2px; }
-.who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--platinum-dim); margin-bottom: 1rem; }
+/* Typography */
+h1 { font-family: var(--font-serif); font-weight: 300; font-size: clamp(3.5rem, 8vw, 8rem); line-height: 0.95; letter-spacing: -0.03em; margin: 6rem 0 3rem; color: #fff; max-width: 14ch; }
+.who { font-family: var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; font-size: 0.65rem; color: var(--platinum); margin-bottom: 2rem; }
+.lead { text-align: left; font-size: 1.3rem; color: var(--text-muted); max-width: 42ch; margin: 0 0 8rem; border-left: 1px solid var(--armani-blue); padding-left: 2rem; }
 
-.lead {
-  text-align: left; font-size: 1.3rem; color: var(--text-muted); max-width: 42ch; margin: 0 0 8rem; font-weight: 300; line-height: 1.8;
-  border-left: 1px solid var(--armani-blue); padding-left: 2rem; margin-left: 2px;
-}
-
-/* --- ① 論文タイトル：自然な配置と適切なサイズ --- */
-.paper-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3vw, 2.4rem); /* 縮小し、圧迫感を軽減 */
-  font-weight: 300;
-  color: #fff;
-  text-decoration: none;
-  line-height: 1.2;
-  display: block;
-  margin-bottom: 1.5rem;
-  max-width: 100%; /* 縦長にならないように幅を確保 */
-  transition: color 0.1s;
-}
-
-/* --- ②〜④ 重要フレーズの強調 --- */
-.thematic-quote {
-  display: block;
-  margin-top: 1.5rem;
-  font-size: 1.55rem; /* 本文より大きく、視線を誘導 */
-  color: #ffffff;
-  font-style: italic;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
-}
-
-/* --- Layout --- */
-main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
-
-/* --- ① プログレスバー（1px） --- */
-.top {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border-bottom: 1px solid var(--border-sharp); height: 90px; display: flex; align-items: center;
-}
-.scroll-progress {
-  position: absolute; bottom: -1px; left: 0; 
-  height: 1px; /* 細く調整 */
-  background: #ffffff; 
-  width: 0%; transition: width 0.1s ease-out;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); 
-  z-index: 101;
-}
-
-.top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; position: relative; }
-.brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
-.nav a { color: var(--text-muted); font-family: var(--font-sans); font-size: 0.65rem; text-decoration: none; transition: 0.4s var(--ease-sharp); margin-left: 3rem; letter-spacing: 0.15em; position: relative; }
-.nav a:hover { color: #fff; }
-
-/* --- ④ ホバー演出の削除（静的なアーカイブ美） --- */
-#archive:hover .paper { 
-  opacity: 1; 
-  filter: none; 
-}
-
-.section-label { text-align: left; color: var(--platinum); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
-.paper {
-  position: relative; background: var(--card-bg); border-top: 1px solid var(--border-sharp); border-left: 1px solid var(--border-sharp);
-  padding: 5rem 4rem; margin-bottom: 5rem; overflow: hidden;
-  transition: border-color 0.3s var(--ease-sharp);
-}
-.stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
-
-#archive .paper:hover { 
-  border-color: var(--platinum); /* 枠線のみ反応 */
-  transform: none; 
-  background: var(--card-bg); 
-}
+.paper-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 300; color: #fff; text-decoration: none; line-height: 1.2; display: block; margin-bottom: 1.5rem; transition: color 0.1s; }
 .paper:hover .paper-title { color: var(--platinum); }
 
+/* 重要フレーズの強調 */
+.thematic-quote { display: block; margin-top: 1.5rem; font-size: 1.55rem; color: #ffffff; font-style: italic; line-height: 1.35; }
+
+/* Layout & Header */
+main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
+.top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); border-bottom: 1px solid var(--border-sharp); height: 90px; display: flex; align-items: center; }
+.top-inner { width: 92%; max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; }
+.scroll-progress { position: absolute; bottom: -1px; left: 0; height: 1px; background: #fff; width: 0%; box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
+
+/* 論文カード：静的スタイル */
+.paper { position: relative; background: var(--card-bg); border-top: 1px solid var(--border-sharp); border-left: 1px solid var(--border-sharp); padding: 5rem 4rem; margin-bottom: 5rem; transition: border-color 0.3s var(--ease-sharp); }
+#archive .paper:hover { border-color: var(--platinum); }
 .paper-signal { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; font-family: var(--font-serif); max-width: 50ch; }
-.k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; }
+.k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; font-family: var(--font-sans); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; }
 .k span { color: var(--platinum); }
 
-/* --- Buttons --- */
+/* Buttons */
 .actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
-.pill {
-  position: relative; z-index: 15; display: inline-flex; align-items: center; height: 42px; padding: 0 28px;
-  border: 1.5px solid var(--platinum); color: #fff; background: rgba(208, 213, 224, 0.08);
-  text-decoration: none; transition: all 0.2s var(--ease-sharp);
-}
+.pill { position: relative; z-index: 15; display: inline-flex; align-items: center; height: 42px; padding: 0 28px; border: 1.5px solid var(--platinum); color: #fff; background: rgba(208, 213, 224, 0.08); text-decoration: none; transition: all 0.2s var(--ease-sharp); font-family: var(--font-sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
 
-/* --- Reveal Animations --- */
+/* 出現演出 */
 .reveal { opacity: 0; transform: translateY(20px); transition: all 1s var(--ease-sharp); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-/* --- カスタムカーソル --- */
+/* --- 控えめなカスタムカーソル (拡大演出なし) --- */
 .custom-cursor {
-  position: fixed; width: 8px; height: 8px; background: var(--platinum);
-  border-radius: 50%; pointer-events: none; z-index: 9999;
-  mix-blend-mode: difference; transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s;
-}
-.custom-cursor.cursor-active { width: 60px; height: 60px; background: var(--platinum); mix-blend-mode: normal; }
-.custom-cursor.cursor-active::after {
-  content: attr(data-label); position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%); font-family: var(--font-sans);
-  font-size: 0.5rem; letter-spacing: 0.2em; color: var(--bg); font-weight: 600;
-}
-
-/* --- Footer --- */
-footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); font-family: var(--font-sans); font-size: 0.65rem; color: #444; }
-.footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
-.social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
-.social-link { color: #e0e0e0; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s; position: relative; }
-.social-link:hover { color: #fff; }
-
-/* =========================================================
-   MOBILE ADJUSTMENTS
-   ========================================================= */
-@media (max-width: 768px) {
-  .custom-cursor { display: none; }
-  .top { height: 70px; }
-  .top-inner { width: 100%; padding: 0 1.5rem; }
-  .nav { gap: 1rem; }
-  .nav a { margin-left: 0; font-size: 0.55rem; }
-  h1 { font-size: 2.8rem; margin-top: 7rem; }
-  .paper { padding: 3rem 1.5rem; }
-  .paper-title { font-size: 2rem; }
-  .lead { border-left: 1px solid #D22B2B; padding-left: 1.5rem; }
-  .thematic-quote { font-size: 1.2rem; }
+  position: fixed;
+  width: 6px; height: 6px; /* より小さく、鋭く */
+  background: var(--platinum);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  /* 拡大のための transition を削除 */
 }
