@@ -161,7 +161,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   padding: 5rem 4rem;
   margin-bottom: 5rem;
   
-  /* 【修正】反応速度を 0.6s -> 0.3s に高速化 */
+  /* 反応速度：0.3s (高速) */
   transition: all 0.3s var(--ease-sharp);
 }
 
@@ -179,7 +179,6 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   display: block; margin-bottom: 1.5rem; text-decoration: none;
   line-height: 1; 
   
-  /* 【修正】タイトルの色変化も 0.4s -> 0.3s に合わせて高速化 */
   transition: color 0.3s;
 }
 .paper:hover .paper-title { color: var(--platinum); }
@@ -219,13 +218,20 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 }
 footer {
   margin-top: 12rem; padding: 5rem 0; 
-  border-top: 1px solid var(--border-sharp);
+  
+  /* 【修正】フッターの横棒を明るく (不透明度0.25) */
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  
   font-family: var(--font-sans); font-size: 0.65rem; color: #444;
 }
 
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
+
 .social-link {
-  color: var(--text-muted); text-decoration: none; text-transform: uppercase;
+  /* 【修正】リンク色をかなり明るく (#e0e0e0) */
+  color: #e0e0e0; 
+  
+  text-decoration: none; text-transform: uppercase;
   letter-spacing: 0.15em; transition: all 0.3s var(--ease-sharp); position: relative;
 }
 .social-link:hover { color: #fff; }
