@@ -17,9 +17,9 @@
   --platinum-dim: rgba(208, 213, 224, 0.3);
   --border-sharp: rgba(255, 255, 255, 0.08);
 
-  /* --- New Accent: Signal Red (System Alert) --- */
-  /* ここで定義した赤を要所で使用します */
-  --signal-red: #ff3333;   
+  /* --- New Accent: Armani Blue --- */
+  /* 深みと気品のあるロイヤルブルー */
+  --armani-blue: #4169E1;   
   
   /* Fonts */
   --font-serif: "Cormorant Garamond", serif;
@@ -31,8 +31,9 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* 【修正】ドラッグ時の色変更を廃止（プラチナ色に戻す） */
 ::selection {
-  background: var(--signal-red); /* 選択色も赤に変更 */
+  background: var(--platinum-dim); 
   color: #fff;
 }
 
@@ -98,7 +99,7 @@ h1 em {
   margin-bottom: 1rem;
 }
 
-/* 【変更点】Leadの縦線を赤に変更 */
+/* Leadの縦線を青に変更 */
 .lead {
   text-align: left; font-size: 1.3rem;
   color: var(--text-muted); 
@@ -107,8 +108,7 @@ h1 em {
   font-weight: 300; 
   line-height: 1.8;
   
-  /* 赤いライン */
-  border-left: 1px solid var(--signal-red);
+  border-left: 1px solid var(--armani-blue); /* 青 */
   padding-left: 2rem;
   margin-left: 2px;
 }
@@ -138,10 +138,10 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   transition: 0.4s var(--ease-sharp); margin-left: 3rem; 
   letter-spacing: 0.15em; position: relative;
 }
-/* 【変更点】ナビゲーションのホバーラインを赤に */
+/* ナビゲーションのホバーラインを青に */
 .nav a::after {
   content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px;
-  background: var(--signal-red); 
+  background: var(--armani-blue); 
   transition: 0.4s var(--ease-sharp);
 }
 .nav a:hover { color: #fff; }
@@ -163,11 +163,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   transition: all 0.6s var(--ease-sharp);
 }
 
-/* 【変更点】カードホバー時のボーダーを赤に */
+/* カードホバー時のボーダーを青に */
 .paper:hover {
   transform: translateX(10px);
   background: #0e0e11;
-  border-color: var(--signal-red); /* ここを赤に */
+  border-color: var(--armani-blue); /* 青 */
 }
 
 .paper-title {
@@ -201,11 +201,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   text-decoration: none; transition: all 0.4s var(--ease-sharp);
 }
 
-/* 【変更点】ボタンホバー時の背景色を赤に */
+/* ボタンホバー時の背景色を青に */
 .pill:hover {
-  border-color: var(--signal-red);
+  border-color: var(--armani-blue);
   color: #fff;
-  background: var(--signal-red); 
+  background: var(--armani-blue); 
 }
 
 /* Footer */
@@ -225,10 +225,10 @@ footer {
 }
 .social-link:hover { color: #fff; }
 
-/* 【変更点】フッターリンクのホバーラインも赤に */
+/* フッターリンクのホバーラインも青に */
 .social-link::after {
   content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px;
-  background: var(--signal-red);
+  background: var(--armani-blue);
   transition: width 0.3s var(--ease-sharp);
 }
 .social-link:hover::after { width: 100%; }
@@ -255,7 +255,7 @@ footer {
 .back-link::before {
   content: "←"; margin-right: 0.5rem; transition: transform 0.3s var(--ease-sharp);
 }
-.back-link:hover { color: var(--signal-red); } /* 赤に変更 */
+.back-link:hover { color: var(--armani-blue); } /* 青 */
 .back-link:hover::before { transform: translateX(-4px); }
 
 /* Article Header */
@@ -282,14 +282,13 @@ footer {
   font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase;
   letter-spacing: 0.2em; color: var(--platinum);
   margin: 4rem 0 1.5rem; padding-left: 1rem;
-  /* 見出しの左線はシルバーのまま（構造なので） */
   border-left: 1px solid var(--platinum); 
 }
 
-/* 【変更点】Blockquote（引用）の左線を赤に */
+/* Blockquote（引用）の左線を青に */
 .article-body blockquote {
   margin: 3rem 0; padding: 1rem 0 1rem 2rem;
-  border-left: 1px solid var(--signal-red); /* ここを赤に */
+  border-left: 1px solid var(--armani-blue); /* 青 */
   font-style: italic; color: var(--text-muted);
 }
 
@@ -308,7 +307,8 @@ footer {
 }
 
 /* --- Utilities --- */
-.t-red { color: var(--signal-red) !important; opacity: 1 !important; }
+/* クラス名を t-blue に変更 */
+.t-blue { color: var(--armani-blue) !important; opacity: 1 !important; }
 
 /* --- Mobile Adjustments --- */
 @media (max-width: 768px) {
