@@ -1,189 +1,204 @@
 /* =========================================================
-   THEME: "The Redacted Archive" (World Class Standard)
+   THEME: "Champagne & Obsidian" (High-End Luxury)
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap');
 
 :root {
-  --bg: #0a0a0a;
-  --fg: #e6e6e6;
-  --accent: #ff3300; /* International Orange - High Alert */
+  /* --- Palette: The Definition of Luxury --- */
+  --bg: #020202;           /* 完全な黒に近い、深みのある黒 */
+  --card-bg: #080808;      /* わずかに明るい黒 */
   
-  --font-mono: "Space Mono", monospace;
-  --font-serif: "Playfair Display", serif;
+  --text-main: #e0e0e0;    /* シルクのような白 */
+  --text-muted: #888888;   /* 銀色 */
   
-  --grid-color: rgba(255, 255, 255, 0.08);
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  /* The Accent: Muted Champagne Gold */
+  --gold: #C5A059;         
+  --gold-dim: rgba(197, 160, 89, 0.3);
+  --gold-glow: rgba(197, 160, 89, 0.1);
+
+  --border: rgba(255, 255, 255, 0.06);
+  
+  /* Fonts */
+  --font-serif: "Cormorant Garamond", serif; /* 主役 */
+  --font-sans: "Montserrat", sans-serif;     /* 脇役（機能用） */
+
+  /* Easing: Slow and elegant */
+  --ease-luxury: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Text Selection: Gold background for premium feel */
+::selection {
+  background: var(--gold);
+  color: #000;
+}
 
 html {
   font-size: 16px;
   background-color: var(--bg);
   scroll-behavior: smooth;
-  cursor: crosshair; /* マウスカーソルを十字にして計測機器感を出す */
 }
 
 body {
   margin: 0; padding: 0;
-  color: var(--fg);
+  color: var(--text-main);
   font-family: var(--font-serif);
-  line-height: 1.5;
+  line-height: 1.8; /* 行間を広げて優雅に */
   overflow-x: hidden;
   background: var(--bg);
 }
 
-/* Cinematic Grain (Film Noise) */
+/* Texture: Subtle Grain (Leather-like quality) */
 body::before {
   content: ""; position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: -1;
 }
 
-/* Background Grid (Swiss Style) */
-body::after {
-  content: ""; position: fixed; inset: 0;
-  background-size: 100px 100px;
-  background-image:
-    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-  z-index: -1;
-  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-}
-
-/* --- Typography: The Weapon --- */
+/* --- Typography: Sharp & Elegant --- */
 
 h1 {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: clamp(3rem, 8vw, 7rem); /* Massive Scale */
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  margin: 4rem 0;
-  text-align: left;
-  border-bottom: 2px solid var(--accent);
-  padding-bottom: 2rem;
+  font-weight: 300;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 2rem;
+  text-align: center;
+  color: #fff;
+  font-style: italic; /* Cormorantのイタリック体は非常に美しい */
 }
 
-/* The "Redaction" Effect on text */
-h1 span, .lead, .paper-title {
-  display: inline-block;
-  position: relative;
-  /* 初期状態は黒塗りで隠す (JSでクラスがつくと見える) */
+/* Subtitles / Labels */
+.who, .section-label, .brand, .pill, .k {
+  font-family: var(--font-sans);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .who {
-  font-family: var(--font-mono);
-  font-size: 0.8rem; color: var(--accent);
-  letter-spacing: 0.2em; text-transform: uppercase;
-  margin-bottom: 1rem; display: block;
+  display: flex; justify-content: center; align-items: center; gap: 1rem;
+  font-size: 0.65rem; color: var(--gold);
+  margin-bottom: 3rem;
+}
+.who::before, .who::after {
+  content: ""; width: 30px; height: 1px; background: var(--gold-dim);
 }
 
 .lead {
-  font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  line-height: 1.2;
-  max-width: 90%;
-  margin: 0 0 6rem;
-  color: #fff;
+  text-align: center; font-size: 1.3rem;
+  color: var(--text-muted); max-width: 48ch; /* 幅を狭くして上品に */
+  margin: 0 auto 5rem;
+  font-weight: 300;
 }
 
 /* --- Layout --- */
 
-main { max-width: 1400px; margin: 0 auto; padding: 0 5vw 10rem; }
+main { max-width: 960px; /* 幅を絞ることで高級感を出す */ margin: 0 auto; padding: 0 2rem 10rem; }
 
-/* Header: Brutalist Info Bar */
+/* Header: Minimalist & Transparent */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: var(--bg);
-  border-bottom: 1px solid var(--grid-color);
-  padding: 1rem 2rem;
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
+  background: rgba(2, 2, 2, 0.85); /* 濃い背景 */
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  height: 80px; /* 高さを出して余裕を持たせる */
+  display: flex; align-items: center;
 }
-.brand { color: var(--fg); text-decoration: none; font-weight: 700; }
-.brand strong { color: var(--accent); }
-.nav a { margin-left: 2rem; color: #666; text-decoration: none; transition: 0.3s; }
-.nav a:hover { color: var(--accent); text-decoration: line-through; } /* 打ち消し線で反逆感を出す */
+.top-inner {
+  width: 100%; max-width: 960px; margin: 0 auto; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.brand { color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em; }
+.brand strong { color: var(--gold); font-weight: 400; }
+.nav a { color: #666; font-family: var(--font-sans); font-size: 0.7rem; text-decoration: none; transition: 0.5s var(--ease-luxury); margin-left: 2rem; letter-spacing: 0.1em; }
+.nav a:hover { color: var(--gold); }
 
-/* --- The Papers: Industrial List --- */
+/* --- Cards: Museum Showcase Style --- */
 .section-label {
-  font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent);
-  margin-bottom: 1rem; display: block;
+  text-align: center; font-size: 0.65rem; color: #444; 
+  margin: 6rem 0 3rem; display: block;
 }
 
 .paper {
   position: relative;
-  border-top: 1px solid #333;
-  padding: 4rem 0;
-  transition: all 0.5s var(--ease-out-expo);
-  /* ホバー時に背景色を変えない。構造を変える */
+  background: var(--card-bg);
+  border: 1px solid var(--border); 
+  padding: 4rem 3rem; /* 余白を大きく */
+  margin-bottom: 3rem;
+  transition: all 0.6s var(--ease-luxury);
+  overflow: hidden;
+}
+
+/* The Gold Shine Effect on Hover */
+.paper::after {
+  content: ""; position: absolute; inset: 0;
+  border: 1px solid var(--gold);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-luxury);
+  pointer-events: none;
 }
 
 .paper:hover {
-  border-top-color: var(--accent);
-  padding-left: 2rem; /* インデントさせる */
+  transform: translateY(-5px);
+  border-color: transparent; /* ボーダーを消して... */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.paper:hover::after {
+  opacity: 1; /* 金のボーダーを浮かび上がらせる */
 }
 
 .paper-title {
-  font-family: var(--font-mono);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  color: #fff; text-decoration: none;
-  line-height: 1; margin-bottom: 1rem; display: block;
+  font-size: 2.2rem; font-weight: 400; color: #fff;
+  display: block; margin-bottom: 1rem; text-decoration: none;
+  transition: color 0.4s;
 }
+.paper-title:hover { color: var(--gold); }
 
-/* 論文の要約などはセリフ体で知的に */
 .paper-signal {
+  font-size: 1rem; color: var(--text-muted); line-height: 1.8;
   font-family: var(--font-serif);
-  font-size: 1.1rem; color: #888;
-  max-width: 60ch; margin-top: 1rem;
 }
 
 .k {
-  font-family: var(--font-mono); font-size: 0.7rem; color: #555; margin-top: 1.5rem;
-  border: 1px solid #333; display: inline-block; padding: 4px 8px;
+  display: block; margin-top: 1.5rem; font-size: 0.65rem;
+  color: #555; border-top: 1px solid #222; padding-top: 1rem; width: 100%;
 }
-.k span { color: var(--accent); }
+.k span { color: var(--gold); }
 
-/* --- Reveal Animation (The Redaction Lift) --- */
-.reveal-text {
-  position: relative;
-  color: transparent; /* 文字を一回消す */
-}
-.reveal-text::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: var(--fg); /* 黒塗りバー（白文字なら白バー） */
-  transform: scaleX(1);
-  transform-origin: right;
-  transition: transform 0.8s var(--ease-out-expo);
-}
+/* Buttons: Minimalist Gold Wire */
+.actions { display: flex; gap: 1rem; margin-top: 2.5rem; }
 
-.is-visible.reveal-text { color: inherit; }
-.is-visible.reveal-text::after {
-  transform: scaleX(0); /* バーが右に消えて文字が出る */
-}
-
-/* Actions */
 .pill {
-  font-family: var(--font-mono); font-size: 0.8rem;
-  color: var(--bg); background: var(--fg);
-  padding: 0.5rem 1rem; text-decoration: none;
-  display: inline-block; margin-right: 0.5rem;
-  transition: 0.3s;
+  display: inline-flex; align-items: center; height: 36px; padding: 0 20px;
+  border-radius: 0; /* 角を立てる（シャープに） */
+  background: transparent;
+  color: #ccc; font-size: 0.7rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  text-decoration: none; transition: all 0.4s var(--ease-luxury);
 }
+
 .pill:hover {
-  background: var(--accent); color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 4px 4px 0 rgba(255,255,255,0.2);
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(197, 160, 89, 0.05); /* ほんのり金を敷く */
 }
 
 /* Footer */
 footer {
-  margin-top: 10rem; border-top: 10px solid var(--accent); /* 極太ボーダー */
-  padding: 4rem 0;
-  font-family: var(--font-mono); font-size: 3rem; line-height: 1;
-  text-transform: uppercase; color: #333;
+  margin-top: 10rem; padding: 4rem 0; 
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: center; gap: 2rem;
+  font-family: var(--font-sans); font-size: 0.65rem; color: #444;
+}
+
+/* Animations */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 1s var(--ease-luxury); }
+.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .paper { padding: 2rem; }
+  h1 { font-size: 3rem; }
 }
