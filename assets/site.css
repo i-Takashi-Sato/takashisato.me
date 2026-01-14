@@ -1,6 +1,6 @@
 /* =========================================================
    THEME: "Platinum Brutalism" (Elegant & Sharp)
-   AWARD-WINNING EDITION: Scanner + Focus Interactions
+   AWARD-WINNING EDITION: Semantic Focus (情報の孤立)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -62,8 +62,8 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .nav a:hover { color: #fff; }
 .nav a:hover::after { width: 100%; }
 
-/* --- 演出1: Semantic Focus (情報の孤立) --- */
-/* セクションにホバー時、カード全体の彩度と不透明度を下げる */
+/* --- 演出: Semantic Focus (情報の孤立) --- */
+/* セクションにホバー時、すべてのカードを少し薄くし、ぼかす */
 #archive:hover .paper {
   opacity: 0.4;
   filter: blur(2px) grayscale(0.5);
@@ -80,7 +80,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   border-left: 1px solid var(--border-sharp);
   padding: 5rem 4rem; 
   margin-bottom: 5rem;
-  overflow: hidden; /* スキャナー演出をカード内に収める */
+  overflow: hidden;
   /* 反応速度を0.1sへ高速化 */
   transition: all 0.1s var(--ease-sharp);
   cursor: pointer;
@@ -93,7 +93,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   z-index: 1;
 }
 
-/* ホバー時のカード強調: Focus状態 */
+/* ホバー時のカード強調: Focus状態 (光の走査線は削除) */
 #archive .paper:hover {
   opacity: 1;
   filter: blur(0) grayscale(0);
@@ -110,32 +110,10 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; }
 .k span { color: var(--platinum); }
 
-/* --- 演出2: Intelligent Scanner (走査線) --- */
-.paper::after {
-  content: "";
-  position: absolute;
-  top: -100%; left: 0; width: 100%; height: 60px;
-  /* アルマーニ・ブルーの光跡 */
-  background: linear-gradient(to bottom, transparent, rgba(65, 105, 225, 0.4), transparent);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.paper:hover::after {
-  animation: scan-action 0.5s var(--ease-sharp);
-}
-
-@keyframes scan-action {
-  0% { top: -100%; opacity: 0; }
-  30% { opacity: 0.8; }
-  100% { top: 120%; opacity: 0; }
-}
-
 /* --- Buttons (右下配置) --- */
 .actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
 .pill {
-  position: relative; z-index: 15; /* フォーカスやスキャナーより上に配置 */
+  position: relative; z-index: 15; /* フォーカスより上に配置 */
   display: inline-flex; align-items: center; height: 42px; padding: 0 28px;
   border: 1.5px solid var(--platinum); color: #fff; background: rgba(208, 213, 224, 0.08);
   text-decoration: none; transition: all 0.2s var(--ease-sharp);
@@ -149,7 +127,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .social-link { color: #e0e0e0; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s; position: relative; }
 .social-link:hover { color: #fff; }
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
-.social-link:hover::after { width: 100%; }
+.social-link::after { width: 100%; }
 
 /* --- Article Details --- */
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
@@ -173,12 +151,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   
   .paper { padding: 3rem 1.5rem; transform: none !important; transition: none; background: var(--card-bg) !important; }
   .paper-title { font-size: 2rem; color: #fff !important; }
-  
-  /* スマホ版スキャナー（警告の赤） */
-  .paper:hover::after {
-    background: linear-gradient(to bottom, transparent, rgba(210, 43, 43, 0.4), transparent);
-    animation: scan-action 0.4s ease-out;
-  }
   
   /* スマホ限定：赤アクセント */
   .lead, .article-body blockquote { border-left: 1px solid #D22B2B; padding-left: 1.5rem; }
