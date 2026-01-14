@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   
-  // Luxury Reveal: Slow and Deliberate
+  // Platinum Reveal: Slow, Deliberate, and Elegant
   const observerOptions = {
     threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px" // 少し早めに表示開始
+    rootMargin: "0px 0px -50px 0px"
   };
 
   const observer = new IntersectionObserver((entries, obs) => {
@@ -15,11 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, observerOptions);
 
-  // 対象要素を監視
+  // 監視対象：見出し、リード文、論文カード、フッター
   const targets = document.querySelectorAll('h1, .who, .lead, .paper, footer');
+  
   targets.forEach((el, i) => {
     el.classList.add('reveal');
-    // 遅延を少し長めにして、順番に現れる「儀式感」を出す
+    // 遅延をかけて、一つずつ順番に表示させる（儀式感）
     el.style.transitionDelay = `${i * 0.1}s`;
     observer.observe(el);
   });
