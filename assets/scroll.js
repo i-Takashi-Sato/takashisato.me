@@ -1,14 +1,19 @@
+/**
+ * Takashi Sato · Research Archive System
+ * Interaction Engine v3.2
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
-  // --- 1. ブラウザバック時の不具合修正 ---
+  // --- ⑤ ブラウザバック時の不具合修正 ---
   window.addEventListener('pageshow', (event) => {
     if (event.persisted) {
       body.classList.remove('fade-out');
     }
   });
 
-  // --- 2. カスタムカーソル (静的なドットのみ) ---
+  // --- ⑤ カスタムカーソル (静的なドットのみ) ---
   if (!('ontouchstart' in window)) {
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
@@ -20,10 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
         cursor.style.top = `${e.clientY}px`;
       });
     });
-    // 拡大演出（mouseenter/mouseleave）のイベントリスナーをすべて削除
   }
 
-  // --- 3. 出現アニメーション ---
+  // --- 出現アニメーション ---
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -38,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(el);
   });
 
-  // --- 4. ページ遷移 ---
+  // --- ページ遷移 ---
   document.querySelectorAll('a:not([target="_blank"]):not([href^="#"])').forEach(link => {
     link.addEventListener('click', e => {
       if (link.hostname === window.location.hostname) {
@@ -49,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- 5. 1px プログレスバー & パララックス ---
+  // --- ① 1px プログレスバー & パララックス ---
   const progressLine = document.querySelector('.scroll-progress');
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
