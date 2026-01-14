@@ -7,15 +7,19 @@
   <meta name="theme-color" content="#050507">
 
   <title>Takashi Sato · AI Governance Archive</title>
+
   <meta name="description" content="Takashi Sato — Research archive on AI governance and sociotechnical failure.">
   <link rel="canonical" href="https://takashisato.me/">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-  
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="stylesheet" href="/assets/site.css">
   
+  <meta property="og:title" content="Takashi Sato · AI Governance Archive">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://takashisato.me/">
+  <meta property="og:image" content="https://takashisato.me/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -25,8 +29,21 @@
         "@id": "https://takashisato.me/#person",
         "name": "Takashi Sato",
         "url": "https://takashisato.me/",
+        "sameAs": [
+          "https://orcid.org/0009-0003-1584-6965",
+          "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+          "https://x.com/takashisato_me",
+          "https://www.instagram.com/takashisato_me/"
+        ],
         "jobTitle": "Independent Researcher",
         "knowsAbout": ["AI Governance", "Sociotechnical Systems", "Algorithmic Oversight"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://takashisato.me/#website",
+        "name": "Takashi Sato · AI Governance Archive",
+        "url": "https://takashisato.me/",
+        "publisher": { "@id": "https://takashisato.me/#person" }
       }
     ]
   }
@@ -36,7 +53,7 @@
 <body>
 <header class="top" aria-label="Site header">
   <div class="top-inner">
-    <a class="brand" href="/" aria-label="Home"><strong>TAKASHI</strong> SATO</a>
+    <a class="brand" href="/"><strong>TAKASHI</strong> SATO</a>
     <nav class="nav">
       <a href="/papers/part1.html">PART I</a>
       <a href="/papers/part2.html">PART II</a>
@@ -45,8 +62,8 @@
   </div>
 </header>
 
-<main id="main-content">
-  <header class="hero">
+<main>
+  <header>
     <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
     <div class="who">
       Peer-citable research archive on AI governance and sociotechnical failure.
@@ -56,7 +73,7 @@
     </p>
   </header>
 
-  <section id="archive" aria-label="Selected Works">
+  <section id="archive" aria-label="Archive">
     <span class="section-label">Selected Works 2025–2026</span>
 
     <article class="paper">
@@ -65,7 +82,9 @@
         Workflow-centric oversight architecture for human–AI decision-making (ALTRION).
         The focus lies on engineering friction to preserve agency.
       </p>
-      <div class="k"><span>Keywords</span> AI governance · workflow-centric oversight</div>
+      <div class="k">
+        <span>Keywords</span> AI governance · workflow-centric oversight · human-in-the-loop
+      </div>
       <div class="actions">
         <a class="pill" href="/pdf/part1.pdf" target="_blank">Open PDF</a>
       </div>
@@ -77,7 +96,9 @@
         Failure forecasting: how governance decays into ritual (pre-abuse failure).
         Why structurally sound systems collapse before they are abused.
       </p>
-      <div class="k"><span>Keywords</span> institutional failure · governance drift</div>
+      <div class="k">
+        <span>Keywords</span> institutional failure · governance drift · pre-abuse failure
+      </div>
       <div class="actions">
         <a class="pill" href="/pdf/part2.pdf" target="_blank">Open PDF</a>
       </div>
@@ -89,7 +110,9 @@
         Resolution Collapse: semantic entropy and circuit breakers for governance failure.
         Silence is the scream of a failing system.
       </p>
-      <div class="k"><span>Keywords</span> Resolution Collapse · semantic entropy</div>
+      <div class="k">
+        <span>Keywords</span> Resolution Collapse · semantic entropy · circuit breakers
+      </div>
       <div class="actions">
         <a class="pill" href="/pdf/part3.pdf" target="_blank">Open PDF</a>
       </div>
@@ -103,8 +126,11 @@
         <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener" class="social-link">ORCID</a>
         <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener" class="social-link">SSRN</a>
         <a href="https://x.com/takashisato_me" target="_blank" rel="noopener" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener" class="social-link">Instagram</a>
       </nav>
-      <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
+      <p class="copyright">
+        Takashi Sato · Signal Over Spectacle · 2026
+      </p>
     </div>
   </footer>
 </main>
