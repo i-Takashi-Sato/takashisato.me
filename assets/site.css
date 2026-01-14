@@ -7,7 +7,7 @@
 :root {
   /* --- Palette: Cold & Sharp --- */
   --bg: #050507;           /* 青みのある深い黒 */
-  --card-bg: #0a0a0c;      /* わずかに明るい黒 */
+  --card-bg: #0f0f12;      /* 【修正】カード背景を少し明るくして分離感を出す */
   
   --text-main: #f0f0f0;    /* 冷たい白 */
   --text-muted: #888fa0;   /* 青みがかったグレー */
@@ -15,7 +15,7 @@
   /* The Accent: Platinum Silver */
   --platinum: #d0d5e0;     /* 光沢のあるプラチナ */
   --platinum-dim: rgba(208, 213, 224, 0.3);
-  --border-sharp: rgba(255, 255, 255, 0.08);
+  --border-sharp: rgba(255, 255, 255, 0.12); /* 【修正】枠線を少しはっきりさせる */
 
   /* --- New Accent: Armani Blue --- */
   /* テキストと固定ラインのみに使用。ホバーには使いません。 */
@@ -31,7 +31,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-/* ドラッグ時の色はプラチナ（元通り） */
+/* ドラッグ時の色はプラチナ */
 ::selection {
   background: var(--platinum-dim); 
   color: #fff;
@@ -108,6 +108,7 @@ h1 em {
   font-weight: 300; 
   line-height: 1.8;
   
+  /* 【確認済】アルマーニブルーを指定 */
   border-left: 1px solid var(--armani-blue);
   padding-left: 2rem;
   margin-left: 2px;
@@ -120,8 +121,12 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 /* Header */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(5, 5, 7, 0.85);
-  backdrop-filter: blur(24px);
+  
+  /* 【修正】すりガラス感UP: 透明度を上げ、ぼかしを強く */
+  background: rgba(5, 5, 7, 0.7); 
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px); /* Safari用 */
+  
   border-bottom: 1px solid var(--border-sharp);
   height: 90px; display: flex; align-items: center;
 }
@@ -132,10 +137,16 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 .brand strong { color: var(--platinum); font-weight: 400; }
 
+.nav {
+  display: flex;
+  align-items: center;
+}
+
 .nav a { 
   color: var(--text-muted); font-family: var(--font-sans); 
   font-size: 0.65rem; text-decoration: none; 
-  transition: 0.4s var(--ease-sharp); margin-left: 3rem; 
+  transition: 0.4s var(--ease-sharp); 
+  margin-left: 3rem; /* PCでは広めに */
   letter-spacing: 0.15em; position: relative;
 }
 /* ヘッダーの下線ホバー：プラチナ */
@@ -155,8 +166,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 
 .paper {
   position: relative;
-  background: var(--card-bg);
-  border-top: 1px solid var(--border-sharp);
+  background: var(--card-bg); /* 明るくした背景色 */
+  border-top: 1px solid var(--border-sharp); /* はっきりさせた枠線 */
   border-left: 1px solid var(--border-sharp);
   padding: 5rem 4rem;
   margin-bottom: 5rem;
@@ -168,7 +179,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 /* カードホバー時の枠線：プラチナ（薄め） */
 .paper:hover {
   transform: translateX(10px);
-  background: #0e0e11;
+  background: #141418; /* ホバー時も少し明るく */
   border-color: var(--platinum-dim); 
 }
 
@@ -218,19 +229,16 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 }
 footer {
   margin-top: 12rem; padding: 5rem 0; 
-  
-  /* 【修正】フッターの横棒を明るく (不透明度0.25) */
+  /* フッターの横棒：明るい白 */
   border-top: 1px solid rgba(255, 255, 255, 0.25);
-  
   font-family: var(--font-sans); font-size: 0.65rem; color: #444;
 }
 
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
 
 .social-link {
-  /* 【修正】リンク色をかなり明るく (#e0e0e0) */
+  /* リンク色：かなり明るい白 */
   color: #e0e0e0; 
-  
   text-decoration: none; text-transform: uppercase;
   letter-spacing: 0.15em; transition: all 0.3s var(--ease-sharp); position: relative;
 }
@@ -299,6 +307,8 @@ footer {
 /* 引用の左線（青） */
 .article-body blockquote {
   margin: 3rem 0; padding: 1rem 0 1rem 2rem;
+  
+  /* 【確認済】アルマーニブルーを指定 */
   border-left: 1px solid var(--armani-blue);
   font-style: italic; color: var(--text-muted);
 }
@@ -321,14 +331,28 @@ footer {
 /* 警告テキスト（青） */
 .t-blue { color: var(--armani-blue) !important; opacity: 1 !important; }
 
-/* --- Mobile Adjustments --- */
+/* 【追加】CSP対策用のユーティリティクラス */
+.fs-sm { font-size: 0.8em; }
+.pl-5vw { padding-left: 5vw; }
+
+/* --- Mobile Adjustments (ここが重要) --- */
 @media (max-width: 768px) {
-  h1 { font-size: 3.2rem; margin-top: 9rem; text-align: left; line-height: 1.1; }
+  /* ヘッダーの高さを少し縮める */
+  .top { height: 70px; }
+  
+  /* ナビゲーションの間隔を狭めて横並びを維持 */
+  .nav a { margin-left: 1.5rem; }
+
+  h1 { font-size: 3.2rem; margin-top: 7rem; text-align: left; line-height: 1.1; }
   .paper { padding: 3rem 2rem; }
-  .lead, .paper-signal { border-left: none; padding-left: 0; }
+  
+  /* スマホでも青い線を表示させる */
+  .lead { border-left: 1px solid var(--armani-blue); padding-left: 1.5rem; }
+  .paper-signal { border-left: none; padding-left: 0; }
+  
   .who::before { width: 40px; }
   .footer-inner { gap: 3rem; }
   .social-nav { flex-direction: column; gap: 1rem; }
   .article-header h1 { font-size: 2.5rem; margin-top: 2rem; }
-  .article-container { padding: 0 2rem 8rem; margin-top: 8rem; }
+  .article-container { padding: 0 2rem 8rem; margin-top: 7rem; }
 }
