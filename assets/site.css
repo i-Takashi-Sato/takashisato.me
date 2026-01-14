@@ -1,6 +1,6 @@
 /* =========================================================
    THEME: "Platinum Brutalism" (Elegant & Sharp)
-   AWARD-WINNING EDITION: Full Interaction Suite
+   AWARD-WINNING EDITION: Full Interaction Suite (White Progress)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -65,15 +65,19 @@ h1 {
 /* --- Layout --- */
 main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
-/* Header & Progress */
+/* Header & Progress (強調されたホワイト・プログレス) */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
   border-bottom: 1px solid var(--border-sharp); height: 90px; display: flex; align-items: center;
 }
 .scroll-progress {
-  position: absolute; bottom: -1px; left: 0; height: 1px;
-  background: var(--armani-blue); width: 0%; transition: width 0.1s ease-out;
+  position: absolute; bottom: -1.5px; left: 0; 
+  height: 2px; /* 視認性を高める2px */
+  background: #ffffff; /* 純白 */
+  width: 0%; transition: width 0.1s ease-out;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6); /* 審査員の目を引く発光エフェクト */
+  z-index: 101;
 }
 
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
@@ -150,7 +154,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
    MOBILE ADJUSTMENTS
    ========================================================= */
 @media (max-width: 768px) {
-  /* スマホではカスタムカーソルを無効化 */
   .custom-cursor { display: none; }
   #archive:hover .paper { opacity: 1; filter: none; }
   .top { height: 70px; background: rgba(5, 5, 7, 0.4); backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
