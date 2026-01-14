@@ -6,7 +6,7 @@
 
 :root {
   /* --- Palette: Cold & Sharp --- */
-  --bg: #050507;           /* 青みのある深い黒 (Midnight Black) */
+  --bg: #050507;           /* 青みのある深い黒 */
   --card-bg: #0a0a0c;      /* わずかに明るい黒 */
   
   --text-main: #f0f0f0;    /* 冷たい白 */
@@ -60,16 +60,16 @@ h1 {
   font-family: var(--font-serif);
   font-weight: 300;
   font-size: clamp(4rem, 8vw, 7rem); /* 巨大化 */
-  line-height: 0.9;
+  line-height: 0.95;
   letter-spacing: -0.03em;
-  margin: 6rem 0 4rem;
+  margin: 6rem 0 3rem;
   text-align: left; /* 左寄せで緊張感を出す */
   color: #fff;
-  max-width: 12ch; /* あえて改行させる */
+  max-width: 14ch; /* あえて改行させる */
 }
 h1 em {
   font-style: italic;
-  color: var(--platinum); /* 一部だけプラチナ色に */
+  color: var(--platinum);
 }
 
 /* Subtitles / Labels */
@@ -81,24 +81,32 @@ h1 em {
   font-size: 0.65rem;
 }
 
+/* 修正箇所：重なりを防止したレイアウト */
 .who {
-  display: flex; align-items: center; gap: 1.5rem;
-  color: var(--text-muted);
-  margin-bottom: -2rem; /* H1に食い込ませる */
-  padding-left: 4px;
+  display: block;
+  color: var(--platinum);
+  margin-bottom: 2rem;
+  padding-left: 2px;
 }
 .who::before {
-  content: ""; width: 60px; height: 1px; background: var(--platinum-dim);
+  content: ""; display: block;
+  width: 60px; height: 1px; 
+  background: var(--platinum-dim);
+  margin-bottom: 1rem;
 }
-.who::after { display: none; } /* 片側だけのラインで非対称に */
 
 .lead {
-  text-align: left; font-size: 1.4rem;
-  color: var(--text-muted); max-width: 42ch;
+  text-align: left; font-size: 1.3rem;
+  color: var(--text-muted); 
+  max-width: 42ch;
   margin: 0 0 8rem;
-  font-weight: 300; padding-left: 4px;
+  font-weight: 300; 
+  line-height: 1.8;
+  
+  /* 左に鋭い線を入れて構造化 */
   border-left: 1px solid var(--border-sharp);
   padding-left: 2rem;
+  margin-left: 2px;
 }
 
 /* --- Layout --- */
@@ -108,7 +116,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 /* Header: Architectural & Sharp */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(5, 5, 7, 0.8); /* 青みのある黒 */
+  background: rgba(5, 5, 7, 0.85); /* 濃いめの背景 */
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-sharp);
   height: 90px; display: flex; align-items: center;
@@ -205,7 +213,8 @@ footer {
 .is-visible { opacity: 1; transform: translateY(0) scale(1); }
 
 @media (max-width: 768px) {
-  h1 { font-size: 3.5rem; text-align: left; }
+  h1 { font-size: 3.5rem; margin-top: 4rem; text-align: left; }
   .paper { padding: 3rem 2rem; }
   .lead, .paper-signal { border-left: none; padding-left: 0; }
+  .who::before { width: 40px; }
 }
