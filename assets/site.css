@@ -1,482 +1,59 @@
-:root{
-  /* =========================
-     Palette: Oxidized Black
-     ========================= */
-  --bg:#050505;
-  --bg2:#000000;
-  --surface:#0a0a0a;
-
-  /* Off-white (paper) */
-  --fg:rgba(234,234,234,.96);
-  --muted:rgba(234,234,234,.68);
-  --faint:rgba(234,234,234,.34);
-
-  /* Rules */
-  --rule:rgba(255,255,255,.12);
-  --rule-soft:rgba(255,255,255,.08);
-
-  /* Accent: oxidized blood (kept, but disciplined) */
-  --accent:#7f0b0b;                /* “赤”はここだけ：酸化寄り */
-  --accent-hot:rgba(127,11,11,.72);/* フォーカス/強調用 */
-  --accent-ink:rgba(127,11,11,.40);/* 下線/微小演出用 */
-
-  /* =========================
-     Typography & scale
-     ========================= */
-  --max:86ch;
-
-  --body:clamp(15px,1.05vw + 10px,17px);
-  --leading:1.75;
-
-  --h1:clamp(42px,8vw,96px);
-  --title:clamp(20px,3.5vw,32px);
-
-  --pad-y:clamp(80px,12vw,180px);
-  --pad-x:clamp(18px,5vw,44px);
-
-  --hero-gap:clamp(34px,6.5vw,90px);
-  --entry-gap:clamp(56px,9vw,120px);
-  --label-gap:clamp(26px,5.5vw,52px);
-  --frag-gap:clamp(18px,3.6vw,32px);
-
-  /* Underlines (quiet luxury) */
-  --u-thick:1px;
-  --u-offset:0.55em;
-
-  /* Texture */
-  --noise-opacity:.045;
-  --vignette-opacity:.58;
-
-  /* Motion */
-  --ease-out:cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in:cubic-bezier(0.7, 0, 0.2, 1);
-
-  /* Focus ring */
-  --focus:rgba(127,11,11,.55);
-  --focus-offset:4px;
-
-  /* Tap */
-  --tap:rgba(255,255,255,.06);
+/* --- 全体設定 --- */
+:root {
+  --signal-red: #d93025; /* 警告・重要性を示す赤 */
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --bg-color: #ffffff;
+  --selection-bg: #e2e8f0; /* ドラッグ時は落ち着いたグレーに */
 }
 
-/* =========================
-   Resets / base
-   ========================= */
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;overflow-x:hidden}
-html{color-scheme:dark}
-body{
-  background:
-    radial-gradient(1100px 820px at 12% -10%, rgba(127,11,11,.045), transparent 62%),
-    radial-gradient(900px 700px at 95% 10%, rgba(255,255,255,.03), transparent 55%),
-    linear-gradient(180deg, var(--bg), var(--bg2) 86%);
-  color:var(--fg);
-  font-family:ui-serif, Charter, "Iowan Old Style", Palatino,
-    "Hiragino Mincho ProN","Yu Mincho","BIZ UDPMincho", serif;
-  font-size:var(--body);
-  line-height:var(--leading);
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  letter-spacing:.01em;
-  font-feature-settings:"palt";
+/* ① ドラッグした時の色（赤を廃止） */
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--text-main);
 }
 
-/* Selection (subtle, not neon) */
-::selection{background:rgba(127,11,11,.28); color:var(--fg)}
-
-/* =========================
-   Texture: film grain + vignette
-   (NOT topmost z-index; avoids “jury craft” penalties)
-   ========================= */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  background-size:220px 220px;
-  opacity:var(--noise-opacity);
-  mix-blend-mode:soft-light;
-  transform:translateZ(0);
-}
-body::after{
-  content:"";
-  position:fixed;
-  inset:-18vh -12vw;
-  pointer-events:none;
-  z-index:0;
-  background:
-    radial-gradient(70% 55% at 50% 16%, transparent 34%, rgba(0,0,0,.62) 84%);
-  opacity:var(--vignette-opacity);
+/* ② サブタイトルを「目立つ赤」に設定 */
+.hero-subheadline {
+  color: var(--signal-red);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
 }
 
-/* =========================
-   Focus / interactions (accessible, restrained)
-   ========================= */
-:focus-visible{
-  outline:2px solid var(--focus);
-  outline-offset:var(--focus-offset);
-  border-radius:2px;
-}
-a:focus-visible, button:focus-visible{ /* keep outline; do not remove */ }
-
-/* Links: quiet underline, accent only on hover/focus */
-a{
-  color:inherit;
-  text-decoration:none;
-  background-image:linear-gradient(currentColor, currentColor);
-  background-size:100% var(--u-thick);
-  background-repeat:no-repeat;
-  background-position:0 calc(100% - var(--u-offset));
-  opacity:1;
-}
-a:hover{background-image:linear-gradient(var(--accent-ink), var(--accent-ink))}
-a:active{background-image:linear-gradient(var(--accent-hot), var(--accent-hot))}
-
-/* =========================
-   Skip link
-   ========================= */
-.skip{
-  position:absolute;
-  left:12px; top:12px;
-  z-index:10;
-  padding:10px 12px;
-  background:rgba(234,234,234,.94);
-  color:#050505;
-  border-radius:12px;
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.06em;
-  text-decoration:none;
-  transform:translateY(-160%);
-  transition:transform .25s var(--ease-out);
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-  background-image:none;
-}
-.skip:focus{transform:translateY(0)}
-
-/* =========================
-   Layout
-   ========================= */
-main{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:var(--pad-y) var(--pad-x);
-  position:relative;
-  z-index:1; /* above texture */
+/* ③ タイトルの下線修正（位置とデザイン） */
+.part-title {
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--text-main);
+  padding-bottom: 2px; /* 文字と線の間に隙間を作る */
+  margin-bottom: 0.5rem;
+  transition: border-color 0.2s ease;
 }
 
-/* =========================
-   Hero
-   ========================= */
-header.hero{
-  padding:var(--hero-gap) 0 var(--label-gap);
-}
-header.hero h1{
-  margin:0;
-  font-weight:300;
-  font-size:var(--h1);
-  line-height:1.03;
-  letter-spacing:-0.035em;
-  color:var(--fg);
-  text-shadow:0 0 26px rgba(255,255,255,.045);
-}
-@supports (text-wrap: balance){
-  header.hero h1{ text-wrap:balance; }
+/* ④ リンクホバー（赤を廃止、洗練された挙動へ） */
+.abstract-link, .pdf-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
 }
 
-header.hero p.who{
-  margin:14px 0 0;
-  color:var(--faint);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-header.hero p.lead{
-  margin:34px 0 0;
-  color:var(--muted);
-  max-width:56ch;
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:14px;
-  line-height:1.85;
-  letter-spacing:.03em;
-}
-header.hero .meta{
-  margin-top:22px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  align-items:center;
-  color:rgba(234,234,234,.42);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.03em;
-  font-variant-numeric:tabular-nums;
-}
-header.hero .meta span[aria-hidden="true"]{opacity:.35}
-
-/* =========================
-   Archive label
-   ========================= */
-.section-label{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:0 0 var(--label-gap);
-  color:rgba(234,234,234,.36);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.28em;
-  background-image:none;
-}
-.section-label::after{
-  content:"";
-  flex:1;
-  height:1px;
-  background:var(--rule-soft);
+.abstract-link:hover, .pdf-link:hover {
+  color: var(--text-main);
+  border-bottom: 1px solid var(--text-main);
+  /* 赤くせず、色が濃くなることで「選択」を表現 */
 }
 
-/* =========================
-   Paper entries
-   ========================= */
-article.paper{
-  padding:52px 0;
-  border-top:1px solid var(--rule-soft);
-  margin-bottom:var(--entry-gap);
-  position:relative;
+/* その他、情報の純度を上げるための調整 */
+body {
+  font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 論文らしい信頼感 */
+  line-height: 1.7;
+  color: var(--text-main);
 }
 
-/* “State layer” only on devices that actually hover */
-@media (hover:hover) and (pointer:fine){
-  article.paper{
-    transition:background .45s var(--ease-out);
-  }
-  article.paper:hover{
-    background:
-      radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.032), transparent 62%);
-  }
-}
-
-.paper-header{display:flex}
-.paper-title{
-  display:inline-block;
-  font-size:var(--title);
-  font-weight:400;
-  line-height:1.22;
-  letter-spacing:-.005em;
-  color:var(--fg);
-  background-image:linear-gradient(rgba(234,234,234,.22), rgba(234,234,234,.22));
-  background-size:100% var(--u-thick);
-  background-repeat:no-repeat;
-  background-position:0 calc(100% - .55em);
-}
-@supports (text-wrap: balance){
-  .paper-title{ text-wrap:balance; }
-}
-@media (hover:hover) and (pointer:fine){
-  article.paper:hover .paper-title{
-    background-image:linear-gradient(var(--accent-ink), var(--accent-ink));
-  }
-}
-
-.paper-signal{
-  margin-top:12px;
-  color:rgba(234,234,234,.74);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:13px;
-  max-width:70ch;
-  line-height:1.8;
-  letter-spacing:.02em;
-}
-.paper-signal .k{
-  display:block;
-  margin-top:10px;
-  color:rgba(234,234,234,.42);
-  font-size:10.75px;
-  letter-spacing:.04em;
-}
-
-/* =========================
-   Fragments (quotes)
-   ========================= */
-.fragments{
-  margin-top:var(--frag-gap);
-  display:grid;
-  gap:12px;
-}
-blockquote.fragment{
-  margin:0;
-  padding:14px 16px;
-  border-left:1px solid var(--rule);
-  color:rgba(234,234,234,.70);
-  background:linear-gradient(180deg, rgba(255,255,255,.02), transparent 68%);
-}
-blockquote.fragment p{margin:0}
-blockquote.fragment .en{display:block; font-style:italic}
-blockquote.fragment .ja{
-  display:block;
-  margin-top:8px;
-  font-style:normal;
-  font-size:.88em;
-  color:rgba(234,234,234,.56);
-  letter-spacing:.05em;
-}
-
-/* Accent discipline: quote bar changes on hover only */
-@media (hover:hover) and (pointer:fine){
-  article.paper:hover blockquote.fragment{
-    border-left-color:rgba(127,11,11,.55);
-  }
-}
-
-/* =========================
-   Meta row + pills
-   ========================= */
-.meta{
-  margin-top:26px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  align-items:center;
-  color:rgba(234,234,234,.38);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.03em;
-  font-variant-numeric:tabular-nums;
-}
-
-/* Pills: “quiet tech”, no glow, no hard invert */
-.pill{
-  color:rgba(234,234,234,.48);
-  text-decoration:none;
-  border:1px solid var(--rule-soft);
-  padding:8px 14px;
-  border-radius:999px;
-  background:transparent;
-  background-image:none;
-  transition:
-    border-color .25s var(--ease-out),
-    color .25s var(--ease-out),
-    transform .25s var(--ease-out),
-    background-color .25s var(--ease-out);
-}
-@media (hover:hover) and (pointer:fine){
-  .pill:hover{
-    color:rgba(234,234,234,.86);
-    border-color:rgba(234,234,234,.28);
-    background-color:rgba(255,255,255,.03);
-    transform:translateY(-1px);
-  }
-}
-.pill:active{
-  transform:translateY(0);
-  background-color:var(--tap);
-}
-
-/* =========================
-   Entry note
-   ========================= */
-.entry-note{
-  margin-top:calc(var(--entry-gap) * .6);
-  color:rgba(234,234,234,.52);
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:11px;
-  text-align:center;
-  letter-spacing:.08em;
-}
-.entry-note a{
-  color:rgba(234,234,234,.44);
-  background-image:linear-gradient(rgba(234,234,234,.24), rgba(234,234,234,.24));
-}
-.entry-note a:hover{
-  color:rgba(234,234,234,.82);
-  background-image:linear-gradient(var(--accent-ink), var(--accent-ink));
-}
-
-/* =========================
-   Footer
-   ========================= */
-footer{
-  margin-top:clamp(140px,16vw,200px);
-  padding:clamp(56px,7vw,90px) 0;
-  border-top:1px solid var(--rule-soft);
-  text-align:center;
-}
-.social{
-  display:flex;
-  gap:28px;
-  justify-content:center;
-  flex-wrap:wrap;
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-.social a{
-  color:rgba(234,234,234,.52);
-  background-image:none;
-  position:relative;
-  padding-bottom:3px;
-}
-.social a::after{
-  content:"";
-  position:absolute;
-  left:0; bottom:0;
-  width:100%;
-  height:1px;
-  background:rgba(127,11,11,.55);
-  transform:scaleX(0);
-  transform-origin:right;
-  transition:transform .45s var(--ease-out);
-}
-@media (hover:hover) and (pointer:fine){
-  .social a:hover{color:rgba(234,234,234,.86)}
-  .social a:hover::after{
-    transform:scaleX(1);
-    transform-origin:left;
-  }
-}
-.footer-sig{
-  margin:34px 0 0;
-  color:rgba(234,234,234,.34);
-  font-size:10px;
-  font-family:ui-sans-serif,system-ui,sans-serif;
-  text-transform:uppercase;
-  letter-spacing:.38em;
-}
-
-/* =========================
-   Optional: entrance motion (safe + tasteful)
-   ========================= */
-@media (prefers-reduced-motion: no-preference){
-  @keyframes rise{
-    from{opacity:0; transform:translateY(14px); filter:blur(3px)}
-    to{opacity:1; transform:translateY(0); filter:blur(0)}
-  }
-  header.hero{animation:rise .85s var(--ease-out) both}
-  #archive{animation:rise .85s var(--ease-out) .12s both}
-  footer{animation:rise .85s var(--ease-out) .20s both}
-}
-
-/* =========================
-   Reduced motion
-   ========================= */
-@media (prefers-reduced-motion: reduce){
-  *, ::before, ::after{
-    animation:none !important;
-    transition:none !important;
-    scroll-behavior:auto !important;
-  }
-}
-
-/* =========================
-   Small screens
-   ========================= */
-@media (max-width: 600px){
-  header.hero p.lead{margin-top:26px}
-  article.paper{padding:42px 0}
-  .social{gap:18px}
+.keyword {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
