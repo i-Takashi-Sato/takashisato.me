@@ -18,7 +18,7 @@
   --border-sharp: rgba(255, 255, 255, 0.12); /* 枠線を少しはっきりさせる */
 
   /* --- New Accent: Armani Blue --- */
-  /* テキストと固定ラインのみに使用 */
+  /* PC用のメインアクセント（知的な青） */
   --armani-blue: #4169E1;   
   
   /* Fonts */
@@ -99,7 +99,7 @@ h1 em {
   margin-bottom: 1rem;
 }
 
-/* リード文の左線（青） */
+/* リード文の左線（PCは青） */
 .lead {
   text-align: left; font-size: 1.3rem;
   color: var(--text-muted); 
@@ -305,7 +305,7 @@ footer {
   border-left: 1px solid var(--platinum); 
 }
 
-/* 引用の左線（青） */
+/* 引用の左線（PCは青） */
 .article-body blockquote {
   margin: 3rem 0; padding: 1rem 0 1rem 2rem;
   border-left: 1px solid var(--armani-blue);
@@ -327,7 +327,7 @@ footer {
 }
 
 /* --- Utilities --- */
-/* 警告テキスト（青） */
+/* 警告テキスト（PC/スマホ共通で青のままにするか、ここも赤にするかは好みですが、テキストは青のままが知的に見えます） */
 .t-blue { color: var(--armani-blue) !important; opacity: 1 !important; }
 
 /* CSP対策用のユーティリティクラス */
@@ -342,6 +342,7 @@ footer {
   /* --- 1. Header Fix (究極のすりガラス) --- */
   .top { 
     height: 70px;
+    /* 透明度を下げて強力にぼかす */
     background: rgba(5, 5, 7, 0.4); 
     backdrop-filter: blur(80px); 
     -webkit-backdrop-filter: blur(80px);
@@ -390,21 +391,20 @@ footer {
     padding: 3rem 1.5rem; 
     margin-bottom: 3rem;
     
-    /* 【修正】スマホではホバーエフェクト（移動・色変化）を完全無効化 */
+    /* スマホではホバーエフェクト完全無効化 */
     transform: none !important;
     background: var(--card-bg) !important;
     border-color: var(--border-sharp) !important;
-    transition: none; /* チラつき防止 */
+    transition: none; 
   }
   
   .paper:hover {
-    transform: none; /* 二重で無効化 */
+    transform: none; 
   }
   
   .paper-title {
     font-size: 2rem;
     word-wrap: break-word;
-    /* スマホでは色も固定 */
     color: #fff !important; 
   }
   
@@ -412,16 +412,21 @@ footer {
     color: #fff;
   }
 
+  /* 【重要】スマホだけ縦線を「赤」にする */
   .lead { 
-    border-left: 1px solid var(--armani-blue); 
+    border-left: 1px solid #D22B2B; /* 落ち着いた赤 */
     padding-left: 1.5rem; 
     font-size: 1.1rem; 
+  }
+  
+  .article-body blockquote {
+    border-left: 1px solid #D22B2B; /* 引用の線も赤に */
   }
   
   .paper-signal { border-left: none; padding-left: 0; }
   .who::before { width: 40px; }
   
-  /* --- 4. Button Visibility Fix --- */
+  /* --- 4. Button Visibility Fix (白文字) --- */
   .pill {
     width: 100%; 
     justify-content: center; 
