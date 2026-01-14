@@ -1,6 +1,6 @@
 /* =========================================================
    THEME: "Platinum Brutalism" (Elegant & Sharp)
-   AWARD-WINNING EDITION: Semantic Focus & Seamless Transitions
+   AWARD-WINNING EDITION: Full Interaction Suite
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -20,11 +20,17 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+
+/* PCのみカスタムカーソルを使用するため、標準カーソルを非表示に */
+@media (min-width: 769px) {
+  html, body, a, .paper { cursor: none !important; }
+}
+
 ::selection { background: var(--platinum-dim); color: #fff; }
 
 html { font-size: 16px; background-color: var(--bg); scroll-behavior: smooth; }
 
-/* --- ページ全体の遷移演出 --- */
+/* --- ページ遷移演出 --- */
 body { 
   margin: 0; padding: 0; 
   color: var(--text-main); font-family: var(--font-serif); line-height: 1.7; 
@@ -32,16 +38,9 @@ body {
   opacity: 1;
   transition: opacity 0.6s var(--ease-sharp), transform 0.6s var(--ease-sharp), filter 0.6s var(--ease-sharp);
 }
+body.fade-out { opacity: 0; transform: scale(0.98); filter: blur(15px); pointer-events: none; }
 
-/* リンククリック時のフェードアウト状態 */
-body.fade-out {
-  opacity: 0;
-  transform: scale(0.98);
-  filter: blur(15px);
-  pointer-events: none;
-}
-
-/* --- 背景テクスチャ (ノイズ) --- */
+/* 背景ノイズ */
 body::before {
   content: ""; position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
@@ -66,11 +65,17 @@ h1 {
 /* --- Layout --- */
 main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
+/* Header & Progress */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
   border-bottom: 1px solid var(--border-sharp); height: 90px; display: flex; align-items: center;
 }
+.scroll-progress {
+  position: absolute; bottom: -1px; left: 0; height: 1px;
+  background: var(--armani-blue); width: 0%; transition: width 0.1s ease-out;
+}
+
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 .nav a { color: var(--text-muted); font-family: var(--font-sans); font-size: 0.65rem; text-decoration: none; transition: 0.4s var(--ease-sharp); margin-left: 3rem; letter-spacing: 0.15em; position: relative; }
@@ -78,63 +83,35 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .nav a:hover { color: #fff; }
 .nav a:hover::after { width: 100%; }
 
-/* --- 演出: Semantic Focus (情報の孤立) --- */
-#archive:hover .paper {
-  opacity: 0.4;
-  filter: blur(2.5px) grayscale(0.6);
-  transition: all 0.3s var(--ease-sharp);
-}
+/* --- 演出: Semantic Focus --- */
+#archive:hover .paper { opacity: 0.4; filter: blur(2.5px) grayscale(0.6); transition: all 0.3s var(--ease-sharp); }
 
-/* --- Cards & Stretched Link --- */
+/* --- Cards --- */
 .section-label { text-align: left; color: var(--platinum); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
-
 .paper {
-  position: relative; 
-  background: var(--card-bg); 
-  border-top: 1px solid var(--border-sharp); 
-  border-left: 1px solid var(--border-sharp);
-  padding: 5rem 4rem; 
-  margin-bottom: 5rem;
-  overflow: hidden;
-  /* 反応速度を0.1sへ高速化 */
+  position: relative; background: var(--card-bg); border-top: 1px solid var(--border-sharp); border-left: 1px solid var(--border-sharp);
+  padding: 5rem 4rem; margin-bottom: 5rem; overflow: hidden;
   transition: all 0.1s var(--ease-sharp);
-  cursor: pointer;
 }
-
-.stretched-link::after {
-  content: ""; position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  z-index: 1;
-}
-
-/* ホバー時のカード強調: Focus状態 */
-#archive .paper:hover {
-  opacity: 1;
-  filter: blur(0) grayscale(0);
-  transform: translateX(8px); 
-  background: #141418; 
-  border-color: var(--platinum);
-  z-index: 10;
-}
+.stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
+#archive .paper:hover { opacity: 1; filter: blur(0) grayscale(0); transform: translateX(8px); background: #141418; border-color: var(--platinum); z-index: 10; }
 
 .paper-title { font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 300; color: #fff; display: block; margin-bottom: 1.5rem; text-decoration: none; line-height: 1; transition: color 0.1s; }
 .paper:hover .paper-title { color: var(--platinum); }
-
 .paper-signal { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; font-family: var(--font-serif); max-width: 50ch; }
 .k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; }
 .k span { color: var(--platinum); }
 
-/* --- Buttons (右下配置) --- */
+/* Buttons */
 .actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
 .pill {
-  position: relative; z-index: 15;
-  display: inline-flex; align-items: center; height: 42px; padding: 0 28px;
+  position: relative; z-index: 15; display: inline-flex; align-items: center; height: 42px; padding: 0 28px;
   border: 1.5px solid var(--platinum); color: #fff; background: rgba(208, 213, 224, 0.08);
   text-decoration: none; transition: all 0.2s var(--ease-sharp);
 }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
 
-/* --- Footer --- */
+/* Footer */
 footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.25); font-family: var(--font-sans); font-size: 0.65rem; color: #444; }
 .footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
@@ -143,14 +120,25 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
 .social-link:hover::after { width: 100%; }
 
-/* --- ADVANCED REVEAL (JS連動用) --- */
-.reveal {
-  opacity: 0; transform: translateY(30px); filter: blur(10px);
-  transition: opacity 1.2s var(--ease-sharp), transform 1.2s var(--ease-sharp), filter 1.2s var(--ease-sharp);
-}
+/* Reveal Animations */
+.reveal { opacity: 0; transform: translateY(30px); filter: blur(10px); transition: opacity 1.2s var(--ease-sharp), transform 1.2s var(--ease-sharp), filter 1.2s var(--ease-sharp); }
 .reveal-hero { transform: translateY(50px) scale(1.02); transition-duration: 1.8s; }
 .reveal-card { transform: translateY(20px); transition-duration: 0.8s; }
 .is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+
+/* --- カスタムカーソル (PCのみ) --- */
+.custom-cursor {
+  position: fixed; width: 8px; height: 8px; background: var(--platinum);
+  border-radius: 50%; pointer-events: none; z-index: 9999;
+  mix-blend-mode: difference; transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease-sharp), height 0.3s var(--ease-sharp), background 0.3s;
+}
+.custom-cursor.cursor-active { width: 60px; height: 60px; background: var(--platinum); mix-blend-mode: normal; }
+.custom-cursor.cursor-active::after {
+  content: attr(data-label); position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); font-family: var(--font-sans);
+  font-size: 0.5rem; letter-spacing: 0.2em; color: var(--bg); font-weight: 600;
+}
 
 /* --- Article Details --- */
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
@@ -162,6 +150,8 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
    MOBILE ADJUSTMENTS
    ========================================================= */
 @media (max-width: 768px) {
+  /* スマホではカスタムカーソルを無効化 */
+  .custom-cursor { display: none; }
   #archive:hover .paper { opacity: 1; filter: none; }
   .top { height: 70px; background: rgba(5, 5, 7, 0.4); backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
   .top-inner { width: 100%; padding: 0 1.5rem; }
