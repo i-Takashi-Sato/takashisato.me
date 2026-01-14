@@ -1,8 +1,3 @@
-/**
- * Takashi Sato · Research Archive System
- * Interaction Engine v3.2
- */
-
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
@@ -12,20 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
       body.classList.remove('fade-out');
     }
   });
-
-  // --- ⑤ カスタムカーソル (静的なドットのみ) ---
-  if (!('ontouchstart' in window)) {
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    body.appendChild(cursor);
-
-    document.addEventListener('mousemove', e => {
-      requestAnimationFrame(() => {
-        cursor.style.left = `${e.clientX}px`;
-        cursor.style.top = `${e.clientY}px`;
-      });
-    });
-  }
 
   // --- 出現アニメーション ---
   const observer = new IntersectionObserver((entries) => {
@@ -42,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(el);
   });
 
-  // --- ページ遷移 ---
+  // --- ページ遷移演出 ---
   document.querySelectorAll('a:not([target="_blank"]):not([href^="#"])').forEach(link => {
     link.addEventListener('click', e => {
       if (link.hostname === window.location.hostname) {
@@ -53,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- ① 1px プログレスバー & パララックス ---
+  // --- 1px プログレスバー ---
   const progressLine = document.querySelector('.scroll-progress');
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
