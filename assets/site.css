@@ -2,22 +2,21 @@
    LINEAR-STYLE THEME: "Stellar Glass"
    ========================================================= */
 
-/* Linearで実際に使われているフォントに近い「Inter」を採用 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
   /* Linear Deep Palette */
-  --bg: #08090a; /* 完全に黒ではなく、ごく僅かに青みのある黒 */
+  --bg: #08090a;
   --glass: rgba(255, 255, 255, 0.04);
   --border: rgba(255, 255, 255, 0.08);
   --text-main: #f2f2f3;
   --text-muted: #8a8f98;
   
-  /* Accents (Linear Purple/Blue Gradient) */
+  /* Accents */
   --glow-primary: #5e6ad2;
   --glow-secondary: #a259ff;
   
-  /* Mouse Position (JS Updates) */
+  /* Mouse Position */
   --x: 50%;
   --y: 50%;
 }
@@ -38,24 +37,24 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   
-  /* 背景：上部のオーロラのような光 */
   background: 
     radial-gradient(circle at 50% 0%, rgba(94, 106, 210, 0.15), transparent 60%),
     var(--bg);
 }
 
-/* "Stars" Background (星空の粒子) */
+/* Star pattern background */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image: 
     radial-gradient(white 1px, transparent 1px);
-  background-size: 50px 50px; /* 小さなドットのパターン */
+  background-size: 50px 50px;
   opacity: 0.07;
   pointer-events: none;
   z-index: -1;
   mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
 
 /* --- Typography --- */
@@ -68,10 +67,11 @@ h1 {
   margin: 0 0 1.5rem;
   text-align: center;
   
-  /* Linear Text Gradient: 白から透明へのグラデーション */
   background: linear-gradient(to bottom, #ffffff, rgba(255,255,255,0.5));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .who {
@@ -86,7 +86,7 @@ h1 {
   margin-bottom: 2rem;
   font-weight: 600;
 }
-/* 装飾バッジ */
+
 .who::before, .who::after {
   content: "";
   width: 20px; height: 1px;
@@ -119,14 +119,14 @@ main {
   padding: 0 2rem 10rem;
 }
 
-/* Header (Blurry Glass) */
+/* Header */
 .top {
   position: sticky;
   top: 0;
   z-index: 100;
-  /* Linear特有の強いぼかし */
   background: rgba(8, 9, 10, 0.6);
   backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-bottom: 1px solid rgba(255,255,255,0.05);
   height: 64px;
   display: flex;
@@ -147,7 +147,7 @@ main {
 .nav a { color: var(--text-muted); font-size: 0.85rem; transition: color 0.2s; margin-left: 1.5rem; }
 .nav a:hover { color: #fff; }
 
-/* --- The "Magic" Cards (論文リスト) --- */
+/* --- Cards --- */
 .section-label {
   text-align: center;
   font-size: 0.7rem;
@@ -158,12 +158,10 @@ main {
   display: block;
 }
 
-/* カード本体：最初は透明 */
 .paper {
   position: relative;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 12px;
-  /* デフォルトのボーダー（暗い） */
   border: 1px solid rgba(255, 255, 255, 0.06); 
   padding: 3rem;
   margin-bottom: 2rem;
@@ -171,43 +169,43 @@ main {
   overflow: hidden;
 }
 
-/* ★ここがLinear再現のキモ：マウスに合わせて光るボーダー */
+/* Mouse tracking border glow */
 .paper::before {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   border-radius: 12px;
-  padding: 1px; /* ボーダーの太さ */
+  padding: 1px;
   width: 100%; 
   
-  /* マウス位置(--lx, --ly)を中心とした円形グラデーション */
   background: radial-gradient(
     300px circle at var(--lx, 50%) var(--ly, 50%),
-    rgba(255, 255, 255, 0.4), /* 光る部分 */
-    transparent 100%          /* 消える部分 */
+    rgba(255, 255, 255, 0.4),
+    transparent 100%
   );
   
-  /* マスク処理でボーダー部分だけを残す */
   -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   
   pointer-events: none;
-  opacity: 0; /* 最初は隠す */
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .paper:hover::before {
-  opacity: 1; /* ホバー時に光る */
+  opacity: 1;
 }
 
 .paper:hover {
-  transform: translateY(-2px); /* わずかに浮く */
+  transform: translateY(-2px);
 }
 
-/* カードの中身 */
 .paper-title {
   font-size: 1.8rem;
   font-weight: 500;
@@ -217,7 +215,7 @@ main {
   transition: color 0.2s;
 }
 .paper-title:hover {
-  color: #a259ff; /* Linear Purple */
+  color: #a259ff;
 }
 
 .paper-signal {
@@ -235,7 +233,7 @@ main {
 }
 .k span { color: var(--glow-primary); }
 
-/* Buttons (Linear Style Pills) */
+/* Buttons */
 .actions { display: flex; gap: 1rem; margin-top: 2rem; }
 
 .pill {
@@ -243,12 +241,12 @@ main {
   align-items: center;
   height: 32px;
   padding: 0 16px;
-  border-radius: 99px; /* 完全な丸み */
+  border-radius: 99px;
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   font-size: 0.8rem;
   font-weight: 500;
-  border: 1px solid transparent; /* 光る枠の準備 */
+  border: 1px solid transparent;
   transition: all 0.2s;
 }
 
@@ -258,7 +256,7 @@ main {
   transform: translateY(-1px);
 }
 
-/* Scroll Reveal Animation */
+/* Animation utilities */
 .reveal {
   opacity: 0;
   transform: translateY(20px);
@@ -267,4 +265,31 @@ main {
 .is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Fragments */
+.fragment {
+  border-left: 1px solid var(--glow-secondary);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+}
+.fragment .en { font-size: 1.5rem; font-style: italic; color: #ddd; }
+.fragment .ja { font-size: 0.85rem; color: #666; margin-top: 0.5rem; }
+
+/* Footer */
+footer {
+  margin-top: 8rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .paper { padding: 1.5rem; }
+  h1 { font-size: 3.5rem; }
 }
