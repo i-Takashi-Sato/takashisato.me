@@ -18,7 +18,7 @@
   --border-sharp: rgba(255, 255, 255, 0.12); /* 枠線を少しはっきりさせる */
 
   /* --- New Accent: Armani Blue --- */
-  /* テキストと固定ラインのみに使用。ホバーには使いません。 */
+  /* テキストと固定ラインのみに使用 */
   --armani-blue: #4169E1;   
   
   /* Fonts */
@@ -108,7 +108,6 @@ h1 em {
   font-weight: 300; 
   line-height: 1.8;
   
-  /* アルマーニブルーを指定 */
   border-left: 1px solid var(--armani-blue);
   padding-left: 2rem;
   margin-left: 2px;
@@ -144,7 +143,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   color: var(--text-muted); font-family: var(--font-sans); 
   font-size: 0.65rem; text-decoration: none; 
   transition: 0.4s var(--ease-sharp); 
-  margin-left: 3rem; /* PCでは広めに */
+  margin-left: 3rem; 
   letter-spacing: 0.15em; position: relative;
 }
 /* ヘッダーの下線ホバー：プラチナ */
@@ -164,8 +163,8 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 
 .paper {
   position: relative;
-  background: var(--card-bg); /* 明るくした背景色 */
-  border-top: 1px solid var(--border-sharp); /* はっきりさせた枠線 */
+  background: var(--card-bg); 
+  border-top: 1px solid var(--border-sharp); 
   border-left: 1px solid var(--border-sharp);
   padding: 5rem 4rem;
   margin-bottom: 5rem;
@@ -177,7 +176,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 /* カードホバー時の枠線：プラチナ（薄め） */
 .paper:hover {
   transform: translateX(10px);
-  background: #141418; /* ホバー時も少し明るく */
+  background: #141418; 
   border-color: var(--platinum-dim); 
 }
 
@@ -211,7 +210,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   display: inline-flex; align-items: center; height: 40px; padding: 0 24px;
   border: 1px solid var(--border-sharp);
   
-  /* 【修正】文字色を白にして視認性向上 */
+  /* 文字色を白にして視認性向上 */
   color: #fff;
   
   background: transparent;
@@ -264,7 +263,7 @@ footer {
    ARTICLE PAGE EXTENSIONS
    ========================================================= */
 
-.article-container { max-width: 00px; margin: 0 auto; padding: 0 5vw 8rem; }
+.article-container { max-width: 800px; margin: 0 auto; padding: 0 5vw 8rem; }
 
 /* Back Link */
 .back-link {
@@ -309,8 +308,6 @@ footer {
 /* 引用の左線（青） */
 .article-body blockquote {
   margin: 3rem 0; padding: 1rem 0 1rem 2rem;
-  
-  /* アルマーニブルーを指定 */
   border-left: 1px solid var(--armani-blue);
   font-style: italic; color: var(--text-muted);
 }
@@ -337,29 +334,100 @@ footer {
 .fs-sm { font-size: 0.8em; }
 .pl-5vw { padding-left: 5vw; }
 
-/* --- Mobile Adjustments (ここが重要) --- */
+
+/* =========================================================
+   MOBILE ADJUSTMENTS (FIXED FOR iPhone & Small Screens)
+   ========================================================= */
 @media (max-width: 768px) {
-  /* 【修正】スマホ専用の強力なすりガラス効果 */
+  /* --- 1. Header Fix (横並び・すりガラス強化) --- */
   .top { 
     height: 70px;
-    background: rgba(5, 5, 7, 0.6); /* 透明度を上げて背景を透かす */
-    backdrop-filter: blur(60px); /* ぼかしを強力に */
+    background: rgba(5, 5, 7, 0.6); 
+    backdrop-filter: blur(60px); 
     -webkit-backdrop-filter: blur(60px);
   }
-  
-  /* ナビゲーションの間隔を狭めて横並びを維持 */
-  .nav a { margin-left: 1.5rem; }
 
-  h1 { font-size: 3.2rem; margin-top: 7rem; text-align: left; line-height: 1.1; }
-  .paper { padding: 3rem 2rem; }
+  .top-inner {
+    padding: 0 1.5rem; /* 左右の余白を少し詰めてスペース確保 */
+  }
+
+  /* ロゴを少し小さく */
+  .brand { font-size: 0.6rem; }
+
+  /* ナビゲーションを確実に横並びにする */
+  .nav {
+    display: flex;
+    gap: 1rem; /* margin-leftではなくgapで制御 */
+  }
   
-  /* スマホでも青い線を表示させる */
-  .lead { border-left: 1px solid var(--armani-blue); padding-left: 1.5rem; }
+  .nav a { 
+    margin-left: 0; /* マージンリセット */
+    font-size: 0.55rem; /* 少し小さくして一行に収める */
+    letter-spacing: 0.1em;
+  }
+
+  /* --- 2. Typography Fix (文字の突き抜け防止) --- */
+  h1 { 
+    font-size: 2.8rem; /* 巨大すぎないサイズに制限 */
+    margin-top: 7rem; 
+    text-align: left; 
+    line-height: 1.1;
+    
+    /* 長い単語（Sociotechnical等）を強制的に折り返す */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+
+  .article-header h1 { 
+    font-size: 2.2rem; /* 記事タイトルはさらに少し小さくして可読性確保 */
+    margin-top: 2rem; 
+    word-break: break-word; /* 確実な折り返し */
+  }
+
+  /* --- 3. Card & Layout Fix --- */
+  .paper { 
+    padding: 3rem 1.5rem; /* 横幅のパディングを減らして文字スペース確保 */
+    margin-bottom: 3rem;
+  }
+  
+  /* カード内のタイトルも折り返す */
+  .paper-title {
+    font-size: 2rem;
+    word-wrap: break-word;
+  }
+
+  /* 青い線の調整 */
+  .lead { 
+    border-left: 1px solid var(--armani-blue); 
+    padding-left: 1.5rem; 
+    font-size: 1.1rem; /* スマホで読みやすいサイズ */
+  }
+  
   .paper-signal { border-left: none; padding-left: 0; }
-  
   .who::before { width: 40px; }
+  
+  /* --- 4. Button Visibility Fix (ボタン視認性向上) --- */
+  .pill {
+    width: 100%; /* スマホではボタンを幅いっぱいに */
+    justify-content: center; /* 文字を中央に */
+    border-color: rgba(255,255,255, 0.4); /* 枠線を明るく */
+    color: #fff; /* 文字色を白に */
+    margin-bottom: 10px; /* 縦並びになった時のために */
+  }
+  
+  .actions {
+    flex-direction: column; /* ボタンを縦積みにする（押しやすさ重視） */
+    gap: 1rem;
+  }
+
+  /* Footer & Container */
   .footer-inner { gap: 3rem; }
   .social-nav { flex-direction: column; gap: 1rem; }
-  .article-header h1 { font-size: 2.5rem; margin-top: 2rem; }
-  .article-container { padding: 0 2rem 8rem; margin-top: 7rem; }
+  .article-container { 
+    padding: 0 1.5rem 8rem; /* 左右余白を調整 */
+    margin-top: 7rem; 
+    overflow-x: hidden; /* 横スクロールを完全に禁止 */
+  }
 }
