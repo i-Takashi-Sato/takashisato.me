@@ -16,6 +16,9 @@
   --platinum: #d0d5e0;     /* 光沢のあるプラチナ */
   --platinum-dim: rgba(208, 213, 224, 0.3);
   --border-sharp: rgba(255, 255, 255, 0.08);
+
+  /* --- New Accent: Signal Red (Warning/Alert) --- */
+  --signal-red: #ff3333;   
   
   /* Fonts */
   --font-serif: "Cormorant Garamond", serif;
@@ -368,6 +371,13 @@ footer {
   font-size: 0.9rem;
   color: var(--text-muted);
   word-break: break-all;
+}
+
+/* --- Utilities --- */
+/* Red Text for Epigraphs/Warnings */
+.t-red {
+  color: var(--signal-red) !important;
+  opacity: 1 !important;
 }
 
 /* --- Mobile Adjustments (FIXED & UNIFIED) --- */
