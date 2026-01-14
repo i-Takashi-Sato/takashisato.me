@@ -2,34 +2,42 @@
   /* ===== Color system (Red-Zero / Warm-ink) ===== */
   --bg:#040404;
   --bg2:#000000;
+
   --fg:rgba(255,255,255,.92);
   --muted:rgba(255,255,255,.66);
   --faint:rgba(255,255,255,.28);
   --rule:rgba(255,255,255,.10);
+
   /* Accent = “bone ink” (no red) */
   --accent:#d6c7ae;
   --accent-2:#a99c86;
   --accent-ink:rgba(214,199,174,.88);
   --accent-soft:rgba(214,199,174,.16);
+
   /* ===== Layout ===== */
   --max:74ch;
   --body:clamp(16px,1.75vw + 11px,19px);
   --leading:clamp(1.72,0.5vw + 1.55,1.86);
+
   --h1:clamp(30px,6.2vw,46px);
   --title:clamp(21px,3vw + 10px,28px);
+
   --pad-y:clamp(56px,7.5vw,112px);
   --hero-gap:clamp(38px,7vw,96px);
   --entry-gap:clamp(68px,9.6vw,124px);
   --label-gap:clamp(28px,6vw,52px);
   --frag-gap:clamp(20px,4vw,34px);
   --left-pad:clamp(18px,4.5vw,28px);
+
   /* Underline system (luxury hairline) */
   --u-thick:1px;
   --u-offset:6px;
+
   /* Noise (subtle) */
   --noise-opacity:.05;
   --vignette:.58;
 }
+
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;overflow-x:hidden}
 body{
@@ -46,6 +54,7 @@ body{
   text-rendering:optimizeLegibility;
   font-feature-settings:"liga","kern","palt","onum";
 }
+
 /* Film noise overlay (subtle, consistent) */
 body::before{
   content:""; position:fixed; inset:0; pointer-events:none;
@@ -55,12 +64,14 @@ body::before{
   opacity:var(--noise-opacity);
   transform:translateZ(0);
 }
+
 /* Vignette (deep, cinematic) */
 body::after{
   content:""; position:fixed; inset:-22vh -12vw; pointer-events:none;
   background:radial-gradient(70% 58% at 50% 18%, transparent 34%, rgba(0,0,0,var(--vignette)) 84%);
   opacity:.62;
 }
+
 /* ===== Links (world-class minimal underline) ===== */
 a{
   color:inherit;
@@ -77,6 +88,7 @@ a:focus-visible{
   outline-offset:3px;
   border-bottom-color:rgba(214,199,174,.78);
 }
+
 /* Skip link */
 .skip{
   position:absolute;left:10px;top:10px;z-index:9999;
@@ -88,12 +100,14 @@ a:focus-visible{
   transition:transform .25s ease;
 }
 .skip:focus{transform:translateY(0)}
+
 /* ===== Layout ===== */
 main{
   max-width:var(--max);
   margin:0 auto;
   padding:var(--pad-y) var(--left-pad);
 }
+
 /* Hero */
 header.hero{
   padding:var(--hero-gap) 0 var(--label-gap);
@@ -120,6 +134,7 @@ header.hero p.lead{
   font-size:clamp(13px,1.2vw + 10px,14px);
   line-height:1.68;
 }
+
 /* Dates row */
 header.hero .meta{
   margin-top:18px;
@@ -133,6 +148,7 @@ header.hero .meta{
   letter-spacing:.02em;
   font-variant-numeric:tabular-nums;
 }
+
 /* Section label */
 .section-label{
   margin:0 0 var(--label-gap);
@@ -144,9 +160,11 @@ header.hero .meta{
   border-bottom:1px solid var(--rule);
   padding-bottom:12px;
 }
+
 /* ===== Paper entry ===== */
 article.paper{margin-bottom:var(--entry-gap)}
 .paper-header{display:flex; align-items:baseline; justify-content:space-between; gap:14px}
+
 /* Title underline as “ink hairline” */
 .paper-title{
   display:inline-block;
@@ -170,6 +188,7 @@ article.paper{margin-bottom:var(--entry-gap)}
     / 100% var(--u-thick)
     no-repeat;
 }
+
 /* Signal + keywords */
 .paper-signal{
   margin-top:10px;
@@ -184,6 +203,7 @@ article.paper{margin-bottom:var(--entry-gap)}
   color:rgba(255,255,255,.46);
   font-size:11.6px;
 }
+
 /* Fragments */
 .fragments{
   margin-top:var(--frag-gap);
@@ -206,6 +226,7 @@ blockquote.fragment p{margin:0}
 blockquote.fragment .en,
 blockquote.fragment .ja{display:block}
 blockquote.fragment .ja{margin-top:6px; color:rgba(255,255,255,.58)}
+
 /* Meta row (year + links) */
 .meta{
   margin-top:16px;
@@ -219,6 +240,7 @@ blockquote.fragment .ja{margin-top:6px; color:rgba(255,255,255,.58)}
   font-variant-numeric:tabular-nums;
 }
 .meta .pill{
+  /* Make “pill” world-class: no capsule, just serif underline */
   border:0;
   padding:0;
   border-radius:0;
@@ -232,6 +254,7 @@ blockquote.fragment .ja{margin-top:6px; color:rgba(255,255,255,.58)}
   color:#fff;
   border-bottom-color:rgba(214,199,174,.62);
 }
+
 /* Entry note */
 .entry-note{
   margin-top:calc(var(--entry-gap) * .72);
@@ -248,6 +271,7 @@ blockquote.fragment .ja{margin-top:6px; color:rgba(255,255,255,.58)}
   color:#fff;
   border-bottom-color:rgba(214,199,174,.62);
 }
+
 /* Footer */
 footer{
   margin-top:clamp(130px,16vw,190px);
@@ -276,11 +300,13 @@ footer{
   font-family:ui-sans-serif,system-ui,sans-serif;
   text-transform:uppercase;
 }
+
 /* Mobile tightening */
 @media (max-width: 560px){
   header.hero h1{line-height:1.06}
   blockquote.fragment{padding:13px 14px}
 }
+
 /* Motion respect */
 @media (prefers-reduced-motion: reduce){
   *{transition:none!important;animation:none!important}
