@@ -1,8 +1,9 @@
 /* assets/paper.css
    Paper landing pages: shared UI (Part I–III)
-   Goal: keep current look, remove duplication, enable Focus Mode hooks.
+   Goal: keep current look, reduce duplication, enable Focus Mode hooks.
 */
 
+/* Layout container used by existing pages */
 main#content{
   position:relative;
   max-width:var(--max, 78ch);
@@ -21,32 +22,46 @@ main#content{
   max-width:var(--max, 78ch);
   margin:0 auto;
   padding:14px var(--pad-x, clamp(18px,4.5vw,28px));
-  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
   font-family:ui-sans-serif,system-ui,sans-serif;
   font-variant-numeric:tabular-nums;
 }
 .brand{
-  display:inline-flex; gap:10px; align-items:baseline;
-  letter-spacing:.22em; text-transform:uppercase; font-size:11px;
-  color:rgba(255,255,255,.26);
+  display:inline-flex;
+  gap:10px;
+  align-items:baseline;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-size:11px;
+  color:var(--faint, rgba(234,234,234,.34));
   border-bottom:0;
 }
-.brand strong{letter-spacing:.08em; color:rgba(255,255,255,.70); font-weight:600}
+.brand strong{letter-spacing:.08em; color:rgba(234,234,234,.70); font-weight:600}
 .nav{display:flex; gap:14px; flex-wrap:wrap; align-items:center}
-.nav a{border-bottom:0; color:rgba(255,255,255,.26); font-size:12px}
-.nav a:hover{color:#fff}
+.nav a{border-bottom:0; color:var(--faint, rgba(234,234,234,.34)); font-size:12px}
+.nav a:hover{color:rgba(234,234,234,.96)}
 .sep{opacity:.25}
 
 /* Header block */
 .part{
-  display:inline-flex; gap:10px; align-items:center;
-  font-family:ui-sans-serif,system-ui,sans-serif; color:rgba(255,255,255,.26);
-  font-size:11px; letter-spacing:.28em; text-transform:uppercase; border-bottom:0;
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  font-family:ui-sans-serif,system-ui,sans-serif;
+  color:var(--faint, rgba(234,234,234,.34));
+  font-size:11px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  border-bottom:0;
 }
 .part .dot{
   width:6px;height:6px;border-radius:999px;
-  background:rgba(255,0,0,.85);
-  box-shadow:0 0 18px rgba(255,0,0,.35);
+  background:var(--accent-hot, rgba(127,11,11,.72));
+  box-shadow:0 0 18px rgba(127,11,11,.35);
 }
 h1{
   margin:16px 0 10px 0;
@@ -61,140 +76,132 @@ h1{
   margin:18px 0 0 0;
   padding:14px 16px;
   border-left:1px solid rgba(255,255,255,.10);
-  color:rgba(255,255,255,.66);
+  color:var(--muted, rgba(234,234,234,.68));
   position:relative;
 }
 .epigraph::before{
   content:"";
   position:absolute; left:-1px; top:0; bottom:0; width:1px;
-  background:linear-gradient(180deg, rgba(255,0,0,.0), rgba(255,0,0,.55), rgba(255,0,0,.0));
+  background:linear-gradient(180deg, transparent, rgba(127,11,11,.55), transparent);
   opacity:.9;
 }
 .epigraph .en{display:block}
-.epigraph .ja{display:block; margin-top:6px; color:rgba(255,255,255,.60)}
+.epigraph .ja{display:block; margin-top:6px; color:rgba(234,234,234,.56)}
 
 /* Structure / reading map */
 .structure{
   margin:16px 0 0 0;
   padding-left:16px;
   border-left:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.38);
+  color:rgba(234,234,234,.42);
   font-family:ui-sans-serif,system-ui,sans-serif;
   font-size:11.5px;
   letter-spacing:.04em;
   line-height:1.6;
 }
 .structure strong{
-  color:rgba(255,255,255,.72);
+  color:rgba(234,234,234,.74);
   font-weight:600;
   letter-spacing:.06em;
+  font-family:ui-sans-serif,system-ui,sans-serif;
 }
-.structure .arrow{opacity:.65}
 
-/* Actions */
+/* Actions row (keeps existing underline style used in papers) */
 .actions{
-  margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-  font-family:ui-serif, Charter, "Iowan Old Style", Palatino, serif;
+  margin-top:18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
   font-variant-numeric:tabular-nums;
-  letter-spacing:.06em;
 }
-.pill{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:0; border:0; border-radius:0;
+.actions .pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:0;
+  border:0;
+  border-radius:0;
   background:transparent;
-  color:rgba(255,255,255,.26);
+  color:var(--faint, rgba(234,234,234,.34));
   text-decoration:none;
   border-bottom:1px solid rgba(255,255,255,.14);
   transition:color .2s ease, border-bottom-color .2s ease;
-  font-family:inherit;
-  font-size:0.9em;
+  font-family:ui-serif, Charter, "Iowan Old Style", Palatino, serif;
+  font-size:0.95em;
   letter-spacing:.06em;
-  cursor:pointer; /* allow button.pill */
 }
-.pill:hover{
-  color:#fff;
-  border-bottom-color:rgba(255,0,0,.55);
-  background:transparent;
-}
-.pill strong{font-weight:500; letter-spacing:.02em}
-
-/* Meta */
-.meta{
-  margin-top:14px; color:rgba(255,255,255,.26);
-  font-family:ui-sans-serif,system-ui,sans-serif; font-size:12px;
-  display:flex; gap:14px; flex-wrap:wrap; align-items:center;
-  font-variant-numeric:tabular-nums;
+.actions .pill:hover{
+  color:rgba(234,234,234,.96);
+  border-bottom-color:rgba(127,11,11,.55);
 }
 
-/* Layout grid */
-.grid{display:grid; gap:18px}
-@media (min-width: 920px){.grid{grid-template-columns:1.1fr .9fr; gap:26px}}
-
-.label{
-  margin:34px 0 14px 0; color:rgba(255,255,255,.26);
-  font-family:ui-sans-serif,system-ui,sans-serif; font-size:11px;
-  letter-spacing:.28em; text-transform:uppercase;
-  border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:12px;
-}
-.box{border-left:1px solid rgba(255,255,255,.10); padding-left:16px; color:rgba(255,255,255,.66);}
-.box p{margin:0 0 12px 0}
-.box p:last-child{margin-bottom:0}
-ul.clean{margin:0; padding-left:18px}
-ul.clean li{margin:8px 0}
-
-/* Citation UI */
+/* Citation / details / code blocks */
 details{border-left:1px solid rgba(255,255,255,.08); padding-left:16px}
 details summary{
-  cursor:pointer; color:rgba(255,255,255,.78);
-  font-family:ui-sans-serif,system-ui,sans-serif; font-size:12px;
-  letter-spacing:.10em; list-style:none; margin-bottom:12px; user-select:none;
+  cursor:pointer;
+  color:rgba(234,234,234,.78);
+  font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:12px;
+  letter-spacing:.10em;
+  list-style:none;
+  margin-bottom:12px;
+  user-select:none;
 }
 details summary::-webkit-details-marker{display:none}
+
 pre{
-  margin:0; padding:14px 14px;
+  margin:0;
+  padding:14px 14px;
   border:1px solid rgba(255,255,255,.08);
   border-radius:16px;
   background:rgba(0,0,0,.35);
-  color:rgba(255,255,255,.80);
+  color:rgba(234,234,234,.80);
   overflow:auto;
-  font-size:12px; line-height:1.6;
+  font-size:12px;
+  line-height:1.6;
   font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
   font-variant-numeric:tabular-nums;
 }
 .cite-wrap{display:grid; gap:12px}
+
+/* Copy buttons (if present) */
 .copy{
   justify-self:start;
   border:1px solid rgba(255,255,255,.10);
   border-radius:14px;
   padding:8px 12px;
   background:rgba(255,255,255,.02);
-  color:rgba(255,255,255,.26);
+  color:var(--faint, rgba(234,234,234,.34));
   font-family:ui-sans-serif,system-ui,sans-serif;
   font-size:12px;
   cursor:pointer;
+  transition:transform .2s ease, border-color .2s ease, background-color .2s ease, color .2s ease;
+  font-variant-numeric:tabular-nums;
 }
 .copy:hover{
-  border-color:rgba(255,0,0,.55);
-  background:rgba(255,0,0,.08);
-  color:#fff;
+  transform:translateY(-1px);
+  border-color:rgba(127,11,11,.55);
+  background:rgba(127,11,11,.08);
+  color:rgba(234,234,234,.96);
 }
-.copy.is-flash{border-color:rgba(255,0,0,.7); color:#fff}
+.copy.is-flash{border-color:rgba(127,11,11,.7); color:rgba(234,234,234,.96)}
 
-/* Footer */
+/* Footer (paper pages) */
 footer{
   margin-top:54px;
   padding-top:26px;
   border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(255,255,255,.28);
+  color:rgba(234,234,234,.34);
   font-family:ui-sans-serif,system-ui,sans-serif;
   font-size:12px;
   font-variant-numeric:tabular-nums;
 }
 .foot-nav{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px}
-.foot-nav a{border-bottom:0; color:rgba(255,255,255,.34)}
-.foot-nav a:hover{color:#fff}
+.foot-nav a{border-bottom:0; color:rgba(234,234,234,.34)}
+.foot-nav a:hover{color:rgba(234,234,234,.96)}
 
-/* Focus Mode hook (optional) */
+/* Focus Mode hook (optional, later you can add a toggle) */
 html.is-focus main#content{max-width:74ch}
 html.is-focus body::before{opacity:0.015}
 html.is-focus body::after{opacity:0.45}
