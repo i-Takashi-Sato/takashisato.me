@@ -1,33 +1,25 @@
-/* assets/scroll.js — Kinetic Engine */
+/* assets/scroll.js — Linear Glow Engine */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const root = document.documentElement;
   
-  // 1. マウス追従ライト (Lighting Logic)
-  // パフォーマンス重視で requestAnimationFrame を使用
-  let mouseX = 0, mouseY = 0;
-  let currentX = 0, currentY = 0;
-  
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  // 1. マウス連動ボーダー (Glow Effect)
+  const cards = document.querySelectorAll('.paper');
+
+  // カードの上でマウスが動いた時だけ計算する（パフォーマンス重視）
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      // カードの左上を原点(0,0)としたマウス座標を計算
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // CSS変数に渡す
+      card.style.setProperty('--lx', `${x}px`);
+      card.style.setProperty('--ly', `${y}px`);
+    });
   });
 
-  function animateLight() {
-    // 慣性をつけて遅れてついてくる演出 (Lerp)
-    currentX += (mouseX - currentX) * 0.1;
-    currentY += (mouseY - currentY) * 0.1;
-    
-    root.style.setProperty('--mouse-x', `${currentX}px`);
-    root.style.setProperty('--mouse-y', `${currentY}px`);
-    
-    requestAnimationFrame(animateLight);
-  }
-  animateLight();
-
-  // 2. スクロール連動の出現アニメーション (Observer)
-  const targets = document.querySelectorAll('.hero, .paper, .section-label, footer');
-  
+  // 2. 出現アニメーション (Fade In)
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -35,11 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
         obs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.05, rootMargin: "0px 0px -10% 0px" });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
+  const targets = document.querySelectorAll('h1, .who, .lead, .paper, footer');
   targets.forEach((el, i) => {
     el.classList.add('reveal');
-    // 少し遅延をつける
+    // 少しずつ遅れて出現させる
     el.style.transitionDelay = `${i * 0.05}s`;
     observer.observe(el);
   });
