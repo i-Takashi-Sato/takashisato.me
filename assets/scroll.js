@@ -1,11 +1,45 @@
 /**
  * Takashi Sato · Research Archive System
- * Interaction Engine: Sequential & Seamless
+ * Interaction Engine: Award-Winning Edition
+ * Sequential Reveal | Seamless Transition | Custom Cursor | Progress Line
  */
 
 document.addEventListener("DOMContentLoaded", () => {
   
-  // --- 1. Sequential Reveal (階層的表示) ---
+  // --- 1. スクロール・プログレスバーの生成 ---
+  const header = document.querySelector('.top');
+  const progressLine = document.createElement('div');
+  progressLine.className = 'scroll-progress';
+  if (header) header.appendChild(progressLine);
+
+  // --- 2. カスタムカーソルの生成 (PC/非タッチデバイスのみ) ---
+  if (!('ontouchstart' in window)) {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+
+    document.addEventListener('mousemove', e => {
+      // requestAnimationFrameで描画を最適化
+      requestAnimationFrame(() => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+      });
+    });
+
+    // 論文カード (.paper) に乗った時のインタラクション
+    document.querySelectorAll('.paper').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        cursor.classList.add('cursor-active');
+        cursor.setAttribute('data-label', 'READ');
+      });
+      card.addEventListener('mouseleave', () => {
+        cursor.classList.remove('cursor-active');
+        cursor.removeAttribute('data-label');
+      });
+    });
+  }
+
+  // --- 3. Sequential Reveal (階層的表示) ---
   const observerOptions = {
     threshold: 0.1,
     rootMargin: "0px 0px -80px 0px"
@@ -40,19 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(el);
   });
 
-  // --- 2. Seamless Page Transition (滑らかな画面遷移) ---
+  // --- 4. Seamless Page Transition (滑らかな画面遷移) ---
   const handleTransition = (e) => {
     const link = e.currentTarget;
-    // 内部リンクかつ target="_blank" でない場合
     if (link.hostname === window.location.hostname && !link.target && !e.metaKey && !e.ctrlKey) {
       e.preventDefault();
       const destination = link.href;
-      
-      document.body.classList.add('fade-out'); // 暗転開始
-      
-      setTimeout(() => {
-        window.location.href = destination;
-      }, 600); // CSSアニメーションと同期
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = destination; }, 600);
     }
   };
 
@@ -60,10 +89,18 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener('click', handleTransition);
   });
 
-  // --- 3. Intelligent Micro-Parallax (奥行きの演出) ---
+  // --- 5. Scroll Events (プログレス & パララックス) ---
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    // 背景ノイズをわずかに動かして奥行きを出す
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    
+    // プログレスバーの計算
+    if (maxScroll > 0) {
+      const scrollPercent = (scrolled / maxScroll) * 100;
+      progressLine.style.width = `${scrollPercent}%`;
+    }
+
+    // 背景ノイズのパララックス
     document.body.style.backgroundPositionY = `${scrolled * 0.08}px`;
   }, { passive: true });
 });
