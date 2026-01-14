@@ -1,59 +1,382 @@
-/* --- 全体設定 --- */
+/* --- 0. Reset & Variables (世界観の定義) --- */
 :root {
-  --signal-red: #d93025; /* 警告・重要性を示す赤 */
-  --text-main: #1a1a1a;
-  --text-muted: #666666;
-  --bg-color: #ffffff;
-  --selection-bg: #e2e8f0; /* ドラッグ時は落ち着いたグレーに */
+  /* Colors: "Void" Palette */
+  --bg-deep: #050505;
+  --bg-surface: #0a0a0a;
+  --fg-primary: rgba(255, 255, 255, 0.92); /* 読みやすさと眩しさのバランス */
+  --fg-secondary: rgba(255, 255, 255, 0.55);
+  --fg-tertiary: rgba(255, 255, 255, 0.30);
+  
+  /* Accent: "Signal" Red (警告色だが、上品に) */
+  --signal-red: #cf2e2e; 
+  --signal-glow: rgba(207, 46, 46, 0.35);
+
+  /* Lines */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(255, 255, 255, 0.2);
+
+  /* Typography */
+  --font-serif: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052, serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
+
+  /* Layout & Spacing */
+  --max-width: 72ch; /* 1行の文字数を読みやすい長さに制限 */
+  --header-height: 64px;
+  --scroll-val: 0; /* JS連携用 */
 }
 
-/* ① ドラッグした時の色（赤を廃止） */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  background-color: var(--bg-deep);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--fg-primary);
+  background: var(--bg-deep);
+  font-family: var(--font-serif);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern", "liga", "pnum"; /* カーニング、合字、プロポーショナル数字 */
+  font-variant-numeric: oldstyle-nums; /* オールドスタイル数字で知的さを演出 */
+  overflow-x: hidden;
+}
+
+/* --- 1. Atmosphere (ノイズと深度) --- */
+/* ノイズオーバーレイを強化し、フィルムのような質感を出す */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+}
+
+/* ページ下部の深淵（フェードアウト効果） */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 15vh;
+  background: linear-gradient(to top, var(--bg-deep), transparent);
+  pointer-events: none;
+  z-index: 10;
+}
+
 ::selection {
-  background-color: var(--selection-bg);
-  color: var(--text-main);
+  background: var(--fg-primary);
+  color: var(--bg-deep);
 }
 
-/* ② サブタイトルを「目立つ赤」に設定 */
-.hero-subheadline {
-  color: var(--signal-red);
+/* --- 2. Typography & Hierarchy (文字組み) --- */
+h1, h2, h3 {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-top: 2.5em;
+  margin-bottom: 0.8em;
+  color: var(--fg-primary);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.1;
+  margin-top: 1em;
+  letter-spacing: -0.03em;
+  /* わずかな光彩 */
+  text-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+
+p {
+  margin-bottom: 1.8em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* 重要なキーワードや強調 */
+strong, b {
   font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: 2rem;
+  color: #fff;
 }
 
-/* ③ タイトルの下線修正（位置とデザイン） */
-.part-title {
-  display: inline-block;
+/* リンク: 下線アニメーションを洗練させる */
+a {
+  color: inherit;
   text-decoration: none;
-  border-bottom: 1.5px solid var(--text-main);
-  padding-bottom: 2px; /* 文字と線の間に隙間を作る */
+  background-image: linear-gradient(var(--fg-secondary), var(--fg-secondary));
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.3s ease;
+}
+
+a:hover {
+  color: #fff;
+  background-size: 100% 1px; /* 太くしたければここを2px等に */
+  background-image: linear-gradient(var(--signal-red), var(--signal-red));
+}
+
+/* --- 3. Layout Components (構造) --- */
+
+/* Header: ガラスのような透明感と境界線 */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 5, 5, 0.75);
+  backdrop-filter: blur(12px) saturate(100%);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color 0.3s ease;
+}
+
+.top:hover {
+  border-bottom-color: var(--border-focus);
+}
+
+.top-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand Logo */
+.brand {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--fg-secondary);
+  background: none; /* リンクの下線を消す */
+}
+.brand strong {
+  color: var(--fg-primary);
+}
+
+/* Navigation Links */
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--fg-secondary);
+}
+
+.nav a {
+  background: none;
+  transition: color 0.2s ease;
+}
+.nav a:hover {
+  color: var(--signal-red);
+}
+.sep {
+  color: var(--border-subtle);
+  user-select: none;
+}
+
+/* Main Container */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 4rem 1.5rem 8rem;
+}
+
+/* Part Indicator (e.g., Part I · The Cold Genesis) */
+.part {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--signal-red);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+}
+.part .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--signal-red);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--signal-red);
+}
+
+/* --- 4. Special Elements (引用、メタデータ) --- */
+
+/* Epigraph: 詩的な引用 */
+.epigraph {
+  margin: 3rem 0;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--signal-red);
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--fg-secondary);
+}
+.epigraph .en {
+  display: block;
+  font-size: 1.1rem;
   margin-bottom: 0.5rem;
-  transition: border-color 0.2s ease;
+  color: var(--fg-primary);
+}
+.epigraph .ja {
+  display: block;
+  font-size: 0.9rem;
+  font-feature-settings: "palt";
+  opacity: 0.7;
 }
 
-/* ④ リンクホバー（赤を廃止、洗練された挙動へ） */
-.abstract-link, .pdf-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+/* Structure / Meta Info Box */
+.structure, .meta {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--fg-tertiary);
+  margin-top: 1.5rem;
+  line-height: 1.6;
+}
+.structure strong {
+  color: var(--fg-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.7rem;
+  margin-right: 0.5em;
+}
+
+/* Action Pills (PDF, Cite) */
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px; /* Brutalistなら0でも良いが、微細なRで親しみやすく */
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--fg-secondary);
+  background: transparent; /* グラデーション削除 */
   transition: all 0.2s ease;
 }
 
-.abstract-link:hover, .pdf-link:hover {
-  color: var(--text-main);
-  border-bottom: 1px solid var(--text-main);
-  /* 赤くせず、色が濃くなることで「選択」を表現 */
+.pill:hover {
+  border-color: var(--fg-secondary);
+  color: var(--fg-primary);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-/* その他、情報の純度を上げるための調整 */
-body {
-  font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 論文らしい信頼感 */
-  line-height: 1.7;
-  color: var(--text-main);
+/* --- 5. Content Grid (Abstract & Sidebar) --- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-top: 4rem;
 }
 
-.keyword {
-  font-family: sans-serif;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 2fr 1.2fr; /* 本文とサイドバーの比率 */
+    gap: 4rem;
+  }
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--fg-tertiary);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.box {
+  padding-left: 1rem;
+  border-left: 1px solid var(--border-subtle);
+  font-size: 0.95rem;
+  color: var(--fg-secondary);
+}
+
+/* Citation Code Block */
+pre {
+  background: #000;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  overflow-x: auto;
+  color: var(--fg-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Copy Button */
+.copy {
+  appearance: none;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  color: var(--fg-tertiary);
+  padding: 4px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.copy:hover {
+  border-color: var(--signal-red);
+  color: var(--signal-red);
+}
+
+/* --- 6. Footer --- */
+footer {
+  margin-top: 6rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--fg-tertiary);
+}
+
+.foot-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  h1 { font-size: 2rem; }
+  .grid { display: flex; flex-direction: column; gap: 3rem; }
+  .nav { gap: 1rem; }
+}
+
+/* Print Styles (論文アーカイブとして重要) */
+@media print {
+  body { background: #fff; color: #000; }
+  body::before { display: none; }
+  .top, .actions, .copy { display: none; }
+  a { text-decoration: underline; color: #000; }
 }
