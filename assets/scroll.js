@@ -1,41 +1,32 @@
-(function(){
-  const root = document.documentElement;
-  let ticking = false;
+/* assets/scroll.js — The Monolith Progress Bar */
 
-  function clamp01(n){ return Math.min(1, Math.max(0, n)); }
+document.addEventListener("DOMContentLoaded", () => {
+  // プログレスバーの要素を作成して挿入
+  const bar = document.createElement('div');
+  bar.id = 'monolith-progress';
+  Object.assign(bar.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    height: '4px', // 少し太く
+    width: '0%',
+    background: '#ff0000', // 警告色
+    zIndex: '9999',
+    transition: 'width 0.1s linear' // 機械的な動き
+  });
+  document.body.prepend(bar);
 
-  function setScroll(){
-    const h = Math.max(1, document.body.scrollHeight - innerHeight);
-    const v = clamp01(scrollY / (h * 0.65));
-    root.style.setProperty('--scroll', v.toFixed(4));
-  }
-
-  function setPointer(x, y){
-    const px = clamp01(x / Math.max(1, innerWidth)) * 100;
-    const py = clamp01(y / Math.max(1, innerHeight)) * 100;
-    root.style.setProperty('--mx', px.toFixed(2) + '%');
-    root.style.setProperty('--my', py.toFixed(2) + '%');
-  }
-
-  function onScroll(){
-    if(ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      setScroll();
-      ticking = false;
-    });
-  }
-
-  function onPointerMove(e){
-    const p = e.touches ? e.touches[0] : e;
-    if(!p) return;
-    setPointer(p.clientX, p.clientY);
-  }
-
-  addEventListener('scroll', onScroll, {passive:true});
-  addEventListener('mousemove', onPointerMove, {passive:true});
-  addEventListener('touchmove', onPointerMove, {passive:true});
-
-  // init
-  setScroll();
-})();
+  // スクロール監視
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const max = document.body.scrollHeight - window.innerHeight;
+    const progress = (scrolled / max) * 100;
+    bar.style.width = `${progress}%`;
+  }, { passive: true });
+  
+  // 以前のScroll Reveal用の初期化スタイルがあれば解除（念の為）
+  document.querySelectorAll('.paper, footer, .hero').forEach(el => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+  });
+});
