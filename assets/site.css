@@ -1,103 +1,189 @@
+/* =========================================================
+   THEME: "The Redacted Archive" (World Class Standard)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
 :root {
-  /* --- 1. Base Colors (Existing) --- */
-  --bg: #08090a;
-  --text-main: #f2f2f3;
-  --text-muted: #8a8f98;
-  --border: rgba(255, 255, 255, 0.08);
+  --bg: #0a0a0a;
+  --fg: #e6e6e6;
+  --accent: #ff3300; /* International Orange - High Alert */
   
-  /* --- 2. Material Design Tokens (New) --- */
-  /* Surfaces: Depth via transparency */
-  --surface-1: rgba(255, 255, 255, 0.03); /* Card default */
-  --surface-2: rgba(255, 255, 255, 0.08); /* Card active/hover */
+  --font-mono: "Space Mono", monospace;
+  --font-serif: "Playfair Display", serif;
   
-  /* Motion: Google's signature physics */
-  --easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
-  --duration-short: 200ms;
-  --duration-medium: 400ms;
-
-  /* --- 3. Decay Palette (Dynamic System) --- */
-  /* Scrollに応じてJSでclassを切り替えるための準備 */
-  --glow-primary: #5e6ad2; /* Default: Blue */
-  --glow-danger:  #ef4444; /* Decay: Red */
-  
-  /* Current active accent (defaults to primary) */
-  --accent-current: var(--glow-primary);
-
-  /* Mouse Position */
-  --x: 50%;
-  --y: 50%;
+  --grid-color: rgba(255, 255, 255, 0.08);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* --- Paper Card: Material Glass Implementation --- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  background-color: var(--bg);
+  scroll-behavior: smooth;
+  cursor: crosshair; /* マウスカーソルを十字にして計測機器感を出す */
+}
+
+body {
+  margin: 0; padding: 0;
+  color: var(--fg);
+  font-family: var(--font-serif);
+  line-height: 1.5;
+  overflow-x: hidden;
+  background: var(--bg);
+}
+
+/* Cinematic Grain (Film Noise) */
+body::before {
+  content: ""; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999;
+}
+
+/* Background Grid (Swiss Style) */
+body::after {
+  content: ""; position: fixed; inset: 0;
+  background-size: 100px 100px;
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  z-index: -1;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+
+/* --- Typography: The Weapon --- */
+
+h1 {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 7rem); /* Massive Scale */
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin: 4rem 0;
+  text-align: left;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 2rem;
+}
+
+/* The "Redaction" Effect on text */
+h1 span, .lead, .paper-title {
+  display: inline-block;
+  position: relative;
+  /* 初期状態は黒塗りで隠す (JSでクラスがつくと見える) */
+}
+
+.who {
+  font-family: var(--font-mono);
+  font-size: 0.8rem; color: var(--accent);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 1rem; display: block;
+}
+
+.lead {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  max-width: 90%;
+  margin: 0 0 6rem;
+  color: #fff;
+}
+
+/* --- Layout --- */
+
+main { max-width: 1400px; margin: 0 auto; padding: 0 5vw 10rem; }
+
+/* Header: Brutalist Info Bar */
+.top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--grid-color);
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
+}
+.brand { color: var(--fg); text-decoration: none; font-weight: 700; }
+.brand strong { color: var(--accent); }
+.nav a { margin-left: 2rem; color: #666; text-decoration: none; transition: 0.3s; }
+.nav a:hover { color: var(--accent); text-decoration: line-through; } /* 打ち消し線で反逆感を出す */
+
+/* --- The Papers: Industrial List --- */
+.section-label {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent);
+  margin-bottom: 1rem; display: block;
+}
+
 .paper {
   position: relative;
-  /* Material Surface */
-  background: var(--surface-1);
-  /* Glassmorphism: The key to "Stellar Glass" */
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  
-  border-radius: 12px;
-  /* Border is kept subtle, handled mostly by the ::before glow */
-  border: 1px solid var(--border); 
-  
-  padding: 3rem;
-  margin-bottom: 2rem;
-  overflow: hidden;
-
-  /* Material Motion: "Heavy" and smooth transition */
-  transition: 
-    transform var(--duration-medium) var(--easing-standard),
-    background-color var(--duration-medium) var(--easing-standard),
-    border-color var(--duration-medium) var(--easing-standard);
-    
-  /* GPU Acceleration for smoothness */
-  will-change: transform, background-color;
+  border-top: 1px solid #333;
+  padding: 4rem 0;
+  transition: all 0.5s var(--ease-out-expo);
+  /* ホバー時に背景色を変えない。構造を変える */
 }
 
-/* Hover State: Lift & Glow */
 .paper:hover {
-  transform: translateY(-4px); /* Slightly higher lift */
-  background: var(--surface-2);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); /* Deep shadow for elevation */
+  border-top-color: var(--accent);
+  padding-left: 2rem; /* インデントさせる */
 }
 
-/* Active State: The "Tactile" Click (Material Concept) */
-.paper:active {
-  /* 押した瞬間に少し沈む（物理的なフィードバック） */
-  transform: scale(0.98) translateY(-2px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--accent-current); /* 押すとその時点のテーマ色で光る */
-  transition-duration: 100ms; /* Click is instant */
+.paper-title {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: #fff; text-decoration: none;
+  line-height: 1; margin-bottom: 1rem; display: block;
 }
 
-/* Mouse tracking glow (Keep existing logic but refine blending) */
-.paper::before {
+/* 論文の要約などはセリフ体で知的に */
+.paper-signal {
+  font-family: var(--font-serif);
+  font-size: 1.1rem; color: #888;
+  max-width: 60ch; margin-top: 1rem;
+}
+
+.k {
+  font-family: var(--font-mono); font-size: 0.7rem; color: #555; margin-top: 1.5rem;
+  border: 1px solid #333; display: inline-block; padding: 4px 8px;
+}
+.k span { color: var(--accent); }
+
+/* --- Reveal Animation (The Redaction Lift) --- */
+.reveal-text {
+  position: relative;
+  color: transparent; /* 文字を一回消す */
+}
+.reveal-text::after {
   content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  padding: 1px;
-  width: 100%; 
-  
-  /* Use the dynamic accent color */
-  background: radial-gradient(
-    400px circle at var(--lx, 50%) var(--ly, 50%),
-    var(--accent-current),
-    transparent 100%
-  );
-  
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s ease; /* Slower fade for elegance */
+  position: absolute; inset: 0;
+  background: var(--fg); /* 黒塗りバー（白文字なら白バー） */
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform 0.8s var(--ease-out-expo);
+}
+
+.is-visible.reveal-text { color: inherit; }
+.is-visible.reveal-text::after {
+  transform: scaleX(0); /* バーが右に消えて文字が出る */
+}
+
+/* Actions */
+.pill {
+  font-family: var(--font-mono); font-size: 0.8rem;
+  color: var(--bg); background: var(--fg);
+  padding: 0.5rem 1rem; text-decoration: none;
+  display: inline-block; margin-right: 0.5rem;
+  transition: 0.3s;
+}
+.pill:hover {
+  background: var(--accent); color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 rgba(255,255,255,0.2);
+}
+
+/* Footer */
+footer {
+  margin-top: 10rem; border-top: 10px solid var(--accent); /* 極太ボーダー */
+  padding: 4rem 0;
+  font-family: var(--font-mono); font-size: 3rem; line-height: 1;
+  text-transform: uppercase; color: #333;
 }
