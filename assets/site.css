@@ -17,7 +17,8 @@
   --platinum-dim: rgba(208, 213, 224, 0.3);
   --border-sharp: rgba(255, 255, 255, 0.08);
 
-  /* --- New Accent: Signal Red (Warning/Alert) --- */
+  /* --- New Accent: Signal Red (System Alert) --- */
+  /* ここで定義した赤を要所で使用します */
   --signal-red: #ff3333;   
   
   /* Fonts */
@@ -31,7 +32,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 ::selection {
-  background: var(--platinum-dim);
+  background: var(--signal-red); /* 選択色も赤に変更 */
   color: #fff;
 }
 
@@ -57,18 +58,18 @@ body::before {
   pointer-events: none; z-index: -1; mix-blend-mode: overlay;
 }
 
-/* --- Typography: High Contrast & Asymmetric --- */
+/* --- Typography --- */
 
 h1 {
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: clamp(4rem, 8vw, 7rem); /* 巨大化 */
+  font-size: clamp(4rem, 8vw, 7rem);
   line-height: 0.95;
   letter-spacing: -0.03em;
   margin: 6rem 0 3rem;
-  text-align: left; /* 左寄せで緊張感を出す */
+  text-align: left;
   color: #fff;
-  max-width: 14ch; /* あえて改行させる */
+  max-width: 14ch;
 }
 h1 em {
   font-style: italic;
@@ -80,11 +81,10 @@ h1 em {
   font-family: var(--font-sans);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  font-weight: 300; /* 極細 */
+  font-weight: 300;
   font-size: 0.65rem;
 }
 
-/* 重なり防止レイアウト */
 .who {
   display: block;
   color: var(--platinum);
@@ -98,6 +98,7 @@ h1 em {
   margin-bottom: 1rem;
 }
 
+/* 【変更点】Leadの縦線を赤に変更 */
 .lead {
   text-align: left; font-size: 1.3rem;
   color: var(--text-muted); 
@@ -106,8 +107,8 @@ h1 em {
   font-weight: 300; 
   line-height: 1.8;
   
-  /* 左に鋭い線を入れて構造化 */
-  border-left: 1px solid var(--border-sharp);
+  /* 赤いライン */
+  border-left: 1px solid var(--signal-red);
   padding-left: 2rem;
   margin-left: 2px;
 }
@@ -116,10 +117,10 @@ h1 em {
 
 main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 
-/* Header: Architectural & Sharp */
+/* Header */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(5, 5, 7, 0.85); /* 濃いめの背景 */
+  background: rgba(5, 5, 7, 0.85);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-sharp);
   height: 90px; display: flex; align-items: center;
@@ -130,20 +131,23 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 .brand strong { color: var(--platinum); font-weight: 400; }
+
 .nav a { 
   color: var(--text-muted); font-family: var(--font-sans); 
   font-size: 0.65rem; text-decoration: none; 
   transition: 0.4s var(--ease-sharp); margin-left: 3rem; 
   letter-spacing: 0.15em; position: relative;
 }
-.nav a::after { /* ホバー時に下線がスッと出る */
+/* 【変更点】ナビゲーションのホバーラインを赤に */
+.nav a::after {
   content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px;
-  background: var(--platinum); transition: 0.4s var(--ease-sharp);
+  background: var(--signal-red); 
+  transition: 0.4s var(--ease-sharp);
 }
 .nav a:hover { color: #fff; }
 .nav a:hover::after { width: 100%; }
 
-/* --- Cards: The Monoliths --- */
+/* --- Cards --- */
 .section-label {
   text-align: left; color: var(--platinum);
   margin: 10rem 0 2rem; display: block; padding-left: 4px;
@@ -152,18 +156,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 .paper {
   position: relative;
   background: var(--card-bg);
-  /* ボーダーは上と左だけ（非対称） */
   border-top: 1px solid var(--border-sharp);
   border-left: 1px solid var(--border-sharp);
   padding: 5rem 4rem;
-  margin-bottom: 5rem; /* 余白を巨大に */
+  margin-bottom: 5rem;
   transition: all 0.6s var(--ease-sharp);
 }
 
+/* 【変更点】カードホバー時のボーダーを赤に */
 .paper:hover {
-  transform: translateX(10px); /* 上ではなく右に動く */
+  transform: translateX(10px);
   background: #0e0e11;
-  border-color: var(--platinum-dim);
+  border-color: var(--signal-red); /* ここを赤に */
 }
 
 .paper-title {
@@ -187,7 +191,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
 }
 .k span { color: var(--platinum); }
 
-/* Buttons: Sharp Platinum Wire */
+/* Buttons */
 .actions { display: flex; gap: 1.5rem; margin-top: 3rem; }
 
 .pill {
@@ -197,214 +201,123 @@ main { max-width: 1100px; margin: 0 auto; padding: 0 5vw 10rem; }
   text-decoration: none; transition: all 0.4s var(--ease-sharp);
 }
 
+/* 【変更点】ボタンホバー時の背景色を赤に */
 .pill:hover {
-  border-color: var(--platinum);
-  color: var(--bg);
-  background: var(--platinum); /* プラチナ色で塗りつぶす */
-}
-
-/* --- Footer: Updated for Social Links --- */
-footer {
-  margin-top: 12rem; 
-  padding: 5rem 0; 
-  border-top: 1px solid var(--border-sharp);
-  font-family: var(--font-sans); 
-  font-size: 0.65rem; 
-  color: #444;
-}
-
-.footer-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: flex-start; /* 左寄せ */
-}
-
-/* Social Links Layout */
-.social-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem; /* リンク同士の間隔 */
-}
-
-/* Individual Link Style */
-.social-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  transition: all 0.3s var(--ease-sharp);
-  position: relative;
-}
-
-/* Hover Effect: Platinum Shine */
-.social-link:hover {
+  border-color: var(--signal-red);
   color: #fff;
+  background: var(--signal-red); 
 }
 
+/* Footer */
+.footer-inner {
+  display: flex; flex-direction: column; gap: 2rem; align-items: flex-start;
+}
+footer {
+  margin-top: 12rem; padding: 5rem 0; 
+  border-top: 1px solid var(--border-sharp);
+  font-family: var(--font-sans); font-size: 0.65rem; color: #444;
+}
+
+.social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
+.social-link {
+  color: var(--text-muted); text-decoration: none; text-transform: uppercase;
+  letter-spacing: 0.15em; transition: all 0.3s var(--ease-sharp); position: relative;
+}
+.social-link:hover { color: #fff; }
+
+/* 【変更点】フッターリンクのホバーラインも赤に */
 .social-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 1px;
-  background: var(--platinum);
+  content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px;
+  background: var(--signal-red);
   transition: width 0.3s var(--ease-sharp);
 }
+.social-link:hover::after { width: 100%; }
 
-.social-link:hover::after {
-  width: 100%;
-}
+.copyright { margin: 0; color: #333; letter-spacing: 0.05em; }
 
-.copyright {
-  margin: 0;
-  color: #333;
-  letter-spacing: 0.05em;
-}
-
-/* Animations: Sharp Reveal */
+/* Animations */
 .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 1.2s var(--ease-sharp); }
 .is-visible { opacity: 1; transform: translateY(0) scale(1); }
 
 /* =========================================================
-   ARTICLE PAGE EXTENSIONS (Unified Product Feel)
+   ARTICLE PAGE EXTENSIONS
    ========================================================= */
 
-/* Article Container: Reading Focus */
-.article-container {
-  max-width: 800px; /* 読みやすい幅に制限 */
-  margin: 0 auto;
-  padding: 0 5vw 8rem;
-}
+.article-container { max-width: 800px; margin: 0 auto; padding: 0 5vw 8rem; }
 
-/* Back Link (Navigation) */
+/* Back Link */
 .back-link {
-  display: inline-flex;
-  align-items: center;
-  margin: 2rem 0 4rem;
-  font-family: var(--font-sans);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--text-muted);
-  text-decoration: none;
+  display: inline-flex; align-items: center; margin: 2rem 0 4rem;
+  font-family: var(--font-sans); font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--text-muted); text-decoration: none;
   transition: color 0.3s var(--ease-sharp);
 }
 .back-link::before {
-  content: "←";
-  margin-right: 0.5rem;
-  transition: transform 0.3s var(--ease-sharp);
+  content: "←"; margin-right: 0.5rem; transition: transform 0.3s var(--ease-sharp);
 }
-.back-link:hover { color: var(--platinum); }
+.back-link:hover { color: var(--signal-red); } /* 赤に変更 */
 .back-link:hover::before { transform: translateX(-4px); }
 
-/* Article Typography */
+/* Article Header */
 .article-header h1 {
   font-family: var(--font-serif);
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 300;
-  line-height: 1.1;
-  color: #fff;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border-sharp);
-  padding-bottom: 2rem;
+  font-weight: 300; line-height: 1.1; color: #fff;
+  margin-bottom: 2rem; border-bottom: 1px solid var(--border-sharp); padding-bottom: 2rem;
 }
 
 .article-meta {
-  display: flex; gap: 2rem;
-  font-family: var(--font-sans);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--platinum);
-  margin-bottom: 4rem;
+  display: flex; gap: 2rem; font-family: var(--font-sans);
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--platinum); margin-bottom: 4rem;
 }
 
-/* Body Text Styling */
+/* Article Body */
 .article-body {
-  font-family: var(--font-serif);
-  font-size: 1.15rem; /* 読みやすいサイズ */
-  line-height: 1.8;
-  color: #ddd;
+  font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.8; color: #ddd;
 }
-
 .article-body p { margin-bottom: 2rem; }
 
 .article-body h2 {
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--platinum);
-  margin: 4rem 0 1.5rem;
-  padding-left: 1rem;
-  border-left: 1px solid var(--platinum);
+  font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--platinum);
+  margin: 4rem 0 1.5rem; padding-left: 1rem;
+  /* 見出しの左線はシルバーのまま（構造なので） */
+  border-left: 1px solid var(--platinum); 
 }
 
+/* 【変更点】Blockquote（引用）の左線を赤に */
 .article-body blockquote {
-  margin: 3rem 0;
-  padding: 1rem 0 1rem 2rem;
-  border-left: 1px solid var(--border-sharp);
-  font-style: italic;
-  color: var(--text-muted);
+  margin: 3rem 0; padding: 1rem 0 1rem 2rem;
+  border-left: 1px solid var(--signal-red); /* ここを赤に */
+  font-style: italic; color: var(--text-muted);
 }
 
-/* Citation Box (The Archive Feel) */
+/* Citation Box */
 .citation-box {
-  margin-top: 6rem;
-  padding: 2rem;
+  margin-top: 6rem; padding: 2rem;
   border: 1px solid var(--border-sharp);
-  background: var(--card-bg);
-  font-family: var(--font-sans);
+  background: var(--card-bg); font-family: var(--font-sans);
 }
 .citation-label {
-  display: block;
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--platinum);
-  margin-bottom: 1rem;
+  display: block; font-size: 0.6rem; text-transform: uppercase;
+  letter-spacing: 0.2em; color: var(--platinum); margin-bottom: 1rem;
 }
 .citation-text {
-  font-family: var(--font-serif);
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  word-break: break-all;
+  font-family: var(--font-serif); font-size: 0.9rem; color: var(--text-muted); word-break: break-all;
 }
 
 /* --- Utilities --- */
-/* Red Text for Epigraphs/Warnings */
-.t-red {
-  color: var(--signal-red) !important;
-  opacity: 1 !important;
-}
+.t-red { color: var(--signal-red) !important; opacity: 1 !important; }
 
-/* --- Mobile Adjustments (FIXED & UNIFIED) --- */
+/* --- Mobile Adjustments --- */
 @media (max-width: 768px) {
-  /* Homepage Hero Fix */
-  h1 { 
-    font-size: 3.2rem; 
-    margin-top: 9rem; /* 見切れ防止：余白を大幅に増やす */
-    text-align: left; 
-    line-height: 1.1;
-  }
-
+  h1 { font-size: 3.2rem; margin-top: 9rem; text-align: left; line-height: 1.1; }
   .paper { padding: 3rem 2rem; }
   .lead, .paper-signal { border-left: none; padding-left: 0; }
   .who::before { width: 40px; }
-  
-  /* Footer Mobile */
   .footer-inner { gap: 3rem; }
   .social-nav { flex-direction: column; gap: 1rem; }
-
-  /* Article Page Mobile Fixes */
-  .article-header h1 { 
-    font-size: 2.5rem; 
-    margin-top: 2rem; /* 記事タイトルはヘッダー下マージン少なめでOK（containerで調整済） */
-  }
-  .article-container { 
-    padding: 0 2rem 8rem; 
-    margin-top: 8rem; /* モバイルでヘッダーと被らないように記事全体を下げる */
-  }
+  .article-header h1 { font-size: 2.5rem; margin-top: 2rem; }
+  .article-container { padding: 0 2rem 8rem; margin-top: 8rem; }
 }
