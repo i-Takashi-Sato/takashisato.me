@@ -1,273 +1,59 @@
+/* --- 全体設定 --- */
 :root {
-  /* --- The Palette: Architectural Void --- */
-  /* 限りなく黒に近いが、黒潰れしない「深淵」の色 */
-  --bg: #050505;
-  /* カードなどのレイヤー色 */
-  --bg-surface: #0a0a0a;
-
-  /* 文字: 純白(#fff)は目に刺さるため、最高級の紙のような「オフホワイト」 */
-  --fg: #eaeaea;
-  --muted: #999999;
-  --faint: #555555;
-
-  /* 構造線: 非常に鋭く、かつ繊細なライン */
-  --rule: rgba(255, 255, 255, 0.12);
-  
-  /* アクセント: 命の赤。彩度を落とし、ノイズに馴染む「血」の色 */
-  --accent: #cf0000;
-
-  /* --- Typography & Scale --- */
-  /* Isabel Morantaのような「巨大な文字」の美学 */
-  --h1: clamp(42px, 8vw, 96px);
-  --title: clamp(20px, 3.5vw, 32px);
-  --body: clamp(15px, 1.05vw + 10px, 17px);
-  
-  --max: 86ch; /* 読みやすさと余白のバランスが黄金比になる幅 */
-  --pad-y: clamp(80px, 12vw, 180px);
-  --section-gap: clamp(60px, 10vw, 140px);
-  
-  /* 高級感のあるイージング（慣性） */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --signal-red: #d93025; /* 警告・重要性を示す赤 */
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --bg-color: #ffffff;
+  --selection-bg: #e2e8f0; /* ドラッグ時は落ち着いたグレーに */
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; overflow-x: hidden; }
-
-body {
-  background-color: var(--bg);
-  color: var(--fg);
-  font-family: ui-serif, Charter, "Iowan Old Style", Palatino, "Hiragino Mincho ProN", "Yu Mincho", serif;
-  font-size: var(--body);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.01em;
+/* ① ドラッグした時の色（赤を廃止） */
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--text-main);
 }
 
-/* --- Texture: Cinematic Grain --- */
-/* Isabel Morantaの質感を再現するフィルムノイズ */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-}
-
-/* --- Layout --- */
-.skip {
-  position: absolute; top: 0; left: 0; padding: 12px 16px; background: var(--fg); color: var(--bg);
-  font-weight: 600; text-decoration: none; z-index: 10000;
-  transform: translateY(-100%); transition: transform 0.3s var(--ease-out);
-}
-.skip:focus { transform: translateY(0); }
-
-main {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: var(--pad-y) 5vw;
-  position: relative;
-  z-index: 1;
-}
-
-/* --- Hero: The Monolith --- */
-header.hero {
-  padding-bottom: var(--section-gap);
-  /* 線ではなく、余白とタイポグラフィの重さで区切る */
-}
-
-header.hero h1 {
-  margin: 0;
-  font-weight: 300;
-  font-size: var(--h1);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: var(--fg);
-  /* 文字が発光しているような微細な影（深度） */
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
-}
-
-header.hero p.lead {
-  margin: 40px 0 0;
-  color: var(--muted);
-  max-width: 54ch;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px;
-  line-height: 1.8;
-  letter-spacing: 0.03em;
-}
-
-header.hero p.who {
-  margin: 16px 0 0;
-  display: inline-block;
-  color: var(--accent);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
+/* ② サブタイトルを「目立つ赤」に設定 */
+.hero-subheadline {
+  color: var(--signal-red);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  position: relative;
-  padding-left: 18px;
-}
-/* 赤いドットで「現在地」を示す */
-header.hero p.who::before {
-  content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-  width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent);
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
 }
 
-/* --- Archive: The Grid --- */
-#archive { margin-top: var(--section-gap); }
-
-.section-label {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 40px;
-  color: var(--faint);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-}
-/* ラベルの横に直線を引いて、Obys的な構造美を出す */
-.section-label::after {
-  content: ""; flex: 1; height: 1px; background: var(--rule);
-}
-
-article.paper {
-  position: relative;
-  padding: 48px 0;
-  border-top: 1px solid var(--rule);
-  transition: background 0.4s var(--ease-out);
-}
-
-/* ホバー時に背景をわずかに照らす */
-article.paper:hover {
-  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.03), transparent 70%);
-}
-
-.paper-header { margin-bottom: 20px; }
-
-.paper-title {
-  font-size: var(--title);
-  font-weight: 400;
-  color: var(--fg);
+/* ③ タイトルの下線修正（位置とデザイン） */
+.part-title {
+  display: inline-block;
   text-decoration: none;
-  line-height: 1.25;
-  transition: color 0.3s ease;
-}
-/* タイトルホバー時、光が強くなる */
-article.paper:hover .paper-title {
-  color: #fff;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  border-bottom: 1.5px solid var(--text-main);
+  padding-bottom: 2px; /* 文字と線の間に隙間を作る */
+  margin-bottom: 0.5rem;
+  transition: border-color 0.2s ease;
 }
 
-.paper-signal {
-  color: var(--muted);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 13px;
-  max-width: 68ch;
-  line-height: 1.75;
-}
-.paper-signal .k {
-  display: block; margin-top: 10px; color: var(--faint); font-size: 10.5px;
-  letter-spacing: 0.02em;
-}
-
-/* Fragments (Quotes) - 洗練された引用デザイン */
-.fragments { margin-top: 28px; }
-
-blockquote.fragment {
-  margin: 0;
-  padding-left: 20px;
-  border-left: 1px solid var(--faint);
-  color: var(--fg);
-  font-style: italic;
-  font-family: ui-serif, serif;
-  transition: border-color 0.3s var(--ease-out);
-}
-/* ホバー時に引用ラインが赤くなる */
-article.paper:hover blockquote.fragment { border-left-color: var(--accent); }
-
-blockquote.fragment p { margin: 0; }
-blockquote.fragment .ja {
-  display: block; font-style: normal; font-size: 0.85em; 
-  color: var(--muted); margin-top: 8px; letter-spacing: 0.05em; opacity: 0.7;
-}
-
-/* Meta & Buttons */
-.meta {
-  margin-top: 32px;
-  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
-  color: var(--faint);
-}
-
-.date-label { font-feature-settings: "tnum"; letter-spacing: 0.05em; margin-right: 8px; }
-
-/* ボタン: 極限まで細い線で、モダンなテック感（Obys風） */
-.pill {
-  color: var(--muted);
+/* ④ リンクホバー（赤を廃止、洗練された挙動へ） */
+.abstract-link, .pdf-link {
+  color: var(--text-muted);
   text-decoration: none;
-  border: 1px solid var(--rule);
-  padding: 8px 18px;
-  border-radius: 999px;
-  transition: all 0.3s var(--ease-out);
-  letter-spacing: 0.05em;
-  background: transparent;
-}
-.pill:hover {
-  color: var(--bg);
-  background: var(--fg);
-  border-color: var(--fg);
-  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
 }
 
-.entry-note {
-  margin-top: 100px; text-align: center; color: var(--faint); font-size: 11px; 
-  letter-spacing: 0.1em;
-}
-.entry-note a { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
-.entry-note a:hover { color: var(--fg); }
-
-/* --- Footer --- */
-footer {
-  margin-top: 180px;
-  padding: 80px 0;
-  border-top: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
+.abstract-link:hover, .pdf-link:hover {
+  color: var(--text-main);
+  border-bottom: 1px solid var(--text-main);
+  /* 赤くせず、色が濃くなることで「選択」を表現 */
 }
 
-.social {
-  display: flex; gap: 32px;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+/* その他、情報の純度を上げるための調整 */
+body {
+  font-family: "Hiragino Mincho ProN", "MS Mincho", serif; /* 論文らしい信頼感 */
+  line-height: 1.7;
+  color: var(--text-main);
 }
-.social a { 
-  color: var(--muted); text-decoration: none; 
-  position: relative; padding-bottom: 2px;
-}
-.social a::after {
-  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px;
-  background: var(--accent); transform: scaleX(0); transform-origin: right;
-  transition: transform 0.4s var(--ease-out);
-}
-.social a:hover { color: var(--fg); }
-.social a:hover::after { transform: scaleX(1); transform-origin: left; }
 
-.footer-sig {
-  margin: 0;
-  color: var(--faint);
-  font-size: 10px;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.4em; /* 字間を広く取り、石碑のような佇まいに */
-  opacity: 0.5;
+.keyword {
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
