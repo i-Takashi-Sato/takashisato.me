@@ -1,30 +1,25 @@
-/* ==========================================================================
-   THE VOID TERMINAL - Awwwards SOTD Standard
-   ========================================================================== */
+/* =========================================================
+   LINEAR-STYLE THEME: "Stellar Glass"
+   ========================================================= */
 
-/* High-end Editorial Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Manrope:wght@300;400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+/* Linearで実際に使われているフォントに近い「Inter」を採用 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* COLORS: Deep Void */
-  --bg: #030303;
-  --surface: #0a0a0a;
-  --fg: #e2e2e2;
-  --muted: #666;
-  --accent: #ff2a2a; /* International Red */
-  --line: rgba(255, 255, 255, 0.04);
+  /* Linear Deep Palette */
+  --bg: #08090a; /* 完全に黒ではなく、ごく僅かに青みのある黒 */
+  --glass: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --text-main: #f2f2f3;
+  --text-muted: #8a8f98;
   
-  /* TYPOGRAPHY */
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Manrope", sans-serif;
-  --font-mono: "Space Mono", monospace;
-
-  /* MOTION */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Accents (Linear Purple/Blue Gradient) */
+  --glow-primary: #5e6ad2;
+  --glow-secondary: #a259ff;
   
-  /* MOUSE TRACKING (Updated by JS) */
-  --mouse-x: 50%;
-  --mouse-y: 50%;
+  /* Mouse Position (JS Updates) */
+  --x: 50%;
+  --y: 50%;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -33,245 +28,243 @@ html {
   font-size: 16px;
   background-color: var(--bg);
   scroll-behavior: smooth;
-  cursor: crosshair; /* デザイン業界で好まれる「精密さ」の象徴 */
 }
 
 body {
   margin: 0;
   padding: 0;
-  color: var(--fg);
-  font-family: var(--font-sans);
+  color: var(--text-main);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
-  background-color: var(--bg);
-  min-height: 100vh;
+  
+  /* 背景：上部のオーロラのような光 */
+  background: 
+    radial-gradient(circle at 50% 0%, rgba(94, 106, 210, 0.15), transparent 60%),
+    var(--bg);
 }
 
-/* --- ATMOSPHERE: The Living Grid --- */
-/* 背景に固定されたグリッド */
+/* "Stars" Background (星空の粒子) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -2;
   background-image: 
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 6rem 6rem;
-  background-position: center top;
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 50px 50px; /* 小さなドットのパターン */
+  opacity: 0.07;
   pointer-events: none;
-}
-
-/* マウスに追従する「光のトーチ」 */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
   z-index: -1;
-  background: radial-gradient(
-    800px circle at var(--mouse-x) var(--mouse-y), 
-    rgba(255, 255, 255, 0.06),
-    transparent 40%
-  );
-  pointer-events: none;
-  mix-blend-mode: screen;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
 }
 
-/* --- TYPOGRAPHY --- */
+/* --- Typography --- */
+
 h1 {
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: clamp(4rem, 12vw, 9rem); /* 画面からはみ出るほどの巨大さ */
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  margin: 0;
-  color: #fff;
-  mix-blend-mode: difference; /* 背景と干渉させる高度な処理 */
-}
-
-.hero {
-  padding: 12rem 0 8rem;
-  border-bottom: 1px solid var(--line);
-  position: relative;
-}
-
-.lead {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  line-height: 1.3;
-  color: #bbb;
-  max-width: 36ch;
-  margin-top: 3rem;
-  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(3.5rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+  text-align: center;
+  
+  /* Linear Text Gradient: 白から透明へのグラデーション */
+  background: linear-gradient(to bottom, #ffffff, rgba(255,255,255,0.5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .who {
-  font-family: var(--font-mono);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--accent);
+  letter-spacing: 0.1em;
+  color: var(--glow-primary);
   margin-bottom: 2rem;
-  display: block;
+  font-weight: 600;
+}
+/* 装飾バッジ */
+.who::before, .who::after {
+  content: "";
+  width: 20px; height: 1px;
+  background: var(--border);
+}
+
+.lead {
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 54ch;
+  margin: 0 auto 3rem;
+  font-weight: 300;
 }
 
 .meta {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--muted);
-  margin-top: 4rem;
-  border-top: 1px solid var(--line);
-  padding-top: 1rem;
   display: flex;
-  gap: 2rem;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.6;
 }
 
-/* --- LAYOUT --- */
+/* --- Layout --- */
+
 main {
-  width: 100%;
-  max-width: 1400px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 2rem 10rem;
 }
 
-/* Header Chrome */
+/* Header (Blurry Glass) */
 .top {
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: sticky;
+  top: 0;
   z-index: 100;
-  padding: 1.5rem 2rem;
+  /* Linear特有の強いぼかし */
+  background: rgba(8, 9, 10, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.top-inner {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  mix-blend-mode: difference; /* 背景色に応じて色が反転する */
 }
-.top-inner { width: 100%; display: flex; justify-content: space-between; }
-.brand { font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
-.nav { display: flex; gap: 2rem; }
-.nav a { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; }
 
-/* --- THE ARTEFACTS (Cards) --- */
+.brand { font-weight: 600; letter-spacing: -0.01em; color: #fff; font-size: 0.9rem; }
+.nav a { color: var(--text-muted); font-size: 0.85rem; transition: color 0.2s; margin-left: 1.5rem; }
+.nav a:hover { color: #fff; }
+
+/* --- The "Magic" Cards (論文リスト) --- */
 .section-label {
-  font-family: var(--font-mono);
+  text-align: center;
   font-size: 0.7rem;
-  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  margin: 8rem 0 4rem;
+  color: var(--text-muted);
+  margin: 6rem 0 3rem;
   display: block;
 }
 
+/* カード本体：最初は透明 */
 .paper {
   position: relative;
-  padding: 4rem 0;
-  border-top: 1px solid var(--line);
-  transition: padding 0.4s var(--ease-out);
-  group: paper;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  /* デフォルトのボーダー（暗い） */
+  border: 1px solid rgba(255, 255, 255, 0.06); 
+  padding: 3rem;
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease;
+  overflow: hidden;
 }
-.paper:last-of-type { border-bottom: 1px solid var(--line); }
+
+/* ★ここがLinear再現のキモ：マウスに合わせて光るボーダー */
+.paper::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 12px;
+  padding: 1px; /* ボーダーの太さ */
+  width: 100%; 
+  
+  /* マウス位置(--lx, --ly)を中心とした円形グラデーション */
+  background: radial-gradient(
+    300px circle at var(--lx, 50%) var(--ly, 50%),
+    rgba(255, 255, 255, 0.4), /* 光る部分 */
+    transparent 100%          /* 消える部分 */
+  );
+  
+  /* マスク処理でボーダー部分だけを残す */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  
+  pointer-events: none;
+  opacity: 0; /* 最初は隠す */
+  transition: opacity 0.3s ease;
+}
+
+.paper:hover::before {
+  opacity: 1; /* ホバー時に光る */
+}
 
 .paper:hover {
-  background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
-  padding-left: 2rem; /* ホバー時に右へスライド */
+  transform: translateY(-2px); /* わずかに浮く */
 }
 
+/* カードの中身 */
 .paper-title {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  line-height: 1.1;
+  font-size: 1.8rem;
+  font-weight: 500;
   color: #fff;
-  text-decoration: none;
   display: block;
-  margin-bottom: 1rem;
-  transition: opacity 0.3s;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
 }
-.paper:hover .paper-title { opacity: 0.7; }
+.paper-title:hover {
+  color: #a259ff; /* Linear Purple */
+}
 
 .paper-signal {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  color: #888;
-  max-width: 60ch;
-  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
 }
 
 .k {
   display: block;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--accent);
   margin-top: 1rem;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: "Space Mono", monospace;
 }
-.k span { color: #555; margin-right: 0.5em; }
+.k span { color: var(--glow-primary); }
 
-/* Fragments */
-.fragments { margin-top: 3rem; }
-.fragment {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-style: italic;
-  color: #ccc;
-  padding-left: 1.5rem;
-  border-left: 1px solid var(--accent);
-}
-.fragment .ja {
-  font-family: "Yu Mincho", serif;
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 0.5rem;
-  font-style: normal;
-}
+/* Buttons (Linear Style Pills) */
+.actions { display: flex; gap: 1rem; margin-top: 2rem; }
 
-/* Interactive Pills */
-.actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
 .pill {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  color: var(--fg);
-  border: 1px solid var(--line);
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 99px; /* 完全な丸み */
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid transparent; /* 光る枠の準備 */
+  transition: all 0.2s;
 }
+
 .pill:hover {
-  background: var(--fg);
-  color: var(--bg);
-  border-color: var(--fg);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
-/* Footer */
-footer {
-  margin-top: 12rem;
-  border-top: 1px solid var(--fg); /* 太い線 */
-  padding-top: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.social { display: flex; gap: 1.5rem; }
-.social a { font-family: var(--font-mono); text-transform: uppercase; font-size: 0.8rem; }
-.footer-sig { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); }
-
-/* --- ANIMATION UTILS --- */
+/* Scroll Reveal Animation */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .is-visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  h1 { font-size: 4.5rem; }
-  .top { position: absolute; }
-  .paper { padding: 3rem 0; }
 }
