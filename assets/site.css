@@ -1,100 +1,61 @@
-:root {
-  --bg: #050507;
-  --card-bg: #0f0f12;
-  --text-main: #f0f0f0;
-  --text-muted: #888fa0;
-  --platinum: #d0d5e0;
-  --platinum-dim: rgba(208, 213, 224, 0.3);
-  --border-sharp: rgba(255, 255, 255, 0.12);
-  --armani-blue: #4169E1;   
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Montserrat", sans-serif;
-  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+/* 基本設定 */
+body {
+    font-family: 'Times New Roman', serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-
-/* ① カーソル演出の廃止：標準カーソルを使用 */
-html, body, a, .paper, .pill { cursor: auto !important; }
-
-::selection { background: var(--platinum-dim); color: #fff; }
-
-html { font-size: 16px; background-color: var(--bg); scroll-behavior: smooth; }
-body { margin: 0; padding: 0; color: var(--text-main); font-family: var(--font-serif); line-height: 1.7; overflow-x: hidden; background: var(--bg); opacity: 1; }
-
-/* ページ遷移演出 */
-body.fade-out { opacity: 0; transform: scale(0.99); filter: blur(10px); pointer-events: none; transition: all 0.6s var(--ease-sharp); }
-
-/* 背景ノイズ */
-body::before {
-  content: ""; position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: -1; mix-blend-mode: overlay;
+/* ⑤ ヘッダー：文字を大きくし、クリックしやすく */
+header nav a {
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
 }
 
-/* Typography */
-h1 { font-family: var(--font-serif); font-weight: 300; font-size: clamp(3rem, 7vw, 7.5rem); line-height: 0.95; letter-spacing: -0.03em; margin: 6rem 0 3rem; color: #fff; max-width: 14ch; }
-.who { font-family: var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; font-size: 0.65rem; color: var(--platinum); margin-bottom: 2rem; }
-.lead { text-align: left; font-size: 1.3rem; color: var(--text-muted); max-width: 42ch; margin: 0 0 8rem; border-left: 1px solid var(--armani-blue); padding-left: 2rem; }
-
-/* ④ 論文タイトルの縮小と自然な配置（縦並びの解消） */
-.paper-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 4vw, 2.2rem); 
-  font-weight: 300;
-  color: #fff;
-  text-decoration: none;
-  line-height: 1.2;
-  display: block;
-  margin-bottom: 1.5rem;
-  max-width: 100%;
-  transition: color 0.1s;
-}
-.paper:hover .paper-title { color: var(--platinum); }
-
-/* ③ 重要フレーズ（引用文）の強調 */
-.thematic-quote {
-  display: block;
-  margin-top: 1.5rem;
-  font-size: 1.6rem; /* 本文より大きく、知的な重みを持たせる */
-  color: #ffffff;
-  font-style: italic;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
+/* ① 各Partタイトル：縦書き・縦固定を解除（横書き） */
+.part-title {
+    font-size: 2.5rem;
+    writing-mode: horizontal-tb;
+    display: block;
+    margin: 40px 0;
 }
 
-/* Layout & Header */
-main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
-.top { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); border-bottom: 1px solid var(--border-sharp); height: 90px; display: flex; align-items: center; }
-.top-inner { width: 92%; max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; position: relative; }
-.scroll-progress { position: absolute; bottom: -1px; left: 0; height: 1px; background: #fff; width: 0%; box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); }
+/* ② 引用テキスト：Abstractサイズ（1.5rem） */
+.quote-abstract {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 30px 0;
+    color: #111;
+}
 
-.brand { font-family: var(--font-sans); color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
-.nav a { color: var(--text-muted); font-family: var(--font-sans); font-size: 0.65rem; text-decoration: none; transition: 0.4s; margin-left: 3rem; letter-spacing: 0.15em; }
-.nav a:hover { color: #fff; }
+/* ③ PDFボタン */
+.pdf-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-/* 論文カード：静的スタイル */
-.paper { position: relative; background: var(--card-bg); border-top: 1px solid var(--border-sharp); border-left: 1px solid var(--border-sharp); padding: 5rem 4rem; margin-bottom: 5rem; transition: border-color 0.3s var(--ease-sharp); }
-#archive .paper:hover { border-color: var(--platinum); }
-.paper-signal { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; font-family: var(--font-serif); max-width: 50ch; }
-.k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; font-family: var(--font-sans); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; }
-.k span { color: var(--platinum); }
+/* ④ フッター：文字サイズ拡大と下線ホバー */
+footer .social-links a {
+    font-size: 1.1rem;
+    margin-right: 20px;
+    text-decoration: none;
+    color: #333;
+}
 
-/* Stretched Link (カード全体をクリック可能に) */
-.stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
+footer .social-links a:hover {
+    text-decoration: underline; /* 下線のホバー */
+}
 
-/* Buttons */
-.actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
-.pill { position: relative; z-index: 15; display: inline-flex; align-items: center; height: 42px; padding: 0 28px; border: 1.5px solid var(--platinum); color: #fff; background: rgba(208, 213, 224, 0.08); text-decoration: none; transition: all 0.2s var(--ease-sharp); font-family: var(--font-sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; }
-.paper:hover .pill { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
-
-/* 出現演出 */
-.reveal { opacity: 0; transform: translateY(20px); transition: all 1s var(--ease-sharp); }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
-
-/* Footer */
-footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); font-family: var(--font-sans); font-size: 0.65rem; color: #444; }
-.footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
-.social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
-.social-link { color: #e0e0e0; text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s; }
-.social-link:hover { color: #fff; }
+.part-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
