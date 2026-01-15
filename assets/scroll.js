@@ -1,11 +1,14 @@
 document.querySelectorAll('header nav a').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href.startsWith('#')) {
+        const targetId = this.getAttribute('href');
+        if (targetId.startsWith('#')) {
             e.preventDefault();
-            document.querySelector(href).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         }
     });
 });
