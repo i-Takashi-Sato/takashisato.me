@@ -33,7 +33,14 @@
 
 ::selection { background: var(--platinum-dim); color: #fff; }
 
-html { font-size: 16px; background-color: var(--bg); scroll-behavior: smooth; }
+html { 
+  font-size: 16px; 
+  background-color: var(--bg); 
+  scroll-behavior: smooth; 
+  
+  /* 【重要】スクロールバーの有無による画面のガタツキ（ズレ）を防止 */
+  scrollbar-gutter: stable;
+}
 
 /* --- Body Texture: Global Cinematic Grain --- */
 body { 
@@ -128,7 +135,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
 .signature-logo {
   height: 55px; width: auto;
-  mix-blend-mode: screen; /* 念のため黒背景透過（背景が黒なら不要だが安全策） */
+  mix-blend-mode: screen; /* 念のため黒背景透過 */
   display: block;
 }
 .brand strong, .brand-text { display: none; }
@@ -230,6 +237,19 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
               height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .custom-cursor.cursor-active { width: 70px; height: 70px; background: #ffffff; mix-blend-mode: difference; }
+
+/* --- Scroll Progress Bar --- */
+.scroll-progress {
+  position: absolute; 
+  bottom: 0; 
+  left: 0;
+  height: 2px; /* 線の太さ */
+  background: #ffffff;
+  width: 0%; 
+  z-index: 101;
+  transition: width 0.1s ease-out;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
 
 /* --- Page Details & Mobile --- */
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
