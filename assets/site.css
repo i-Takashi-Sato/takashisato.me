@@ -1,30 +1,28 @@
 /* =========================================================
-   THEME: "Phantom Obsidian" (World-Class Typography Edition)
+   THEME: "Phantom Obsidian" (Final: World-Class Edition)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@200;300;400;500;600&display=swap');
 
 :root {
-  /* --- Colors: The "Deep Silence" Palette --- */
-  /* Site Background: Phantom Obsidian (ごくわずかに紫を含む究極の黒) */
-  --bg: #030304;
+  /* --- Colors --- */
+  --bg: #030304;      /* Phantom Obsidian */
+  --card-bg: #0a0a0c; /* Matte Black */
   
-  /* Card Background: Deep Matte Black */
-  --card-bg: #0a0a0c;
+  --text-head: #ffffff;
+  --text-main: #e0e0e0;
+  --text-muted: #858595;
   
-  /* Typography Colors */
-  --text-head: #ffffff;    /* 見出し用: 純白 */
-  --text-main: #e0e0e0;    /* 本文用: シルクホワイト (目に優しい) */
-  --text-muted: #858595;   /* 補足用: 青みグレー */
+  /* 【ここが最高にかっこいい色】 Electric Indigo */
+  --accent-color: #3b5bdb; 
   
   --platinum: #d0d5e0;
   --platinum-dim: rgba(208, 213, 224, 0.3);
-  --border-sharp: rgba(255, 255, 255, 0.08); /* 繊細な境界線 */
-  --armani-blue: #4169E1;   
-  
+  --border-sharp: rgba(255, 255, 255, 0.08);
+
   /* --- Fonts --- */
   --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Manrope", sans-serif; /* Modern & Functional */
+  --font-sans: "Manrope", sans-serif;
   
   --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -41,33 +39,27 @@ html {
   font-size: 16px; 
   background-color: var(--bg); 
   scroll-behavior: smooth; 
-  
-  /* 【重要】スクロールバーの有無による画面のガタツキ（ズレ）を防止 */
   scrollbar-gutter: stable;
 }
 
-/* --- Body Texture: Global Cinematic Grain --- */
+/* --- Body & Texture --- */
 body { 
   margin: 0; padding: 0; 
   color: var(--text-main); 
   font-family: var(--font-serif); 
-  font-size: 1.05rem; /* 本文サイズ微増で可読性UP */
+  font-size: 1.05rem; 
   line-height: 1.8; 
   overflow-x: hidden; background: var(--bg);
   opacity: 1;
   transition: opacity 0.6s var(--ease-sharp);
-  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 全体の背景に微細なノイズを乗せる */
 body::before {
   content: ""; position: fixed; inset: 0;
   z-index: -1; pointer-events: none;
-  opacity: 0.03; /* ノイズの強さ */
-  
-  /* SVG Noise Filter */
+  opacity: 0.03; 
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
@@ -81,7 +73,7 @@ h1 {
 
 .who, .section-label, .brand, .pill, .k { 
   font-family: var(--font-sans); 
-  font-size: 0.75rem; /* 12px: 世界標準の最小可読サイズ */
+  font-size: 0.75rem; 
   letter-spacing: 0.15em; 
   text-transform: uppercase; 
   font-weight: 400; 
@@ -90,85 +82,48 @@ h1 {
 .who { display: block; color: var(--text-muted); margin-bottom: 2rem; padding-left: 2px; }
 .who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--platinum-dim); margin-bottom: 1rem; }
 
+/* 【修正】ここを --accent-color に統一 */
 .lead {
   text-align: left; font-size: 1.3rem; color: var(--text-muted); max-width: 42ch; margin: 0 0 8rem; font-weight: 300; line-height: 1.8;
-  border-left: 1px solid var(--armani-blue); padding-left: 2rem; margin-left: 2px;
+  border-left: 1px solid var(--accent-color); /* Electric Indigo */
+  padding-left: 2rem; margin-left: 2px;
 }
 
 /* --- Layout --- */
 main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
-/* --- Header: Noir Film Gradient (Solid Black -> Glass) --- */
+/* --- Header --- */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: 90px; 
   display: flex; align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 境界線は極薄に */
-  
-  background: transparent; /* 背景は疑似要素で作る */
-  
-  /* 右側の透明部分にすりガラス効果 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: transparent;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
-
-/* Layer 1: 左（完全な黒）から右（透明）へのグラデーション */
 .top::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  
-  /* 0px〜300px: 完全な黒 #000000 (署名画像の背景枠を隠すエリア)
-     100%: 透明度のあるサイト背景色へ
-  */
-  background: linear-gradient(
-    to right,
-    #000000 0%,
-    #000000 300px, 
-    rgba(3, 3, 4, 0.4) 100%
-  );
+  content: ""; position: absolute; inset: 0; z-index: -2;
+  background: linear-gradient(to right, #000000 0%, #000000 300px, rgba(3, 3, 4, 0.4) 100%);
 }
-
-/* Layer 2: ヘッダー専用のノイズテクスチャ */
 .top::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0.08; 
-  pointer-events: none;
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  opacity: 0.08; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
-
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
 
-/* --- Brand: Signature Image --- */
-.brand { 
-  display: flex; align-items: center;
-  text-decoration: none; transition: opacity 0.3s; padding: 10px 0;
-}
+/* --- Brand --- */
+.brand { display: flex; align-items: center; text-decoration: none; transition: opacity 0.3s; padding: 10px 0; }
 .brand:hover { opacity: 0.8; }
-
-.signature-logo {
-  height: 55px; width: auto;
-  mix-blend-mode: screen; /* 念のため黒背景透過 */
-  display: block;
-}
+.signature-logo { height: 55px; width: auto; mix-blend-mode: screen; display: block; }
 .brand strong, .brand-text { display: none; }
 
-/* --- Nav Links --- */
+/* --- Nav --- */
 .nav a { 
-  color: var(--text-muted); 
-  font-family: var(--font-sans); 
-  font-size: 0.75rem; /* 12px */
-  letter-spacing: 0.15em; /* 字間広め */
-  text-decoration: none; 
-  transition: color 0.3s var(--ease-sharp); 
-  margin-left: 2.5rem; 
-  position: relative;
-  padding: 10px 0; 
-  display: inline-block;
+  color: var(--text-muted); font-family: var(--font-sans); 
+  font-size: 0.75rem; letter-spacing: 0.15em; text-decoration: none; 
+  transition: color 0.3s var(--ease-sharp); margin-left: 2.5rem; position: relative; padding: 10px 0; display: inline-block;
 }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: 5px; width: 0; height: 1px; background: var(--text-head); transition: 0.3s var(--ease-sharp); }
 .nav a:hover { color: var(--text-head); }
@@ -178,38 +133,23 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .section-label { text-align: left; color: var(--text-muted); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
 
 .paper {
-  position: relative;
-  background: var(--card-bg);
-  border: 1px solid var(--border-sharp);
-  padding: 5rem 4rem;
-  margin-bottom: 5rem;
-  overflow: hidden;
+  position: relative; background: var(--card-bg); border: 1px solid var(--border-sharp);
+  padding: 5rem 4rem; margin-bottom: 5rem; overflow: hidden;
   will-change: transform, box-shadow;
-  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1),
-              background-color 0.2s ease-out,
-              border-color 0.2s ease-out,
-              box-shadow 0.2s ease-out;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 .stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
 
 .paper:hover {
   transform: translateY(-4px) scale(1.005);
-  box-shadow: 
-    0 10px 40px -10px rgba(0, 0, 0, 0.8),
-    0 0 0 1px var(--platinum);
-  background-color: #121215; /* ホバー時は少し明るく */
-  border-color: var(--platinum);
-  z-index: 10;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--platinum);
+  background-color: #121215; border-color: var(--platinum); z-index: 10;
 }
 
 .paper-title { 
-  font-family: var(--font-serif); 
-  font-size: clamp(2.5rem, 4vw, 3.5rem); 
-  font-weight: 300; 
-  color: var(--text-head); 
-  display: block; margin-bottom: 1.5rem; 
-  text-decoration: none; line-height: 1.1; 
-  transition: color 0.1s;
+  font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 3.5rem); 
+  font-weight: 300; color: var(--text-head); display: block; margin-bottom: 1.5rem; 
+  text-decoration: none; line-height: 1.1; transition: color 0.1s;
 }
 .paper:hover .paper-title { color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
 
@@ -242,30 +182,19 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
 .social-link:hover::after { width: 100%; }
 
-/* --- Custom Cursor: Inverted Scanner --- */
+/* --- Custom Cursor --- */
 .custom-cursor {
   position: fixed; width: 12px; height: 12px; 
-  background: #ffffff; border-radius: 50%; 
-  pointer-events: none; z-index: 9999;
+  background: #ffffff; border-radius: 50%; pointer-events: none; z-index: 9999;
   mix-blend-mode: difference; 
   transform: translate(-50%, -50%);
-  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), 
-              width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .custom-cursor.cursor-active { width: 70px; height: 70px; background: #ffffff; mix-blend-mode: difference; }
 
-/* --- Scroll Progress Bar --- */
+/* --- Scroll Progress --- */
 .scroll-progress {
-  position: absolute; 
-  bottom: 0; 
-  left: 0;
-  height: 2px; /* 線の太さ */
-  background: #ffffff;
-  width: 0%; 
-  z-index: 101;
-  transition: width 0.1s ease-out;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  position: absolute; bottom: 0; left: 0; height: 2px; background: #ffffff; width: 0%; z-index: 101; transition: width 0.1s ease-out; box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 
 /* --- Page Details & Mobile --- */
@@ -275,7 +204,14 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   font-weight: 300; line-height: 1.1; color: var(--text-head); margin-bottom: 2rem; 
   border-bottom: 1px solid var(--border-sharp); padding-bottom: 2rem; max-width: 100% !important; 
 }
-.article-body blockquote { margin: 3rem 0; padding: 1rem 0 1rem 2rem; border-left: 1px solid var(--armani-blue); font-style: italic; color: var(--text-muted); }
+
+/* 【修正】ここも --accent-color に統一し、赤色の設定を削除 */
+.article-body blockquote { 
+  margin: 3rem 0; padding: 1rem 0 1rem 2rem; 
+  border-left: 1px solid var(--accent-color); /* Electric Indigo */
+  font-style: italic; color: var(--text-muted); 
+}
+
 .citation-box { margin-top: 4rem; padding: 2rem; border: 1px solid var(--border-sharp); background: var(--card-bg); font-family: var(--font-sans); }
 
 @media (max-width: 768px) {
@@ -289,7 +225,10 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   .article-header h1 { font-size: 1.7rem; line-height: 1.3; }
   .paper { padding: 3rem 1.5rem; transform: none !important; transition: none; background: var(--card-bg) !important; }
   .paper-title { font-size: 2rem; color: #fff !important; }
-  .lead, .article-body blockquote { border-left: 1px solid #D22B2B; padding-left: 1.5rem; }
+  
+  /* モバイル用の赤い線を削除し、統一設定を継承させるため削除 */
+  .lead, .article-body blockquote { padding-left: 1.5rem; }
+  
   .pill { width: 100%; justify-content: center; }
   .actions { justify-content: center; margin-top: 3rem; }
   footer { margin-top: 4rem; }
