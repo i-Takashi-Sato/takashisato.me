@@ -13,7 +13,7 @@
   --text-main: #e0e0e0;
   --text-muted: #858595;
   
-  /* 【ここが最高にかっこいい色】 Electric Indigo */
+  /* Accent: Electric Indigo */
   --accent-color: #3b5bdb; 
   
   --platinum: #d0d5e0;
@@ -82,10 +82,9 @@ h1 {
 .who { display: block; color: var(--text-muted); margin-bottom: 2rem; padding-left: 2px; }
 .who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--platinum-dim); margin-bottom: 1rem; }
 
-/* 【修正】ここを --accent-color に統一 */
 .lead {
   text-align: left; font-size: 1.3rem; color: var(--text-muted); max-width: 42ch; margin: 0 0 8rem; font-weight: 300; line-height: 1.8;
-  border-left: 1px solid var(--accent-color); /* Electric Indigo */
+  border-left: 1px solid var(--accent-color);
   padding-left: 2rem; margin-left: 2px;
 }
 
@@ -192,9 +191,22 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 }
 .custom-cursor.cursor-active { width: 70px; height: 70px; background: #ffffff; mix-blend-mode: difference; }
 
-/* --- Scroll Progress --- */
+/* --- Scroll Progress: The Plasma Beam --- */
 .scroll-progress {
-  position: absolute; bottom: 0; left: 0; height: 2px; background: #ffffff; width: 0%; z-index: 101; transition: width 0.1s ease-out; box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  position: absolute; 
+  bottom: 0; 
+  left: 0;
+  height: 2px; /* 視認性と美学の黄金比 */
+  background: var(--accent-color); /* Electric Indigo */
+  
+  /* レーザーのような発光感を追加 */
+  box-shadow: 
+    0 0 10px var(--accent-color), 
+    0 0 20px rgba(59, 91, 219, 0.5); 
+    
+  width: 0%; 
+  z-index: 101; 
+  transition: width 0.1s ease-out; 
 }
 
 /* --- Page Details & Mobile --- */
@@ -205,10 +217,9 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   border-bottom: 1px solid var(--border-sharp); padding-bottom: 2rem; max-width: 100% !important; 
 }
 
-/* 【修正】ここも --accent-color に統一し、赤色の設定を削除 */
 .article-body blockquote { 
   margin: 3rem 0; padding: 1rem 0 1rem 2rem; 
-  border-left: 1px solid var(--accent-color); /* Electric Indigo */
+  border-left: 1px solid var(--accent-color); 
   font-style: italic; color: var(--text-muted); 
 }
 
@@ -226,7 +237,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   .paper { padding: 3rem 1.5rem; transform: none !important; transition: none; background: var(--card-bg) !important; }
   .paper-title { font-size: 2rem; color: #fff !important; }
   
-  /* モバイル用の赤い線を削除し、統一設定を継承させるため削除 */
   .lead, .article-body blockquote { padding-left: 1.5rem; }
   
   .pill { width: 100%; justify-content: center; }
