@@ -1,6 +1,7 @@
 /* =========================================================
    THEME: "Phantom Obsidian" (Final Polished Edition)
    Focus: Usability A+, Design S, Typography S
+   NOTE: OS cursor is kept. Reveal uses animation (no hover conflict).
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap');
@@ -9,13 +10,13 @@
   /* --- Colors --- */
   --bg: #050507;
   --card-bg: #0f0f12;
-  
+
   --text-head: #ffffff;
   --text-main: #f2f2f2;
   --text-muted: #a0a0b0;
-  
-  --accent-color: #4c6ef5; 
-  
+
+  --accent-color: #4c6ef5;
+
   --platinum: #e0e5f0;
   --platinum-dim: rgba(224, 229, 240, 0.2);
   --border-sharp: rgba(255, 255, 255, 0.12);
@@ -23,7 +24,7 @@
   /* --- Fonts (KEEP SERIF for Identity) --- */
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Manrope", sans-serif;
-  
+
   --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -32,60 +33,70 @@
 /* 高級感のある選択色 */
 ::selection { background: rgba(208, 213, 224, 0.25); color: #fff; }
 
-/* 【必須修正】キーボードフォーカスの可視化 (Usability P0) */
+/* 【必須】キーボードフォーカスの可視化 (Usability P0) */
 :focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 4px;
   border-radius: 4px;
 }
 
-html { 
-  font-size: 16px; 
-  background-color: var(--bg); 
-  scroll-behavior: smooth; 
+html {
+  font-size: 16px;
+  background-color: var(--bg);
+  scroll-behavior: smooth;
   scrollbar-gutter: stable;
 }
 
-body { 
-  margin: 0; padding: 0; 
-  color: var(--text-main); 
-  font-family: var(--font-serif); 
-  font-size: 1.15rem; 
-  line-height: 1.9; 
-  font-weight: 400; 
-  overflow-x: hidden; background: var(--bg);
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text-main);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.9;
+  font-weight: 400;
+  overflow-x: hidden;
+  background: var(--bg);
+
+  /* page transition 用 */
   opacity: 1;
   transition: opacity 0.6s var(--ease-sharp);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* ノイズテクスチャ */
+/* ノイズテクスチャ（CSPを厳密にするなら data: を避けてローカル画像化推奨） */
 body::before {
-  content: ""; position: fixed; inset: 0;
-  z-index: -1; pointer-events: none;
-  opacity: 0.015; 
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.015;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* --- Typography --- */
 h1 {
-  font-family: var(--font-serif); 
-  font-weight: 400; 
-  font-size: clamp(3rem, 7vw, 6.5rem); 
-  line-height: 1.1; 
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 1.1;
   letter-spacing: -0.01em;
-  margin: 6rem 0 3rem; text-align: left; color: var(--text-head);
-  max-width: 16ch; 
+  margin: 6rem 0 3rem;
+  text-align: left;
+  color: var(--text-head);
+  max-width: 16ch;
 }
 
-.who, .section-label, .brand, .pill, .k { 
-  font-family: var(--font-sans); 
-  font-size: 0.85rem; 
-  letter-spacing: 0.1em; 
-  text-transform: uppercase; 
-  font-weight: 500; 
+.who, .section-label, .brand, .pill, .k {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
   color: var(--text-muted);
 }
 
@@ -93,14 +104,16 @@ h1 {
 .who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--text-muted); margin-bottom: 1rem; }
 
 .lead {
-  text-align: left; 
-  font-size: 1.4rem; 
-  color: var(--text-main); 
-  max-width: 45ch; margin: 0 0 8rem; 
-  font-weight: 400; 
+  text-align: left;
+  font-size: 1.4rem;
+  color: var(--text-main);
+  max-width: 45ch;
+  margin: 0 0 8rem;
+  font-weight: 400;
   line-height: 1.8;
-  border-left: 2px solid var(--accent-color); 
-  padding-left: 2rem; margin-left: 2px;
+  border-left: 2px solid var(--accent-color);
+  padding-left: 2rem;
+  margin-left: 2px;
 }
 
 /* --- Layout --- */
@@ -108,24 +121,43 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
 /* --- Header --- */
 .top {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 90px; 
-  display: flex; align-items: center;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 90px;
+  display: flex;
+  align-items: center;
+
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: transparent;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 .top::before {
-  content: ""; position: absolute; inset: 0; z-index: -2;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
   background: linear-gradient(to right, #050507 0%, #050507 300px, rgba(5, 5, 7, 0.4) 100%);
 }
 .top::after {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  opacity: 0.05; pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.05;
+  pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
-.top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
+.top-inner {
+  width: 92%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 /* --- Brand --- */
 .brand { display: flex; align-items: center; text-decoration: none; transition: opacity 0.3s; padding: 10px 0; }
@@ -134,61 +166,159 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .brand strong, .brand-text { display: none; }
 
 /* --- Nav --- */
-.nav a { 
-  color: var(--text-muted); font-family: var(--font-sans); 
-  font-size: 0.85rem; letter-spacing: 0.1em; text-decoration: none; 
-  transition: color 0.3s var(--ease-sharp); margin-left: 2.5rem; position: relative; 
-  padding: 10px 0; display: inline-block;
+.nav a {
+  /* readability safety: muted は美しいが小さめなので、審査想定なら platinum 推奨。
+     ここは好みで --text-muted に戻してもOK */
+  color: var(--platinum);
+
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+
+  transition: color 0.3s var(--ease-sharp);
+  margin-left: 2.5rem;
+  position: relative;
+  padding: 10px 0;
+  display: inline-block;
 }
-.nav a::after { content: ''; position: absolute; left: 0; bottom: 5px; width: 0; height: 1px; background: var(--text-head); transition: 0.3s var(--ease-sharp); }
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 0;
+  height: 1px;
+  background: var(--text-head);
+  transition: 0.3s var(--ease-sharp);
+}
 .nav a:hover, .nav a[aria-current="page"] { color: var(--text-head); }
 .nav a:hover::after, .nav a[aria-current="page"]::after { width: 100%; }
 
+/* --- Reveal (animation: hoverと干渉させない) --- */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* JSが .reveal を付与し、交差時に .is-visible を付与する前提 */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+/* fill-mode は none にして、最終状態は通常ルールで確定させる（hover transform の事故回避） */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: revealUp 0.8s var(--ease-sharp);
+}
+
+/* 論文カードのみスタッガー（articleのみをカウント） */
+#archive article.paper.is-visible { animation-delay: 0s; }
+#archive article.paper:nth-of-type(1).is-visible { animation-delay: 0.10s; }
+#archive article.paper:nth-of-type(2).is-visible { animation-delay: 0.20s; }
+#archive article.paper:nth-of-type(3).is-visible { animation-delay: 0.30s; }
+
 /* --- Cards --- */
-.section-label { text-align: left; color: var(--text-muted); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
+.section-label {
+  text-align: left;
+  color: var(--text-muted);
+  margin: 10rem 0 2rem;
+  display: block;
+  padding-left: 4px;
+}
 
 .paper {
-  position: relative; background: var(--card-bg); border: 1px solid var(--border-sharp);
-  padding: 5rem 4rem; margin-bottom: 5rem; overflow: hidden;
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border-sharp);
+  padding: 5rem 4rem;
+  margin-bottom: 5rem;
+  overflow: hidden;
+
   will-change: transform, box-shadow;
-  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+    background-color 0.2s ease-out,
+    border-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 .stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
 
 .paper:hover {
   transform: translateY(-4px) scale(1.005);
   box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--platinum);
-  background-color: #15151a; 
-  border-color: var(--platinum); z-index: 10;
+  background-color: #15151a;
+  border-color: var(--platinum);
+  z-index: 10;
 }
 
 /* h2対応：構造化のための調整 */
 h2.paper-title { margin: 0 0 1.5rem; }
 
-.paper-title { 
-  font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 3.5rem); 
-  font-weight: 400; color: var(--text-head); display: block;
-  text-decoration: none; line-height: 1.1; transition: color 0.1s;
-  /* 【必須修正】Z-index保護 (ボタンが押せない事故防止) */
-  position: relative; z-index: 2; 
+.paper-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--text-head);
+  display: block;
+  text-decoration: none;
+  line-height: 1.1;
+  transition: color 0.1s;
+  position: relative;
+  z-index: 2; /* ボタンが押せない事故防止 */
 }
 .paper-title a { color: inherit; text-decoration: none; }
 .paper:hover .paper-title, .paper:hover .paper-title a { color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
 
-.paper-signal { 
-  font-size: 1.2rem !important; color: var(--text-main) !important; line-height: 1.7 !important;  
-  font-family: var(--font-serif); max-width: 100%; transition: color 0.2s; margin-bottom: 1rem;
+.paper-signal {
+  font-size: 1.2rem !important;
+  color: var(--text-main) !important;
+  line-height: 1.7 !important;
+  font-family: var(--font-serif);
+  max-width: 100%;
+  transition: color 0.2s;
+  margin-bottom: 1rem;
 }
 
-.k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; transition: border-color 0.2s, color 0.2s; }
+.k {
+  display: inline-block;
+  margin-top: 2.5rem;
+  color: #666;
+  border: 1px solid var(--border-sharp);
+  padding: 0.8rem 1.2rem;
+  transition: border-color 0.2s, color 0.2s;
+}
 .k span { color: var(--text-muted); }
 .paper:hover .k { border-color: var(--text-muted); color: var(--platinum); }
 
-.actions { display: flex; justify-content: flex-end; margin-top: 3rem; position: relative; z-index: 5; /* ボタン保護 */ }
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 5; /* ボタン保護 */
+}
+
 .pill {
-  position: relative; z-index: 15; display: inline-flex; align-items: center; height: 42px; padding: 0 28px;
-  border: 1.5px solid var(--platinum); color: var(--text-head); background: rgba(208, 213, 224, 0.08);
-  text-decoration: none; transition: all 0.2s var(--ease-sharp);
+  position: relative;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 28px;
+
+  border: 1.5px solid var(--platinum);
+  color: var(--text-head);
+  background: rgba(208, 213, 224, 0.08);
+  text-decoration: none;
+
+  /* transition: all は避ける（意図しない重さ/競合の温床） */
+  transition:
+    background-color 0.2s var(--ease-sharp),
+    color 0.2s var(--ease-sharp),
+    border-color 0.2s var(--ease-sharp);
 }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
 
@@ -200,7 +330,8 @@ h2.paper-title { margin: 0 0 1.5rem; }
   text-underline-offset: 4px;
   text-decoration-thickness: 1px;
   transition: color 0.2s, text-decoration-color 0.2s;
-  position: relative; z-index: 5;
+  position: relative;
+  z-index: 5;
 }
 .article-body a:hover, .lead a:hover, .paper-signal a:hover {
   color: var(--accent-color);
@@ -208,12 +339,23 @@ h2.paper-title { margin: 0 0 1.5rem; }
 }
 
 /* --- Footer --- */
-footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.15); font-family: var(--font-sans); color: var(--text-muted); }
+footer {
+  margin-top: 6rem;
+  padding: 4rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+}
 .footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
-.social-link { 
-  color: var(--text-muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.15em; 
-  transition: 0.3s; position: relative; padding: 10px; 
+.social-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: 0.3s;
+  position: relative;
+  padding: 10px;
 }
 .social-link:hover { color: var(--text-head); }
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
@@ -221,30 +363,69 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 
 /* --- Scroll Progress --- */
 .scroll-progress {
-  position: absolute; bottom: 0; left: 0; 
-  height: 2px; 
-  background: var(--accent-color); 
-  box-shadow: 0 0 10px var(--accent-color), 0 0 20px rgba(76, 110, 245, 0.5); 
-  width: 0%; z-index: 101; transition: width 0.1s ease-out; 
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color), 0 0 20px rgba(76, 110, 245, 0.5);
+  width: 0%;
+  z-index: 101;
+  transition: width 0.1s ease-out;
 }
 
 /* --- Utilities --- */
 .fade-out { opacity: 0 !important; pointer-events: none; }
 
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
-.article-header h1 { 
-  font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); 
-  font-weight: 400; line-height: 1.1; color: var(--text-head); margin-bottom: 2rem; 
-  border-bottom: 1px solid var(--border-sharp); padding-bottom: 2rem; max-width: 100% !important; 
+.article-header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-head);
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-sharp);
+  padding-bottom: 2rem;
+  max-width: 100% !important;
 }
 
-.article-body blockquote { 
-  margin: 3rem 0; padding: 1rem 0 1rem 2rem; 
-  border-left: 2px solid var(--accent-color); 
-  font-style: italic; color: var(--text-muted); 
+.article-body blockquote {
+  margin: 3rem 0;
+  padding: 1rem 0 1rem 2rem;
+  border-left: 2px solid var(--accent-color);
+  font-style: italic;
+  color: var(--text-muted);
 }
 
-.citation-box { margin-top: 4rem; padding: 2rem; border: 1px solid var(--border-sharp); background: var(--card-bg); font-family: var(--font-sans); }
+.citation-box {
+  margin-top: 4rem;
+  padding: 2rem;
+  border: 1px solid var(--border-sharp);
+  background: var(--card-bg);
+  font-family: var(--font-sans);
+}
+
+/* --- Reduced Motion (delay待ちゼロ + 即表示) --- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+
+  /* reveal を完全に無効化（即表示） */
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  /* 過剰なトランジションも抑制（必要最低限） */
+  .paper,
+  .pill,
+  .scroll-progress,
+  body {
+    transition: none !important;
+  }
+}
 
 @media (max-width: 768px) {
   .paper:hover { transform: none; box-shadow: none; background: var(--card-bg); }
@@ -253,19 +434,19 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   .nav { gap: 1rem; }
 
   /* モバイルナビの可読性とタップ領域 (Usability P0) */
-  .nav a { 
-    margin-left: 0; 
-    font-size: 0.85rem; 
-    padding: 12px 10px; 
-    letter-spacing: 0.05em; 
+  .nav a {
+    margin-left: 0;
+    font-size: 0.85rem;
+    padding: 12px 10px;
+    letter-spacing: 0.05em;
   }
 
   h1 { font-size: 2.8rem; margin-top: 7rem; max-width: 100%; word-wrap: break-word; }
   .article-header h1 { font-size: 1.7rem; line-height: 1.3; }
   .paper { padding: 3rem 1.5rem; transform: none !important; transition: none; background: var(--card-bg) !important; }
-  
+
   .paper-title { font-size: 2rem; color: #fff !important; }
-  
+
   .lead, .article-body blockquote { padding-left: 1.5rem; }
   .pill { width: 100%; justify-content: center; height: 44px; }
   .actions { justify-content: center; margin-top: 3rem; }
