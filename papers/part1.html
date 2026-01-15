@@ -13,11 +13,14 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="no-referrer" />
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="/assets/site.css">
 
+  <!-- Citation metadata -->
   <meta name="citation_title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems" />
   <meta name="citation_author" content="Takashi Sato" />
   <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
@@ -31,6 +34,7 @@
   <meta name="citation_technical_report_institution" content="SSRN" />
   <meta name="citation_technical_report_number" content="5911063" />
 
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Workflow-Centric AI Governance · Takashi Sato" />
   <meta property="og:description" content="ALTRION: structured friction for accountable human–AI decision systems." />
   <meta property="og:type" content="article" />
@@ -38,11 +42,16 @@
   <meta property="og:image" content="https://takashisato.me/og.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"ScholarlyArticle",
     "@id":"https://takashisato.me/papers/part1.html#article",
+    "mainEntityOfPage":{
+      "@type":"WebPage",
+      "@id":"https://takashisato.me/papers/part1.html"
+    },
     "headline":"Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
     "description":"ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.",
     "inLanguage":"en",
@@ -58,96 +67,97 @@
 </head>
 
 <body>
+  <header class="top" aria-label="Site header">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
+      </a>
 
-<header class="top" aria-label="Site header">
-  <div class="top-inner">
-    <a class="brand" href="/">
-      <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
-    </a>
-    
-    <nav class="nav">
-      <a href="/papers/part1.html" aria-current="page">PART I</a>
-      <a href="/papers/part2.html">PART II</a>
-      <a href="/papers/part3.html">PART III</a>
-    </nav>
-  </div>
-</header>
+      <nav class="nav" aria-label="Primary">
+        <a href="/papers/part1.html" aria-current="page">PART I</a>
+        <a href="/papers/part2.html">PART II</a>
+        <a href="/papers/part3.html">PART III</a>
+      </nav>
+    </div>
+  </header>
 
-<main>
-  <div class="article-container">
-    
-    <a href="/" class="back-link">Back to Archive</a>
+  <main>
+    <div class="article-container">
+      <a href="/" class="back-link">Back to Archive</a>
 
-    <header class="article-header">
-      <h1>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems</h1>
-      
-      <div class="article-meta">
-        <span>Published: 2025/12/12</span>
-        <span>SSRN: 5911063</span>
-        <span>Rev: 2026/01/09</span>
-      </div>
-    </header>
+      <header class="article-header">
+        <h1>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems</h1>
 
-    <article class="article-body">
-      <blockquote>
-        “To preserve the human, we must engineer the friction of thought.”
-        <br><span class="t-red" style="font-size:0.8em;">思考に摩擦を仕込むという設計。</span>
-      </blockquote>
+        <div class="article-meta" aria-label="Paper metadata">
+          <span>Published: 2025/12/12</span>
+          <span>SSRN: 5911063</span>
+          <span>Rev: 2026/01/09</span>
+        </div>
+      </header>
 
-      <p class="section-label">
-        Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
-      </p>
+      <article class="article-body">
+        <blockquote>
+          “To preserve the human, we must engineer the friction of thought.”
+          <br>
+          <span class="quote-translation">思考に摩擦を仕込むという設計。</span>
+        </blockquote>
 
-      <h2>Abstract</h2>
-      <p class="lead">
-        The integration of AI into high-stakes domains has revealed a critical sociotechnical gap: while model performance improves, institutional capacity to responsibly operationalize AI outputs remains fragile.
-      </p>
-      <p>
-        Without robust procedural safeguards, human oversight often devolves into performative ritualism rather than substantive review. To address this, we propose <strong>ALTRION</strong>, a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines. ALTRION formalizes four governance gates—from baseline constraints to human arbitration—that are designed to enforce cognitive engagement and preserve meaningful human agency.
-      </p>
-      <p>
-        We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
-      </p>
+        <p class="section-label">
+          Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
+        </p>
 
-      <h2>Why it matters</h2>
-      <ul>
-        <li>Turns “oversight” into a <strong>workflow object</strong>—auditable, revisable, and enforceable.</li>
-        <li>Introduces <strong>structured friction</strong> to prevent ritualized compliance and moral crumple zones.</li>
-        <li>Provides a governance-first architecture aligned with institutional reality.</li>
-      </ul>
-      
-      <div style="margin-top: 3rem;">
-         <a class="pill" href="https://takashisato.me/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-      </div>
-    </article>
+        <h2>Abstract</h2>
 
-    <div class="citation-box">
-      <span class="citation-label">BibTeX Citation</span>
-      <pre class="citation-text">@misc{sato2025workflowcentric,
+        <p class="lead">
+          The integration of AI into high-stakes domains has revealed a critical sociotechnical gap: while model performance improves, institutional capacity to responsibly operationalize AI outputs remains fragile.
+        </p>
+
+        <p>
+          Without robust procedural safeguards, human oversight often devolves into performative ritualism rather than substantive review. To address this, we propose <strong>ALTRION</strong>, a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines. ALTRION formalizes four governance gates—from baseline constraints to human arbitration—that are designed to enforce cognitive engagement and preserve meaningful human agency.
+        </p>
+
+        <p>
+          We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
+        </p>
+
+        <h2>Why it matters</h2>
+        <ul>
+          <li>Turns “oversight” into a <strong>workflow object</strong>—auditable, revisable, and enforceable.</li>
+          <li>Introduces <strong>structured friction</strong> to prevent ritualized compliance and moral crumple zones.</li>
+          <li>Provides a governance-first architecture aligned with institutional reality.</li>
+        </ul>
+
+        <div class="actions">
+          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        </div>
+      </article>
+
+      <div class="citation-box" aria-label="Citation">
+        <span class="citation-label">BibTeX Citation</span>
+        <pre class="citation-text">@misc{sato2025workflowcentric,
   title = {Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human--AI Decision Systems},
   author = {Sato, Takashi},
   year = {2025},
   note = {Preprint},
   url = {https://takashisato.me/pdf/part1.pdf}
 }</pre>
+      </div>
     </div>
+  </main>
 
-  </div>
-</main>
+  <footer>
+    <div class="footer-inner">
+      <nav class="social-nav" aria-label="External links">
+        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+      </nav>
+      <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
+    </div>
+  </footer>
 
-<footer>
-  <div class="footer-inner" style="padding-left: 5vw;">
-    <nav class="social-nav" aria-label="External links">
-      <a href="mailto:i@takashisato.me" class="social-link">Email</a>
-      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
-      <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
-      <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
-      <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
-    </nav>
-    <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
-  </div>
-</footer>
-
-<script defer src="/assets/scroll.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
