@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (Signature & Inverted Cursor)
+   THEME: "Platinum Brutalism" (Final: Signature, Black Header, Inverted Cursor)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -66,7 +66,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 /* Header & Nav */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  background: #050507; /* 完全な黒（すりガラスなし） */
   border-bottom: 1px solid var(--border-sharp); height: 90px; display: flex; align-items: center;
 }
 .scroll-progress {
@@ -95,7 +95,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
 /* 署名画像の設定 */
 .signature-logo {
-  height: 55px;   /* サイズ調整 */
+  height: 55px;
   width: auto;
   mix-blend-mode: screen; /* 黒背景透過 */
   display: block;
