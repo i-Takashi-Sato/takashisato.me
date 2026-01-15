@@ -13,11 +13,14 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="no-referrer" />
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="/assets/site.css">
 
+  <!-- Citation metadata -->
   <meta name="citation_title" content="Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused" />
   <meta name="citation_author" content="Takashi Sato" />
   <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
@@ -31,6 +34,7 @@
   <meta name="citation_technical_report_institution" content="SSRN" />
   <meta name="citation_technical_report_number" content="5913703" />
 
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Forecasting Failure · Takashi Sato" />
   <meta property="og:description" content="Pre-abuse failure: collapse before misuse, driven by entropy and cognitive economy." />
   <meta property="og:type" content="article" />
@@ -38,11 +42,16 @@
   <meta property="og:image" content="https://takashisato.me/og.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"ScholarlyArticle",
     "@id":"https://takashisato.me/papers/part2.html#article",
+    "mainEntityOfPage":{
+      "@type":"WebPage",
+      "@id":"https://takashisato.me/papers/part2.html"
+    },
     "headline":"Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
     "description":"Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse. An ALTRION-based analysis of failure trajectories.",
     "inLanguage":"en",
@@ -58,99 +67,101 @@
 </head>
 
 <body>
+  <header class="top" aria-label="Site header">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
+      </a>
 
-<header class="top" aria-label="Site header">
-  <div class="top-inner">
-    <a class="brand" href="/">
-      <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
-    </a>
-    
-    <nav class="nav">
-      <a href="/papers/part1.html">PART I</a>
-      <a href="/papers/part2.html" aria-current="page">PART II</a>
-      <a href="/papers/part3.html">PART III</a>
-    </nav>
-  </div>
-</header>
+      <nav class="nav" aria-label="Primary">
+        <a href="/papers/part1.html">PART I</a>
+        <a href="/papers/part2.html" aria-current="page">PART II</a>
+        <a href="/papers/part3.html">PART III</a>
+      </nav>
+    </div>
+  </header>
 
-<main>
-  <div class="article-container">
-    
-    <a href="/" class="back-link">Back to Archive</a>
+  <main>
+    <div class="article-container">
+      <a href="/" class="back-link">Back to Archive</a>
 
-    <header class="article-header">
-      <h1>Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused</h1>
-      
-      <div class="article-meta">
-        <span>Published: 2025/12/13</span>
-        <span>SSRN: 5913703</span>
-        <span>Rev: 2026/01/12</span>
-      </div>
-    </header>
+      <header class="article-header">
+        <h1>Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused</h1>
 
-    <article class="article-body">
-      <blockquote>
-        “The system shatters under its own weight before it is ever abused.”
-        <br><span class="t-red" style="font-size:0.8em;">悪用される前に、自らの重みで砕け散る。</span>
-        <br><br>
-        “It is a physical suicide, executed by goodwill.”
-        <br><span class="t-red" style="font-size:0.8em;">それは、善意によって完遂される、自死。</span>
-      </blockquote>
+        <div class="article-meta" aria-label="Paper metadata">
+          <span>Published: 2025/12/13</span>
+          <span>SSRN: 5913703</span>
+          <span>Rev: 2026/01/12</span>
+        </div>
+      </header>
 
-      <p class="section-label">
-        Structure: Framing → Pre-abuse Failure → Four Failure Trajectories → ALTRION as Analytical Probe → Design Targets
-      </p>
+      <article class="article-body">
+        <blockquote>
+          “The system shatters under its own weight before it is ever abused.”
+          <br>
+          <span class="quote-translation">悪用される前に、自らの重みで砕け散る。</span>
+          <br><br>
+          “It is a physical suicide, executed by goodwill.”
+          <br>
+          <span class="quote-translation">それは、善意によって完遂される、自死。</span>
+        </blockquote>
 
-      <h2>Abstract</h2>
-      <p class="lead">
-        Current discourse on AI governance predominantly focuses on adversarial robustness, regulatory non-compliance, and malicious misuse. This paper argues that such framing overlooks a more pervasive and insidious risk: <strong>pre-abuse failure</strong>.
-      </p>
-      <p>
-        Pre-abuse failure is defined as the structural collapse of governance mechanisms that occurs not through malice or external attack, but through the thermodynamic inevitability (as an analytical analogy) of organizational entropy and cognitive economy.
-      </p>
-      <p>
-        Using a procedurally explicit workflow architecture (<strong>ALTRION</strong>) as an analytical probe, we identify four self-reinforcing trajectories of failure: Cognitive Externalization, Responsibility Inversion, Organizational Entropy, and Legibility Capture. We conclude that long-term AI safety requires not just stronger enforcement against bad actors, but a fundamental redesign of how human oversight interacts with the physics of institutional bureaucracy.
-      </p>
+        <p class="section-label">
+          Structure: Framing → Pre-abuse Failure → Four Failure Trajectories → ALTRION as Analytical Probe → Design Targets
+        </p>
 
-      <h2>Why it matters</h2>
-      <ul>
-        <li>Reframes risk from “misuse” to <strong>collapse-before-misuse</strong>—the dominant real-world mode.</li>
-        <li>Names the mechanism: entropy + cognitive economy, not adversarial cleverness.</li>
-        <li>Provides a design target: governance architectures that survive good-faith operation at scale.</li>
-      </ul>
-      
-      <div style="margin-top: 3rem;">
-         <a class="pill" href="https://takashisato.me/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-      </div>
-    </article>
+        <h2>Abstract</h2>
 
-    <div class="citation-box">
-      <span class="citation-label">BibTeX Citation</span>
-      <pre class="citation-text">@misc{sato2025forecastingfailure,
+        <p class="lead">
+          Current discourse on AI governance predominantly focuses on adversarial robustness, regulatory non-compliance, and malicious misuse. This paper argues that such framing overlooks a more pervasive and insidious risk: <strong>pre-abuse failure</strong>.
+        </p>
+
+        <p>
+          Pre-abuse failure is defined as the structural collapse of governance mechanisms that occurs not through malice or external attack, but through the thermodynamic inevitability (as an analytical analogy) of organizational entropy and cognitive economy.
+        </p>
+
+        <p>
+          Using a procedurally explicit workflow architecture (<strong>ALTRION</strong>) as an analytical probe, we identify four self-reinforcing trajectories of failure: Cognitive Externalization, Responsibility Inversion, Organizational Entropy, and Legibility Capture. We conclude that long-term AI safety requires not just stronger enforcement against bad actors, but a fundamental redesign of how human oversight interacts with the physics of institutional bureaucracy.
+        </p>
+
+        <h2>Why it matters</h2>
+        <ul>
+          <li>Reframes risk from “misuse” to <strong>collapse-before-misuse</strong>—the dominant real-world mode.</li>
+          <li>Names the mechanism: entropy + cognitive economy, not adversarial cleverness.</li>
+          <li>Provides a design target: governance architectures that survive good-faith operation at scale.</li>
+        </ul>
+
+        <div class="actions">
+          <a class="pill" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        </div>
+      </article>
+
+      <div class="citation-box" aria-label="Citation">
+        <span class="citation-label">BibTeX Citation</span>
+        <pre class="citation-text">@misc{sato2025forecastingfailure,
   title = {Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused},
   author = {Sato, Takashi},
   year = {2025},
   note = {Preprint},
   url = {https://takashisato.me/pdf/part2.pdf}
 }</pre>
+      </div>
     </div>
+  </main>
 
-  </div>
-</main>
+  <footer>
+    <div class="footer-inner">
+      <nav class="social-nav" aria-label="External links">
+        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+      </nav>
+      <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
+    </div>
+  </footer>
 
-<footer>
-  <div class="footer-inner">
-    <nav class="social-nav" aria-label="External links">
-      <a href="mailto:i@takashisato.me" class="social-link">Email</a>
-      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
-      <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
-      <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
-      <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
-    </nav>
-    <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
-  </div>
-</footer>
-
-<script defer src="/assets/scroll.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
