@@ -1,20 +1,21 @@
 /* =========================================================
    THEME: "Phantom Obsidian" (High Visibility Tuned)
+   Final Clean Version
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap');
 
 :root {
-  /* --- Colors: コントラスト比を改善 --- */
-  --bg: #050507;      /* 真っ黒(#030304)から少し緩和 */
-  --card-bg: #0f0f12; /* カード背景も明るく */
+  /* --- Colors --- */
+  --bg: #050507;
+  --card-bg: #0f0f12;
   
-  /* 文字色は「ほぼ白」へ */
+  /* Text Colors (High Contrast) */
   --text-head: #ffffff;
-  --text-main: #f2f2f2;  /* くっきりした白 */
-  --text-muted: #a0a0b0; /* 暗すぎないグレー */
+  --text-main: #f2f2f2;
+  --text-muted: #a0a0b0;
   
-  /* Accent: Electric Indigo */
+  /* Accent */
   --accent-color: #4c6ef5; 
   
   --platinum: #e0e5f0;
@@ -34,7 +35,7 @@
   html, body, a, .paper { cursor: none !important; }
 }
 
-/* 修正箇所: 選択色を「薄いプラチナ」に戻して高級感を出す */
+/* Selection Color: Platinum */
 ::selection { background: rgba(208, 213, 224, 0.25); color: #fff; }
 
 html { 
@@ -49,22 +50,18 @@ body {
   margin: 0; padding: 0; 
   color: var(--text-main); 
   font-family: var(--font-serif); 
-  
-  /* フォントサイズと行間を調整 */
   font-size: 1.15rem; 
   line-height: 1.9; 
   font-weight: 400; 
-  
   overflow-x: hidden; background: var(--bg);
   opacity: 1;
   transition: opacity 0.6s var(--ease-sharp);
-  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* ノイズを薄く */
+/* Noise Texture (Subtle) */
 body::before {
   content: ""; position: fixed; inset: 0;
   z-index: -1; pointer-events: none;
@@ -217,26 +214,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   background: var(--accent-color); 
   box-shadow: 0 0 10px var(--accent-color), 0 0 20px rgba(76, 110, 245, 0.5); 
   width: 0%; z-index: 101; transition: width 0.1s ease-out; 
-}
-
-/* --- Feature: The Indigo Shutter (Page Transition) --- */
-.page-transition-curtain {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: var(--accent-color); z-index: 99999;
-  transform: scaleX(0); transform-origin: right;
-}
-body.is-leaving .page-transition-curtain {
-  transform-origin: left; animation: shutter-in 0.5s cubic-bezier(0.8, 0, 0.2, 1) forwards;
-}
-body.is-loaded .page-transition-curtain {
-  transform-origin: right; animation: shutter-out 0.6s cubic-bezier(0.8, 0, 0.2, 1) forwards;
-}
-@keyframes shutter-in { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
-@keyframes shutter-out { 0% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
-
-/* --- Feature: The Data Scramble (Hacker Text) --- */
-.scramble-effect {
-  cursor: help; display: inline-block; min-height: 1.2em;
 }
 
 /* --- Misc: Fade Out Utility --- */
