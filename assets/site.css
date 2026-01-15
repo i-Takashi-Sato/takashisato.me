@@ -1,7 +1,6 @@
 /* =========================================================
    THEME: "Phantom Obsidian" (Final Polished Edition)
    Focus: Usability A+, Design S, Typography S
-   Failsafe: Cursor logic updated for robustness
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap');
@@ -29,16 +28,6 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-
-/* 【修正箇所】JSがカスタムカーソルを生成できた時(.cursor-enabled)のみ、OSのカーソルを消す */
-@media (min-width: 769px) {
-  html.cursor-enabled, 
-  html.cursor-enabled body, 
-  html.cursor-enabled a, 
-  html.cursor-enabled .paper { 
-    cursor: none !important; 
-  }
-}
 
 /* 高級感のある選択色 */
 ::selection { background: rgba(208, 213, 224, 0.25); color: #fff; }
@@ -152,8 +141,8 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   padding: 10px 0; display: inline-block;
 }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: 5px; width: 0; height: 1px; background: var(--text-head); transition: 0.3s var(--ease-sharp); }
-.nav a:hover { color: var(--text-head); }
-.nav a:hover::after { width: 100%; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--text-head); }
+.nav a:hover::after, .nav a[aria-current="page"]::after { width: 100%; }
 
 /* --- Cards --- */
 .section-label { text-align: left; color: var(--text-muted); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
@@ -203,7 +192,7 @@ h2.paper-title { margin: 0 0 1.5rem; }
 }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
 
-/* 【推奨修正】本文リンクを認識しやすくする */
+/* 本文リンクを認識しやすくする */
 .article-body a, .lead a, .paper-signal a {
   color: var(--platinum);
   text-decoration: underline;
@@ -229,16 +218,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .social-link:hover { color: var(--text-head); }
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
 .social-link:hover::after { width: 100%; }
-
-/* --- Custom Cursor --- */
-.custom-cursor {
-  position: fixed; width: 12px; height: 12px; 
-  background: #ffffff; border-radius: 50%; pointer-events: none; z-index: 9999;
-  mix-blend-mode: difference; 
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.custom-cursor.cursor-active { width: 70px; height: 70px; background: #ffffff; mix-blend-mode: difference; }
 
 /* --- Scroll Progress --- */
 .scroll-progress {
@@ -268,18 +247,17 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .citation-box { margin-top: 4rem; padding: 2rem; border: 1px solid var(--border-sharp); background: var(--card-bg); font-family: var(--font-sans); }
 
 @media (max-width: 768px) {
-  .custom-cursor { display: none; }
   .paper:hover { transform: none; box-shadow: none; background: var(--card-bg); }
   .top { height: 70px; background: rgba(5, 5, 7, 0.4); backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
   .top-inner { width: 100%; padding: 0 1.5rem; }
   .nav { gap: 1rem; }
 
-  /* 【必須修正】モバイルナビの可読性とタップ領域 (Usability P0) */
+  /* モバイルナビの可読性とタップ領域 (Usability P0) */
   .nav a { 
     margin-left: 0; 
-    font-size: 0.85rem;   /* 0.65remから引き上げ (読めるサイズへ) */
-    padding: 12px 10px;   /* 指で押しやすい余白 */
-    letter-spacing: 0.05em; /* 詰めすぎて読みにくいのを防ぐ */
+    font-size: 0.85rem; 
+    padding: 12px 10px; 
+    letter-spacing: 0.05em; 
   }
 
   h1 { font-size: 2.8rem; margin-top: 7rem; max-width: 100%; word-wrap: break-word; }
@@ -289,7 +267,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   .paper-title { font-size: 2rem; color: #fff !important; }
   
   .lead, .article-body blockquote { padding-left: 1.5rem; }
-  .pill { width: 100%; justify-content: center; height: 44px; /* モバイル最適化 */ }
+  .pill { width: 100%; justify-content: center; height: 44px; }
   .actions { justify-content: center; margin-top: 3rem; }
   footer { margin-top: 4rem; }
   .footer-inner { padding-left: 0; }
