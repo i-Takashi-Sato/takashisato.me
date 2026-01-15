@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // --- 修正: .paperだけでなく、すべてのリンク(a, .pill)にも反応させる ---
+    // すべてのリンク(a, .pill)と論文カード(.paper)に反応させる
     const interactiveElements = document.querySelectorAll('a, .paper, .pill');
 
     interactiveElements.forEach(el => {
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (el.classList.contains('paper')) {
           cursor.setAttribute('data-label', 'READ');
         } else {
-          cursor.setAttribute('data-label', 'GO'); // リンク用ラベル
+          cursor.setAttribute('data-label', 'GO');
         }
       });
       el.addEventListener('mouseleave', () => {
@@ -61,14 +61,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, observerOptions);
 
-  // A. Hero要素: 重厚にゆっくりと登場
+  // A. Hero要素
   document.querySelectorAll('h1, .who, .lead').forEach((el, i) => {
     el.classList.add('reveal', 'reveal-hero');
     el.style.transitionDelay = `${0.3 + (i * 0.25)}s`;
     observer.observe(el);
   });
 
-  // B. 論文カード: テンポよくリストアップ
+  // B. 論文カード
   document.querySelectorAll('.paper').forEach((el, i) => {
     el.classList.add('reveal', 'reveal-card');
     el.style.transitionDelay = `${0.1 + (i * 0.15)}s`;
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const handleTransition = (e) => {
     const link = e.currentTarget;
     if (link.hostname === window.location.hostname && !link.target && !e.metaKey && !e.ctrlKey) {
-      if (link.getAttribute('href').startsWith('#')) return; // ページ内リンクは除外
+      if (link.getAttribute('href').startsWith('#')) return; 
       e.preventDefault();
       const destination = link.href;
       document.body.classList.add('fade-out');
@@ -102,13 +102,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrolled = window.pageYOffset;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     
-    // プログレスバーの計算
     if (maxScroll > 0) {
       const scrollPercent = (scrolled / maxScroll) * 100;
       progressLine.style.width = `${scrollPercent}%`;
     }
-
-    // 背景ノイズのパララックス
     document.body.style.backgroundPositionY = `${scrolled * 0.08}px`;
   }, { passive: true });
+});
+
+// --- 修正箇所: ブラウザの「戻る」ボタン対策 ---
+// bfcache（バックフォワードキャッシュ）から復元された場合、
+// fade-outクラスがついたままになるのを防ぐため、ページ表示時に強制解除する
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted || document.body.classList.contains('fade-out')) {
+    document.body.classList.remove('fade-out');
+  }
 });
