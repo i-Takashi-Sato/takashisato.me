@@ -5,73 +5,119 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  
-  // --- 1. スクロール・プログレスバーの生成 ---
-  const header = document.querySelector('.top');
-  const progressLine = document.createElement('div');
-  progressLine.className = 'scroll-progress';
-  if (header) header.appendChild(progressLine); [cite: 99]
+  // --- 1) Scroll progress bar ---
+  const header = document.querySelector(".top");
+  const progressLine = document.createElement("div");
+  progressLine.className = "scroll-progress";
+  if (header) header.appendChild(progressLine);
 
-  // --- 2. Sequential Reveal (階層的表示) ---
-  // インラインスタイルを排除し、クラスの付与のみに徹する設計 [cite: 105]
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
-  };
+  // --- 2) Sequential Reveal (class付与のみ / delayはCSS側) ---
+  const targets = document.querySelectorAll(
+    "h1, .who, .lead, .paper, .section-label, footer"
+  );
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        obs.unobserve(entry.target);
-      }
+  // IntersectionObserver 非対応の環境では即表示
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach((el) => {
+      el.classList.add("reveal", "is-visible");
     });
-  }, observerOptions);
+  } else {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
 
-  // Reveal対象をまとめて登録（遅延はCSS側で制御）
-  document.querySelectorAll('h1, .who, .lead, .paper, .section-label, footer').forEach(el => {
-    el.classList.add('reveal');
-    observer.observe(el);
-  }); [cite: 106-108]
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
 
-  // --- 3. Seamless Page Transition (滑らかな画面遷移) ---
-  document.body.classList.remove('fade-out');
-  
-  document.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
+    targets.forEach((el) => {
+      el.classList.add("reveal");
+      observer.observe(el);
+    });
+  }
 
-      // 遷移アニメーションを除外する条件（外部リンク、PDF、ページ内リンク、メール） 
-      if (!href || 
-          href.startsWith('#') || 
-          href.startsWith('mailto:') || 
-          link.target === '_blank' || 
-          href.endsWith('.pdf') || 
-          e.metaKey || e.ctrlKey) return;
+  // --- 3) Seamless Page Transition ---
+  document.body.classList.remove("fade-out");
 
-      if (link.origin !== window.location.origin) return;
+  document.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      // 修飾キー・別操作（新規タブ/ウィンドウ等）は邪魔しない
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      // 右クリック等を邪魔しない（clickでは通常0だが保険）
+      if (typeof e.button === "number" && e.button !== 0) return;
+
+      const hrefAttr = link.getAttribute("href");
+      if (!hrefAttr) return;
+
+      // 除外：ページ内/メール/PDF/明示別タブ/ダウンロード
+      if (hrefAttr.startsWith("#")) return;
+      if (hrefAttr.startsWith("mailto:")) return;
+      if (hrefAttr.toLowerCase().endsWith(".pdf")) return;
+      if (link.target === "_blank") return;
+      if (link.hasAttribute("download")) return;
+
+      // 外部判定（URLで安全に判定）
+      let url;
+      try {
+        url = new URL(hrefAttr, window.location.href);
+      } catch {
+        return;
+      }
+      if (url.origin !== window.location.origin) return;
 
       e.preventDefault();
-      document.body.classList.add('fade-out');
-      const destination = link.href;
-      setTimeout(() => { window.location.href = destination; }, 600); [cite: 111]
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+        window.location.href = url.href;
+      }, 600);
     });
   });
 
-  // --- 4. Scroll Events (プログレス表示) ---
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    
+  // --- 4) Scroll Events (progress update) ---
+  const updateProgress = () => {
+    if (!progressLine || !progressLine.isConnected) return;
+
+    const scrolled = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+
     if (maxScroll > 0) {
-      progressLine.style.width = `${(scrolled / maxScroll) * 100}%`;
+      const pct = (scrolled / maxScroll) * 100;
+      progressLine.style.width = `${pct}%`;
+    } else {
+      progressLine.style.width = "0%";
     }
-  }, { passive: true }); [cite: 113]
+  };
+
+  // 初期表示でも正しい値に
+  updateProgress();
+
+  // 連続スクロール負荷を下げる（rAF）
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateProgress();
+        ticking = false;
+      });
+    },
+    { passive: true }
+  );
 });
 
-// --- ブラウザの「戻る」ボタン対策 ---
-window.addEventListener('pageshow', (event) => {
-  if (event.persisted || document.body.classList.contains('fade-out')) {
-    document.body.classList.remove('fade-out');
+// --- bfcache / 戻るボタン対策 ---
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted || document.body.classList.contains("fade-out")) {
+    document.body.classList.remove("fade-out");
   }
-}); [cite: 114]
+});
