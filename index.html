@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#030304">
+  <meta name="theme-color" content="#050507">
 
   <title>Takashi Sato · AI Governance Archive</title>
 
@@ -13,7 +13,7 @@
 
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="stylesheet" href="/assets/site.css">
-   
+  
   <meta property="og:title" content="Takashi Sato · AI Governance Archive">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://takashisato.me/">
@@ -51,11 +51,7 @@
 </head>
 
 <body>
-<div class="page-transition-curtain"></div>
-
 <header class="top" aria-label="Site header">
-  <div class="scroll-progress"></div>
-
   <div class="top-inner">
     <a class="brand" href="/">
       <img src="assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
@@ -71,9 +67,7 @@
 
 <main>
   <header>
-    <h1 class="scramble-effect" data-value="Optimizing Decay, Architecting Eternity.">
-      Optimizing Decay,<br><em>Architecting Eternity.</em>
-    </h1>
+    <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
     <div class="who">
       AI Governance & Sociotechnical Systems Research
     </div>
@@ -89,9 +83,7 @@
     <span class="section-label">Selected Works 2025–2026</span>
 
     <article class="paper">
-      <a class="paper-title stretched-link scramble-effect" href="/papers/part1.html" data-value="Part I: The Cold Genesis">
-        Part I: The Cold Genesis
-      </a>
+      <a class="paper-title stretched-link" href="/papers/part1.html">Part I: The Cold Genesis</a>
       <p class="paper-signal">
         “To preserve the human, we must engineer the friction of thought.”
       </p>
@@ -99,29 +91,26 @@
         <span>Keywords</span> AI governance · workflow-centric oversight · human-in-the-loop
       </div>
       <div class="actions">
-        <span class="pill">Read Paper</span>
+        <a class="pill" href="/pdf/part1.pdf" target="_blank">Open PDF</a>
       </div>
     </article>
 
     <article class="paper">
-      <a class="paper-title stretched-link scramble-effect" href="/papers/part2.html" data-value="Part II: The Silent Decay">
-        Part II: The Silent Decay
-      </a>
+      <a class="paper-title stretched-link" href="/papers/part2.html">Part II: The Silent Decay</a>
       <p class="paper-signal">
-        “The system shatters under its own weight before it is ever abused.”
+        “The system shatters under its own weight before it is ever abused.”<br><br>
+        “It is a physical suicide, executed by goodwill.”
       </p>
       <div class="k">
         <span>Keywords</span> institutional failure · governance drift · pre-abuse failure
       </div>
       <div class="actions">
-        <span class="pill">Read Paper</span>
+        <a class="pill" href="/pdf/part2.pdf" target="_blank">Open PDF</a>
       </div>
     </article>
 
     <article class="paper">
-      <a class="paper-title stretched-link scramble-effect" href="/papers/part3.html" data-value="Part III: The Proper Ending">
-        Part III: The Proper Ending
-      </a>
+      <a class="paper-title stretched-link" href="/papers/part3.html">Part III: The Proper Ending</a>
       <p class="paper-signal">
         “Silence is the scream of a failing system.”
       </p>
@@ -129,7 +118,7 @@
         <span>Keywords</span> Resolution Collapse · semantic entropy · circuit breakers
       </div>
       <div class="actions">
-        <span class="pill">Read Paper</span>
+        <a class="pill" href="/pdf/part3.pdf" target="_blank">Open PDF</a>
       </div>
     </article>
   </section>
@@ -151,61 +140,5 @@
 </main>
 
 <script defer src="/assets/scroll.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // --- 1. Page Transition (Indigo Shutter) ---
-  document.body.classList.add("is-loaded");
-  
-  const links = document.querySelectorAll("a");
-  links.forEach(link => {
-    link.addEventListener("click", e => {
-      const href = link.getAttribute("href");
-      
-      // 除外条件: ページ内リンク, メール, 別タブ, PDFファイル
-      if (!href || href.startsWith("#") || href.startsWith("mailto:") || link.target === "_blank" || href.endsWith(".pdf")) return;
-      
-      e.preventDefault();
-      
-      document.body.classList.remove("is-loaded");
-      document.body.classList.add("is-leaving");
-      
-      setTimeout(() => {
-        window.location.href = href;
-      }, 500);
-    });
-  });
-
-  // --- 2. Data Scramble (Hacker Text Effect) ---
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
-  const headers = document.querySelectorAll(".scramble-effect");
-
-  headers.forEach(header => {
-    header.addEventListener("mouseover", event => {
-      let iteration = 0;
-      
-      clearInterval(header.interval);
-
-      header.interval = setInterval(() => {
-        event.target.innerText = event.target.innerText
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return event.target.dataset.value[index];
-            }
-            return letters[Math.floor(Math.random() * letters.length)];
-          })
-          .join("");
-
-        if (iteration >= event.target.dataset.value.length) { 
-          clearInterval(header.interval);
-        }
-        
-        iteration += 1 / 3; 
-      }, 30);
-    });
-  });
-});
-</script>
 </body>
 </html>
