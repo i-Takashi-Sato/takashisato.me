@@ -9,17 +9,17 @@
   --bg: #050507;      /* 真っ黒(#030304)から少し緩和 */
   --card-bg: #0f0f12; /* カード背景も明るく */
   
-  /* 文字色は「ほぼ白」へ。グレーは避ける */
+  /* 文字色は「ほぼ白」へ */
   --text-head: #ffffff;
   --text-main: #f2f2f2;  /* くっきりした白 */
   --text-muted: #a0a0b0; /* 暗すぎないグレー */
   
   /* Accent: Electric Indigo */
-  --accent-color: #4c6ef5; /* 青も少し明るくして視認性UP */
+  --accent-color: #4c6ef5; 
   
   --platinum: #e0e5f0;
   --platinum-dim: rgba(224, 229, 240, 0.2);
-  --border-sharp: rgba(255, 255, 255, 0.12); /* 境界線を明確に */
+  --border-sharp: rgba(255, 255, 255, 0.12);
 
   /* --- Fonts --- */
   --font-serif: "Cormorant Garamond", serif;
@@ -34,7 +34,8 @@
   html, body, a, .paper { cursor: none !important; }
 }
 
-::selection { background: var(--accent-color); color: #fff; }
+/* 修正箇所: 選択色を「薄いプラチナ」に戻して高級感を出す */
+::selection { background: rgba(208, 213, 224, 0.25); color: #fff; }
 
 html { 
   font-size: 16px; 
@@ -49,26 +50,25 @@ body {
   color: var(--text-main); 
   font-family: var(--font-serif); 
   
-  /* フォントサイズと行間を調整して読みやすく */
+  /* フォントサイズと行間を調整 */
   font-size: 1.15rem; 
   line-height: 1.9; 
-  font-weight: 400; /* 細字(300)をやめて標準(400)に */
+  font-weight: 400; 
   
   overflow-x: hidden; background: var(--bg);
   opacity: 1;
   transition: opacity 0.6s var(--ease-sharp);
   
-  /* 文字をくっきりさせる */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* ノイズを邪魔にならないレベルまで薄くする */
+/* ノイズを薄く */
 body::before {
   content: ""; position: fixed; inset: 0;
   z-index: -1; pointer-events: none;
-  opacity: 0.015; /* ノイズ強度を大幅に低減 */
+  opacity: 0.015; 
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
@@ -83,13 +83,12 @@ h1 {
   max-width: 16ch; 
 }
 
-/* 小さい文字の視認性向上 */
 .who, .section-label, .brand, .pill, .k { 
   font-family: var(--font-sans); 
-  font-size: 0.85rem; /* サイズアップ */
+  font-size: 0.85rem; 
   letter-spacing: 0.1em; 
   text-transform: uppercase; 
-  font-weight: 500; /* 太く */
+  font-weight: 500; 
   color: var(--text-muted);
 }
 
@@ -99,18 +98,18 @@ h1 {
 .lead {
   text-align: left; 
   font-size: 1.4rem; 
-  color: var(--text-main); /* グレーをやめて白く */
+  color: var(--text-main); 
   max-width: 45ch; margin: 0 0 8rem; 
   font-weight: 400; 
   line-height: 1.8;
-  border-left: 2px solid var(--accent-color); /* 線を太く */
+  border-left: 2px solid var(--accent-color); 
   padding-left: 2rem; margin-left: 2px;
 }
 
 /* --- Layout --- */
 main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
-/* --- Header: Noir Gradient --- */
+/* --- Header --- */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   height: 90px; 
@@ -122,7 +121,6 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 }
 .top::before {
   content: ""; position: absolute; inset: 0; z-index: -2;
-  /* ロゴ背景の黒グラデーション */
   background: linear-gradient(to right, #050507 0%, #050507 300px, rgba(5, 5, 7, 0.4) 100%);
 }
 .top::after {
