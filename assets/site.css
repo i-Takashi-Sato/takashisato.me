@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (Fixed: Interaction Optimized)
+   THEME: "Platinum Brutalism" (Fixed: Horizontal Titles)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -76,18 +76,17 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 
-/* --- 修正: クリック判定のみ拡大 (フォントサイズ等は変更なし) --- */
 .nav a { 
   color: var(--text-muted); 
   font-family: var(--font-sans); 
-  font-size: 0.65rem; /* オリジナルのまま */
+  font-size: 0.65rem; 
   text-decoration: none; 
   transition: 0.4s var(--ease-sharp); 
   margin-left: 3rem; 
   letter-spacing: 0.15em; 
   position: relative;
-  padding: 15px 10px; /* 透明なクリック領域を追加 */
-  display: inline-block; /* paddingを効かせるため */
+  padding: 15px 10px; 
+  display: inline-block;
 }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px; background: var(--platinum); transition: 0.4s var(--ease-sharp); }
 .nav a:hover { color: #fff; }
@@ -104,7 +103,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
 #archive .paper:hover { opacity: 1; filter: blur(0) grayscale(0); transform: translateX(8px); background: #141418; border-color: var(--platinum); z-index: 10; }
 
-/* --- 修正: タイトル表示をオリジナルに完全復元 --- */
+/* --- 修正: タイトルを横書きに強制 --- */
 .paper-title { 
   font-family: var(--font-serif); 
   font-size: clamp(2.5rem, 4vw, 3.5rem); 
@@ -113,9 +112,12 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   display: block; 
   margin-bottom: 1.5rem; 
   text-decoration: none; 
-  line-height: 1; 
+  line-height: 1.1; 
   transition: color 0.1s;
-  /* writing-mode等の余計な指定を削除 */
+  
+  /* ここで横書きを指定 */
+  writing-mode: horizontal-tb !important;
+  word-wrap: break-word;
 }
 .paper:hover .paper-title { color: var(--platinum); }
 
@@ -131,7 +133,6 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
 
-/* --- 修正: フッターのクリック判定のみ拡大 --- */
 footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.25); font-family: var(--font-sans); font-size: 0.65rem; color: #444; }
 .footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
@@ -142,7 +143,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   letter-spacing: 0.15em; 
   transition: 0.3s; 
   position: relative;
-  padding: 10px; /* 透明なクリック領域を追加 */
+  padding: 10px; 
 }
 .social-link:hover { color: #fff; }
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
@@ -153,8 +154,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .reveal-card { transform: translateY(20px); transition-duration: 0.8s; }
 .is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
-/* --- カスタムカーソル（PCのみ）--- */
-/* 反応時に少し大きくするため width/height を調整可能ですが、オリジナルに合わせています */
 .custom-cursor {
   position: fixed; width: 8px; height: 8px; background: var(--platinum);
   border-radius: 50%; pointer-events: none; z-index: 9999;
