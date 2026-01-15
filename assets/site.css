@@ -1,6 +1,6 @@
 /* =========================================================
-   THEME: "Phantom Obsidian" (High Visibility Tuned)
-   Final Clean Version
+   THEME: "Phantom Obsidian" (Final Polished Edition)
+   Focus: Usability A+, Design S, Typography S
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap');
@@ -10,19 +10,17 @@
   --bg: #050507;
   --card-bg: #0f0f12;
   
-  /* Text Colors (High Contrast) */
   --text-head: #ffffff;
   --text-main: #f2f2f2;
   --text-muted: #a0a0b0;
   
-  /* Accent */
   --accent-color: #4c6ef5; 
   
   --platinum: #e0e5f0;
   --platinum-dim: rgba(224, 229, 240, 0.2);
   --border-sharp: rgba(255, 255, 255, 0.12);
 
-  /* --- Fonts --- */
+  /* --- Fonts (KEEP SERIF for Identity) --- */
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Manrope", sans-serif;
   
@@ -35,8 +33,15 @@
   html, body, a, .paper { cursor: none !important; }
 }
 
-/* Selection Color: Platinum */
+/* 高級感のある選択色 */
 ::selection { background: rgba(208, 213, 224, 0.25); color: #fff; }
+
+/* 【必須修正】キーボードフォーカスの可視化 (Usability P0) */
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
 
 html { 
   font-size: 16px; 
@@ -45,7 +50,6 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* --- Body & Texture --- */
 body { 
   margin: 0; padding: 0; 
   color: var(--text-main); 
@@ -61,7 +65,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Noise Texture (Subtle) */
+/* ノイズテクスチャ */
 body::before {
   content: ""; position: fixed; inset: 0;
   z-index: -1; pointer-events: none;
@@ -137,7 +141,8 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .nav a { 
   color: var(--text-muted); font-family: var(--font-sans); 
   font-size: 0.85rem; letter-spacing: 0.1em; text-decoration: none; 
-  transition: color 0.3s var(--ease-sharp); margin-left: 2.5rem; position: relative; padding: 10px 0; display: inline-block;
+  transition: color 0.3s var(--ease-sharp); margin-left: 2.5rem; position: relative; 
+  padding: 10px 0; display: inline-block;
 }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: 5px; width: 0; height: 1px; background: var(--text-head); transition: 0.3s var(--ease-sharp); }
 .nav a:hover { color: var(--text-head); }
@@ -161,12 +166,18 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   border-color: var(--platinum); z-index: 10;
 }
 
+/* h2対応：構造化のための調整 */
+h2.paper-title { margin: 0 0 1.5rem; }
+
 .paper-title { 
   font-family: var(--font-serif); font-size: clamp(2.5rem, 4vw, 3.5rem); 
-  font-weight: 400; color: var(--text-head); display: block; margin-bottom: 1.5rem; 
+  font-weight: 400; color: var(--text-head); display: block;
   text-decoration: none; line-height: 1.1; transition: color 0.1s;
+  /* 【必須修正】Z-index保護 (ボタンが押せない事故防止) */
+  position: relative; z-index: 2; 
 }
-.paper:hover .paper-title { color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+.paper-title a { color: inherit; text-decoration: none; }
+.paper:hover .paper-title, .paper:hover .paper-title a { color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
 
 .paper-signal { 
   font-size: 1.2rem !important; color: var(--text-main) !important; line-height: 1.7 !important;  
@@ -177,13 +188,28 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .k span { color: var(--text-muted); }
 .paper:hover .k { border-color: var(--text-muted); color: var(--platinum); }
 
-.actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
+.actions { display: flex; justify-content: flex-end; margin-top: 3rem; position: relative; z-index: 5; /* ボタン保護 */ }
 .pill {
   position: relative; z-index: 15; display: inline-flex; align-items: center; height: 42px; padding: 0 28px;
   border: 1.5px solid var(--platinum); color: var(--text-head); background: rgba(208, 213, 224, 0.08);
   text-decoration: none; transition: all 0.2s var(--ease-sharp);
 }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
+
+/* 【推奨修正】本文リンクを認識しやすくする */
+.article-body a, .lead a, .paper-signal a {
+  color: var(--platinum);
+  text-decoration: underline;
+  text-decoration-color: rgba(208, 213, 224, 0.4);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+  position: relative; z-index: 5;
+}
+.article-body a:hover, .lead a:hover, .paper-signal a:hover {
+  color: var(--accent-color);
+  text-decoration-color: var(--accent-color);
+}
 
 /* --- Footer --- */
 footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.15); font-family: var(--font-sans); color: var(--text-muted); }
@@ -207,7 +233,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 }
 .custom-cursor.cursor-active { width: 70px; height: 70px; background: #ffffff; mix-blend-mode: difference; }
 
-/* --- Scroll Progress: The Plasma Beam --- */
+/* --- Scroll Progress --- */
 .scroll-progress {
   position: absolute; bottom: 0; left: 0; 
   height: 2px; 
@@ -216,10 +242,9 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   width: 0%; z-index: 101; transition: width 0.1s ease-out; 
 }
 
-/* --- Misc: Fade Out Utility --- */
+/* --- Utilities --- */
 .fade-out { opacity: 0 !important; pointer-events: none; }
 
-/* --- Page Details & Mobile --- */
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
 .article-header h1 { 
   font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); 
@@ -241,13 +266,23 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   .top { height: 70px; background: rgba(5, 5, 7, 0.4); backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
   .top-inner { width: 100%; padding: 0 1.5rem; }
   .nav { gap: 1rem; }
-  .nav a { margin-left: 0; font-size: 0.65rem; }
+
+  /* 【必須修正】モバイルナビの可読性とタップ領域 (Usability P0) */
+  .nav a { 
+    margin-left: 0; 
+    font-size: 0.85rem;   /* 0.65remから引き上げ (読めるサイズへ) */
+    padding: 12px 10px;   /* 指で押しやすい余白 */
+    letter-spacing: 0.05em; /* 詰めすぎて読みにくいのを防ぐ */
+  }
+
   h1 { font-size: 2.8rem; margin-top: 7rem; max-width: 100%; word-wrap: break-word; }
   .article-header h1 { font-size: 1.7rem; line-height: 1.3; }
   .paper { padding: 3rem 1.5rem; transform: none !important; transition: none; background: var(--card-bg) !important; }
+  
   .paper-title { font-size: 2rem; color: #fff !important; }
+  
   .lead, .article-body blockquote { padding-left: 1.5rem; }
-  .pill { width: 100%; justify-content: center; }
+  .pill { width: 100%; justify-content: center; height: 44px; /* モバイル最適化 */ }
   .actions { justify-content: center; margin-top: 3rem; }
   footer { margin-top: 4rem; }
   .footer-inner { padding-left: 0; }
