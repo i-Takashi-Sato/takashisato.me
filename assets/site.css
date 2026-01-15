@@ -1,61 +1,84 @@
-/* 基本設定 */
+/* 基本スタイル */
 body {
     font-family: 'Times New Roman', serif;
     line-height: 1.6;
     color: #333;
     margin: 0;
+    padding: 0;
 }
 
-/* ⑤ ヘッダー：文字を大きくし、クリックしやすく */
+/* ⑤ ヘッダー：文字サイズ1.2rem、クリック範囲を拡大 */
+header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
 header nav a {
     font-size: 1.2rem;
-    padding: 10px 15px;
     text-decoration: none;
     color: #000;
     font-weight: bold;
+    padding: 15px; /* クリックしやすく */
+    display: inline-block;
 }
 
-/* ① 各Partタイトル：縦書き・縦固定を解除（横書き） */
+/* ① 各Partタイトル：縦固定を解除し、横書きで表示 */
+.part-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
 .part-title {
-    font-size: 2.5rem;
-    writing-mode: horizontal-tb;
+    font-size: 2.2rem;
+    writing-mode: horizontal-tb !important; /* 横書きを強制 */
     display: block;
-    margin: 40px 0;
+    margin-bottom: 30px;
+    font-weight: bold;
 }
 
-/* ② 引用テキスト：Abstractサイズ（1.5rem） */
+/* ② 引用：Abstractサイズ（1.5rem） */
 .quote-abstract {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* 本文より一回り大きく設定 */
     font-weight: 500;
     line-height: 1.6;
-    margin: 30px 0;
+    margin: 40px 0;
     color: #111;
 }
 
-/* ③ PDFボタン */
+/* ③ View Part III：PDFボタン */
+.cta-section {
+    margin: 40px 0;
+}
 .pdf-button {
     display: inline-block;
-    padding: 12px 30px;
+    padding: 15px 35px;
     background-color: #000;
     color: #fff;
     text-decoration: none;
     font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 4px;
 }
 
-/* ④ フッター：文字サイズ拡大と下線ホバー */
+/* ④ フッター：文字サイズ1.1rem、ホバー時の下線 */
+footer {
+    padding: 60px 20px;
+    border-top: 1px solid #eee;
+    margin-top: 100px;
+}
 footer .social-links a {
     font-size: 1.1rem;
-    margin-right: 20px;
+    margin-right: 25px;
     text-decoration: none;
     color: #333;
+    transition: color 0.3s;
 }
-
 footer .social-links a:hover {
-    text-decoration: underline; /* 下線のホバー */
-}
-
-.part-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 60px 20px;
+    text-decoration: underline; /* 指示通り下線を表示 */
 }
