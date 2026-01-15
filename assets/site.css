@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (Corrected: Signal Only)
+   THEME: "Platinum Brutalism" (Balanced Readability)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -48,8 +48,6 @@ h1 {
   font-family: var(--font-serif); font-weight: 300;
   font-size: clamp(4rem, 9vw, 8.5rem); line-height: 0.95; letter-spacing: -0.03em;
   margin: 6rem 0 3rem; text-align: left; color: #fff;
-  
-  /* --- 元の設定に戻しました --- */
   max-width: 14ch; 
 }
 
@@ -145,13 +143,13 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* --- 修正箇所：引用テキストを特大サイズ＆高コントラスト化 --- */
+/* --- 修正箇所：Abstract本文と揃える --- */
 .paper-signal { 
-  font-size: 1.8rem; /* 1.8remに拡大 */
-  color: #e0e0e0;    /* 暗いグレーから明るいプラチナに変更 */
-  line-height: 1.4;  
+  font-size: 1.1rem !important; /* 特大(1.8)をやめて標準(1.1)に戻す */
+  color: #e0e0e0 !important;    /* ただし色は明るくして読みやすく */
+  line-height: 1.7 !important;  
   font-family: var(--font-serif); 
-  max-width: 100%;   
+  max-width: 100%; 
   transition: color 0.2s; 
   margin-bottom: 1rem;
 }
@@ -217,8 +215,8 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   border-bottom: 1px solid var(--border-sharp); 
   padding-bottom: 2rem; 
   
-  /* 詳細ページのタイトルは必ず全幅を使う（ここは維持します） */
-  max-width: 100%; 
+  /* 詳細ページでは幅制限を解除 */
+  max-width: 100% !important; 
 }
 .article-body blockquote { margin: 3rem 0; padding: 1rem 0 1rem 2rem; border-left: 1px solid var(--armani-blue); font-style: italic; color: var(--text-muted); }
 .citation-box { margin-top: 4rem; padding: 2rem; border: 1px solid var(--border-sharp); background: var(--card-bg); font-family: var(--font-sans); }
