@@ -1,6 +1,7 @@
 /* =========================================================
    THEME: "Phantom Obsidian" (Final Polished Edition)
    Focus: Usability A+, Design S, Typography S
+   Failsafe: Cursor logic updated for robustness
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&display=swap');
@@ -29,8 +30,14 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* 【修正箇所】JSがカスタムカーソルを生成できた時(.cursor-enabled)のみ、OSのカーソルを消す */
 @media (min-width: 769px) {
-  html, body, a, .paper { cursor: none !important; }
+  html.cursor-enabled, 
+  html.cursor-enabled body, 
+  html.cursor-enabled a, 
+  html.cursor-enabled .paper { 
+    cursor: none !important; 
+  }
 }
 
 /* 高級感のある選択色 */
