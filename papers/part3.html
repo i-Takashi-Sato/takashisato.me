@@ -13,11 +13,14 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="referrer" content="no-referrer" />
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="/assets/site.css">
 
+  <!-- Citation metadata -->
   <meta name="citation_title" content="Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers" />
   <meta name="citation_author" content="Sato, Takashi" />
   <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
@@ -30,6 +33,7 @@
   <meta name="citation_technical_report_institution" content="SSRN" />
   <meta name="citation_technical_report_number" content="6066430" />
 
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Detecting Silent Governance Failure · Takashi Sato" />
   <meta property="og:description" content="Resolution Collapse, GDIs, and Circuit Breakers for legible failure and proper endings." />
   <meta property="og:type" content="article" />
@@ -37,11 +41,16 @@
   <meta property="og:image" content="https://takashisato.me/og.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"ScholarlyArticle",
     "@id":"https://takashisato.me/papers/part3.html#article",
+    "mainEntityOfPage":{
+      "@type":"WebPage",
+      "@id":"https://takashisato.me/papers/part3.html"
+    },
     "headline":"Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers",
     "description":"Resolution Collapse: when oversight persists as ritual. Proposes Governance Drift Indicators and Circuit Breakers to preserve epistemic capacity and institutional memory.",
     "inLanguage":"en",
@@ -57,72 +66,73 @@
 </head>
 
 <body>
+  <header class="top" aria-label="Site header">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
+      </a>
 
-<header class="top" aria-label="Site header">
-  <div class="top-inner">
-    <a class="brand" href="/">
-      <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
-    </a>
-    
-    <nav class="nav">
-      <a href="/papers/part1.html">PART I</a>
-      <a href="/papers/part2.html">PART II</a>
-      <a href="/papers/part3.html" aria-current="page">PART III</a>
-    </nav>
-  </div>
-</header>
+      <nav class="nav" aria-label="Primary">
+        <a href="/papers/part1.html">PART I</a>
+        <a href="/papers/part2.html">PART II</a>
+        <a href="/papers/part3.html" aria-current="page">PART III</a>
+      </nav>
+    </div>
+  </header>
 
-<main>
-  <div class="article-container">
-    
-    <a href="/" class="back-link">Back to Archive</a>
+  <main>
+    <div class="article-container">
+      <a href="/" class="back-link">Back to Archive</a>
 
-    <header class="article-header">
-      <h1>Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers</h1>
-      
-      <div class="article-meta">
-        <span>Published: 2026/01/13</span>
-        <span>SSRN: 6066430</span>
-        <span>Rev: 2026/01/13</span>
-      </div>
-    </header>
+      <header class="article-header">
+        <h1>Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers</h1>
 
-    <article class="article-body">
-      <blockquote>
-        “Silence is the scream of a failing system.”
-        <br><span class="t-red" style="font-size:0.8em;">沈黙とは、破綻へ向かう装置の咆哮。</span>
-      </blockquote>
+        <div class="article-meta" aria-label="Paper metadata">
+          <span>Published: 2026/01/13</span>
+          <span>SSRN: 6066430</span>
+          <span>Rev: 2026/01/13</span>
+        </div>
+      </header>
 
-      <p class="section-label">
-        Structure: Resolution Collapse → Governance Drift Indicators (GDIs) → Circuit Breakers → Proper Ending
-      </p>
+      <article class="article-body">
+        <blockquote>
+          “Silence is the scream of a failing system.”
+          <br>
+          <span class="quote-translation">沈黙とは、破綻へ向かう装置の咆哮。</span>
+        </blockquote>
 
-      <h2>Abstract</h2>
-      <p class="lead">
-        Current AI governance focuses on the noise of failure—errors, bias, and misuse. However, in high-stakes bureaucracy, the most catastrophic failures manifest as silence.
-      </p>
-      <p>
-        We introduce <strong>Resolution Collapse</strong>: a condition where human oversight persists as a procedural ritual, as organizational efficiency smooths away the friction required to distinguish routine cases from exceptions.
-      </p>
-      <p>
-        To address this, we shift the focus from error prevention to failure legibility. We propose <strong>Governance Drift Indicators (GDIs)</strong> to detect the semantic and temporal erosion of judgment before it becomes epistemically irreversible. Furthermore, we argue that when oversight collapses, "soft" interventions like retraining are insufficient. Instead, we introduce a <strong>Circuit Breaker</strong> architecture: a structural mechanism designed to halt or isolate AI-assisted processes when epistemic capacity is lost. Finally, we define the concept of a Proper Ending—a controlled termination that preserves institutional memory.
-      </p>
+        <p class="section-label">
+          Structure: Resolution Collapse → Governance Drift Indicators (GDIs) → Circuit Breakers → Proper Ending
+        </p>
 
-      <h2>Why it matters</h2>
-      <ul>
-        <li>Makes “silence” measurable via <strong>Governance Drift Indicators</strong>.</li>
-        <li>Shifts from “fix errors” to “maintain legibility” before irreversible collapse.</li>
-        <li>Defines the endgame: <strong>circuit breakers</strong> and a Proper Ending (controlled termination).</li>
-      </ul>
-      
-      <div style="margin-top: 3rem;">
-         <a class="pill" href="https://takashisato.me/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
-      </div>
-    </article>
+        <h2>Abstract</h2>
+        <p class="lead">
+          Current AI governance focuses on the noise of failure—errors, bias, and misuse. However, in high-stakes bureaucracy, the most catastrophic failures manifest as silence.
+        </p>
 
-    <div class="citation-box">
-      <span class="citation-label">BibTeX Citation</span>
-      <pre class="citation-text">@techreport{sato2026silentgovernancefailure,
+        <p>
+          We introduce <strong>Resolution Collapse</strong>: a condition where human oversight persists as a procedural ritual, as organizational efficiency smooths away the friction required to distinguish routine cases from exceptions.
+        </p>
+
+        <p>
+          To address this, we shift the focus from error prevention to failure legibility. We propose <strong>Governance Drift Indicators (GDIs)</strong> to detect the semantic and temporal erosion of judgment before it becomes epistemically irreversible. Furthermore, we argue that when oversight collapses, "soft" interventions like retraining are insufficient. Instead, we introduce a <strong>Circuit Breaker</strong> architecture: a structural mechanism designed to halt or isolate AI-assisted processes when epistemic capacity is lost. Finally, we define the concept of a Proper Ending—a controlled termination that preserves institutional memory.
+        </p>
+
+        <h2>Why it matters</h2>
+        <ul>
+          <li>Makes “silence” measurable via <strong>Governance Drift Indicators</strong>.</li>
+          <li>Shifts from “fix errors” to “maintain legibility” before irreversible collapse.</li>
+          <li>Defines the endgame: <strong>circuit breakers</strong> and a Proper Ending (controlled termination).</li>
+        </ul>
+
+        <div class="actions">
+          <a class="pill" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+        </div>
+      </article>
+
+      <div class="citation-box" aria-label="Citation">
+        <span class="citation-label">BibTeX Citation</span>
+        <pre class="citation-text">@techreport{sato2026silentgovernancefailure,
   title = {Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers},
   author = {Sato, Takashi},
   year = {2026},
@@ -132,24 +142,23 @@
   url = {https://takashisato.me/pdf/part3.pdf},
   note = {SSRN Abstract ID 6066430}
 }</pre>
+      </div>
     </div>
+  </main>
 
-  </div>
-</main>
+  <footer>
+    <div class="footer-inner">
+      <nav class="social-nav" aria-label="External links">
+        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+      </nav>
+      <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
+    </div>
+  </footer>
 
-<footer>
-  <div class="footer-inner">
-    <nav class="social-nav" aria-label="External links">
-      <a href="mailto:i@takashisato.me" class="social-link">Email</a>
-      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
-      <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
-      <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
-      <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
-    </nav>
-    <p class="copyright">Takashi Sato · Signal Over Spectacle · 2026</p>
-  </div>
-</footer>
-
-<script defer src="/assets/scroll.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
