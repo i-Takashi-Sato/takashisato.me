@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (2026 Ergonomic Edition)
+   THEME: "Platinum Brutalism" (2026 Ergonomic & Readable)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -80,7 +80,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 
-/* ナビゲーションリンク（クリック判定拡大済み） */
+/* ナビゲーションリンク */
 .nav a { 
   color: var(--text-muted); 
   font-family: var(--font-sans); 
@@ -90,16 +90,14 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   margin-left: 3rem; 
   letter-spacing: 0.15em; 
   position: relative;
-  padding: 15px 10px; /* 押しやすく調整済み */
+  padding: 15px 10px; 
   display: inline-block;
 }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px; background: var(--platinum); transition: 0.4s var(--ease-sharp); }
 .nav a:hover { color: #fff; }
 .nav a:hover::after { width: 100%; }
 
-/* --- Cards: Ergonomic Material (New) --- */
-/* 反応速度と物理的な質感を最適化した新しいカードデザイン */
-
+/* --- Cards: Ergonomic Material --- */
 .section-label { text-align: left; color: var(--platinum); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
 
 .paper {
@@ -109,11 +107,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   padding: 5rem 4rem;
   margin-bottom: 5rem;
   overflow: hidden;
-  
-  /* GPUレイヤーを予約して描画遅延をゼロに */
   will-change: transform, box-shadow;
-  
-  /* 0.2秒の物理演算的イージングで「質量」を感じさせる */
   transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1),
               background-color 0.2s ease-out,
               border-color 0.2s ease-out,
@@ -121,22 +115,16 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 }
 .stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
 
-/* ホバー時の挙動：ぼかし(blur)を廃止し、浮上と発光を採用 */
 .paper:hover {
-  /* 指に吸い付くような微細な浮き上がり */
   transform: translateY(-4px) scale(1.005);
-  
-  /* プラチナのリムライト（輪郭発光）と深い影 */
   box-shadow: 
     0 10px 40px -10px rgba(0, 0, 0, 0.8),
     0 0 0 1px var(--platinum);
-    
-  background-color: #16161a; /* わずかに明度を上げる */
+  background-color: #16161a;
   border-color: var(--platinum);
   z-index: 10;
 }
 
-/* タイトル（横書き固定・文字発光） */
 .paper-title { 
   font-family: var(--font-serif); 
   font-size: clamp(2.5rem, 4vw, 3.5rem); 
@@ -147,24 +135,26 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   text-decoration: none; 
   line-height: 1.1; 
   transition: color 0.1s;
-  
-  /* 縦並び防止の必須設定 */
   writing-mode: horizontal-tb !important;
   word-wrap: break-word;
 }
-
 .paper:hover .paper-title { 
   color: #fff; 
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* 文字自体も発光 */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* その他の要素の追従 */
-.paper-signal { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; font-family: var(--font-serif); max-width: 50ch; transition: color 0.2s; }
+/* --- 修正箇所：引用テキストのサイズアップ --- */
+.paper-signal { 
+  font-size: 1.35rem; /* 1.1remから拡大 */
+  color: var(--text-muted); 
+  line-height: 1.6; 
+  font-family: var(--font-serif); 
+  max-width: 52ch; 
+  transition: color 0.2s; 
+}
 
 .k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; transition: border-color 0.2s, color 0.2s; }
 .k span { color: var(--platinum); }
-
-/* ホバー時にメタ情報を強調 */
 .paper:hover .k { border-color: var(--text-muted); color: var(--platinum); }
 
 .actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
@@ -186,7 +176,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   letter-spacing: 0.15em; 
   transition: 0.3s; 
   position: relative;
-  padding: 10px; /* クリック判定拡大済み */
+  padding: 10px; 
 }
 .social-link:hover { color: #fff; }
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
@@ -220,9 +210,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 
 @media (max-width: 768px) {
   .custom-cursor { display: none; }
-  /* スマホではホバーエフェクトを無効化し、常に視認性を保つ */
   .paper:hover { transform: none; box-shadow: none; background: var(--card-bg); }
-  
   .top { height: 70px; background: rgba(5, 5, 7, 0.4); backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
   .top-inner { width: 100%; padding: 0 1.5rem; }
   .nav { gap: 1rem; }
