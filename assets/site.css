@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (2026 Ergonomic & Readable)
+   THEME: "Platinum Brutalism" (Corrected: Signal Only)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -37,7 +37,6 @@ body {
 }
 body.fade-out { opacity: 0; transform: scale(0.98); filter: blur(15px); pointer-events: none; }
 
-/* 背景ノイズ */
 body::before {
   content: ""; position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
@@ -48,8 +47,12 @@ body::before {
 h1 {
   font-family: var(--font-serif); font-weight: 300;
   font-size: clamp(4rem, 9vw, 8.5rem); line-height: 0.95; letter-spacing: -0.03em;
-  margin: 6rem 0 3rem; text-align: left; color: #fff; max-width: 14ch; 
+  margin: 6rem 0 3rem; text-align: left; color: #fff;
+  
+  /* --- 元の設定に戻しました --- */
+  max-width: 14ch; 
 }
+
 .who, .section-label, .brand, .pill, .k { font-family: var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; font-size: 0.65rem; }
 .who { display: block; color: var(--platinum); margin-bottom: 2rem; padding-left: 2px; }
 .who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--platinum-dim); margin-bottom: 1rem; }
@@ -80,7 +83,6 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 
-/* ナビゲーションリンク */
 .nav a { 
   color: var(--text-muted); 
   font-family: var(--font-sans); 
@@ -143,14 +145,15 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* --- 修正箇所：引用テキストのサイズアップ --- */
+/* --- 修正箇所：引用テキストを特大サイズ＆高コントラスト化 --- */
 .paper-signal { 
-  font-size: 1.35rem; /* 1.1remから拡大 */
-  color: var(--text-muted); 
-  line-height: 1.6; 
+  font-size: 1.8rem; /* 1.8remに拡大 */
+  color: #e0e0e0;    /* 暗いグレーから明るいプラチナに変更 */
+  line-height: 1.4;  
   font-family: var(--font-serif); 
-  max-width: 52ch; 
+  max-width: 100%;   
   transition: color 0.2s; 
+  margin-bottom: 1rem;
 }
 
 .k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; transition: border-color 0.2s, color 0.2s; }
@@ -204,7 +207,19 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 
 /* Page Details & Mobile */
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
-.article-header h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; color: #fff; margin-bottom: 2rem; border-bottom: 1px solid var(--border-sharp); padding-bottom: 2rem; max-width: 100%; }
+.article-header h1 { 
+  font-family: var(--font-serif); 
+  font-size: clamp(2.5rem, 5vw, 4rem); 
+  font-weight: 300; 
+  line-height: 1.1; 
+  color: #fff; 
+  margin-bottom: 2rem; 
+  border-bottom: 1px solid var(--border-sharp); 
+  padding-bottom: 2rem; 
+  
+  /* 詳細ページのタイトルは必ず全幅を使う（ここは維持します） */
+  max-width: 100%; 
+}
 .article-body blockquote { margin: 3rem 0; padding: 1rem 0 1rem 2rem; border-left: 1px solid var(--armani-blue); font-style: italic; color: var(--text-muted); }
 .citation-box { margin-top: 4rem; padding: 2rem; border: 1px solid var(--border-sharp); background: var(--card-bg); font-family: var(--font-sans); }
 
