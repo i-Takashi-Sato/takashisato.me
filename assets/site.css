@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (Fixed: Horizontal Titles)
+   THEME: "Platinum Brutalism" (2026 Ergonomic Edition)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -37,12 +37,14 @@ body {
 }
 body.fade-out { opacity: 0; transform: scale(0.98); filter: blur(15px); pointer-events: none; }
 
+/* 背景ノイズ */
 body::before {
   content: ""; position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none; z-index: -1; mix-blend-mode: overlay;
 }
 
+/* Typography */
 h1 {
   font-family: var(--font-serif); font-weight: 300;
   font-size: clamp(4rem, 9vw, 8.5rem); line-height: 0.95; letter-spacing: -0.03em;
@@ -57,8 +59,10 @@ h1 {
   border-left: 1px solid var(--armani-blue); padding-left: 2rem; margin-left: 2px;
 }
 
+/* Layout */
 main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 
+/* Header & Nav */
 .top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(5, 5, 7, 0.7); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
@@ -76,6 +80,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
 .brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
 
+/* ナビゲーションリンク（クリック判定拡大済み） */
 .nav a { 
   color: var(--text-muted); 
   font-family: var(--font-sans); 
@@ -85,25 +90,53 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   margin-left: 3rem; 
   letter-spacing: 0.15em; 
   position: relative;
-  padding: 15px 10px; 
+  padding: 15px 10px; /* 押しやすく調整済み */
   display: inline-block;
 }
 .nav a::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 1px; background: var(--platinum); transition: 0.4s var(--ease-sharp); }
 .nav a:hover { color: #fff; }
 .nav a:hover::after { width: 100%; }
 
-#archive:hover .paper { opacity: 0.4; filter: blur(2.5px) grayscale(0.6); transition: all 0.3s var(--ease-sharp); }
+/* --- Cards: Ergonomic Material (New) --- */
+/* 反応速度と物理的な質感を最適化した新しいカードデザイン */
 
 .section-label { text-align: left; color: var(--platinum); margin: 10rem 0 2rem; display: block; padding-left: 4px; }
+
 .paper {
-  position: relative; background: var(--card-bg); border-top: 1px solid var(--border-sharp); border-left: 1px solid var(--border-sharp);
-  padding: 5rem 4rem; margin-bottom: 5rem; overflow: hidden;
-  transition: all 0.1s var(--ease-sharp);
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border-sharp);
+  padding: 5rem 4rem;
+  margin-bottom: 5rem;
+  overflow: hidden;
+  
+  /* GPUレイヤーを予約して描画遅延をゼロに */
+  will-change: transform, box-shadow;
+  
+  /* 0.2秒の物理演算的イージングで「質量」を感じさせる */
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+              background-color 0.2s ease-out,
+              border-color 0.2s ease-out,
+              box-shadow 0.2s ease-out;
 }
 .stretched-link::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; }
-#archive .paper:hover { opacity: 1; filter: blur(0) grayscale(0); transform: translateX(8px); background: #141418; border-color: var(--platinum); z-index: 10; }
 
-/* --- 修正: タイトルを横書きに強制 --- */
+/* ホバー時の挙動：ぼかし(blur)を廃止し、浮上と発光を採用 */
+.paper:hover {
+  /* 指に吸い付くような微細な浮き上がり */
+  transform: translateY(-4px) scale(1.005);
+  
+  /* プラチナのリムライト（輪郭発光）と深い影 */
+  box-shadow: 
+    0 10px 40px -10px rgba(0, 0, 0, 0.8),
+    0 0 0 1px var(--platinum);
+    
+  background-color: #16161a; /* わずかに明度を上げる */
+  border-color: var(--platinum);
+  z-index: 10;
+}
+
+/* タイトル（横書き固定・文字発光） */
 .paper-title { 
   font-family: var(--font-serif); 
   font-size: clamp(2.5rem, 4vw, 3.5rem); 
@@ -115,15 +148,24 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   line-height: 1.1; 
   transition: color 0.1s;
   
-  /* ここで横書きを指定 */
+  /* 縦並び防止の必須設定 */
   writing-mode: horizontal-tb !important;
   word-wrap: break-word;
 }
-.paper:hover .paper-title { color: var(--platinum); }
 
-.paper-signal { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; font-family: var(--font-serif); max-width: 50ch; }
-.k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; }
+.paper:hover .paper-title { 
+  color: #fff; 
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* 文字自体も発光 */
+}
+
+/* その他の要素の追従 */
+.paper-signal { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; font-family: var(--font-serif); max-width: 50ch; transition: color 0.2s; }
+
+.k { display: inline-block; margin-top: 2.5rem; color: #666; border: 1px solid var(--border-sharp); padding: 0.8rem 1.2rem; transition: border-color 0.2s, color 0.2s; }
 .k span { color: var(--platinum); }
+
+/* ホバー時にメタ情報を強調 */
+.paper:hover .k { border-color: var(--text-muted); color: var(--platinum); }
 
 .actions { display: flex; justify-content: flex-end; margin-top: 3rem; }
 .pill {
@@ -133,6 +175,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 }
 .pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
 
+/* Footer */
 footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255, 255, 0.25); font-family: var(--font-sans); font-size: 0.65rem; color: #444; }
 .footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
@@ -143,17 +186,19 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   letter-spacing: 0.15em; 
   transition: 0.3s; 
   position: relative;
-  padding: 10px; 
+  padding: 10px; /* クリック判定拡大済み */
 }
 .social-link:hover { color: #fff; }
 .social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
 .social-link:hover::after { width: 100%; }
 
+/* Animations */
 .reveal { opacity: 0; transform: translateY(30px); filter: blur(10px); transition: opacity 1.2s var(--ease-sharp), transform 1.2s var(--ease-sharp), filter 1.2s var(--ease-sharp); }
 .reveal-hero { transform: translateY(50px) scale(1.02); transition-duration: 1.8s; }
 .reveal-card { transform: translateY(20px); transition-duration: 0.8s; }
 .is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
+/* Custom Cursor */
 .custom-cursor {
   position: fixed; width: 8px; height: 8px; background: var(--platinum);
   border-radius: 50%; pointer-events: none; z-index: 9999;
@@ -167,6 +212,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   font-size: 0.5rem; letter-spacing: 0.2em; color: var(--bg); font-weight: 600;
 }
 
+/* Page Details & Mobile */
 .article-container { max-width: 900px; margin: 0 auto; padding: 0 2rem 2rem; }
 .article-header h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; color: #fff; margin-bottom: 2rem; border-bottom: 1px solid var(--border-sharp); padding-bottom: 2rem; max-width: 100%; }
 .article-body blockquote { margin: 3rem 0; padding: 1rem 0 1rem 2rem; border-left: 1px solid var(--armani-blue); font-style: italic; color: var(--text-muted); }
@@ -174,7 +220,9 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 
 @media (max-width: 768px) {
   .custom-cursor { display: none; }
-  #archive:hover .paper { opacity: 1; filter: none; }
+  /* スマホではホバーエフェクトを無効化し、常に視認性を保つ */
+  .paper:hover { transform: none; box-shadow: none; background: var(--card-bg); }
+  
   .top { height: 70px; background: rgba(5, 5, 7, 0.4); backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px); }
   .top-inner { width: 100%; padding: 0 1.5rem; }
   .nav { gap: 1rem; }
