@@ -1,8 +1,8 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (Inverted Scanner Cursor)
+   THEME: "Platinum Brutalism" (Strong Brand & Inverted Cursor)
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;600&display=swap');
 
 :root {
   --bg: #050507;
@@ -51,7 +51,7 @@ h1 {
   max-width: 14ch; 
 }
 
-.who, .section-label, .brand, .pill, .k { font-family: var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; font-size: 0.65rem; }
+.who, .section-label, .pill, .k { font-family: var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 300; font-size: 0.65rem; }
 .who { display: block; color: var(--platinum); margin-bottom: 2rem; padding-left: 2px; }
 .who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--platinum-dim); margin-bottom: 1rem; }
 
@@ -79,7 +79,33 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
 }
 
 .top-inner { width: 92%; max-width: 1600px; margin: 0 auto; padding: 0; display: flex; justify-content: space-between; align-items: center; }
-.brand { color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; }
+
+/* --- Brand: The Authorial Stamp (強化版) --- */
+.brand { 
+  color: #fff; 
+  text-decoration: none; 
+  font-size: 1.25rem; /* サイズアップ */
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: 0.02em; 
+  display: flex;
+  align-items: baseline;
+  transition: opacity 0.3s;
+}
+
+.brand:hover {
+  opacity: 0.8;
+}
+
+/* "TAKASHI" 部分の強調 */
+.brand strong {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-right: 0.3rem; 
+  color: #fff;
+}
 
 .nav a { 
   color: var(--text-muted); 
@@ -143,7 +169,7 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* 引用テキスト */
+/* 引用テキスト（1.1rem, High Contrast） */
 .paper-signal { 
   font-size: 1.1rem !important; 
   color: #e0e0e0 !important;    
@@ -198,7 +224,7 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   pointer-events: none; 
   z-index: 9999;
   
-  /* 色反転の魔法 */
+  /* 色反転 */
   mix-blend-mode: difference; 
   
   transform: translate(-50%, -50%);
