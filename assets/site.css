@@ -1,5 +1,5 @@
 /* =========================================================
-   THEME: "Platinum Brutalism" (Balanced Readability)
+   THEME: "Platinum Brutalism" (Inverted Scanner Cursor)
    ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap');
@@ -143,10 +143,10 @@ main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* --- 修正箇所：Abstract本文と揃える --- */
+/* 引用テキスト */
 .paper-signal { 
-  font-size: 1.1rem !important; /* 特大(1.8)をやめて標準(1.1)に戻す */
-  color: #e0e0e0 !important;    /* ただし色は明るくして読みやすく */
+  font-size: 1.1rem !important; 
+  color: #e0e0e0 !important;    
   line-height: 1.7 !important;  
   font-family: var(--font-serif); 
   max-width: 100%; 
@@ -189,18 +189,28 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
 .reveal-card { transform: translateY(20px); transition-duration: 0.8s; }
 .is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
-/* Custom Cursor */
+/* --- Custom Cursor: The Inverted Scanner --- */
 .custom-cursor {
-  position: fixed; width: 8px; height: 8px; background: var(--platinum);
-  border-radius: 50%; pointer-events: none; z-index: 9999;
-  mix-blend-mode: difference; transform: translate(-50%, -50%);
-  transition: width 0.3s var(--ease-sharp), height 0.3s var(--ease-sharp), background 0.3s;
+  position: fixed; 
+  width: 12px; height: 12px; 
+  background: #ffffff; 
+  border-radius: 50%; 
+  pointer-events: none; 
+  z-index: 9999;
+  
+  /* 色反転の魔法 */
+  mix-blend-mode: difference; 
+  
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), 
+              width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.custom-cursor.cursor-active { width: 60px; height: 60px; background: var(--platinum); mix-blend-mode: normal; }
-.custom-cursor.cursor-active::after {
-  content: attr(data-label); position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%); font-family: var(--font-sans);
-  font-size: 0.5rem; letter-spacing: 0.2em; color: var(--bg); font-weight: 600;
+
+.custom-cursor.cursor-active { 
+  width: 70px; height: 70px; 
+  background: #ffffff; 
+  mix-blend-mode: difference;
 }
 
 /* Page Details & Mobile */
@@ -215,7 +225,6 @@ footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid rgba(255, 255,
   border-bottom: 1px solid var(--border-sharp); 
   padding-bottom: 2rem; 
   
-  /* 詳細ページでは幅制限を解除 */
   max-width: 100% !important; 
 }
 .article-body blockquote { margin: 3rem 0; padding: 1rem 0 1rem 2rem; border-left: 1px solid var(--armani-blue); font-style: italic; color: var(--text-muted); }
