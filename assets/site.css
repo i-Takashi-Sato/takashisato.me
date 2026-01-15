@@ -1,4 +1,4 @@
-/* 基本スタイル */
+/* 基本設定 */
 body {
     font-family: 'Times New Roman', serif;
     line-height: 1.6;
@@ -7,51 +7,48 @@ body {
     padding: 0;
 }
 
-/* ⑤ ヘッダー：文字サイズ1.2rem、クリック範囲を拡大 */
+/* ⑤ ヘッダー：文字を大きくし、クリックしやすく */
 header {
-    padding: 20px;
-    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+    margin-left: 5%;
 }
 header nav ul {
     list-style: none;
     display: flex;
     gap: 30px;
-    margin: 0;
     padding: 0;
 }
 header nav a {
-    font-size: 1.2rem;
+    font-size: 1.3rem; /* サイズ拡大 */
     text-decoration: none;
     color: #000;
     font-weight: bold;
-    padding: 15px; /* クリックしやすく */
-    display: inline-block;
+    padding: 10px;
 }
 
-/* ① 各Partタイトル：縦固定を解除し、横書きで表示 */
+/* ① 各Partタイトル：横書きで固定 */
 .part-container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 80px 20px;
+    margin: 100px auto;
+    padding: 0 20px;
 }
 .part-title {
-    font-size: 2.2rem;
-    writing-mode: horizontal-tb !important; /* 横書きを強制 */
+    font-size: 2.5rem;
+    writing-mode: horizontal-tb; /* 縦書きを解除 */
     display: block;
-    margin-bottom: 30px;
-    font-weight: bold;
+    margin-bottom: 40px;
 }
 
-/* ② 引用：Abstractサイズ（1.5rem） */
+/* ② 引用：抄録（Abstract）サイズ */
 .quote-abstract {
-    font-size: 1.5rem; /* 本文より一回り大きく設定 */
+    font-size: 1.5rem; /* 指示通りのサイズ */
     font-weight: 500;
     line-height: 1.6;
     margin: 40px 0;
-    color: #111;
+    color: #222;
 }
 
-/* ③ View Part III：PDFボタン */
+/* ③ View Part III：PDFボタンのデザイン */
 .cta-section {
     margin: 40px 0;
 }
@@ -59,26 +56,30 @@ header nav a {
     display: inline-block;
     padding: 15px 35px;
     background-color: #000;
-    color: #fff;
+    color: #fff !important; /* 文字を白に固定 */
     text-decoration: none;
     font-weight: bold;
     font-size: 1.1rem;
-    border-radius: 4px;
+    border-radius: 2px;
+}
+.pdf-button:hover {
+    background-color: #444;
 }
 
-/* ④ フッター：文字サイズ1.1rem、ホバー時の下線 */
+/* ④ フッター：文字を大きく、ホバー時の下線 */
 footer {
-    padding: 60px 20px;
+    max-width: 800px;
+    margin: 100px auto 50px;
+    padding: 20px;
     border-top: 1px solid #eee;
-    margin-top: 100px;
 }
 footer .social-links a {
-    font-size: 1.1rem;
+    font-size: 1.15rem; /* サイズ拡大 */
     margin-right: 25px;
     text-decoration: none;
-    color: #333;
-    transition: color 0.3s;
+    color: #000;
+    display: inline-block;
 }
 footer .social-links a:hover {
-    text-decoration: underline; /* 指示通り下線を表示 */
+    text-decoration: underline; /* 指示通りのホバー下線 */
 }
