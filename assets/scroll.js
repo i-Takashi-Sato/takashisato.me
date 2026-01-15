@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (header) header.appendChild(progressLine);
 
   // --- 2. カスタムカーソルの生成 (PC/非タッチデバイスのみ) ---
-  // マウス操作かつ、OSのアニメーション低減設定がオフの場合のみ有効化 [cite: 2]
+  [cite_start]// ホバー可能かつ、OSのアニメーション低減設定がオフの場合のみ有効化 [cite: 2]
   const canUseCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches && 
                        !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cursor.className = 'custom-cursor';
     document.body.appendChild(cursor);
 
-    // ★重要: JSが正常に動作した瞬間にのみ、デフォルトカーソルを消すクラスを付与 [cite: 2]
+    [cite_start]// ★重要: JSが正常に動作した瞬間にのみ、デフォルトカーソルを消すクラスを付与 [cite: 2]
     document.documentElement.classList.add('cursor-enabled');
 
     document.addEventListener('mousemove', e => {
@@ -36,9 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
       el.addEventListener('mouseenter', () => {
         cursor.classList.add('cursor-active');
         if (el.classList.contains('paper')) {
-          cursor.setAttribute('data-label', 'READ'); // [cite: 4]
+          [cite_start]cursor.setAttribute('data-label', 'READ'); // [cite: 4]
         } else {
-          cursor.setAttribute('data-label', 'GO'); // [cite: 5]
+          cursor.setAttribute('data-label', 'GO'); [cite_start]// [cite: 5]
         }
       });
       el.addEventListener('mouseleave', () => {
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 3. Sequential Reveal (階層的表示) ---
-  const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }; // [cite: 7]
+  const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }; [cite_start]// [cite: 7]
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll('h1, .who, .lead, .paper, .section-label, footer').forEach((el, i) => {
     el.classList.add('reveal');
-    el.style.transitionDelay = `${i * 0.05}s`; // 順次表示のディレイ [cite: 9, 10]
+    [cite_start]el.style.transitionDelay = `${i * 0.05}s`; // 順次表示のディレイ [cite: 9, 10]
     observer.observe(el);
   });
 
@@ -70,12 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
-      // 外部リンク、PDF、ページ内リンクはフェードアウト除外 [cite: 13]
+      [cite_start]// 外部リンク、PDF、ページ内リンクはフェードアウト除外 [cite: 13]
       if (!href || href.startsWith('#') || href.startsWith('mailto:') || link.target === '_blank' || href.endsWith('.pdf') || e.metaKey || e.ctrlKey) return;
       if (link.origin !== window.location.origin) return;
 
       e.preventDefault();
-      document.body.classList.add('fade-out'); // [cite: 14]
+      document.body.classList.add('fade-out'); [cite_start]// [cite: 14]
       setTimeout(() => { window.location.href = href; }, 600);
     });
   });
@@ -85,11 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrolled = window.pageYOffset;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     if (maxScroll > 0) {
-      progressLine.style.width = `${(scrolled / maxScroll) * 100}%`; // [cite: 16]
+      [cite_start]progressLine.style.width = `${(scrolled / maxScroll) * 100}%`; // [cite: 16]
     }
   }, { passive: true });
 });
 
+// ブラウザの「戻る」ボタン対策
 window.addEventListener('pageshow', (event) => {
-  if (event.persisted) document.body.classList.remove('fade-out'); // [cite: 17]
+  [cite_start]if (event.persisted) document.body.classList.remove('fade-out'); // [cite: 17]
 });
