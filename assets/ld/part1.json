@@ -1,0 +1,19 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://takashisato.me/papers/part1.html#article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://takashisato.me/papers/part1.html"
+  },
+  "headline": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
+  "description": "ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.",
+  "inLanguage": "en",
+  "author": {
+    "@type": "Person",
+    "name": "Takashi Sato",
+    "url": "https://takashisato.me/"
+  },
+  "datePublished": "2025-12-12",
+  "dateModified": "2026-01-09"
+}
