@@ -72,6 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (url.origin !== window.location.origin) return;
 
       e.preventDefault();
+
+      // Reduced Motion: 待ち時間ゼロで即遷移
+      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (isReduced) {
+        window.location.href = url.href;
+        return;
+      }
+
       document.body.classList.add("fade-out");
 
       setTimeout(() => {
