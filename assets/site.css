@@ -42,6 +42,32 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* =========================================================
+   Alive Background (Subtle Noise) — Single Source of Truth
+   Layer model:
+   html::before = noise layer
+   body/content = above it
+   ========================================================= */
+html::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* If too subtle, raise to 0.08–0.10 */
+  opacity: 0.06;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+
+  /* safest default (visible on dark) */
+  mix-blend-mode: normal;
+
+  transform: translateZ(0);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -51,7 +77,11 @@ body {
   line-height: 1.9;
   font-weight: 400;
   overflow-x: hidden;
-  background: var(--bg);
+
+  /* IMPORTANT: let html background show, keep content above noise */
+  background: transparent;
+  position: relative;
+  z-index: 1;
 
   opacity: 1;
   transition: opacity 0.6s var(--ease-sharp);
@@ -100,7 +130,14 @@ h1 {
 }
 
 /* --- Layout --- */
-main { max-width: 1600px; width: 92%; margin: 0 auto; padding: 0 0 4rem; }
+main {
+  max-width: 1600px;
+  width: 92%;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+  position: relative;
+  z-index: 1;
+}
 
 /* --- Header --- */
 .top {
@@ -282,6 +319,8 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   font-family: var(--font-sans);
   color: var(--text-muted);
+  position: relative;
+  z-index: 1;
 }
 .footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
 .social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
@@ -314,30 +353,8 @@ footer {
 /* --- Utilities --- */
 .fade-out { opacity: 0 !important; pointer-events: none; }
 
-/* --- Reduced Motion --- */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto !important; }
-  .reveal, .reveal.is-visible { opacity: 1 !important; transform: none !important; animation: none !important; }
-  .paper, .pill, .scroll-progress, body { transition: none !important; }
-}
-
-@media (max-width: 768px) {
-  .top { height: 70px; background: rgba(5, 5, 7, 0.8); backdrop-filter: blur(20px); }
-  .top-inner { width: 100%; padding: 0 1.5rem; }
-  .nav a { margin-left: 0; font-size: 0.85rem; padding: 12px 10px; }
-  h1 { font-size: 2.8rem; margin-top: 7rem; }
-  .paper { padding: 3rem 1.5rem; transform: none !important; }
-  .paper-title { font-size: 2rem; }
-  .pill { width: 100%; justify-content: center; }
-  .actions { justify-content: center; }
-  .footer-inner { padding-left: 0; }
-}
-
 /* =========================================================
    ARTICLE PAGES (papers/*): Reading Ergonomics
-   - Constrains measure (72ch)
-   - Neutralizes home-only typography inside articles
-   - Styles metadata, quotes, and BibTeX block
    ========================================================= */
 
 .article-container{
@@ -487,23 +504,10 @@ footer {
   color: var(--platinum);
 }
 
-/* Mobile refinements */
-@media (max-width: 768px){
-  .article-container{
-    margin: 7.5rem auto 5rem;
-    padding: 0 1.25rem;
-  }
-  .article-header h1{
-    font-size: clamp(1.9rem, 6.2vw, 2.8rem);
-  }
-  .citation-box{ padding: 1.6rem; }
-}
 /* =========================================================
    P0 PATCH: A11y + New-tab indicator + Copy button
-   (append-only, zero-risk)
    ========================================================= */
 
-/* --- sr-only utility (for "(opens in new tab)") --- */
 .sr-only{
   position:absolute;
   width:1px; height:1px;
@@ -514,7 +518,6 @@ footer {
   border:0;
 }
 
-/* --- New tab indicator for external/target=_blank links --- */
 .pill[target="_blank"]::after,
 .social-link[target="_blank"]::after{
   content:"↗";
@@ -523,15 +526,6 @@ footer {
   opacity:.85;
 }
 
-/* =========================================================
-   P0 PATCH: Citation header + Copy button styles
-   Works with this HTML structure:
-   <div class="citation-head">
-     <span class="citation-label">BibTeX Citation</span>
-     <button class="copy" ...>Copy</button>
-   </div>
-   ========================================================= */
-
 .citation-head{
   display:flex;
   justify-content:space-between;
@@ -539,13 +533,8 @@ footer {
   gap: 1rem;
   margin: 0 0 1rem;
 }
+.citation-head .citation-label{ margin: 0; }
 
-/* keep your existing .citation-label, only normalize margin */
-.citation-head .citation-label{
-  margin: 0;
-}
-
-/* Copy button */
 .copy{
   display:inline-flex;
   align-items:center;
@@ -564,64 +553,72 @@ footer {
   cursor: pointer;
   transition: background-color .2s var(--ease-sharp), border-color .2s var(--ease-sharp);
 }
-
 .copy:hover{
   background: rgba(224,229,240,.12);
   border-color: rgba(255,255,255,.18);
 }
-
 .copy:focus-visible{
   outline: 2px solid var(--accent-color);
   outline-offset: 4px;
   border-radius: 6px;
 }
 
-/* Mobile: make copy button not fight layout */
-@media (max-width: 768px){
-  .citation-head{
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
 /* =========================================================
-   FINAL PATCH: Mobile Nav scroll + Alive Background (Safe layering)
+   Reduced Motion
    ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .reveal, .reveal.is-visible { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .paper, .pill, .scroll-progress, body { transition: none !important; }
+}
 
-/* --- Mobile Nav: allow horizontal scroll on small screens --- */
+/* =========================================================
+   Responsive (max-width: 768px) — SINGLE CONSOLIDATED BLOCK
+   Includes: header sizing + cards + nav horizontal scroll + citation head stack
+   ========================================================= */
 @media (max-width: 768px) {
+  .top { height: 70px; background: rgba(5, 5, 7, 0.8); backdrop-filter: blur(20px); }
+  .top-inner { width: 100%; padding: 0 1.5rem; }
+
+  /* Mobile Nav: horizontal scroll (consolidated) */
   .nav {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    gap: 0.25rem;
+    gap: 0.5rem;
     padding-bottom: 6px; /* scrollbar breathing room */
+
+    /* optional: subtle fade at right edge */
+    mask-image: linear-gradient(to right, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
   }
-  .nav a { flex: 0 0 auto; } /* prevent wrapping */
-}
+  .nav a {
+    flex: 0 0 auto;
+    margin-left: 0;
+    font-size: 0.85rem;
+    padding: 12px 10px;
+    white-space: nowrap;
+  }
 
-/* --- Alive Background (Subtle Noise) --- */
-/* Layer model:
-   html::before = noise layer (z-index: 0)
-   page content = z-index: 1
-*/
-html { background: var(--bg); }
-body { background: transparent; position: relative; z-index: 1; }
-.top, main, footer { position: relative; z-index: 1; }
+  h1 { font-size: 2.8rem; margin-top: 7rem; }
+  .paper { padding: 3rem 1.5rem; transform: none !important; }
+  .paper-title { font-size: 2rem; }
+  .pill { width: 100%; justify-content: center; }
+  .actions { justify-content: center; }
+  .footer-inner { padding-left: 0; }
 
-html::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.06;
+  .article-container{
+    margin: 7.5rem auto 5rem;
+    padding: 0 1.25rem;
+  }
+  .article-header h1{
+    font-size: clamp(1.9rem, 6.2vw, 2.8rem);
+  }
+  .citation-box{ padding: 1.6rem; }
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
-
-  /* optional feel; if too subtle, switch to "normal" */
-  mix-blend-mode: overlay;
-  transform: translateZ(0);
+  .citation-head{
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
