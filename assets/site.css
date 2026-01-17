@@ -498,3 +498,88 @@ footer {
   }
   .citation-box{ padding: 1.6rem; }
 }
+/* =========================================================
+   P0 PATCH: A11y + New-tab indicator + Copy button
+   (append-only, zero-risk)
+   ========================================================= */
+
+/* --- sr-only utility (for "(opens in new tab)") --- */
+.sr-only{
+  position:absolute;
+  width:1px; height:1px;
+  padding:0; margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+/* --- New tab indicator for external/target=_blank links --- */
+.pill[target="_blank"]::after,
+.social-link[target="_blank"]::after{
+  content:"↗";
+  margin-left:.6rem;
+  font-family: var(--font-sans);
+  opacity:.85;
+}
+
+/* =========================================================
+   P0 PATCH: Citation header + Copy button styles
+   Works with this HTML structure:
+   <div class="citation-head">
+     <span class="citation-label">BibTeX Citation</span>
+     <button class="copy" ...>Copy</button>
+   </div>
+   ========================================================= */
+
+.citation-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 1rem;
+  margin: 0 0 1rem;
+}
+
+/* keep your existing .citation-label, only normalize margin */
+.citation-head .citation-label{
+  margin: 0;
+}
+
+/* Copy button */
+.copy{
+  display:inline-flex;
+  align-items:center;
+  height: 36px;
+  padding: 0 14px;
+
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+
+  color: var(--platinum);
+  background: rgba(224,229,240,.06);
+  border: 1px solid var(--border-sharp);
+
+  cursor: pointer;
+  transition: background-color .2s var(--ease-sharp), border-color .2s var(--ease-sharp);
+}
+
+.copy:hover{
+  background: rgba(224,229,240,.12);
+  border-color: rgba(255,255,255,.18);
+}
+
+.copy:focus-visible{
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* Mobile: make copy button not fight layout */
+@media (max-width: 768px){
+  .citation-head{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
