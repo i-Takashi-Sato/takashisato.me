@@ -1,7 +1,7 @@
 /**
  * Takashi Sato · Research Archive System
  * Interaction Engine: Stable Production Edition
- * Progress Bar | Sequential Reveal | Seamless Transition
+ * Progress Bar | Sequential Reveal | Seamless Transition | Citation Copy
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -88,7 +88,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- 4) Scroll Events (progress update) ---
+  // --- 4) Citation Copy (BibTeX) ---
+  // HTML例:
+  // <button class="copy" type="button" data-copy-target="#bibtex-part3">Copy</button>
+  // <pre id="bibtex-part3" class="citation-text">...</pre>
+
+  const setCopyButtonState = (btn, text, ms = 1200) => {
+    const original = btn.textContent;
+    btn.textContent = text;
+    btn.disabled = true;
+    window.setTimeout(() => {
+      btn.textContent = original;
+      btn.disabled = false;
+    }, ms);
+  };
+
+  const copyText = async (text) => {
+    // Clipboard API が使えるなら優先
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    // フォールバック（古い環境）
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.top = "-9999px";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+
+    if (!ok) {
+      throw new Error("execCommand copy failed");
+    }
+  };
+
+  // イベント委譲（将来ボタンが増えてもOK）
+  document.addEventListener("click", async (e) => {
+    const btn = e.target && e.target.closest ? e.target.closest("button.copy") : null;
+    if (!btn) return;
+
+    const selector = btn.getAttribute("data-copy-target");
+    if (!selector) return;
+
+    const target = document.querySelector(selector);
+    if (!target) {
+      setCopyButtonState(btn, "Not found", 1400);
+      return;
+    }
+
+    const text = (target.innerText || target.textContent || "").trim();
+    if (!text) {
+      setCopyButtonState(btn, "Empty", 1400);
+      return;
+    }
+
+    try {
+      await copyText(text);
+      setCopyButtonState(btn, "Copied", 1200);
+    } catch {
+      setCopyButtonState(btn, "Failed", 1600);
+    }
+  });
+
+  // --- 5) Scroll Events (progress update) ---
   const updateProgress = () => {
     if (!progressLine || !progressLine.isConnected) return;
 
