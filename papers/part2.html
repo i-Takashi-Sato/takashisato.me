@@ -128,13 +128,24 @@
         </ul>
 
         <div class="actions">
-          <a class="pill" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          <a class="pill" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF<span class="sr-only"> (opens in new tab)</span>
+          </a>
         </div>
       </article>
 
       <div class="citation-box" aria-label="Citation">
-        <span class="citation-label">BibTeX Citation</span>
-        <pre class="citation-text">@misc{sato2025forecastingfailure,
+        <div class="citation-head">
+          <span class="citation-label">BibTeX Citation</span>
+          <button
+            class="copy"
+            type="button"
+            data-copy-target="#bibtex-part2"
+            aria-label="Copy BibTeX citation"
+          >Copy</button>
+        </div>
+
+        <pre id="bibtex-part2" class="citation-text">@misc{sato2025forecastingfailure,
   title = {Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused},
   author = {Sato, Takashi},
   year = {2025},
