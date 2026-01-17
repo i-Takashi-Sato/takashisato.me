@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://takashisato.me/#person",
+      "name": "Takashi Sato",
+      "url": "https://takashisato.me/",
+      "sameAs": [
+        "https://orcid.org/0009-0003-1584-6965",
+        "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+        "https://x.com/takashisato_me",
+        "https://www.instagram.com/takashisato_me/"
+      ],
+      "jobTitle": "Independent Researcher",
+      "knowsAbout": [
+        "AI Governance",
+        "Sociotechnical Systems",
+        "Algorithmic Oversight"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://takashisato.me/#website",
+      "name": "Takashi Sato · AI Governance Archive",
+      "url": "https://takashisato.me/",
+      "publisher": { "@id": "https://takashisato.me/#person" }
+    }
+  ]
+}
