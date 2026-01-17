@@ -104,13 +104,24 @@
         </ul>
 
         <div class="actions">
-          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF<span class="sr-only"> (opens in new tab)</span>
+          </a>
         </div>
       </article>
 
       <div class="citation-box" aria-label="Citation">
-        <span class="citation-label">BibTeX Citation</span>
-        <pre class="citation-text">@misc{sato2025workflowcentric,
+        <div class="citation-head">
+          <span class="citation-label">BibTeX Citation</span>
+          <button
+            class="copy"
+            type="button"
+            data-copy-target="#bibtex-part1"
+            aria-label="Copy BibTeX citation"
+          >Copy</button>
+        </div>
+
+        <pre id="bibtex-part1" class="citation-text">@misc{sato2025workflowcentric,
   title = {Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human--AI Decision Systems},
   author = {Sato, Takashi},
   year = {2025},
