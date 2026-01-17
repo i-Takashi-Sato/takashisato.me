@@ -122,13 +122,24 @@
         </ul>
 
         <div class="actions">
-          <a class="pill" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">Open PDF</a>
+          <a class="pill" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF<span class="sr-only"> (opens in new tab)</span>
+          </a>
         </div>
       </article>
 
       <div class="citation-box" aria-label="Citation">
-        <span class="citation-label">BibTeX Citation</span>
-        <pre class="citation-text">@techreport{sato2026silentgovernancefailure,
+        <div class="citation-head">
+          <span class="citation-label">BibTeX Citation</span>
+          <button
+            class="copy"
+            type="button"
+            data-copy-target="#bibtex-part3"
+            aria-label="Copy BibTeX citation"
+          >Copy</button>
+        </div>
+
+        <pre id="bibtex-part3" class="citation-text">@techreport{sato2026silentgovernancefailure,
   title = {Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers},
   author = {Sato, Takashi},
   year = {2026},
