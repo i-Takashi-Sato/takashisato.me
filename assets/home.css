@@ -292,7 +292,9 @@ main header h1 {
   transform: scale(1.02) translateX(-5px);
 }
 
-.paper-title { margin: 0; pointer-events: none; position: relative; z-index: 3; }
+.paper-title { margin: 0; position: relative; z-index: 3; pointer-events: auto; }
+.paper-title a { pointer-events: auto; }
+
 
 .paper-title a {
   font-family: var(--font-sans);
