@@ -44,7 +44,7 @@ body.home::after{
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 2;               /* low: below header (z=100) & content stacking */
+  z-index: 150;              /* overlay: above content/header; pointer-events:none keeps UI usable */
   opacity: 0.035;           /* tune 0.02–0.06 */
   mix-blend-mode: overlay;
   background: url("/assets/noise.webp") repeat;
