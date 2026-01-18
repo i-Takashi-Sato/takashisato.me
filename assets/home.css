@@ -1,5 +1,5 @@
 :root {
-  /* --- V58.1: ARCHIVAL SUPREMACY (Final Master) --- */
+  /* --- V58.2: CINEMATIC STABILITY (Ultra-Wide Ready) --- */
   --bg-void: #020203;
   --bg-stage: #050506;
   --surface:  #0A0A0B;
@@ -16,7 +16,7 @@
   --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* --- 全体レイアウト --- */
+/* --- Base Layout --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -40,7 +40,7 @@ main {
   min-height: 100vh;
 }
 
-/* --- ヒーローエリア --- */
+/* --- Hero --- */
 main header { padding: 220px 0 120px; }
 main header h1 {
   font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
@@ -50,27 +50,24 @@ main header h1 {
 .lead { font-family: var(--font-serif); font-size: 1.6rem; border-left: 2px solid var(--accent); padding-left: 40px; max-width: 850px; line-height: 1.4; }
 .who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; display: block; }
 
-/* --- 論文カード：構造の完全統治 --- */
+/* --- Paper Cards --- */
 #archive { padding-bottom: 120px; }
-
 .section-label {
   display: block; padding: 100px 0 30px; border-bottom: 1px solid rgba(255,255,255,0.05);
   font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
 }
 
 .paper {
-  /* グリッドで要素の場所を完全に固定 */
   display: grid !important;
-  grid-template-columns: 1fr 240px !important; /* 左：コンテンツ、右：メタ情報 */
+  grid-template-columns: 1fr 240px !important;
   grid-template-rows: auto 1fr !important;
   gap: 40px 60px !important;
-  
   position: relative !important;
   margin-top: 100px !important;
   padding: 100px 60px !important;
   background: var(--surface) !important;
   border: 1px solid var(--line-strong) !important;
-  overflow: visible !important; /* 序破急のはみ出しを許可 */
+  overflow: visible !important;
   transition: all 0.4s var(--ease-kinetic) !important;
   text-decoration: none; color: inherit;
 }
@@ -82,7 +79,6 @@ main header h1 {
   box-shadow: 0 40px 90px -20px rgba(0,0,0,0.8);
 }
 
-/* タイトル（左上） */
 .paper-title { grid-column: 1 / 2; grid-row: 1; position: relative; z-index: 5; margin: 0; }
 .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.2rem, 4.5vw, 4.2rem);
@@ -90,17 +86,14 @@ main header h1 {
   text-transform: uppercase; color: var(--fg); text-decoration: none;
 }
 
-/* 引用文（左下） */
 .paper-signal {
   grid-column: 1 / 2; grid-row: 2; position: relative; z-index: 5;
   font-family: var(--font-serif); font-style: italic;
   font-size: clamp(1.4rem, 2.2vw, 1.8rem) !important;
   line-height: 1.6 !important; color: var(--fg-dim) !important;
-  border-left: 3px solid rgba(255,255,255,0.1);
-  padding-left: 35px; margin: 20px 0 0 !important;
+  border-left: 3px solid rgba(255,255,255,0.1); padding-left: 35px; margin: 20px 0 0 !important;
 }
 
-/* キーワード（右上）：箱を完全に消去 */
 .k {
   grid-column: 2 / 3; grid-row: 1;
   border: none !important; padding: 0 !important; margin: 0 !important; background: none !important;
@@ -111,7 +104,6 @@ main header h1 {
 }
 .k span { color: var(--accent); font-weight: 700; opacity: 0.6; display: block; margin-bottom: 8px; }
 
-/* OPEN PDF（右下） */
 .actions { grid-column: 2 / 3; grid-row: 2; display: flex; justify-content: flex-end; align-items: flex-end; position: relative; z-index: 5; }
 .pill {
   display: inline-flex; align-items: center; justify-content: center;
@@ -120,38 +112,37 @@ main header h1 {
   border: 1px solid rgba(255,255,255,0.2); color: var(--fg);
   text-decoration: none; transition: all 0.3s; line-height: 1;
 }
-.paper:hover .pill { border-color: var(--accent); color: var(--accent); background: rgba(217, 4, 41, 0.05); }
 
-/* --- 背景：ローマ数字（枠内にはみ出さない設定） --- */
+/* --- 背景装飾：全画面での安定化 --- */
 .card-base {
   position: absolute; inset: 0;
-  overflow: hidden; /* ★ここからはみ出す数字をカット */
+  overflow: hidden; /* ローマ数字のみをカット */
   pointer-events: none; z-index: 1;
 }
 
 .work-bg-num {
   position: absolute; right: -5%; top: 50%; transform: translateY(-50%);
   font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(12rem, 25vw, 28rem); opacity: 0.04; color: #FFF;
+  font-size: clamp(10rem, 20vw, 24rem); opacity: 0.04; color: #FFF;
   transition: all 0.6s var(--ease-kinetic); z-index: -2;
 }
 .paper:hover .work-bg-num { color: var(--accent); opacity: 0.25; transform: translateY(-50%) translateX(-20px); }
 
-/* --- 背景：序・破・急（切れない・位置調整） --- */
+/* 序破急：最大サイズの制限と位置の固定化 */
 .script-note {
   position: absolute; font-family: var(--font-jp-calligraphy);
-  font-size: clamp(18rem, 35vw, 42rem); color: var(--fg);
-  opacity: 0.08; filter: blur(0.5px); z-index: 0;
+  /* 上限を 32rem に抑え、全画面での崩れを防止 */
+  font-size: clamp(18rem, 30vw, 32rem); 
+  color: var(--fg); opacity: 0.08; filter: blur(0.5px); z-index: 0;
   line-height: 1.2; pointer-events: none; transition: all 0.5s;
 }
 .paper:hover .script-note { opacity: 0.12; filter: blur(0px); }
 
-/* 位置調整：急を左下へ */
-.paper:nth-of-type(1) .script-note { top: -10%; left: -2%; transform: rotate(-8deg); }
+/* 位置の微調整：vwではなく%でカードに追従させる */
+.paper:nth-of-type(1) .script-note { top: -8%; left: -5%; transform: rotate(-8deg); }
 .paper:nth-of-type(2) .script-note { top: 20%; right: -5%; left: auto; transform: rotate(4deg); }
-.paper:nth-of-type(3) .script-note { bottom: -15%; left: -20%; top: auto; transform: rotate(-4deg); }
+.paper:nth-of-type(3) .script-note { bottom: -10%; left: -15%; top: auto; transform: rotate(-4deg); }
 
-/* モバイル対応 */
 @media (max-width: 900px) {
   .paper { grid-template-columns: 1fr !important; padding: 60px 24px !important; gap: 30px !important; }
   .k, .actions { grid-column: 1; align-items: flex-start; text-align: left; }
