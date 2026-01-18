@@ -16,8 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
     "h1, .who, .lead, .paper, .section-label, footer"
   );
 
+  // Reduced Motion: 演出を完全スキップし、表示欠落事故を防ぐ
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reducedMotion) {
+    targets.forEach((el) => {
+      el.classList.add("reveal", "is-visible");
+
+      // 念のため、スタイル直書きで“見えない”事故を潰す
+      el.style.opacity = "1";
+      el.style.transform = "none";
+      el.style.animation = "none";
+      el.style.transition = "none";
+    });
+  }
+
   // IntersectionObserver 非対応の環境では即表示
-  if (!("IntersectionObserver" in window)) {
+  // ※ Reduced Motion 時は observer を一切使わない（上で可視化済）
+  if (reducedMotion) {
+    // already visible (skip observers)
+  } else if (!("IntersectionObserver" in window)) {
     targets.forEach((el) => {
       el.classList.add("reveal", "is-visible");
     });
@@ -161,8 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!progressLine || !progressLine.isConnected) return;
 
     const scrolled = window.pageYOffset || document.documentElement.scrollTop || 0;
-    const maxScroll =
-      document.documentElement.scrollHeight - window.innerHeight;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
     if (maxScroll > 0) {
       const pct = (scrolled / maxScroll) * 100;
