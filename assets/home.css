@@ -1,11 +1,11 @@
 :root {
-  /* --- V57.3: ARCHIVAL PRECISION --- */
+  /* --- V57.4: ARCHIVAL PRECISION (No Clipping) --- */
   --bg-void: #020203;
   --bg-stage: #050506;
   --surface:  #0A0A0B;
   --fg:       #E6E4E0;
   --fg-dim:   #949494;
-  --accent:   #D90429; /* 前回の鮮烈な赤を継承 */
+  --accent:   #D90429;
   --line: rgba(255, 255, 255, 0.05);
   --line-strong: rgba(255,255,255,0.12);
 
@@ -76,18 +76,14 @@ main header h1 {
   max-width: 800px; border-left: 2px solid var(--accent); padding-left: 40px;
 }
 
-/* --- ① カードの完全分離 --- */
+/* --- 論文カード --- */
 .paper {
-  position: relative; 
-  padding: 120px 60px; 
-  margin-bottom: 80px; /* 1pxから80pxへ。最高の分離バランス */
-  display: grid; 
-  grid-template-columns: 1.6fr 1fr; 
-  gap: 80px;
-  border: 1px solid var(--line-strong); /* 全周を囲むことで独立性を確保 */
-  background: var(--surface);
+  position: relative; padding: 120px 60px; margin-bottom: 80px;
+  display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px;
+  border: 1px solid var(--line-strong); background: var(--surface);
   text-decoration: none; color: inherit; z-index: 1;
   transition: transform 0.4s var(--ease-kinetic), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s var(--ease-kinetic);
+  overflow: visible; /* 文字のはみ出しを許可 */
 }
 
 .paper a.stretched-link::before { content: ""; position: absolute; inset: 0; z-index: 2; }
@@ -100,27 +96,35 @@ main header h1 {
   position: absolute; right: 20px; top: 50%;
   transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
   transition: opacity 0.55s, color 0.55s, transform 0.55s var(--ease-kinetic);
+  z-index: -2;
 }
 
-/* プラチナの透かし */
+/* --- 序破急（修正箇所：行高と重なり） --- */
 .script-note {
   font-family: var(--font-jp-calligraphy); position: absolute;
   font-size: clamp(20rem, 40vw, 45rem); white-space: nowrap;
   color: var(--fg); opacity: 0.07; filter: blur(0.5px);
-  pointer-events: none; z-index: -1; mix-blend-mode: normal;
+  pointer-events: none; mix-blend-mode: normal;
+  
+  line-height: 1.1; /* 上下のハネが切れないよう拡大 */
+  z-index: 0;       /* 背景の上、テキストの下に配置 */
+  
   transition: opacity 0.45s ease, transform 0.45s var(--ease-kinetic), filter 0.45s ease;
-  line-height: 0.8;
 }
 
 .paper:hover {
-  transform: translateY(-8px); /* 少し大きく持ち上げる */
-  z-index: 10; background: #0E0E10;
+  transform: translateY(-8px); z-index: 10; background: #0E0E10;
   box-shadow: 0 40px 90px -20px rgba(0,0,0,0.85), 0 0 30px rgba(217, 4, 41, 0.1);
   border-color: var(--accent);
 }
 
 .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; transform: translate3d(calc(-40px + var(--drift-x)), calc(-45% + var(--drift-y)), 0); }
 .paper:hover .script-note { opacity: 0.12; transform: scale(1.02) translateX(-5px); filter: blur(0px); }
+
+/* インタラクティブ要素の重なりを確保 */
+.paper-title, .paper-signal, .k, .actions {
+  position: relative; z-index: 2;
+}
 
 .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
@@ -129,48 +133,37 @@ main header h1 {
 }
 .paper:hover .paper-title a { color: #FFF; }
 
-/* --- ② エピグラフの見やすさ改善 --- */
+/* エピグラフ */
 .paper-signal {
-  font-family: var(--font-serif); font-style: italic; 
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem); /* 以前より一回り大きく */
-  font-weight: 400; line-height: 1.45; 
-  color: var(--fg-dim); 
-  margin: 50px 0; /* タイトルとの間隔を確保 */
-  border-left: 3px solid var(--line); /* ラインを少し太く */
-  padding-left: 35px;
+  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 400; line-height: 1.45; color: var(--fg-dim); margin: 50px 0;
+  border-left: 3px solid var(--line); padding-left: 35px;
   transition: border-color 0.25s, padding 0.35s var(--ease-kinetic), color 0.25s;
 }
 .paper:hover .paper-signal { color: var(--fg); border-left-color: var(--accent); padding-left: 40px; }
 
-/* --- ④ キーワードのバランス調整 --- */
+/* キーワード */
 .k {
   font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
-  color: var(--fg-dim); line-height: 1.8; 
-  margin-top: 20px; /* 上部へのマージンを設けてカード内中央付近へ */
-  grid-column: 2; grid-row: 1;
-  display: flex; flex-direction: column; align-items: flex-end;
-  text-align: right;
+  color: var(--fg-dim); line-height: 1.8; margin-top: 20px;
+  grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: flex-end;
 }
 .k span { display: block; opacity: 0.4; margin-bottom: 8px; font-weight: 700; color: var(--accent); }
 
-/* --- ③ OPEN PDFのボックスバランス調整 --- */
+/* OPEN PDF */
 .actions { grid-column: 2; grid-row: 2; display: flex; justify-content: flex-end; align-items: flex-end; }
-
 .pill {
-  font-family: var(--font-mono); font-size: 10px; /* 文字を少し小さくし、文字間隔で高級感を出す */
-  font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.3em; /* 文字間隔を広げる */
-  padding: 18px 40px; /* 縦横の比率を再調整（スリムな高級感） */
-  border: 1px solid rgba(255,255,255,0.2);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.3em; padding: 18px 40px; border: 1px solid rgba(255,255,255,0.2);
   background: transparent; color: var(--fg); text-decoration: none;
   transition: all 0.3s var(--ease-kinetic); display: inline-block;
 }
 .paper:hover .pill { border-color: var(--accent); color: var(--accent); background: rgba(217, 4, 41, 0.05); }
 
-/* 位置調整（前回分を継承） */
-.paper:nth-of-type(1) .script-note { top: -15%; left: -5%; transform: rotate(-10deg); }
-.paper:nth-of-type(2) .script-note { top: 25%; right: -20%; left: auto; transform: rotate(5deg); }
-.paper:nth-of-type(3) .script-note { bottom: -5%; left: -25%; top: auto; transform: rotate(-5deg); }
+/* --- 配置調整（画面外での消失を防止） --- */
+.paper:nth-of-type(1) .script-note { top: -10%; left: -2%; transform: rotate(-10deg); }
+.paper:nth-of-type(2) .script-note { top: 25%; right: -8%; left: auto; transform: rotate(5deg); }
+.paper:nth-of-type(3) .script-note { bottom: 0%; left: -12%; top: auto; transform: rotate(-5deg); }
 
 @media (max-width: 900px) {
   .paper { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; margin-bottom: 60px; }
@@ -178,4 +171,5 @@ main header h1 {
   .k { margin-top: 0; }
   .pill { width: 100%; text-align: center; }
   .work-bg-num { left: -20px; right: auto; font-size: 15rem; }
+  .script-note { font-size: 15rem; }
 }
