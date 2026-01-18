@@ -1,73 +1,204 @@
-/* --- ② エピグラフ（引用文）の見やすさと重厚感の強化 --- */
+:root {
+  /* --- V57.5: ARCHIVAL PRECISION (Final Master) --- */
+  --bg-void: #020203;
+  --bg-stage: #050506;
+  --surface:  #0A0A0B;
+  --fg:       #E6E4E0;
+  --fg-dim:   #949494;
+  
+  /* Accent: Arterial Red (#D90429) */
+  --accent:   #D90429; 
+  
+  --line: rgba(255, 255, 255, 0.05);
+  --line-strong: rgba(255,255,255,0.12);
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-jp-calligraphy: 'Yuji Mai', serif;
+  --font-sans:  'Inter', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+
+  /* Physics */
+  --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* GPU vars */
+  --mouse-x: -999px;
+  --mouse-y: -999px;
+  --drift-x: 0px;
+  --drift-y: 0px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-void);
+  color: var(--fg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Film Grain */
+body::after {
+  content: ""; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999; mix-blend-mode: overlay;
+}
+
+#cursor-glow {
+  position: fixed; left: 0; top: 0; width: 90vw; height: 90vw;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 50%);
+  pointer-events: none; z-index: 1; margin-left: -45vw; margin-top: -45vw;
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  opacity: 0; transition: opacity 0.9s ease; will-change: transform; mix-blend-mode: screen;
+}
+body.glow-active #cursor-glow { opacity: 1; }
+
+main {
+  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  min-height: 100vh; position: relative; z-index: 10; background-color: var(--bg-stage);
+}
+
+/* --- HERO --- */
+main header { padding: 240px 0 160px; position: relative; }
+main header h1 {
+  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.03em;
+  margin-bottom: 80px; color: var(--fg);
+}
+
+.who {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 24px; display: block;
+}
+
+.lead {
+  font-family: var(--font-serif); font-size: 1.6rem; color: var(--fg); line-height: 1.4;
+  max-width: 800px; border-left: 2px solid var(--accent); padding-left: 40px;
+}
+
+/* --- 論文カード：最高の分離バランス --- */
+.paper {
+  position: relative; 
+  padding: 120px 60px; 
+  margin-bottom: 80px; /* カードを独立した重要文書として分離 */
+  display: grid; 
+  grid-template-columns: 1.6fr 1fr; 
+  gap: 80px;
+  border: 1px solid var(--line-strong); 
+  background: var(--surface);
+  text-decoration: none; color: inherit; z-index: 1;
+  transition: transform 0.4s var(--ease-kinetic), background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s var(--ease-kinetic);
+  overflow: visible; /* 序破急のはみ出しを許可 */
+}
+
+.paper a.stretched-link::before { content: ""; position: absolute; inset: 0; z-index: 2; }
+
+/* 背景のローマ数字 */
+.work-bg-num {
+  font-family: var(--font-serif); font-style: italic; font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
+  color: #FFFFFF; opacity: 0.05;
+  position: absolute; right: 20px; top: 50%;
+  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
+  transition: opacity 0.55s, color 0.55s, transform 0.55s var(--ease-kinetic);
+  z-index: -2;
+}
+
+/* 序破急：途切れ防止と重なりの最適化 */
+.script-note {
+  font-family: var(--font-jp-calligraphy); position: absolute;
+  font-size: clamp(20rem, 40vw, 45rem); white-space: nowrap;
+  color: var(--fg); opacity: 0.07; filter: blur(0.5px);
+  pointer-events: none; mix-blend-mode: normal;
+  
+  line-height: 1.1; /* 毛筆のハネが上下で切れないよう確保 */
+  z-index: 0;       /* カード背景の上、テキストの下に配置 */
+  
+  transition: opacity 0.45s ease, transform 0.45s var(--ease-kinetic), filter 0.45s ease;
+}
+
+.paper:hover {
+  transform: translateY(-8px); z-index: 10; background: #0E0E10;
+  box-shadow: 0 40px 90px -20px rgba(0,0,0,0.85), 0 0 30px rgba(217, 4, 41, 0.1);
+  border-color: var(--accent);
+}
+
+.paper:hover .work-bg-num { 
+  color: var(--accent); 
+  opacity: 0.4; /* 鮮烈な赤で浮かび上がらせる */
+  transform: translate3d(calc(-40px + var(--drift-x)), calc(-45% + var(--drift-y)), 0); 
+}
+
+.paper:hover .script-note { opacity: 0.12; transform: scale(1.02) translateX(-5px); filter: blur(0px); }
+
+/* インタラクティブ要素の重なりを最前面に */
+.paper-title, .paper-signal, .k, .actions {
+  position: relative; z-index: 2;
+}
+
+.paper-title a {
+  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase;
+  text-decoration: none; color: var(--fg); transition: color 0.3s;
+}
+.paper:hover .paper-title a { color: #FFF; }
+
+/* エピグラフの見やすさ強化 */
 .paper-signal {
-  font-family: var(--font-serif);
-  font-style: italic;
-  /* サイズをさらに拡大し、視認性を劇的に向上 */
-  font-size: clamp(1.8rem, 2.8vw, 2.4rem); 
-  font-weight: 400;
-  line-height: 1.5; /* 行間に呼吸を持たせる */
-  color: var(--fg-dim);
-  margin: 60px 0 0; /* 下部のマージンを削り、ボタンとの緊張感を創出 */
-  border-left: 3px solid var(--line);
+  font-family: var(--font-serif); font-style: italic; 
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem); /* 思想の重みを伝えるサイズ感 */
+  font-weight: 400; line-height: 1.5; 
+  color: var(--fg-dim); 
+  margin: 60px 0 0; 
+  border-left: 3px solid var(--line); 
   padding-left: 40px;
   transition: border-color 0.25s, padding 0.35s var(--ease-kinetic), color 0.25s;
 }
+.paper:hover .paper-signal { color: var(--fg); border-left-color: var(--accent); padding-left: 45px; }
 
-.paper:hover .paper-signal {
-  color: var(--fg);
-  border-left-color: var(--accent);
-  padding-left: 45px;
+/* キーワードの整理 */
+.k {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--fg-dim); line-height: 1.8; 
+  grid-column: 2; grid-row: 1;
+  display: flex; flex-direction: column; align-items: flex-end;
+  text-align: right; margin-bottom: 40px;
 }
+.k span { display: block; opacity: 0.4; margin-bottom: 8px; font-weight: 700; color: var(--accent); }
 
-/* --- ③④ OPEN PDFボタン：究極のバランスと右下配置 --- */
-.actions {
-  grid-column: 2;
-  grid-row: 2;
-  display: flex;
-  justify-content: flex-end; /* 右寄せ */
-  align-items: flex-end;    /* 下寄せ */
-  margin-top: auto;         /* 垂直方向の空きを自動で埋めて最下部へ */
+/* OPEN PDF：究極のバランスと右下吸着 */
+.actions { 
+  grid-column: 2; grid-row: 2; 
+  display: flex; justify-content: flex-end; align-items: flex-end; 
+  margin-top: auto; 
 }
 
 .pill {
-  /* 完璧な中央揃えのためのフレックス設定 */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.35em; /* 高級感を高める広めの文字間隔 */
-  
-  /* ボックスと文字の黄金比パディング */
-  padding: 20px 48px; 
-  min-width: 200px; /* ボタンとしての風格を保つ最小幅 */
-  
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: transparent;
-  color: var(--fg);
-  text-decoration: none;
-  transition: all 0.3s var(--ease-kinetic);
-  line-height: 1; /* 行高によるズレを排除 */
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.35em; padding: 20px 48px; min-width: 200px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent; color: var(--fg); text-decoration: none;
+  transition: all 0.3s var(--ease-kinetic); line-height: 1;
 }
+.paper:hover .pill { border-color: var(--accent); color: var(--accent); background: rgba(217, 4, 41, 0.05); }
 
-.paper:hover .pill {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(217, 4, 41, 0.05);
-  box-shadow: 0 0 20px rgba(217, 4, 41, 0.1);
-  transform: translateY(-2px); /* ボタン自体の浮き上がり */
-}
+/* 配置調整：画面外での消失を防止しつつダイナミックに */
+.paper:nth-of-type(1) .script-note { top: -10%; left: -2%; transform: rotate(-10deg); }
+.paper:nth-of-type(2) .script-note { top: 25%; right: -8%; left: auto; transform: rotate(5deg); }
+.paper:nth-of-type(3) .script-note { bottom: 0%; left: -12%; top: auto; transform: rotate(-5deg); }
 
-/* キーワード（.k）との距離感を調整 */
-.k {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  margin-bottom: 40px; /* 下部ボタンエリアとの境界 */
+@media (max-width: 900px) {
+  .paper { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; margin-bottom: 60px; }
+  .k, .actions { grid-column: 1; text-align: left; align-items: flex-start; }
+  .k { margin-bottom: 20px; }
+  .pill { width: 100%; text-align: center; }
+  .work-bg-num { left: -20px; right: auto; font-size: 15rem; }
+  .script-note { font-size: 15rem; }
 }
