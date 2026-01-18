@@ -108,8 +108,6 @@ main {
 }
 
 /* --- HERO --- */
-/* 注意: header.top / footer を home.css で触らない（site.css を使う） */
-/* ただし main 内の hero は home 独自で整える */
 main header {
   padding: 240px 0 160px;
   position: relative;
@@ -163,7 +161,7 @@ main header h1 {
   margin-bottom: 0;
 }
 
-/* --- CARD ARCHITECTURE (Adapting .paper) --- */
+/* --- CARD ARCHITECTURE --- */
 .paper {
   position: relative;
   padding: 140px 50px;
@@ -181,7 +179,6 @@ main header h1 {
   overflow: visible;
 }
 
-/* card whole-click target */
 .paper a.stretched-link::before {
   content: "";
   position: absolute;
@@ -189,7 +186,6 @@ main header h1 {
   z-index: 2;
 }
 
-/* background layers */
 .card-base {
   position: absolute;
   inset: 0;
@@ -216,24 +212,19 @@ main header h1 {
 }
 
 /* =========================================
-   UPDATED: Phantom Platinum Style
+   Phantom Platinum Style (Refined)
    ========================================= */
 .script-note {
   font-family: var(--font-jp-calligraphy);
   position: absolute;
   font-size: clamp(20rem, 40vw, 45rem);
   white-space: nowrap;
-  
-  /* Changed from black to text color with low opacity */
-  color: var(--fg);       /* Phantom Platinum */
-  opacity: 0.07;          /* 7% opacity for subtle watermark effect */
-  filter: blur(0.5px);    /* Slight blur for atmosphere */
-  
+  color: var(--fg);
+  opacity: 0.07;
+  filter: blur(0.5px);
   pointer-events: none;
   z-index: -1;
   mix-blend-mode: normal;
-  
-  /* Added filter transition */
   transition: opacity 0.45s ease, transform 0.45s var(--ease-kinetic), filter 0.45s ease;
   line-height: 0.8;
 }
@@ -254,9 +245,9 @@ main header h1 {
 }
 
 .paper:hover .script-note {
-  opacity: 0.12;           /* Increase visibility on hover */
+  opacity: 0.12;
   transform: scale(1.02) translateX(-5px);
-  filter: blur(0px);       /* Sharpen on hover */
+  filter: blur(0px);
 }
 
 .paper-title {
@@ -265,8 +256,6 @@ main header h1 {
   z-index: 3;
   pointer-events: auto;
 }
-
-.paper-title a { pointer-events: auto; }
 
 .paper-title a {
   font-family: var(--font-sans);
@@ -360,10 +349,10 @@ main header h1 {
   box-shadow: 0 0 18px rgba(196, 8, 24, 0.10);
 }
 
-/* --- Jo-Ha-Kyu Positions --- */
+/* --- Jo-Ha-Kyu Positions (Updated "Kyu") --- */
 .paper:nth-of-type(1) .script-note { top: -15%; left: -5%; transform: rotate(-10deg); }
 .paper:nth-of-type(2) .script-note { top: 25%; right: -20%; left: auto; transform: rotate(5deg); }
-.paper:nth-of-type(3) .script-note { bottom: -15%; left: 0%; top: auto; transform: rotate(-5deg); }
+.paper:nth-of-type(3) .script-note { bottom: -5%; left: -25%; top: auto; transform: rotate(-5deg); }
 
 @media (max-width: 900px) {
   .paper { grid-template-columns: 1fr; gap: 40px; padding: 100px 24px; }
