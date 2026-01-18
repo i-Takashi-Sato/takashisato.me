@@ -12,6 +12,8 @@
 
   <meta name="robots" content="index,follow,max-image-preview:large">
 
+  <!-- IMPORTANT: top page uses home.css only to avoid style conflicts -->
+  <link rel="stylesheet" href="/assets/home.css">
 
   <meta property="og:title" content="Takashi Sato · AI Governance Archive">
   <meta property="og:type" content="website">
@@ -55,13 +57,11 @@
     ]
   }
   </script>
-<link rel="stylesheet" href="/assets/home.css">
-
 </head>
 
 <body>
-<div id="cursor-glow" aria-hidden="true"></div>
-  
+  <div id="cursor-glow" aria-hidden="true"></div>
+
   <header class="top" aria-label="Site header">
     <div class="top-inner">
       <a class="brand" href="/" aria-label="Home">
@@ -93,7 +93,11 @@
     <section id="archive" aria-label="Archive">
       <span class="section-label">Selected Works 2025–2026</span>
 
+      <!-- Part I -->
       <article class="paper">
+        <div class="card-base"><div class="work-bg-num">I</div></div>
+        <span class="script-note">序</span>
+
         <h2 class="paper-title">
           <a class="stretched-link" href="/papers/part1.html">Part I: The Cold Genesis</a>
         </h2>
@@ -113,7 +117,11 @@
         </div>
       </article>
 
+      <!-- Part II -->
       <article class="paper">
+        <div class="card-base"><div class="work-bg-num">II</div></div>
+        <span class="script-note">破</span>
+
         <h2 class="paper-title">
           <a class="stretched-link" href="/papers/part2.html">Part II: The Silent Decay</a>
         </h2>
@@ -134,7 +142,11 @@
         </div>
       </article>
 
+      <!-- Part III -->
       <article class="paper">
+        <div class="card-base"><div class="work-bg-num">III</div></div>
+        <span class="script-note">急</span>
+
         <h2 class="paper-title">
           <a class="stretched-link" href="/papers/part3.html">Part III: The Proper Ending</a>
         </h2>
@@ -174,10 +186,5 @@
 
   <script src="/assets/home.js" defer></script>
   <script src="/assets/scroll.js" defer></script>
-  
 </body>
 </html>
-
-
-
-
