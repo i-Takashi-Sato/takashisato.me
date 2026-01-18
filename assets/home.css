@@ -1,32 +1,30 @@
 :root {
-  /* --- V58.2: CINEMATIC STABILITY (Ultra-Wide Ready) --- */
-  --bg-void: #020203;
-  --bg-stage: #050506;
-  --surface:  #0A0A0B;
-  --fg:       #E6E4E0;
-  --fg-dim:   #949494;
-  --accent:   #D90429; 
-  --line-strong: rgba(255,255,255,0.12);
+  /* --- V58.4: SUPREME STABILITY (Archival Edition) --- */
+  --bg-void: #050505;     
+  --bg-stage: #080808;    
+  --surface: #0E0E0E;     
+  --fg: #E6E4E0;          
+  --fg-dim: #949494;      
+  --accent: #D90429;      /* 鮮烈な赤 */
+  --line: rgba(255, 255, 255, 0.08);
 
   --font-serif: 'Cormorant Garamond', serif;
-  --font-jp-calligraphy: 'Yuji Mai', serif;
-  --font-sans:  'Inter', sans-serif;
-  --font-mono:  'JetBrains Mono', monospace;
-
+  --font-jp-calligraphy: 'Yuji Mai', serif; /* 日本語毛筆 */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
   --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* --- Base Layout --- */
+/* --- 全体レイアウト --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
-  background-color: var(--bg-void);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
+  background-color: var(--bg-void); color: var(--fg);
+  font-family: var(--font-sans); overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
+/* 粒子感（フィルムグレイン） */
 body::after {
   content: ""; position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
@@ -35,53 +33,38 @@ body::after {
 
 main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);
-  background-color: var(--bg-stage);
-  min-height: 100vh;
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background-color: var(--bg-stage); min-height: 100vh;
 }
 
-/* --- Hero --- */
-main header { padding: 220px 0 120px; }
-main header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.03em;
-  margin-bottom: 60px;
-}
-.lead { font-family: var(--font-serif); font-size: 1.6rem; border-left: 2px solid var(--accent); padding-left: 40px; max-width: 850px; line-height: 1.4; }
-.who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 20px; display: block; }
-
-/* --- Paper Cards --- */
-#archive { padding-bottom: 120px; }
-.section-label {
-  display: block; padding: 100px 0 30px; border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
-}
-
+/* --- 論文カード：V42構図をベースにした堅牢設計 --- */
 .paper {
   display: grid !important;
-  grid-template-columns: 1fr 240px !important;
+  grid-template-columns: 1.6fr 1fr !important; /* 思想：データの黄金比 */
   grid-template-rows: auto 1fr !important;
-  gap: 40px 60px !important;
+  gap: 40px 80px !important;
+  
   position: relative !important;
   margin-top: 100px !important;
-  padding: 100px 60px !important;
+  padding: 120px 60px !important;
   background: var(--surface) !important;
-  border: 1px solid var(--line-strong) !important;
-  overflow: visible !important;
+  border: 1px solid var(--line) !important;
+  overflow: visible !important; /* 序破急のはみ出しを許可 */
   transition: all 0.4s var(--ease-kinetic) !important;
   text-decoration: none; color: inherit;
 }
 
 .paper:hover {
   transform: translateY(-8px);
-  background: #0E0E10 !important;
+  background: #111 !important;
   border-color: var(--accent) !important;
   box-shadow: 0 40px 90px -20px rgba(0,0,0,0.8);
 }
 
-.paper-title { grid-column: 1 / 2; grid-row: 1; position: relative; z-index: 5; margin: 0; }
+/* タイトルとエピグラフ（左側） */
+.paper-title { grid-column: 1 / 2; grid-row: 1; position: relative; z-index: 5; }
 .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+  font-family: var(--font-sans); font-size: clamp(2.2rem, 5vw, 4.5rem);
   font-weight: 600; line-height: 1.0; letter-spacing: -0.04em;
   text-transform: uppercase; color: var(--fg); text-decoration: none;
 }
@@ -89,56 +72,55 @@ main header h1 {
 .paper-signal {
   grid-column: 1 / 2; grid-row: 2; position: relative; z-index: 5;
   font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(1.4rem, 2.2vw, 1.8rem) !important;
-  line-height: 1.6 !important; color: var(--fg-dim) !important;
-  border-left: 3px solid rgba(255,255,255,0.1); padding-left: 35px; margin: 20px 0 0 !important;
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem) !important;
+  line-height: 1.5 !important; color: var(--fg-dim) !important;
+  border-left: 3px solid var(--line); padding-left: 40px; margin: 40px 0 0 !important;
 }
 
+/* キーワード（右上）：site.cssの「でかい箱」を完全消去 */
 .k {
   grid-column: 2 / 3; grid-row: 1;
   border: none !important; padding: 0 !important; margin: 0 !important; background: none !important;
-  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
   letter-spacing: 0.15em; color: var(--fg-dim);
   display: flex; flex-direction: column; align-items: flex-end; text-align: right;
   position: relative; z-index: 5;
 }
-.k span { color: var(--accent); font-weight: 700; opacity: 0.6; display: block; margin-bottom: 8px; }
+.k span { color: var(--accent); font-weight: 700; opacity: 0.6; display: block; margin-bottom: 10px; }
 
+/* OPEN PDF（右下吸着） */
 .actions { grid-column: 2 / 3; grid-row: 2; display: flex; justify-content: flex-end; align-items: flex-end; position: relative; z-index: 5; }
 .pill {
   display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
-  letter-spacing: 0.3em; padding: 18px 36px; min-width: 160px;
-  border: 1px solid rgba(255,255,255,0.2); color: var(--fg);
-  text-decoration: none; transition: all 0.3s; line-height: 1;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.35em; padding: 22px 48px; min-width: 200px;
+  border: 1px solid rgba(255, 255, 255, 0.2); color: var(--fg);
+  text-decoration: none; transition: 0.3s; line-height: 1;
 }
+.paper:hover .pill { border-color: var(--accent); color: var(--accent); background: rgba(217, 4, 41, 0.05); }
 
-/* --- 背景装飾：全画面での安定化 --- */
+/* --- 背景装飾：ローマ数字の封印 --- */
 .card-base {
   position: absolute; inset: 0;
-  overflow: hidden; /* ローマ数字のみをカット */
+  overflow: hidden; /* ★数字のはみ出しをカット */
   pointer-events: none; z-index: 1;
 }
-
 .work-bg-num {
-  position: absolute; right: -5%; top: 50%; transform: translateY(-50%);
+  position: absolute; right: -2%; top: 50%; transform: translateY(-50%);
   font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(10rem, 20vw, 24rem); opacity: 0.04; color: #FFF;
+  font-size: clamp(12rem, 25vw, 28rem); opacity: 0.05; color: #FFF;
   transition: all 0.6s var(--ease-kinetic); z-index: -2;
 }
-.paper:hover .work-bg-num { color: var(--accent); opacity: 0.25; transform: translateY(-50%) translateX(-20px); }
+.paper:hover .work-bg-num { color: var(--accent); opacity: 0.3; transform: translateY(-50%) translateX(-30px); }
 
-/* 序破急：最大サイズの制限と位置の固定化 */
+/* --- 背景装飾：序破急（全画面対応） --- */
 .script-note {
   position: absolute; font-family: var(--font-jp-calligraphy);
-  /* 上限を 32rem に抑え、全画面での崩れを防止 */
-  font-size: clamp(18rem, 30vw, 32rem); 
-  color: var(--fg); opacity: 0.08; filter: blur(0.5px); z-index: 0;
+  font-size: clamp(18rem, 30vw, 35rem); color: var(--fg);
+  opacity: 0.08; filter: blur(0.5px); z-index: 0;
   line-height: 1.2; pointer-events: none; transition: all 0.5s;
 }
-.paper:hover .script-note { opacity: 0.12; filter: blur(0px); }
 
-/* 位置の微調整：vwではなく%でカードに追従させる */
 .paper:nth-of-type(1) .script-note { top: -8%; left: -5%; transform: rotate(-8deg); }
 .paper:nth-of-type(2) .script-note { top: 20%; right: -5%; left: auto; transform: rotate(4deg); }
 .paper:nth-of-type(3) .script-note { bottom: -10%; left: -15%; top: auto; transform: rotate(-4deg); }
@@ -146,7 +128,5 @@ main header h1 {
 @media (max-width: 900px) {
   .paper { grid-template-columns: 1fr !important; padding: 60px 24px !important; gap: 30px !important; }
   .k, .actions { grid-column: 1; align-items: flex-start; text-align: left; }
-  .k { margin-top: 30px !important; }
   .pill { width: 100%; }
-  .script-note { font-size: 15rem; }
 }
