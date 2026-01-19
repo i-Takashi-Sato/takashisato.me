@@ -141,7 +141,7 @@ body.home #archive .paper:hover .work-bg-num {
    --------------------------------------------------------- */
 body.home #archive .script-note {
   position: absolute;
-  z-index: 2;             /* was 20: keep content readable */
+  z-index: 2;
   pointer-events: none;
 
   font-family: var(--font-script);
@@ -151,7 +151,6 @@ body.home #archive .script-note {
   mix-blend-mode: exclusion;
   opacity: 0.78;
 
-  /* subtle “scrape / scribble” */
   letter-spacing: -0.03em;
   line-height: 0.78;
   text-shadow:
@@ -169,32 +168,46 @@ body.home #archive .paper:nth-of-type(1) .script-note {
   transform: rotate(-22deg);
   transform-origin: left center;
 
-  word-spacing: 1.2em; /* 핵: “Grand        Design” の分裂感 */
+  word-spacing: 1.2em;
+  opacity: 0.74;
 }
 
-/* Part II — angled, slightly tighter */
-body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(4rem, 8vw, 8rem);
-  top: 15%;
-  right: 5%;
-  left: auto;
-  transform: rotate(14deg);
-  transform-origin: right center;
+/* Part II — 横断して侵食（reference寄せ） */
+body.home #archive .paper:nth-of-type(2) .script-note{
+  font-size: clamp(10rem, 26vw, 34rem);
+  top: 34%;
+  left: -55%;
+  right: auto;
 
-  word-spacing: 0.7em;
+  transform: rotate(-7deg);
+  transform-origin: left center;
+
+  word-spacing: 0.9em;
+  opacity: 0.70;
 }
 
-/* Part III — big, but not “perfectly centered signboard” */
-body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(9rem, 22vw, 26rem);
+/* Part III — 下を切って外へ捨てる（reference寄せ） */
+body.home #archive .paper:nth-of-type(3) .script-note{
+  font-size: clamp(12rem, 32vw, 44rem);
+  top: auto;
+  bottom: -18%;
+  left: -22%;
 
-  /* shift off perfect center for hacked feel */
-  top: 58%;
-  left: 42%;
-  transform: translate(-50%, -50%) rotate(-11deg);
-  text-align: center;
+  transform: rotate(-12deg);
+  transform-origin: left center;
 
+  text-align: left;
   word-spacing: 0.25em;
+  opacity: 0.72;
+}
+
+/* Ensure readable content stays above scribble layer */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions{
+  position: relative;
+  z-index: 3;
 }
 
 /* Title link (unchanged) */
