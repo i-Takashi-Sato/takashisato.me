@@ -1,19 +1,17 @@
 /* =========================================================
-   HOME ONLY — V78 "PRECISION ALIGNMENT"
+   HOME ONLY — V79 "SEAMLESS ADAPTATION"
    
-   - Part I: "D" in "Design" aligned with "P" in "PART I".
-   - Part I: Shifted significantly further LEFT with responsive clamp.
-   - Part II & III: V76 dynamic logic preserved.
+   - Part I: "D" aligned under "P", fixed window clipping.
+   - Part I: Size and Position adjusted to prevent "cut off".
    - CARD LAYOUT: V65 scattered grid preserved.
    - ROMAN NUMERALS: Hover color (Red) active.
-   - Constraint: NO horizontal overflow on window resize.
+   - Constraint: NO horizontal overflow, NO text clipping.
    ========================================================= */
 
-/* ウィンドウサイズ変更時のはみ出しを二重に封じ込める */
+/* ウィンドウ全体のはみ出しは防ぐが、内部のクリッピングは解除 */
 html, body.home {
   overflow-x: hidden;
   width: 100%;
-  position: relative;
   margin: 0;
   padding: 0;
 }
@@ -41,10 +39,12 @@ body.home::after {
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
+/* mainのoverflowを解除して筆記体が切れるのを防ぐ */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
   background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
+  overflow: visible; 
 }
 
 /* Header */
@@ -62,7 +62,7 @@ body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
   background: var(--surface); border: 1px solid var(--line); 
-  overflow: visible; 
+  overflow: visible; /* 筆記体が切れないようvisibleを死守 */
   color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
 }
 
@@ -85,7 +85,7 @@ body.home #archive .work-bg-num {
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — DYNAMIC LOCK (D to P Alignment)
+   SCRIPT OVERLAY — PRECISION LOCK
    ========================================================= */
 
 body.home #archive .script-note {
@@ -101,13 +101,13 @@ body.home #archive .script-note {
 }
 
 /* Part I: "Grand Design"
-   - 「D」がタイトルの「P」の真下に来るよう、leftを大幅にマイナス調整
+   - 「D」の位置を固定しつつ、ウィンドウ幅に合わせて微調整
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(6rem, 12vw, 11rem); 
+  font-size: clamp(5.5rem, 11vw, 10rem); /* 少しサイズダウンして安定性を向上 */
   top: 8%; 
-  /* 大胆に左へ寄せつつ、画面左端で止まるようにclampを強化 */
-  left: clamp(-32%, -22vw, -5%); 
+  /* 左端で途切れないよう、ビューポート基準の計算を導入 */
+  left: max(-25%, calc(-1 * (100vw - 1200px) / 4)); 
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
