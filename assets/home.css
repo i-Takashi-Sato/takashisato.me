@@ -25,7 +25,7 @@ body.home{
   background-color: var(--bg-void);
   color: var(--fg);
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  overflow-x: hidden; /* 横スクロール防止の絶対防衛ライン */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -83,7 +83,7 @@ body.home #archive .paper{
 
   background: var(--surface);
   border: 1px solid var(--line);
-  overflow: visible; /* Allow bleed */
+  overflow: visible; /* カードからはみ出すことを許可 */
 
   color: inherit;
   will-change: transform;
@@ -123,13 +123,14 @@ body.home #archive .paper:hover .work-bg-num,
 body.home #archive .paper.is-hovered .work-bg-num{ color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — "CRUELLA'S SIGNATURE" (Rebuilt)
-   Target: Layout of image_fb155f.jpg
+   SCRIPT OVERLAY — "CONTROLLED CHAOS"
+   Target: Grand Design / Silent Rot / Requiem
+   Layout: Aggressive bleed relative to card, but safe for window.
    ========================================================= */
 
 body.home #archive .script-note {
   position: absolute;
-  /* CRITICAL: Overlap text (z=3) */
+  /* 文字の上に被せる (z-index 20) */
   z-index: 20; 
   pointer-events: none;
 
@@ -144,41 +145,42 @@ body.home #archive .script-note {
 
   will-change: transform;
   transition: transform 0.4s var(--ease-punk);
+  
+  /* 安全策: どんなに大きくても画面幅の90%を超えないように制限する */
+  max-width: 90vw;
 }
 
 /* --- Part I: "Grand Design" ---
    Layout: Diagonal slash across the top-left title.
-   Angle: Sharp (-15deg).
-   Size: Large but fits the top block.
+   Adjustment: vw値を13に下げ、leftをマイナスにしすぎないことで画面左切れを防ぐ。
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(10rem, 20vw, 18rem);
-  top: 15%;
-  left: -8%;
+  font-size: clamp(6rem, 13vw, 16rem); 
+  top: 18%;
+  left: -2%; /* カードの左端より少し出る程度に留める */
   transform: rotate(-15deg);
 }
 
 /* --- Part II: "Silent Rot" ---
    Layout: Heavy anchor at the bottom right.
-   Angle: Slight positive tilt (+6deg) to contrast with Part I.
-   Size: Medium-Large, heavier feel.
+   Adjustment: right: -2% でカードから少しはみ出させるが、画面右外には行かせない。
 */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(11rem, 22vw, 20rem);
+  font-size: clamp(7rem, 15vw, 18rem);
   top: auto;
   bottom: -5%;
-  right: -5%;
+  right: -2%;
   left: auto;
   transform: rotate(6deg);
 }
 
 /* --- Part III: "Requiem" ---
    Layout: Massive Centerpiece.
-   Angle: Slight negative (-5deg) for "Stamp" effect.
-   Size: HUGE (Largest of all).
+   Adjustment: Requiemは単語が短いのでフォントサイズを大きくしても安全。
+   画面中央配置(left: 50%)なので最大サイズを攻められる。
 */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(16rem, 32vw, 35rem);
+  font-size: clamp(10rem, 20vw, 24rem);
   top: 50%;
   left: 50%;
   right: auto;
@@ -186,7 +188,7 @@ body.home #archive .paper:nth-of-type(3) .script-note {
   transform: translate(-50%, -50%) rotate(-5deg);
 }
 
-/* Hover Effects: Parallax Lift & Straighten */
+/* Hover Effects */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note {
   transform: translateY(-20px) scale(1.05) rotate(0deg);
