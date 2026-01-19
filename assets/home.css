@@ -1,22 +1,21 @@
-html, body.home {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #050505;
-  color: #E6E4E0;
-}
+/* =========================================================
+   HOME ONLY — V72 "FINAL COLOR RESTORED"
+   
+   - Part I: EXACTLY in the blue box of image (757).
+   - Part II & III: NO CHANGES from V65 logic.
+   - ROMAN NUMERALS: Color hover effect RESTORED.
+   - Constraint: NO horizontal overflow.
+   ========================================================= */
 
 body.home {
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
-
   --fg: #E6E4E0;
   --fg-dim: #949494;
   --accent: #D90429;
-
   --line: rgba(255, 255, 255, 0.08);
-
+  
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -24,200 +23,155 @@ body.home {
 
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
 
+  background-color: var(--bg-void);
+  color: var(--fg);
   font-family: var(--font-sans);
+  
+  overflow-x: hidden;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Selection */
 body.home ::selection { background: #FFF; color: #000; }
 
+/* Background Noise */
 body.home::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-  background: url("/assets/noise.webp") repeat;
-  background-size: 280px 280px;
+  content: ""; position: fixed; inset: 0; pointer-events: none;
+  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
+  background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
+/* Container */
 body.home main {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
-  background-color: var(--bg-stage);
-  min-height: 100vh;
-  position: relative;
-  z-index: 3;
-
-  overflow: visible;
+  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
 }
 
+/* Header */
 body.home main > header { padding: 220px 0 120px; }
-
 body.home main > header h1 {
-  font-family: var(--font-serif);
-  font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  margin: 0 0 80px;
+  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
 }
+body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block; }
+body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
+body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); }
 
+/* --- ARCHIVE CARDS --- */
 body.home #archive .paper {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 80px;
-
-  position: relative;
-  margin-top: 100px;
-  margin-bottom: 60px;
-  padding: 140px 50px;
-
-  background: var(--surface);
-  border: 1px solid var(--line);
-  overflow: visible;
-
-  color: inherit;
-  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease;
-  z-index: 1;
+  display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
+  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
+  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
+  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
 }
 
+/* Scattered Grid (V65 Logic) */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
 
 body.home #archive .paper:hover {
-  background: #111;
-  transform: scale(1.01) rotate(0deg) !important;
-  box-shadow:
-    20px 20px 0px rgba(0,0,0,0.5),
-    -2px -2px 0px var(--accent);
-  border-color: #FFF;
-  z-index: 100;
+  background: #111; transform: scale(1.01) rotate(0deg) !important;
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
-body.home #archive .card-base {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
+/* Numeral Base - 色設定修正済み */
+body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
-  position: absolute;
-  right: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem);
-
-  opacity: 0.08;
-  color: #FFF;
-  mix-blend-mode: overlay;
-  transition: 0.3s ease;
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
+  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
+/* ホバー時の赤色指定を復活 */
+body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
-/* Hover: accent red MUST show (avoid blend hiding the red) */
-body.home #archive .paper:hover .work-bg-num {
-  color: var(--accent);
-  opacity: 0.45;
-  mix-blend-mode: normal;
-}
+/* =========================================================
+   SCRIPT OVERLAY — PRECISION PLACEMENT
+   ========================================================= */
 
-/* ---------------------------------------------------------
-   Script note: “Hacked Scribble”
-   - Above numeral, below content (keeps readability)
-   - Never blocks clicks
-   --------------------------------------------------------- */
 body.home #archive .script-note {
   position: absolute;
-  z-index: 2;
+  z-index: 20; 
   pointer-events: none;
-
-  font-family: var(--font-script);
+  font-family: 'Pinyon Script', cursive;
   white-space: nowrap;
-
   color: #E6E4E0;
   mix-blend-mode: exclusion;
-  opacity: 0.78;
-
-  letter-spacing: -0.03em;
-  line-height: 0.78;
-  text-shadow:
-    0.6px 0.6px 0 rgba(255,255,255,0.16),
-    -1.2px 0.8px 0 rgba(0,0,0,0.38),
-    0 12px 28px rgba(0,0,0,0.35);
-  -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+  opacity: 0.9;
+  transition: none;
+  max-width: 90vw;
 }
 
-/* Part I — split words like your reference */
+/* Part I: "Grand Design" (image 757 Blue Box) */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(5.5rem, 11vw, 10.5rem);
-  top: 8%;
-  left: max(-18%, calc(-1 * (100vw - 1200px) / 2));
-  transform: rotate(-22deg);
+  font-size: clamp(8rem, 16vw, 15rem);
+  top: 8%; left: -8%; 
+  transform: rotate(-22deg); 
   transform-origin: left center;
-
-  word-spacing: 1.2em;
-  opacity: 0.74;
 }
 
-/* Part II — 横断して侵食（reference寄せ） */
-body.home #archive .paper:nth-of-type(2) .script-note{
-  font-size: clamp(10rem, 26vw, 34rem);
-  top: 34%;
-  left: -55%;
-  right: auto;
-
-  transform: rotate(-7deg);
-  transform-origin: left center;
-
-  word-spacing: 0.9em;
-  opacity: 0.70;
+/* Part II: "Silent Rot" (V65 Static) */
+body.home #archive .paper:nth-of-type(2) .script-note {
+  font-size: clamp(4rem, 8vw, 8rem);
+  top: 15%; right: 5%; 
+  left: auto;
+  transform: rotate(14deg); 
+  transform-origin: right center;
 }
 
-/* Part III — 下を切って外へ捨てる（reference寄せ） */
-body.home #archive .paper:nth-of-type(3) .script-note{
-  font-size: clamp(12rem, 32vw, 44rem);
-  top: auto;
-  bottom: -18%;
-  left: -22%;
-
-  transform: rotate(-12deg);
-  transform-origin: left center;
-
-  text-align: left;
-  word-spacing: 0.25em;
-  opacity: 0.72;
+/* Part III: "Requiem" (V65 Static) */
+body.home #archive .paper:nth-of-type(3) .script-note {
+  font-size: clamp(12rem, 28vw, 32rem);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  text-align: center;
 }
 
-/* Ensure readable content stays above scribble layer */
+/* --- Content Layers --- */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
-body.home #archive .actions{
-  position: relative;
-  z-index: 3;
+body.home #archive .actions { position: relative; z-index: 3; }
+
+body.home #archive .paper-title a {
+  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
 }
 
-/* Title link (unchanged) */
-body.home #archive .paper-title a {
-  font-family: var(--font-sans);
-  font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
+body.home #archive .paper-signal {
+  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0;
+}
+
+body.home #archive .k {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
+  display: flex; flex-direction: column; align-items: flex-end; text-align: right;
+}
+body.home #archive .k span { color: var(--accent); font-weight: 700; }
+
+body.home #archive .pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+  padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
+}
+body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+
+/* Cursor Glow */
+body.home #cursor-glow {
+  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  mix-blend-mode: exclusion; transition: opacity 0.3s;
+}
+body.home.glow-active #cursor-glow { opacity: 1; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
+  body.home #archive .script-note { font-size: 6rem; opacity: 0.6; mix-blend-mode: normal; max-width: 100%; }
+  body.home #archive .paper:nth-of-type(1) .script-note { top: 5%; left: 0; transform: rotate(-10deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note { top: auto; bottom: 5%; right: 0; transform: rotate(5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note { font-size: 8rem; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-5deg); }
 }
