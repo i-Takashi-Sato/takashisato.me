@@ -1,405 +1,146 @@
 /* =========================================================
-   HOME ONLY — THEME: "LECTER x CRUELLA"
-   Concept: Surgical Precision violated by Fashionable Chaos.
+   V-SCRIPT: Signature Overlay (Readable + Cinematic)
+   Goal:
+   - Handwritten “randomness” (per-card variation)
+   - NEVER blocks clicks (pointer-events:none)
+   - NEVER kills readability (blend + opacity + safe hover behavior)
    ========================================================= */
 
-body.home {
-  /* --- The Hannibal Base (Cold, Expensive, Void) --- */
-  --bg-void: #050505;
-  --bg-stage: #080808;
-  --surface: #0E0E0E;
-  --fg: #E6E4E0;      /* Bone White */
-  --fg-dim: #949494;  /* Steel Grey */
-
-  /* --- The Cruella Accent (Arterial Red / Lipstick) --- */
-  --accent: #D90429;
-
-  --line: rgba(255, 255, 255, 0.08);
-  
-  /* Fonts */
-  --font-serif: 'Cormorant Garamond', serif;
-  --font-jp-calligraphy: 'Yuji Mai', serif;
-  
-  /* Script Fallback: Use existing loaded font, styled aggressively */
-  --font-script: var(--font-jp-calligraphy); 
-  
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Physics: "The Twitch" - Nervous, Aggressive Overshoot */
-  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); 
-
-  background-color: var(--bg-void);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Selection: Inverted High-Fashion */
-body.home ::selection { background: var(--accent); color: #000; }
-body.home ::-moz-selection { background: var(--accent); color: #000; }
-
-/* =========================================================
-   Noise layer (Atmosphere)
-   ========================================================= */
-body.home::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0.04;
-  mix-blend-mode: overlay;
-  background: url("/assets/noise.webp") repeat;
-  background-size: 280px 280px;
-}
-
-/* =========================================================
-   Main Stage
-   ========================================================= */
-body.home main {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
-  background-color: var(--bg-stage);
-  min-height: 100vh;
+/* 0) Card must be a safe stacking context */
+body.home #archive .paper{
   position: relative;
-  z-index: 3;
+  isolation: isolate;     /* z-index fights end here */
+  overflow: visible;      /* allow the signature to bleed out */
 }
 
-/* =========================================================
-   HERO: Surgical Elegance
-   ========================================================= */
-body.home main > header {
-  padding: 220px 0 120px;
-}
-
-body.home main > header h1 {
-  font-family: var(--font-serif);
-  font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  margin: 0 0 80px;
-  color: var(--fg);
-  /* Cruella's touch on the title */
-  text-shadow: 0 0 0 rgba(255,255,255,0);
-  transition: text-shadow 0.3s ease;
-}
-body.home main > header h1:hover {
-  text-shadow: 4px 0 0 var(--accent); /* RGB Split effect */
-}
-
-body.home .who {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin: 0 0 20px;
-  display: block;
-}
-
-body.home .lead {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  line-height: 1.4;
-  border-left: 3px solid var(--accent);
-  padding-left: 40px;
-  max-width: 850px;
-  margin: 0;
-}
-
-body.home .section-label {
-  display: block;
-  margin-top: 90px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--fg-dim);
-}
-
-/* =========================================================
-   THE CRUELLA HACK (#archive Scoped)
-   ========================================================= */
-
-/* The Card: A container being broken */
-body.home #archive .paper {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 80px;
-
+/* 1) Content always wins (click/legibility) */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions{
   position: relative;
-  margin-top: 100px;
-  margin-bottom: 60px;
-  padding: 140px 50px;
-
-  background: var(--surface);
-  border: 1px solid var(--line);
-  overflow: visible; /* CRITICAL: Allows elements to bleed out */
-  color: inherit;
-
-  /* Physics */
-  will-change: transform;
-  transition: 
-    transform 0.4s var(--ease-punk),
-    box-shadow 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease;
+  z-index: 30;            /* above script */
 }
 
-/* The Broken Grid (Initial Chaos) */
-body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
-body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 102%; margin-left: -1%; z-index: 5; }
-body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
-
-/* Interaction: The "Snap" to Attention */
-body.home #archive .paper:hover,
-body.home #archive .paper.is-hovered {
-  background: #111;
-  /* Snaps perfectly straight like Hannibal regaining control, but glowing red */
-  transform: scale(1.02) rotate(0deg) !important;
-  box-shadow: 
-    20px 20px 0px rgba(0,0,0,0.8),
-    -4px -4px 0px var(--accent); /* Sharp Red Highlight */
-  border-color: var(--fg);
-  z-index: 100;
-}
-
-/* --- Internal Typography --- */
-body.home #archive .paper-title {
-  grid-column: 1 / 2;
-  grid-row: 1;
-  position: relative;
-  z-index: 5;
-  margin: 0;
-  mix-blend-mode: normal;
-}
-body.home #archive .paper-title a {
-  font-family: var(--font-sans);
-  font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
-}
-
-body.home #archive .paper-signal {
-  grid-column: 1 / 2;
-  grid-row: 2;
-  position: relative;
-  z-index: 5;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4;
-  color: var(--fg-dim);
-  border-left: 2px solid var(--accent);
-  padding-left: 30px;
-  margin: 40px 0 0;
-}
-
-body.home #archive .k {
-  grid-column: 2 / 3;
-  grid-row: 1;
-  border: none;
-  padding: 0; margin: 0; background: none;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end;
-  text-align: right;
-  position: relative; z-index: 5;
-}
-body.home #archive .k span {
-  color: var(--accent);
-  font-weight: 700;
-  opacity: 1;
-}
-
-body.home #archive .actions {
-  grid-column: 2 / 3;
-  grid-row: 2;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  position: relative;
-  z-index: 6;
-}
-
-/* Button: Wireframe to Filled */
-body.home #archive .pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  padding: 22px 44px;
-  min-width: 200px;
-  border: 1px solid var(--fg);
-  background: transparent;
-  color: var(--fg);
-  text-decoration: none;
-  line-height: 1;
-  transition: all 0.2s ease;
-}
-
-body.home #archive .paper:hover .pill,
-body.home #archive .paper.is-hovered .pill {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
-  box-shadow: 5px 5px 0px #FFF;
-}
-
-/* =========================================================
-   DECORATIONS: "LIPSTICK ON THE MIRROR"
-   ========================================================= */
-
-/* 1. Ghost Numeral (Hannibal's Filing System) */
-body.home #archive .card-base {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1;
-}
-body.home #archive .work-bg-num {
+/* 2) The Signature */
+body.home #archive .script-note{
   position: absolute;
-  right: -20px; top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem);
-  line-height: 0.7;
-  letter-spacing: -0.05em;
-  opacity: 0.05;
-  color: #fff;
-  transition: opacity 0.3s ease, color 0.3s ease;
-}
-body.home #archive .paper:hover .work-bg-num {
-  color: var(--accent);
-  opacity: 0.2;
-}
+  z-index: 12;            /* between bg (numeral) and content */
+  pointer-events: none;   /* NEVER steals clicks */
+  user-select: none;
 
-/* 2. THE VANDALISM (Cruella's Note) */
-body.home #archive .script-note {
-  position: absolute;
-  z-index: 20; /* On top of EVERYTHING */
-  pointer-events: none;
-  
-  font-family: var(--font-script);
-  font-size: clamp(8rem, 16vw, 16rem);
+  /* Typography */
+  font-family: var(--font-script, 'Pinyon Script', 'Cormorant Garamond', serif);
+  font-weight: 400;
+  line-height: 0.9;
   white-space: nowrap;
-  line-height: 1;
-  
-  /* LIPSTICK EFFECT */
-  color: var(--accent);
-  opacity: 0.9;
-  
-  /* Greasy, smeared texture using shadows */
-  text-shadow: 
-    0 0 5px rgba(217, 4, 41, 0.5),   /* Smudge */
-    2px 2px 0px rgba(100, 0, 0, 0.3); /* Depth */
 
-  mix-blend-mode: normal; /* "Painted on top" opaque look */
+  /* Size system (per-card adjustable via CSS vars) */
+  font-size: calc(clamp(7rem, 16vw, 20rem) * var(--sig-scale, 1));
+  letter-spacing: -0.02em;
 
-  transition: all 0.4s var(--ease-punk);
-  will-change: transform, opacity;
+  /* “Ink” */
+  color: var(--sig-color, rgba(230,228,224,0.78));
+  opacity: var(--sig-opacity, 0.22);
+
+  /* Placement + hand-feel */
+  transform:
+    translate3d(var(--sig-x, 0px), var(--sig-y, 0px), 0)
+    rotate(var(--sig-rot, -6deg))
+    skewX(var(--sig-skew, -2deg));
+
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+
+  /* Soft edge so it never fights the H1/button */
+  filter: blur(var(--sig-blur, 0.2px));
+  text-shadow:
+    0 0 0.8px rgba(0,0,0,0.25),
+    0 0 18px rgba(0,0,0,0.28);
+
+  /* Blend: cinematic but safe */
+  mix-blend-mode: soft-light;
+
+  transition:
+    transform .55s cubic-bezier(.19,1,.22,1),
+    opacity  .35s ease,
+    filter   .35s ease;
 }
 
-/* Chaotic Positioning */
-/* I: Slash Top-Left */
-body.home #archive .paper:nth-of-type(1) .script-note { 
-  top: -10%; left: -8%; 
-  transform: rotate(-12deg); 
-  font-size: clamp(7rem, 14vw, 12rem);
+/* Fallback if soft-light is unsupported */
+@supports not (mix-blend-mode: soft-light){
+  body.home #archive .script-note{
+    mix-blend-mode: normal;
+    opacity: calc(var(--sig-opacity, 0.22) + 0.06);
+  }
 }
 
-/* II: Dominate Right Side */
-body.home #archive .paper:nth-of-type(2) .script-note { 
-  top: 15%; right: -12%; left: auto;
-  transform: rotate(6deg); 
-  font-size: clamp(9rem, 18vw, 18rem);
+/* 3) Per-card “random” tuning (deterministic, but looks handwritten) */
+/* Part I — Grand Design: elegant, upper-right drift */
+body.home #archive .paper:nth-of-type(1) .script-note{
+  --sig-scale: 1.05;
+  --sig-rot:  -7deg;
+  --sig-skew: -2deg;
+  --sig-x:    280px;
+  --sig-y:    -10px;
+  --sig-opacity: 0.20;
+  --sig-blur: 0.25px;
 }
 
-/* III: Cut Through Bottom */
-body.home #archive .paper:nth-of-type(3) .script-note { 
-  bottom: -8%; left: -5%; top: auto;
-  transform: rotate(-4deg); 
-  font-size: clamp(8rem, 16vw, 15rem);
+/* Part II — Silent Rot: huge sweep across, slightly more presence */
+body.home #archive .paper:nth-of-type(2) .script-note{
+  --sig-scale: 1.22;
+  --sig-rot:  -4deg;
+  --sig-skew: -1.5deg;
+  --sig-x:    -520px;
+  --sig-y:     40px;
+  --sig-opacity: 0.24;
+  --sig-blur: 0.18px;
 }
 
-/* Hover: The "Jump Scare" / Focus */
+/* Part III — Requiem: lower, calmer, closing gesture */
+body.home #archive .paper:nth-of-type(3) .script-note{
+  --sig-scale: 1.10;
+  --sig-rot:  -9deg;
+  --sig-skew: -2.2deg;
+  --sig-x:     80px;
+  --sig-y:    120px;
+  --sig-opacity: 0.18;
+  --sig-blur: 0.28px;
+}
+
+/* 4) Hover behavior: keep signature “alive” but protect CTA readability */
 body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note {
-  opacity: 1;
-  /* Snaps to center, aggressive scale */
-  transform: scale(1.1) rotate(0deg) !important;
-  text-shadow: 
-    0 0 10px rgba(217, 4, 41, 0.8),
-    4px 4px 0px rgba(0,0,0, 0.5);
+body.home #archive .paper.is-hovered .script-note{
+  /* Slight parallax move, not a jump-scare */
+  transform:
+    translate3d(calc(var(--sig-x, 0px) + 18px), calc(var(--sig-y, 0px) - 10px), 0)
+    rotate(calc(var(--sig-rot, -6deg) * 0.6))
+    skewX(var(--sig-skew, -2deg));
+  opacity: calc(var(--sig-opacity, 0.22) + 0.06);
+
+  /* If it gets too sharp on hover, soften a bit to preserve text contrast */
+  filter: blur(calc(var(--sig-blur, 0.2px) + 0.25px));
 }
 
-/* =========================================================
-   Cursor Glow (Subtle Ambience)
-   ========================================================= */
-body.home #cursor-glow {
-  position: fixed; left: 0; top: 0;
-  width: 80vw; height: 80vw;
-  margin-left: -40vw; margin-top: -40vw;
-  background: radial-gradient(circle, rgba(217, 4, 41, 0.08) 0%, rgba(0, 0, 0, 0) 60%); /* Red glow */
-  pointer-events: none; z-index: 2;
-  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  mix-blend-mode: screen;
-}
-body.home.glow-active #cursor-glow { opacity: 1; }
-
-/* =========================================================
-   Responsive
-   ========================================================= */
-@media (max-width: 900px) {
-  body.home main > header { padding: 160px 0 90px; }
-  body.home #archive .paper {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    padding: 80px 24px;
-    gap: 30px;
-    transform: none !important;
-    width: 100% !important;
-    margin-left: 0 !important;
-  }
-  body.home #archive .k,
-  body.home #archive .actions {
-    grid-column: 1; align-items: flex-start; text-align: left; justify-content: flex-start;
-  }
-  body.home #archive .pill { width: 100%; min-width: 0; }
-  
-  body.home #archive .script-note {
-    font-size: 5rem !important;
-    opacity: 0.7;
-    position: relative;
-    top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
-    display: block;
-    margin-bottom: 20px;
-    transform: rotate(-3deg);
-  }
+/* 5) Ultra safety: ensure button/title stay crisp regardless of blend */
+body.home #archive .paper-title a,
+body.home #archive .pill{
+  position: relative;
+  z-index: 40;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.home::after, body.home #cursor-glow { opacity: 0 !important; }
-  body.home #archive .paper, body.home #archive .script-note {
-    transform: none !important; box-shadow: none !important; transition: none !important;
+/* 6) Mobile: reduce chaos, keep elegance */
+@media (max-width: 900px){
+  body.home #archive .script-note{
+    font-size: clamp(4.2rem, 14vw, 7.2rem);
+    opacity: 0.16;
+    mix-blend-mode: normal; /* mobile contrast stability */
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+    left: 0.2rem;
+    top: 0.2rem;
+  }
+  body.home #archive .paper:nth-of-type(2) .script-note{
+    left: -0.6rem;
   }
 }
