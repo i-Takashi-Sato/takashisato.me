@@ -1,584 +1,506 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Takashi Sato // Signal Over Spectacle</title>
-<meta name="description" content="Peer-citable research archive on workflow-centric AI governance by Takashi Sato.">
+/* =========================================================
+   HOME ONLY — V60 "THE MASTERPIECE" (Site-integrated)
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Takashi Sato // Signal Over Spectacle">
-<meta property="og:description" content="Optimizing Decay, Architecting Eternity. AI Governance Research Archive.">
-<meta property="og:url" content="https://takashisato.me/">
-<meta name="theme-color" content="#030304">
+   Rules
+   - Do NOT touch papers/* layouts
+   - Everything is scoped under body.home
+   - No data: URLs (CSP-safe)
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+   Intent
+   - Broken-grid cards (tilt) at rest
+   - On hover: snap straight + hard shadow + hard highlight
+   - Script overlay (exclusion) sits ABOVE content visually, but never blocks clicks
+   - Numeral sits BEHIND content
+   ========================================================= */
 
-<style>
-  :root {
-    /* --- V42: THE BEAUTIFUL DISASTER (Lecter/Reddington x Cruella) --- */
-    
-    /* Base: The "Expensive" Void (Lecter/Reddington) */
-    --bg-void: #050505;     
-    --bg-stage: #080808;    
-    --surface: #0E0E0E;     
-    
-    /* Text */
-    --fg: #E6E4E0;          
-    --fg-dim: #949494;      
-    
-    /* Accent: Cruella's Lipstick / Arterial Blood */
-    --accent: #D90429;      
-    
-    /* Structure */
-    --line: rgba(255, 255, 255, 0.08);
+body.home{
+  /* --- V42 Base Vars --- */
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface:  #0E0E0E;
 
-    /* Typography */
-    --font-serif: 'Cormorant Garamond', serif;
-    --font-script: 'Pinyon Script', cursive;
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    
-    /* Physics: Jerky, Nervous, Fashion */
-    --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); /* Overshoot */
-    
-    /* GPU vars */
-    --mouse-x: -999px;
-    --mouse-y: -999px;
-    --drift-x: 0px;
-    --drift-y: 0px;
-  }
+  --fg:       #E6E4E0;
+  --fg-dim:   #949494;
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Accent: Arterial Red */
+  --accent: #D90429;
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255,255,255,0.12);
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-script: 'Pinyon Script', cursive;
+  --font-sans:  'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Physics */
+  --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
+
+  background-color: var(--bg-void);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Selection: inverted */
+body.home ::selection{ background:#FFF; color:#000; }
+body.home ::-moz-selection{ background:#FFF; color:#000; }
+
+/* =========================================================
+   Noise layer (home)
+   - Above main content but below header
+   ========================================================= */
+body.home::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  z-index: 50;              /* above main(3), below header(100) */
+  opacity: 0.035;           /* tune 0.02–0.06 */
+  mix-blend-mode: overlay;
+
+  background: url("/assets/noise.webp") repeat;
+  background-size: 280px 280px;
+}
+
+/* =========================================================
+   Main stage (home-only)
+   ========================================================= */
+body.home main{
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+
+  position: relative;
+  z-index: 3; /* below noise(50), above page background */
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+body.home main > header{ padding: 220px 0 120px; }
+
+body.home main > header h1{
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
+}
+
+body.home .who{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  display: block;
+}
+
+body.home .lead{
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.4;
+
+  border-left: 4px solid var(--accent);
+  padding-left: 40px;
+  max-width: 850px;
+  margin: 0;
+}
+
+body.home .section-label{
+  display: block;
+  margin-top: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* =========================================================
+   ARCHIVE CARDS — V42 Broken Grid
+   IMPORTANT: Use #archive scoping to avoid touching /papers
+   ========================================================= */
+
+body.home #archive .paper{
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 80px;
+
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible; /* V42: allow bleed (script + shadow) */
+
+  color: inherit;
+  will-change: transform;
+
+  transition:
+    transform 0.3s var(--ease-punk),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  z-index: 1;
+}
+
+/* Initial tilt / scatter (Broken Grid) */
+body.home #archive .paper:nth-of-type(1){ transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2){ transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
+body.home #archive .paper:nth-of-type(3){ transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+
+/* Hover: snaps to attention */
+body.home #archive .paper:hover,
+body.home #archive .paper.is-hovered{
+  background: #111;
+  transform: scale(1.02) rotate(0deg) !important;
+  box-shadow:
+    20px 20px 0px rgba(0,0,0,0.5),
+    -2px -2px 0px var(--accent);
+  border-color: #FFF;
+  z-index: 100;
+}
+
+/* Keyboard a11y */
+body.home #archive .paper:focus-within{
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------
+   Layering model inside the card
+   - card background: implicit
+   - stretched-link: z=1 (clickable surface)
+   - numeral base: z=0
+   - script overlay: z=20 (visual, pointer-events none)
+   - content: z=3
+   --------------------------------------------------------- */
+
+/* Full-card link should stay clickable, but never cover content */
+body.home #archive .paper .stretched-link{
+  z-index: 1;
+}
+
+/* Numeral base */
+body.home #archive .card-base{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.home #archive .work-bg-num{
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
+
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
+
+  opacity: 0.08;
+  color: #FFF;
+  mix-blend-mode: overlay;
+
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+body.home #archive .paper:hover .work-bg-num,
+body.home #archive .paper.is-hovered .work-bg-num{
+  color: var(--accent);
+  opacity: 0.4;
+}
+
+/* =========================================================
+   SCRIPT OVERLAY — "THE MASTERPIECE" (World Class Tuning)
+   Concept: Structured Vandalism.
+   High-end Editorial Layout Logic.
+   ========================================================= */
+
+body.home #archive .script-note {
+  position: absolute;
+  /* 文字の上に大胆に被せる (Visual Layer: Top) */
+  z-index: 20;
+  pointer-events: none; /* 下のリンクは守る */
+
+  font-family: 'Pinyon Script', cursive; /* フォント強制指定 */
+  white-space: nowrap;
+  line-height: 0.8;
   
-  html { scroll-behavior: smooth; overflow-x: hidden; }
-
-  body {
-    background-color: var(--bg-void);
-    color: var(--fg);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    font-family: var(--font-sans);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* Selection: Inverted Punk */
-  ::selection { background: #FFF; color: #000; }
-  ::-moz-selection { background: #FFF; color: #000; }
-
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg-void); }
-  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-  /* Visual FX: Heavy Grain (Grunge) */
-  body::after {
-    content: ""; position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 999;
-    mix-blend-mode: overlay;
-  }
-
-  /* Ambient Light: Cold & Sharp */
-  #cursor-glow {
-    position: fixed; left: 0; top: 0;
-    width: 80vw; height: 80vw; 
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-    pointer-events: none; z-index: 1; 
-    margin-left: -40vw; margin-top: -40vw;
-    transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-    opacity: 0;
-    transition: opacity 0.5s ease; /* Faster response */
-    will-change: transform;
-    mix-blend-mode: exclusion; /* Cruella style inversion */
-  }
-  body.glow-active #cursor-glow { opacity: 1; }
-
-  /* Animation */
-  .reveal-element {
-    opacity: 0; transform: translateY(20px) rotate(2deg);
-    animation: punkReveal 0.8s var(--ease-punk) forwards;
-  }
-  @keyframes punkReveal { to { opacity: 1; transform: translateY(0) rotate(0deg); } }
+  /* 色：ボーンホワイト */
+  color: #E6E4E0;
   
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
-  .delay-5 { animation-delay: 0.5s; }
+  /* ブレンドモード：Exclusion
+     これが「世界最高水準」の肝です。
+     白文字の上に乗ると色が反転し、背景では透ける。
+     単なる「乗算」とは違う、高級な「干渉」を表現します。 */
+  mix-blend-mode: exclusion;
+  opacity: 0.9;
 
-  /* Layout */
-  .container {
-    max-width: 1440px; margin: 0 auto;
-    padding: 0 max(20px, 6vw); 
-    /* Vertical lines to suggest a prison or a cage */
-    border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-    min-height: 100vh;
-    position: relative; z-index: 10;
-    background-color: var(--bg-stage); 
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* 高級感のある粘りのある動き */
+}
+
+/* --- Part I: "Grand Design" ---
+   【構図：The Incision（切開）】
+   左上の余白から、タイトルの "COLD" の文字を鋭く切り裂くように配置。
+   「始まり」の衝撃を表現。
+*/
+body.home #archive .paper:nth-of-type(1) .script-note {
+  font-size: clamp(9rem, 16vw, 15rem);
+  top: 18%;       /* タイトルの重心に合わせる */
+  left: -8%;      /* カードの外から侵入 */
+  right: auto;
+  bottom: auto;
+  transform: rotate(-15deg); /* 鋭利な右上がり */
+}
+
+/* --- Part II: "Silent Rot" ---
+   【構図：The Spill（流出）】
+   カードの枠の中に収まろうとせず、右下からドロリと流れ落ちる配置。
+   「腐敗」が進行し、枠組み（Governance）から逸脱する様を表現。
+*/
+body.home #archive .paper:nth-of-type(2) .script-note {
+  font-size: clamp(10rem, 18vw, 18rem);
+  top: auto;
+  bottom: 8%;     /* 下部に沈殿 */
+  right: -12%;    /* 右端から大きくはみ出す（崩壊） */
+  left: auto;
+  transform: rotate(5deg); /* 不安定な傾き */
+}
+
+/* --- Part III: "Requiem" ---
+   【構図：The Final Seal（封印）】
+   圧倒的な質量。カードのど真ん中を占拠し、全てを終わらせる署名。
+   ここだけは「文字」ではなく「グラフィック」として扱うサイズ感。
+*/
+body.home #archive .paper:nth-of-type(3) .script-note {
+  font-size: clamp(15rem, 30vw, 32rem); /* 画面を支配するサイズ */
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  /* 完璧な中央配置から、わずかに「ズレ」を作ることでリアリティを出す */
+  transform: translate(-50%, -50%) rotate(-6deg);
+}
+
+/* --- Interaction: The Breath (呼吸) --- */
+body.home #archive .paper:hover .script-note,
+body.home #archive .paper.is-hovered .script-note {
+  opacity: 1;
+  /* 影を落とし、紙から浮き上がらせる */
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+}
+
+/* Part I Hover */
+body.home #archive .paper:nth-of-type(1):hover .script-note {
+  transform: translate(0, -20px) rotate(-15deg) scale(1.05);
+}
+
+/* Part II Hover */
+body.home #archive .paper:nth-of-type(2):hover .script-note {
+  transform: translate(20px, 10px) rotate(5deg) scale(1.05);
+}
+
+/* Part III Hover */
+body.home #archive .paper:nth-of-type(3):hover .script-note {
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
+}
+
+/* Content: force above stretched-link + overlays */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions{
+  position: relative;
+  z-index: 3;
+}
+
+/* Title */
+body.home #archive .paper-title{ margin: 0; }
+body.home #archive .paper-title a{
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+/* Quote / Signal */
+body.home #archive .paper-signal{
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--fg-dim);
+
+  border-left: 2px solid var(--accent);
+  padding-left: 30px;
+  margin: 40px 0 0;
+}
+
+/* Keywords */
+body.home #archive .k{
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+body.home #archive .k span{
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* Actions / Pill */
+body.home #archive .actions{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+body.home #archive .pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+
+  padding: 22px 44px;
+  min-width: 200px;
+
+  border: 1px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+body.home #archive .paper:hover .pill,
+body.home #archive .paper.is-hovered .pill{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
+}
+
+/* =========================================================
+   Cursor glow (home-only)
+   - visible only when body.home has .glow-active (toggled by assets/home.js)
+   ========================================================= */
+body.home #cursor-glow{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 80vw;
+  height: 80vw;
+  margin-left: -40vw;
+  margin-top: -40vw;
+
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+  z-index: 2;
+
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-kinetic);
+  will-change: transform;
+
+  mix-blend-mode: exclusion;
+}
+
+body.home.glow-active #cursor-glow{ opacity: 1; }
+
+/* =========================================================
+   A11y: reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  body.home::after{ opacity: 0 !important; }
+  body.home #cursor-glow{ opacity: 0 !important; }
+  body.home #archive .paper,
+  body.home #archive .pill,
+  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  body.home .reveal,
+  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 900px){
+  body.home main > header{ padding: 160px 0 90px; }
+
+  body.home #archive .paper{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 50px;
+    padding: 100px 24px;
+    margin-bottom: 40px;
+
+    transform: none !important;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  /* System Meta */
-  .system-meta {
-    position: fixed; inset: 0;
-    padding: env(safe-area-inset-top) max(20px, 2vw) 40px;
-    display: flex; flex-direction: column; justify-content: space-between;
-    pointer-events: none; z-index: 500;
-    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em;
-    color: var(--fg-dim); text-transform: uppercase; 
-  }
-  .meta-row { display: flex; justify-content: space-between; width: 100%; }
-  .active-mark { color: var(--accent); font-weight: 700; text-shadow: 0 0 10px var(--accent); }
-
-  /* Hero */
-  header.hero { padding: 220px 0 140px; position: relative; }
-
-  .nav-strip {
-    display: flex; gap: 40px; margin-bottom: 120px;
-    font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
-    pointer-events: auto; letter-spacing: 0.1em;
-  }
-  .nav-strip a { text-decoration: none; color: var(--fg-dim); transition: 0.2s; position: relative; }
-  .nav-strip a:hover { color: #FFF; text-decoration: line-through; text-decoration-color: var(--accent); }
-
-  .signature {
-    font-family: var(--font-script); font-size: 3rem;
-    color: #FFF; margin-bottom: 30px; display: block; opacity: 1;
-    transform: rotate(-5deg); /* Messy signature */
-    mix-blend-mode: difference;
+  body.home #archive .k,
+  body.home #archive .actions{
+    align-items: flex-start;
+    text-align: left;
+    justify-content: flex-start;
   }
 
-  h1.hero-title {
-    font-family: var(--font-serif);
-    font-size: clamp(3.5rem, 9.5vw, 11rem);
-    font-weight: 300; font-style: italic;
-    line-height: 0.85; letter-spacing: -0.04em;
-    margin-bottom: 80px; color: var(--fg);
+  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
+
+  /* Mobile Optimization */
+  body.home #archive .script-note{
+    font-size: 8rem;
+    opacity: 0.6;
+    mix-blend-mode: normal; /* スマホでは視認性重視 */
   }
 
-  .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-    border-left: 4px solid var(--accent); /* Thicker, bolder line */
-    padding-left: 40px; position: relative;
-  }
-
-  .hero-grid::before {
-    content: "Fig. 1: The architecture of friction.";
-    position: absolute; left: 45px; top: -40px;
-    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
-    color: var(--fg-dim); text-transform: uppercase;
-  }
-
-  .hero-role {
-    font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
-    color: #FFF; background: var(--accent); padding: 2px 6px; /* Label style */
-    text-transform: uppercase; margin-bottom: 24px; display: inline-block;
-  }
-  .hero-desc {
-    font-family: var(--font-serif); font-size: 1.6rem; color: var(--fg); line-height: 1.4;
-  }
-  .hero-sub {
-    font-family: var(--font-mono); font-size: 13px; 
-    color: var(--fg-dim); line-height: 1.8; opacity: 0.9; margin-top: 10px;
-  }
-
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-grid::before { display: none; }
-  }
-
-  .list-header {
-    padding: 80px 0 30px; border-bottom: 1px solid var(--line);
-    font-family: var(--font-mono); font-size: 11px; 
-    letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
-  }
-
-  .works-list { position: relative; padding-bottom: 100px; }
-
-  /* --- CARD: THE BROKEN GRID --- */
-  .work-item {
-    padding: 140px 50px;
-    border: 1px solid var(--line); /* Full border like a dossier */
-    
-    display: grid; grid-template-columns: 1.6fr 1fr;
-    gap: 80px; text-decoration: none; color: inherit;
-    position: relative; 
-    
-    background: var(--surface);
-    margin-bottom: 60px; /* Space between scattered cards */
-    
-    transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease;
-    z-index: 1; 
-  }
-
-  /* CRUELLA'S TOUCH: Tilted Cards */
-  #part1 { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
-  #part2 { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
-  #part3 { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
-
-  /* HOVER: Violent Snapping */
-  .work-item:hover,
-  .work-item.is-hovered { 
-    background: #111; 
-    transform: scale(1.02) rotate(0deg) !important; /* Snaps to attention */
-    box-shadow: 
-      20px 20px 0px rgba(0,0,0,0.5), /* Hard shadow */
-      -2px -2px 0px var(--accent);   /* Hard highlight */
-    border-color: #FFF;
-    z-index: 100;
-  }
-  
-  .work-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-
-  /* 1. PHYSICAL BASE (Clipped Numeral) */
-  .card-base {
-    position: absolute; inset: 0;
-    overflow: hidden; pointer-events: none; z-index: -2;
-  }
-
-  /* Numerals (Right) */
-  .work-bg-num {
-    font-family: var(--font-serif); font-style: italic; font-weight: 300;
-    font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
-    color: #FFF; opacity: 0.08;
-    position: absolute; right: -20px; top: 50%;
-    transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
-    transition: opacity 0.3s, color 0.3s;
-    mix-blend-mode: overlay;
-  }
-  .work-item:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
-
-  /* 2. THE VANDALISM (Script Overlay) */
-  /* Cruella writes OVER the content, not behind it. */
-  .script-note {
-    font-family: var(--font-script); 
-    position: absolute;
-    font-size: clamp(8rem, 16vw, 16rem);
-    white-space: nowrap;
-    
-    /* Chalk/Spray Paint White */
-    color: #E6E4E0; 
-    opacity: 0.7; /* High visibility */
-    
-    pointer-events: none; 
-    z-index: 10; /* ON TOP of the text */
-    
-    /* The Magic Blend Mode for "Punk" */
-    mix-blend-mode: exclusion; 
-    
-    transition: transform 0.4s var(--ease-punk);
-  }
-
-  /* POSITIONS: Chaotic & Covering */
-  #part1 .script-note { 
-    top: 10%; left: -5%; 
-    transform: rotate(-15deg); 
-  }
-  #part2 .script-note { 
-    /* Massive, Crossing the whole card */
-    font-size: clamp(10rem, 22vw, 22rem);
-    top: 35%; right: -20%; 
-    transform: rotate(-5deg); 
-  }
-  #part3 .script-note { 
-    /* The Finale */
-    font-size: clamp(12rem, 30vw, 30rem);
-    bottom: -10%; left: -10%;
-    transform: rotate(-10deg); 
-  }
-
-  /* Hover Script: Jitters */
-  .work-item:hover .script-note,
-  .work-item.is-hovered .script-note {
-    transform: scale(1.1) rotate(0deg); /* Explodes slightly */
-  }
-
-  /* Content */
-  .w-left { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; }
-  .work-meta { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; text-align: right; height: 100%; }
-
-  .work-title {
-    font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-    font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase;
-    margin-bottom: 40px; 
-    /* Mix blend mode ensures title is visible even under script */
-    mix-blend-mode: lighten;
-  }
-
-  .work-quote {
-    font-family: var(--font-serif); font-style: italic;
-    font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 400; line-height: 1.4;
-    color: var(--fg-dim); margin-bottom: 40px;
-    border-left: 2px solid var(--accent); /* Cruella Red Border */
-    padding-left: 30px;
-  }
-  
-  .quote-sub { display: block; margin-top: 14px; opacity: 0.8; font-size: 0.9em;}
-
-  .keywords {
-    font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--fg-dim); line-height: 1.7; margin-bottom: 50px;
-  }
-
-  .btn-pdf {
-    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.2em; 
-    padding: 22px 44px;
-    border: 1px solid var(--fg); /* White wireframe */
-    background: transparent; color: var(--fg);
-    cursor: pointer; transition: all 0.2s ease;
-    align-self: flex-start; user-select: none; position: relative; overflow: hidden;
-  }
-  .work-item:hover .btn-pdf, .work-item.is-hovered .btn-pdf { 
-    background: var(--accent); border-color: var(--accent); color: #000; 
-    box-shadow: 5px 5px 0px #FFF; /* Punk shadow */
-  }
-
-  @media (max-width: 900px) {
-    .work-item { grid-template-columns: 1fr; gap: 50px; padding: 100px 24px; transform: none !important; margin-bottom: 40px;}
-    .work-meta { align-items: flex-start; text-align: left; }
-    .btn-pdf { width: 100%; text-align: center; }
-    .script-note { font-size: 6rem; opacity: 0.5; }
-    .script-note-1 { top: 2%; left: -5%; }
-    .script-note-2 { top: 20%; right: -10%; }
-    .script-note-3 { font-size: 8rem; top: 10%; left: -10%; }
-  }
-
-  /* Footer */
-  footer {
-    padding: 120px 0 80px; margin-top: 80px; border-top: 1px solid var(--line);
-    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
-    font-family: var(--font-mono); font-size: 12px; color: var(--fg-dim);
-  }
-  .footer-col { display: flex; flex-direction: column; gap: 15px; }
-  .footer-links { display: flex; gap: 30px; }
-  .footer-links a { text-decoration: none; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s; }
-  .footer-links a:hover { color: var(--accent); }
-  .copyright { opacity: 0.5; margin-top: 20px; }
-
-  @media (pointer: coarse) { #cursor-glow { display: none !important; } }
-</style>
-</head>
-<body>
-
-<div id="cursor-glow" aria-hidden="true"></div>
-
-<aside class="system-meta reveal-element delay-1" role="status">
-  <div class="meta-row">
-    <span>Takashi Sato // Neural Pathology</span>
-    <span class="active-mark">● System Online</span>
-  </div>
-  <div class="meta-row">
-    <span>Sapporo, JP</span>
-    <span>2026</span>
-  </div>
-</aside>
-
-<div class="container">
-
-  <header class="hero">
-    <nav class="nav-strip reveal-element delay-2" aria-label="Quick Navigation">
-      <a href="#part1">I. Cold Genesis</a>
-      <a href="#part2">II. Silent Decay</a>
-      <a href="#part3">III. Proper Ending</a>
-    </nav>
-
-    <span class="signature reveal-element delay-2">Takashi Sato</span>
-
-    <h1 class="hero-title reveal-element delay-3">Optimizing Decay,<br>Architecting Eternity.</h1>
-
-    <div class="hero-grid reveal-element delay-4">
-      <div>
-        <span class="hero-role">AI Governance & Sociotechnical Research</span>
-        <p class="hero-desc">
-          Peer-citable research archive on workflow-centric AI governance.
-        </p>
-      </div>
-      <div>
-        <p class="hero-sub">
-          Engineering friction (ALTRION), forecasting entropy-driven pre-abuse failure (resolution collapse), and building drift indicators & circuit breakers for silent breakdowns in oversight.
-        </p>
-      </div>
-    </div>
-  </header>
-
-  <div class="list-header reveal-element delay-5">Selected Works 2025–2026</div>
-
-  <main class="works-list reveal-element delay-5" id="works">
-
-    <a href="#" class="work-item" id="part1">
-      <div class="card-base">
-        <div class="work-bg-num" aria-hidden="true">I</div>
-      </div>
-      <span class="script-note">Grand Design</span>
-      
-      <div class="w-left">
-        <h2 class="work-title">The Cold Genesis</h2>
-        <blockquote class="work-quote">“To preserve the human, we must engineer the friction of thought.”</blockquote>
-        <span class="btn-pdf">Open PDF</span>
-      </div>
-      <div class="work-meta">
-        <p class="keywords">AI governance · workflow-centric oversight · human-in-the-loop</p>
-      </div>
-    </a>
-
-    <a href="#" class="work-item" id="part2">
-      <div class="card-base">
-        <div class="work-bg-num" aria-hidden="true">II</div>
-      </div>
-      <span class="script-note">Silent Rot</span>
-      
-      <div class="w-left">
-        <h2 class="work-title">The Silent Decay</h2>
-        <blockquote class="work-quote">
-          “The system shatters under its own weight before it is ever abused.”<br>
-          <span class="quote-sub">“It is a physical suicide, executed by goodwill.”</span>
-        </blockquote>
-        <span class="btn-pdf">Open PDF</span>
-      </div>
-      <div class="work-meta">
-        <p class="keywords">institutional failure · governance drift · pre-abuse failure</p>
-      </div>
-    </a>
-
-    <a href="#" class="work-item" id="part3">
-      <div class="card-base">
-        <div class="work-bg-num" aria-hidden="true">III</div>
-      </div>
-      <span class="script-note">Requiem</span>
-      
-      <div class="w-left">
-        <h2 class="work-title">The Proper Ending</h2>
-        <blockquote class="work-quote">“Silence is the scream of a failing system.”</blockquote>
-        <span class="btn-pdf">Open PDF</span>
-      </div>
-      <div class="work-meta">
-        <p class="keywords">Resolution Collapse · semantic entropy · circuit breakers</p>
-      </div>
-    </a>
-
-  </main>
-
-  <footer class="reveal-element delay-5">
-    <div class="footer-col">
-      <div class="footer-links">
-        <a href="mailto:contact@takashisato.me">Email</a>
-        <a href="#">ORCID</a>
-        <a href="#">SSRN</a>
-        <a href="#">X</a>
-        <a href="#">Instagram</a>
-      </div>
-    </div>
-    <div class="copyright">
-      Takashi Sato · Signal Over Spectacle · 2026
-    </div>
-  </footer>
-
-</div>
-
-<script>
-(() => {
-  // --- V42 ENGINE: RAYCASTING + PUNK GLITCH ---
-  const rm = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const coarse = window.matchMedia('(pointer: coarse)');
-  if (rm.matches || coarse.matches) return;
-
-  const root = document.documentElement;
-  const works = document.getElementById('works');
-  if (!works) return;
-
-  let active = false;
-  let ticking = false;
-  let lastX = -999, lastY = -999;
-  let workItems = document.querySelectorAll('.work-item');
-
-  const park = () => {
-    root.style.setProperty('--mouse-x', '-999px');
-    root.style.setProperty('--mouse-y', '-999px');
-    root.style.setProperty('--drift-x', '0px');
-    root.style.setProperty('--drift-y', '0px');
-  };
-
-  const setVars = (x, y) => {
-    root.style.setProperty('--mouse-x', x + 'px');
-    root.style.setProperty('--mouse-y', y + 'px');
-
-    const xMove = (x / window.innerWidth - 0.5) * 25; 
-    const yMove = (y / window.innerHeight - 0.5) * 25;
-    root.style.setProperty('--drift-x', xMove + 'px');
-    root.style.setProperty('--drift-y', yMove + 'px');
-  };
-
-  const checkHover = () => {
-    const el = document.elementFromPoint(lastX, lastY);
-    workItems.forEach(item => {
-      // Need to catch hits on the card container
-      if (item.contains(el) || item === el) {
-        item.classList.add('is-hovered');
-      } else {
-        item.classList.remove('is-hovered');
-      }
-    });
-  };
-
-  const onMove = (e) => {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      if (active) {
-        setVars(lastX, lastY);
-        checkHover(); 
-      }
-      ticking = false;
-    });
-  };
-
-  const onScroll = () => {
-    if (!active) return;
-    requestAnimationFrame(checkHover);
-  };
-
-  const activate = () => {
-    if (active) return;
-    active = true;
-    document.body.classList.add('glow-active');
-    window.addEventListener('pointermove', onMove, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
-  };
-
-  const deactivate = () => {
-    if (!active) return;
-    active = false;
-    document.body.classList.remove('glow-active');
-    window.removeEventListener('pointermove', onMove);
-    window.removeEventListener('scroll', onScroll);
-    workItems.forEach(i => i.classList.remove('is-hovered'));
-    park();
-  };
-
-  window.addEventListener('mousemove', (e) => {
-    const rect = works.getBoundingClientRect();
-    if (e.clientX >= rect.left && e.clientX <= rect.right && 
-        e.clientY >= rect.top && e.clientY <= rect.bottom) {
-      activate();
-    } else {
-      deactivate();
-    }
-    lastX = e.clientX;
-    lastY = e.clientY;
-  });
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) deactivate();
-  });
-
-  park();
-})();
-</script>
-
-</body>
-</html>
+  body.home #archive .paper:nth-of-type(1) .script-note{ top: 5%; left: -5%; transform: rotate(-10deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
+}
