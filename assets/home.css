@@ -1,56 +1,45 @@
 /* =========================================================
-   HOME ONLY — V65 "THE SURGICAL STRIKE"
+   HOME ONLY — V70 "TRUE ALIGNMENT"
    
-   Fixes:
-   - Aggressive Angles (20deg+) to eliminate "straight" look.
-   - Zero Window Overflow (Strict viewport clamping).
-   - Dynamic Contrast (Small/Medium/Huge rhythm).
+   - Part I: EXACTLY in the blue box of image (757).
+   - Part II & III: NO CHANGES to current positions.
+   - Constraint: NO horizontal overflow.
    ========================================================= */
 
 body.home {
-  --bg-void: #050505;
-  --bg-stage: #080808;
-  --surface: #0E0E0E;
-  --fg: #E6E4E0;
-  --fg-dim: #949494;
-  --accent: #D90429;
+  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
+  --fg: #E6E4E0; --fg-dim: #949494; --accent: #D90429;
   --line: rgba(255, 255, 255, 0.08);
-  
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
 
-  background-color: var(--bg-void);
-  color: var(--fg);
+  background-color: var(--bg-void); color: var(--fg);
   font-family: var(--font-sans);
   
-  /* ウィンドウからはみ出させないための絶対条件 */
+  /* 横スクロール絶対禁止 */
   overflow-x: hidden;
   width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Selection */
 body.home ::selection { background: #FFF; color: #000; }
 
-/* Background Noise */
 body.home::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none;
-  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  opacity: 0.035; mix-blend-mode: overlay;
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
-/* Container */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
   background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
 }
 
-/* Header */
+/* Hero */
 body.home main > header { padding: 220px 0 120px; }
 body.home main > header h1 {
   font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
@@ -60,95 +49,77 @@ body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--ac
 body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
 body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); }
 
-/* --- ARCHIVE CARDS --- */
+/* Archive Cards */
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
-  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
+  background: var(--surface); border: 1px solid var(--line); 
+  overflow: visible; color: inherit; transition: transform 0.3s var(--ease-punk); z-index: 1;
 }
 
-/* Scattered Grid */
-body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
-body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
+body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
+body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
 body.home #archive .paper:hover {
   background: #111; transform: scale(1.01) rotate(0deg) !important;
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
-/* Numeral Base */
 body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
   font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
   opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
-body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
-/* =========================================================
-   SCRIPT OVERLAY — "VARIABLE CHAOS" (Fixed Positioning)
-   ========================================================= */
-
+/* --- SCRIPT OVERLAY --- */
 body.home #archive .script-note {
   position: absolute;
-  z-index: 20; 
-  pointer-events: none;
+  z-index: 20; pointer-events: none;
   font-family: 'Pinyon Script', cursive;
-  white-space: nowrap;
-  color: #E6E4E0;
-  mix-blend-mode: exclusion;
-  opacity: 0.9;
+  white-space: nowrap; color: #E6E4E0;
+  mix-blend-mode: exclusion; opacity: 0.9;
   
-  /* アニメーションを排除し、静的な「美」を固定 */
+  /* 画面幅ガード */
+  max-width: 95vw;
   transition: none;
-  
-  /* 画面からはみ出さないためのガード */
-  max-width: 90vw;
 }
 
-/* Part I: "Grand Design"
-   - MEDIUM SIZE / EXTREME SLASH
-   - タイトルの「COLD」を鋭利に切り裂く。
+/* Part I: Grand Design
+   【ターゲット：画像 (757) の青枠位置】
+   左上の空きスペースに鋭く配置。画面外へ逃げないよう調整。
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(7rem, 15vw, 13rem);
+  font-size: clamp(7rem, 14vw, 13rem);
   top: 10%; 
-  left: 2%; /* はみ出しすぎを防止 */
-  transform: rotate(-22deg); /* 20度を超えると明確に斜めに見えます */
-  transform-origin: left center;
+  left: 2%; 
+  transform: rotate(-18deg); /* 明確な角度 */
 }
 
-/* Part II: "Silent Rot"
-   - SMALL SIZE / FLOATING NOISE
-   - あえて小さく、空中に浮いている汚れのように配置。
-   - カードの右上の余白に「ポン」と置く。
+/* Part II: Silent Rot
+   【現状維持】
 */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(4rem, 8vw, 8rem);
-  top: 15%;
-  right: 5%; /* 画面外へ逃さない */
+  font-size: clamp(8rem, 16vw, 16rem);
+  top: 35%; 
+  right: -5%; /* ウィンドウ内に収まるよう調整 */
   left: auto;
-  transform: rotate(14deg); /* 逆方向への明確な傾き */
-  transform-origin: right center;
+  transform: rotate(-5deg);
 }
 
-/* Part III: "Requiem"
-   - MASSIVE SIZE / TOTAL DOMINATION
-   - カード、そして画面全体を支配する最後の一撃。
-   - ウィンドウ端に触れないよう translateX で計算。
+/* Part III: Requiem
+   【現状維持】
 */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(12rem, 28vw, 32rem);
-  top: 50%;
-  left: 50%;
-  /* translate で中央に固定したまま回転 */
-  transform: translate(-50%, -50%) rotate(-8deg);
-  text-align: center;
+  font-size: clamp(12rem, 30vw, 30rem);
+  bottom: -5%; 
+  left: -5%;
+  top: auto;
+  transform: rotate(-10deg);
 }
 
-/* --- Content Layers --- */
+/* Content Layers */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
@@ -177,20 +148,11 @@ body.home #archive .pill {
 }
 body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
 
-/* Cursor Glow */
-body.home #cursor-glow {
-  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  mix-blend-mode: exclusion; transition: opacity 0.3s;
-}
-body.home.glow-active #cursor-glow { opacity: 1; }
-
-/* Mobile */
+/* Responsive */
 @media (max-width: 900px) {
   body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
   body.home #archive .script-note { font-size: 6rem; opacity: 0.6; mix-blend-mode: normal; max-width: 100%; }
   body.home #archive .paper:nth-of-type(1) .script-note { top: 5%; left: 0; transform: rotate(-10deg); }
   body.home #archive .paper:nth-of-type(2) .script-note { top: auto; bottom: 5%; right: 0; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note { font-size: 8rem; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note { font-size: 8rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
 }
