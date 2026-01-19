@@ -1,20 +1,13 @@
 /* =========================================================
-   HOME ONLY — V42 "THE BEAUTIFUL DISASTER" (Site-integrated)
-
-   Rules
-   - Do NOT touch papers/* layouts
-   - Everything is scoped under body.home
-   - No data: URLs (CSP-safe)
-
-   Intent
-   - Broken-grid cards (tilt) at rest
-   - On hover: snap straight + hard shadow + hard highlight
-   - Script overlay (exclusion) sits ABOVE content visually, but never blocks clicks
-   - Numeral sits BEHIND content
+   HOME ONLY — V60 FINAL "THE EDITORIAL HACK"
+   Concept: 
+   1. Analog Horror (Red Bleed)
+   2. High-Fashion Graffiti (Massive Script Overlay)
+   3. Lecter's Order vs Cruella's Chaos
    ========================================================= */
 
-body.home{
-  /* --- V42 Base Vars --- */
+body.home {
+  /* --- Base Vars --- */
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface:  #0E0E0E;
@@ -30,8 +23,8 @@ body.home{
 
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
-  --font-sans:  'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
 
   /* Physics */
   --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -45,448 +38,332 @@ body.home{
 }
 
 /* Selection: inverted */
-body.home ::selection{ background:#FFF; color:#000; }
-body.home ::-moz-selection{ background:#FFF; color:#000; }
+body.home ::selection { background: #FFF; color: #000; }
+body.home ::-moz-selection { background: #FFF; color: #000; }
 
 /* =========================================================
-   Noise layer (home)
-   - Above main content but below header
+   Noise layer
    ========================================================= */
-body.home::after{
-  content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-
-  z-index: 50;              /* above main(3), below header(100) */
-  opacity: 0.035;           /* tune 0.02–0.06 */
+body.home::after {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none;
+  z-index: 50;
+  opacity: 0.035;
   mix-blend-mode: overlay;
-
   background: url("/assets/noise.webp") repeat;
   background-size: 280px 280px;
 }
 
 /* =========================================================
-   Main stage (home-only)
+   Main stage
    ========================================================= */
-body.home main{
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
+body.home main {
+  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
   background-color: var(--bg-stage);
   min-height: 100vh;
-
-  position: relative;
-  z-index: 3; /* below noise(50), above page background */
+  position: relative; z-index: 3;
 }
 
 /* =========================================================
    HERO
    ========================================================= */
-body.home main > header{ padding: 220px 0 120px; }
+body.home main > header { padding: 220px 0 120px; }
 
-body.home main > header h1{
+body.home main > header h1 {
   font-family: var(--font-serif);
   font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 0.85;
-  letter-spacing: -0.04em;
+  font-weight: 300; font-style: italic;
+  line-height: 0.85; letter-spacing: -0.04em;
   margin: 0 0 80px;
 }
 
-body.home .who{
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin: 0 0 20px;
-  display: block;
+body.home .who {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--accent); letter-spacing: 0.15em;
+  text-transform: uppercase; margin: 0 0 20px; display: block;
 }
 
-body.home .lead{
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  line-height: 1.4;
-
-  border-left: 4px solid var(--accent);
-  padding-left: 40px;
-  max-width: 850px;
-  margin: 0;
+body.home .lead {
+  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4;
+  border-left: 4px solid var(--accent); padding-left: 40px;
+  max-width: 850px; margin: 0;
 }
 
-body.home .section-label{
-  display: block;
-  margin-top: 90px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--fg-dim);
+body.home .section-label {
+  display: block; margin-top: 90px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
 }
 
 /* =========================================================
-   ARCHIVE CARDS — V42 Broken Grid
-   IMPORTANT: Use #archive scoping to avoid touching /papers
+   ARCHIVE CARDS — V60 FINAL STRUCTURE
    ========================================================= */
 
-body.home #archive .paper{
+body.home #archive .paper {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   grid-template-rows: auto 1fr;
   gap: 80px;
 
   position: relative;
-  margin-top: 100px;
-  margin-bottom: 60px;
+  margin-top: 100px; margin-bottom: 60px;
   padding: 140px 50px;
 
   background: var(--surface);
   border: 1px solid var(--line);
-  overflow: visible; /* V42: allow bleed (script + shadow) */
+  
+  /* CRITICAL: Allow script and shadows to bleed out */
+  overflow: visible;
+  /* CRITICAL: Keep z-index wars contained inside the card */
+  isolation: isolate;
 
   color: inherit;
-  will-change: transform;
-
-  transition:
-    transform 0.3s var(--ease-punk),
-    box-shadow 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease;
+  will-change: transform, background-color, border-color, box-shadow;
+  
+  transition: 
+    transform 0.42s cubic-bezier(.19,1,.22,1),
+    box-shadow 0.35s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease;
 
   z-index: 1;
 }
 
-/* Initial tilt / scatter (Broken Grid) */
-body.home #archive .paper:nth-of-type(1){ transform: rotate(-1deg); width: 98%; margin-left: 1%; }
-body.home #archive .paper:nth-of-type(2){ transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home #archive .paper:nth-of-type(3){ transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+/* Initial Tilt (The Broken Grid) */
+body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
+body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
-/* Hover: snaps to attention */
+/* --- HOVER STATE: THE SNAP & BLEED --- */
 body.home #archive .paper:hover,
-body.home #archive .paper.is-hovered{
-  background: #111;
-  transform: scale(1.02) rotate(0deg) !important;
+body.home #archive .paper.is-hovered {
+  /* 1. The Lock: Cold darkness */
+  background: #0b0b0c;
+  
+  /* 2. The Breach: Red border */
+  border-color: var(--accent);
+
+  /* 3. Physics: Snap straight & Lift */
+  transform: scale(1.02) rotate(0deg) translateY(-6px) !important;
+
+  /* 4. Shadow: Hard, physical, expensive */
   box-shadow:
-    20px 20px 0px rgba(0,0,0,0.5),
-    -2px -2px 0px var(--accent);
-  border-color: #FFF;
+    0 22px 80px rgba(0,0,0,.6),
+    12px 12px 0 rgba(0,0,0,.5),
+    -2px -2px 0 var(--accent);
+  
   z-index: 100;
 }
 
-/* Keyboard a11y */
-body.home #archive .paper:focus-within{
-  outline: 2px solid var(--accent);
-  outline-offset: 4px;
+/* --- LAYER: RED INK BLEED (Cruella's Blood) --- */
+body.home #archive .paper::after {
+  content: ""; position: absolute; inset: -1px;
+  pointer-events: none; z-index: 8;
+  opacity: 0;
+  transition: opacity .30s ease .10s;
+
+  /* Organic, blood-like gradient */
+  background: radial-gradient(circle at 90% 90%, rgba(217,4,41,0.18) 0%, rgba(217,4,41,0) 65%);
+  mix-blend-mode: screen;
 }
 
-/* ---------------------------------------------------------
-   Layering model inside the card
-   - card background: implicit
-   - stretched-link: z=1 (clickable surface)
-   - numeral base: z=0
-   - script overlay: z=2 (visual, pointer-events none)
-   - content: z=3
-   --------------------------------------------------------- */
-
-/* Full-card link should stay clickable, but never cover content */
-body.home #archive .paper .stretched-link{
-  z-index: 1;
-}
-
-/* Numeral base */
-body.home #archive .card-base{
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-body.home #archive .work-bg-num{
-  position: absolute;
-  right: -20px;
-  top: 50%;
-  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
-
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem);
-  line-height: 0.7;
-  letter-spacing: -0.05em;
-
-  opacity: 0.08;
-  color: #FFF;
-  mix-blend-mode: overlay;
-
-  transition: opacity 0.3s ease, color 0.3s ease;
-}
-
-body.home #archive .paper:hover .work-bg-num,
-body.home #archive .paper.is-hovered .work-bg-num{
-  color: var(--accent);
-  opacity: 0.4;
+body.home #archive .paper:hover::after,
+body.home #archive .paper.is-hovered::after {
+  opacity: 1;
 }
 
 /* =========================================================
-   SCRIPT OVERLAY — "CRUELLA'S HACK"
-   Concept: Graffiti over the Order.
-   z-index: 20 (Above content) + pointer-events: none (Click-through)
+   SCRIPT OVERLAY — "THE EDITORIAL HACK"
+   Concept: High-fashion graffiti. Massive, overlapping, blended.
    ========================================================= */
 
 body.home #archive .script-note {
   position: absolute;
-  /* CRITICAL: Sit ON TOP of the title/content to look like a hack */
-  z-index: 20; 
-  pointer-events: none; /* Keeps links clickable underneath */
+  /* Visual Layer: On TOP of content */
+  z-index: 30;
+  pointer-events: none; /* Crucial: Allows clicking links underneath */
 
   font-family: var(--font-script);
-  /* Huge scaling: Explode the size */
-  font-size: clamp(10rem, 24vw, 26rem); 
-  line-height: 0.8;
+  /* Massive Editorial Scale */
+  font-size: clamp(9rem, 18vw, 22rem);
+  line-height: 1;
   white-space: nowrap;
-
-  /* Color: White (bone) to match the image */
-  color: #E6E4E0; 
   
-  /* Mode: Exclusion makes it readable even when overlapping text */
+  /* Color & Blend */
+  color: #E6E4E0;
   mix-blend-mode: exclusion;
-  opacity: 0.85; 
+  opacity: 0.8; 
 
-  transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
   will-change: transform;
+  transition: transform 0.5s var(--ease-punk), opacity 0.3s ease;
 }
 
 /* --- PART I: "Grand Design" ---
-   Slashing through the top-left, cutting the title */
+   Slashing upwards through the title */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  top: 15%;
-  left: -8%;
-  right: auto;
-  bottom: auto;
-  transform: rotate(-18deg); /* Aggressive left tilt */
+  font-size: clamp(10rem, 22vw, 26rem);
+  top: 15%; left: -10%; right: auto; bottom: auto;
+  transform: rotate(-15deg) translateY(0);
 }
 
 /* --- PART II: "Silent Rot" ---
-   Hanging off the right edge, steep angle, disturbing the balance */
+   Heavy bottom drag */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  /* Slightly larger for short text */
-  font-size: clamp(12rem, 26vw, 30rem); 
-  top: 25%;
-  right: -12%;
-  left: auto;
-  bottom: auto;
-  transform: rotate(12deg); /* Steep right tilt */
+  font-size: clamp(11rem, 24vw, 28rem);
+  top: auto; bottom: -15%; left: -5%; right: auto;
+  transform: rotate(-5deg) translateX(0);
 }
 
 /* --- PART III: "Requiem" ---
-   The Signature. Huge, centered but heavy, final stamp. */
+   The Centerpiece Signature */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(14rem, 30vw, 35rem); /* Largest */
-  bottom: -5%;
-  left: 50%; /* Centerish */
-  top: auto;
-  /* Pull back to center */
-  margin-left: -15vw; 
-  transform: rotate(-6deg); /* Slight melancholic tilt */
+  font-size: clamp(14rem, 28vw, 32rem);
+  top: 40%; left: 50%; right: auto; bottom: auto;
+  margin-left: -10vw; 
+  transform: translate(-50%, -50%) rotate(-8deg);
 }
 
-/* --- Hover Effects: The text "floats" and sharpens --- */
-body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note {
-  /* Parallax: Moves opposite to the card or lifts up */
-  transform: scale(1.1) translateY(-20px) rotate(0deg) !important;
-  opacity: 1;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8)); /* Lift off the paper */
+/* --- HOVER ANIMATION: PARALLAX LIFT --- */
+body.home #archive .paper:nth-of-type(1):hover .script-note {
+  transform: rotate(-18deg) translateY(-30px) scale(1.05); opacity: 1;
+}
+body.home #archive .paper:nth-of-type(2):hover .script-note {
+  transform: rotate(0deg) translateX(20px) scale(1.05); opacity: 1;
+}
+body.home #archive .paper:nth-of-type(3):hover .script-note {
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.1); opacity: 1;
 }
 
-/* Mobile adjustments (Keep it readable but big) */
-@media (max-width: 900px) {
-  body.home #archive .script-note {
-    font-size: 8rem;
-    opacity: 0.6;
-    mix-blend-mode: normal; /* Better visibility on mobile dark bg */
-  }
-  body.home #archive .paper:nth-of-type(1) .script-note { top: 5%; left: -5%; transform: rotate(-10deg); }
-  body.home #archive .paper:nth-of-type(2) .script-note { top: 15%; right: -10%; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note { font-size: 10rem; bottom: 5%; left: -10%; margin-left: 0; transform: rotate(-5deg); }
-}
 
-/* Content: force above stretched-link + overlays */
+/* =========================================================
+   INTERNAL CONTENT
+   ========================================================= */
+
+/* Link Surface */
+body.home #archive .paper .stretched-link { z-index: 1; }
+
+/* Numeral Base (Behind everything) */
+body.home #archive .card-base {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+}
+body.home #archive .work-bg-num {
+  position: absolute; right: -20px; top: 50%;
+  transform: translate3d(0, -45%, 0);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
+  opacity: 0.08; color: #FFF; mix-blend-mode: overlay;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.2; }
+
+/* Text Content (Safe Z-Index) */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
-body.home #archive .actions{
+body.home #archive .actions {
   position: relative;
-  z-index: 3;
+  z-index: 20; /* Below Script(30), Above Bleed(8) */
 }
 
 /* Title */
-body.home #archive .paper-title{ margin: 0; }
-body.home #archive .paper-title a{
+body.home #archive .paper-title { margin: 0; }
+body.home #archive .paper-title a {
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
+  font-weight: 600; line-height: 0.95;
+  letter-spacing: -0.04em; text-transform: uppercase;
+  color: var(--fg); text-decoration: none;
 }
 
-/* Quote / Signal */
-body.home #archive .paper-signal{
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4;
+/* Signal / Quote */
+body.home #archive .paper-signal {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4;
   color: var(--fg-dim);
-
   border-left: 2px solid var(--accent);
-  padding-left: 30px;
-  margin: 40px 0 0;
+  padding-left: 30px; margin: 40px 0 0;
 }
 
 /* Keywords */
-body.home #archive .k{
-  border: none;
-  padding: 0;
-  margin: 0;
-  background: none;
-
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--fg-dim);
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
+body.home #archive .k {
+  border: none; padding: 0; margin: 0; background: none;
+  font-family: var(--font-mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
+  display: flex; flex-direction: column; align-items: flex-end; text-align: right;
 }
+body.home #archive .k span { color: var(--accent); font-weight: 700; opacity: 1; }
 
-body.home #archive .k span{
-  color: var(--accent);
-  font-weight: 700;
-  opacity: 1;
+/* Actions */
+body.home #archive .actions {
+  display: flex; justify-content: flex-end; align-items: flex-end;
 }
-
-/* Actions / Pill */
-body.home #archive .actions{
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-
-body.home #archive .pill{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-
-  padding: 22px 44px;
-  min-width: 200px;
-
-  border: 1px solid var(--fg);
-  background: transparent;
-  color: var(--fg);
-  text-decoration: none;
-
-  transition: all 0.2s ease;
-  line-height: 1;
+body.home #archive .pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; padding: 22px 44px; min-width: 200px;
+  border: 1px solid var(--fg); background: transparent; color: var(--fg);
+  text-decoration: none; transition: all 0.2s ease; line-height: 1;
+  position: relative; z-index: 35; /* Above script if needed */
 }
 
 body.home #archive .paper:hover .pill,
-body.home #archive .paper.is-hovered .pill{
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
-  box-shadow: 5px 5px 0px #FFF;
+body.home #archive .paper.is-hovered .pill {
+  background: var(--accent); border-color: var(--accent);
+  color: #000; box-shadow: 5px 5px 0px #FFF;
 }
 
 /* =========================================================
-   Cursor glow (home-only)
-   - visible only when body.home has .glow-active (toggled by assets/home.js)
+   CURSOR GLOW
    ========================================================= */
-body.home #cursor-glow{
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 80vw;
-  height: 80vw;
-  margin-left: -40vw;
-  margin-top: -40vw;
-
+body.home #cursor-glow {
+  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw;
+  margin-left: -40vw; margin-top: -40vw;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none;
-  z-index: 2;
-
+  pointer-events: none; z-index: 2;
   transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  opacity: 0;
-  transition: opacity 0.35s var(--ease-kinetic);
-  will-change: transform;
-
-  mix-blend-mode: exclusion;
+  opacity: 0; transition: opacity 0.35s var(--ease-kinetic);
+  will-change: transform; mix-blend-mode: exclusion;
 }
-
-body.home.glow-active #cursor-glow{ opacity: 1; }
+body.home.glow-active #cursor-glow { opacity: 1; }
 
 /* =========================================================
-   A11y: reduced motion
+   RESPONSIVE
    ========================================================= */
-@media (prefers-reduced-motion: reduce){
-  body.home::after{ opacity: 0 !important; }
-  body.home #cursor-glow{ opacity: 0 !important; }
-  body.home #archive .paper,
-  body.home #archive .pill,
-  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
-  body.home .reveal,
-  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+@media (max-width: 900px) {
+  body.home main > header { padding: 160px 0 90px; }
+
+  body.home #archive .paper {
+    grid-template-columns: 1fr; grid-template-rows: auto auto auto;
+    gap: 50px; padding: 100px 24px; margin-bottom: 40px;
+    transform: none !important; width: auto; margin-left: 0; margin-right: 0;
+  }
+  
+  body.home #archive .k, body.home #archive .actions {
+    align-items: flex-start; text-align: left; justify-content: flex-start;
+  }
+  body.home #archive .pill { width: 100%; min-width: 0; text-align: center; }
+
+  /* Script Mobile Adjustments */
+  body.home #archive .script-note {
+    font-size: clamp(6rem, 15vw, 10rem);
+    mix-blend-mode: normal; opacity: 0.5;
+  }
+  body.home #archive .paper:nth-of-type(1) .script-note {
+    top: 5%; left: -5%; transform: rotate(-10deg);
+  }
+  body.home #archive .paper:nth-of-type(2) .script-note {
+    bottom: 5%; left: -5%; transform: rotate(-5deg);
+  }
+  body.home #archive .paper:nth-of-type(3) .script-note {
+    top: auto; bottom: 10%; left: 0; margin-left: 0; 
+    transform: rotate(-5deg);
+  }
 }
 
-/* =========================================================
-   Responsive
-   ========================================================= */
-@media (max-width: 900px){
-  body.home main > header{ padding: 160px 0 90px; }
-
-  body.home #archive .paper{
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 50px;
-    padding: 100px 24px;
-    margin-bottom: 40px;
-
-    transform: none !important;
-    width: auto;
-    margin-left: 0;
-    margin-right: 0;
+@media (prefers-reduced-motion: reduce) {
+  body.home::after, body.home #cursor-glow { opacity: 0 !important; }
+  body.home #archive .paper, body.home #archive .pill, body.home #archive .script-note {
+    transition: none !important; transform: none !important; box-shadow: none !important;
   }
-
-  body.home #archive .k,
-  body.home #archive .actions{
-    align-items: flex-start;
-    text-align: left;
-    justify-content: flex-start;
-  }
-
-  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
-
-  body.home #archive .script-note{
-    font-size: 6rem;
-    opacity: 0.5;
-  }
-
-  body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; right: auto; bottom: auto; }
-  body.home #archive .paper:nth-of-type(2) .script-note{ top: 20%; right: -10%; left: auto; bottom: auto; }
-  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 8rem; top: 10%; left: -10%; right: auto; bottom: auto; }
 }
