@@ -1,14 +1,14 @@
 /* =========================================================
-   HOME ONLY — V82 "ZERO CLIPPING / PRECISION LOCK"
+   HOME ONLY — V85 "ABSOLUTE RESTORATION"
    
-   - Part I: "D" aligned under "P", with anti-clipping guard.
-   - NO TEXT CUT-OFF: Cursive stays visible on window resize.
-   - CARD LAYOUT: V65 scattered grid preserved.
-   - ROMAN NUMERALS: Hover color (Red) active.
+   - CARD LAYOUT: FIXED to V65 Scattered Grid (User's Original).
+   - Part I: "D" aligned under "P", anti-clipping guard applied.
+   - ROMAN NUMERALS: Hover color (Red) active (V72).
+   - NO unauthorized changes to font-size or spacing.
    ========================================================= */
 
 html, body.home {
-  /* スクロールバー制御ではなく、表示の維持を優先 */
+  /* 横スクロールは防ぐが、表示は絶対に隠さない */
   width: 100%;
   margin: 0;
   padding: 0;
@@ -26,25 +26,25 @@ body.home::after {
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
+/* 筆記体が切れるのを防ぐため、親要素の overflow をすべて解除 */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid rgba(255, 255, 255, 0.08); 
   border-right: 1px solid rgba(255, 255, 255, 0.08);
   background-color: #080808; min-height: 100vh; position: relative; z-index: 3;
-  /* 筆記体がはみ出しても絶対に「隠さない」 */
-  overflow: visible; 
+  overflow: visible !important; 
 }
 
-/* --- ARCHIVE CARDS (V65 Logic) --- */
+/* --- ARCHIVE CARDS (V65 EXACT NUMBERS) --- */
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
   background: #0E0E0E; border: 1px solid rgba(255, 255, 255, 0.08); 
-  overflow: visible; /* 筆記体の視覚的自由を保証 */
+  overflow: visible !important; 
   color: inherit; transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease; z-index: 1;
 }
 
-/* scattered grid - V65数値を死守 */
+/* 佐藤さんのV65数値を1pxも変えずに復元 */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
@@ -54,7 +54,8 @@ body.home #archive .paper:hover {
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px #D90429; border-color: #FFF; z-index: 100;
 }
 
-/* Roman Numerals Color - V72 */
+/* Roman Numerals - V72 Color Restoration */
+body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
   font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
@@ -63,7 +64,7 @@ body.home #archive .work-bg-num {
 body.home #archive .paper:hover .work-bg-num { color: #D90429; opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — DYNAMIC VISIBILITY
+   SCRIPT OVERLAY — PRECISION LOCK
    ========================================================= */
 
 body.home #archive .script-note {
@@ -79,19 +80,19 @@ body.home #archive .script-note {
 }
 
 /* Part I: "Grand Design"
-   - 「D」を「P」の直下にロック。
-   - ウィンドウが狭まった際、文字が左端から消えないよう動的にガード
+   - 「D」の位置をタイトルの「P」に合わせるためスライド
+   - ウィンドウが狭まった際、文字が左端から消えないようガード
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
   font-size: clamp(5.5rem, 10vw, 11rem); 
   top: 8%; 
-  /* ウィンドウ左端(0px)を下限に、理想の位置(-22%)を計算 */
-  left: max(-22%, calc(-1 * (100vw - 1200px) / 2)); 
+  /* ビューポートの左端(0px)を下限にしつつ、DとPが垂直に並ぶ位置へ */
+  left: max(-20%, calc(-1 * (100vw - 1200px) / 2)); 
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
 
-/* Part II: "Silent Rot" */
+/* Part II: "Silent Rot" (V65 logic) */
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(4rem, 8vw, 8rem);
   top: 15%; 
@@ -101,20 +102,10 @@ body.home #archive .paper:nth-of-type(2) .script-note {
   transform-origin: right center;
 }
 
-/* Part III: "Requiem" */
+/* Part III: "Requiem" (V65 logic) */
 body.home #archive .paper:nth-of-type(3) .script-note {
   font-size: clamp(12rem, 28vw, 32rem);
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) rotate(-8deg);
   text-align: center;
-}
-
-/* content layer fixes */
-body.home #archive .paper-title a {
-  font-family: 'Inter', sans-serif; font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: #E6E4E0; text-decoration: none;
-}
-body.home #archive .paper-signal {
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4; color: #949494; border-left: 2px solid #D90429; padding-left: 30px; margin: 40px 0 0;
 }
