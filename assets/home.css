@@ -188,7 +188,7 @@ body.home #archive .paper:focus-within{
    - card background: implicit
    - stretched-link: z=1 (clickable surface)
    - numeral base: z=0
-   - script overlay: z=20 (MODIFIED: Sit on TOP of content)
+   - script overlay: z=2 (visual, pointer-events none)
    - content: z=3
    --------------------------------------------------------- */
 
@@ -233,72 +233,121 @@ body.home #archive .paper.is-hovered .work-bg-num{
 }
 
 /* =========================================================
-   SCRIPT OVERLAY — BLUE BOX TARGETING
-   Specific positioning based on user's sketches.
+   Script overlay — A) CSS-only “Hacked Scribble”
    ========================================================= */
 
+/* Script overlay: ON TOP visually, but never blocks clicks */
 body.home #archive .script-note{
   position: absolute;
-  z-index: 20; /* Overlap content */
+  z-index: 2;
   pointer-events: none;
 
-  font-family: 'Pinyon Script', cursive;
+  font-family: var(--font-script);
   white-space: nowrap;
-  line-height: 0.8;
-  
-  color: #E6E4E0;
+
+  /* “落書きのハック感”の核：2語が離れて見えるための可変word-spacing */
+  --sc-word: 0.12em;
+  word-spacing: var(--sc-word);
+
+  /* 見た目（やり過ぎない範囲で擦れ） */
+  opacity: 0.58;
   mix-blend-mode: exclusion;
-  opacity: 0.9;
+  letter-spacing: -0.03em;
+  line-height: 0.78;
 
-  transition: transform 0.4s var(--ease-punk);
-  will-change: transform;
+  text-shadow:
+    0.6px 0.6px 0 rgba(255,255,255,0.16),
+    -1.2px 0.8px 0 rgba(0,0,0,0.38),
+    0 12px 28px rgba(0,0,0,0.35);
+
+  -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+
+  /* カードごとに変える変数（Positions側で上書きする） */
+  --sc-x: 0px;
+  --sc-y: 0px;
+  --sc-rot: -10deg;
+  --sc-skew: -10deg;
+  --sc-scale: 1.0;
+
+  font-size: clamp(10rem, 22vw, 28rem);
+
+  transform:
+    translate3d(var(--sc-x), var(--sc-y), 0)
+    rotate(var(--sc-rot))
+    skewX(var(--sc-skew))
+    scale(var(--sc-scale));
+
+  transition: transform 0.45s var(--ease-punk), opacity 0.3s ease;
 }
 
-/* --- Part I: "Grand Design" ---
-   Target (Blue Box 746): Top-Left area, above title.
-*/
-body.home #archive .paper:nth-of-type(1) .script-note{ 
-  font-size: clamp(8rem, 16vw, 14rem); 
-  top: 8%;         /* かなり上配置 */
-  left: -2%;       /* 左端 */
-  right: auto;
-  bottom: auto;
-  transform: rotate(-10deg); /* わずかな右上がり */
-}
-
-/* --- Part II: "Silent Rot" ---
-   Target (Blue Box 747): Top-Right empty space.
-*/
-body.home #archive .paper:nth-of-type(2) .script-note{ 
-  font-size: clamp(9rem, 18vw, 16rem); 
-  top: 15%;        /* タイトル横の高さ */
-  right: -8%;      /* 右端からはみ出す勢い */
-  left: auto;
-  bottom: auto;
-  transform: rotate(-5deg); /* ほぼ水平に近い右上がり */
-}
-
-/* --- Part III: "Requiem" ---
-   Target (Blue Box 748): Bottom diagonal cut. Massive.
-*/
-body.home #archive .paper:nth-of-type(3) .script-note{ 
-  font-size: clamp(12rem, 25vw, 28rem); 
-  top: auto;
-  bottom: 12%;     /* 下部に配置 */
-  left: -8%;       /* 左から突き上げる */
-  right: auto;
-  transform: rotate(-15deg); /* 鋭角な右上がり */
-}
-
-
-/* Hover Actions: Parallax Lift */
+/* Hover時：完全に“真っ直ぐ”にせず、少しだけ制圧される */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note{
-  transform: translateY(-20px) scale(1.05) rotate(0deg);
-  opacity: 1;
+  opacity: 0.66;
+  transform:
+    translate3d(calc(var(--sc-x) * 0.20), calc(var(--sc-y) * 0.20), 0)
+    rotate(calc(var(--sc-rot) * -0.10))
+    skewX(calc(var(--sc-skew) * 0.15))
+    scale(calc(var(--sc-scale) * 1.04));
 }
 
-/* Content: force below script (z=3 < z=20) */
+/* ---------------------------------------------------------
+   Positions — tuned to your screenshots
+   --------------------------------------------------------- */
+
+/* Card 1: 左中に1語、右上にもう1語が“離れて”乗る */
+body.home #archive .paper:nth-of-type(1) .script-note{
+  top: -6%;
+  left: -18%;
+
+  /* 2語を“分裂”させる：これが肝 */
+  --sc-word: 1.55em;
+
+  font-size: clamp(10rem, 23vw, 30rem);
+
+  /* 角度は強すぎず、でもハック感 */
+  --sc-x: 10px;
+  --sc-y: 18px;
+  --sc-rot: -8deg;
+  --sc-skew: -10deg;
+  --sc-scale: 1.03;
+}
+
+/* Card 2: 画面を横断して中央〜下を貫通。かなり外へはみ出す */
+body.home #archive .paper:nth-of-type(2) .script-note{
+  top: 36%;
+  left: -78%;
+
+  /* 2語は離しつつ、1枚目ほど分裂させない */
+  --sc-word: 0.95em;
+
+  font-size: clamp(14rem, 40vw, 52rem);
+
+  --sc-x: -8px;
+  --sc-y: 10px;
+  --sc-rot: -4deg;
+  --sc-skew: -12deg;
+  --sc-scale: 1.06;
+}
+
+/* Card 3: 巨大に下側を横切る。右側まで伸ばす */
+body.home #archive .paper:nth-of-type(3) .script-note{
+  top: 22%;
+  left: -34%;
+
+  /* 3枚目は1語でも成立する（RequiemでもOK） */
+  --sc-word: 0.25em;
+
+  font-size: clamp(12rem, 34vw, 46rem);
+
+  --sc-x: 14px;
+  --sc-y: 22px;
+  --sc-rot: -13deg;
+  --sc-skew: -18deg;
+  --sc-scale: 1.10;
+}
+
+/* Content: force above stretched-link + overlays */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
@@ -430,9 +479,18 @@ body.home.glow-active #cursor-glow{ opacity: 1; }
   body.home #cursor-glow{ opacity: 0 !important; }
   body.home #archive .paper,
   body.home #archive .pill,
-  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  body.home #archive .script-note{
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
   body.home .reveal,
-  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+  body.home .reveal.is-visible{
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* =========================================================
@@ -461,16 +519,43 @@ body.home.glow-active #cursor-glow{ opacity: 1; }
     justify-content: flex-start;
   }
 
-  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
-
-  /* Mobile Script Sizing */
-  body.home #archive .script-note{
-    font-size: 8rem;
-    opacity: 0.5;
-    mix-blend-mode: normal; 
+  body.home #archive .pill{
+    width: 100%;
+    min-width: 0;
+    text-align: center;
   }
 
-  body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; transform: rotate(-10deg); }
-  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
+  /* Mobile: keep scribble vibe, but reduce spill */
+  body.home #archive .script-note{
+    opacity: 0.52;
+    -webkit-text-stroke: 0;
+    text-shadow:
+      0.5px 0.5px 0 rgba(255,255,255,0.12),
+      0 10px 22px rgba(0,0,0,0.35);
+  }
+
+  body.home #archive .paper:nth-of-type(1) .script-note{
+    top: -2%;
+    left: -10%;
+    font-size: 7.5rem;
+    --sc-word: 0.9em;
+    --sc-x: 6px; --sc-y: 4px; --sc-rot: -12deg; --sc-skew: -10deg; --sc-scale: 1.02;
+  }
+
+  body.home #archive .paper:nth-of-type(2) .script-note{
+    top: 16%;
+    left: -26%;
+    font-size: 8.5rem;
+    --sc-word: 0.7em;
+    --sc-x: -6px; --sc-y: 10px; --sc-rot: -6deg; --sc-skew: -10deg; --sc-scale: 1.05;
+  }
+
+  body.home #archive .paper:nth-of-type(3) .script-note{
+    top: auto;
+    bottom: -6%;
+    left: -12%;
+    font-size: 9rem;
+    --sc-word: 0.2em;
+    --sc-x: 6px; --sc-y: -8px; --sc-rot: -10deg; --sc-skew: -12deg; --sc-scale: 1.08;
+  }
 }
