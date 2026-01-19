@@ -1,5 +1,5 @@
 /* =========================================================
-   HOME ONLY — V60 "THE MASTERPIECE" (Site-integrated)
+   HOME ONLY — V60 "THE GOLDEN VANDALISM" (Site-integrated)
 
    Rules
    - Do NOT touch papers/* layouts
@@ -233,18 +233,19 @@ body.home #archive .paper.is-hovered .work-bg-num{
 }
 
 /* =========================================================
-   SCRIPT OVERLAY — "THE MASTERPIECE" (World Class Tuning)
-   Concept: Structured Vandalism.
-   High-end Editorial Layout Logic.
+   SCRIPT OVERLAY — "THE GOLDEN VANDALISM" (Zero-Base Reset)
+   Logic: 
+   - Not random. Each position calculates the "Negative Space".
+   - Interaction between Serif (Order) and Script (Chaos).
    ========================================================= */
 
 body.home #archive .script-note {
   position: absolute;
-  /* 文字の上に大胆に被せる (Visual Layer: Top) */
+  /* 文字の上に被せる (Visual Layer: Top) */
   z-index: 20;
   pointer-events: none; /* 下のリンクは守る */
 
-  font-family: 'Pinyon Script', cursive; /* フォント強制指定 */
+  font-family: 'Pinyon Script', cursive;
   white-space: nowrap;
   line-height: 0.8;
   
@@ -252,78 +253,82 @@ body.home #archive .script-note {
   color: #E6E4E0;
   
   /* ブレンドモード：Exclusion
-     これが「世界最高水準」の肝です。
-     白文字の上に乗ると色が反転し、背景では透ける。
-     単なる「乗算」とは違う、高級な「干渉」を表現します。 */
+     黒背景では白く、白文字の上では黒く反転する「高級な干渉」 */
   mix-blend-mode: exclusion;
   opacity: 0.9;
 
   will-change: transform;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* 高級感のある粘りのある動き */
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --- Part I: "Grand Design" ---
-   【構図：The Incision（切開）】
-   左上の余白から、タイトルの "COLD" の文字を鋭く切り裂くように配置。
-   「始まり」の衝撃を表現。
+   【意図：The Opening Slash】
+   タイトルの "COLD" と "GENESIS" の間を鋭く切り裂く配置。
+   左上から始まり、視線を右下のコンテンツへ誘導する「開始の合図」。
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(9rem, 16vw, 15rem);
-  top: 18%;       /* タイトルの重心に合わせる */
-  left: -8%;      /* カードの外から侵入 */
+  font-size: clamp(10rem, 20vw, 18rem);
+  top: 14%;       /* タイトルの重心を狙う */
+  left: -6%;      /* 枠の外から侵入 */
   right: auto;
   bottom: auto;
-  transform: rotate(-15deg); /* 鋭利な右上がり */
+  transform: rotate(-12deg); /* 鋭利だが読みやすい角度 */
 }
 
 /* --- Part II: "Silent Rot" ---
-   【構図：The Spill（流出）】
-   カードの枠の中に収まろうとせず、右下からドロリと流れ落ちる配置。
-   「腐敗」が進行し、枠組み（Governance）から逸脱する様を表現。
+   【意図：The Heavy Anchor】
+   Part Iとは対照的に、カードの「底」に重く沈殿させる。
+   引用文（Quote）に覆いかかり、意味を侵食するような配置。
+   右側に重心を置き、不安定さを演出。
 */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(10rem, 18vw, 18rem);
+  font-size: clamp(11rem, 22vw, 20rem);
   top: auto;
-  bottom: 8%;     /* 下部に沈殿 */
-  right: -12%;    /* 右端から大きくはみ出す（崩壊） */
+  bottom: 0%;     /* カードの底辺ギリギリ */
+  right: -8%;     /* 右端から溢れ出させる */
   left: auto;
-  transform: rotate(5deg); /* 不安定な傾き */
+  transform: rotate(4deg); /* 重力に従うような緩やかな傾き */
 }
 
 /* --- Part III: "Requiem" ---
-   【構図：The Final Seal（封印）】
-   圧倒的な質量。カードのど真ん中を占拠し、全てを終わらせる署名。
-   ここだけは「文字」ではなく「グラフィック」として扱うサイズ感。
+   【意図：The Final Seal】
+   圧倒的な質量で中央を占拠。
+   これは「文字」ではなく「判子（Seal）」としての配置。
+   カードの余白をすべて食いつぶすほどの巨大さで「終わり」を告げる。
 */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(15rem, 30vw, 32rem); /* 画面を支配するサイズ */
+  font-size: clamp(14rem, 28vw, 32rem); /* 画面を支配するサイズ */
   top: 50%;
   left: 50%;
   right: auto;
   bottom: auto;
-  /* 完璧な中央配置から、わずかに「ズレ」を作ることでリアリティを出す */
-  transform: translate(-50%, -50%) rotate(-6deg);
+  /* ど真ん中に配置しつつ、人間的な「手ブレ」(-5deg)を残す */
+  transform: translate(-50%, -50%) rotate(-5deg);
 }
 
-/* --- Interaction: The Breath (呼吸) --- */
+
+/* =========================================================
+   INTERACTION: "THE AWAKENING"
+   ホバー時、混沌とした配置が「意味のある形」へと覚醒する
+   ========================================================= */
+
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note {
   opacity: 1;
-  /* 影を落とし、紙から浮き上がらせる */
-  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6)); /* 深い影 */
 }
 
-/* Part I Hover */
+/* Part I Hover: さらに鋭く、天を指す */
 body.home #archive .paper:nth-of-type(1):hover .script-note {
   transform: translate(0, -20px) rotate(-15deg) scale(1.05);
 }
 
-/* Part II Hover */
+/* Part II Hover: さらに重く、底へ沈む */
 body.home #archive .paper:nth-of-type(2):hover .script-note {
-  transform: translate(20px, 10px) rotate(5deg) scale(1.05);
+  transform: translate(20px, 10px) rotate(4deg) scale(1.05);
 }
 
-/* Part III Hover */
+/* Part III Hover: 真正面から迫る */
 body.home #archive .paper:nth-of-type(3):hover .script-note {
   transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
 }
@@ -500,7 +505,15 @@ body.home.glow-active #cursor-glow{ opacity: 1; }
     mix-blend-mode: normal; /* スマホでは視認性重視 */
   }
 
-  body.home #archive .paper:nth-of-type(1) .script-note{ top: 5%; left: -5%; transform: rotate(-10deg); }
-  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
+  body.home #archive .paper:nth-of-type(1) .script-note{
+    font-size: 9rem; top: 8%; left: -4%; transform: rotate(-10deg);
+  }
+  
+  body.home #archive .paper:nth-of-type(2) .script-note{
+    font-size: 10rem; bottom: 5%; right: -8%; transform: rotate(5deg);
+  }
+  
+  body.home #archive .paper:nth-of-type(3) .script-note{
+    font-size: 11rem; transform: translate(-50%, -50%) rotate(-5deg);
+  }
 }
