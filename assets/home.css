@@ -1,69 +1,73 @@
 /* =========================================================
-   V42 CARD MODULE ONLY
-   - サイト全体の背景・フォント・レイアウトには一切触れない
-   - 論文カード(.paper)とその中身だけをピンポイントで改造
+   V42 FINAL FIX: Card Module ONLY
+   - ヘッダー、背景、基本フォントには【一切干渉しない】
+   - 論文カード(.paper)だけを画像の通りに動かす
    ========================================================= */
 
-/* 1. マウスドラッグ時の反転（これのみ全体適用） */
+/* 1. マウスドラッグの反転のみ適用 */
 ::selection { background: #E6E4E0 !important; color: #050505 !important; }
 ::-moz-selection { background: #E6E4E0 !important; color: #050505 !important; }
 
-/* 2. 論文カード本体：傾きとスナップ */
+/* 2. 論文カード本体の設定 */
 body.home .paper {
-  /* --- 既存のレイアウト維持 --- */
+  /* レイアウト（元のグリッドを維持） */
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 80px;
   padding: 140px 60px;
-  margin-bottom: 120px; /* 筆記体のはみ出し余白 */
   
-  /* --- 既存の色設定を維持 --- */
+  /* 余白調整（筆記体のはみ出し用） */
+  margin-top: 100px;
+  margin-bottom: 120px;
+  
+  /* 色設定（元のサイトの変数を継承） */
   background: var(--surface);
   border: 1px solid var(--line);
-  color: inherit;
-  text-decoration: none;
   
-  /* --- V42 物理挙動（ここだけ変える） --- */
   position: relative;
-  overflow: visible; /* 筆記体のはみ出し許可 */
+  overflow: visible; /* はみ出し許可 */
   z-index: 1;
+  text-decoration: none;
+  color: inherit;
+
+  /* アニメーション設定 */
   transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* 個別の傾き（不協和音） */
+/* 個別の傾き（画像通りの不協和音） */
 body.home .paper:nth-of-type(1) { transform: rotate(-1.5deg); }
 body.home .paper:nth-of-type(2) { transform: rotate(2.2deg) translateX(-15px); z-index: 5; }
 body.home .paper:nth-of-type(3) { transform: rotate(-1.0deg) translateX(20px); }
 
-/* ホバー時のスナップ（垂直復帰）と赤い影 */
+/* ホバー時の挙動（画像通りの赤い影とスナップ） */
 body.home .paper:hover {
-  transform: scale(1.03) rotate(0deg) !important;
-  background: #0D0D0F; /* ホバー時のみ僅かに暗く */
+  transform: scale(1.03) rotate(0deg) !important; /* 直立 */
+  background: #0D0D0F;
   border-color: #FFF;
   box-shadow: 
     30px 30px 0px rgba(0,0,0,0.6), 
-    -3px -3px 0px var(--accent);
+    -3px -3px 0px var(--accent); /* 赤い閃光 */
   z-index: 100;
 }
 
-/* 3. 筆記体オーバーレイ：大胆なはみ出しと反転 */
+/* 3. 筆記体オーバーレイ（Friction / Entropy / Halt） */
 body.home .script-note {
   position: absolute;
   font-family: 'Pinyon Script', cursive; 
-  font-size: clamp(16rem, 38vw, 48rem); /* 枠を無視する巨大サイズ */
+  font-size: clamp(16rem, 38vw, 48rem); /* 画像通りの巨大サイズ */
   white-space: nowrap;
   color: #E6E4E0;
-  opacity: 0.15; /* タイトルを殺さない程度の薄さ */
+  opacity: 0.15; 
   pointer-events: none;
   
-  /* 反転効果（タイトルの上を通過） */
+  /* 反転効果 */
   mix-blend-mode: exclusion; 
   z-index: 10; 
   
   transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1.2), opacity 0.4s ease;
 }
 
-/* 筆記体の配置調整 */
+/* 筆記体の配置 */
 body.home .paper:nth-of-type(1) .script-note { top: -25%; left: -18%; transform: rotate(-12deg); }
 body.home .paper:nth-of-type(2) .script-note { top: 15%; right: -38%; transform: rotate(-4deg); text-align: right; }
 body.home .paper:nth-of-type(3) .script-note { bottom: -35%; left: -22%; transform: rotate(-10deg); }
@@ -73,14 +77,15 @@ body.home .paper:hover .script-note {
   opacity: 0.35;
 }
 
-/* 4. タイトルの視認性保護 */
+/* 4. タイトルの視認性確保 */
 body.home .paper-title { 
   mix-blend-mode: lighten; 
   position: relative; 
-  z-index: 11; /* 筆記体より上に */
+  z-index: 11; 
+  margin: 0;
 }
 body.home .paper-title a {
-  /* フォント設定は site.css を継承させるため指定しない */
+  /* フォントはsite.cssのものを継承させるため指定しない */
   font-size: clamp(2.8rem, 6vw, 7.5rem);
   font-weight: 600;
   line-height: 0.9;
@@ -89,7 +94,7 @@ body.home .paper-title a {
   text-decoration: none;
 }
 
-/* 5. PDFボタン：パンクな物理影 */
+/* 5. PDFボタン（画像通りのデザイン） */
 body.home .pill {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -110,29 +115,25 @@ body.home .paper:hover .pill {
   box-shadow: 8px 8px 0px #FFF;
 }
 
-/* 6. 背景のローマ数字（Drift連動） */
+/* 6. 背景のローマ数字 */
 body.home .work-bg-num {
   position: absolute; right: -2%; top: 50%;
   font-family: var(--font-serif); font-style: italic;
-  font-weight: 300;
-  font-size: clamp(12rem, 25vw, 28rem); 
-  opacity: 0.05; 
-  color: #fff;
-  mix-blend-mode: overlay; 
-  z-index: -1;
+  font-size: clamp(12rem, 25vw, 28rem); opacity: 0.05; color: #fff;
+  mix-blend-mode: overlay; z-index: -1;
   transform: translateY(-50%) translate3d(var(--drift-x), var(--drift-y), 0);
-  transition: opacity 0.4s ease;
+  transition: color 0.6s ease, opacity 0.6s ease;
 }
 body.home .paper:hover .work-bg-num { color: var(--accent); opacity: 0.3; }
 
-/* 7. レスポンシブ調整（カード部分のみ） */
+/* 7. レスポンシブ調整（カードのみ） */
 @media (max-width: 900px) {
   body.home .paper { 
     grid-template-columns: 1fr; 
     transform: none !important; 
-    margin-left: 0 !important; 
     width: 100% !important; 
     padding: 60px 24px; 
+    margin-left: 0 !important;
   }
   body.home .k, body.home .actions { 
     align-items: flex-start; text-align: left; 
