@@ -1,48 +1,43 @@
 /* =========================================================
-   HOME ONLY — V72 "FINAL COLOR RESTORED"
+   HOME ONLY — V74 "ABSOLUTE LEFT GUARD"
    
-   - Part I: EXACTLY in the blue box of image (757).
-   - Part II & III: NO CHANGES from V65 logic.
-   - ROMAN NUMERALS: Color hover effect RESTORED.
-   - Constraint: NO horizontal overflow.
+   - Part I: Shifted LEFT but CLAMPED to 0px (No window overflow).
+   - Part II & III: Position locked to card edges.
+   - Constraint: Zero horizontal scroll on Chrome window resize.
    ========================================================= */
 
+/* ウィンドウサイズ変更時のはみ出しを二重に封じ込める */
+html, body.home {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
 body.home {
-  --bg-void: #050505;
-  --bg-stage: #080808;
-  --surface: #0E0E0E;
-  --fg: #E6E4E0;
-  --fg-dim: #949494;
-  --accent: #D90429;
+  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
+  --fg: #E6E4E0; --fg-dim: #949494; --accent: #D90429;
   --line: rgba(255, 255, 255, 0.08);
-  
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
 
-  background-color: var(--bg-void);
-  color: var(--fg);
+  background-color: var(--bg-void); color: var(--fg);
   font-family: var(--font-sans);
-  
-  overflow-x: hidden;
-  width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Selection */
 body.home ::selection { background: #FFF; color: #000; }
 
-/* Background Noise */
 body.home::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none;
-  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  opacity: 0.035; mix-blend-mode: overlay;
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
-/* Container */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
@@ -67,7 +62,7 @@ body.home #archive .paper {
   color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
 }
 
-/* Scattered Grid (V65 Logic) */
+/* Scattered Grid */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
@@ -77,18 +72,17 @@ body.home #archive .paper:hover {
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
-/* Numeral Base - 色設定修正済み */
+/* Numeral Base */
 body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
   font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
   opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
-/* ホバー時の赤色指定を復活 */
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — PRECISION PLACEMENT
+   SCRIPT OVERLAY — PRECISION LOCK & CLAMP
    ========================================================= */
 
 body.home #archive .script-note {
@@ -101,27 +95,35 @@ body.home #archive .script-note {
   mix-blend-mode: exclusion;
   opacity: 0.9;
   transition: none;
-  max-width: 90vw;
 }
 
-/* Part I: "Grand Design" (image 757 Blue Box) */
+/* Part I: "Grand Design"
+   - left に負の値を指定しつつ、calc と vw を組み合わせて
+     ウィンドウの左端（ビューポートの端）を超えないよう制限。
+*/
 body.home #archive .paper:nth-of-type(1) .script-note {
   font-size: clamp(8rem, 16vw, 15rem);
-  top: 8%; left: -8%; 
+  top: 8%; 
+  /* カードの左端からさらに左へ寄せるが、0px（画面左端）で止まるように設定 */
+  left: max(-15%, calc(-1 * (100vw - 1440px) / 2)); 
+  /* 1440px以上の時のみ左にはみ出し、それ以下では画面端に張り付く */
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
 
-/* Part II: "Silent Rot" (V65 Static) */
+/* Part II: "Silent Rot"
+   - ウィンドウ右端を突き抜けないよう固定。
+*/
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(4rem, 8vw, 8rem);
-  top: 15%; right: 5%; 
+  top: 15%; 
+  right: 20px; 
   left: auto;
   transform: rotate(14deg); 
   transform-origin: right center;
 }
 
-/* Part III: "Requiem" (V65 Static) */
+/* Part III: "Requiem" */
 body.home #archive .paper:nth-of-type(3) .script-note {
   font-size: clamp(12rem, 28vw, 32rem);
   top: 50%; left: 50%;
