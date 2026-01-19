@@ -1,11 +1,11 @@
 /* =========================================================
-   HOME ONLY — FINAL COMPOSITION (Takashi Sato Edition)
+   HOME ONLY — FINAL COMPOSITION (Takashi Sato Edition / Rev.L)
    
-   - Part I: Dynamic positioning (V76 logic) - Responsive & Smaller.
-   - Part II & III: Proven responsive logic.
+   - Part I: Shifted FURTHER LEFT with Responsive Lock.
+   - Part II & III: V76 logic preserved.
    - CARD LAYOUT: V65 scattered grid preserved.
    - ROMAN NUMERALS: Hover color (Red) active.
-   - Constraint: NO horizontal overflow.
+   - Constraint: NO horizontal overflow on Chrome resize.
    ========================================================= */
 
 /* ウィンドウサイズ変更時のはみ出しを二重に封じ込める */
@@ -99,11 +99,14 @@ body.home #archive .script-note {
   transition: none;
 }
 
-/* Part I: "Grand Design" */
+/* Part I: "Grand Design" 
+   - さらに左へ寄せるための調整を実施
+*/
 body.home #archive .paper:nth-of-type(1) .script-note {
   font-size: clamp(6rem, 12vw, 11rem); 
   top: 8%; 
-  left: clamp(-10%, -5vw, 5%); 
+  /* 数値を調整し、より左側へスライド */
+  left: clamp(-18%, -8vw, 2%); 
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
