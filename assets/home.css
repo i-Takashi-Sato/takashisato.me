@@ -1,198 +1,481 @@
 /* =========================================================
-   HOME ONLY — V61 "AGGRESSIVE ANGLES" (No More Straight Lines)
-   
-   CHANGES:
-   - Angles doubled (More tilt).
-   - Hover behavior changed: No longer straightens out.
+   HOME ONLY — V62 "STATIC AGGRESSION" (Final Static)
+
+   Rules
+   - Do NOT touch papers/* layouts
+   - Everything is scoped under body.home
+   - No data: URLs (CSP-safe)
+
+   Intent
+   - Broken-grid cards (tilt) at rest
+   - Script overlay is STATIC (No Hover Movement)
+   - Angles are AGGRESSIVE (Not straight)
    ========================================================= */
 
 body.home{
   /* --- Base Vars --- */
-  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
-  --fg: #E6E4E0; --fg-dim: #949494; --accent: #D90429;
-  --line: rgba(255, 255, 255, 0.08); --line-strong: rgba(255,255,255,0.12);
-  --font-serif: 'Cormorant Garamond', serif; --font-script: 'Pinyon Script', cursive;
-  --font-sans: 'Inter', system-ui, sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface:  #0E0E0E;
+
+  --fg:       #E6E4E0;
+  --fg-dim:   #949494;
+
+  /* Accent: Arterial Red */
+  --accent: #D90429;
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255,255,255,0.12);
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-script: 'Pinyon Script', cursive;
+  --font-sans:  'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Physics */
+  --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
-  
-  background-color: var(--bg-void); color: var(--fg);
-  font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing: antialiased;
+
+  background-color: var(--bg-void);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Selection: inverted */
 body.home ::selection{ background:#FFF; color:#000; }
 body.home ::-moz-selection{ background:#FFF; color:#000; }
 
+/* =========================================================
+   Noise layer (home)
+   - Above main content but below header
+   ========================================================= */
 body.home::after{
-  content:""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
-  opacity: 0.035; mix-blend-mode: overlay;
-  background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  z-index: 50;              /* above main(3), below header(100) */
+  opacity: 0.035;           /* tune 0.02–0.06 */
+  mix-blend-mode: overlay;
+
+  background: url("/assets/noise.webp") repeat;
+  background-size: 280px 280px;
 }
 
+/* =========================================================
+   Main stage (home-only)
+   ========================================================= */
 body.home main{
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+
+  position: relative;
+  z-index: 3; /* below noise(50), above page background */
 }
 
+/* =========================================================
+   HERO
+   ========================================================= */
 body.home main > header{ padding: 220px 0 120px; }
+
 body.home main > header h1{
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
-}
-body.home .who{
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block;
-}
-body.home .lead{
-  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0;
-}
-body.home .section-label{
-  display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
 }
 
-/* --- ARCHIVE CARDS --- */
+body.home .who{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  display: block;
+}
+
+body.home .lead{
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.4;
+
+  border-left: 4px solid var(--accent);
+  padding-left: 40px;
+  max-width: 850px;
+  margin: 0;
+}
+
+body.home .section-label{
+  display: block;
+  margin-top: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* =========================================================
+   ARCHIVE CARDS — V42 Broken Grid
+   IMPORTANT: Use #archive scoping to avoid touching /papers
+   ========================================================= */
+
 body.home #archive .paper{
-  display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
-  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible;
-  color: inherit; will-change: transform;
-  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 80px;
+
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible; /* V42: allow bleed (script + shadow) */
+
+  color: inherit;
+  will-change: transform;
+
+  transition:
+    transform 0.3s var(--ease-punk),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
   z-index: 1;
 }
 
+/* Initial tilt / scatter (Broken Grid) */
 body.home #archive .paper:nth-of-type(1){ transform: rotate(-1deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2){ transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3){ transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
-body.home #archive .paper:hover, body.home #archive .paper.is-hovered{
-  background: #111; transform: scale(1.02) rotate(0deg) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
-  border-color: #FFF; z-index: 100;
+/* Hover: snaps to attention (Card Only) */
+body.home #archive .paper:hover,
+body.home #archive .paper.is-hovered{
+  background: #111;
+  transform: scale(1.02) rotate(0deg) !important;
+  box-shadow:
+    20px 20px 0px rgba(0,0,0,0.5),
+    -2px -2px 0px var(--accent);
+  border-color: #FFF;
+  z-index: 100;
 }
-body.home #archive .paper:focus-within{ outline: 2px solid var(--accent); outline-offset: 4px; }
 
-body.home #archive .paper .stretched-link{ z-index: 1; }
-body.home #archive .card-base{ position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-body.home #archive .work-bg-num{
-  position: absolute; right: -20px; top: 50%;
-  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
-  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: opacity 0.3s ease, color 0.3s ease;
+/* Keyboard a11y */
+body.home #archive .paper:focus-within{
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
-body.home #archive .paper:hover .work-bg-num, body.home #archive .paper.is-hovered .work-bg-num{ color: var(--accent); opacity: 0.4; }
+
+/* ---------------------------------------------------------
+   Layering model inside the card
+   - card background: implicit
+   - stretched-link: z=1 (clickable surface)
+   - numeral base: z=0
+   - script overlay: z=20 (visual, pointer-events none)
+   - content: z=3
+   --------------------------------------------------------- */
+
+/* Full-card link should stay clickable, but never cover content */
+body.home #archive .paper .stretched-link{
+  z-index: 1;
+}
+
+/* Numeral base */
+body.home #archive .card-base{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.home #archive .work-bg-num{
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
+
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
+
+  opacity: 0.08;
+  color: #FFF;
+  mix-blend-mode: overlay;
+
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+body.home #archive .paper:hover .work-bg-num,
+body.home #archive .paper.is-hovered .work-bg-num{
+  color: var(--accent);
+  opacity: 0.4;
+}
 
 /* =========================================================
-   SCRIPT OVERLAY — AGGRESSIVE ANGLES
+   SCRIPT OVERLAY — STATIC & AGGRESSIVE
    ========================================================= */
+
 body.home #archive .script-note {
   position: absolute;
-  z-index: 20; pointer-events: none;
-  font-family: 'Pinyon Script', cursive; 
-  white-space: nowrap; line-height: 0.8;
-  color: #E6E4E0; mix-blend-mode: exclusion; opacity: 0.9;
-  will-change: transform; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* 文字の上に被せる (Visual Layer: Top) */
+  z-index: 20;
+  pointer-events: none; /* 下のリンクは守る */
+
+  font-family: 'Pinyon Script', cursive;
+  white-space: nowrap;
+  line-height: 0.8;
+  
+  /* 色：ボーンホワイト */
+  color: #E6E4E0;
+  
+  /* ブレンドモード：Exclusion */
+  mix-blend-mode: exclusion;
+  
+  /* 高めの不透明度で固定 */
+  opacity: 0.9;
+
+  /* No Transition = No Movement */
+  transition: none;
+  will-change: auto;
 }
 
-/* Part I: "Grand Design" -> 25度傾ける (Aggressive Slash) */
+/* --- Part I: "Grand Design" ---
+   Top Left Slash. Aggressive Angle.
+*/
 body.home #archive .paper:nth-of-type(1) .script-note {
   font-size: clamp(10rem, 20vw, 18rem);
   top: 10%; 
   left: -8%; 
-  transform: rotate(-25deg); /* 強烈な右上がり */
+  /* 鋭角に固定 (-25deg) */
+  transform: rotate(-25deg); 
 }
 
-/* Part II: "Silent Rot" -> 15度傾ける (Unstable Gravity) */
-/* 右下の「重り」として機能させる */
+/* --- Part II: "Silent Rot" ---
+   Bottom Right Anchor.
+   World Class Logic: Bottom Right heavy anchor.
+*/
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(11rem, 22vw, 20rem);
   top: auto;
-  bottom: 5%;    
-  right: -10%;   
+  bottom: 5%;
+  right: -10%;
   left: auto;
-  transform: rotate(15deg); /* 明確な右下がり */
+  /* 逆方向に傾ける (+15deg) */
+  transform: rotate(15deg);
 }
 
-/* Part III: "Requiem" -> 10度傾ける (The Seal) */
+/* --- Part III: "Requiem" ---
+   Center Massive Seal.
+*/
 body.home #archive .paper:nth-of-type(3) .script-note {
   font-size: clamp(16rem, 30vw, 35rem);
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%) rotate(-10deg); /* 違和感のある傾き */
+  top: 50%;
+  left: 50%;
+  /* 違和感のある傾きで固定 (-10deg) */
+  transform: translate(-50%, -50%) rotate(-10deg);
 }
 
-/* Interaction: NO STRAIGHTENING 
-   ホバーしても「斜めのまま」浮き上がる。
-   "Straight" に戻さない。
-*/
-body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note {
-  opacity: 1; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+/* Content: force above stretched-link + overlays */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions{
+  position: relative;
+  z-index: 3;
 }
 
-/* Part I Hover: 角度を維持して浮く */
-body.home #archive .paper:nth-of-type(1):hover .script-note { 
-  transform: translate(0, -20px) rotate(-25deg) scale(1.05); 
-}
-
-/* Part II Hover: 角度を維持して浮く */
-body.home #archive .paper:nth-of-type(2):hover .script-note { 
-  transform: translate(20px, 10px) rotate(15deg) scale(1.05); 
-}
-
-/* Part III Hover: 角度を維持して浮く */
-body.home #archive .paper:nth-of-type(3):hover .script-note { 
-  transform: translate(-50%, -50%) rotate(-10deg) scale(1.05); 
-}
-
-/* Content Styling */
-body.home #archive .paper-title, body.home #archive .paper-signal, body.home #archive .k, body.home #archive .actions{ position: relative; z-index: 3; }
+/* Title */
 body.home #archive .paper-title{ margin: 0; }
 body.home #archive .paper-title a{
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
 }
+
+/* Quote / Signal */
 body.home #archive .paper-signal{
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4; color: var(--fg-dim);
-  border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--fg-dim);
+
+  border-left: 2px solid var(--accent);
+  padding-left: 30px;
+  margin: 40px 0 0;
 }
+
+/* Keywords */
 body.home #archive .k{
-  border: none; padding: 0; margin: 0; background: none; font-family: var(--font-mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim); display: flex; flex-direction: column; align-items: flex-end; text-align: right;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
 }
-body.home #archive .k span{ color: var(--accent); font-weight: 700; opacity: 1; }
-body.home #archive .actions{ display: flex; justify-content: flex-end; align-items: flex-end; }
+
+body.home #archive .k span{
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* Actions / Pill */
+body.home #archive .actions{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
 body.home #archive .pill{
-  display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.2em; padding: 22px 44px; min-width: 200px; border: 1px solid var(--fg); background: transparent; color: var(--fg);
-  text-decoration: none; transition: all 0.2s ease; line-height: 1;
-}
-body.home #archive .paper:hover .pill, body.home #archive .paper.is-hovered .pill{ background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-/* Cursor & A11y */
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+
+  padding: 22px 44px;
+  min-width: 200px;
+
+  border: 1px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+body.home #archive .paper:hover .pill,
+body.home #archive .paper.is-hovered .pill{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
+}
+
+/* =========================================================
+   Cursor glow (home-only)
+   - visible only when body.home has .glow-active (toggled by assets/home.js)
+   ========================================================= */
 body.home #cursor-glow{
-  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 80vw;
+  height: 80vw;
+  margin-left: -40vw;
+  margin-top: -40vw;
+
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  opacity: 0; transition: opacity 0.35s var(--ease-kinetic); will-change: transform; mix-blend-mode: exclusion;
-}
-body.home.glow-active #cursor-glow{ opacity: 1; }
-@media (prefers-reduced-motion: reduce){
-  body.home::after, body.home #cursor-glow { opacity: 0 !important; }
-  body.home #archive .paper, body.home #archive .pill, body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  pointer-events: none;
+  z-index: 2;
+
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-kinetic);
+  will-change: transform;
+
+  mix-blend-mode: exclusion;
 }
 
-/* Responsive */
+body.home.glow-active #cursor-glow{ opacity: 1; }
+
+/* =========================================================
+   A11y: reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  body.home::after{ opacity: 0 !important; }
+  body.home #cursor-glow{ opacity: 0 !important; }
+  body.home #archive .paper,
+  body.home #archive .pill,
+  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  body.home .reveal,
+  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
 @media (max-width: 900px){
   body.home main > header{ padding: 160px 0 90px; }
+
   body.home #archive .paper{
-    grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 50px; padding: 100px 24px; margin-bottom: 40px;
-    transform: none !important; width: auto; margin-left: 0; margin-right: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 50px;
+    padding: 100px 24px;
+    margin-bottom: 40px;
+
+    transform: none !important;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
   }
-  body.home #archive .k, body.home #archive .actions{ align-items: flex-start; text-align: left; justify-content: flex-start; }
+
+  body.home #archive .k,
+  body.home #archive .actions{
+    align-items: flex-start;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
   body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
+
+  /* Mobile Optimization */
+  body.home #archive .script-note{
+    font-size: 8rem;
+    opacity: 0.6;
+    mix-blend-mode: normal; /* スマホでは視認性重視 */
+  }
+
+  body.home #archive .paper:nth-of-type(1) .script-note{
+    font-size: 9rem; top: 8%; left: -4%; transform: rotate(-10deg);
+  }
   
-  body.home #archive .script-note{ font-size: 8rem; opacity: 0.6; mix-blend-mode: normal; }
-  body.home #archive .paper:nth-of-type(1) .script-note{ top: 5%; left: -5%; transform: rotate(-10deg); }
-  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note{
+    font-size: 10rem; bottom: 5%; right: -8%; transform: rotate(5deg);
+  }
+  
+  body.home #archive .paper:nth-of-type(3) .script-note{
+    font-size: 11rem; transform: translate(-50%, -50%) rotate(-5deg);
+  }
 }
