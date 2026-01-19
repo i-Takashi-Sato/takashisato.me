@@ -1,57 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Takashi Sato // Signal Over Spectacle</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
 /* =========================================================
-   V142 FINAL — THE STATIC MONUMENT
-   
-   - DESIGN: Clinical Silence & Nocturnal Chaos
-   - HOVER: Disabled (Static Editorial Balance)
-   - ACCENT: Antique Paper White & Crimson Ink
+   V143: THE ARCHITECTURAL RED
    ========================================================= */
 
-body.home {
-  /* 漆黒とアイボリーの色彩設計 */
+:root {
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
   --fg: #E6E4E0; 
-  --fg-dim: #555555; /* UI要素を影として沈める */
+  --fg-dim: #555555;
   --line: rgba(255, 255, 255, 0.08);
 
-  /* 唯一の官能色：深紅 */
-  --sexy-ink: #7B001C; 
-  --accent: var(--fg); /* ホバー変化を無効化し秩序を維持 */
+  /* 色彩の再定義：UIの紅（Arterial）と筆記体の紅（Nocturnal） */
+  --accent: #D90429;   /* 縦線・カテゴリ用の鮮烈な紅 */
+  --sexy-ink: #7B001C; /* 筆記体用の官能的な深紅 */
 
-  /* 世界最高水準のタイポグラフィ */
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
-
-  background-color: var(--bg-void);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  width: 100%;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* --- GLOBAL LAYOUT --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body.home ::selection { background: var(--sexy-ink); color: #FFF; }
+body.home {
+  background-color: var(--bg-void); color: var(--fg); font-family: var(--font-sans);
+  overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased;
+}
 
-/* フィルムグレイン・ノイズ */
 body.home::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
-body.home main {
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
-}
+main { max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw); border-left: 1px solid var(--line); border-right: 1px solid var(--line); background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3; }
 
-/* 左翼の垂直軸ラベル */
+/* 垂直軸：左側の空白を定義するアンカー */
 .vertical-axis {
   position: absolute; left: 15px; top: 400px;
   writing-mode: vertical-rl; transform: rotate(180deg);
@@ -60,60 +52,52 @@ body.home main {
 }
 
 /* --- HERO SECTION --- */
-body.home main > header { padding: 220px 0 120px; position: relative; }
-body.home main > header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
+header.hero { padding: 220px 0 120px; position: relative; }
+.hero-category { 
+  font-family: var(--font-mono); font-size: 11px; color: var(--accent); /* 赤を復元 */
+  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 25px; display: block; 
 }
-body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block; }
-body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
-body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+h1.hero-title { 
+  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem); 
+  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin-bottom: 60px; 
+}
+.hero-lead { 
+  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.5; 
+  border-left: 3px solid var(--accent); /* 紅い縦線を復元 */
+  padding-left: 45px; max-width: 850px; 
+}
 
-/* --- ARCHIVE CARDS (STATIC GRID) --- */
-body.home #archive .paper {
-  display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px;
-  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
+/* --- ARCHIVE SECTION --- */
+.section-label { 
+  display: block; margin-top: 120px; font-family: var(--font-mono); font-size: 11px; 
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--fg-dim); 
+  border-bottom: 1px solid var(--line); padding-bottom: 20px; 
+}
+
+/* 論文カード：世界最高水準の非対称グリッド */
+.paper {
+  display: grid; grid-template-columns: 1.4fr 1.1fr; gap: 100px;
+  position: relative; margin-top: 120px; padding: 160px 60px;
   background: var(--surface); border: 1px solid var(--line); overflow: visible; 
-  color: inherit; text-decoration: none; z-index: 1;
+  text-decoration: none; color: inherit; z-index: 1;
 }
 
-/* 散布された配置ロジック（V65継承） */
-body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 92%; margin-left: 8%; }
-body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
+/* 散布配置ロジック */
+#part1 { transform: rotate(-0.5deg); width: 92%; margin-left: 8%; }
+#part2 { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
+#part3 { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
 
-/* ホバー演出の完全廃止（静止画としての強度） */
-body.home #archive .paper:hover {
-  transform: none; 
-  box-shadow: none;
-  border-color: var(--line);
-}
+/* ホバー無効化（Static Monument） */
+.paper:hover { transform: inherit; box-shadow: none; border-color: var(--line); }
 
-/* 背後のローマ数字 */
-body.home #archive .work-bg-num {
-  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
-  opacity: 0.06; color: #FFF; mix-blend-mode: overlay;
-}
-
-/* =========================================================
-   SCRIPT NOTES: NOCTURNAL CRIMSON REVEAL
-   ========================================================= */
-body.home #archive .script-note {
-  position: absolute; z-index: 2; 
-  pointer-events: none;
-  font-family: var(--font-script); white-space: nowrap;
-  color: var(--sexy-ink); opacity: 0;
-  mix-blend-mode: screen; 
-  
-  /* インクが染み込むアニメーション */
+/* --- SCRIPT NOTES: THE INVASION --- */
+.script-note {
+  position: absolute; z-index: 2; font-family: var(--font-script); white-space: nowrap;
+  color: var(--sexy-ink); opacity: 0; mix-blend-mode: screen; 
   -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%);
-  -webkit-mask-size: 200% 100%;
-  -webkit-mask-position: 100% 0;
+  -webkit-mask-size: 200% 100%; -webkit-mask-position: 100% 0;
   animation: writeInk 3.5s ease-out forwards;
 }
-
-
 
 @keyframes writeInk {
   0% { opacity: 0; -webkit-mask-position: 100% 0; }
@@ -121,36 +105,49 @@ body.home #archive .script-note {
   100% { opacity: 0.75; -webkit-mask-position: 0 0; }
 }
 
-/* 計算されたランダム・オフセット */
-body.home #archive .paper:nth-of-type(1) .script-note { 
-  font-size: clamp(14rem, 30vw, 35rem); top: -25%; left: -28vw; transform: rotate(-12deg); animation-delay: 1s; 
-}
-body.home #archive .paper:nth-of-type(2) .script-note { 
-  font-size: clamp(12rem, 24vw, 28rem); top: 45%; right: -28vw; left: auto; transform: rotate(2deg); animation-delay: 2.8s; 
-}
-body.home #archive .paper:nth-of-type(3) .script-note { 
-  font-size: clamp(10rem, 20vw, 25rem); top: 40%; left: -15vw; transform: rotate(-25deg); animation-delay: 4.8s; 
+/* 配置バランス（V138準拠） */
+#part1 .script-note { font-size: clamp(14rem, 30vw, 35rem); top: -25%; left: -28vw; transform: rotate(-12deg); animation-delay: 1s; }
+#part2 .script-note { font-size: clamp(12rem, 24vw, 28rem); top: 45%; right: -28vw; left: auto; transform: rotate(2deg); animation-delay: 2.8s; }
+#part3 .script-note { font-size: clamp(10rem, 20vw, 25rem); top: 40%; left: -15vw; transform: rotate(-25deg); animation-delay: 4.8s; }
+
+/* --- UI CONTENT: REFINED HIERARCHY --- */
+
+/* 論文タイトル：秩序の象徴 */
+.paper-title { position: relative; z-index: 10; margin-bottom: 60px; grid-column: 1 / -1; }
+.paper-title h2 { 
+  font-family: var(--font-sans); font-size: clamp(3rem, 6vw, 6.5rem); 
+  font-weight: 600; line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; 
 }
 
-/* --- UI Content Layers --- */
-body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 40px; }
-body.home #archive .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
-}
-body.home #archive .paper-signal {
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--fg-dim); padding-left: 30px; margin: 40px 0 0; position: relative; z-index: 10;
-}
-body.home #archive .k { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); text-align: right; position: relative; z-index: 10; }
-body.home #archive .pill {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  padding: 22px 44px; border: 1px solid var(--fg-dim); color: var(--fg-dim); text-decoration: none; margin-top: 40px; position: relative; z-index: 10;
+/* 引用文：情感の空間 */
+.paper-signal { 
+  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.5rem, 2.4vw, 2rem); 
+  line-height: 1.5; color: var(--fg); border-left: 3px solid var(--accent); /* 紅い縦線を復元 */
+  padding-left: 40px; margin-bottom: 30px; position: relative; z-index: 10;
 }
 
-/* --- INTERACTIVE GLOW --- */
-body.home #cursor-glow {
+/* キーワード：精緻なメタデータ */
+.metadata { grid-column: 2; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; text-align: right; position: relative; z-index: 10; }
+.k-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; }
+.k-list { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); line-height: 1.8; letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* ボタン */
+.pill { 
+  display: inline-flex; align-items: center; justify-content: center; 
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; 
+  padding: 24px 48px; border: 1px solid var(--fg-dim); color: var(--fg); 
+  text-decoration: none; margin-top: 60px; position: relative; z-index: 10; 
+}
+
+/* 背後のローマ数字 */
+.work-bg-num {
+  position: absolute; right: -30px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(15rem, 28vw, 35rem);
+  opacity: 0.05; color: #FFF; mix-blend-mode: overlay; pointer-events: none;
+}
+
+/* Cursor Glow */
+#cursor-glow {
   position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
   pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
@@ -158,8 +155,79 @@ body.home #cursor-glow {
 }
 body.home.glow-active #cursor-glow { opacity: 1; }
 
-/* --- MOBILE RESPONSIVE --- */
-@media (max-width: 1024px) {
-  body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
-  .vertical-axis, .script-note { display: none; }
+@media (max-width: 1024px) { 
+  .paper { grid-template-columns: 1fr; padding: 100px 30px; gap: 50px; } 
+  .metadata { align-items: flex-start; text-align: left; grid-column: 1; margin-top: 30px; }
+  .vertical-axis, .script-note { display: none; } 
 }
+</style>
+</head>
+
+<body class="home">
+<div id="cursor-glow" aria-hidden="true"></div>
+<main>
+  <div class="vertical-axis">Archive Of Decay · 2026 · Takashi Sato</div>
+  
+  <header class="hero">
+    <span class="hero-category">AI Governance & Sociotechnical Systems Research</span>
+    <h1 class="hero-title">Optimizing Decay,<br>Architecting Eternity.</h1>
+    <div class="hero-lead">
+      <p>Peer-citable research archive on workflow-centric AI governance.</p>
+      <p style="font-size: 1.2rem; opacity: 0.8; margin-top: 15px;">Engineering friction (ALTRION), forecasting entropy-driven pre-abuse failure (resolution collapse), and building drift indicators & circuit breakers for silent breakdowns in oversight.</p>
+    </div>
+  </header>
+
+  <section id="archive">
+    <span class="section-label">Selected Researches</span>
+
+    <a href="#" class="paper" id="part3">
+      <div class="work-bg-num">III</div>
+      <span class="script-note">Requiem</span>
+      
+      <div class="paper-title">
+        <h2>Part III: The Proper Ending</h2>
+      </div>
+
+      <div class="content-box">
+        <p class="paper-signal">“Silence is the scream of a failing system.”</p>
+        <span class="pill">OPEN PDF ↗</span>
+      </div>
+
+      <div class="metadata">
+        <span class="k-label">Keywords</span>
+        <p class="k-list">Resolution Collapse<br>semantic entropy<br>circuit breakers</p>
+      </div>
+    </a>
+
+    <a href="#" class="paper" id="part1">
+      <div class="work-bg-num">I</div>
+      <span class="script-note">Grand Design</span>
+      <div class="paper-title"><h2>Part I: The Cold Genesis</h2></div>
+      <div class="content-box">
+        <p class="paper-signal">“To preserve the human, we must engineer the friction of thought.”</p>
+        <span class="pill">OPEN PDF ↗</span>
+      </div>
+      <div class="metadata">
+        <span class="k-label">Keywords</span>
+        <p class="k-list">AI governance<br>workflow-centric oversight<br>human-in-the-loop</p>
+      </div>
+    </a>
+  </section>
+
+  <footer style="padding: 100px 0 60px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); text-align: center;">
+    Takashi Sato · Signal Over Spectacle · 2026
+  </footer>
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  window.addEventListener('mousemove', (e) => {
+    root.style.setProperty('--mouse-x', e.clientX + 'px');
+    root.style.setProperty('--mouse-y', e.clientY + 'px');
+    document.body.classList.add('glow-active');
+  });
+})();
+</script>
+</body>
+</html>
