@@ -1,75 +1,221 @@
 /* =========================================================
-   THE SCRIPT NOTE (LIPSTICK VANDALISM)
-   Updated: Fixed clipping issues (Keep it inside the viewport)
+   HOME ONLY — THEME: "STATIC VANDALISM"
+   Concept: No interaction. Just the evidence of the crime.
+   ========================================================= */
+
+body.home {
+  /* --- Color Lock --- */
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface: #0E0E0E;
+  --fg: #E6E4E0;
+  --fg-dim: #949494;
+
+  /* Accent: Arterial Red */
+  --accent: #D90429;
+
+  --line: rgba(255, 255, 255, 0.08);
+
+  /* Fonts */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-jp-calligraphy: 'Yuji Mai', serif;
+  --font-script: 'Pinyon Script', cursive; 
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  background-color: var(--bg-void);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================
+   Noise layer
+   ========================================================= */
+body.home::after {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  opacity: 0.04; mix-blend-mode: overlay;
+  background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
+}
+
+/* =========================================================
+   Main Stage
+   ========================================================= */
+body.home main {
+  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh; position: relative; z-index: 3;
+}
+
+/* =========================================================
+   HERO (Static)
+   ========================================================= */
+body.home main > header { padding: 220px 0 120px; }
+
+body.home main > header h1 {
+  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300; font-style: italic; line-height: 0.85;
+  letter-spacing: -0.04em; margin: 0 0 80px; color: var(--fg);
+}
+
+body.home .who {
+  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+  letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block;
+}
+
+body.home .lead {
+  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4;
+  border-left: 3px solid var(--accent); padding-left: 40px;
+  max-width: 850px; margin: 0;
+}
+
+body.home .section-label {
+  display: block; margin-top: 90px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-dim);
+}
+
+/* =========================================================
+   ARCHIVE CONTAINER (Static Layout)
+   ========================================================= */
+body.home #archive {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* THE CARD: Broken Grid, Fixed Position */
+body.home #archive .paper {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 80px;
+  
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: inherit;
+  
+  /* NO TRANSITIONS / NO HOVER EFFECTS */
+  transform-origin: center;
+}
+
+/* The Tilts (Permanent) */
+body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 102%; margin-left: -1%; z-index: 5; }
+body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+
+
+/* --- Internal Elements --- */
+body.home #archive .paper-title {
+  grid-column: 1 / 2; grid-row: 1; position: relative; z-index: 5; margin: 0;
+}
+body.home #archive .paper-title a {
+  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em;
+  text-transform: uppercase; color: var(--fg); text-decoration: none;
+}
+
+body.home #archive .paper-signal {
+  grid-column: 1 / 2; grid-row: 2; position: relative; z-index: 5;
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4;
+  color: var(--fg-dim); border-left: 2px solid var(--accent);
+  padding-left: 30px; margin: 40px 0 0;
+}
+
+body.home #archive .k {
+  grid-column: 2 / 3; grid-row: 1; border: none; padding: 0; margin: 0; background: none;
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--fg-dim);
+  display: flex; flex-direction: column; align-items: flex-end;
+  text-align: right; position: relative; z-index: 5;
+}
+body.home #archive .k span { color: var(--accent); font-weight: 700; opacity: 1; }
+
+body.home #archive .actions {
+  grid-column: 2 / 3; grid-row: 2; display: flex;
+  justify-content: flex-end; align-items: flex-end;
+  position: relative; z-index: 6;
+}
+
+/* Button: Simple Hover Only (Functional) */
+body.home #archive .pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; padding: 22px 44px; min-width: 200px;
+  border: 1px solid var(--fg); background: transparent; color: var(--fg);
+  text-decoration: none; line-height: 1;
+  transition: all 0.2s ease;
+}
+body.home #archive .pill:hover {
+  background: var(--accent); border-color: var(--accent); color: #000;
+}
+
+/* =========================================================
+   DECORATIONS: Ghost Numeral (Static)
+   ========================================================= */
+body.home #archive .card-base {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1;
+}
+body.home #archive .work-bg-num {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
+  opacity: 0.05; color: #fff;
+}
+
+/* =========================================================
+   THE SCRIPT NOTE (STATIC VANDALISM)
+   Updated: Fixed clipping & Removed float animation
    ========================================================= */
 body.home #archive .script-note {
-  position: absolute;
-  z-index: 20; /* On top of EVERYTHING */
-  pointer-events: none;
+  position: absolute; z-index: 20; pointer-events: none;
+  font-family: var(--font-script); 
   
-  font-family: var(--font-script);
-  /* Adjusted size to prevent clipping on edges */
+  /* Adjusted size to fit viewport */
   font-size: clamp(5rem, 10vw, 12rem); 
   line-height: 1;
   text-align: center;
   
-  /* LIPSTICK EFFECT */
-  color: var(--accent);
-  opacity: 0.9;
+  color: var(--accent); opacity: 0.9;
   
-  /* Greasy, smeared texture */
   text-shadow: 
     0 0 5px rgba(217, 4, 41, 0.5),
     2px 2px 0px rgba(100, 0, 0, 0.3);
-
-  mix-blend-mode: normal; 
-
-  transition: all 0.4s var(--ease-punk);
-  will-change: transform, opacity;
+  mix-blend-mode: normal;
   
-  /* Ensure text doesn't get cut off harshly */
+  /* Prevent clipping */
   white-space: nowrap; 
   width: auto;
-  max-width: 120%; /* Allow slight bleed but control it */
+  max-width: 120%;
 }
 
-/* Bold Positioning: I (Origin Point) */
+/* I (Origin Point) */
 body.home #archive .paper:nth-of-type(1) .script-note { 
-  top: -8%; 
-  left: 0%; /* Pulled back from -8% */
-  transform: rotate(-12deg); 
+  top: -8%; left: 0%; transform: rotate(-12deg); 
 }
 
-/* Bold Positioning: II (Entropy Rising) */
+/* II (Entropy Rising) */
 body.home #archive .paper:nth-of-type(2) .script-note { 
-  top: 15%; 
-  right: -5%; /* Pulled back from -12% */
-  left: auto;
-  transform: rotate(6deg); 
-  /* Slightly larger for impact but safe */
+  top: 15%; right: -5%; left: auto; transform: rotate(6deg); 
   font-size: clamp(6rem, 12vw, 14rem); 
 }
 
-/* Bold Positioning: III (System Halt) */
+/* III (System Halt) */
 body.home #archive .paper:nth-of-type(3) .script-note { 
-  bottom: -8%; 
-  left: 0%; /* Pulled back from -5% */
-  top: auto;
-  transform: rotate(-4deg); 
-}
-
-/* Hover: The "3D Float" (Parallax) */
-body.home #archive .paper:hover .script-note {
-  opacity: 1;
-  /* Lift up and straighten */
-  transform: scale(1.1) translateY(-20px) rotate(0deg) !important;
-  text-shadow: 
-    0 10px 20px rgba(0,0,0, 0.5),
-    0 0 10px var(--accent);
+  bottom: -8%; left: 0%; top: auto; transform: rotate(-4deg); 
 }
 
 /* =========================================================
-   Cursor Glow
+   Cursor Glow (Static)
    ========================================================= */
 body.home #cursor-glow {
   position: fixed; left: 0; top: 0; width: 80vw; height: 80vw;
@@ -83,7 +229,7 @@ body.home #cursor-glow {
 body.home.glow-active #cursor-glow { opacity: 1; }
 
 /* =========================================================
-   Responsive Fixes
+   Responsive
    ========================================================= */
 @media (max-width: 900px) {
   body.home main > header { padding: 160px 0 90px; }
@@ -92,36 +238,22 @@ body.home.glow-active #cursor-glow { opacity: 1; }
     grid-template-columns: 1fr; grid-template-rows: auto auto auto;
     padding: 80px 24px; gap: 30px;
     transform: none !important; width: 100% !important; margin-left: 0 !important;
-    opacity: 1 !important; filter: none !important;
   }
-  
-  /* Disable hover effects on mobile */
-  body.home #archive:has(.paper:hover) .paper { opacity: 1; filter: none; transform: none; }
   
   body.home #archive .k, body.home #archive .actions {
     grid-column: 1; align-items: flex-start; text-align: left; justify-content: flex-start;
   }
   body.home #archive .pill { width: 100%; min-width: 0; }
   
-  /* Fix Script Note Clipping on Mobile */
+  /* Mobile Script Note Fix */
   body.home #archive .script-note {
-    font-size: 15vw !important; /* Responsive size */
-    opacity: 0.8; 
-    position: relative;
+    font-size: 15vw !important; opacity: 0.8; position: relative;
     top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
-    display: block; 
-    margin-bottom: 10px; 
-    transform: rotate(-3deg);
-    
-    /* Allow wrapping if words are too long */
-    white-space: normal; 
-    text-align: left;
+    display: block; margin-bottom: 10px; transform: rotate(-3deg);
+    white-space: normal; text-align: left;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   body.home::after, body.home #cursor-glow { opacity: 0 !important; }
-  body.home #archive .paper, body.home #archive .script-note {
-    transform: none !important; box-shadow: none !important; transition: none !important;
-  }
 }
