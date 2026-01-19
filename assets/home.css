@@ -1,87 +1,94 @@
 /* =========================================================
-   V146 FINAL — THE ANATOMIC ARCHIVE
+   V148 FINAL — PURE CSS RECONSTRUCTION
+   
+   - CONSTRAINT: NO HTML CHANGES
+   - COLORS: Arterial Red (#D90429) & Nocturnal Crimson (#7B001C)
+   - FIX: Blue lines removed, Numerals visible, Alignment fixed
    ========================================================= */
 
-:root {
+body.home {
   --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
   --fg: #E6E4E0; --fg-dim: #555555;
+  --accent: #D90429;   /* 秩序の紅：縦線・カテゴリ用 */
+  --sexy-ink: #7B001C; /* 官能の紅：筆記体用 */
   --line: rgba(255, 255, 255, 0.08);
-
-  /* 二つの「紅」を建築的に配置 */
-  --accent: #D90429;   /* Arterial Red: カテゴリ・縦線 */
-  --sexy-ink: #7B001C; /* Nocturnal Crimson: 官能的筆記体 */
 
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
+
+  background-color: var(--bg-void); color: var(--fg);
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
-/* --- HERO: RED RESTORATION --- */
-body.home .hero-category { 
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent); 
-  letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 25px; display: block; 
+/* --- 1. 青い線と不要な装飾の根絶 --- */
+body.home a, 
+body.home nav, 
+body.home header { border: none !important; text-decoration: none !important; box-shadow: none !important; }
+
+/* --- 2. HERO: 色彩の復元 --- */
+body.home .who { 
+  color: var(--accent) !important; font-family: var(--font-mono); letter-spacing: 0.2em; 
 }
-body.home .hero-lead { 
-  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.5; 
-  border-left: 3px solid var(--accent); padding-left: 45px; max-width: 850px; 
+body.home .lead { 
+  border-left: 3px solid var(--accent) !important; padding-left: 45px; 
+  font-family: var(--font-serif); font-size: 1.6rem; opacity: 0.9;
 }
 
-/* --- THE PAPER CARD: ANATOMIC GRID --- */
+/* --- 3. ARCHIVE CARDS: 建築的レイアウトの再定義 --- */
 body.home #archive .paper {
-  display: flex; flex-direction: column; justify-content: space-between;
-  position: relative; margin-top: 150px; padding: 120px 80px;
+  display: block !important; /* グリッドを解体し、自由な重なりを実現 */
+  position: relative; margin-top: 180px; padding: 140px 60px;
   background: var(--surface); border: 1px solid var(--line); 
-  min-height: 650px; text-decoration: none; color: inherit; overflow: visible;
+  min-height: 580px; transition: none; /* 静止した美学 */
 }
 
-/* --- ROMAN NUMERALS: STRUCTURAL BACKGROUND --- */
+/* ローマ数字：背景テクスチャとしての蘇生 */
 body.home #archive .work-bg-num {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  position: absolute !important; right: -5vw !important; top: 10% !important;
   font-family: var(--font-serif); font-style: italic; font-weight: 300; 
-  font-size: clamp(20rem, 45vw, 60rem); color: #FFF; opacity: 0.1; /* 視認性と静寂の共存 */
-  mix-blend-mode: overlay; pointer-events: none; z-index: 0;
+  font-size: clamp(20rem, 40vw, 55rem) !important;
+  color: #FFF !important; opacity: 0.12 !important; /* 確実に視覚化 */
+  mix-blend-mode: overlay; pointer-events: none; z-index: 0; transform: none !important;
 }
 
-/* --- TITLES: AUTHORITATIVE DISRUPTION --- */
-body.home #archive .paper-title { 
-  position: absolute; top: 15%; left: -5vw; z-index: 10; max-width: 80%;
+/* タイトル：空間を切り裂く配置 */
+body.home #archive .paper-title {
+  position: relative; z-index: 10; margin-bottom: 80px; left: -2vw;
 }
-body.home #archive .paper-title h2 { 
-  font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(4rem, 8vw, 9rem); line-height: 0.85; letter-spacing: -0.05em;
-  text-transform: uppercase; color: var(--fg); mix-blend-mode: lighten;
-}
-
-/* --- EPIGRAPHS: THE RED SIGNAL --- */
-body.home #archive .paper-body { 
-  margin-top: auto; padding-left: 10%; max-width: 700px; position: relative; z-index: 10;
-}
-body.home #archive .paper-signal { 
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem); 
-  line-height: 1.5; color: var(--fg); border-left: 3px solid var(--accent); /* 紅い縦線 */
-  padding-left: 40px; margin-bottom: 40px;
+body.home #archive .paper-title a {
+  font-family: var(--font-serif) !important; font-style: italic; font-weight: 400;
+  font-size: clamp(3.5rem, 7.5vw, 8.5rem) !important; line-height: 0.85;
+  letter-spacing: -0.05em; color: var(--fg);
 }
 
-/* --- KEYWORDS: VERTICAL METADATA --- */
-body.home #archive .metadata { 
-  position: absolute; right: 40px; top: 120px; text-align: right;
-  writing-mode: vertical-rl; transform: rotate(180deg); z-index: 10;
-}
-body.home #archive .k-label { 
-  font-family: var(--font-mono); font-size: 10px; color: var(--accent); 
-  font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; margin-left: 15px;
-}
-body.home #archive .k-list { 
-  font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); 
-  letter-spacing: 0.05em; text-transform: uppercase; line-height: 2;
+/* エピグラフ：紅い垂直線と知的な余白 */
+body.home #archive .paper-signal {
+  border-left: 3px solid var(--accent) !important; /* 紅の復元 */
+  padding-left: 40px; margin: 0 0 60px 0; max-width: 650px;
+  font-family: var(--font-serif); font-style: italic; color: var(--fg);
+  position: relative; z-index: 10;
 }
 
-/* --- SCRIPT NOTES: THE OVERLAY --- */
+/* キーワード（V72の .k クラス）：右下へ強制配置 */
+body.home #archive .k {
+  position: absolute !important; right: 60px; bottom: 80px; 
+  display: flex !important; flex-direction: column !important; align-items: flex-end !important;
+  text-align: right; z-index: 10;
+}
+body.home #archive .k span { 
+  color: var(--accent) !important; font-family: var(--font-mono); font-weight: 700;
+  font-size: 10px; letter-spacing: 0.3em; margin-bottom: 12px;
+}
+body.home #archive .k { 
+  font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); line-height: 1.8;
+}
+
+/* 筆記体：深紅の官能 */
 body.home #archive .script-note {
   position: absolute; z-index: 5; font-family: var(--font-script);
-  color: var(--sexy-ink); opacity: 0; mix-blend-mode: screen; 
+  color: var(--sexy-ink) !important; mix-blend-mode: screen;
   -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%);
   -webkit-mask-size: 200% 100%; -webkit-mask-position: 100% 0;
   animation: writeInk 3.5s ease-out forwards;
@@ -93,19 +100,13 @@ body.home #archive .script-note {
   100% { opacity: 0.75; -webkit-mask-position: 0 0; }
 }
 
-/* 配置：タイトルと重なるように計算 */
-body.home #archive .paper:nth-of-type(1) .script-note { font-size: clamp(15rem, 30vw, 35rem); top: 5%; left: -20vw; transform: rotate(-10deg); animation-delay: 1s; }
-body.home #archive .paper:nth-of-type(2) .script-note { font-size: clamp(12rem, 25vw, 30rem); top: 10%; right: -25vw; left: auto; transform: rotate(5deg); animation-delay: 2.8s; }
-body.home #archive .paper:nth-of-type(3) .script-note { font-size: clamp(12rem, 28vw, 35rem); top: 15%; left: -15vw; transform: rotate(-15deg); animation-delay: 4.8s; }
-
-/* 垂直アンカー */
-.vertical-axis {
-  position: absolute; left: 15px; top: 400px; writing-mode: vertical-rl; transform: rotate(180deg);
-  font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim); letter-spacing: 0.6em; opacity: 0.4;
-}
+/* --- 配置バランス --- */
+body.home #archive .paper:nth-of-type(1) .script-note { font-size: clamp(15rem, 30vw, 35rem); top: -20%; left: -25vw; transform: rotate(-10deg); animation-delay: 1s; }
+body.home #archive .paper:nth-of-type(2) .script-note { font-size: clamp(12rem, 25vw, 30rem); top: 30%; right: -25vw; left: auto; transform: rotate(2deg); animation-delay: 2.8s; }
+body.home #archive .paper:nth-of-type(3) .script-note { font-size: clamp(12rem, 28vw, 35rem); top: 20%; left: -15vw; transform: rotate(-15deg); animation-delay: 4.8s; }
 
 /* ボタン */
-body.home #archive .pill { 
-  display: inline-flex; font-family: var(--font-mono); font-size: 11px; font-weight: 700; 
-  padding: 22px 44px; border: 1px solid var(--fg-dim); color: var(--fg); text-decoration: none;
+body.home #archive .pill {
+  display: inline-flex; font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  padding: 22px 44px; border: 1px solid var(--fg-dim) !important; color: var(--fg);
 }
