@@ -1,14 +1,18 @@
 /* =========================================================
-   HOME ONLY — V76 "DYNAMIC RESPONSIVE ALIGNMENT"
+   HOME ONLY — FINAL COMPOSITION (Takashi Sato Edition)
    
-   - Part I: Dynamic positioning that follows window resize (No cut-off).
-   - Part I: Smaller size as requested, shifted left relative to card.
-   - Part II & III: Maintaining proven responsive logic.
+   - Part I: Dynamic positioning (V76 logic) - Responsive & Smaller.
+   - Part II & III: Proven responsive logic.
+   - CARD LAYOUT: V65 scattered grid preserved.
+   - ROMAN NUMERALS: Hover color (Red) active.
+   - Constraint: NO horizontal overflow.
    ========================================================= */
 
+/* ウィンドウサイズ変更時のはみ出しを二重に封じ込める */
 html, body.home {
   overflow-x: hidden;
   width: 100%;
+  position: relative;
   margin: 0;
   padding: 0;
 }
@@ -39,18 +43,26 @@ body.home::after {
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh; 
-  position: relative; z-index: 3;
-  /* overflow: hidden を削除し、筆記体の自由な動きを許可。ただし画面外へは出さない */
+  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
 }
+
+/* Header */
+body.home main > header { padding: 220px 0 120px; }
+body.home main > header h1 {
+  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
+}
+body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block; }
+body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
+body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); }
 
 /* --- ARCHIVE CARDS --- */
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
   background: var(--surface); border: 1px solid var(--line); 
-  overflow: visible; /* 筆記体をカード外へ出すために必須 */
-  color: inherit; transition: transform 0.3s var(--ease-punk); z-index: 1;
+  overflow: visible; 
+  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
 }
 
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
@@ -62,8 +74,17 @@ body.home #archive .paper:hover {
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
+/* Roman Numerals Color Logic */
+body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+body.home #archive .work-bg-num {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
+  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
+}
+body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
+
 /* =========================================================
-   SCRIPT OVERLAY — DYNAMIC LOCK
+   SCRIPT OVERLAY — DYNAMIC LOCK (V76 Logic)
    ========================================================= */
 
 body.home #archive .script-note {
@@ -78,22 +99,16 @@ body.home #archive .script-note {
   transition: none;
 }
 
-/* Part I: "Grand Design"
-   - サイズを小さく調整。
-   - ウィンドウ幅に合わせて位置を可変（レスポンシブ）に。
-*/
+/* Part I: "Grand Design" */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(6rem, 12vw, 11rem); /* さらに一回り小さく調整 */
+  font-size: clamp(6rem, 12vw, 11rem); 
   top: 8%; 
-  /* ウィンドウが狭い時はカード内に留まり、広い時は左へ寄る可変設定 */
   left: clamp(-10%, -5vw, 5%); 
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
 
-/* Part II: "Silent Rot"
-   - ウィンドウ右端に追従。
-*/
+/* Part II: "Silent Rot" */
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(4rem, 8vw, 8rem);
   top: 15%; 
@@ -131,6 +146,15 @@ body.home #archive .pill {
   padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
 }
 body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+
+/* Cursor Glow */
+body.home #cursor-glow {
+  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  mix-blend-mode: exclusion; transition: opacity 0.3s;
+}
+body.home.glow-active #cursor-glow { opacity: 1; }
 
 /* Mobile */
 @media (max-width: 900px) {
