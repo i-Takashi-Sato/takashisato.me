@@ -1,143 +1,139 @@
 /* =========================================================
-   V60.1 — LECTER’S LOCK / CRUELLA’S BREACH (Analog Horror)
-   - No digital scan
-   - Script can bleed out (overflow visible)
-   - Background stays contained (card-base hidden)
+   V61 HOVER UPGRADE - "LECTER LAMP / CRUELLA INK" (Override)
+   Goal: Keep V42 normal state; elevate hover to premium analog horror.
+   Scope: body.home #archive .paper
    ========================================================= */
 
+/* 0) Hard requirements: no clipping + sane stacking */
 body.home #archive .paper{
-  position: relative;
-  overflow: visible;          /* let the madness escape */
-  isolation: isolate;         /* keep z-index wars local */
+  overflow: visible;         /* allow script to bleed outside the card */
+  isolation: isolate;        /* keep z-index fights inside the card */
   transform-origin: 50% 45%;
-  will-change: transform, box-shadow, background-color;
+}
+
+/* 1) "Lecter Lamp": a cold, surgical lift (no sci-fi scan) */
+body.home #archive .paper{
+  will-change: transform, box-shadow, border-color, background-color, filter, opacity;
   transition:
-    transform .42s cubic-bezier(.19,1,.22,1),
-    box-shadow .35s ease,
-    border-color .25s ease,
-    background-color .25s ease;
+    transform 520ms cubic-bezier(.19,1,.22,1),
+    box-shadow 320ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease,
+    filter 520ms cubic-bezier(.19,1,.22,1),
+    opacity 520ms cubic-bezier(.19,1,.22,1);
 }
 
-/* Keep ONLY the background contained */
-body.home #archive .card-base{
-  position: absolute;
-  inset: 0;
-  overflow: hidden;           /* contains numeral + ink */
-  pointer-events: none;
-  z-index: 0;
-  border-radius: inherit;     /* if you ever add radius later */
-}
-body.home #archive .work-bg-num{ z-index: 1; }
-
-/* Cruella breach: dried-blood ink (NOT neon) */
-body.home #archive .paper::after{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  pointer-events:none;
-  z-index: 2;                 /* above bg(0/1), below script/content */
-  opacity: 0;
-  transition: opacity .30s ease .10s;
-
-  /* more organic: multiple stains, less “glow” */
-  background:
-    radial-gradient(800px 420px at 92% 88%,
-      rgba(217,4,41,.16) 0%,
-      rgba(217,4,41,0) 62%),
-    radial-gradient(520px 300px at 18% 92%,
-      rgba(120,0,12,.14) 0%,
-      rgba(120,0,12,0) 60%),
-    radial-gradient(420px 260px at 78% 22%,
-      rgba(90,0,10,.10) 0%,
-      rgba(90,0,10,0) 55%);
-  mix-blend-mode: normal;     /* avoid neon “screen” */
-}
-
-/* Content always above */
-body.home #archive .paper-title,
-body.home #archive .paper-signal,
-body.home #archive .k,
-body.home #archive .actions{
-  position: relative;
-  z-index: 20;
-}
-
-/* Script: allowed to bleed out, but sits between bg and content */
-body.home #archive .script-note{
-  position: absolute;
-  z-index: 12;
-  pointer-events: none;
-  will-change: transform, opacity;
-  transition:
-    transform .72s cubic-bezier(.19,1,.22,1),
-    opacity .25s ease;
-}
-
-/* Hover: LOCK -> BREACH */
 body.home #archive .paper:hover,
 body.home #archive .paper.is-hovered,
 body.home #archive .paper:focus-within{
   background: #0b0b0c;
   border-color: var(--accent);
-  transform: scale(1.02) rotate(0deg) translateY(-6px) !important;
 
-  /* physical, expensive, not “tech glow” */
+  /* straighten + slight lift (keeps your V42 silhouette) */
+  transform: translateY(-10px) scale(1.018) rotate(0deg) !important;
+
+  /* expensive, physical shadow + red corner cut */
   box-shadow:
-    0 22px 80px rgba(0,0,0,.62),
-    12px 12px 0 rgba(0,0,0,.52),
+    0 26px 90px rgba(0,0,0,.62),
+    14px 14px 0 rgba(0,0,0,.55),
     -2px -2px 0 var(--accent);
 }
 
-/* Ink on */
+/* 2) "Cruella Ink": organic bleed (analog, not digital) */
+body.home #archive .paper::after{
+  content:"";
+  position:absolute;
+  inset:-6px;               /* can breathe beyond border */
+  pointer-events:none;
+  z-index:8;                /* above bg(0/1), below content(20) */
+  opacity:0;
+  transition: opacity 260ms ease 80ms;
+
+  background:
+    radial-gradient(1400px 520px at 86% 88%,
+      rgba(217,4,41,.18) 0%,
+      rgba(217,4,41,.10) 22%,
+      rgba(217,4,41,.00) 62%),
+    radial-gradient(900px 420px at 8% 12%,
+      rgba(255,255,255,.06) 0%,
+      rgba(255,255,255,.00) 55%);
+  mix-blend-mode: screen;
+}
+
 body.home #archive .paper:hover::after,
 body.home #archive .paper.is-hovered::after,
 body.home #archive .paper:focus-within::after{
-  opacity: 1;
+  opacity:1;
 }
 
-/* Parallax: script lifts more than card */
+/* 3) Layering: keep text clickable and always on top */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions{ position:relative; z-index:20; }
+
+/* 4) Parallax separation: script floats higher than card */
+body.home #archive .script-note{
+  z-index:12;
+  will-change: transform, opacity;
+  transition:
+    transform 680ms cubic-bezier(.19,1,.22,1),
+    opacity 220ms ease;
+}
+
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note,
 body.home #archive .paper:focus-within .script-note{
-  opacity: 1;
-  transform: translateY(-22px) scale(1.05) rotate(0deg) !important;
+  opacity:1;
+  transform: translateY(-26px) scale(1.06) rotate(0deg) !important;
 }
 
-/* Button = stamp */
-body.home #archive .pill{
-  position: relative;
-  z-index: 25;
-  transform: translateY(0);
-  transition: background-color .2s ease, border-color .2s ease, box-shadow .25s ease, transform .25s ease;
+/* 5) Numeral: becomes a warning signal on hover */
+body.home #archive .paper:hover .work-bg-num,
+body.home #archive .paper.is-hovered .work-bg-num,
+body.home #archive .paper:focus-within .work-bg-num{
+  color: var(--accent);
+  opacity: .34;
 }
+
+/* 6) Button: "stamp" */
+body.home #archive .pill{
+  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, color 220ms ease;
+}
+
 body.home #archive .paper:hover .pill,
 body.home #archive .paper.is-hovered .pill,
 body.home #archive .paper:focus-within .pill{
   background: var(--accent);
   border-color: var(--accent);
-  color: #000;
+  color:#000;
   box-shadow: 6px 6px 0 #fff;
   transform: translateY(-2px);
 }
 
-/* Optional: isolation (guarded) */
-@supports selector(:has(*)){
+/* 7) Cinematic isolation: dim non-hovered cards (modern browsers) */
+@supports selector(:has(*)) {
   body.home #archive:has(.paper:hover) .paper:not(:hover){
-    opacity: .52;
-    filter: grayscale(.75) contrast(.92);
+    opacity:.45;
+    filter: grayscale(.85) contrast(.92);
     transform: scale(.992) rotate(0deg);
-    transition: opacity .6s ease, filter .6s ease, transform .6s ease;
   }
 }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
+/* 8) Touch / reduced motion safety */
+@media (hover: none) {
+  body.home #archive:has(.paper:hover) .paper:not(:hover){
+    opacity:1; filter:none; transform:none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   body.home #archive .paper,
   body.home #archive .paper::after,
   body.home #archive .script-note,
   body.home #archive .pill{
-    transition: none !important;
-    transform: none !important;
-    filter: none !important;
+    transition:none !important;
+    transform:none !important;
+    filter:none !important;
   }
 }
