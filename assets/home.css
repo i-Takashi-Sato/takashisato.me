@@ -1,11 +1,12 @@
 /* =========================================================
-   HOME ONLY — FINAL COMPOSITION (Takashi Sato Edition / Rev.L)
+   HOME ONLY — V78 "PRECISION ALIGNMENT"
    
-   - Part I: Shifted FURTHER LEFT with Responsive Lock.
-   - Part II & III: V76 logic preserved.
+   - Part I: "D" in "Design" aligned with "P" in "PART I".
+   - Part I: Shifted significantly further LEFT with responsive clamp.
+   - Part II & III: V76 dynamic logic preserved.
    - CARD LAYOUT: V65 scattered grid preserved.
    - ROMAN NUMERALS: Hover color (Red) active.
-   - Constraint: NO horizontal overflow on Chrome resize.
+   - Constraint: NO horizontal overflow on window resize.
    ========================================================= */
 
 /* ウィンドウサイズ変更時のはみ出しを二重に封じ込める */
@@ -84,7 +85,7 @@ body.home #archive .work-bg-num {
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — DYNAMIC LOCK (V76 Logic)
+   SCRIPT OVERLAY — DYNAMIC LOCK (D to P Alignment)
    ========================================================= */
 
 body.home #archive .script-note {
@@ -99,14 +100,14 @@ body.home #archive .script-note {
   transition: none;
 }
 
-/* Part I: "Grand Design" 
-   - さらに左へ寄せるための調整を実施
+/* Part I: "Grand Design"
+   - 「D」がタイトルの「P」の真下に来るよう、leftを大幅にマイナス調整
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
   font-size: clamp(6rem, 12vw, 11rem); 
   top: 8%; 
-  /* 数値を調整し、より左側へスライド */
-  left: clamp(-18%, -8vw, 2%); 
+  /* 大胆に左へ寄せつつ、画面左端で止まるようにclampを強化 */
+  left: clamp(-32%, -22vw, -5%); 
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
@@ -149,15 +150,6 @@ body.home #archive .pill {
   padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
 }
 body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
-
-/* Cursor Glow */
-body.home #cursor-glow {
-  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  mix-blend-mode: exclusion; transition: opacity 0.3s;
-}
-body.home.glow-active #cursor-glow { opacity: 1; }
 
 /* Mobile */
 @media (max-width: 900px) {
