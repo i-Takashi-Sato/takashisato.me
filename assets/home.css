@@ -1,16 +1,20 @@
 /* =========================================================
-   V42 SURGICAL PATCH: Research Cards Only
-   - サイト全体の基本デザイン(V60)を保護
-   - 論文カード(.paper)とその内部のみにパンクな挙動を限定
+   V42 SURGICAL patch: Research Cards ONLY
+   - サイト全体の背景、ヘッダー、基本構造(V58.5/V60)は一切触らない
+   - 論文カード(.paper)の部分のみをV42の破壊美に限定
    ========================================================= */
 
-/* --- 1. ドラッグの反転 (佐藤様お気に入りの演出) --- */
-::selection { background: #E6E4E0 !important; color: #050505 !important; }
-::-moz-selection { background: #E6E4E0 !important; color: #050505 !important; }
+/* ① ドラッグ時の反転 (V42 Punk Inversion) */
+::selection { background: #FFF !important; color: #000 !important; }
+::-moz-selection { background: #FFF !important; color: #000 !important; }
 
-/* --- 2. 論文カード本体: 傾きとスナップ復帰 --- */
+/* ② マウスカーソルの反転効果 (V42 Exclusion Glow) */
+#cursor-glow {
+  mix-blend-mode: exclusion !important;
+}
+
+/* ③ 論文カード本体: 不安定な傾きと、暴力的なスナップ復帰 */
 body.home .paper {
-  /* レイアウト構造 */
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 80px;
@@ -18,7 +22,7 @@ body.home .paper {
   margin-top: 100px;
   margin-bottom: 140px; /* はみ出しを許容する余白 */
   
-  /* ベース装飾 */
+  /* カードのデザイン自体は元の変数を維持 */
   background: var(--surface);
   border: 1px solid var(--line);
   position: relative;
@@ -27,16 +31,16 @@ body.home .paper {
   text-decoration: none;
   color: inherit;
 
-  /* V42 物理挙動 */
+  /* V42 物理挙動：スナップ感 */
   transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* 各カードの個別の傾き (V42: 計算された崩壊) */
+/* 各カードの個別の傾き (V42 Broken Grid) */
 body.home .paper:nth-of-type(1) { transform: rotate(-1.5deg); }
 body.home .paper:nth-of-type(2) { transform: rotate(2.2deg) translateX(-15px); z-index: 5; }
 body.home .paper:nth-of-type(3) { transform: rotate(-1.0deg) translateX(20px); }
 
-/* ホバー：暴力的なスナップ復帰 */
+/* ホバー：一瞬で「正気」に戻るスナップ。これが「キレ」の正体 */
 body.home .paper:hover {
   transform: scale(1.03) rotate(0deg) !important; 
   background: #0D0D0F;
@@ -47,34 +51,34 @@ body.home .paper:hover {
   z-index: 100;
 }
 
-/* --- 3. 筆記体オーバーレイ (Friction / Entropy / Halt) --- */
+/* ④ 筆記体オーバーレイ: 大胆な侵食と反転 (Calculated Vandalism) */
 body.home .script-note {
   position: absolute;
-  font-family: 'Pinyon Script', cursive; /* 繊細な筆記体 */
-  font-size: clamp(16rem, 38vw, 48rem); /* 大胆にはみ出す巨大サイズ */
+  font-family: 'Pinyon Script', cursive; 
+  font-size: clamp(16rem, 38vw, 48rem); /* 限界を突破した巨大サイズ */
   white-space: nowrap;
   color: #E6E4E0;
-  opacity: 0.15; /* 視認性を守るために薄く設定 */
+  opacity: 0.15; /* 背景に沈ませて読みやすさを確保 */
   pointer-events: none;
   
-  /* V42 の核心：背後と色が反転する */
+  /* V42 の核心：背後のテキストと色が反転し、侵食する */
   mix-blend-mode: exclusion; 
-  z-index: 10; 
+  z-index: 10; /* テキストの「前面」に配置 */
   
   transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1.2), opacity 0.4s ease;
 }
 
-/* 配置の「緻密な大胆さ」：カードの枠を完全に無視 */
+/* 配置の「緻密な大胆さ」：カードの境界を完全に無視 */
 body.home .paper:nth-of-type(1) .script-note { top: -25%; left: -18%; transform: rotate(-12deg); }
 body.home .paper:nth-of-type(2) .script-note { top: 15%; right: -38%; transform: rotate(-4deg); text-align: right; }
 body.home .paper:nth-of-type(3) .script-note { bottom: -35%; left: -22%; transform: rotate(-10deg); }
 
 body.home .paper:hover .script-note {
   transform: scale(1.1) rotate(2deg);
-  opacity: 0.35; /* ホバーで浮かび上がる */
+  opacity: 0.35;
 }
 
-/* --- 4. 内部要素の最適化 --- */
+/* ⑤ 内部テキストの視認性（反転の下でも確実に読ませる） */
 body.home .paper-title { 
   mix-blend-mode: lighten; 
   position: relative; 
@@ -89,6 +93,7 @@ body.home .paper-title a {
   color: var(--fg);
 }
 
+/* PDFボタン: V42 パンク物理シャドウ */
 body.home .pill {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -101,26 +106,19 @@ body.home .pill {
   text-decoration: none;
   display: inline-flex;
 }
-
 body.home .paper:hover .pill {
   background: var(--accent);
   border-color: var(--accent);
   color: #000;
-  box-shadow: 10px 10px 0px #FFF; /* ボタンにも V42 の物理影 */
+  box-shadow: 10px 10px 0px #FFF; /* 物理影 */
 }
 
-/* 背景ローマ数字: Drift(微細な動き)との連動 */
+/* ⑥ 背景ローマ数字: Drift連動 */
 body.home .work-bg-num {
-  position: absolute; 
-  right: -2%; 
-  top: 50%;
-  font-family: var(--font-serif); 
-  font-style: italic;
-  font-size: clamp(12rem, 25vw, 28rem); 
-  opacity: 0.05; 
-  color: #fff;
-  mix-blend-mode: overlay; 
-  z-index: -1;
+  position: absolute; right: -2%; top: 50%;
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(12rem, 25vw, 28rem); opacity: 0.05; color: #fff;
+  mix-blend-mode: overlay; z-index: -1;
   transform: translateY(-50%) translate3d(var(--drift-x), var(--drift-y), 0);
   transition: color 0.6s ease, opacity 0.6s ease;
 }
