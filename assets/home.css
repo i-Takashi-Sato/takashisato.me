@@ -1,204 +1,196 @@
 /* =========================================================
-   HOME ONLY — V64 "VARIABLE CHAOS" (Rhythm & Contrast)
+   HOME ONLY — V65 "THE SURGICAL STRIKE"
    
-   Logic:
-   - Part I: Medium, Standard Slash (The Intro)
-   - Part II: SMALL, Sharp Noise (The Silence) -> CONTRAST
-   - Part III: MASSIVE, Total Domination (The Climax)
-   
-   Constraint: NO Window Overflow (overflow-x: hidden is mandatory)
+   Fixes:
+   - Aggressive Angles (20deg+) to eliminate "straight" look.
+   - Zero Window Overflow (Strict viewport clamping).
+   - Dynamic Contrast (Small/Medium/Huge rhythm).
    ========================================================= */
 
-body.home{
-  /* --- Base Vars --- */
-  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
-  --fg: #E6E4E0; --fg-dim: #949494; --accent: #D90429;
-  --line: rgba(255, 255, 255, 0.08); 
+body.home {
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface: #0E0E0E;
+  --fg: #E6E4E0;
+  --fg-dim: #949494;
+  --accent: #D90429;
+  --line: rgba(255, 255, 255, 0.08);
   
-  --font-serif: 'Cormorant Garamond', serif; 
-  --font-script: 'Pinyon Script', cursive; /* Must be loaded in HTML */
-  --font-sans: 'Inter', system-ui, sans-serif; --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-script: 'Pinyon Script', cursive;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
+
+  background-color: var(--bg-void);
+  color: var(--fg);
+  font-family: var(--font-sans);
   
-  background-color: var(--bg-void); color: var(--fg);
-  font-family: var(--font-sans); 
-  
-  /* 【絶対厳守】横スクロール完全禁止 */
-  overflow-x: hidden; 
-  -webkit-font-smoothing: antialiased;
+  /* ウィンドウからはみ出させないための絶対条件 */
+  overflow-x: hidden;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
-body.home ::selection{ background:#FFF; color:#000; }
-body.home ::-moz-selection{ background:#FFF; color:#000; }
+/* Selection */
+body.home ::selection { background: #FFF; color: #000; }
 
-body.home::after{
-  content:""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
-  opacity: 0.035; mix-blend-mode: overlay;
+/* Background Noise */
+body.home::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none;
+  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
-body.home main{
+/* Container */
+body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
   background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
 }
 
-body.home main > header{ padding: 220px 0 120px; }
-body.home main > header h1{
+/* Header */
+body.home main > header { padding: 220px 0 120px; }
+body.home main > header h1 {
   font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
   font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
 }
-body.home .who{
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block;
-}
-body.home .lead{
-  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0;
-}
-body.home .section-label{
-  display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
-}
+body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block; }
+body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
+body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); }
 
 /* --- ARCHIVE CARDS --- */
-body.home #archive .paper{
+body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); 
-  
-  /* はみ出しを許可するが、画面外には出さない制御はbodyで行う */
-  overflow: visible; 
-  
-  color: inherit; will-change: transform;
-  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-  z-index: 1;
+  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
+  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
 }
 
-body.home #archive .paper:nth-of-type(1){ transform: rotate(-1deg); width: 98%; margin-left: 1%; }
-body.home #archive .paper:nth-of-type(2){ transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home #archive .paper:nth-of-type(3){ transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+/* Scattered Grid */
+body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
+body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
 
-body.home #archive .paper:hover, body.home #archive .paper.is-hovered{
-  background: #111; transform: scale(1.02) rotate(0deg) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
-  border-color: #FFF; z-index: 100;
+body.home #archive .paper:hover {
+  background: #111; transform: scale(1.01) rotate(0deg) !important;
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
-body.home #archive .paper:focus-within{ outline: 2px solid var(--accent); outline-offset: 4px; }
 
-body.home #archive .paper .stretched-link{ z-index: 1; }
-body.home #archive .card-base{ position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-body.home #archive .work-bg-num{
-  position: absolute; right: -20px; top: 50%;
-  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
-  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: opacity 0.3s ease, color 0.3s ease;
+/* Numeral Base */
+body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+body.home #archive .work-bg-num {
+  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
+  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
-body.home #archive .paper:hover .work-bg-num, body.home #archive .paper.is-hovered .work-bg-num{ color: var(--accent); opacity: 0.4; }
+body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — VARIABLE RHYTHM (Small to Large)
+   SCRIPT OVERLAY — "VARIABLE CHAOS" (Fixed Positioning)
    ========================================================= */
+
 body.home #archive .script-note {
   position: absolute;
-  z-index: 20; pointer-events: none;
-  font-family: 'Pinyon Script', cursive; 
-  white-space: nowrap; line-height: 0.8;
-  color: #E6E4E0; mix-blend-mode: exclusion; opacity: 0.9;
+  z-index: 20; 
+  pointer-events: none;
+  font-family: 'Pinyon Script', cursive;
+  white-space: nowrap;
+  color: #E6E4E0;
+  mix-blend-mode: exclusion;
+  opacity: 0.9;
   
-  /* Static (No Animation) */
-  transition: none; 
+  /* アニメーションを排除し、静的な「美」を固定 */
+  transition: none;
+  
+  /* 画面からはみ出さないためのガード */
+  max-width: 90vw;
 }
 
-/* --- Part I: "Grand Design" ---
-   Size: MEDIUM (Standard)
-   Angle: Sharp (-15deg)
-   Pos: Overlapping Title (Standard Entry)
+/* Part I: "Grand Design"
+   - MEDIUM SIZE / EXTREME SLASH
+   - タイトルの「COLD」を鋭利に切り裂く。
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(8rem, 14vw, 14rem); /* Medium */
-  top: 15%; 
-  left: -4%; 
-  transform: rotate(-15deg);
+  font-size: clamp(7rem, 15vw, 13rem);
+  top: 10%; 
+  left: 2%; /* はみ出しすぎを防止 */
+  transform: rotate(-22deg); /* 20度を超えると明確に斜めに見えます */
+  transform-origin: left center;
 }
 
-/* --- Part II: "Silent Rot" ---
-   Size: SMALL (The Contrast)
-   Angle: Subtle (+8deg)
-   Pos: Floating near the quote like a whisper or stain.
-   "Silent" なので、あえて叫ばず、不気味に小さく配置。
+/* Part II: "Silent Rot"
+   - SMALL SIZE / FLOATING NOISE
+   - あえて小さく、空中に浮いている汚れのように配置。
+   - カードの右上の余白に「ポン」と置く。
 */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(5rem, 9vw, 9rem); /* Small !! */
-  top: 40%;       /* 中央やや上 */
-  right: 15%;     /* 右側の余白に「ポン」と置く */
+  font-size: clamp(4rem, 8vw, 8rem);
+  top: 15%;
+  right: 5%; /* 画面外へ逃さない */
   left: auto;
-  bottom: auto;
-  transform: rotate(8deg); /* 逆方向への緩やかな傾き */
+  transform: rotate(14deg); /* 逆方向への明確な傾き */
+  transform-origin: right center;
 }
 
-/* --- Part III: "Requiem" ---
-   Size: MASSIVE (The Explosion)
-   Angle: Heavy (-5deg)
-   Pos: Dominating the entire bottom half.
+/* Part III: "Requiem"
+   - MASSIVE SIZE / TOTAL DOMINATION
+   - カード、そして画面全体を支配する最後の一撃。
+   - ウィンドウ端に触れないよう translateX で計算。
 */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(14rem, 28vw, 35rem); /* HUGE !! */
+  font-size: clamp(12rem, 28vw, 32rem);
   top: 50%;
   left: 50%;
-  /* 画面からはみ出さないよう、最大幅を制限しつつ中央配置 */
-  max-width: 120%; 
-  transform: translate(-50%, -50%) rotate(-5deg);
+  /* translate で中央に固定したまま回転 */
+  transform: translate(-50%, -50%) rotate(-8deg);
+  text-align: center;
 }
 
-/* Content Styling */
-body.home #archive .paper-title, body.home #archive .paper-signal, body.home #archive .k, body.home #archive .actions{ position: relative; z-index: 3; }
-body.home #archive .paper-title{ margin: 0; }
-body.home #archive .paper-title a{
+/* --- Content Layers --- */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions { position: relative; z-index: 3; }
+
+body.home #archive .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
   font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
 }
-body.home #archive .paper-signal{
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4; color: var(--fg-dim);
-  border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0;
-}
-body.home #archive .k{
-  border: none; padding: 0; margin: 0; background: none; font-family: var(--font-mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim); display: flex; flex-direction: column; align-items: flex-end; text-align: right;
-}
-body.home #archive .k span{ color: var(--accent); font-weight: 700; opacity: 1; }
-body.home #archive .actions{ display: flex; justify-content: flex-end; align-items: flex-end; }
-body.home #archive .pill{
-  display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.2em; padding: 22px 44px; min-width: 200px; border: 1px solid var(--fg); background: transparent; color: var(--fg);
-  text-decoration: none; transition: all 0.2s ease; line-height: 1;
-}
-body.home #archive .paper:hover .pill, body.home #archive .paper.is-hovered .pill{ background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
 
-/* Cursor & A11y */
-body.home #cursor-glow{
+body.home #archive .paper-signal {
+  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0;
+}
+
+body.home #archive .k {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
+  display: flex; flex-direction: column; align-items: flex-end; text-align: right;
+}
+body.home #archive .k span { color: var(--accent); font-weight: 700; }
+
+body.home #archive .pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+  padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
+}
+body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+
+/* Cursor Glow */
+body.home #cursor-glow {
   position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
   pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  opacity: 0; transition: opacity 0.35s var(--ease-kinetic); will-change: transform; mix-blend-mode: exclusion;
+  mix-blend-mode: exclusion; transition: opacity 0.3s;
 }
-body.home.glow-active #cursor-glow{ opacity: 1; }
-@media (prefers-reduced-motion: reduce){
-  body.home::after, body.home #cursor-glow { opacity: 0 !important; }
-  body.home #archive .paper, body.home #archive .pill, body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
-}
+body.home.glow-active #cursor-glow { opacity: 1; }
 
-/* Responsive */
-@media (max-width: 900px){
-  body.home main > header{ padding: 160px 0 90px; }
-  body.home #archive .paper{
-    grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 50px; padding: 100px 24px; margin-bottom: 40px;
-    transform: none !important; width: auto; margin-left: 0; margin-right: 0;
-  }
-  body.home #archive .k, body.home #archive .actions{ align-items: flex-start; text-align: left; justify-content: flex-start; }
-  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
-  
-  body.home #archive .script-note{ font-size: 8rem; opacity: 0.6; mix-blend-mode: normal; }
-  body.home #archive .paper:nth-of-type(1) .script-note{ top: 5%; left: -5%; transform: rotate(-10deg); }
-  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
+/* Mobile */
+@media (max-width: 900px) {
+  body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
+  body.home #archive .script-note { font-size: 6rem; opacity: 0.6; mix-blend-mode: normal; max-width: 100%; }
+  body.home #archive .paper:nth-of-type(1) .script-note { top: 5%; left: 0; transform: rotate(-10deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note { top: auto; bottom: 5%; right: 0; transform: rotate(5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note { font-size: 8rem; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-5deg); }
 }
