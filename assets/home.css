@@ -1,32 +1,29 @@
 /* =========================================================
-   HOME ONLY — THEME: "LECTER x CRUELLA"
-   Concept: Surgical Precision violated by Fashionable Chaos.
+   HOME ONLY — TARGET: Paper Cards & Script Note ONLY
+   Concept: "Lecter's Cards" violated by "Cruella's Lipstick"
    ========================================================= */
 
 body.home {
-  /* --- The Hannibal Base (Cold, Expensive, Void) --- */
+  /* --- Color Lock --- */
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
-  --fg: #E6E4E0;      /* Bone White */
-  --fg-dim: #949494;  /* Steel Grey */
+  --fg: #E6E4E0;
+  --fg-dim: #949494;
 
-  /* --- The Cruella Accent (Arterial Red / Lipstick) --- */
+  /* Accent: Arterial Red */
   --accent: #D90429;
 
   --line: rgba(255, 255, 255, 0.08);
-  
+
   /* Fonts */
   --font-serif: 'Cormorant Garamond', serif;
   --font-jp-calligraphy: 'Yuji Mai', serif;
-  
-  /* Script Fallback: Use existing loaded font, styled aggressively */
-  --font-script: var(--font-jp-calligraphy); 
-  
+  --font-script: 'Pinyon Script', cursive; /* Correctly using Pinyon */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Physics: "The Twitch" - Nervous, Aggressive Overshoot */
+  /* Physics: Aggressive Overshoot */
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); 
 
   background-color: var(--bg-void);
@@ -35,10 +32,6 @@ body.home {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-
-/* Selection: Inverted High-Fashion */
-body.home ::selection { background: var(--accent); color: #000; }
-body.home ::-moz-selection { background: var(--accent); color: #000; }
 
 /* =========================================================
    Noise layer (Atmosphere)
@@ -71,7 +64,7 @@ body.home main {
 }
 
 /* =========================================================
-   HERO: Surgical Elegance
+   HERO (Standard Layout - NO HOVER EFFECTS)
    ========================================================= */
 body.home main > header {
   padding: 220px 0 120px;
@@ -86,12 +79,6 @@ body.home main > header h1 {
   letter-spacing: -0.04em;
   margin: 0 0 80px;
   color: var(--fg);
-  /* Cruella's touch on the title */
-  text-shadow: 0 0 0 rgba(255,255,255,0);
-  transition: text-shadow 0.3s ease;
-}
-body.home main > header h1:hover {
-  text-shadow: 4px 0 0 var(--accent); /* RGB Split effect */
 }
 
 body.home .who {
@@ -125,10 +112,10 @@ body.home .section-label {
 }
 
 /* =========================================================
-   THE CRUELLA HACK (#archive Scoped)
+   PAPER CARDS (The Cruella Hack)
    ========================================================= */
 
-/* The Card: A container being broken */
+/* The Card Container */
 body.home #archive .paper {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
@@ -142,7 +129,7 @@ body.home #archive .paper {
 
   background: var(--surface);
   border: 1px solid var(--line);
-  overflow: visible; /* CRITICAL: Allows elements to bleed out */
+  overflow: visible; /* Allows script to bleed out */
   color: inherit;
 
   /* Physics */
@@ -154,32 +141,30 @@ body.home #archive .paper {
     border-color 0.3s ease;
 }
 
-/* The Broken Grid (Initial Chaos) */
+/* 1. Broken Grid (Initial Tilt) */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 102%; margin-left: -1%; z-index: 5; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
-/* Interaction: The "Snap" to Attention */
+/* 2. Interaction: Snap to Grid */
 body.home #archive .paper:hover,
 body.home #archive .paper.is-hovered {
   background: #111;
-  /* Snaps perfectly straight like Hannibal regaining control, but glowing red */
   transform: scale(1.02) rotate(0deg) !important;
   box-shadow: 
     20px 20px 0px rgba(0,0,0,0.8),
-    -4px -4px 0px var(--accent); /* Sharp Red Highlight */
+    -4px -4px 0px var(--accent);
   border-color: var(--fg);
   z-index: 100;
 }
 
-/* --- Internal Typography --- */
+/* --- Internal Elements --- */
 body.home #archive .paper-title {
   grid-column: 1 / 2;
   grid-row: 1;
   position: relative;
   z-index: 5;
   margin: 0;
-  mix-blend-mode: normal;
 }
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
@@ -237,7 +222,6 @@ body.home #archive .actions {
   z-index: 6;
 }
 
-/* Button: Wireframe to Filled */
 body.home #archive .pill {
   display: inline-flex;
   align-items: center;
@@ -265,10 +249,8 @@ body.home #archive .paper.is-hovered .pill {
 }
 
 /* =========================================================
-   DECORATIONS: "LIPSTICK ON THE MIRROR"
+   DECORATIONS: Ghost Numeral
    ========================================================= */
-
-/* 1. Ghost Numeral (Hannibal's Filing System) */
 body.home #archive .card-base {
   position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1;
 }
@@ -291,7 +273,9 @@ body.home #archive .paper:hover .work-bg-num {
   opacity: 0.2;
 }
 
-/* 2. THE VANDALISM (Cruella's Note) */
+/* =========================================================
+   THE SCRIPT NOTE (LIPSTICK VANDALISM)
+   ========================================================= */
 body.home #archive .script-note {
   position: absolute;
   z-index: 20; /* On top of EVERYTHING */
@@ -306,44 +290,42 @@ body.home #archive .script-note {
   color: var(--accent);
   opacity: 0.9;
   
-  /* Greasy, smeared texture using shadows */
+  /* Greasy, smeared texture */
   text-shadow: 
-    0 0 5px rgba(217, 4, 41, 0.5),   /* Smudge */
-    2px 2px 0px rgba(100, 0, 0, 0.3); /* Depth */
+    0 0 5px rgba(217, 4, 41, 0.5),
+    2px 2px 0px rgba(100, 0, 0, 0.3);
 
-  mix-blend-mode: normal; /* "Painted on top" opaque look */
+  mix-blend-mode: normal; /* Opaque paint look */
 
   transition: all 0.4s var(--ease-punk);
   will-change: transform, opacity;
 }
 
-/* Chaotic Positioning */
-/* I: Slash Top-Left */
+/* Bold Positioning: I */
 body.home #archive .paper:nth-of-type(1) .script-note { 
   top: -10%; left: -8%; 
   transform: rotate(-12deg); 
   font-size: clamp(7rem, 14vw, 12rem);
 }
 
-/* II: Dominate Right Side */
+/* Bold Positioning: II */
 body.home #archive .paper:nth-of-type(2) .script-note { 
   top: 15%; right: -12%; left: auto;
   transform: rotate(6deg); 
   font-size: clamp(9rem, 18vw, 18rem);
 }
 
-/* III: Cut Through Bottom */
+/* Bold Positioning: III */
 body.home #archive .paper:nth-of-type(3) .script-note { 
   bottom: -8%; left: -5%; top: auto;
   transform: rotate(-4deg); 
   font-size: clamp(8rem, 16vw, 15rem);
 }
 
-/* Hover: The "Jump Scare" / Focus */
+/* Hover: The "Jump Scare" */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note {
   opacity: 1;
-  /* Snaps to center, aggressive scale */
   transform: scale(1.1) rotate(0deg) !important;
   text-shadow: 
     0 0 10px rgba(217, 4, 41, 0.8),
@@ -351,13 +333,13 @@ body.home #archive .paper.is-hovered .script-note {
 }
 
 /* =========================================================
-   Cursor Glow (Subtle Ambience)
+   Cursor Glow (Target: Home Scope Only)
    ========================================================= */
 body.home #cursor-glow {
   position: fixed; left: 0; top: 0;
   width: 80vw; height: 80vw;
   margin-left: -40vw; margin-top: -40vw;
-  background: radial-gradient(circle, rgba(217, 4, 41, 0.08) 0%, rgba(0, 0, 0, 0) 60%); /* Red glow */
+  background: radial-gradient(circle, rgba(217, 4, 41, 0.08) 0%, rgba(0, 0, 0, 0) 60%);
   pointer-events: none; z-index: 2;
   transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
   opacity: 0;
