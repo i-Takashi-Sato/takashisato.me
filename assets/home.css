@@ -1,139 +1,405 @@
 /* =========================================================
-   V61 HOVER UPGRADE - "LECTER LAMP / CRUELLA INK" (Override)
-   Goal: Keep V42 normal state; elevate hover to premium analog horror.
-   Scope: body.home #archive .paper
+   HOME ONLY — THEME: "LECTER x CRUELLA"
+   Concept: Surgical Precision violated by Fashionable Chaos.
    ========================================================= */
 
-/* 0) Hard requirements: no clipping + sane stacking */
-body.home #archive .paper{
-  overflow: visible;         /* allow script to bleed outside the card */
-  isolation: isolate;        /* keep z-index fights inside the card */
-  transform-origin: 50% 45%;
+body.home {
+  /* --- The Hannibal Base (Cold, Expensive, Void) --- */
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface: #0E0E0E;
+  --fg: #E6E4E0;      /* Bone White */
+  --fg-dim: #949494;  /* Steel Grey */
+
+  /* --- The Cruella Accent (Arterial Red / Lipstick) --- */
+  --accent: #D90429;
+
+  --line: rgba(255, 255, 255, 0.08);
+  
+  /* Fonts */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-jp-calligraphy: 'Yuji Mai', serif;
+  
+  /* Script Fallback: Use existing loaded font, styled aggressively */
+  --font-script: var(--font-jp-calligraphy); 
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Physics: "The Twitch" - Nervous, Aggressive Overshoot */
+  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); 
+
+  background-color: var(--bg-void);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 1) "Lecter Lamp": a cold, surgical lift (no sci-fi scan) */
-body.home #archive .paper{
-  will-change: transform, box-shadow, border-color, background-color, filter, opacity;
-  transition:
-    transform 520ms cubic-bezier(.19,1,.22,1),
-    box-shadow 320ms ease,
-    border-color 220ms ease,
-    background-color 220ms ease,
-    filter 520ms cubic-bezier(.19,1,.22,1),
-    opacity 520ms cubic-bezier(.19,1,.22,1);
+/* Selection: Inverted High-Fashion */
+body.home ::selection { background: var(--accent); color: #000; }
+body.home ::-moz-selection { background: var(--accent); color: #000; }
+
+/* =========================================================
+   Noise layer (Atmosphere)
+   ========================================================= */
+body.home::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background: url("/assets/noise.webp") repeat;
+  background-size: 280px 280px;
 }
 
-body.home #archive .paper:hover,
-body.home #archive .paper.is-hovered,
-body.home #archive .paper:focus-within{
-  background: #0b0b0c;
-  border-color: var(--accent);
-
-  /* straighten + slight lift (keeps your V42 silhouette) */
-  transform: translateY(-10px) scale(1.018) rotate(0deg) !important;
-
-  /* expensive, physical shadow + red corner cut */
-  box-shadow:
-    0 26px 90px rgba(0,0,0,.62),
-    14px 14px 0 rgba(0,0,0,.55),
-    -2px -2px 0 var(--accent);
+/* =========================================================
+   Main Stage
+   ========================================================= */
+body.home main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+  position: relative;
+  z-index: 3;
 }
 
-/* 2) "Cruella Ink": organic bleed (analog, not digital) */
-body.home #archive .paper::after{
-  content:"";
-  position:absolute;
-  inset:-6px;               /* can breathe beyond border */
-  pointer-events:none;
-  z-index:8;                /* above bg(0/1), below content(20) */
-  opacity:0;
-  transition: opacity 260ms ease 80ms;
-
-  background:
-    radial-gradient(1400px 520px at 86% 88%,
-      rgba(217,4,41,.18) 0%,
-      rgba(217,4,41,.10) 22%,
-      rgba(217,4,41,.00) 62%),
-    radial-gradient(900px 420px at 8% 12%,
-      rgba(255,255,255,.06) 0%,
-      rgba(255,255,255,.00) 55%);
-  mix-blend-mode: screen;
+/* =========================================================
+   HERO: Surgical Elegance
+   ========================================================= */
+body.home main > header {
+  padding: 220px 0 120px;
 }
 
-body.home #archive .paper:hover::after,
-body.home #archive .paper.is-hovered::after,
-body.home #archive .paper:focus-within::after{
-  opacity:1;
+body.home main > header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
+  color: var(--fg);
+  /* Cruella's touch on the title */
+  text-shadow: 0 0 0 rgba(255,255,255,0);
+  transition: text-shadow 0.3s ease;
+}
+body.home main > header h1:hover {
+  text-shadow: 4px 0 0 var(--accent); /* RGB Split effect */
 }
 
-/* 3) Layering: keep text clickable and always on top */
-body.home #archive .paper-title,
-body.home #archive .paper-signal,
-body.home #archive .k,
-body.home #archive .actions{ position:relative; z-index:20; }
-
-/* 4) Parallax separation: script floats higher than card */
-body.home #archive .script-note{
-  z-index:12;
-  will-change: transform, opacity;
-  transition:
-    transform 680ms cubic-bezier(.19,1,.22,1),
-    opacity 220ms ease;
-}
-
-body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note,
-body.home #archive .paper:focus-within .script-note{
-  opacity:1;
-  transform: translateY(-26px) scale(1.06) rotate(0deg) !important;
-}
-
-/* 5) Numeral: becomes a warning signal on hover */
-body.home #archive .paper:hover .work-bg-num,
-body.home #archive .paper.is-hovered .work-bg-num,
-body.home #archive .paper:focus-within .work-bg-num{
+body.home .who {
+  font-family: var(--font-mono);
+  font-size: 11px;
   color: var(--accent);
-  opacity: .34;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  display: block;
 }
 
-/* 6) Button: "stamp" */
-body.home #archive .pill{
-  transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, color 220ms ease;
+body.home .lead {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.4;
+  border-left: 3px solid var(--accent);
+  padding-left: 40px;
+  max-width: 850px;
+  margin: 0;
+}
+
+body.home .section-label {
+  display: block;
+  margin-top: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* =========================================================
+   THE CRUELLA HACK (#archive Scoped)
+   ========================================================= */
+
+/* The Card: A container being broken */
+body.home #archive .paper {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 80px;
+
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible; /* CRITICAL: Allows elements to bleed out */
+  color: inherit;
+
+  /* Physics */
+  will-change: transform;
+  transition: 
+    transform 0.4s var(--ease-punk),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* The Broken Grid (Initial Chaos) */
+body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 102%; margin-left: -1%; z-index: 5; }
+body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+
+/* Interaction: The "Snap" to Attention */
+body.home #archive .paper:hover,
+body.home #archive .paper.is-hovered {
+  background: #111;
+  /* Snaps perfectly straight like Hannibal regaining control, but glowing red */
+  transform: scale(1.02) rotate(0deg) !important;
+  box-shadow: 
+    20px 20px 0px rgba(0,0,0,0.8),
+    -4px -4px 0px var(--accent); /* Sharp Red Highlight */
+  border-color: var(--fg);
+  z-index: 100;
+}
+
+/* --- Internal Typography --- */
+body.home #archive .paper-title {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  position: relative;
+  z-index: 5;
+  margin: 0;
+  mix-blend-mode: normal;
+}
+body.home #archive .paper-title a {
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+body.home #archive .paper-signal {
+  grid-column: 1 / 2;
+  grid-row: 2;
+  position: relative;
+  z-index: 5;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--fg-dim);
+  border-left: 2px solid var(--accent);
+  padding-left: 30px;
+  margin: 40px 0 0;
+}
+
+body.home #archive .k {
+  grid-column: 2 / 3;
+  grid-row: 1;
+  border: none;
+  padding: 0; margin: 0; background: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+  display: flex; flex-direction: column; align-items: flex-end;
+  text-align: right;
+  position: relative; z-index: 5;
+}
+body.home #archive .k span {
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+
+body.home #archive .actions {
+  grid-column: 2 / 3;
+  grid-row: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  position: relative;
+  z-index: 6;
+}
+
+/* Button: Wireframe to Filled */
+body.home #archive .pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 22px 44px;
+  min-width: 200px;
+  border: 1px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.2s ease;
 }
 
 body.home #archive .paper:hover .pill,
-body.home #archive .paper.is-hovered .pill,
-body.home #archive .paper:focus-within .pill{
+body.home #archive .paper.is-hovered .pill {
   background: var(--accent);
   border-color: var(--accent);
-  color:#000;
-  box-shadow: 6px 6px 0 #fff;
-  transform: translateY(-2px);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
 }
 
-/* 7) Cinematic isolation: dim non-hovered cards (modern browsers) */
-@supports selector(:has(*)) {
-  body.home #archive:has(.paper:hover) .paper:not(:hover){
-    opacity:.45;
-    filter: grayscale(.85) contrast(.92);
-    transform: scale(.992) rotate(0deg);
+/* =========================================================
+   DECORATIONS: "LIPSTICK ON THE MIRROR"
+   ========================================================= */
+
+/* 1. Ghost Numeral (Hannibal's Filing System) */
+body.home #archive .card-base {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1;
+}
+body.home #archive .work-bg-num {
+  position: absolute;
+  right: -20px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
+  opacity: 0.05;
+  color: #fff;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+body.home #archive .paper:hover .work-bg-num {
+  color: var(--accent);
+  opacity: 0.2;
+}
+
+/* 2. THE VANDALISM (Cruella's Note) */
+body.home #archive .script-note {
+  position: absolute;
+  z-index: 20; /* On top of EVERYTHING */
+  pointer-events: none;
+  
+  font-family: var(--font-script);
+  font-size: clamp(8rem, 16vw, 16rem);
+  white-space: nowrap;
+  line-height: 1;
+  
+  /* LIPSTICK EFFECT */
+  color: var(--accent);
+  opacity: 0.9;
+  
+  /* Greasy, smeared texture using shadows */
+  text-shadow: 
+    0 0 5px rgba(217, 4, 41, 0.5),   /* Smudge */
+    2px 2px 0px rgba(100, 0, 0, 0.3); /* Depth */
+
+  mix-blend-mode: normal; /* "Painted on top" opaque look */
+
+  transition: all 0.4s var(--ease-punk);
+  will-change: transform, opacity;
+}
+
+/* Chaotic Positioning */
+/* I: Slash Top-Left */
+body.home #archive .paper:nth-of-type(1) .script-note { 
+  top: -10%; left: -8%; 
+  transform: rotate(-12deg); 
+  font-size: clamp(7rem, 14vw, 12rem);
+}
+
+/* II: Dominate Right Side */
+body.home #archive .paper:nth-of-type(2) .script-note { 
+  top: 15%; right: -12%; left: auto;
+  transform: rotate(6deg); 
+  font-size: clamp(9rem, 18vw, 18rem);
+}
+
+/* III: Cut Through Bottom */
+body.home #archive .paper:nth-of-type(3) .script-note { 
+  bottom: -8%; left: -5%; top: auto;
+  transform: rotate(-4deg); 
+  font-size: clamp(8rem, 16vw, 15rem);
+}
+
+/* Hover: The "Jump Scare" / Focus */
+body.home #archive .paper:hover .script-note,
+body.home #archive .paper.is-hovered .script-note {
+  opacity: 1;
+  /* Snaps to center, aggressive scale */
+  transform: scale(1.1) rotate(0deg) !important;
+  text-shadow: 
+    0 0 10px rgba(217, 4, 41, 0.8),
+    4px 4px 0px rgba(0,0,0, 0.5);
+}
+
+/* =========================================================
+   Cursor Glow (Subtle Ambience)
+   ========================================================= */
+body.home #cursor-glow {
+  position: fixed; left: 0; top: 0;
+  width: 80vw; height: 80vw;
+  margin-left: -40vw; margin-top: -40vw;
+  background: radial-gradient(circle, rgba(217, 4, 41, 0.08) 0%, rgba(0, 0, 0, 0) 60%); /* Red glow */
+  pointer-events: none; z-index: 2;
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  mix-blend-mode: screen;
+}
+body.home.glow-active #cursor-glow { opacity: 1; }
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 900px) {
+  body.home main > header { padding: 160px 0 90px; }
+  body.home #archive .paper {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 80px 24px;
+    gap: 30px;
+    transform: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
   }
-}
-
-/* 8) Touch / reduced motion safety */
-@media (hover: none) {
-  body.home #archive:has(.paper:hover) .paper:not(:hover){
-    opacity:1; filter:none; transform:none;
+  body.home #archive .k,
+  body.home #archive .actions {
+    grid-column: 1; align-items: flex-start; text-align: left; justify-content: flex-start;
+  }
+  body.home #archive .pill { width: 100%; min-width: 0; }
+  
+  body.home #archive .script-note {
+    font-size: 5rem !important;
+    opacity: 0.7;
+    position: relative;
+    top: auto !important; left: auto !important; right: auto !important; bottom: auto !important;
+    display: block;
+    margin-bottom: 20px;
+    transform: rotate(-3deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.home #archive .paper,
-  body.home #archive .paper::after,
-  body.home #archive .script-note,
-  body.home #archive .pill{
-    transition:none !important;
-    transform:none !important;
-    filter:none !important;
+  body.home::after, body.home #cursor-glow { opacity: 0 !important; }
+  body.home #archive .paper, body.home #archive .script-note {
+    transform: none !important; box-shadow: none !important; transition: none !important;
   }
 }
