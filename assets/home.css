@@ -1,6 +1,6 @@
 /* =========================================================
    HOME ONLY — V58.5 "ARCHIVAL INTEGRITY" (Scoped)
-   Updated: V42 "The Beautiful Disaster" Integration
+   Updated: V42 + "Cruella's Lipstick" Vandalism
    ========================================================= */
 
 body.home {
@@ -19,7 +19,10 @@ body.home {
 
   --font-serif: 'Cormorant Garamond', serif;
   --font-jp-calligraphy: 'Yuji Mai', serif;
-  --font-script: 'Pinyon Script', cursive; /* V42 */
+  
+  /* Fallback: Use Yuji Mai as Pinyon isn't loaded in index.html */
+  --font-script: var(--font-jp-calligraphy); 
+  
   --font-sans: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
@@ -120,24 +123,24 @@ body.home .section-label {
 }
 
 /* =========================================================
-   Paper cards — V42 REDESIGN (Wrapper: #archive)
+   Paper cards — V42 REDESIGN (Scoped to #archive)
    ========================================================= */
-/* Base Layout (Grid preserved) */
-body.home .paper {
+body.home #archive .paper {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   grid-template-rows: auto 1fr;
-  gap: 40px 80px;
+  gap: 80px;
 
   position: relative;
   margin-top: 100px;
-  padding: 120px 60px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
 
   background: var(--surface);
   border: 1px solid var(--line);
-  overflow: visible; /* Allow overlap */
+  overflow: visible;
   color: inherit;
-  
+
   /* V42 Interaction Setup */
   will-change: transform;
   transition: 
@@ -148,13 +151,13 @@ body.home .paper {
 }
 
 /* V42: Broken Grid (Initial Tilt) */
-body.home .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
-body.home .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
+body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
 /* V42: Hover (Violent Snap) */
-body.home .paper:hover,
-body.home .paper.is-hovered {
+body.home #archive .paper:hover,
+body.home #archive .paper.is-hovered {
   background: #111;
   transform: scale(1.02) rotate(0deg) !important;
   box-shadow: 
@@ -165,27 +168,27 @@ body.home .paper.is-hovered {
 }
 
 /* A11y Focus */
-body.home .paper:focus-within {
+body.home #archive .paper:focus-within {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
 }
 
-/* --- Internal Elements --- */
+/* --- Internal Elements (Scoped) --- */
 
 /* Title */
-body.home .paper-title {
+body.home #archive .paper-title {
   grid-column: 1 / 2;
   grid-row: 1;
   position: relative;
   z-index: 5;
   margin: 0;
-  mix-blend-mode: lighten; /* Visibility under script */
+  mix-blend-mode: lighten;
 }
-body.home .paper-title a {
+body.home #archive .paper-title a {
   font-family: var(--font-sans);
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
   font-weight: 600;
-  line-height: 1.0;
+  line-height: 0.95;
   letter-spacing: -0.04em;
   text-transform: uppercase;
   color: var(--fg);
@@ -193,7 +196,7 @@ body.home .paper-title a {
 }
 
 /* Epigraph / Signal */
-body.home .paper-signal {
+body.home #archive .paper-signal {
   grid-column: 1 / 2;
   grid-row: 2;
   position: relative;
@@ -201,17 +204,17 @@ body.home .paper-signal {
 
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-  line-height: 1.5;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4;
   color: var(--fg-dim);
 
-  border-left: 3px solid var(--accent);
-  padding-left: 40px;
+  border-left: 2px solid var(--accent);
+  padding-left: 30px;
   margin: 40px 0 0;
 }
 
 /* Keywords */
-body.home .k {
+body.home #archive .k {
   grid-column: 2 / 3;
   grid-row: 1;
   border: none;
@@ -221,7 +224,7 @@ body.home .k {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   color: var(--fg-dim);
   display: flex;
   flex-direction: column;
@@ -230,7 +233,7 @@ body.home .k {
   position: relative;
   z-index: 5;
 }
-body.home .k span {
+body.home #archive .k span {
   color: var(--accent);
   font-weight: 700;
   opacity: 0.6;
@@ -239,28 +242,28 @@ body.home .k span {
 }
 
 /* Actions */
-body.home .actions {
+body.home #archive .actions {
   grid-column: 2 / 3;
   grid-row: 2;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   position: relative;
-  z-index: 6; /* Higher than script note if needed */
+  z-index: 6;
 }
 
 /* Pill / Button (V42 Adaptation) */
-body.home .pill {
+body.home #archive .pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.2em;
 
-  padding: 22px 48px;
+  padding: 22px 44px;
   min-width: 200px;
 
   border: 1px solid var(--fg); /* Wireframe */
@@ -272,8 +275,8 @@ body.home .pill {
   transition: all 0.2s ease;
 }
 
-body.home .paper:hover .pill,
-body.home .paper.is-hovered .pill {
+body.home #archive .paper:hover .pill,
+body.home #archive .paper.is-hovered .pill {
   background: var(--accent);
   border-color: var(--accent);
   color: #000;
@@ -281,11 +284,10 @@ body.home .paper.is-hovered .pill {
 }
 
 /* =========================================================
-   Decorations (V42: Overlays & Script)
+   Decorations (Bg Numeral - Scoped)
    ========================================================= */
 
-/* Background Numeral */
-body.home .card-base {
+body.home #archive .card-base {
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -293,71 +295,100 @@ body.home .card-base {
   z-index: 1;
 }
 
-body.home .work-bg-num {
+body.home #archive .work-bg-num {
   position: absolute;
-  right: -2%;
+  right: -20px;
   top: 50%;
   transform: translateY(-50%) translate3d(var(--drift-x), var(--drift-y), 0);
 
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(12rem, 25vw, 28rem);
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
 
-  opacity: 0.05;
+  opacity: 0.08;
   color: #fff;
   mix-blend-mode: overlay;
 
-  transition: transform 0.6s var(--ease-kinetic),
-              color 0.6s var(--ease-kinetic),
-              opacity 0.6s var(--ease-kinetic);
+  transition: opacity 0.3s ease, color 0.3s ease;
   z-index: 0;
 }
 
-body.home .paper:hover .work-bg-num {
+body.home #archive .paper:hover .work-bg-num {
   color: var(--accent);
   opacity: 0.4;
-  transform: translateY(-50%) translateX(-30px);
 }
 
-/* V42 Script Note: Exclusion Overlay */
-body.home .script-note {
+/* =========================================================
+   CRUELLA'S LIPSTICK VANDALISM (The "One by One" Change)
+   Concept: Handwriting on mirror with lipstick.
+   ========================================================= */
+
+body.home #archive .script-note {
   position: absolute;
-  font-family: var(--font-script);
-  font-size: clamp(14rem, 25vw, 28rem);
-  white-space: nowrap;
-  
-  /* Chalk/Spray White */
-  color: #E6E4E0;
-  opacity: 0.7;
-  
-  /* OVERLAY MAGIC */
   z-index: 10;
-  mix-blend-mode: exclusion;
   pointer-events: none;
+  
+  font-family: var(--font-script);
+  font-size: clamp(8rem, 16vw, 16rem);
+  white-space: nowrap;
+  line-height: 1;
+  
+  /* Lipstick Aesthetics */
+  color: var(--accent);
+  opacity: 0.85;
+  
+  /* The "Ink/Lipstick" Bleed Effect */
+  text-shadow: 
+    0 0 2px rgba(217, 4, 41, 0.4),
+    0 0 8px rgba(217, 4, 41, 0.2),
+    2px 4px 12px rgba(0,0,0,0.1);
+  
+  /* Blend to look written ON the paper */
+  mix-blend-mode: multiply;
 
-  transition: transform 0.4s var(--ease-punk);
+  transition: all 0.4s var(--ease-punk);
+  will-change: transform, opacity;
 }
 
-/* Positions (V42 Chaos) */
-body.home .paper:nth-of-type(1) .script-note { 
-  top: 0%; left: -5%; 
-  transform: rotate(-10deg); 
-}
-body.home .paper:nth-of-type(2) .script-note { 
-  top: 25%; right: -10%; left: auto; 
-  transform: rotate(4deg); 
-  font-size: clamp(16rem, 28vw, 30rem);
-}
-body.home .paper:nth-of-type(3) .script-note { 
-  bottom: -5%; left: -10%; top: auto; 
-  transform: rotate(-6deg); 
+/* Bold Positioning: Part I */
+body.home #archive .paper:nth-of-type(1) .script-note { 
+  top: -8%; 
+  left: -10%; 
+  transform: rotate(-15deg); 
+  font-size: clamp(6rem, 12vw, 10rem);
 }
 
-/* Hover Jitter */
-body.home .paper:hover .script-note,
-body.home .paper.is-hovered .script-note {
-  transform: scale(1.1) rotate(0deg);
+/* Bold Positioning: Part II (Dominating Right) */
+body.home #archive .paper:nth-of-type(2) .script-note { 
+  top: 20%; 
+  right: -15%; 
+  left: auto;
+  transform: rotate(8deg); 
+  font-size: clamp(8rem, 15vw, 14rem);
+}
+
+/* Bold Positioning: Part III (Slashing Bottom) */
+body.home #archive .paper:nth-of-type(3) .script-note { 
+  bottom: -5%; 
+  left: -5%; 
+  top: auto;
+  transform: rotate(-5deg); 
+  font-size: clamp(7rem, 13vw, 12rem);
+}
+
+/* Interaction: Nervous/Excited Snap */
+body.home #archive .paper:hover .script-note,
+body.home #archive .paper.is-hovered .script-note {
+  opacity: 1;
+  transform: scale(1.05) rotate(0deg) !important;
+  /* Intense Bleed on Hover */
+  text-shadow: 
+    0 0 3px rgba(217, 4, 41, 0.6),
+    0 0 12px rgba(217, 4, 41, 0.3),
+    4px 8px 16px rgba(0,0,0,0.2);
 }
 
 /* =========================================================
@@ -381,7 +412,6 @@ body.home #cursor-glow {
   transition: opacity 0.35s ease;
   will-change: transform;
   
-  /* V42 Blend */
   mix-blend-mode: exclusion;
 }
 body.home.glow-active #cursor-glow { opacity: 1; }
@@ -392,7 +422,7 @@ body.home.glow-active #cursor-glow { opacity: 1; }
 @media (max-width: 900px) {
   body.home main > header { padding: 160px 0 90px; }
 
-  body.home .paper {
+  body.home #archive .paper {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
     padding: 80px 24px;
@@ -404,19 +434,28 @@ body.home.glow-active #cursor-glow { opacity: 1; }
     margin-left: 0 !important;
   }
 
-  body.home .k,
-  body.home .actions {
+  body.home #archive .k,
+  body.home #archive .actions {
     grid-column: 1;
     align-items: flex-start;
     text-align: left;
     justify-content: flex-start;
   }
 
-  body.home .pill { width: 100%; min-width: 0; }
+  body.home #archive .pill { width: 100%; min-width: 0; }
   
-  body.home .script-note {
-    font-size: 6rem;
-    opacity: 0.5;
+  body.home #archive .script-note {
+    font-size: 5rem !important;
+    opacity: 0.6;
+    /* Mobile adjustments for placement */
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    bottom: auto !important;
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    transform: rotate(-5deg);
   }
 }
 
@@ -427,12 +466,12 @@ body.home.glow-active #cursor-glow { opacity: 1; }
   body.home::after { opacity: 0 !important; }
   body.home #cursor-glow { opacity: 0 !important; }
   
-  body.home .paper {
+  body.home #archive .paper {
     transform: none !important;
     box-shadow: none !important;
     transition: none !important;
   }
-  body.home .script-note {
+  body.home #archive .script-note {
     transform: none !important;
     transition: none !important;
   }
