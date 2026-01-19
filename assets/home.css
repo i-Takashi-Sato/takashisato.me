@@ -188,7 +188,7 @@ body.home #archive .paper:focus-within{
    - card background: implicit
    - stretched-link: z=1 (clickable surface)
    - numeral base: z=0
-   - script overlay: z=2 (visual, pointer-events none)
+   - script overlay: z=20 (Sits ON TOP of content)
    - content: z=3
    --------------------------------------------------------- */
 
@@ -233,104 +233,74 @@ body.home #archive .paper.is-hovered .work-bg-num{
 }
 
 /* =========================================================
-   Script overlay — A) CSS-only “Hacked Scribble”
-   - ON TOP visually, never blocks clicks
+   SCRIPT OVERLAY — WORLD CLASS HACK STYLE
+   - Massive, Editorial, Overlapping
+   - z-index: 20 (Top)
+   - mix-blend-mode: exclusion (Transparency)
    ========================================================= */
 
-/* Script overlay: ON TOP visually, but never blocks clicks */
 body.home #archive .script-note{
   position: absolute;
-  z-index: 2;
+  z-index: 20; /* Overlap content */
   pointer-events: none;
 
   font-family: var(--font-script);
+  /* Massive sizes to match the reference images */
+  font-size: clamp(10rem, 24vw, 26rem);
+  line-height: 0.8;
   white-space: nowrap;
 
-  /* ---- “Hacked Scribble” look ---- */
-  opacity: 0.62;                 /* 0.55–0.75で調整 */
-  mix-blend-mode: exclusion;     /* 既存方針維持 */
-  letter-spacing: -0.03em;
-  line-height: 0.78;
+  color: #E6E4E0;
+  /* Exclusion mode is key for the "hack" look over white text */
+  mix-blend-mode: exclusion;
+  opacity: 0.85;
 
-  /* 擬似的な “殴り書きの擦れ/重なり” */
-  text-shadow:
-    0.5px 0.5px 0 rgba(255,255,255,0.20),
-    -0.7px 0.4px 0 rgba(255,255,255,0.12),
-    1.2px 1.2px 0 rgba(0,0,0,0.55),
-    -1.6px -1.0px 0 rgba(0,0,0,0.35),
-    0 10px 25px rgba(0,0,0,0.35);
-
-  /* “インクの輪郭”を薄く（読みやすさを壊さない範囲） */
-  -webkit-text-stroke: 1px rgba(255,255,255,0.06);
-
-  /* 乱数っぽく見せるための変数（カードごとに上書き） */
-  --sc-x: 0px;
-  --sc-y: 0px;
-  --sc-rot: -12deg;
-  --sc-skew: -8deg;
-  --sc-scale: 1.0;
-
-  font-size: clamp(9rem, 18vw, 20rem);
-
-  transform:
-    translate3d(var(--sc-x), var(--sc-y), 0)
-    rotate(var(--sc-rot))
-    skewX(var(--sc-skew))
-    scale(var(--sc-scale));
-
-  transition: transform 0.45s var(--ease-punk), opacity 0.3s ease;
+  transition: transform 0.4s var(--ease-punk);
+  will-change: transform;
 }
 
-/* Hover: “snap straight” は維持しつつ、殴り書きが一瞬だけ制圧される感じ */
+/* Part I: "Grand Design" - Slashing the Title */
+body.home #archive .paper:nth-of-type(1) .script-note{
+  font-size: clamp(11rem, 22vw, 28rem); 
+  top: 15%; 
+  left: -8%; 
+  transform: rotate(-16deg); 
+}
+
+/* Part II: "Silent Rot" - Heavy, Bottom Anchor */
+body.home #archive .paper:nth-of-type(2) .script-note{ 
+  font-size: clamp(12rem, 24vw, 30rem); 
+  top: auto; 
+  bottom: -10%; 
+  right: -5%; 
+  left: auto;
+  transform: rotate(6deg); 
+}
+
+/* Part III: "Requiem" - The Center Stamp */
+body.home #archive .paper:nth-of-type(3) .script-note{ 
+  font-size: clamp(14rem, 28vw, 35rem); 
+  top: 50%; 
+  left: 50%; 
+  bottom: auto; 
+  margin-left: 0;
+  transform: translate(-50%, -50%) rotate(-4deg); 
+}
+
+/* Hover: Parallax Lift (3D Effect) */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note{
-  opacity: 0.74;
-  transform:
-    translate3d(calc(var(--sc-x) * 0.25), calc(var(--sc-y) * 0.25), 0)
-    rotate(calc(var(--sc-rot) * -0.15))
-    skewX(calc(var(--sc-skew) * 0.2))
-    scale(calc(var(--sc-scale) * 1.05));
+  /* Lift up and straighten */
+  transform: translateY(-25px) scale(1.05) rotate(0deg);
+  opacity: 1;
 }
 
-/* ---------------------------------------------------------
-   Positions (CSS-only “randomized” per card)
-   ※ ここで “画像みたいに殴り書きが大きく横切る” を作る
-   --------------------------------------------------------- */
-body.home #archive .paper:nth-of-type(1) .script-note{
-  top: -6%;
-  left: -22%;
-  font-size: clamp(12rem, 26vw, 28rem);
-  --sc-x: 18px;
-  --sc-y: 10px;
-  --sc-rot: -24deg;
-  --sc-skew: -14deg;
-  --sc-scale: 1.06;
+/* Special hover for Part III to keep it centered */
+body.home #archive .paper:nth-of-type(3):hover .script-note{
+  transform: translate(-50%, -50%) scale(1.05) rotate(0deg);
 }
 
-body.home #archive .paper:nth-of-type(2) .script-note{
-  top: 18%;
-  left: -8%;
-  font-size: clamp(13rem, 30vw, 34rem);
-  --sc-x: -12px;
-  --sc-y: 24px;
-  --sc-rot: 9deg;
-  --sc-skew: -6deg;
-  --sc-scale: 1.12;
-}
-
-body.home #archive .paper:nth-of-type(3) .script-note{
-  top: auto;
-  bottom: -18%;
-  left: -26%;
-  font-size: clamp(14rem, 34vw, 40rem);
-  --sc-x: 10px;
-  --sc-y: -16px;
-  --sc-rot: -17deg;
-  --sc-skew: -18deg;
-  --sc-scale: 1.18;
-}
-
-/* Content: force above stretched-link + overlays */
+/* Content: force below script (z=3 < z=20) */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
@@ -462,18 +432,9 @@ body.home.glow-active #cursor-glow{ opacity: 1; }
   body.home #cursor-glow{ opacity: 0 !important; }
   body.home #archive .paper,
   body.home #archive .pill,
-  body.home #archive .script-note{
-    transition: none !important;
-    transform: none !important;
-    box-shadow: none !important;
-  }
+  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
   body.home .reveal,
-  body.home .reveal.is-visible{
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-  }
+  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
 }
 
 /* =========================================================
@@ -502,42 +463,16 @@ body.home.glow-active #cursor-glow{ opacity: 1; }
     justify-content: flex-start;
   }
 
-  body.home #archive .pill{
-    width: 100%;
-    min-width: 0;
-    text-align: center;
-  }
+  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
 
-  /* Mobile: 乱雑さは残しつつ画面外へ飛びすぎないよう抑制 */
+  /* Mobile Script Sizing */
   body.home #archive .script-note{
-    opacity: 0.55;
-    -webkit-text-stroke: 0;
-    text-shadow:
-      0.5px 0.5px 0 rgba(255,255,255,0.14),
-      0 8px 18px rgba(0,0,0,0.35);
+    font-size: 8rem;
+    opacity: 0.5;
+    mix-blend-mode: normal; /* スマホは透けない方が見やすい場合が多い */
   }
 
-  body.home #archive .paper:nth-of-type(1) .script-note{
-    top: -2%;
-    left: -10%;
-    bottom: auto;
-    font-size: 7.5rem;
-    --sc-x: 6px; --sc-y: 4px; --sc-rot: -16deg; --sc-skew: -10deg; --sc-scale: 1.02;
-  }
-
-  body.home #archive .paper:nth-of-type(2) .script-note{
-    top: 10%;
-    left: -6%;
-    bottom: auto;
-    font-size: 8.5rem;
-    --sc-x: -6px; --sc-y: 10px; --sc-rot: 8deg; --sc-skew: -6deg; --sc-scale: 1.05;
-  }
-
-  body.home #archive .paper:nth-of-type(3) .script-note{
-    top: auto;
-    bottom: -10%;
-    left: -14%;
-    font-size: 9rem;
-    --sc-x: 6px; --sc-y: -8px; --sc-rot: -12deg; --sc-skew: -12deg; --sc-scale: 1.08;
-  }
+  body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; transform: rotate(-10deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
 }
