@@ -1,15 +1,4 @@
-/* =========================================================
-   HOME ONLY — V87 "ABSOLUTE INTEGRITY"
-   
-   - CARD LAYOUT: FIXED to V65 Scattered Grid (Original).
-   - Part I: "D" aligned under "P", anti-clipping guard active.
-   - ROMAN NUMERALS: Hover color (Red) active (V72).
-   - Constraint: ZERO unauthorized changes to V65/V72 foundation.
-   ========================================================= */
-
-/* ウィンドウ全体のはみ出しのみを防ぎ、表示は維持する */
 html, body.home {
-  overflow-x: hidden;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -30,30 +19,34 @@ body.home {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Background Noise */
+body.home ::selection { background: #FFF; color: #000; }
+
 body.home::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
   opacity: 0.035; mix-blend-mode: overlay;
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
-/* 筆記体が切れないよう visible を徹底 */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
   background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
-  overflow: visible !important; 
+  overflow: visible; 
 }
 
-/* --- ARCHIVE CARDS (V65 EXACT NUMBERS) --- */
+body.home main > header { padding: 220px 0 120px; }
+body.home main > header h1 {
+  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
+}
+
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible !important; 
+  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
   color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease; z-index: 1;
 }
 
-/* V65 構図の完全死守 */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
@@ -63,7 +56,6 @@ body.home #archive .paper:hover {
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
-/* Roman Numerals (V72 Restoration) */
 body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
@@ -72,38 +64,34 @@ body.home #archive .work-bg-num {
 }
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
-/* =========================================================
-   SCRIPT OVERLAY — PRECISION LOCK
-   ========================================================= */
-
 body.home #archive .script-note {
   position: absolute;
   z-index: 20; pointer-events: none;
   font-family: var(--font-script); white-space: nowrap;
   color: #E6E4E0; mix-blend-mode: exclusion; opacity: 0.9;
-  transition: none;
 }
 
-/* Part I: "Grand Design"
-   - 「D」をタイトルの「P」に揃えるための配置調整
-   - ウィンドウ左端(0px)を下限に設定
-*/
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(6rem, 11vw, 10.5rem); 
+  font-size: clamp(5.5rem, 11vw, 10.5rem); 
   top: 8%; 
-  left: max(-16%, calc(-1 * (100vw - 1200px) / 2)); 
+  left: max(-18%, calc(-1 * (100vw - 1200px) / 2)); 
   transform: rotate(-22deg); transform-origin: left center;
 }
 
-/* Part II & III: V65 logic */
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(4rem, 8vw, 8rem);
   top: 15%; right: 5%; left: auto;
   transform: rotate(14deg); transform-origin: right center;
 }
+
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(12rem, 28vw, 32rem);
+  font-size: clamp(10rem, 25vw, 28rem);
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) rotate(-8deg);
   text-align: center;
+}
+
+body.home #archive .paper-title a {
+  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
 }
