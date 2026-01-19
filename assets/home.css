@@ -1,98 +1,86 @@
 /* =========================================================
-   V143 FINAL — THE ARCHITECTURAL RED
+   V146 FINAL — THE ANATOMIC ARCHIVE
    ========================================================= */
 
-body.home {
-  /* 佐藤貴士：色彩設計 */
-  --bg-void: #050505;
-  --bg-stage: #080808;
-  --surface: #0E0E0E;
-  --fg: #E6E4E0; 
-  --fg-dim: #555555;
+:root {
+  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
+  --fg: #E6E4E0; --fg-dim: #555555;
   --line: rgba(255, 255, 255, 0.08);
 
-  /* 二つの「紅」の共存 */
-  --accent: #D90429;   /* Arterial Red: 秩序と背骨の紅 */
-  --sexy-ink: #7B001C; /* Nocturnal Crimson: 思考と官能の深紅 */
+  /* 二つの「紅」を建築的に配置 */
+  --accent: #D90429;   /* Arterial Red: カテゴリ・縦線 */
+  --sexy-ink: #7B001C; /* Nocturnal Crimson: 官能的筆記体 */
 
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
-
-  background-color: var(--bg-void);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  width: 100%;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* --- GLOBAL LAYOUT --- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body.home ::selection { background: var(--sexy-ink); color: #FFF; }
-
-body.home::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-}
-
-/* 左端の垂直軸：空白を定義するアンカー */
-.vertical-axis {
-  position: absolute; left: 15px; top: 400px;
-  writing-mode: vertical-rl; transform: rotate(180deg);
-  font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim);
-  letter-spacing: 0.6em; text-transform: uppercase; pointer-events: none; opacity: 0.4;
-}
-
-/* --- HERO SECTION --- */
-body.home main > header { padding: 220px 0 120px; position: relative; }
-
-/* カテゴリ表記：紅の復元 */
+/* --- HERO: RED RESTORATION --- */
 body.home .hero-category { 
   font-family: var(--font-mono); font-size: 11px; color: var(--accent); 
-  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 25px; display: block; 
+  letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 25px; display: block; 
 }
-
-body.home main > header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin-bottom: 60px;
-}
-
-/* リード文：紅い垂直線 */
 body.home .hero-lead { 
   font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.5; 
-  border-left: 3px solid var(--accent);
-  padding-left: 45px; max-width: 850px; 
+  border-left: 3px solid var(--accent); padding-left: 45px; max-width: 850px; 
 }
 
-/* --- ARCHIVE SECTION --- */
-body.home .section-label { 
-  display: block; margin-top: 120px; font-family: var(--font-mono); font-size: 11px; 
-  letter-spacing: 0.3em; text-transform: uppercase; color: var(--fg-dim); 
-  border-bottom: 1px solid var(--line); padding-bottom: 20px; 
-}
-
-/* 論文カード：非対称グリッド */
+/* --- THE PAPER CARD: ANATOMIC GRID --- */
 body.home #archive .paper {
-  display: grid; grid-template-columns: 1.4fr 1.1fr; gap: 100px;
-  position: relative; margin-top: 120px; padding: 160px 60px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
-  text-decoration: none; color: inherit; z-index: 1;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; margin-top: 150px; padding: 120px 80px;
+  background: var(--surface); border: 1px solid var(--line); 
+  min-height: 650px; text-decoration: none; color: inherit; overflow: visible;
 }
 
-/* 散布配置ロジック（V65継承） */
-body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 92%; margin-left: 8%; }
-body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
+/* --- ROMAN NUMERALS: STRUCTURAL BACKGROUND --- */
+body.home #archive .work-bg-num {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300; 
+  font-size: clamp(20rem, 45vw, 60rem); color: #FFF; opacity: 0.1; /* 視認性と静寂の共存 */
+  mix-blend-mode: overlay; pointer-events: none; z-index: 0;
+}
 
-/* ホバー無効化 */
-body.home #archive .paper:hover { transform: inherit; box-shadow: none; border-color: var(--line); }
+/* --- TITLES: AUTHORITATIVE DISRUPTION --- */
+body.home #archive .paper-title { 
+  position: absolute; top: 15%; left: -5vw; z-index: 10; max-width: 80%;
+}
+body.home #archive .paper-title h2 { 
+  font-family: var(--font-serif); font-style: italic; font-weight: 300;
+  font-size: clamp(4rem, 8vw, 9rem); line-height: 0.85; letter-spacing: -0.05em;
+  text-transform: uppercase; color: var(--fg); mix-blend-mode: lighten;
+}
 
-/* --- SCRIPT NOTES: THE NOCTURNAL CHAOS --- */
+/* --- EPIGRAPHS: THE RED SIGNAL --- */
+body.home #archive .paper-body { 
+  margin-top: auto; padding-left: 10%; max-width: 700px; position: relative; z-index: 10;
+}
+body.home #archive .paper-signal { 
+  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem); 
+  line-height: 1.5; color: var(--fg); border-left: 3px solid var(--accent); /* 紅い縦線 */
+  padding-left: 40px; margin-bottom: 40px;
+}
+
+/* --- KEYWORDS: VERTICAL METADATA --- */
+body.home #archive .metadata { 
+  position: absolute; right: 40px; top: 120px; text-align: right;
+  writing-mode: vertical-rl; transform: rotate(180deg); z-index: 10;
+}
+body.home #archive .k-label { 
+  font-family: var(--font-mono); font-size: 10px; color: var(--accent); 
+  font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; margin-left: 15px;
+}
+body.home #archive .k-list { 
+  font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); 
+  letter-spacing: 0.05em; text-transform: uppercase; line-height: 2;
+}
+
+/* --- SCRIPT NOTES: THE OVERLAY --- */
 body.home #archive .script-note {
-  position: absolute; z-index: 2; font-family: var(--font-script); white-space: nowrap;
+  position: absolute; z-index: 5; font-family: var(--font-script);
   color: var(--sexy-ink); opacity: 0; mix-blend-mode: screen; 
   -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%);
   -webkit-mask-size: 200% 100%; -webkit-mask-position: 100% 0;
@@ -105,62 +93,19 @@ body.home #archive .script-note {
   100% { opacity: 0.75; -webkit-mask-position: 0 0; }
 }
 
-/* 配置バランス */
-body.home #archive .paper:nth-of-type(1) .script-note { font-size: clamp(14rem, 30vw, 35rem); top: -25%; left: -28vw; transform: rotate(-12deg); animation-delay: 1s; }
-body.home #archive .paper:nth-of-type(2) .script-note { font-size: clamp(12rem, 24vw, 28rem); top: 45%; right: -28vw; left: auto; transform: rotate(2deg); animation-delay: 2.8s; }
-body.home #archive .paper:nth-of-type(3) .script-note { font-size: clamp(10rem, 20vw, 25rem); top: 40%; left: -15vw; transform: rotate(-25deg); animation-delay: 4.8s; }
+/* 配置：タイトルと重なるように計算 */
+body.home #archive .paper:nth-of-type(1) .script-note { font-size: clamp(15rem, 30vw, 35rem); top: 5%; left: -20vw; transform: rotate(-10deg); animation-delay: 1s; }
+body.home #archive .paper:nth-of-type(2) .script-note { font-size: clamp(12rem, 25vw, 30rem); top: 10%; right: -25vw; left: auto; transform: rotate(5deg); animation-delay: 2.8s; }
+body.home #archive .paper:nth-of-type(3) .script-note { font-size: clamp(12rem, 28vw, 35rem); top: 15%; left: -15vw; transform: rotate(-15deg); animation-delay: 4.8s; }
 
-/* --- UI CONTENT: ARCHITECTURAL HIERARCHY --- */
-
-/* タイトルの秩序 */
-body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 60px; grid-column: 1 / -1; }
-body.home #archive .paper-title h2 { 
-  font-family: var(--font-sans); font-size: clamp(3rem, 6vw, 6.5rem); 
-  font-weight: 600; line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; 
+/* 垂直アンカー */
+.vertical-axis {
+  position: absolute; left: 15px; top: 400px; writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim); letter-spacing: 0.6em; opacity: 0.4;
 }
 
-/* 引用文：紅い垂直線 */
-body.home #archive .paper-signal { 
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.5rem, 2.4vw, 2rem); 
-  line-height: 1.5; color: var(--fg); border-left: 3px solid var(--accent);
-  padding-left: 40px; margin-bottom: 30px; position: relative; z-index: 10;
-}
-
-/* キーワード：精緻な右下配置 */
-body.home #archive .metadata { 
-  grid-column: 2; display: flex; flex-direction: column; 
-  align-items: flex-end; justify-content: flex-end; text-align: right; 
-  position: relative; z-index: 10; 
-}
-body.home #archive .k-label { 
-  font-family: var(--font-mono); font-size: 10px; color: var(--accent); 
-  font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; 
-}
-body.home #archive .k-list { 
-  font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); 
-  line-height: 1.8; letter-spacing: 0.05em; text-transform: uppercase; 
-}
-
-/* ボタン：静止した境界線 */
+/* ボタン */
 body.home #archive .pill { 
-  display: inline-flex; align-items: center; justify-content: center; 
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; 
-  padding: 24px 48px; border: 1px solid var(--fg-dim); color: var(--fg); 
-  text-decoration: none; margin-top: 60px; position: relative; z-index: 10; 
+  display: inline-flex; font-family: var(--font-mono); font-size: 11px; font-weight: 700; 
+  padding: 22px 44px; border: 1px solid var(--fg-dim); color: var(--fg); text-decoration: none;
 }
-
-/* 背後のローマ数字 */
-body.home #archive .work-bg-num {
-  position: absolute; right: -30px; top: 50%; transform: translateY(-50%);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(15rem, 28vw, 35rem);
-  opacity: 0.05; color: #FFF; mix-blend-mode: overlay; pointer-events: none;
-}
-
-/* Cursor Glow */
-body.home #cursor-glow {
-  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none; z-index: 2; transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  mix-blend-mode: exclusion; transition: opacity 0.3s;
-}
-body.home.glow-active #cursor-glow { opacity: 1; }
