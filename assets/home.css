@@ -1,6 +1,6 @@
 /* =========================================================
-   HOME ONLY — V42: THE BEAUTIFUL DISASTER (Final)
-   Target: Matches the provided screenshots exactly.
+   HOME ONLY — V42: THE BEAUTIFUL DISASTER (Final Fixed)
+   Target: Matches screenshots + Fixes z-index layering issues
    ========================================================= */
 
 body.home {
@@ -102,10 +102,12 @@ body.home #archive .paper {
 
   background: var(--surface);
   border: 1px solid var(--line);
-  overflow: visible; 
+  overflow: hidden; /* Changed to hidden to keep content contained */
   color: inherit;
 
-  /* V42 Interaction Setup */
+  /* [IMPORTANT FIX] Isolate stacking context so z-indexes work locally */
+  isolation: isolate; 
+
   will-change: transform;
   transition: 
     transform 0.3s var(--ease-punk),
@@ -115,12 +117,12 @@ body.home #archive .paper {
   z-index: 1;
 }
 
-/* CRUELLA'S TOUCH: Tilted Cards (V42 Angles) */
+/* CRUELLA'S TOUCH: Tilted Cards */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
-/* HOVER: Violent Snapping (V42 Style - Image Match) */
+/* HOVER: Violent Snapping */
 body.home #archive .paper:hover,
 body.home #archive .paper.is-hovered {
   background: #111;
@@ -133,11 +135,18 @@ body.home #archive .paper.is-hovered {
   z-index: 100;
 }
 
-/* --- Internal Elements --- */
-body.home #archive .paper-title {
-  grid-column: 1 / 2; grid-row: 1; position: relative; z-index: 5; margin: 0;
-  mix-blend-mode: lighten;
+/* --- Internal Elements (Layering Fixed) --- */
+
+/* Layer 20: Content (Must be clickable and visible) */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions {
+  position: relative;
+  z-index: 20;
 }
+
+body.home #archive .paper-title { margin: 0; mix-blend-mode: normal; }
 body.home #archive .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
   font-weight: 600; line-height: 0.95; letter-spacing: -0.04em;
@@ -146,12 +155,9 @@ body.home #archive .paper-title a {
 
 /* Quote/Signal */
 body.home #archive .paper-signal {
-  grid-column: 1 / 2; grid-row: 2; position: relative; z-index: 5;
   font-family: var(--font-serif); font-style: italic;
   font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4;
   color: var(--fg-dim); 
-  
-  /* Cruella Red Border */
   border-left: 2px solid var(--accent);
   padding-left: 30px; margin: 40px 0 0;
 }
@@ -162,17 +168,16 @@ body.home #archive .k {
   font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
   letter-spacing: 0.1em; color: var(--fg-dim);
   display: flex; flex-direction: column; align-items: flex-end;
-  text-align: right; position: relative; z-index: 5;
+  text-align: right;
 }
 body.home #archive .k span { color: var(--accent); font-weight: 700; opacity: 1; }
 
 body.home #archive .actions {
   grid-column: 2 / 3; grid-row: 2; display: flex;
   justify-content: flex-end; align-items: flex-end;
-  position: relative; z-index: 6;
 }
 
-/* Button: Punk Wireframe (V42) */
+/* Button */
 body.home #archive .pill {
   display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--font-mono); font-size: 11px; font-weight: 700;
@@ -184,7 +189,7 @@ body.home #archive .pill {
   transition: all 0.2s ease;
 }
 
-/* Hover: Button fills with Red (Image Match) */
+/* Hover: Button fills with Red */
 body.home #archive .paper:hover .pill,
 body.home #archive .paper.is-hovered .pill {
   background: var(--accent); border-color: var(--accent); color: #000;
@@ -192,13 +197,16 @@ body.home #archive .paper.is-hovered .pill {
 }
 
 /* =========================================================
-   DECORATIONS: Numeral & Script
+   DECORATIONS: Numeral & Script (Layering Fixed)
    ========================================================= */
 
-/* 1. Ghost Numeral */
+/* Layer 0: Background Base */
 body.home #archive .card-base {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -2;
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; 
+  z-index: 0; /* [FIX] Was -2, now 0 because of isolation:isolate */
 }
+
+/* Layer 1: Background Numeral */
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; 
   transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
@@ -208,11 +216,11 @@ body.home #archive .work-bg-num {
   opacity: 0.08; color: #FFF;
   mix-blend-mode: overlay;
   transition: opacity 0.3s, color 0.3s;
+  z-index: 1; /* [FIX] Explicitly above card-base */
 }
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
-/* 2. THE VANDALISM (Script Overlay - White/Exclusion) */
-/* This matches the screenshots where text is huge and blends with content */
+/* Layer 10: The Vandalism (Script Overlay) */
 body.home #archive .script-note {
   position: absolute;
   font-family: var(--font-script);
@@ -223,42 +231,39 @@ body.home #archive .script-note {
   color: #E6E4E0;
   opacity: 0.7;
   
-  z-index: 10;
+  z-index: 10; /* [FIX] Between Bg and Content */
   mix-blend-mode: exclusion;
   pointer-events: none;
 
   transition: transform 0.4s var(--ease-punk);
 }
 
-/* POSITIONS: Chaotic & Covering (Matches Screenshots) */
-/* Part 1: Top Left, rotated */
+/* POSITIONS */
 body.home #archive .paper:nth-of-type(1) .script-note { 
   top: 10%; left: -5%; 
   transform: rotate(-15deg); 
 }
 
-/* Part 2: Middle Right, rotated */
 body.home #archive .paper:nth-of-type(2) .script-note { 
   font-size: clamp(10rem, 22vw, 22rem);
   top: 35%; right: -20%; left: auto;
   transform: rotate(-5deg); 
 }
 
-/* Part 3: Bottom Left, rotated */
 body.home #archive .paper:nth-of-type(3) .script-note { 
   font-size: clamp(12rem, 30vw, 30rem);
   bottom: -10%; left: -10%; top: auto;
   transform: rotate(-10deg); 
 }
 
-/* Hover Script: Jitters (V42) */
+/* Hover Script Jitter */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note {
-  transform: scale(1.1) rotate(0deg); /* Explodes slightly */
+  transform: scale(1.1) rotate(0deg);
 }
 
 /* =========================================================
-   Cursor Glow (V42: Exclusion)
+   Cursor Glow
    ========================================================= */
 body.home #cursor-glow {
   position: fixed; left: 0; top: 0; width: 80vw; height: 80vw;
@@ -288,7 +293,6 @@ body.home.glow-active #cursor-glow { opacity: 1; }
   }
   body.home #archive .pill { width: 100%; min-width: 0; text-align: center; }
   
-  /* Mobile Adjustments */
   body.home #archive .script-note { font-size: 6rem; opacity: 0.5; }
   body.home #archive .paper:nth-of-type(1) .script-note { top: 2%; left: -5%; }
   body.home #archive .paper:nth-of-type(2) .script-note { top: 20%; right: -10%; }
