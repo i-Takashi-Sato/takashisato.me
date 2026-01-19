@@ -1,473 +1,195 @@
-/* =========================================================
-   HOME ONLY — V42: THE BEAUTIFUL DISASTER (Final Fixed)
-   Target: Matches screenshots + Fixes z-index layering issues
-   ========================================================= */
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#050507">
 
-body.home {
-  /* --- V42 Base Vars --- */
-  --bg-void: #050505;
-  --bg-stage: #080808;
-  --surface: #0E0E0E;
-  --fg: #E6E4E0;
-  --fg-dim: #949494;
+  <title>Takashi Sato · AI Governance Archive</title>
+  <meta name="description" content="Takashi Sato — Research archive on AI governance and sociotechnical failure.">
+  <link rel="canonical" href="https://takashisato.me/">
 
-  /* Accent: Arterial Red */
-  --accent: #D90429;
+  <meta name="robots" content="index,follow,max-image-preview:large">
 
-  --line: rgba(255, 255, 255, 0.08);
+  <!-- IMPORTANT: top page uses site.css (tokens/base) + home.css (home-only layout) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  /* Fonts */
-  --font-serif: 'Cormorant Garamond', serif;
-  --font-jp-calligraphy: 'Yuji Mai', serif;
-  --font-script: 'Pinyon Script', cursive; 
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/home.css">
 
-  /* Physics: Jerky, Nervous, Fashion */
-  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); 
+  <meta property="og:title" content="Takashi Sato · AI Governance Archive">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://takashisato.me/">
+  <meta property="og:image" content="https://takashisato.me/assets/og.jpg">
+  <meta property="og:description" content="Peer-citable research archive on AI governance and sociotechnical failure.">
 
-  background-color: var(--bg-void);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Takashi Sato · AI Governance Archive">
+  <meta name="twitter:description" content="Peer-citable research archive on AI governance and sociotechnical failure.">
 
-/* Selection: Inverted Punk */
-body.home ::selection { background: #FFF; color: #000; }
-body.home ::-moz-selection { background: #FFF; color: #000; }
-
-/* =========================================================
-   Noise layer
-   ========================================================= */
-body.home::after {
-  content: "";
-  position: fixed; inset: 0; pointer-events: none; z-index: 50;
-  opacity: 0.035; mix-blend-mode: overlay;
-  background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
-}
-
-/* =========================================================
-   Main Stage
-   ========================================================= */
-body.home main {
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage);
-  min-height: 100vh; position: relative; z-index: 3;
-}
-
-/* =========================================================
-   HERO (Standard Layout)
-   ========================================================= */
-body.home main > header { padding: 220px 0 120px; }
-
-body.home main > header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85;
-  letter-spacing: -0.04em; margin: 0 0 80px; color: var(--fg);
-}
-
-body.home .who {
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
-  letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block;
-}
-
-body.home .lead {
-  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4;
-  border-left: 4px solid var(--accent); padding-left: 40px;
-  max-width: 850px; margin: 0;
-}
-
-body.home .section-label {
-  display: block; margin-top: 90px;
-  font-family: var(--font-mono); font-size: 11px;
-  letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
-}
-
-/* =========================================================
-   PAPER CARDS — V42: THE BROKEN GRID
-   ========================================================= */
-
-body.home #archive .paper {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 80px;
-
-  position: relative;
-  margin-top: 100px;
-  margin-bottom: 60px;
-  padding: 140px 50px;
-
-  background: var(--surface);
-  border: 1px solid var(--line);
-  overflow: hidden; /* Changed to hidden to keep content contained */
-  color: inherit;
-
-  /* [IMPORTANT FIX] Isolate stacking context so z-indexes work locally */
-  isolation: isolate; 
-
-  will-change: transform;
-  transition: 
-    transform 0.3s var(--ease-punk),
-    box-shadow 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease;
-  z-index: 1;
-}
-
-/* CRUELLA'S TOUCH: Tilted Cards */
-body.home #archive .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
-body.home #archive .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
-body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
-
-/* HOVER: Violent Snapping */
-body.home #archive .paper:hover,
-body.home #archive .paper.is-hovered {
-  background: #111;
-  /* Snaps STRAIGHT (0deg) on hover */
-  transform: scale(1.02) rotate(0deg) !important; 
-  box-shadow: 
-    20px 20px 0px rgba(0,0,0,0.5), /* Hard shadow */
-    -2px -2px 0px var(--accent);   /* Hard highlight */
-  border-color: #FFF;
-  z-index: 100;
-}
-
-/* --- Internal Elements (Layering Fixed) --- */
-
-/* Layer 20: Content (Must be clickable and visible) */
-body.home #archive .paper-title,
-body.home #archive .paper-signal,
-body.home #archive .k,
-body.home #archive .actions {
-  position: relative;
-  z-index: 20;
-}
-
-body.home #archive .paper-title { margin: 0; mix-blend-mode: normal; }
-body.home #archive .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em;
-  text-transform: uppercase; color: var(--fg); text-decoration: none;
-}
-
-/* Quote/Signal */
-body.home #archive .paper-signal {
-  font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4;
-  color: var(--fg-dim); 
-  border-left: 2px solid var(--accent);
-  padding-left: 30px; margin: 40px 0 0;
-}
-
-/* Keywords */
-body.home #archive .k {
-  grid-column: 2 / 3; grid-row: 1; border: none; padding: 0; margin: 0; background: none;
-  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
-  letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end;
-  text-align: right;
-}
-body.home #archive .k span { color: var(--accent); font-weight: 700; opacity: 1; }
-
-body.home #archive .actions {
-  grid-column: 2 / 3; grid-row: 2; display: flex;
-  justify-content: flex-end; align-items: flex-end;
-}
-
-/* Button */
-body.home #archive .pill {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.2em; padding: 22px 44px; min-width: 200px;
-  
-  border: 1px solid var(--fg); /* White wireframe */
-  background: transparent; color: var(--fg);
-  text-decoration: none; line-height: 1;
-  transition: all 0.2s ease;
-}
-
-/* Hover: Button fills with Red */
-body.home #archive .paper:hover .pill,
-body.home #archive .paper.is-hovered .pill {
-  background: var(--accent); border-color: var(--accent); color: #000;
-  box-shadow: 5px 5px 0px #FFF; /* Punk shadow */
-}
-
-/* =========================================================
-   DECORATIONS: Numeral & Script (Layering Fixed)
-   ========================================================= */
-
-/* Layer 0: Background Base */
-body.home #archive .card-base {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none; 
-  z-index: 0; /* [FIX] Was -2, now 0 because of isolation:isolate */
-}
-
-/* Layer 1: Background Numeral */
-body.home #archive .work-bg-num {
-  position: absolute; right: -20px; top: 50%; 
-  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
-  
-  font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
-  opacity: 0.08; color: #FFF;
-  mix-blend-mode: overlay;
-  transition: opacity 0.3s, color 0.3s;
-  z-index: 1; /* [FIX] Explicitly above card-base */
-}
-body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
-
-/* Layer 10: The Vandalism (Script Overlay) */
-body.home #archive .script-note {
-  position: absolute;
-  font-family: var(--font-script);
-  font-size: clamp(8rem, 16vw, 16rem);
-  white-space: nowrap;
-  
-  /* Image Match: White text with Exclusion blend */
-  color: #E6E4E0;
-  opacity: 0.7;
-  
-  z-index: 10; /* [FIX] Between Bg and Content */
-  mix-blend-mode: exclusion;
-  pointer-events: none;
-
-  transition: transform 0.4s var(--ease-punk);
-}
-
-/* POSITIONS */
-body.home #archive .paper:nth-of-type(1) .script-note { 
-  top: 10%; left: -5%; 
-  transform: rotate(-15deg); 
-}
-
-body.home #archive .paper:nth-of-type(2) .script-note { 
-  font-size: clamp(10rem, 22vw, 22rem);
-  top: 35%; right: -20%; left: auto;
-  transform: rotate(-5deg); 
-}
-
-body.home #archive .paper:nth-of-type(3) .script-note { 
-  font-size: clamp(12rem, 30vw, 30rem);
-  bottom: -10%; left: -10%; top: auto;
-  transform: rotate(-10deg); 
-}
-
-/* Hover Script Jitter */
-body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note {
-  transform: scale(1.1) rotate(0deg);
-}
-
-/* =========================================================
-   Cursor Glow
-   ========================================================= */
-body.home #cursor-glow {
-  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw;
-  margin-left: -40vw; margin-top: -40vw;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none; z-index: 2;
-  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  opacity: 0; transition: opacity 0.5s ease;
-  mix-blend-mode: exclusion;
-}
-body.home.glow-active #cursor-glow { opacity: 1; }
-
-/* =========================================================
-   Responsive
-   ========================================================= */
-@media (max-width: 900px) {
-  body.home main > header { padding: 160px 0 90px; }
-  
-  body.home #archive .paper {
-    grid-template-columns: 1fr; grid-template-rows: auto auto auto;
-    padding: 100px 24px; gap: 50px; margin-bottom: 40px;
-    transform: none !important; width: 100% !important; margin-left: 0 !important;
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://takashisato.me/#person",
+        "name": "Takashi Sato",
+        "url": "https://takashisato.me/",
+        "sameAs": [
+          "https://orcid.org/0009-0003-1584-6965",
+          "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+          "https://x.com/takashisato_me",
+          "https://www.instagram.com/takashisato_me/"
+        ],
+        "jobTitle": "Independent Researcher",
+        "knowsAbout": [
+          "AI Governance",
+          "Sociotechnical Systems",
+          "Algorithmic Oversight"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://takashisato.me/#website",
+        "name": "Takashi Sato · AI Governance Archive",
+        "url": "https://takashisato.me/",
+        "publisher": { "@id": "https://takashisato.me/#person" }
+      }
+    ]
   }
-  
-  body.home #archive .k, body.home #archive .actions {
-    grid-column: 1; align-items: flex-start; text-align: left; justify-content: flex-start;
-  }
-  body.home #archive .pill { width: 100%; min-width: 0; text-align: center; }
-  
-  body.home #archive .script-note { font-size: 6rem; opacity: 0.5; }
-  body.home #archive .paper:nth-of-type(1) .script-note { top: 2%; left: -5%; }
-  body.home #archive .paper:nth-of-type(2) .script-note { top: 20%; right: -10%; }
-  body.home #archive .paper:nth-of-type(3) .script-note { font-size: 8rem; top: 10%; left: -10%; }
-}
+  </script>
+</head>
 
-@media (prefers-reduced-motion: reduce) {
-  body.home::after, body.home #cursor-glow { opacity: 0 !important; }
-  body.home #archive .paper, body.home #archive .script-note {
-    transform: none !important; box-shadow: none !important; transition: none !important;
-  }
-}
+<body class="home">
+  <div id="cursor-glow" aria-hidden="true"></div>
 
-/* =========================================================
-   V61 HOVER UPGRADE - "LECTER LAMP / CRUELLA INK" (Override)
-   Goal: Keep V42 normal state; elevate hover to premium analog horror.
-   Scope: body.home #archive .paper
-   ========================================================= */
+  <header class="top" aria-label="Site header">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
+      </a>
 
-/* 0) Hard requirements: no clipping + local stacking context */
-body.home #archive .paper {
-  overflow: visible;
-  isolation: isolate;
-  transform-origin: 50% 45%;
-}
+      <nav class="nav" aria-label="Primary">
+        <a href="/papers/part1.html">PART I</a>
+        <a href="/papers/part2.html">PART II</a>
+        <a href="/papers/part3.html">PART III</a>
+      </nav>
+    </div>
+  </header>
 
-/* 1) "Lecter Lamp": a soft, surgical vignette that wakes up on hover
-      (analog light, not digital scan) */
-body.home #archive .paper::before {
-  content: "";
-  position: absolute;
-  inset: -24px;
-  border-radius: 10px;
-  pointer-events: none;
-  z-index: 6; /* below script(10), above bg(0..1) */
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .28s ease, transform .6s cubic-bezier(.19,1,.22,1);
+  <main>
+    <header>
+      <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
 
-  /* two-layer lamp: central bloom + edge falloff */
-  background:
-    radial-gradient(60% 70% at 30% 35%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 60%),
-    radial-gradient(120% 120% at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.85) 100%);
-  mix-blend-mode: overlay;
-}
+      <div class="who">
+        AI Governance &amp; Sociotechnical Systems Research
+      </div>
 
-/* 2) "Cruella Ink": subtle red contamination from the bottom-right */
-body.home #archive .paper::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  pointer-events: none;
-  z-index: 8; /* above lamp, below script/content */
-  opacity: 0;
-  transition: opacity .25s ease .05s;
+      <p class="lead">
+        Peer-citable research archive on workflow-centric AI governance.<br>
+        Engineering friction (ALTRION), forecasting entropy-driven pre-abuse failure (resolution collapse), and building drift indicators &amp; circuit breakers for silent breakdowns in oversight.
+      </p>
+    </header>
 
-  background:
-    radial-gradient(circle at 92% 88%, rgba(217,4,41,0.18) 0%, rgba(217,4,41,0.00) 62%),
-    radial-gradient(circle at 12% 78%, rgba(217,4,41,0.10) 0%, rgba(217,4,41,0.00) 55%);
-  mix-blend-mode: screen;
-}
+    <section id="archive" aria-label="Archive">
+      <span class="section-label">Selected Works 2025–2026</span>
 
-/* 3) Base (non-hover) remains V42. Hover becomes: straighten + lift + expensive edge */
-body.home #archive .paper {
-  will-change: transform, box-shadow, border-color, background-color;
-  transition:
-    transform .48s cubic-bezier(.19,1,.22,1),
-    box-shadow .32s ease,
-    border-color .18s ease,
-    background-color .18s ease;
-}
+      <!-- Part I -->
+      <article class="paper">
+        <div class="card-base"><div class="work-bg-num">I</div></div>
+        <span class="script-note">Grand Design</span>
 
-body.home #archive .paper:hover,
-body.home #archive .paper:focus-within,
-body.home #archive .paper.is-hovered {
-  background: #0b0b0c;
-  border-color: rgba(217,4,41,0.9);
-  transform: translateY(-10px) scale(1.015) rotate(0deg) !important;
+        <h2 class="paper-title">
+          <a class="stretched-link" href="/papers/part1.html">Part I: The Cold Genesis</a>
+        </h2>
 
-  /* Edge: red hairline + white keyline without thickening layout */
-  box-shadow:
-    0 28px 90px rgba(0,0,0,0.70),
-    0 0 0 1px rgba(230,228,224,0.22),
-    0 0 0 2px rgba(217,4,41,0.22),
-    14px 14px 0 rgba(0,0,0,0.55);
-  z-index: 200;
-}
+        <p class="paper-signal">
+          “To preserve the human, we must engineer the friction of thought.”
+        </p>
 
-body.home #archive .paper:hover::before,
-body.home #archive .paper:focus-within::before,
-body.home #archive .paper.is-hovered::before {
-  opacity: 1;
-  transform: translateY(0);
-}
+        <div class="k">
+          <span>Keywords</span> AI governance · workflow-centric oversight · human-in-the-loop
+        </div>
 
-body.home #archive .paper:hover::after,
-body.home #archive .paper:focus-within::after,
-body.home #archive .paper.is-hovered::after {
-  opacity: 1;
-}
+        <div class="actions">
+          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </div>
+      </article>
 
-/* 4) Script: keep V42 exclusion look, but add parallax separation */
-body.home #archive .script-note {
-  z-index: 10;
-  opacity: 0.66;
-  transition:
-    transform .72s cubic-bezier(.19,1,.22,1),
-    opacity .22s ease;
-}
+      <!-- Part II -->
+      <article class="paper">
+        <div class="card-base"><div class="work-bg-num">II</div></div>
+        <span class="script-note">Silent Rot</span>
 
-body.home #archive .paper:hover .script-note,
-body.home #archive .paper:focus-within .script-note,
-body.home #archive .paper.is-hovered .script-note {
-  opacity: 0.92;
-  transform: translateY(-22px) scale(1.06) rotate(0deg) !important;
-}
+        <h2 class="paper-title">
+          <a class="stretched-link" href="/papers/part2.html">Part II: The Silent Decay</a>
+        </h2>
 
-/* 5) Background numeral: breathes red on hover (but stays behind content) */
-body.home #archive .work-bg-num {
-  transition: opacity .28s ease, color .28s ease, transform .6s cubic-bezier(.19,1,.22,1);
-}
-body.home #archive .paper:hover .work-bg-num,
-body.home #archive .paper:focus-within .work-bg-num,
-body.home #archive .paper.is-hovered .work-bg-num {
-  color: var(--accent);
-  opacity: 0.30;
-  transform: translate3d(-18px, calc(-45% + var(--drift-y)), 0);
-}
+        <p class="paper-signal">
+          “The system shatters under its own weight before it is ever abused.”<br><br>
+          “It is a physical suicide, executed by goodwill.”
+        </p>
 
-/* 6) Button: "stamp" rather than glow */
-body.home #archive .pill {
-  position: relative;
-  z-index: 25;
-  transform: translateY(0);
-  transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .22s ease, transform .22s ease;
-}
+        <div class="k">
+          <span>Keywords</span> institutional failure · governance drift · pre-abuse failure
+        </div>
 
-body.home #archive .paper:hover .pill,
-body.home #archive .paper:focus-within .pill,
-body.home #archive .paper.is-hovered .pill {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
-  box-shadow: 6px 6px 0 rgba(230,228,224,0.95);
-  transform: translateY(-2px);
-}
+        <div class="actions">
+          <a class="pill" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </div>
+      </article>
 
-/* 7) Cinematic isolation (optional): dim non-hovered cards in supporting browsers */
-@supports selector(:has(*)) {
-  body.home #archive:has(.paper:hover) .paper:not(:hover) {
-    opacity: 0.40;
-    filter: grayscale(0.75) contrast(0.92);
-    transform: scale(0.992) rotate(0deg);
-    transition: opacity .55s ease, filter .55s ease, transform .55s ease;
-  }
-}
+      <!-- Part III -->
+      <article class="paper">
+        <div class="card-base"><div class="work-bg-num">III</div></div>
+        <span class="script-note">Requiem</span>
 
-/* 8) Touch devices: disable isolation/dimming (hoverless UX) */
-@media (hover: none) {
-  body.home #archive:has(.paper:hover) .paper:not(:hover) {
-    opacity: 1;
-    filter: none;
-    transform: none;
-  }
-}
+        <h2 class="paper-title">
+          <a class="stretched-link" href="/papers/part3.html">Part III: The Proper Ending</a>
+        </h2>
 
-/* 9) Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  body.home #archive .paper,
-  body.home #archive .paper::before,
-  body.home #archive .paper::after,
-  body.home #archive .script-note,
-  body.home #archive .pill {
-    transition: none !important;
-    transform: none !important;
-    filter: none !important;
-  }
-}
+        <p class="paper-signal">
+          “Silence is the scream of a failing system.”
+        </p>
+
+        <div class="k">
+          <span>Keywords</span> Resolution Collapse · semantic entropy · circuit breakers
+        </div>
+
+        <div class="actions">
+          <a class="pill" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <nav class="social-nav" aria-label="External links">
+          <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+          <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+          <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+          <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+          <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+        </nav>
+
+        <p class="copyright">
+          Takashi Sato · Signal Over Spectacle · 2026
+        </p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/assets/home.js" defer></script>
+  <script src="/assets/scroll.js" defer></script>
+</body>
+</html>
