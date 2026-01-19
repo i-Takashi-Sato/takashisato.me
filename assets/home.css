@@ -1,125 +1,381 @@
-/* =========================================================
-   V42 SURGICAL patch: Research Cards ONLY
-   - サイト全体の背景、ヘッダー、基本構造(V58.5/V60)は一切触らない
-   - 論文カード(.paper)の部分のみをV42の破壊美に限定
+=========================================================
+
+   HOME ONLY — V62 "BRUTAL ARCHIVE" (Merged Edition)
+
+   Design: V58.5 Archival Logic + V42 Punk Aesthetic
+
    ========================================================= */
 
-/* ① ドラッグ時の反転 (V42 Punk Inversion) */
-::selection { background: #FFF !important; color: #000 !important; }
-::-moz-selection { background: #FFF !important; color: #000 !important; }
 
-/* ② マウスカーソルの反転効果 (V42 Exclusion Glow) */
-#cursor-glow {
-  mix-blend-mode: exclusion !important;
+
+body.home {
+
+  --bg-void: #050505;
+
+  --bg-stage: #080808;
+
+  --surface: #0E0E0E;
+
+  --fg: #E6E4E0;
+
+  --fg-dim: #949494;
+
+  --accent: #D90429; /* Arterial Red */
+
+  --line: rgba(255, 255, 255, 0.08);
+
+  --line-strong: rgba(255, 255, 255, 0.12);
+
+
+
+  --font-serif: 'Cormorant Garamond', serif;
+
+  --font-script: 'Pinyon Script', cursive; /* V42 Script */
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --font-mono: 'JetBrains Mono', monospace;
+
+
+
+  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); /* V42 Overshoot */
+
+  --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+
+
+  background-color: var(--bg-void);
+
+  color: var(--fg);
+
+  font-family: var(--font-sans);
+
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+
 }
 
-/* ③ 論文カード本体: 不安定な傾きと、暴力的なスナップ復帰 */
-body.home .paper {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 80px;
-  padding: 140px 60px;
-  margin-top: 100px;
-  margin-bottom: 140px; /* はみ出しを許容する余白 */
-  
-  /* カードのデザイン自体は元の変数を維持 */
-  background: var(--surface);
-  border: 1px solid var(--line);
+
+
+/* --- ① ドラッグ時の反転 (V42 Punk Inversion) --- */
+
+body.home ::selection { background: #FFF !important; color: #000 !important; }
+
+body.home ::-moz-selection { background: #FFF !important; color: #000 !important; }
+
+
+
+/* --- Noise Layer (V58.5 Secure Version) --- */
+
+body.home::after {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 50;
+
+  opacity: 0.035;
+
+  mix-blend-mode: overlay;
+
+  background: url("/assets/noise.webp") repeat;
+
+  background-size: 280px 280px;
+
+}
+
+
+
+/* --- Main Stage --- */
+
+body.home main {
+
+  max-width: 1440px;
+
+  margin: 0 auto;
+
+  padding: 0 max(20px, 6vw);
+
+  border-left: 1px solid var(--line);
+
+  border-right: 1px solid var(--line);
+
+  background-color: var(--bg-stage);
+
+  min-height: 100vh;
+
   position: relative;
-  overflow: visible; /* 筆記体のはみ出しに必須 */
-  z-index: 1;
-  text-decoration: none;
+
+  z-index: 3;
+
+}
+
+
+
+/* --- Hero --- */
+
+body.home main > header { padding: 220px 0 120px; }
+
+body.home main > header h1 {
+
+  font-family: var(--font-serif);
+
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+
+  font-weight: 300;
+
+  font-style: italic;
+
+  line-height: 0.85;
+
+  letter-spacing: -0.04em;
+
+  margin-bottom: 80px;
+
+}
+
+body.home .who {
+
+  font-family: var(--font-mono); font-size: 11px;
+
+  color: var(--accent); letter-spacing: 0.15em;
+
+  text-transform: uppercase; margin-bottom: 20px; display: block;
+
+}
+
+body.home .lead {
+
+  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4;
+
+  border-left: 4px solid var(--accent); padding-left: 40px;
+
+  max-width: 850px;
+
+}
+
+
+
+/* --- ② 論文カード: V42 Broken Grid --- */
+
+body.home .paper {
+
+  display: grid;
+
+  grid-template-columns: 1.6fr 1fr;
+
+  grid-template-rows: auto 1fr;
+
+  gap: 40px 80px;
+
+  position: relative;
+
+  margin-top: 100px;
+
+  padding: 120px 60px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--line);
+
+  overflow: visible; /* 筆記体のはみ出しを許可 */
+
   color: inherit;
 
-  /* V42 物理挙動：スナップ感 */
-  transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s var(--ease-punk), background-color 0.4s ease, box-shadow 0.3s ease;
+
 }
 
-/* 各カードの個別の傾き (V42 Broken Grid) */
-body.home .paper:nth-of-type(1) { transform: rotate(-1.5deg); }
-body.home .paper:nth-of-type(2) { transform: rotate(2.2deg) translateX(-15px); z-index: 5; }
-body.home .paper:nth-of-type(3) { transform: rotate(-1.0deg) translateX(20px); }
 
-/* ホバー：一瞬で「正気」に戻るスナップ。これが「キレ」の正体 */
+
+/* V42: カードの意図的な傾き */
+
+body.home .paper:nth-of-type(1) { transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+
+body.home .paper:nth-of-type(2) { transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 4; }
+
+body.home .paper:nth-of-type(3) { transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+
+
+
+/* V42 Hover: スナップと血の影 */
+
 body.home .paper:hover {
-  transform: scale(1.03) rotate(0deg) !important; 
-  background: #0D0D0F;
+
+  transform: scale(1.02) rotate(0deg) !important;
+
+  background: #111;
+
   border-color: #FFF;
-  box-shadow: 
-    40px 40px 0px rgba(0,0,0,0.7), 
-    -4px -4px 0px var(--accent); /* Arterial Red の閃光 */
+
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
+
   z-index: 100;
+
 }
 
-/* ④ 筆記体オーバーレイ: 大胆な侵食と反転 (Calculated Vandalism) */
+
+
+/* --- ③ 筆記体オーバーレイ (Exclusion Mode) --- */
+
 body.home .script-note {
+
   position: absolute;
-  font-family: 'Pinyon Script', cursive; 
-  font-size: clamp(16rem, 38vw, 48rem); /* 限界を突破した巨大サイズ */
+
+  font-family: var(--font-script);
+
+  font-size: clamp(8rem, 16vw, 16rem);
+
   white-space: nowrap;
+
   color: #E6E4E0;
-  opacity: 0.15; /* 背景に沈ませて読みやすさを確保 */
+
+  opacity: 0.7;
+
   pointer-events: none;
-  
-  /* V42 の核心：背後のテキストと色が反転し、侵食する */
-  mix-blend-mode: exclusion; 
-  z-index: 10; /* テキストの「前面」に配置 */
-  
-  transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1.2), opacity 0.4s ease;
+
+  z-index: 10; /* テキストの上に配置 */
+
+  mix-blend-mode: exclusion; /* 反転効果 */
+
+  transition: transform 0.4s var(--ease-punk);
+
 }
 
-/* 配置の「緻密な大胆さ」：カードの境界を完全に無視 */
-body.home .paper:nth-of-type(1) .script-note { top: -25%; left: -18%; transform: rotate(-12deg); }
-body.home .paper:nth-of-type(2) .script-note { top: 15%; right: -38%; transform: rotate(-4deg); text-align: right; }
-body.home .paper:nth-of-type(3) .script-note { bottom: -35%; left: -22%; transform: rotate(-10deg); }
 
-body.home .paper:hover .script-note {
-  transform: scale(1.1) rotate(2deg);
-  opacity: 0.35;
-}
 
-/* ⑤ 内部テキストの視認性（反転の下でも確実に読ませる） */
-body.home .paper-title { 
-  mix-blend-mode: lighten; 
-  position: relative; 
-  z-index: 11; 
-}
+/* 各単語別の配置調整 */
+
+body.home .paper:nth-of-type(1) .script-note { top: 10%; left: -5%; transform: rotate(-15deg); }
+
+body.home .paper:nth-of-type(2) .script-note { font-size: clamp(10rem, 22vw, 22rem); top: 35%; right: -20%; transform: rotate(-5deg); }
+
+body.home .paper:nth-of-type(3) .script-note { font-size: clamp(12rem, 30vw, 30rem); bottom: -10%; left: -10%; transform: rotate(-10deg); }
+
+
+
+body.home .paper:hover .script-note { transform: scale(1.1) rotate(0deg); }
+
+
+
+/* --- その他コンテンツ要素 --- */
+
+body.home .paper-title { grid-column: 1 / 2; grid-row: 1; z-index: 5; mix-blend-mode: lighten; }
+
 body.home .paper-title a {
-  font-family: var(--font-sans);
-  font-size: clamp(2.8rem, 6vw, 7.5rem);
-  font-weight: 600;
-  line-height: 0.85;
-  letter-spacing: -0.06em;
-  color: var(--fg);
+
+  font-family: var(--font-sans); font-size: clamp(2.2rem, 5vw, 4.5rem);
+
+  font-weight: 600; line-height: 1.0; letter-spacing: -0.04em;
+
+  text-transform: uppercase; color: var(--fg); text-decoration: none;
+
 }
 
-/* PDFボタン: V42 パンク物理シャドウ */
-body.home .pill {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 24px 52px;
-  border: 1px solid var(--fg);
-  background: transparent;
-  color: var(--fg);
-  transition: all 0.2s ease;
-  text-decoration: none;
-  display: inline-flex;
-}
-body.home .paper:hover .pill {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #000;
-  box-shadow: 10px 10px 0px #FFF; /* 物理影 */
-}
 
-/* ⑥ 背景ローマ数字: Drift連動 */
-body.home .work-bg-num {
-  position: absolute; right: -2%; top: 50%;
+
+body.home .paper-signal {
+
+  grid-column: 1 / 2; grid-row: 2; z-index: 5;
+
   font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(12rem, 25vw, 28rem); opacity: 0.05; color: #fff;
-  mix-blend-mode: overlay; z-index: -1;
-  transform: translateY(-50%) translate3d(var(--drift-x), var(--drift-y), 0);
-  transition: color 0.6s ease, opacity 0.6s ease;
+
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem); line-height: 1.5; color: var(--fg-dim);
+
+  border-left: 3px solid var(--accent); padding-left: 40px; margin: 40px 0 0;
+
 }
+
+
+
+body.home .k {
+
+  grid-column: 2 / 3; grid-row: 1; z-index: 5;
+
+  display: flex; flex-direction: column; align-items: flex-end; text-align: right;
+
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+
+  letter-spacing: 0.15em; color: var(--fg-dim);
+
+}
+
+body.home .k span { color: var(--accent); font-weight: 700; opacity: 0.6; display: block; margin-bottom: 10px; }
+
+
+
+/* --- PDF Button: Punk Shadow --- */
+
+body.home .actions { grid-column: 2 / 3; grid-row: 2; display: flex; justify-content: flex-end; align-items: flex-end; z-index: 5; }
+
+body.home .pill {
+
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+
+  padding: 22px 48px; border: 1px solid var(--fg); color: var(--fg);
+
+  text-decoration: none; transition: all 0.2s ease;
+
+}
+
+body.home .paper:hover .pill {
+
+  background: var(--accent); border-color: var(--accent); color: #000;
+
+  box-shadow: 5px 5px 0px #FFF;
+
+}
+
+
+
+/* --- 背景ローマ数字 (Drift連動) --- */
+
+body.home .work-bg-num {
+
+  position: absolute; right: -2%; top: 50%;
+
+  font-family: var(--font-serif); font-style: italic; font-weight: 300;
+
+  font-size: clamp(12rem, 25vw, 28rem); opacity: 0.05; color: #fff;
+
+  mix-blend-mode: overlay; z-index: 0;
+
+  transform: translateY(-50%) translate3d(var(--drift-x), var(--drift-y), 0);
+
+  transition: color 0.6s ease, opacity 0.6s ease;
+
+}
+
 body.home .paper:hover .work-bg-num { color: var(--accent); opacity: 0.3; }
+
+
+
+/* --- Responsive & A11y --- */
+
+@media (max-width: 900px) {
+
+  body.home .paper { grid-template-columns: 1fr; transform: none !important; margin-left: 0 !important; width: 100% !important; padding: 60px 24px; }
+
+  body.home .k, body.home .actions { grid-column: 1; align-items: flex-start; text-align: left; }
+
+  body.home .pill { width: 100%; }
+
+  body.home .script-note { font-size: 6rem; opacity: 0.5; }
+
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  body.home::after { opacity: 0 !important; }
+
+  body.home .paper, body.home .script-note, body.home .pill { transition: none !important; transform: none !important; }
+
+}
