@@ -1,37 +1,47 @@
 /* =========================================================
-   HOME ONLY — V85 "ABSOLUTE RESTORATION"
+   HOME ONLY — V87 "ABSOLUTE INTEGRITY"
    
-   - CARD LAYOUT: FIXED to V65 Scattered Grid (User's Original).
-   - Part I: "D" aligned under "P", anti-clipping guard applied.
+   - CARD LAYOUT: FIXED to V65 Scattered Grid (Original).
+   - Part I: "D" aligned under "P", anti-clipping guard active.
    - ROMAN NUMERALS: Hover color (Red) active (V72).
-   - NO unauthorized changes to font-size or spacing.
+   - Constraint: ZERO unauthorized changes to V65/V72 foundation.
    ========================================================= */
 
+/* ウィンドウ全体のはみ出しのみを防ぎ、表示は維持する */
 html, body.home {
-  /* 横スクロールは防ぐが、表示は絶対に隠さない */
+  overflow-x: hidden;
   width: 100%;
   margin: 0;
   padding: 0;
   background-color: #050505;
   color: #E6E4E0;
-  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body.home {
+  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
+  --fg: #E6E4E0; --fg-dim: #949494; --accent: #D90429;
+  --line: rgba(255, 255, 255, 0.08);
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-script: 'Pinyon Script', cursive;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-body.home ::selection { background: #FFF; color: #000; }
-
+/* Background Noise */
 body.home::after {
   content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
   opacity: 0.035; mix-blend-mode: overlay;
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
-/* 筆記体が切れるのを防ぐため、親要素の overflow をすべて解除 */
+/* 筆記体が切れないよう visible を徹底 */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid rgba(255, 255, 255, 0.08); 
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: #080808; min-height: 100vh; position: relative; z-index: 3;
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
   overflow: visible !important; 
 }
 
@@ -39,29 +49,28 @@ body.home main {
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: #0E0E0E; border: 1px solid rgba(255, 255, 255, 0.08); 
-  overflow: visible !important; 
-  color: inherit; transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease; z-index: 1;
+  background: var(--surface); border: 1px solid var(--line); overflow: visible !important; 
+  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease; z-index: 1;
 }
 
-/* 佐藤さんのV65数値を1pxも変えずに復元 */
+/* V65 構図の完全死守 */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
 
 body.home #archive .paper:hover {
   background: #111; transform: scale(1.01) rotate(0deg) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px #D90429; border-color: #FFF; z-index: 100;
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
-/* Roman Numerals - V72 Color Restoration */
+/* Roman Numerals (V72 Restoration) */
 body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
-  font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
+  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
   opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
-body.home #archive .paper:hover .work-bg-num { color: #D90429; opacity: 0.4; }
+body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
    SCRIPT OVERLAY — PRECISION LOCK
@@ -69,40 +78,29 @@ body.home #archive .paper:hover .work-bg-num { color: #D90429; opacity: 0.4; }
 
 body.home #archive .script-note {
   position: absolute;
-  z-index: 20; 
-  pointer-events: none;
-  font-family: 'Pinyon Script', cursive;
-  white-space: nowrap;
-  color: #E6E4E0;
-  mix-blend-mode: exclusion;
-  opacity: 0.9;
+  z-index: 20; pointer-events: none;
+  font-family: var(--font-script); white-space: nowrap;
+  color: #E6E4E0; mix-blend-mode: exclusion; opacity: 0.9;
   transition: none;
 }
 
 /* Part I: "Grand Design"
-   - 「D」の位置をタイトルの「P」に合わせるためスライド
-   - ウィンドウが狭まった際、文字が左端から消えないようガード
+   - 「D」をタイトルの「P」に揃えるための配置調整
+   - ウィンドウ左端(0px)を下限に設定
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(5.5rem, 10vw, 11rem); 
+  font-size: clamp(6rem, 11vw, 10.5rem); 
   top: 8%; 
-  /* ビューポートの左端(0px)を下限にしつつ、DとPが垂直に並ぶ位置へ */
-  left: max(-20%, calc(-1 * (100vw - 1200px) / 2)); 
-  transform: rotate(-22deg); 
-  transform-origin: left center;
+  left: max(-16%, calc(-1 * (100vw - 1200px) / 2)); 
+  transform: rotate(-22deg); transform-origin: left center;
 }
 
-/* Part II: "Silent Rot" (V65 logic) */
+/* Part II & III: V65 logic */
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(4rem, 8vw, 8rem);
-  top: 15%; 
-  right: 5%; 
-  left: auto;
-  transform: rotate(14deg); 
-  transform-origin: right center;
+  top: 15%; right: 5%; left: auto;
+  transform: rotate(14deg); transform-origin: right center;
 }
-
-/* Part III: "Requiem" (V65 logic) */
 body.home #archive .paper:nth-of-type(3) .script-note {
   font-size: clamp(12rem, 28vw, 32rem);
   top: 50%; left: 50%;
