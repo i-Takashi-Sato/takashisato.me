@@ -1,135 +1,478 @@
 /* =========================================================
-   SCRIPT OVERLAY — "THE EDITORIAL HACK" (World Class Tuning)
-   Concept:
-   - Part I: "The Slash" (Title Breaker)
-   - Part II: "The Weight" (Bottom Anchor)
-   - Part III: "The Stamp" (Absolute Center)
+   HOME ONLY — V42 "THE BEAUTIFUL DISASTER" (Site-integrated)
+
+   Rules
+   - Do NOT touch papers/* layouts
+   - Everything is scoped under body.home
+   - No data: URLs (CSP-safe)
+
+   Intent
+   - Broken-grid cards (tilt) at rest
+   - On hover: snap straight + hard shadow + hard highlight
+   - Script overlay (exclusion) sits ABOVE content visually, but never blocks clicks
+   - Numeral sits BEHIND content
    ========================================================= */
 
-body.home #archive .script-note {
-  position: absolute;
-  /* 文字の上に被せる (Overlapping Content) */
-  z-index: 20;
+body.home{
+  /* --- V42 Base Vars --- */
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface:  #0E0E0E;
+
+  --fg:       #E6E4E0;
+  --fg-dim:   #949494;
+
+  /* Accent: Arterial Red */
+  --accent: #D90429;
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255,255,255,0.12);
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-script: 'Pinyon Script', cursive;
+  --font-sans:  'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Physics */
+  --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
+
+  background-color: var(--bg-void);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Selection: inverted */
+body.home ::selection{ background:#FFF; color:#000; }
+body.home ::-moz-selection{ background:#FFF; color:#000; }
+
+/* =========================================================
+   Noise layer (home)
+   - Above main content but below header
+   ========================================================= */
+body.home::after{
+  content:"";
+  position: fixed;
+  inset: 0;
   pointer-events: none;
 
-  font-family: var(--font-script);
-  line-height: 1;
+  z-index: 50;              /* above main(3), below header(100) */
+  opacity: 0.035;           /* tune 0.02–0.06 */
+  mix-blend-mode: overlay;
+
+  background: url("/assets/noise.webp") repeat;
+  background-size: 280px 280px;
+}
+
+/* =========================================================
+   Main stage (home-only)
+   ========================================================= */
+body.home main{
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+
+  position: relative;
+  z-index: 3; /* below noise(50), above page background */
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+body.home main > header{ padding: 220px 0 120px; }
+
+body.home main > header h1{
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
+}
+
+body.home .who{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  display: block;
+}
+
+body.home .lead{
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.4;
+
+  border-left: 4px solid var(--accent);
+  padding-left: 40px;
+  max-width: 850px;
+  margin: 0;
+}
+
+body.home .section-label{
+  display: block;
+  margin-top: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* =========================================================
+   ARCHIVE CARDS — V42 Broken Grid
+   IMPORTANT: Use #archive scoping to avoid touching /papers
+   ========================================================= */
+
+body.home #archive .paper{
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 80px;
+
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible; /* V42: allow bleed (script + shadow) */
+
+  color: inherit;
+  will-change: transform;
+
+  transition:
+    transform 0.3s var(--ease-punk),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  z-index: 1;
+}
+
+/* Initial tilt / scatter (Broken Grid) */
+body.home #archive .paper:nth-of-type(1){ transform: rotate(-1deg); width: 98%; margin-left: 1%; }
+body.home #archive .paper:nth-of-type(2){ transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
+body.home #archive .paper:nth-of-type(3){ transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
+
+/* Hover: snaps to attention */
+body.home #archive .paper:hover,
+body.home #archive .paper.is-hovered{
+  background: #111;
+  transform: scale(1.02) rotate(0deg) !important;
+  box-shadow:
+    20px 20px 0px rgba(0,0,0,0.5),
+    -2px -2px 0px var(--accent);
+  border-color: #FFF;
+  z-index: 100;
+}
+
+/* Keyboard a11y */
+body.home #archive .paper:focus-within{
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------
+   Layering model inside the card
+   - card background: implicit
+   - stretched-link: z=1 (clickable surface)
+   - numeral base: z=0
+   - script overlay: z=20 (MODIFIED: Sit on TOP of content)
+   - content: z=3
+   --------------------------------------------------------- */
+
+/* Full-card link should stay clickable, but never cover content */
+body.home #archive .paper .stretched-link{
+  z-index: 1;
+}
+
+/* Numeral base */
+body.home #archive .card-base{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.home #archive .work-bg-num{
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
+
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
+
+  opacity: 0.08;
+  color: #FFF;
+  mix-blend-mode: overlay;
+
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+body.home #archive .paper:hover .work-bg-num,
+body.home #archive .paper.is-hovered .work-bg-num{
+  color: var(--accent);
+  opacity: 0.4;
+}
+
+/* =========================================================
+   SCRIPT OVERLAY — REFINED "HACK" STYLE
+   Updated to sit ON TOP of content (z-index 20) 
+   with massive size and exclusion blend mode.
+   ========================================================= */
+body.home #archive .script-note{
+  position: absolute;
+  
+  /* CHANGE: z-index must be > 3 (content) to overlap text */
+  z-index: 20; 
+  pointer-events: none;
+
+  font-family: 'Pinyon Script', cursive;
+  
+  /* CHANGE: Massive editorial scale */
+  font-size: clamp(9rem, 18vw, 22rem);
+  
   white-space: nowrap;
 
-  /* ベース色（Exclusionで背景・文字と干渉して色が反転する） */
   color: #E6E4E0;
+  
+  /* CHANGE: Exclusion mode allows text to be readable underneath */
   mix-blend-mode: exclusion;
-  opacity: 0.85;
+  opacity: 0.8;
 
-  will-change: transform;
-  transition: transform 0.5s var(--ease-punk);
+  transition: transform 0.4s var(--ease-punk);
 }
 
-/* --- PART I: "Grand Design" ---
-   【構図の意図】
-   左上の余白から侵入し、メインタイトル（THE COLD GENESIS）を
-   鋭利な角度で「切断」する配置。
-   "Grand" のGがカードの外に飛び出し、視線を強制的に左上へ引きつけます。
-*/
-body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(11rem, 20vw, 24rem); /* タイトルに負けない巨大さ */
-  top: 12%;
-  left: -8%;
-  right: auto;
-  bottom: auto;
-  
-  /* -16度：読める限界の鋭さで斜めに切る */
-  transform: rotate(-16deg) translateZ(0);
+/* Positions — Aggressive & Overlapping */
+
+/* Part I: Slashing diagonally through the title */
+body.home #archive .paper:nth-of-type(1) .script-note{ 
+  top: 15%; 
+  left: -8%; 
+  transform: rotate(-15deg); 
 }
 
-/* --- PART II: "Silent Rot" ---
-   【構図の意図】
-   カードの右下に「沈殿」する配置。
-   重力に従って落ちていくような不安定な角度。
-   "Rot" がカードの境界線ギリギリ（あるいは外）に位置し、崩壊を暗示します。
-*/
-body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(12rem, 22vw, 26rem);
-  top: auto;
-  bottom: -8%; /* カードの下枠をはみ出す */
-  right: -6%;  /* 右寄せで不安定さを出す */
-  left: auto;
-  
-  /* +8度：Part Iとは逆の「崩れ落ちる」角度 */
-  transform: rotate(8deg) translateZ(0);
+/* Part II: Hanging heavy off the bottom right */
+body.home #archive .paper:nth-of-type(2) .script-note{ 
+  font-size: clamp(10rem, 20vw, 24rem); 
+  top: auto; 
+  right: -5%; 
+  left: auto; 
+  bottom: -10%; /* Bleeding out bottom */
+  transform: rotate(5deg); 
 }
 
-/* --- PART III: "Requiem" ---
-   【構図の意図】
-   完全なる「刻印」。
-   カードの重心（Center）を暴力的に占拠します。
-   ここだけは大きな傾きをつけず、堂々とした署名として配置。
-*/
-body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(14rem, 28vw, 32rem); /* 圧倒的最大サイズ */
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  
-  /* ほぼ水平に近い-4度。安定感の中のわずかな違和感 */
-  transform: translate(-50%, -50%) rotate(-4deg) translateZ(0);
+/* Part III: Stamped center-bottom */
+body.home #archive .paper:nth-of-type(3) .script-note{ 
+  font-size: clamp(12rem, 25vw, 28rem); 
+  bottom: -5%; 
+  left: 50%; 
+  top: auto; 
+  transform: translate(-50%, 0) rotate(-6deg); 
 }
 
-
-/* =========================================================
-   HOVER: PARALLAX DEPTH
-   ホバー時に「文字が浮く」距離を計算し直し、
-   3D的な奥行き（Depth）を強調
-   ========================================================= */
-
+/* Hover Effects: Parallax Lift */
 body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note {
+body.home #archive .paper.is-hovered .script-note{
+  /* Lifts up and straightens slightly */
+  transform: translateY(-20px) scale(1.05) rotate(0deg);
   opacity: 1;
-  /* exclusionモード解除なし（反転したまま浮き上がる美しさ） */
 }
 
-/* Part I: 斜め上に引き剥がす */
-body.home #archive .paper:nth-of-type(1):hover .script-note {
-  transform: rotate(-16deg) translate(-20px, -30px) scale(1.05);
+/* Part III Hover specific adjustment to keep it centered */
+body.home #archive .paper:nth-of-type(3):hover .script-note{
+  transform: translate(-50%, -20px) scale(1.05) rotate(0deg);
 }
 
-/* Part II: 垂直に浮き上がらせる */
-body.home #archive .paper:nth-of-type(2):hover .script-note {
-  transform: rotate(8deg) translate(10px, -20px) scale(1.05);
+/* Content: force above stretched-link + overlays */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
+body.home #archive .actions{
+  position: relative;
+  z-index: 3;
 }
 
-/* Part III: 正面へ迫り出す */
-body.home #archive .paper:nth-of-type(3):hover .script-note {
-  transform: translate(-50%, -50%) rotate(0deg) scale(1.1);
+/* Title */
+body.home #archive .paper-title{ margin: 0; }
+body.home #archive .paper-title a{
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+/* Quote / Signal */
+body.home #archive .paper-signal{
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--fg-dim);
+
+  border-left: 2px solid var(--accent);
+  padding-left: 30px;
+  margin: 40px 0 0;
+}
+
+/* Keywords */
+body.home #archive .k{
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+body.home #archive .k span{
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* Actions / Pill */
+body.home #archive .actions{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+body.home #archive .pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+
+  padding: 22px 44px;
+  min-width: 200px;
+
+  border: 1px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+body.home #archive .paper:hover .pill,
+body.home #archive .paper.is-hovered .pill{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
 }
 
 /* =========================================================
-   MOBILE OPTIMIZATION
-   スマホでは「はみ出し」を制御しつつ、構図の意図（切断・沈殿・刻印）を維持
+   Cursor glow (home-only)
+   - visible only when body.home has .glow-active (toggled by assets/home.js)
    ========================================================= */
-@media (max-width: 900px) {
-  body.home #archive .script-note {
-    opacity: 0.6;
-    mix-blend-mode: normal; /* 背景が暗いため、スマホでは白文字として視認性を確保 */
+body.home #cursor-glow{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 80vw;
+  height: 80vw;
+  margin-left: -40vw;
+  margin-top: -40vw;
+
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+  z-index: 2;
+
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-kinetic);
+  will-change: transform;
+
+  mix-blend-mode: exclusion;
+}
+
+body.home.glow-active #cursor-glow{ opacity: 1; }
+
+/* =========================================================
+   A11y: reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce){
+  body.home::after{ opacity: 0 !important; }
+  body.home #cursor-glow{ opacity: 0 !important; }
+  body.home #archive .paper,
+  body.home #archive .pill,
+  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  body.home .reveal,
+  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 900px){
+  body.home main > header{ padding: 160px 0 90px; }
+
+  body.home #archive .paper{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 50px;
+    padding: 100px 24px;
+    margin-bottom: 40px;
+
+    transform: none !important;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  /* Part I: 上部を切断 */
-  body.home #archive .paper:nth-of-type(1) .script-note {
+  body.home #archive .k,
+  body.home #archive .actions{
+    align-items: flex-start;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
+
+  /* Mobile Script Sizing */
+  body.home #archive .script-note{
     font-size: 8rem;
-    top: 8%; left: -5%; transform: rotate(-12deg);
+    opacity: 0.5;
   }
-  
-  /* Part II: 下部に沈殿 */
-  body.home #archive .paper:nth-of-type(2) .script-note {
-    font-size: 9rem;
-    bottom: 5%; right: -5%; transform: rotate(5deg);
-  }
-  
-  /* Part III: 中央に刻印 */
-  body.home #archive .paper:nth-of-type(3) .script-note {
-    font-size: 10rem;
-    top: 50%; left: 50%; margin-left: 0;
-    transform: translate(-50%, -50%) rotate(-4deg);
-  }
+
+  body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; transform: rotate(-10deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
 }
