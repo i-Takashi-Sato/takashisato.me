@@ -1,20 +1,25 @@
 /* =========================================================
-   V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
+   V142 FINAL — THE STATIC MONUMENT
+   
+   - DESIGN: Clinical Silence & Nocturnal Chaos
+   - HOVER: Disabled (Static Editorial Balance)
+   - ACCENT: Antique Paper White & Crimson Ink
    ========================================================= */
 
 body.home {
-  /* V72: FINAL COLOR RESTORED */
+  /* 漆黒とアイボリーの色彩設計 */
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
-  --fg: #E6E4E0;
-  --fg-dim: #949494;
-  --accent: #D90429;
+  --fg: #E6E4E0; 
+  --fg-dim: #555555; /* UI要素を影として沈める */
   --line: rgba(255, 255, 255, 0.08);
 
-  /* Nocturnal Crimson: セクシーで湿度の高い深紅 */
-  --sexy-ink: #7B001C;
+  /* 唯一の官能色：深紅 */
+  --sexy-ink: #7B001C; 
+  --accent: var(--fg); /* ホバー変化を無効化し秩序を維持 */
 
+  /* 世界最高水準のタイポグラフィ */
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -30,13 +35,13 @@ body.home {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- GLOBAL ARCHITECTURE --- */
+/* --- GLOBAL LAYOUT --- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body.home ::selection { background: #FFF; color: #000; }
+body.home ::selection { background: var(--sexy-ink); color: #FFF; }
 
+/* フィルムグレイン・ノイズ */
 body.home::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none;
-  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
@@ -46,7 +51,7 @@ body.home main {
   background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
 }
 
-/* 垂直ラベル：左側の空白を定義する背骨 */
+/* 左翼の垂直軸ラベル */
 .vertical-axis {
   position: absolute; left: 15px; top: 400px;
   writing-mode: vertical-rl; transform: rotate(180deg);
@@ -64,35 +69,35 @@ body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--ac
 body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
 body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); border-bottom: 1px solid var(--line); padding-bottom: 20px; }
 
-/* --- ARCHIVE CARDS (V65 Scattered Logic) --- */
+/* --- ARCHIVE CARDS (STATIC GRID) --- */
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
   background: var(--surface); border: 1px solid var(--line); overflow: visible; 
-  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
-  text-decoration: none;
+  color: inherit; text-decoration: none; z-index: 1;
 }
 
+/* 散布された配置ロジック（V65継承） */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 92%; margin-left: 8%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
 
+/* ホバー演出の完全廃止（静止画としての強度） */
 body.home #archive .paper:hover {
-  background: #111; transform: scale(1.01) rotate(0deg) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
+  transform: none; 
+  box-shadow: none;
+  border-color: var(--line);
 }
 
-/* Numeral Base */
-body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+/* 背後のローマ数字 */
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
   font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
-  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
+  opacity: 0.06; color: #FFF; mix-blend-mode: overlay;
 }
-body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; mix-blend-mode: normal; }
 
 /* =========================================================
-   SCRIPT NOTES: DRAWING REVEAL (V138 FINAL)
+   SCRIPT NOTES: NOCTURNAL CRIMSON REVEAL
    ========================================================= */
 body.home #archive .script-note {
   position: absolute; z-index: 2; 
@@ -101,12 +106,14 @@ body.home #archive .script-note {
   color: var(--sexy-ink); opacity: 0;
   mix-blend-mode: screen; 
   
-  /* CSS Mask Drawing Effect */
+  /* インクが染み込むアニメーション */
   -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%);
   -webkit-mask-size: 200% 100%;
   -webkit-mask-position: 100% 0;
   animation: writeInk 3.5s ease-out forwards;
 }
+
+
 
 @keyframes writeInk {
   0% { opacity: 0; -webkit-mask-position: 100% 0; }
@@ -114,59 +121,35 @@ body.home #archive .script-note {
   100% { opacity: 0.75; -webkit-mask-position: 0 0; }
 }
 
-/* --- THE CALCULATED CHAOS PLACEMENT --- */
-
-/* Part I: 左側の大空白を支配する巨大な導入 */
+/* 計算されたランダム・オフセット */
 body.home #archive .paper:nth-of-type(1) .script-note { 
-  font-size: clamp(14rem, 30vw, 35rem); 
-  top: -25%; left: -28vw; 
-  transform: rotate(-12deg); 
-  animation-delay: 1s; 
+  font-size: clamp(14rem, 30vw, 35rem); top: -25%; left: -28vw; transform: rotate(-12deg); animation-delay: 1s; 
 }
-
-/* Part II: 右下がり・微細傾斜・官能的なオフセット */
 body.home #archive .paper:nth-of-type(2) .script-note { 
-  font-size: clamp(12rem, 24vw, 28rem); 
-  top: 45%; right: -28vw; left: auto;
-  transform: rotate(2deg); /* PERFECT: 微細な右下がり */
-  animation-delay: 2.8s; 
+  font-size: clamp(12rem, 24vw, 28rem); top: 45%; right: -28vw; left: auto; transform: rotate(2deg); animation-delay: 2.8s; 
 }
-
-/* Part III: 下層を切り裂くアグレッシブな終焉 */
 body.home #archive .paper:nth-of-type(3) .script-note { 
-  font-size: clamp(10rem, 20vw, 25rem); 
-  top: 40%; left: -15vw; 
-  transform: rotate(-25deg); 
-  animation-delay: 4.8s; 
+  font-size: clamp(10rem, 20vw, 25rem); top: 40%; left: -15vw; transform: rotate(-25deg); animation-delay: 4.8s; 
 }
 
-/* --- UI Content Layers (z-index 10) --- */
+/* --- UI Content Layers --- */
 body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 40px; }
 body.home #archive .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
   font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
 }
-
 body.home #archive .paper-signal {
   font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0; position: relative; z-index: 10;
+  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--fg-dim); padding-left: 30px; margin: 40px 0 0; position: relative; z-index: 10;
 }
-
-body.home #archive .k {
-  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end; text-align: right; position: relative; z-index: 10;
-}
-body.home #archive .k span { color: var(--accent); font-weight: 700; }
-
+body.home #archive .k { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); text-align: right; position: relative; z-index: 10; }
 body.home #archive .pill {
   display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-  padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
-  margin-top: 40px; position: relative; z-index: 10;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  padding: 22px 44px; border: 1px solid var(--fg-dim); color: var(--fg-dim); text-decoration: none; margin-top: 40px; position: relative; z-index: 10;
 }
-body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
 
-/* Cursor Glow */
+/* --- INTERACTIVE GLOW --- */
 body.home #cursor-glow {
   position: fixed; left: 0; top: 0; width: 80vw; height: 80vw; margin-left: -40vw; margin-top: -40vw;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
@@ -175,7 +158,7 @@ body.home #cursor-glow {
 }
 body.home.glow-active #cursor-glow { opacity: 1; }
 
-/* --- MOBILE SAFETY --- */
+/* --- MOBILE RESPONSIVE --- */
 @media (max-width: 1024px) {
   body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
   .vertical-axis, .script-note { display: none; }
