@@ -7,14 +7,23 @@ html, body.home {
 }
 
 body.home {
-  --bg-void: #050505; --bg-stage: #080808; --surface: #0E0E0E;
-  --fg: #E6E4E0; --fg-dim: #949494; --accent: #D90429;
+  --bg-void: #050505;
+  --bg-stage: #080808;
+  --surface: #0E0E0E;
+
+  --fg: #E6E4E0;
+  --fg-dim: #949494;
+  --accent: #D90429;
+
   --line: rgba(255, 255, 255, 0.08);
+
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
+
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -22,29 +31,61 @@ body.home {
 body.home ::selection { background: #FFF; color: #000; }
 
 body.home::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
-  opacity: 0.035; mix-blend-mode: overlay;
-  background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background: url("/assets/noise.webp") repeat;
+  background-size: 280px 280px;
 }
 
 body.home main {
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
-  overflow: visible; 
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+  position: relative;
+  z-index: 3;
+
+  overflow: visible;
 }
 
 body.home main > header { padding: 220px 0 120px; }
+
 body.home main > header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
 }
 
 body.home #archive .paper {
-  display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
-  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
-  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease; z-index: 1;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 80px;
+
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible;
+
+  color: inherit;
+  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease;
+  z-index: 1;
 }
 
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
@@ -52,46 +93,118 @@ body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
 
 body.home #archive .paper:hover {
-  background: #111; transform: scale(1.01) rotate(0deg) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
+  background: #111;
+  transform: scale(1.01) rotate(0deg) !important;
+  box-shadow:
+    20px 20px 0px rgba(0,0,0,0.5),
+    -2px -2px 0px var(--accent);
+  border-color: #FFF;
+  z-index: 100;
 }
 
-body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+body.home #archive .card-base {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
 body.home #archive .work-bg-num {
-  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
-  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
-}
-body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
 
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+
+  opacity: 0.08;
+  color: #FFF;
+  mix-blend-mode: overlay;
+  transition: 0.3s ease;
+}
+
+/* Hover: accent red MUST show (avoid blend hiding the red) */
+body.home #archive .paper:hover .work-bg-num {
+  color: var(--accent);
+  opacity: 0.45;
+  mix-blend-mode: normal;
+}
+
+/* ---------------------------------------------------------
+   Script note: “Hacked Scribble”
+   - Above numeral, below content (keeps readability)
+   - Never blocks clicks
+   --------------------------------------------------------- */
 body.home #archive .script-note {
   position: absolute;
-  z-index: 20; pointer-events: none;
-  font-family: var(--font-script); white-space: nowrap;
-  color: #E6E4E0; mix-blend-mode: exclusion; opacity: 0.9;
+  z-index: 2;             /* was 20: keep content readable */
+  pointer-events: none;
+
+  font-family: var(--font-script);
+  white-space: nowrap;
+
+  color: #E6E4E0;
+  mix-blend-mode: exclusion;
+  opacity: 0.78;
+
+  /* subtle “scrape / scribble” */
+  letter-spacing: -0.03em;
+  line-height: 0.78;
+  text-shadow:
+    0.6px 0.6px 0 rgba(255,255,255,0.16),
+    -1.2px 0.8px 0 rgba(0,0,0,0.38),
+    0 12px 28px rgba(0,0,0,0.35);
+  -webkit-text-stroke: 1px rgba(255,255,255,0.05);
 }
 
+/* Part I — split words like your reference */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(5.5rem, 11vw, 10.5rem); 
-  top: 8%; 
-  left: max(-18%, calc(-1 * (100vw - 1200px) / 2)); 
-  transform: rotate(-22deg); transform-origin: left center;
+  font-size: clamp(5.5rem, 11vw, 10.5rem);
+  top: 8%;
+  left: max(-18%, calc(-1 * (100vw - 1200px) / 2));
+  transform: rotate(-22deg);
+  transform-origin: left center;
+
+  word-spacing: 1.2em; /* 핵: “Grand        Design” の分裂感 */
 }
 
+/* Part II — angled, slightly tighter */
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(4rem, 8vw, 8rem);
-  top: 15%; right: 5%; left: auto;
-  transform: rotate(14deg); transform-origin: right center;
+  top: 15%;
+  right: 5%;
+  left: auto;
+  transform: rotate(14deg);
+  transform-origin: right center;
+
+  word-spacing: 0.7em;
 }
 
+/* Part III — big, but not “perfectly centered signboard” */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(10rem, 25vw, 28rem);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) rotate(-8deg);
+  font-size: clamp(9rem, 22vw, 26rem);
+
+  /* shift off perfect center for hacked feel */
+  top: 58%;
+  left: 42%;
+  transform: translate(-50%, -50%) rotate(-11deg);
   text-align: center;
+
+  word-spacing: 0.25em;
 }
 
+/* Title link (unchanged) */
 body.home #archive .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
 }
