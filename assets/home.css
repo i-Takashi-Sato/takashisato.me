@@ -1,5 +1,16 @@
 /* =========================================================
    HOME ONLY — V42 "THE BEAUTIFUL DISASTER" (Site-integrated)
+
+   Rules
+   - Do NOT touch papers/* layouts
+   - Everything is scoped under body.home
+   - No data: URLs (CSP-safe)
+
+   Intent
+   - Broken-grid cards (tilt) at rest
+   - On hover: snap straight + hard shadow + hard highlight
+   - Script overlay (exclusion) sits ABOVE content visually, but never blocks clicks
+   - Numeral sits BEHIND content
    ========================================================= */
 
 body.home{
@@ -7,16 +18,20 @@ body.home{
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface:  #0E0E0E;
+
   --fg:       #E6E4E0;
   --fg-dim:   #949494;
+
+  /* Accent: Arterial Red */
   --accent: #D90429;
+
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255,255,255,0.12);
 
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
-  --font-sans:  'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono:  'JetBrains Mono', monospace;
+  --font-sans:  'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Physics */
   --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -25,51 +40,97 @@ body.home{
   background-color: var(--bg-void);
   color: var(--fg);
   font-family: var(--font-sans);
-  overflow-x: hidden; /* 横スクロール防止の絶対防衛ライン */
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Selection: inverted */
 body.home ::selection{ background:#FFF; color:#000; }
 body.home ::-moz-selection{ background:#FFF; color:#000; }
 
-/* Noise layer */
+/* =========================================================
+   Noise layer (home)
+   - Above main content but below header
+   ========================================================= */
 body.home::after{
-  content:""; position: fixed; inset: 0; pointer-events: none;
-  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
-  background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
-}
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
 
-/* Main stage */
-body.home main{
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh;
-  position: relative; z-index: 3;
-}
+  z-index: 50;              /* above main(3), below header(100) */
+  opacity: 0.035;           /* tune 0.02–0.06 */
+  mix-blend-mode: overlay;
 
-/* Hero */
-body.home main > header{ padding: 220px 0 120px; }
-body.home main > header h1{
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em;
-  margin: 0 0 80px;
-}
-body.home .who{
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent);
-  letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block;
-}
-body.home .lead{
-  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4;
-  border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0;
-}
-body.home .section-label{
-  display: block; margin-top: 90px;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em;
-  text-transform: uppercase; color: var(--fg-dim);
+  background: url("/assets/noise.webp") repeat;
+  background-size: 280px 280px;
 }
 
 /* =========================================================
-   ARCHIVE CARDS
+   Main stage (home-only)
+   ========================================================= */
+body.home main{
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+
+  position: relative;
+  z-index: 3; /* below noise(50), above page background */
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+body.home main > header{ padding: 220px 0 120px; }
+
+body.home main > header h1{
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
+}
+
+body.home .who{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  display: block;
+}
+
+body.home .lead{
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.4;
+
+  border-left: 4px solid var(--accent);
+  padding-left: 40px;
+  max-width: 850px;
+  margin: 0;
+}
+
+body.home .section-label{
+  display: block;
+  margin-top: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* =========================================================
+   ARCHIVE CARDS — V42 Broken Grid
+   IMPORTANT: Use #archive scoping to avoid touching /papers
    ========================================================= */
 
 body.home #archive .paper{
@@ -79,199 +140,337 @@ body.home #archive .paper{
   gap: 80px;
 
   position: relative;
-  margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  padding: 140px 50px;
 
   background: var(--surface);
   border: 1px solid var(--line);
-  overflow: visible; /* カードからはみ出すことを許可 */
+  overflow: visible; /* V42: allow bleed (script + shadow) */
 
   color: inherit;
   will-change: transform;
-  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+
+  transition:
+    transform 0.3s var(--ease-punk),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
   z-index: 1;
 }
 
-/* Initial tilt */
+/* Initial tilt / scatter (Broken Grid) */
 body.home #archive .paper:nth-of-type(1){ transform: rotate(-1deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2){ transform: rotate(1.5deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3){ transform: rotate(-0.5deg); width: 96%; margin-left: 4%; }
 
-/* Hover */
+/* Hover: snaps to attention */
 body.home #archive .paper:hover,
 body.home #archive .paper.is-hovered{
   background: #111;
   transform: scale(1.02) rotate(0deg) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
+  box-shadow:
+    20px 20px 0px rgba(0,0,0,0.5),
+    -2px -2px 0px var(--accent);
   border-color: #FFF;
   z-index: 100;
 }
-body.home #archive .paper:focus-within{ outline: 2px solid var(--accent); outline-offset: 4px; }
 
-/* Internal Layers */
-body.home #archive .paper .stretched-link{ z-index: 1; }
-body.home #archive .card-base{ position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+/* Keyboard a11y */
+body.home #archive .paper:focus-within{
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------
+   Layering model inside the card
+   - card background: implicit
+   - stretched-link: z=1 (clickable surface)
+   - numeral base: z=0
+   - script overlay: z=20 (MODIFIED: Sit on TOP of content)
+   - content: z=3
+   --------------------------------------------------------- */
+
+/* Full-card link should stay clickable, but never cover content */
+body.home #archive .paper .stretched-link{
+  z-index: 1;
+}
+
+/* Numeral base */
+body.home #archive .card-base{
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
 
 body.home #archive .work-bg-num{
-  position: absolute; right: -20px; top: 50%;
+  position: absolute;
+  right: -20px;
+  top: 50%;
   transform: translate3d(calc(0% + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem); line-height: 0.7; letter-spacing: -0.05em;
-  opacity: 0.08; color: #FFF; mix-blend-mode: overlay;
+
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
+
+  opacity: 0.08;
+  color: #FFF;
+  mix-blend-mode: overlay;
+
   transition: opacity 0.3s ease, color 0.3s ease;
 }
+
 body.home #archive .paper:hover .work-bg-num,
-body.home #archive .paper.is-hovered .work-bg-num{ color: var(--accent); opacity: 0.4; }
+body.home #archive .paper.is-hovered .work-bg-num{
+  color: var(--accent);
+  opacity: 0.4;
+}
 
 /* =========================================================
-   SCRIPT OVERLAY — "CONTROLLED CHAOS"
-   Target: Grand Design / Silent Rot / Requiem
-   Layout: Aggressive bleed relative to card, but safe for window.
+   SCRIPT OVERLAY — BLUE BOX TARGETING
+   Specific positioning based on user's sketches.
    ========================================================= */
 
-body.home #archive .script-note {
+body.home #archive .script-note{
   position: absolute;
-  /* 文字の上に被せる (z-index 20) */
-  z-index: 20; 
+  z-index: 20; /* Overlap content */
   pointer-events: none;
 
   font-family: 'Pinyon Script', cursive;
   white-space: nowrap;
   line-height: 0.8;
   
-  /* Color & Blend */
   color: #E6E4E0;
   mix-blend-mode: exclusion;
-  opacity: 0.85;
+  opacity: 0.9;
 
-  will-change: transform;
   transition: transform 0.4s var(--ease-punk);
-  
-  /* 安全策: どんなに大きくても画面幅の90%を超えないように制限する */
-  max-width: 90vw;
+  will-change: transform;
 }
 
 /* --- Part I: "Grand Design" ---
-   Layout: Diagonal slash across the top-left title.
-   Adjustment: vw値を13に下げ、leftをマイナスにしすぎないことで画面左切れを防ぐ。
+   Target (Blue Box 746): Top-Left area, above title.
 */
-body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(6rem, 13vw, 16rem); 
-  top: 18%;
-  left: -2%; /* カードの左端より少し出る程度に留める */
-  transform: rotate(-15deg);
+body.home #archive .paper:nth-of-type(1) .script-note{ 
+  font-size: clamp(8rem, 16vw, 14rem); 
+  top: 8%;         /* かなり上配置 */
+  left: -2%;       /* 左端 */
+  right: auto;
+  bottom: auto;
+  transform: rotate(-10deg); /* わずかな右上がり */
 }
 
 /* --- Part II: "Silent Rot" ---
-   Layout: Heavy anchor at the bottom right.
-   Adjustment: right: -2% でカードから少しはみ出させるが、画面右外には行かせない。
+   Target (Blue Box 747): Top-Right empty space.
 */
-body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(7rem, 15vw, 18rem);
-  top: auto;
-  bottom: -5%;
-  right: -2%;
+body.home #archive .paper:nth-of-type(2) .script-note{ 
+  font-size: clamp(9rem, 18vw, 16rem); 
+  top: 15%;        /* タイトル横の高さ */
+  right: -8%;      /* 右端からはみ出す勢い */
   left: auto;
-  transform: rotate(6deg);
+  bottom: auto;
+  transform: rotate(-5deg); /* ほぼ水平に近い右上がり */
 }
 
 /* --- Part III: "Requiem" ---
-   Layout: Massive Centerpiece.
-   Adjustment: Requiemは単語が短いのでフォントサイズを大きくしても安全。
-   画面中央配置(left: 50%)なので最大サイズを攻められる。
+   Target (Blue Box 748): Bottom diagonal cut. Massive.
 */
-body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(10rem, 20vw, 24rem);
-  top: 50%;
-  left: 50%;
+body.home #archive .paper:nth-of-type(3) .script-note{ 
+  font-size: clamp(12rem, 25vw, 28rem); 
+  top: auto;
+  bottom: 12%;     /* 下部に配置 */
+  left: -8%;       /* 左から突き上げる */
   right: auto;
-  bottom: auto;
-  transform: translate(-50%, -50%) rotate(-5deg);
+  transform: rotate(-15deg); /* 鋭角な右上がり */
 }
 
-/* Hover Effects */
+
+/* Hover Actions: Parallax Lift */
 body.home #archive .paper:hover .script-note,
-body.home #archive .paper.is-hovered .script-note {
+body.home #archive .paper.is-hovered .script-note{
   transform: translateY(-20px) scale(1.05) rotate(0deg);
   opacity: 1;
 }
-/* Part III needs special hover to stay centered */
-body.home #archive .paper:nth-of-type(3):hover .script-note {
-  transform: translate(-50%, -50%) scale(1.05) rotate(0deg);
-}
 
-/* =========================================================
-   CONTENT & ACTIONS
-   ========================================================= */
+/* Content: force below script (z=3 < z=20) */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
-body.home #archive .actions{ position: relative; z-index: 3; }
+body.home #archive .actions{
+  position: relative;
+  z-index: 3;
+}
 
+/* Title */
 body.home #archive .paper-title{ margin: 0; }
 body.home #archive .paper-title a{
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em;
-  text-transform: uppercase; color: var(--fg); text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
 }
 
+/* Quote / Signal */
 body.home #archive .paper-signal{
-  font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem); line-height: 1.4; color: var(--fg-dim);
-  border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--fg-dim);
+
+  border-left: 2px solid var(--accent);
+  padding-left: 30px;
+  margin: 40px 0 0;
 }
 
+/* Keywords */
 body.home #archive .k{
-  border: none; padding: 0; margin: 0; background: none;
-  font-family: var(--font-mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end; text-align: right;
-}
-body.home #archive .k span{ color: var(--accent); font-weight: 700; opacity: 1; }
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
 
-body.home #archive .actions{ display: flex; justify-content: flex-end; align-items: flex-end; }
-body.home #archive .pill{
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.2em; padding: 22px 44px; min-width: 200px;
-  border: 1px solid var(--fg); background: transparent; color: var(--fg);
-  text-decoration: none; transition: all 0.2s ease; line-height: 1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
 }
+
+body.home #archive .k span{
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* Actions / Pill */
+body.home #archive .actions{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+body.home #archive .pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+
+  padding: 22px 44px;
+  min-width: 200px;
+
+  border: 1px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
 body.home #archive .paper:hover .pill,
 body.home #archive .paper.is-hovered .pill{
-  background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
 }
 
-/* Cursor Glow */
+/* =========================================================
+   Cursor glow (home-only)
+   - visible only when body.home has .glow-active (toggled by assets/home.js)
+   ========================================================= */
 body.home #cursor-glow{
-  position: fixed; left: 0; top: 0; width: 80vw; height: 80vw;
-  margin-left: -40vw; margin-top: -40vw;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 80vw;
+  height: 80vw;
+  margin-left: -40vw;
+  margin-top: -40vw;
+
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%);
-  pointer-events: none; z-index: 2;
+  pointer-events: none;
+  z-index: 2;
+
   transform: translate3d(var(--mouse-x), var(--mouse-y), 0);
-  opacity: 0; transition: opacity 0.35s var(--ease-kinetic); will-change: transform; mix-blend-mode: exclusion;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-kinetic);
+  will-change: transform;
+
+  mix-blend-mode: exclusion;
 }
+
 body.home.glow-active #cursor-glow{ opacity: 1; }
 
-/* Responsive */
-@media (max-width: 900px){
-  body.home main > header{ padding: 160px 0 90px; }
-  body.home #archive .paper{
-    grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 50px;
-    padding: 100px 24px; margin-bottom: 40px;
-    transform: none !important; width: auto; margin-left: 0; margin-right: 0;
-  }
-  body.home #archive .k, body.home #archive .actions{ align-items: flex-start; text-align: left; justify-content: flex-start; }
-  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
-
-  /* Mobile Script Sizing */
-  body.home #archive .script-note{ font-size: 8rem; opacity: 0.5; mix-blend-mode: normal; }
-  body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; transform: rotate(-10deg); }
-  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
-  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
-}
-
+/* =========================================================
+   A11y: reduced motion
+   ========================================================= */
 @media (prefers-reduced-motion: reduce){
   body.home::after{ opacity: 0 !important; }
   body.home #cursor-glow{ opacity: 0 !important; }
-  body.home #archive .paper, body.home #archive .pill, body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  body.home #archive .paper,
+  body.home #archive .pill,
+  body.home #archive .script-note{ transition: none !important; transform: none !important; box-shadow: none !important; }
+  body.home .reveal,
+  body.home .reveal.is-visible{ opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 900px){
+  body.home main > header{ padding: 160px 0 90px; }
+
+  body.home #archive .paper{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 50px;
+    padding: 100px 24px;
+    margin-bottom: 40px;
+
+    transform: none !important;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  body.home #archive .k,
+  body.home #archive .actions{
+    align-items: flex-start;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  body.home #archive .pill{ width: 100%; min-width: 0; text-align: center; }
+
+  /* Mobile Script Sizing */
+  body.home #archive .script-note{
+    font-size: 8rem;
+    opacity: 0.5;
+    mix-blend-mode: normal; 
+  }
+
+  body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; transform: rotate(-10deg); }
+  body.home #archive .paper:nth-of-type(2) .script-note{ top: auto; bottom: 5%; right: -5%; transform: rotate(5deg); }
+  body.home #archive .paper:nth-of-type(3) .script-note{ font-size: 10rem; bottom: 5%; left: 50%; transform: translateX(-50%) rotate(-5deg); }
 }
