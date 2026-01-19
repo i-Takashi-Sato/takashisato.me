@@ -1,14 +1,19 @@
 /* =========================================================
    V42 FINAL SURGICAL FIX: Card Module ONLY
-   - サイト全体の背景・フォント・ヘッダーには【一切触れない】
-   - 論文カード(.paper)の中身だけをピンポイントで改造
+   - ヘッダー、背景、フォント等の基本設定は【一切触らない】
+   - 論文カード(.paper)の中身だけをV42化する
    ========================================================= */
 
-/* 1. マウスドラッグの反転（これだけは全体に適用・佐藤様確認済み） */
+/* 1. マウスドラッグの反転（全体適用・佐藤様確認済み） */
 ::selection { background: #E6E4E0 !important; color: #050505 !important; }
 ::-moz-selection { background: #E6E4E0 !important; color: #050505 !important; }
 
-/* 2. 論文カード本体の設定（ここから下はカード内のみ影響） */
+/* 2. マウスカーソルの反転効果 */
+#cursor-glow {
+  mix-blend-mode: exclusion !important;
+}
+
+/* 3. 論文カード本体の設定（ここから下はカード内のみ影響） */
 body.home .paper {
   /* レイアウト維持 */
   display: grid;
@@ -49,7 +54,7 @@ body.home .paper:hover {
   z-index: 100;
 }
 
-/* 3. 筆記体オーバーレイ（Friction / Entropy / Halt） */
+/* 4. 筆記体オーバーレイ（Friction / Entropy / Halt） */
 body.home .script-note {
   position: absolute;
   font-family: 'Pinyon Script', cursive; 
@@ -76,7 +81,7 @@ body.home .paper:hover .script-note {
   opacity: 0.35;
 }
 
-/* 4. タイトルの視認性保護 */
+/* 5. タイトルの視認性保護 */
 body.home .paper-title { 
   mix-blend-mode: lighten; 
   position: relative; 
@@ -93,7 +98,7 @@ body.home .paper-title a {
   text-decoration: none;
 }
 
-/* 5. PDFボタン（パンク仕様） */
+/* 6. PDFボタン（パンク仕様） */
 body.home .pill {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -114,7 +119,7 @@ body.home .paper:hover .pill {
   box-shadow: 8px 8px 0px #FFF;
 }
 
-/* 6. 背景のローマ数字 */
+/* 7. 背景のローマ数字 */
 body.home .work-bg-num {
   position: absolute; right: -2%; top: 50%;
   font-family: var(--font-serif); font-style: italic;
@@ -125,7 +130,7 @@ body.home .work-bg-num {
 }
 body.home .paper:hover .work-bg-num { color: var(--accent); opacity: 0.3; }
 
-/* 7. レスポンシブ調整（カード内のみ） */
+/* 8. レスポンシブ調整（カード内のみ） */
 @media (max-width: 900px) {
   body.home .paper { 
     grid-template-columns: 1fr; 
