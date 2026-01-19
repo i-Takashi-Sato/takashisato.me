@@ -1,45 +1,44 @@
 /* =========================================================
-   V42 FINAL FIX: Card Module ONLY
-   - ヘッダー、背景、基本フォントには【一切干渉しない】
-   - 論文カード(.paper)だけを画像の通りに動かす
+   V42 FINAL SURGICAL FIX: Card Module ONLY
+   - サイト全体の背景・フォント・ヘッダーには【一切触れない】
+   - 論文カード(.paper)の中身だけをピンポイントで改造
    ========================================================= */
 
-/* 1. マウスドラッグの反転のみ適用 */
+/* 1. マウスドラッグの反転（これだけは全体に適用・佐藤様確認済み） */
 ::selection { background: #E6E4E0 !important; color: #050505 !important; }
 ::-moz-selection { background: #E6E4E0 !important; color: #050505 !important; }
 
-/* 2. 論文カード本体の設定 */
+/* 2. 論文カード本体の設定（ここから下はカード内のみ影響） */
 body.home .paper {
-  /* レイアウト（元のグリッドを維持） */
+  /* レイアウト維持 */
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 80px;
   padding: 140px 60px;
   
-  /* 余白調整（筆記体のはみ出し用） */
+  /* 余白（筆記体のはみ出し用） */
   margin-top: 100px;
   margin-bottom: 120px;
   
-  /* 色設定（元のサイトの変数を継承） */
+  /* 色（元のサイト定義変数を継承） */
   background: var(--surface);
   border: 1px solid var(--line);
+  color: inherit;
   
+  /* V42 物理挙動 */
   position: relative;
   overflow: visible; /* はみ出し許可 */
   z-index: 1;
   text-decoration: none;
-  color: inherit;
-
-  /* アニメーション設定 */
   transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* 個別の傾き（画像通りの不協和音） */
+/* 個別の傾き（不協和音） */
 body.home .paper:nth-of-type(1) { transform: rotate(-1.5deg); }
 body.home .paper:nth-of-type(2) { transform: rotate(2.2deg) translateX(-15px); z-index: 5; }
 body.home .paper:nth-of-type(3) { transform: rotate(-1.0deg) translateX(20px); }
 
-/* ホバー時の挙動（画像通りの赤い影とスナップ） */
+/* ホバー時の挙動（垂直スナップ＋赤い影） */
 body.home .paper:hover {
   transform: scale(1.03) rotate(0deg) !important; /* 直立 */
   background: #0D0D0F;
@@ -54,10 +53,10 @@ body.home .paper:hover {
 body.home .script-note {
   position: absolute;
   font-family: 'Pinyon Script', cursive; 
-  font-size: clamp(16rem, 38vw, 48rem); /* 画像通りの巨大サイズ */
+  font-size: clamp(16rem, 38vw, 48rem); /* 巨大サイズ */
   white-space: nowrap;
   color: #E6E4E0;
-  opacity: 0.15; 
+  opacity: 0.15; /* 視認性を殺さない薄さ */
   pointer-events: none;
   
   /* 反転効果 */
@@ -77,7 +76,7 @@ body.home .paper:hover .script-note {
   opacity: 0.35;
 }
 
-/* 4. タイトルの視認性確保 */
+/* 4. タイトルの視認性保護 */
 body.home .paper-title { 
   mix-blend-mode: lighten; 
   position: relative; 
@@ -85,7 +84,7 @@ body.home .paper-title {
   margin: 0;
 }
 body.home .paper-title a {
-  /* フォントはsite.cssのものを継承させるため指定しない */
+  /* フォントサイズ等は親要素やsite.cssに従うため指定しない */
   font-size: clamp(2.8rem, 6vw, 7.5rem);
   font-weight: 600;
   line-height: 0.9;
@@ -94,7 +93,7 @@ body.home .paper-title a {
   text-decoration: none;
 }
 
-/* 5. PDFボタン（画像通りのデザイン） */
+/* 5. PDFボタン（パンク仕様） */
 body.home .pill {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -126,7 +125,7 @@ body.home .work-bg-num {
 }
 body.home .paper:hover .work-bg-num { color: var(--accent); opacity: 0.3; }
 
-/* 7. レスポンシブ調整（カードのみ） */
+/* 7. レスポンシブ調整（カード内のみ） */
 @media (max-width: 900px) {
   body.home .paper { 
     grid-template-columns: 1fr; 
