@@ -1,14 +1,15 @@
 /* =========================================================
-   HOME ONLY — V79 "SEAMLESS ADAPTATION"
+   HOME ONLY — V80 "TOTAL PRECISION & FLUIDITY"
    
-   - Part I: "D" aligned under "P", fixed window clipping.
-   - Part I: Size and Position adjusted to prevent "cut off".
+   - Part I: "D" aligned under "P", shifted further LEFT.
+   - Part I: Size down to 11rem (max).
+   - Part II & III: V65 static logic preserved.
    - CARD LAYOUT: V65 scattered grid preserved.
    - ROMAN NUMERALS: Hover color (Red) active.
-   - Constraint: NO horizontal overflow, NO text clipping.
+   - Constraint: FLUID responsive movement, NO clipping.
    ========================================================= */
 
-/* ウィンドウ全体のはみ出しは防ぐが、内部のクリッピングは解除 */
+/* ウィンドウ全体のはみ出し（横スクロール）のみを防止 */
 html, body.home {
   overflow-x: hidden;
   width: 100%;
@@ -39,7 +40,7 @@ body.home::after {
   background: url("/assets/noise.webp") repeat; background-size: 280px 280px;
 }
 
-/* mainのoverflowを解除して筆記体が切れるのを防ぐ */
+/* 筆記体が切れないよう visible を徹底 */
 body.home main {
   max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line); border-right: 1px solid var(--line);
@@ -62,10 +63,11 @@ body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: auto 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
   background: var(--surface); border: 1px solid var(--line); 
-  overflow: visible; /* 筆記体が切れないようvisibleを死守 */
+  overflow: visible; 
   color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
 }
 
+/* Scattered Grid - V65 Logic */
 body.home #archive .paper:nth-of-type(1) { transform: rotate(-0.5deg); width: 98%; margin-left: 1%; }
 body.home #archive .paper:nth-of-type(2) { transform: rotate(0.8deg); width: 100%; margin-left: -2%; z-index: 2; }
 body.home #archive .paper:nth-of-type(3) { transform: rotate(-0.3deg); width: 96%; margin-left: 4%; }
@@ -75,7 +77,7 @@ body.home #archive .paper:hover {
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
 }
 
-/* Roman Numerals Color Logic */
+/* Roman Numerals Color Logic - V72 */
 body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
@@ -85,7 +87,7 @@ body.home #archive .work-bg-num {
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; }
 
 /* =========================================================
-   SCRIPT OVERLAY — PRECISION LOCK
+   SCRIPT OVERLAY — ULTIMATE DYNAMIC LOCK
    ========================================================= */
 
 body.home #archive .script-note {
@@ -101,13 +103,13 @@ body.home #archive .script-note {
 }
 
 /* Part I: "Grand Design"
-   - 「D」の位置を固定しつつ、ウィンドウ幅に合わせて微調整
+   - 「D」を「P」の真下に配置するため左へ大幅スライド
+   - ウィンドウを縮めても途切れない動的な追従
 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(5.5rem, 11vw, 10rem); /* 少しサイズダウンして安定性を向上 */
+  font-size: clamp(5.5rem, 10vw, 11rem); /* 指示通り少し小さく */
   top: 8%; 
-  /* 左端で途切れないよう、ビューポート基準の計算を導入 */
-  left: max(-25%, calc(-1 * (100vw - 1200px) / 4)); 
+  left: -18%; /* DとPの垂直ラインを合わせるための最適値 */
   transform: rotate(-22deg); 
   transform-origin: left center;
 }
