@@ -26,6 +26,7 @@ body.home{
   --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   --ease-kinetic: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); /* V42 overshoot */
 
   background-color: var(--bg-void);
   color: var(--fg);
@@ -33,6 +34,12 @@ body.home{
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+/* =========================================================
+   Selection (drag highlight) — V42 (home-only)
+   ========================================================= */
+body.home ::selection{ background:#fff; color:#000; }
+body.home ::-moz-selection{ background:#fff; color:#000; }
 
 /* =========================================================
    Noise layer (home)
@@ -123,200 +130,7 @@ body.home .section-label{
 }
 
 /* =========================================================
-   Paper cards — HOME LAYOUT
-   ========================================================= */
-body.home .paper{
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  grid-template-rows: auto 1fr;
-  gap: 40px 80px;
-
-  position: relative;
-  margin-top: 100px;
-  padding: 120px 60px;
-
-  background: var(--surface);
-  border: 1px solid var(--line);
-  overflow: visible;
-
-  transition: transform 0.4s var(--ease-kinetic),
-              background-color 0.4s var(--ease-kinetic),
-              border-color 0.4s var(--ease-kinetic);
-  color: inherit;
-}
-
-body.home .paper:hover{
-  transform: translateY(-8px);
-  background: #111;
-  border-color: var(--accent);
-}
-
-/* Title */
-body.home .paper-title{
-  grid-column: 1 / 2;
-  grid-row: 1;
-  position: relative;
-  z-index: 5;
-  margin: 0; /* normalize */
-}
-body.home .paper-title a{
-  font-family: var(--font-sans);
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
-  font-weight: 600;
-  line-height: 1.0;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
-}
-
-/* Epigraph / Signal */
-body.home .paper-signal{
-  grid-column: 1 / 2;
-  grid-row: 2;
-  position: relative;
-  z-index: 5;
-
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-  line-height: 1.5;
-  color: var(--fg-dim);
-
-  border-left: 3px solid var(--accent);
-  padding-left: 40px;
-  margin: 40px 0 0;
-}
-
-/* Keywords (no box) */
-body.home .k{
-  grid-column: 2 / 3;
-  grid-row: 1;
-
-  border: none;
-  padding: 0;
-  margin: 0;
-  background: none;
-
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--fg-dim);
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-
-  position: relative;
-  z-index: 5;
-}
-body.home .k span{
-  color: var(--accent);
-  font-weight: 700;
-  opacity: 0.6;
-  display: block;
-  margin-bottom: 10px;
-}
-
-/* Actions */
-body.home .actions{
-  grid-column: 2 / 3;
-  grid-row: 2;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-
-  position: relative;
-  z-index: 5;
-}
-body.home .pill{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.35em;
-
-  padding: 22px 48px;
-  min-width: 200px;
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--fg);
-  text-decoration: none;
-
-  transition: border-color 0.3s var(--ease-kinetic),
-              color 0.3s var(--ease-kinetic),
-              background-color 0.3s var(--ease-kinetic);
-  line-height: 1;
-}
-body.home .paper:hover .pill{
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(217, 4, 41, 0.05);
-}
-
-/* =========================================================
-   Decorations (Roman + Jo-Ha-Kyu)
-   ========================================================= */
-body.home .card-base{
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-body.home .work-bg-num{
-  position: absolute;
-  right: -2%;
-  top: 50%;
-  transform: translateY(-50%);
-
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(12rem, 25vw, 28rem);
-
-  opacity: 0.05;
-  color: #fff;
-
-  transition: transform 0.6s var(--ease-kinetic),
-              color 0.6s var(--ease-kinetic),
-              opacity 0.6s var(--ease-kinetic);
-  z-index: 0;
-}
-body.home .paper:hover .work-bg-num{
-  color: var(--accent);
-  opacity: 0.3;
-  transform: translateY(-50%) translateX(-30px);
-}
-
-body.home .script-note{
-  position: absolute;
-  font-family: var(--font-jp-calligraphy);
-  font-size: clamp(18rem, 30vw, 35rem);
-  color: var(--fg);
-
-  opacity: 0.08;
-  filter: blur(0.5px);
-  z-index: 0;
-
-  line-height: 1.2;
-  pointer-events: none;
-  transition: transform 0.5s var(--ease-kinetic),
-              opacity 0.5s var(--ease-kinetic);
-}
-
-body.home .paper:nth-of-type(1) .script-note{ top: -8%; left: -5%; transform: rotate(-8deg); }
-body.home .paper:nth-of-type(2) .script-note{ top: 20%; right: -5%; left: auto; transform: rotate(4deg); }
-body.home .paper:nth-of-type(3) .script-note{ bottom: -10%; left: -15%; top: auto; transform: rotate(-4deg); }
-
-/* =========================================================
-   A11y: reduced motion safety net
+   A11y: reduced motion safety net (home)
    ========================================================= */
 @media (prefers-reduced-motion: reduce){
   body.home::after{ opacity: 0 !important; } /* noise can cause discomfort */
@@ -327,35 +141,13 @@ body.home .paper:nth-of-type(3) .script-note{ bottom: -10%; left: -15%; top: aut
     animation: none !important;
     transition: none !important;
   }
-  body.home .paper,
-  body.home .pill{
-    transition: none !important;
-    transform: none !important;
-  }
 }
 
 /* =========================================================
-   Responsive
+   Responsive (home frame only)
    ========================================================= */
 @media (max-width: 900px){
   body.home main > header{ padding: 160px 0 90px; }
-
-  body.home .paper{
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    padding: 60px 24px;
-    gap: 30px;
-  }
-
-  body.home .k,
-  body.home .actions{
-    grid-column: 1;
-    align-items: flex-start;
-    text-align: left;
-    justify-content: flex-start;
-  }
-
-  body.home .pill{ width: 100%; min-width: 0; }
 }
 
 /* =========================================================
@@ -400,7 +192,7 @@ body.home #archive .paper{
   border: 1px solid var(--line);
   overflow: visible;
 
-  transition: transform 0.3s var(--ease-punk, cubic-bezier(0.1, 0.9, 0.2, 1.2)),
+  transition: transform 0.3s var(--ease-punk),
               box-shadow 0.3s ease,
               background-color 0.3s ease,
               border-color 0.3s ease;
@@ -429,32 +221,91 @@ body.home #archive .paper:focus-within{
 }
 
 /* Content typography refinements (card-scoped) */
+body.home #archive .paper-title{ position: relative; z-index: 5; margin: 0; }
 body.home #archive .paper-title a{
+  font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
   line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  position: relative;
+  z-index: 5;
 }
 
 body.home #archive .paper-signal{
+  position: relative;
+  z-index: 5;
+  font-family: var(--font-serif);
+  font-style: italic;
   font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  border-left-width: 2px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--fg-dim);
+  border-left: 2px solid var(--accent);
   padding-left: 30px;
+  margin: 40px 0 0;
 }
 
 body.home #archive .k{
+  position: relative;
+  z-index: 5;
+  font-family: var(--font-mono);
   font-size: 11px;
+  text-transform: uppercase;
   letter-spacing: 0.10em;
   line-height: 1.7;
+  color: var(--fg-dim);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+body.home #archive .k span{
+  color: var(--accent);
+  font-weight: 700;
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 10px;
+}
+
+body.home #archive .actions{
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 /* Button (pill): punk snap */
 body.home #archive .pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-mono);
   font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.20em;
+
   padding: 22px 44px;
+  min-width: 200px;
+
   border: 1px solid var(--fg);
   background: transparent;
   color: var(--fg);
+  text-decoration: none;
+
   transition: all 0.2s ease;
+  line-height: 1;
 }
 body.home #archive .paper:hover .pill,
 body.home #archive .pill:hover{
@@ -475,10 +326,20 @@ body.home #archive .card-base{
 
 /* Numerals: bigger + drift */
 body.home #archive .work-bg-num{
-  font-size: clamp(14rem, 25vw, 30rem);
-  opacity: 0.08;
+  position: absolute;
   right: -20px;
   top: 50%;
+
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  line-height: 0.7;
+  letter-spacing: -0.05em;
+
+  color: #FFF;
+  opacity: 0.08;
+
   transform: translate3d(calc(0px + var(--drift-x)), calc(-45% + var(--drift-y)), 0);
   transition: opacity 0.3s ease, color 0.3s ease;
   mix-blend-mode: overlay;
@@ -494,12 +355,15 @@ body.home #archive .script-note{
   font-family: 'Pinyon Script', cursive;
   font-size: clamp(8rem, 16vw, 16rem);
   white-space: nowrap;
+
   color: var(--fg);
   opacity: 0.7;
+
   pointer-events: none;
   z-index: 10;
   mix-blend-mode: exclusion;
-  transition: transform 0.4s var(--ease-punk, cubic-bezier(0.1, 0.9, 0.2, 1.2));
+
+  transition: transform 0.4s var(--ease-punk);
 }
 
 /* Positions */
@@ -554,7 +418,7 @@ body.home #archive .paper:hover .script-note{
     justify-content: flex-start;
   }
 
-  body.home #archive .pill{ width: 100%; text-align: center; }
+  body.home #archive .pill{ width: 100%; text-align: center; min-width: 0; }
 
   body.home #archive .script-note{
     font-size: 6rem;
