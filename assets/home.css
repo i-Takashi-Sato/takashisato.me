@@ -233,74 +233,78 @@ body.home #archive .paper.is-hovered .work-bg-num{
 }
 
 /* =========================================================
-   SCRIPT OVERLAY — WORLD CLASS HACK STYLE
-   - Massive, Editorial, Overlapping
-   - z-index: 20 (Top)
-   - mix-blend-mode: exclusion (Transparency)
+   SCRIPT OVERLAY — REFINED COMPOSITION
+   Matching the "Better" image layout (image_fb155f.jpg)
    ========================================================= */
 
 body.home #archive .script-note{
   position: absolute;
-  z-index: 20; /* Overlap content */
+  /* Z-Index High to overlap text (Hacking effect) */
+  z-index: 20;
   pointer-events: none;
 
-  font-family: var(--font-script);
-  /* Massive sizes to match the reference images */
-  font-size: clamp(10rem, 24vw, 26rem);
+  font-family: 'Pinyon Script', cursive;
   line-height: 0.8;
   white-space: nowrap;
 
   color: #E6E4E0;
-  /* Exclusion mode is key for the "hack" look over white text */
+  /* Exclusion mode for that "inverted/transparent" look over white text */
   mix-blend-mode: exclusion;
-  opacity: 0.85;
+  opacity: 0.9;
 
   transition: transform 0.4s var(--ease-punk);
   will-change: transform;
 }
 
-/* Part I: "Grand Design" - Slashing the Title */
-body.home #archive .paper:nth-of-type(1) .script-note{
-  font-size: clamp(11rem, 22vw, 28rem); 
-  top: 15%; 
-  left: -8%; 
-  transform: rotate(-16deg); 
+/* Part I: "Grand Design" 
+   Mimics "Origin Point". Sits high, cutting through the title.
+*/
+body.home #archive .paper:nth-of-type(1) .script-note{ 
+  font-size: clamp(9rem, 18vw, 16rem);
+  top: 18%; 
+  left: -2%; 
+  transform: rotate(-12deg); 
 }
 
-/* Part II: "Silent Rot" - Heavy, Bottom Anchor */
+/* Part II: "Silent Rot" 
+   Mimics "Entropy Rising". Sits low, underlining the quote.
+*/
 body.home #archive .paper:nth-of-type(2) .script-note{ 
-  font-size: clamp(12rem, 24vw, 30rem); 
+  font-size: clamp(11rem, 20vw, 20rem); 
   top: auto; 
-  bottom: -10%; 
-  right: -5%; 
-  left: auto;
-  transform: rotate(6deg); 
+  bottom: 12%; 
+  left: -6%; 
+  right: auto;
+  transform: rotate(-6deg); 
 }
 
-/* Part III: "Requiem" - The Center Stamp */
+/* Part III: "Requiem" 
+   Mimics "System Halted". Center stage, massive, heavily angled.
+   Since "Requiem" is short, we maximize font size to fill the space.
+*/
 body.home #archive .paper:nth-of-type(3) .script-note{ 
-  font-size: clamp(14rem, 28vw, 35rem); 
+  font-size: clamp(16rem, 32vw, 35rem); 
   top: 50%; 
   left: 50%; 
   bottom: auto; 
-  margin-left: 0;
-  transform: translate(-50%, -50%) rotate(-4deg); 
+  /* Center alignment with angular tweak */
+  transform: translate(-50%, -50%) rotate(-10deg); 
 }
 
-/* Hover: Parallax Lift (3D Effect) */
+/* Hover Actions */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper.is-hovered .script-note{
-  /* Lift up and straighten */
-  transform: translateY(-25px) scale(1.05) rotate(0deg);
+  /* Lift up and sharpen */
+  transform: translateY(-20px) scale(1.05) rotate(0deg);
   opacity: 1;
 }
 
-/* Special hover for Part III to keep it centered */
+/* Part III Hover specific: Keep centered */
 body.home #archive .paper:nth-of-type(3):hover .script-note{
   transform: translate(-50%, -50%) scale(1.05) rotate(0deg);
 }
 
-/* Content: force below script (z=3 < z=20) */
+/* Content: force above stretched-link + overlays */
 body.home #archive .paper-title,
 body.home #archive .paper-signal,
 body.home #archive .k,
@@ -469,7 +473,7 @@ body.home.glow-active #cursor-glow{ opacity: 1; }
   body.home #archive .script-note{
     font-size: 8rem;
     opacity: 0.5;
-    mix-blend-mode: normal; /* スマホは透けない方が見やすい場合が多い */
+    mix-blend-mode: normal; 
   }
 
   body.home #archive .paper:nth-of-type(1) .script-note{ top: 2%; left: -5%; transform: rotate(-10deg); }
