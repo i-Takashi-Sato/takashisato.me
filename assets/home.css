@@ -1,121 +1,142 @@
 /* =========================================================
-   V62.4 "CALCULATED VANDALISM" — THE BEAUTIFUL DISASTER
-   Rule: Architecture of Friction, Entropy, and Halt.
+   V42 CARD MODULE ONLY
+   - サイト全体の背景・フォント・レイアウトには一切触れない
+   - 論文カード(.paper)とその中身だけをピンポイントで改造
    ========================================================= */
 
-/* --- ① THE INVERSION (ドラッグ時の反転) --- */
+/* 1. マウスドラッグ時の反転（これのみ全体適用） */
 ::selection { background: #E6E4E0 !important; color: #050505 !important; }
 ::-moz-selection { background: #E6E4E0 !important; color: #050505 !important; }
 
-body.home {
-  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2); /* 衝撃を吸収するオーバーシュート */
-  background-color: var(--bg-void);
-  color: var(--fg);
-}
-
-/* --- ② THE BROKEN GRID (論文カードの暴力的な挙動) --- */
+/* 2. 論文カード本体：傾きとスナップ */
 body.home .paper {
+  /* --- 既存のレイアウト維持 --- */
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 80px;
   padding: 140px 60px;
+  margin-bottom: 120px; /* 筆記体のはみ出し余白 */
+  
+  /* --- 既存の色設定を維持 --- */
   background: var(--surface);
   border: 1px solid var(--line);
-  position: relative;
-  margin-bottom: 80px;
+  color: inherit;
+  text-decoration: none;
   
-  /* 初期状態の傾き：あえて「崩れた」状態 */
-  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, border-color 0.3s ease;
-  overflow: visible; /* 筆記体をはみ出させるために必須 */
+  /* --- V42 物理挙動（ここだけ変える） --- */
+  position: relative;
+  overflow: visible; /* 筆記体のはみ出し許可 */
   z-index: 1;
+  transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1.2), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* 各カードの個別の傾き */
-body.home .paper:nth-of-type(1) { transform: rotate(-1.2deg); }
-body.home .paper:nth-of-type(2) { transform: rotate(1.8deg) translateX(-10px); z-index: 2; }
-body.home .paper:nth-of-type(3) { transform: rotate(-0.8deg) translateX(15px); }
+/* 個別の傾き（不協和音） */
+body.home .paper:nth-of-type(1) { transform: rotate(-1.5deg); }
+body.home .paper:nth-of-type(2) { transform: rotate(2.2deg) translateX(-15px); z-index: 5; }
+body.home .paper:nth-of-type(3) { transform: rotate(-1.0deg) translateX(20px); }
 
-/* ホバー：暴力的なスナップ (完璧な垂直への復帰) */
+/* ホバー時のスナップ（垂直復帰）と赤い影 */
 body.home .paper:hover {
-  transform: scale(1.02) rotate(0deg) !important; /* スナップして直立する */
-  background: #111;
+  transform: scale(1.03) rotate(0deg) !important;
+  background: #0D0D0F; /* ホバー時のみ僅かに暗く */
   border-color: #FFF;
   box-shadow: 
-    30px 30px 0px rgba(0,0,0,0.6), /* 重厚な物理影 */
-    -3px -3px 0px var(--accent);   /* Arterial Redの閃光 */
+    30px 30px 0px rgba(0,0,0,0.6), 
+    -3px -3px 0px var(--accent);
   z-index: 100;
 }
 
-/* --- ③ THE SCRIPT (緻密に計算された大胆なはみ出し) --- */
+/* 3. 筆記体オーバーレイ：大胆なはみ出しと反転 */
 body.home .script-note {
   position: absolute;
-  font-family: 'Pinyon Script', cursive; /* 筆記体フォント */
-  font-size: clamp(12rem, 28vw, 35rem); /* 極限まで巨大化 */
+  font-family: 'Pinyon Script', cursive; 
+  font-size: clamp(16rem, 38vw, 48rem); /* 枠を無視する巨大サイズ */
   white-space: nowrap;
   color: #E6E4E0;
-  opacity: 0.6; /* 強めの存在感 */
+  opacity: 0.15; /* タイトルを殺さない程度の薄さ */
   pointer-events: none;
   
-  /* Punkの核：背後のテキストと色が反転し、侵食する */
+  /* 反転効果（タイトルの上を通過） */
   mix-blend-mode: exclusion; 
-  z-index: 10; /* テキストの「前面」に配置し、読みやすさをあえて阻害する */
+  z-index: 10; 
   
-  transition: transform 0.5s var(--ease-punk), opacity 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.1, 0.9, 0.2, 1.2), opacity 0.4s ease;
 }
 
-/* 各カードの筆記体配置：カードの境界を大胆に超える */
-body.home .paper:nth-of-type(1) .script-note { 
-  top: -15%; left: -10%; transform: rotate(-12deg); 
-}
-body.home .paper:nth-of-type(2) .script-note { 
-  top: 30%; right: -25%; transform: rotate(-4deg); 
-  text-align: right;
-}
-body.home .paper:nth-of-type(3) .script-note { 
-  bottom: -20%; left: -15%; transform: rotate(-8deg); 
-}
+/* 筆記体の配置調整 */
+body.home .paper:nth-of-type(1) .script-note { top: -25%; left: -18%; transform: rotate(-12deg); }
+body.home .paper:nth-of-type(2) .script-note { top: 15%; right: -38%; transform: rotate(-4deg); text-align: right; }
+body.home .paper:nth-of-type(3) .script-note { bottom: -35%; left: -22%; transform: rotate(-10deg); }
 
 body.home .paper:hover .script-note {
-  transform: scale(1.05) rotate(0deg); /* ホバーでさらに主張を強める */
-  opacity: 0.8;
+  transform: scale(1.1) rotate(2deg);
+  opacity: 0.35;
 }
 
-/* --- ④ CONTENT REFINEMENT --- */
-body.home .paper-title { mix-blend-mode: lighten; } /* 筆記体の下でも文字を読ませる */
+/* 4. タイトルの視認性保護 */
+body.home .paper-title { 
+  mix-blend-mode: lighten; 
+  position: relative; 
+  z-index: 11; /* 筆記体より上に */
+}
 body.home .paper-title a {
-  font-family: var(--font-sans);
-  font-size: clamp(2.8rem, 5.5vw, 6.5rem);
+  /* フォント設定は site.css を継承させるため指定しない */
+  font-size: clamp(2.8rem, 6vw, 7.5rem);
   font-weight: 600;
   line-height: 0.9;
   letter-spacing: -0.05em;
-  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
 }
 
+/* 5. PDFボタン：パンクな物理影 */
 body.home .pill {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.3em;
-  padding: 24px 48px;
+  padding: 24px 50px;
   border: 1px solid var(--fg);
   background: transparent;
   color: var(--fg);
   transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
 }
-
 body.home .paper:hover .pill {
   background: var(--accent);
   border-color: var(--accent);
   color: #000;
-  box-shadow: 6px 6px 0px #FFF; /* ボタンにもパンクな物理影 */
+  box-shadow: 8px 8px 0px #FFF;
 }
 
-/* 背景ローマ数字：Drift（微細な動き）との連動 */
+/* 6. 背景のローマ数字（Drift連動） */
 body.home .work-bg-num {
-  position: absolute; right: -40px; top: 50%;
+  position: absolute; right: -2%; top: 50%;
   font-family: var(--font-serif); font-style: italic;
-  font-size: 35rem; opacity: 0.05; color: #fff;
-  mix-blend-mode: overlay; z-index: -1;
-  transform: translate3d(var(--drift-x), calc(-50% + var(--drift-y)), 0);
-  transition: opacity 0.4s;
+  font-weight: 300;
+  font-size: clamp(12rem, 25vw, 28rem); 
+  opacity: 0.05; 
+  color: #fff;
+  mix-blend-mode: overlay; 
+  z-index: -1;
+  transform: translateY(-50%) translate3d(var(--drift-x), var(--drift-y), 0);
+  transition: opacity 0.4s ease;
+}
+body.home .paper:hover .work-bg-num { color: var(--accent); opacity: 0.3; }
+
+/* 7. レスポンシブ調整（カード部分のみ） */
+@media (max-width: 900px) {
+  body.home .paper { 
+    grid-template-columns: 1fr; 
+    transform: none !important; 
+    margin-left: 0 !important; 
+    width: 100% !important; 
+    padding: 60px 24px; 
+  }
+  body.home .k, body.home .actions { 
+    align-items: flex-start; text-align: left; 
+  }
+  body.home .pill { width: 100%; }
+  body.home .script-note { font-size: 6rem; opacity: 0.5; }
 }
