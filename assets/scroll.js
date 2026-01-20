@@ -17,17 +17,26 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // Reduced Motion: 演出を完全スキップし、表示欠落事故を防ぐ
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
 
   if (reducedMotion) {
     targets.forEach((el) => {
       el.classList.add("reveal", "is-visible");
 
-      // 念のため、スタイル直書きで“見えない”事故を潰す
+      // 念のため“見えない”事故を潰す（ただしカード傾きは保持）
       el.style.opacity = "1";
-      el.style.transform = "none";
       el.style.animation = "none";
       el.style.transition = "none";
+
+      // .paper の rotate() は CSS 側の静的造形なので上書きしない
+      if (!el.classList.contains("paper")) {
+        el.style.transform = "none";
+      } else {
+        // 既に何か入っていた場合も想定して除去（CSSのrotateを復活させる）
+        el.style.removeProperty("transform");
+      }
     });
   }
 
@@ -92,7 +101,9 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       // Reduced Motion: 待ち時間ゼロで即遷移
-      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
       if (isReduced) {
         window.location.href = url.href;
         return;
@@ -123,7 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const copyText = async (text) => {
     // Clipboard API が使えるなら優先
-    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+    if (
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
       await navigator.clipboard.writeText(text);
       return;
     }
@@ -148,7 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // イベント委譲（将来ボタンが増えてもOK）
   document.addEventListener("click", async (e) => {
-    const btn = e.target && e.target.closest ? e.target.closest("button.copy") : null;
+    const btn =
+      e.target && e.target.closest ? e.target.closest("button.copy") : null;
     if (!btn) return;
 
     const selector = btn.getAttribute("data-copy-target");
