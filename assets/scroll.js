@@ -193,8 +193,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateProgress = () => {
     if (!progressLine || !progressLine.isConnected) return;
 
-    const scrolled = window.pageYOffset || document.documentElement.scrollTop || 0;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled =
+      window.pageYOffset || document.documentElement.scrollTop || 0;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
 
     if (maxScroll > 0) {
       const pct = (scrolled / maxScroll) * 100;
