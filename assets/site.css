@@ -149,9 +149,30 @@ main {
 }
 
 /* --- Brand --- */
-.brand { display: flex; align-items: center; text-decoration: none; transition: opacity 0.3s; padding: 10px 0; }
-.brand:hover { opacity: 0.8; }
-.signature-logo { height: 55px; width: auto; mix-blend-mode: screen; display: block; }
+.brand{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 0;
+
+  /* lock visuals: no hover change */
+  opacity: 1;
+  transition: none;
+}
+
+.brand:hover,
+.brand:focus-visible{
+  opacity: 1;
+}
+
+.signature-logo{
+  height: 55px;
+  width: auto;
+  mix-blend-mode: screen;
+  display: block;
+}
+
+
 
 /* --- Nav --- */
 .nav a {
