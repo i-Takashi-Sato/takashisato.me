@@ -342,8 +342,6 @@ footer {
 }
 
 /* --- Utilities --- */
-.fade-out { opacity: 0 !important; pointer-events: none; }
-
 /* =========================================================
    ARTICLE PAGES (papers/*): Reading Ergonomics
    ========================================================= */
