@@ -68,7 +68,7 @@ body.home .section-label { display: block; margin-top: 90px; font-family: var(--
 body.home #archive .paper {
   display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px;
   position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible; 
+  background: var(--surface); border: 1px solid var(--line); overflow: visible;
   color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
   text-decoration: none;
 }
@@ -88,52 +88,50 @@ body.home #archive .work-bg-num {
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; mix-blend-mode: normal; }
 
 /* =========================================================
-   SCRIPT NOTES: DRAWING REVEAL (V138 FINAL)
+   SCRIPT NOTES: ALWAYS VISIBLE (NO DRAW / NO MASK)
    ========================================================= */
 body.home #archive .script-note {
-  position: absolute; z-index: 2; 
+  position: absolute;
+  z-index: 2;
   pointer-events: none;
-  font-family: var(--font-script); white-space: nowrap;
-  color: var(--sexy-ink); opacity: 0;
-  mix-blend-mode: screen; 
-  
-  /* CSS Mask Drawing Effect */
-  -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%);
-  -webkit-mask-size: 200% 100%;
-  -webkit-mask-position: 100% 0;
-  animation: writeInk 3.5s ease-out forwards;
-}
+  font-family: var(--font-script);
+  white-space: nowrap;
 
-@keyframes writeInk {
-  0% { opacity: 0; -webkit-mask-position: 100% 0; }
-  15% { opacity: 0.8; }
-  100% { opacity: 0.75; -webkit-mask-position: 0 0; }
+  color: var(--sexy-ink);
+  opacity: 0.75;
+  mix-blend-mode: screen;
+
+  /* Kill drawing effect */
+  -webkit-mask-image: none;
+  -webkit-mask-size: auto;
+  -webkit-mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat;
+
+  animation: none;
+  transition: none;
 }
 
 /* --- THE CALCULATED CHAOS PLACEMENT --- */
 
 /* Part I: 左側の大空白を支配する巨大な導入 */
-body.home #archive .paper:nth-of-type(1) .script-note { 
-  font-size: clamp(14rem, 30vw, 35rem); 
-  top: -25%; left: -28vw; 
-  transform: rotate(-12deg); 
-  animation-delay: 1s; 
+body.home #archive .paper:nth-of-type(1) .script-note {
+  font-size: clamp(14rem, 30vw, 35rem);
+  top: -25%; left: -28vw;
+  transform: rotate(-12deg);
 }
 
 /* Part II: 右下がり・微細傾斜・官能的なオフセット */
-body.home #archive .paper:nth-of-type(2) .script-note { 
-  font-size: clamp(12rem, 24vw, 28rem); 
+body.home #archive .paper:nth-of-type(2) .script-note {
+  font-size: clamp(12rem, 24vw, 28rem);
   top: 45%; right: -28vw; left: auto;
-  transform: rotate(2deg); /* PERFECT: 微細な右下がり */
-  animation-delay: 2.8s; 
+  transform: rotate(2deg);
 }
 
 /* Part III: 下層を切り裂くアグレッシブな終焉 */
-body.home #archive .paper:nth-of-type(3) .script-note { 
-  font-size: clamp(10rem, 20vw, 25rem); 
-  top: 40%; left: -15vw; 
-  transform: rotate(-25deg); 
-  animation-delay: 4.8s; 
+body.home #archive .paper:nth-of-type(3) .script-note {
+  font-size: clamp(10rem, 20vw, 25rem);
+  top: 40%; left: -15vw;
+  transform: rotate(-25deg);
 }
 
 /* --- UI Content Layers (z-index 10) --- */
@@ -165,5 +163,17 @@ body.home #archive .paper:hover .pill { background: var(--accent); border-color:
 /* --- MOBILE SAFETY --- */
 @media (max-width: 1024px) {
   body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
-  .vertical-axis, .script-note { display: none; }
+  .vertical-axis { display: none; }
+
+  /* Keep script-note visible even on smaller screens */
+  body.home #archive .script-note {
+    display: block;
+    opacity: 0.6;
+    mix-blend-mode: normal;
+  }
+
+  /* Optional: tame extreme offsets on small screens */
+  body.home #archive .paper:nth-of-type(1) .script-note { left: -10vw; top: -12%; }
+  body.home #archive .paper:nth-of-type(2) .script-note { right: -10vw; top: 50%; }
+  body.home #archive .paper:nth-of-type(3) .script-note { left: -8vw;  top: 45%; }
 }
