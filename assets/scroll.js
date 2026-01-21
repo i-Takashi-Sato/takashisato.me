@@ -1,180 +1,688 @@
-/**
- * Takashi Sato · Research Archive System
- * Interaction Engine: Stable Production Edition
- * Progress Bar | Sequential Reveal | Seamless Transition | Citation Copy
- */
+/* =========================================================
+   THEME: "Phantom Obsidian" (Craft & Security Edition)
+   Focus: Zero-Dependency, Pure Performance, High-Contrast
+   Notes:
+   - CSP-safe noise layer: uses /assets/noise.webp (no data:)
+   - Layer model: html::before (noise, z=0) / body content (z=1)
+   - Reduced Motion: no reveal/transition accidents
+   ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-  const header = document.querySelector(".top");
-  const progressLine = document.createElement("div");
-  progressLine.className = "scroll-progress";
-  if (header) header.appendChild(progressLine);
+:root {
+  /* --- Colors --- */
+  --bg: #050507;
+  --card-bg: #0f0f12;
 
-  const targets = document.querySelectorAll(
-    "h1, .who, .lead, .paper, .section-label, footer"
-  );
+  --text-head: #ffffff;
+  --text-main: #f2f2f2;
+  --text-muted: #a0a0b0;
 
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  --accent-color: #4c6ef5;
 
-  if (reducedMotion) {
-    targets.forEach((el) => {
-      el.classList.add("reveal", "is-visible");
-      el.style.opacity = "1";
-      el.style.animation = "none";
-      el.style.transition = "none";
-    });
+  --platinum: #e0e5f0;
+  --platinum-dim: rgba(224, 229, 240, 0.2);
+  --border-sharp: rgba(255, 255, 255, 0.12);
+
+  /* --- Fonts: 外部通信を排除し、OS標準の高品質な書体を使用 --- */
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+::selection { background: rgba(208, 213, 224, 0.25); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg);
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text-main);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.9;
+  font-weight: 400;
+  overflow-x: hidden;
+
+  /* IMPORTANT: let html background show, keep content above noise */
+  background: transparent;
+  position: relative;
+  z-index: 1;
+
+  opacity: 1;
+  transition: opacity 0.6s var(--ease-sharp);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- Typography --- */
+h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 6rem 0 3rem;
+  text-align: left;
+  color: var(--text-head);
+  max-width: 16ch;
+}
+
+.who, .section-label, .brand, .pill, .k {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.who { display: block; margin-bottom: 2rem; padding-left: 2px; }
+.who::before { content: ""; display: block; width: 60px; height: 1px; background: var(--text-muted); margin-bottom: 1rem; }
+
+.lead {
+  text-align: left;
+  font-size: 1.4rem;
+  color: var(--text-main);
+  max-width: 45ch;
+  margin: 0 0 8rem;
+  font-weight: 400;
+  line-height: 1.8;
+  border-left: 2px solid var(--accent-color);
+  padding-left: 2rem;
+  margin-left: 2px;
+}
+
+/* --- Layout --- */
+main {
+  max-width: 1600px;
+  width: 92%;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Header --- */
+.top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.top::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(to right, #050507 0%, #050507 300px, rgba(5, 5, 7, 0.4) 100%);
+}
+
+.top-inner {
+  width: 92%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Brand --- */
+.brand { display: flex; align-items: center; text-decoration: none; transition: opacity 0.3s; padding: 10px 0; }
+.brand:hover { opacity: 0.8; }
+.signature-logo { height: 55px; width: auto; mix-blend-mode: screen; display: block; }
+
+/* --- Nav --- */
+.nav a {
+  color: var(--platinum);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: color 0.3s var(--ease-sharp);
+  margin-left: 2.5rem;
+  position: relative;
+  padding: 10px 0;
+  display: inline-block;
+}
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 0;
+  height: 1px;
+  background: var(--text-head);
+  transition: 0.3s var(--ease-sharp);
+}
+.nav a:hover, .nav a[aria-current="page"] { color: var(--text-head); }
+.nav a:hover::after, .nav a[aria-current="page"]::after { width: 100%; }
+
+/* --- Reveal --- */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: revealUp 0.8s var(--ease-sharp);
+}
+
+/* Stagger (works only when animation is enabled) */
+#archive article.paper:nth-of-type(1).is-visible { animation-delay: 0.10s; }
+#archive article.paper:nth-of-type(2).is-visible { animation-delay: 0.20s; }
+#archive article.paper:nth-of-type(3).is-visible { animation-delay: 0.30s; }
+
+/* --- Cards --- */
+.section-label {
+  text-align: left;
+  color: var(--text-muted);
+  margin: 10rem 0 2rem;
+  display: block;
+  padding-left: 4px;
+}
+
+.paper {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border-sharp);
+  padding: 5rem 4rem;
+  margin-bottom: 5rem;
+  overflow: hidden;
+  will-change: transform, box-shadow;
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+    background-color 0.2s ease-out,
+    border-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+
+/* Stretched-link: keep it behind real controls */
+.stretched-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Ensure controls sit above stretched overlay */
+.paper-title,
+.paper-title a,
+.k,
+.actions,
+.pill {
+  position: relative;
+  z-index: 2;
+}
+
+.paper:hover {
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--platinum);
+  background-color: #15151a;
+  border-color: var(--platinum);
+  z-index: 10;
+}
+
+h2.paper-title { margin: 0 0 1.5rem; }
+
+.paper-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--text-head);
+  display: block;
+  text-decoration: none;
+  line-height: 1.1;
+}
+
+.paper-title a { color: inherit; text-decoration: none; }
+.paper:hover .paper-title { color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+
+.paper-signal {
+  font-size: 1.2rem;
+  color: var(--text-main);
+  line-height: 1.7;
+  font-family: var(--font-serif);
+  margin-bottom: 1rem;
+}
+
+.k {
+  display: inline-block;
+  margin-top: 2.5rem;
+  color: #666;
+  border: 1px solid var(--border-sharp);
+  padding: 0.8rem 1.2rem;
+}
+.k span { color: var(--text-muted); }
+.paper:hover .k { border-color: var(--text-muted); color: var(--platinum); }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 28px;
+  border: 1.5px solid var(--platinum);
+  color: var(--text-head);
+  background: rgba(208, 213, 224, 0.08);
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.pill:hover { border-color: var(--platinum); color: var(--bg); background: var(--platinum); }
+
+/* --- Footer --- */
+footer {
+  margin-top: 6rem;
+  padding: 4rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+}
+.footer-inner { display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; padding-left: 2rem; }
+.social-nav { display: flex; flex-wrap: wrap; gap: 2rem; }
+.social-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: 0.3s;
+  position: relative;
+  padding: 10px;
+}
+.social-link:hover { color: var(--text-head); }
+.social-link::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 0; height: 1px; background: var(--platinum); transition: 0.3s; }
+.social-link:hover::after { width: 100%; }
+
+/* --- Scroll Progress --- */
+.scroll-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+  width: 0%;
+  z-index: 101;
+  transition: width 0.1s ease-out;
+}
+
+/* --- Utilities --- */
+/* =========================================================
+   ARTICLE PAGES (papers/*): Reading Ergonomics
+   ========================================================= */
+
+.article-container{
+  max-width: 72ch;
+  margin: 9rem auto 6rem; /* fixed header offset */
+  padding: 0 1.75rem;
+}
+
+/* "Back to Archive" */
+.back-link{
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0 0 2.75rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: .85rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.back-link:hover{ color: var(--text-head); }
+.back-link:focus-visible{ outline-offset: 6px; }
+
+/* Article title: override global h1 constraints */
+.article-header h1{
+  max-width: 100%;
+  margin: 0 0 1.6rem;
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-head);
+}
+
+/* Metadata row */
+.article-meta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem 1.25rem;
+  margin: 0 0 2.2rem;
+  padding-bottom: 2.2rem;
+  border-bottom: 1px solid var(--border-sharp);
+  font-family: var(--font-sans);
+  font-size: .9rem;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+}
+
+/* Body baseline */
+.article-body{
+  font-size: 1.18rem;
+  line-height: 1.95;
+  color: var(--text-main);
+}
+
+/* Home-only section label has huge margins — neutralize for articles */
+.article-body .section-label{
+  margin: 1.4rem 0 2.2rem;
+  padding-left: 0;
+  color: var(--text-muted);
+}
+
+/* Home-only lead has left rule + max-width — neutralize for articles */
+.article-body .lead{
+  max-width: 100%;
+  margin: 0 0 2.2rem;
+  border-left: none;
+  padding-left: 0;
+  margin-left: 0;
+  font-size: 1.18rem;
+  line-height: 1.9;
+}
+
+/* Headings inside article */
+.article-body h2{
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-head);
+  margin: 3.2rem 0 1.2rem;
+}
+.article-body h3{
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--text-head);
+  margin: 2.4rem 0 1rem;
+}
+
+/* Paragraph rhythm */
+.article-body p{ margin: 0 0 1.6rem; }
+
+/* Lists */
+.article-body ul{
+  margin: 0 0 2rem;
+  padding-left: 1.25rem;
+}
+.article-body li{ margin: .55rem 0; }
+
+/* Quotes */
+.article-body blockquote{
+  margin: 2.8rem 0;
+  padding: 1.2rem 0 1.2rem 2.2rem;
+  border-left: 2px solid var(--accent-color);
+  font-style: italic;
+  color: var(--platinum);
+}
+.quote-translation{
+  display: inline-block;
+  margin-top: .65rem;
+  font-style: normal;
+  color: var(--text-muted);
+}
+
+/* Actions button spacing (keep existing .pill styles) */
+.article-body .actions{
+  margin-top: 2.6rem;
+  justify-content: flex-start;
+}
+
+/* BibTeX block */
+.citation-box{
+  margin-top: 4.5rem;
+  padding: 2.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-sharp);
+}
+.citation-label{
+  display: inline-block;
+  margin: 0 0 1rem;
+  font-family: var(--font-sans);
+  font-size: .85rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.citation-text{
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .95rem;
+  line-height: 1.6;
+  color: var(--platinum);
+}
+
+/* =========================================================
+   P0 PATCH: A11y + New-tab indicator + Copy button
+   ========================================================= */
+
+.sr-only{
+  position:absolute;
+  width:1px; height:1px;
+  padding:0; margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+.pill[target="_blank"]::after,
+.social-link[target="_blank"]::after{
+  content:"↗";
+  margin-left:.6rem;
+  font-family: var(--font-sans);
+  opacity:.85;
+}
+
+.citation-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 1rem;
+  margin: 0 0 1rem;
+}
+.citation-head .citation-label{ margin: 0; }
+
+.copy{
+  display:inline-flex;
+  align-items:center;
+  height: 36px;
+  padding: 0 14px;
+
+  font-family: var(--font-sans);
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+
+  color: var(--platinum);
+  background: rgba(224,229,240,.06);
+  border: 1px solid var(--border-sharp);
+
+  cursor: pointer;
+  transition: background-color .2s var(--ease-sharp), border-color .2s var(--ease-sharp);
+}
+.copy:hover{
+  background: rgba(224,229,240,.12);
+  border-color: rgba(255,255,255,.18);
+}
+.copy:focus-visible{
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* =========================================================
+   Reduced Motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  /* 任意：ノイズも停止（審査員環境で“ちらつき”を避ける） */
+  html::before { opacity: 0 !important; }
+
+  .reveal, .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 
-  if (reducedMotion) {
-    // no-op
-  } else if (!("IntersectionObserver" in window)) {
-    targets.forEach((el) => {
-      el.classList.add("reveal", "is-visible");
-    });
-  } else {
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            obs.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
+  .paper, .pill, .scroll-progress, body { transition: none !important; }
+}
 
-    targets.forEach((el) => {
-      el.classList.add("reveal");
-      observer.observe(el);
-    });
+/* =========================================================
+   Responsive (max-width: 768px) — SINGLE CONSOLIDATED BLOCK
+   Includes: header sizing + cards + nav horizontal scroll + citation head stack
+   ========================================================= */
+@media (max-width: 768px) {
+  .top { height: 70px; background: rgba(5, 5, 7, 0.8); backdrop-filter: blur(20px); }
+  .top-inner { width: 100%; padding: 0 1.5rem; }
+
+  /* Mobile Nav: horizontal scroll (consolidated) */
+  .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.5rem;
+    padding-bottom: 6px; /* scrollbar breathing room */
+
+    /* optional: subtle fade at right edge */
+    mask-image: linear-gradient(to right, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
+  }
+  .nav a {
+    flex: 0 0 auto;
+    margin-left: 0;
+    font-size: 0.85rem;
+    padding: 12px 10px;
+    white-space: nowrap;
   }
 
-  document.body.classList.remove("fade-out");
+  h1 { font-size: 2.8rem; margin-top: 7rem; }
+  .paper { padding: 3rem 1.5rem; }
+  .paper-title { font-size: 2rem; }
+  .pill { width: 100%; justify-content: center; }
+  .actions { justify-content: center; }
+  .footer-inner { padding-left: 0; }
 
-  document.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (typeof e.button === "number" && e.button !== 0) return;
-
-      const hrefAttr = link.getAttribute("href");
-      if (!hrefAttr) return;
-
-      if (hrefAttr.startsWith("#")) return;
-      if (hrefAttr.startsWith("mailto:")) return;
-      if (hrefAttr.toLowerCase().endsWith(".pdf")) return;
-      if (link.target === "_blank") return;
-      if (link.hasAttribute("download")) return;
-
-      let url;
-      try {
-        url = new URL(hrefAttr, window.location.href);
-      } catch {
-        return;
-      }
-      if (url.origin !== window.location.origin) return;
-
-      e.preventDefault();
-
-      const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (isReduced) {
-        window.location.href = url.href;
-        return;
-      }
-
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = url.href;
-      }, 600);
-    });
-  });
-
-  const setCopyButtonState = (btn, text, ms = 1200) => {
-    const original = btn.textContent;
-    btn.textContent = text;
-    btn.disabled = true;
-    window.setTimeout(() => {
-      btn.textContent = original;
-      btn.disabled = false;
-    }, ms);
-  };
-
-  const copyText = async (text) => {
-    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-      await navigator.clipboard.writeText(text);
-      return;
-    }
-
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "fixed";
-    ta.style.top = "-9999px";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-
-    const ok = document.execCommand("copy");
-    document.body.removeChild(ta);
-
-    if (!ok) throw new Error("execCommand copy failed");
-  };
-
-  document.addEventListener("click", async (e) => {
-    const btn = e.target && e.target.closest ? e.target.closest("button.copy") : null;
-    if (!btn) return;
-
-    const selector = btn.getAttribute("data-copy-target");
-    if (!selector) return;
-
-    const target = document.querySelector(selector);
-    if (!target) {
-      setCopyButtonState(btn, "Not found", 1400);
-      return;
-    }
-
-    const text = (target.innerText || target.textContent || "").trim();
-    if (!text) {
-      setCopyButtonState(btn, "Empty", 1400);
-      return;
-    }
-
-    try {
-      await copyText(text);
-      setCopyButtonState(btn, "Copied", 1200);
-    } catch {
-      setCopyButtonState(btn, "Failed", 1600);
-    }
-  });
-
-  const updateProgress = () => {
-    if (!progressLine || !progressLine.isConnected) return;
-
-    const scrolled = window.pageYOffset || document.documentElement.scrollTop || 0;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-
-    progressLine.style.width = maxScroll > 0 ? `${(scrolled / maxScroll) * 100}%` : "0%";
-  };
-
-  updateProgress();
-
-  let ticking = false;
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        updateProgress();
-        ticking = false;
-      });
-    },
-    { passive: true }
-  );
-});
-
-window.addEventListener("pageshow", (event) => {
-  if (event.persisted || document.body.classList.contains("fade-out")) {
-    document.body.classList.remove("fade-out");
+  .article-container{
+    margin: 7.5rem auto 5rem;
+    padding: 0 1.25rem;
   }
-});
+  .article-header h1{
+    font-size: clamp(1.9rem, 6.2vw, 2.8rem);
+  }
+  .citation-box{ padding: 1.6rem; }
+
+  .citation-head{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =========================================================
+   P0 PATCH: Inter-paper Navigation
+   ========================================================= */
+.paper-nav {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border-sharp);
+  font-family: var(--font-sans);
+}
+
+.paper-nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: opacity 0.3s var(--ease-sharp), transform 0.3s var(--ease-sharp);
+  width: 45%;
+}
+
+.nav-link:hover {
+  opacity: 1;
+  color: var(--text-head);
+  transform: translateY(-2px);
+}
+
+.nav-link.next {
+  text-align: right;
+  align-items: flex-end;
+  margin-left: auto; /* Prevがない場合の右寄せ対策 */
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+  display: block;
+  opacity: 0.8;
+}
+
+.nav-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--text-main);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.nav-link:hover .nav-title {
+  border-color: var(--accent-color);
+}
+
+/* スマホ表示調整 */
+@media (max-width: 768px) {
+  .paper-nav-inner { flex-direction: column; gap: 3rem; }
+  .nav-link { width: 100%; text-align: left !important; align-items: flex-start !important; }
+}
