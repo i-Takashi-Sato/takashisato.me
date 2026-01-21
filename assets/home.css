@@ -113,34 +113,28 @@ body.home #archive .script-note {
 
 /* --- THE CALCULATED CHAOS PLACEMENT --- */
 
-/* Part I */
+/* Part I: 左側の大空白を支配する巨大な導入 */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(3rem, 10vw, 10rem);
-  left: 5%;
-  top: -10%;
-  transform: rotate(-10deg);
-  width: 90%;
-  text-align: center;
+  font-size: clamp(14rem, 30vw, 35rem);
+  top: -25%; left: -28vw;
+  transform: rotate(-12deg);
 }
 
-/* Part II */
+/* Part II: 右下がり・微細傾斜・官能的なオフセット */
 body.home #archive .paper:nth-of-type(2) .script-note {
   font-size: clamp(12rem, 24vw, 28rem);
-  top: 45%;
-  right: -28vw;
-  left: auto;
+  top: 45%; right: -28vw; left: auto;
   transform: rotate(2deg);
 }
 
-/* Part III */
+/* Part III: 下層を切り裂くアグレッシブな終焉 */
 body.home #archive .paper:nth-of-type(3) .script-note {
   font-size: clamp(10rem, 20vw, 25rem);
-  top: 40%;
-  left: -15vw;
+  top: 40%; left: -15vw;
   transform: rotate(-25deg);
 }
 
-/* --- UI Content Layers --- */
+/* --- UI Content Layers (z-index 10) --- */
 body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 40px; }
 body.home #archive .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
@@ -171,33 +165,32 @@ body.home #archive .paper:hover .pill { background: var(--accent); border-color:
   body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
   .vertical-axis { display: none; }
 
+  /* Keep script-note visible even on smaller screens */
   body.home #archive .script-note {
     display: block;
     opacity: 0.6;
     mix-blend-mode: normal;
-    font-size: clamp(3rem, 15vw, 6rem) !important;
-    position: relative;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    text-align: center !important;
-    margin-bottom: 20px;
-    transform: none !important;
-    width: 100%;
   }
+
+  /* Optional: tame extreme offsets on small screens */
+  body.home #archive .paper:nth-of-type(1) .script-note { left: -10vw; top: -12%; }
+  body.home #archive .paper:nth-of-type(2) .script-note { right: -10vw; top: 50%; }
+  body.home #archive .paper:nth-of-type(3) .script-note { left: -8vw;  top: 45%; }
 }
 
-/* --- NAV & HEADER SETTINGS --- */
 body.home .nav .nav-papers{
   position: relative;
   display: inline-block;
+
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+
   color: var(--fg);
   text-decoration: none;
   padding-bottom: 12px;
+
   opacity: 0.88;
   transition: opacity .18s ease, color .18s ease;
 }
@@ -208,11 +201,14 @@ body.home .nav .nav-papers::after{
   left: 0;
   right: 0;
   bottom: 0;
+
   height: 2px;
   background: currentColor;
+
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .28s ease;
+
   opacity: 0.85;
 }
 
@@ -225,12 +221,19 @@ body.home .nav .nav-papers:focus-visible{
 body.home .nav .nav-papers:hover::after,
 body.home .nav .nav-papers:focus-visible::after{
   transform: scaleX(1);
+   
 }
+/* =========================================================
+   Home header: force "Papers only" nav behavior
+   (prevents site.css underline duplication)
+   ========================================================= */
 
+/* Kill generic nav underline on HOME only */
 body.home .top .nav a::after{
   content: none !important;
 }
 
+/* Neutralize generic spacing on HOME only */
 body.home .top .nav a{
   margin-left: 0 !important;
 }
