@@ -111,53 +111,36 @@ body.home #archive .script-note {
   transition: none;
 }
 
-/* --- THE CALCULATED CHAOS PLACEMENT (FIXED) --- */
+/* --- THE CALCULATED CHAOS PLACEMENT --- */
 
-/* Part I: 左側の配置 (修正版: 文字サイズを小さくし、画面内に収める) */
+/* Part I */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  /* clamp(最小, 推奨, 最大) - 元の30vwから10vwへ縮小 */
   font-size: clamp(3rem, 10vw, 10rem);
-  
-  /* 画面外(-28vw)ではなく、内側(5%)に配置 */
   left: 5%;
   top: -10%;
-  
-  /* 角度を少し緩める */
   transform: rotate(-10deg);
-  
-  /* 横幅を制限して中央揃え */
   width: 90%;
   text-align: center;
 }
 
-/* Part II: 右側の配置 (修正版) */
+/* Part II */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  /* サイズを縮小 */
-  font-size: clamp(3rem, 8vw, 10rem);
-  
-  /* 画面外に出さないよう内側に配置 */
-  right: 5%;
+  font-size: clamp(12rem, 24vw, 28rem);
+  top: 45%;
+  right: -28vw;
   left: auto;
-  top: 30%;
-  
   transform: rotate(2deg);
-  text-align: right;
 }
 
-/* Part III: 左下の配置 (修正版) */
+/* Part III */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  /* サイズを縮小 */
-  font-size: clamp(3rem, 8vw, 8rem);
-  
-  /* 内側に配置 */
-  left: 5%;
-  top: 20%;
-  
-  transform: rotate(-15deg);
+  font-size: clamp(10rem, 20vw, 25rem);
+  top: 40%;
+  left: -15vw;
+  transform: rotate(-25deg);
 }
 
-/* --- UI Content Layers (z-index 10) --- */
-/* 重要：文字の重なり順を制御する設定 */
+/* --- UI Content Layers --- */
 body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 40px; }
 body.home #archive .paper-title a {
   font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
@@ -183,32 +166,28 @@ body.home #archive .pill {
 }
 body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
 
-/* --- MOBILE SAFETY (FIXED) --- */
+/* --- MOBILE SAFETY --- */
 @media (max-width: 1024px) {
   body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
   .vertical-axis { display: none; }
 
-  /* スマホ・タブレット用調整 */
   body.home #archive .script-note {
     display: block;
     opacity: 0.6;
     mix-blend-mode: normal;
-    
-    /* スマホでも枠内に収まるサイズに制限 */
-    font-size: clamp(2.5rem, 12vw, 5rem) !important;
+    font-size: clamp(3rem, 15vw, 6rem) !important;
     position: relative;
     top: auto !important;
     left: auto !important;
     right: auto !important;
-    margin-bottom: 10px;
-    transform: none !important;
     text-align: center !important;
+    margin-bottom: 20px;
+    transform: none !important;
     width: 100%;
   }
 }
 
 /* --- NAV & HEADER SETTINGS --- */
-/* 重要：ナビゲーションの設定 */
 body.home .nav .nav-papers{
   position: relative;
   display: inline-block;
@@ -248,7 +227,6 @@ body.home .nav .nav-papers:focus-visible::after{
   transform: scaleX(1);
 }
 
-/* Home header overrides */
 body.home .top .nav a::after{
   content: none !important;
 }
