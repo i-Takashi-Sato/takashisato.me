@@ -177,3 +177,48 @@ body.home #archive .paper:hover .pill { background: var(--accent); border-color:
   body.home #archive .paper:nth-of-type(2) .script-note { right: -10vw; top: 50%; }
   body.home #archive .paper:nth-of-type(3) .script-note { left: -8vw;  top: 45%; }
 }
+
+body.home .nav .nav-papers{
+  position: relative;
+  display: inline-block;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+
+  color: var(--fg);
+  text-decoration: none;
+  padding-bottom: 12px;
+
+  opacity: 0.88;
+  transition: opacity .18s ease, color .18s ease;
+}
+
+body.home .nav .nav-papers::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 2px;
+  background: currentColor;
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s ease;
+
+  opacity: 0.85;
+}
+
+body.home .nav .nav-papers:hover,
+body.home .nav .nav-papers:focus-visible{
+  color: var(--accent);
+  opacity: 1;
+}
+
+body.home .nav .nav-papers:hover::after,
+body.home .nav .nav-papers:focus-visible::after{
+  transform: scaleX(1);
+}
