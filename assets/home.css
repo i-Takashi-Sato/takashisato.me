@@ -1,239 +1,41 @@
-/* =========================================================
-   V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
-   ========================================================= */
-
-body.home {
-  /* V72: FINAL COLOR RESTORED */
-  --bg-void: #050505;
-  --bg-stage: #080808;
-  --surface: #0E0E0E;
-  --fg: #E6E4E0;
-  --fg-dim: #949494;
-  --accent: #D90429;
-  --line: rgba(255, 255, 255, 0.08);
-
-  /* Nocturnal Crimson: セクシーで湿度の高い深紅 */
-  --sexy-ink: #7B001C;
-
-  --font-serif: 'Cormorant Garamond', serif;
-  --font-script: 'Pinyon Script', cursive;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
-
-  background-color: var(--bg-void);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  width: 100%;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* --- GLOBAL ARCHITECTURE --- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body.home ::selection { background: #FFF; color: #000; }
-
-body.home::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none;
-  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-}
-
-body.home main {
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
-}
-
-/* 垂直ラベル：左側の空白を定義する背骨 */
-.vertical-axis {
-  position: absolute; left: 15px; top: 400px;
-  writing-mode: vertical-rl; transform: rotate(180deg);
-  font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim);
-  letter-spacing: 0.6em; text-transform: uppercase; pointer-events: none; opacity: 0.4;
-}
-
-/* --- HERO SECTION --- */
-body.home main > header { padding: 220px 0 120px; position: relative; }
-body.home main > header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
-}
-body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block; }
-body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
-body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); border-bottom: 1px solid var(--line); padding-bottom: 20px; }
-
-/* --- ARCHIVE CARDS (V65 Scattered Logic) --- */
-body.home #archive .paper {
-  display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px;
-  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible;
-  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
-  text-decoration: none;
-}
-
-body.home #archive .paper:hover {
-  background: #111; transform: scale(1.01) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
-}
-
-/* Numeral Base */
-body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-body.home #archive .work-bg-num {
-  position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
-  font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
-  opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
-}
-body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; mix-blend-mode: normal; }
-
-/* =========================================================
-   SCRIPT NOTES: ALWAYS VISIBLE (NO DRAW / NO MASK)
-   ========================================================= */
-body.home #archive .script-note {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-  font-family: var(--font-script);
-  white-space: nowrap;
-
-  color: var(--sexy-ink);
-  opacity: 0.75;
-  mix-blend-mode: screen;
-
-  /* Kill drawing effect */
-  -webkit-mask-image: none;
-  -webkit-mask-size: auto;
-  -webkit-mask-position: 0 0;
-  -webkit-mask-repeat: no-repeat;
-
-  animation: none;
-  transition: none;
-}
-
-/* --- THE CALCULATED CHAOS PLACEMENT --- */
-
-/* Part I: 左側の大空白を支配する巨大な導入 */
+/* Part I */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(14rem, 30vw, 35rem);
-  top: -25%; left: -28vw;
-  transform: rotate(-12deg);
+  font-size: clamp(4rem, 12vw, 12rem);
+  left: 5%;
+  top: -10%;
+  transform: rotate(-10deg);
+  width: 90%;
+  text-align: center;
 }
 
-/* Part II: 右下がり・微細傾斜・官能的なオフセット */
+/* Part II */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(12rem, 24vw, 28rem);
-  top: 45%; right: -28vw; left: auto;
+  font-size: clamp(4rem, 10vw, 12rem);
+  right: 5%;
+  left: auto;
+  top: 30%;
   transform: rotate(2deg);
+  text-align: right;
 }
 
-/* Part III: 下層を切り裂くアグレッシブな終焉 */
+/* Part III */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(10rem, 20vw, 25rem);
-  top: 40%; left: -15vw;
-  transform: rotate(-25deg);
+  font-size: clamp(4rem, 10vw, 10rem);
+  left: 5%;
+  top: 20%;
+  transform: rotate(-15deg);
 }
 
-/* --- UI Content Layers (z-index 10) --- */
-body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 40px; }
-body.home #archive .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
-}
-
-body.home #archive .paper-signal {
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0; position: relative; z-index: 10;
-}
-
-body.home #archive .k {
-  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end; text-align: right; position: relative; z-index: 10;
-}
-body.home #archive .k span { color: var(--accent); font-weight: 700; }
-
-body.home #archive .pill {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-  padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
-  margin-top: 40px; position: relative; z-index: 10;
-}
-body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
-
-/* --- MOBILE SAFETY --- */
 @media (max-width: 1024px) {
-  body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
-  .vertical-axis { display: none; }
-
-  /* Keep script-note visible even on smaller screens */
   body.home #archive .script-note {
+    font-size: clamp(3rem, 15vw, 6rem) !important;
+    position: relative;
     display: block;
-    opacity: 0.6;
-    mix-blend-mode: normal;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    text-align: center !important;
+    margin-bottom: 20px;
+    transform: none !important;
   }
-
-  /* Optional: tame extreme offsets on small screens */
-  body.home #archive .paper:nth-of-type(1) .script-note { left: -10vw; top: -12%; }
-  body.home #archive .paper:nth-of-type(2) .script-note { right: -10vw; top: 50%; }
-  body.home #archive .paper:nth-of-type(3) .script-note { left: -8vw;  top: 45%; }
-}
-
-body.home .nav .nav-papers{
-  position: relative;
-  display: inline-block;
-
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-
-  color: var(--fg);
-  text-decoration: none;
-  padding-bottom: 12px;
-
-  opacity: 0.88;
-  transition: opacity .18s ease, color .18s ease;
-}
-
-body.home .nav .nav-papers::after{
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  height: 2px;
-  background: currentColor;
-
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .28s ease;
-
-  opacity: 0.85;
-}
-
-body.home .nav .nav-papers:hover,
-body.home .nav .nav-papers:focus-visible{
-  color: var(--accent);
-  opacity: 1;
-}
-
-body.home .nav .nav-papers:hover::after,
-body.home .nav .nav-papers:focus-visible::after{
-  transform: scaleX(1);
-   
-}
-/* =========================================================
-   Home header: force "Papers only" nav behavior
-   (prevents site.css underline duplication)
-   ========================================================= */
-
-/* Kill generic nav underline on HOME only */
-body.home .top .nav a::after{
-  content: none !important;
-}
-
-/* Neutralize generic spacing on HOME only */
-body.home .top .nav a{
-  margin-left: 0 !important;
 }
