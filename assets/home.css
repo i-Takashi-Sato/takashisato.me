@@ -221,4 +221,19 @@ body.home .nav .nav-papers:focus-visible{
 body.home .nav .nav-papers:hover::after,
 body.home .nav .nav-papers:focus-visible::after{
   transform: scaleX(1);
+   
+}
+/* =========================================================
+   Home header: force "Papers only" nav behavior
+   (prevents site.css underline duplication)
+   ========================================================= */
+
+/* Kill generic nav underline on HOME only */
+body.home .top .nav a::after{
+  content: none !important;
+}
+
+/* Neutralize generic spacing on HOME only */
+body.home .top .nav a{
+  margin-left: 0 !important;
 }
