@@ -85,7 +85,13 @@ body.home #archive .work-bg-num {
   font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
   opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
-body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; mix-blend-mode: normal; }
+
+/* CHANGE (C): Keep numerals subordinate on hover (no red) */
+body.home #archive .paper:hover .work-bg-num {
+  color: #FFF;
+  opacity: 0.18;
+  mix-blend-mode: normal;
+}
 
 /* =========================================================
    GSS-φ (Golden Scribble System / Phi Edition)
@@ -103,7 +109,7 @@ body.home #archive .script-note{
   line-height: 1;
   white-space: nowrap;
 
-  /* keep your ink */
+  /* keep your ink (fallback only; parts override) */
   color: var(--sexy-ink);
 
   /* no neon */
@@ -117,7 +123,8 @@ body.home #archive .script-note{
   transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale));
   transform-origin: center center;
 
-  opacity: 0.62;
+  /* CHANGE (A): mathematically disciplined base */
+  opacity: 0.618;
   transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
 
   will-change: auto; /* memory-safe default */
@@ -147,7 +154,9 @@ body.home #archive .paper:nth-of-type(1) .script-note{
   --ty: -50%;
   --rot: -13deg;
 
-  /* Bordeaux Varnish */
+  /* CHANGE (B): Bordeaux Varnish (color as material) */
+  color: rgba(180, 4, 30, 0.82);
+
   letter-spacing: -0.012em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 220, 230, 0.12),
@@ -167,7 +176,9 @@ body.home #archive .paper:nth-of-type(2) .script-note{
   --ty: -62%;
   --rot: 8deg;
 
-  /* Smear & Stain (no neon blur) */
+  /* CHANGE (B): Smear & Stain (no neon, slightly magenta) */
+  color: rgba(217, 4, 60, 0.74);
+
   letter-spacing: -0.035em;
   text-shadow:
      0.03em 0.03em 0 rgba(100, 0, 30, 0.28),
@@ -184,7 +195,9 @@ body.home #archive .paper:nth-of-type(3) .script-note{
   --ty: -30%;
   --rot: -21deg;
 
-  /* Satin Slash (pinkish highlight) */
+  /* CHANGE (B): Satin Slash (pinkish highlight, no white glare) */
+  color: rgba(220, 10, 20, 0.78);
+
   letter-spacing: -0.01em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
@@ -202,7 +215,7 @@ body.home #archive .paper:nth-of-type(3) .script-note{
   body.home #archive .paper:hover .script-note,
   body.home #archive .paper:focus-within .script-note{
     --scale: 1;
-    opacity: 0.62;
+    opacity: 0.618;
   }
 }
 
