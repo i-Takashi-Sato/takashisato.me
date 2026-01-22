@@ -1,17 +1,14 @@
 /* =========================================================
    V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
    + Phi-Grid Cards (Golden Ratio Layout)
-   + JO-HA-KYU Void Kanji (Phi Rhythm)
    ========================================================= */
 
 body.home {
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
-
   --fg: #E6E4E0;
   --fg-dim: #949494;
-
   --accent: #D90429;
   --line: rgba(255, 255, 255, 0.08);
 
@@ -162,7 +159,6 @@ body.home #archive .card-base {
   pointer-events: none;
   z-index: 0;
 }
-
 body.home #archive .work-bg-num {
   position: absolute;
   right: -20px;
@@ -177,7 +173,6 @@ body.home #archive .work-bg-num {
   mix-blend-mode: overlay;
   transition: 0.3s ease;
 }
-
 body.home #archive .paper:hover .work-bg-num {
   color: #FFF;
   opacity: 0.18;
@@ -197,7 +192,6 @@ body.home #archive .script-note {
   font-size: clamp(8rem, 20vw, 25rem);
   line-height: 1;
   white-space: nowrap;
-
   color: var(--sexy-ink);
   mix-blend-mode: normal;
 
@@ -226,7 +220,6 @@ body.home #archive .paper:focus-within .script-note {
   will-change: transform, opacity;
 }
 
-/* Scribble placement */
 body.home #archive .paper:nth-of-type(1) .script-note {
   top: 30%;
   left: 0;
@@ -298,7 +291,6 @@ body.home #archive .paper-title {
   z-index: 10;
   margin: 0;
 }
-
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
@@ -352,7 +344,6 @@ body.home #archive .k {
   position: relative;
   z-index: 10;
 }
-
 body.home #archive .k span {
   color: var(--accent);
   font-weight: 700;
@@ -384,7 +375,6 @@ body.home #archive .pill {
   position: relative;
   z-index: 10;
 }
-
 body.home #archive .paper:hover .pill {
   background: var(--accent);
   border-color: var(--accent);
@@ -392,10 +382,7 @@ body.home #archive .paper:hover .pill {
   box-shadow: 5px 5px 0px #FFF;
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
+/* Mobile */
 @media (max-width: 1024px) {
   body.home #archive .paper {
     grid-template-columns: 1fr;
@@ -420,7 +407,6 @@ body.home #archive .paper:hover .pill {
     opacity: 0.50;
     will-change: auto;
   }
-
   body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
   body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
   body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
@@ -441,10 +427,7 @@ body.home #archive .paper:hover .pill {
   }
 }
 
-/* =========================================================
-   NAV (HOME)
-   ========================================================= */
-
+/* Nav */
 body.home .nav .nav-papers {
   position: relative;
   display: inline-block;
@@ -499,17 +482,15 @@ body.home .top .nav a { margin-left: 0 !important; }
 
 body.home #archive .paper{
   --kanji: "";
-
   --k-top: 61.8%;
   --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
   --k-rot: -8deg;
-
   --k-size: clamp(18rem, 30vw, 36rem);
 
-  --k-opacity: 0.075;
-  --k-ink: rgba(255, 255, 255, 0.20);
-  --k-blend: soft-light;
-  --k-blur: 0.45px;
+  --k-opacity: 0.11;
+  --k-ink: rgba(0,0,0,0.92);
+  --k-blend: multiply;
+  --k-blur: 0.28px;
 
   position: relative;
   z-index: 1;
@@ -534,53 +515,50 @@ body.home #archive .paper::before{
   pointer-events: none;
   z-index: -1;
   -webkit-font-smoothing: antialiased;
+
   filter: blur(var(--k-blur));
+  text-shadow:
+    -0.035em -0.030em 0 rgba(255,255,255,0.08),
+     0.020em  0.020em 0 rgba(255,255,255,0.03),
+     0.090em  0.090em 0 rgba(0,0,0,0.40);
 }
 
-/* 序 */
 body.home #archive .paper:nth-of-type(1){
   --kanji: "序";
   --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(130px, 16vw, 300px));
+  --k-size: clamp(17rem, 26.0vw, 34rem);
+  --k-tx: calc(-61.8% - clamp(120px, 15vw, 280px));
   --k-rot: -10deg;
-  --k-size: clamp(17rem, 27.4vw, 34rem);
-  --k-opacity: 0.075;
+  --k-opacity: 0.11;
 }
 
-/* 破 */
 body.home #archive .paper:nth-of-type(2){
   --kanji: "破";
   --k-top: 38.2%;
+  --k-size: clamp(22rem, 34.0vw, 44rem);
   --k-rot: 7deg;
-  --k-tx: calc(61.8% + clamp(130px, 16vw, 300px));
-  --k-size: clamp(21rem, 38.2vw, 46rem);
-  --k-opacity: 0.065;
+  --k-tx: calc(61.8% + clamp(120px, 15vw, 280px));
+  --k-opacity: 0.095;
 }
 body.home #archive .paper:nth-of-type(2)::before{
   left: auto;
   right: 0;
 }
 
-/* 急 */
 body.home #archive .paper:nth-of-type(3){
   --kanji: "急";
   --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(130px, 16vw, 300px));
+  --k-size: clamp(19rem, 30.0vw, 38rem);
+  --k-tx: calc(-61.8% - clamp(120px, 15vw, 280px));
   --k-rot: -6deg;
-  --k-size: clamp(18rem, 30vw, 38rem);
-  --k-opacity: 0.065;
+  --k-opacity: 0.095;
 }
 
-/* Mobile */
 @media (max-width: 1024px){
   body.home #archive .paper{
-    --k-size: clamp(12rem, 42vw, 22rem);
-    --k-opacity: 0.06;
-    --k-blur: 0.55px;
-  }
-
-  body.home #archive .paper:nth-of-type(2){
-    --k-size: clamp(13rem, 48vw, 24rem);
+    --k-size: clamp(12rem, 40vw, 22rem);
+    --k-opacity: 0.085;
+    --k-blur: 0.34px;
   }
 
   body.home #archive .paper:nth-of-type(1),
