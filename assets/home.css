@@ -1,5 +1,6 @@
 /* =========================================================
    V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
+   (Layout: Phi-Grid v2 Left-Anchor / Texture: World Class)
    ========================================================= */
 
 body.home {
@@ -64,13 +65,33 @@ body.home .who { font-family: var(--font-mono); font-size: 11px; color: var(--ac
 body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0; }
 body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); border-bottom: 1px solid var(--line); padding-bottom: 20px; }
 
-/* --- ARCHIVE CARDS (V65 Scattered Logic) --- */
+
+/* =========================================================
+   ARCHIVE CARDS: PHI-GRID LAYOUT (v2 Left-Anchor)
+   Ratio: 1.618 (Left: Definition) : 1 (Right: Interpretation)
+   ========================================================= */
+
 body.home #archive .paper {
-  display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px;
-  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible;
-  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
+  display: grid;
+  /* 左(タイトル+Keywords) : 右(引用+ボタン) = 1.618 : 1 */
+  grid-template-columns: 1.618fr 1fr;
+  gap: 6.18vw;
+  
+  position: relative;
+  margin-top: 100px; 
+  margin-bottom: 60px;
+  
+  /* 余白(Padding)の黄金比 */
+  padding: clamp(6rem, 10vw, 12rem) clamp(3.7rem, 6.18vw, 7.4rem);
+  
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible;
+  color: inherit;
   text-decoration: none;
+  z-index: 1;
+  
+  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 body.home #archive .paper:hover {
@@ -86,12 +107,162 @@ body.home #archive .work-bg-num {
   opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
 
-/* CHANGE (C): Keep numerals subordinate on hover (no red) */
+/* CHANGE (C): Keep numerals subordinate on hover */
 body.home #archive .paper:hover .work-bg-num {
   color: #FFF;
   opacity: 0.18;
   mix-blend-mode: normal;
 }
+
+
+/* --- LEFT COLUMN: THE DEFINITION (1.618) --- */
+
+/* 1. Part Label & Title */
+body.home #archive .section-label,
+body.home #archive .paper-title {
+  grid-column: 1 / 2;
+  position: relative;
+  z-index: 10;
+}
+
+body.home #archive .section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.236em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 2.618rem;
+  display: block;
+  border: none;
+  margin-top: 0; /* リセット */
+  padding-bottom: 0; /* リセット */
+}
+
+body.home #archive .paper-title a {
+  font-family: var(--font-sans);
+  /* 文字サイズ調整: φスケール */
+  font-size: clamp(3rem, 6.5vw, 7.5rem); 
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* 2. Keywords (Moved back to Left for Stability) */
+/* タイトルの下に配置し、左側の視覚的重量を確保する */
+body.home #archive .k {
+  grid-column: 1 / 2;
+  align-self: end; /* 左カラムの最下部に吸着 */
+  
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+  
+  margin-top: 5rem; 
+  text-align: left;
+  display: flex; /* 横並び */
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1em;
+  position: relative;
+  z-index: 10;
+}
+body.home #archive .k span {
+  color: var(--accent);
+  font-weight: 700;
+  display: inline-block;
+}
+
+
+/* --- RIGHT COLUMN: THE INTERPRETATION (1.0) --- */
+
+/* 3. Quote / Summary */
+body.home #archive .paper-signal {
+  grid-column: 2 / 3;
+  margin-top: 4.2rem; /* タイトルとの視覚バランス */
+  
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.8vw, 1.618rem);
+  line-height: 1.5;
+  color: var(--fg-dim);
+  
+  border-left: 1px solid var(--accent);
+  padding-left: 2.618rem;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 0;
+}
+
+/* 4. CTA Button */
+/* 右側に配置し、ユーザーの視線を右下に逃す */
+body.home #archive .pill {
+  grid-column: 2 / 3;
+  justify-self: start;
+  align-self: end; /* 下揃え */
+  
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  
+  padding: 1.618rem 4.2rem;
+  
+  border: 1px solid var(--line);
+  color: var(--fg);
+  text-decoration: none;
+  transition: 0.3s ease;
+  
+  /* スマホ等でのマージン調整 */
+  margin-top: 4rem; 
+  position: relative;
+  z-index: 10;
+  display: inline-flex;
+}
+body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+
+
+/* --- MOBILE LAYOUT --- */
+@media (max-width: 1024px) {
+  body.home #archive .paper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 60px 24px;
+    text-align: center;
+    width: auto;
+    margin-left: 0;
+  }
+  
+  /* 全要素を縦積みにリセット */
+  body.home #archive .section-label,
+  body.home #archive .paper-title,
+  body.home #archive .k,
+  body.home #archive .paper-signal,
+  body.home #archive .pill {
+    grid-column: 1 / -1;
+    text-align: left;
+    justify-self: start;
+    align-self: auto;
+  }
+  
+  body.home #archive .paper-signal {
+    margin-top: 20px;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+  
+  body.home #archive .k {
+    flex-direction: column; /* スマホでは縦積み */
+    gap: 0.5em;
+  }
+}
+
 
 /* =========================================================
    GSS-φ (Golden Scribble System / Phi Edition)
@@ -101,7 +272,7 @@ body.home #archive .paper:hover .work-bg-num {
 /* --- CORE SKELETON --- */
 body.home #archive .script-note{
   position: absolute;
-  z-index: 1;               /* scribble is under UI (z=10) */
+  z-index: 1;                /* scribble is under UI (z=10) */
   pointer-events: none;
 
   font-family: var(--font-script);
@@ -220,34 +391,19 @@ body.home #archive .paper:nth-of-type(3) .script-note{
 }
 
 /* --- UI Content Layers (z-index 10) --- */
-body.home #archive .paper-title { position: relative; z-index: 10; margin-bottom: 40px; }
-body.home #archive .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
-}
-
-body.home #archive .paper-signal {
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4; color: var(--fg-dim); border-left: 2px solid var(--accent); padding-left: 30px; margin: 40px 0 0; position: relative; z-index: 10;
-}
-
-body.home #archive .k {
-  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end; text-align: right; position: relative; z-index: 10;
-}
-body.home #archive .k span { color: var(--accent); font-weight: 700; }
-
+/* Already handled in specific grid sections, but keeping for safety */
+body.home #archive .paper-title,
+body.home #archive .paper-signal,
+body.home #archive .k,
 body.home #archive .pill {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-  padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
-  margin-top: 40px; position: relative; z-index: 10;
+  position: relative; z-index: 10;
 }
-body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+
 
 /* --- MOBILE SAFETY --- */
 @media (max-width: 1024px) {
-  body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
+  /* .paper grid reset is handled above in "ARCHIVE CARDS" section */
+  
   .vertical-axis { display: none; }
 
   /* Mobile placement (scaled down) */
