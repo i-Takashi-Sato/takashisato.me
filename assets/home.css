@@ -1,34 +1,26 @@
-@charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap');
-
 /* =========================================================
    V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
-   [Features]
-   - Phi-Grid Cards (1 : 1.618)
-   - GSS-φ Scribble System (World Class Texture)
-   - Jo-Ha-Kyu Narrative Backgrounds (Variable Sizing)
+   + Phi-Grid Cards (Golden Ratio Layout)
+   + JO-HA-KYU Void Kanji (Phi Rhythm)
    ========================================================= */
 
 body.home {
-  /* --- COLOR PALETTE --- */
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
+
   --fg: #E6E4E0;
   --fg-dim: #949494;
+
   --accent: #D90429;
   --line: rgba(255, 255, 255, 0.08);
 
-  /* Nocturnal Crimson: セクシーで湿度の高い深紅 */
   --sexy-ink: #7B001C;
 
-  /* --- TYPOGRAPHY --- */
   --font-serif: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  /* 日本の精神性 */
-  --font-jp: 'Yuji Mai', serif;
 
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
 
@@ -40,73 +32,107 @@ body.home {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- GLOBAL ARCHITECTURE --- */
+/* Global */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body.home ::selection { background: #FFF; color: #000; }
 
 body.home::after {
   content: "";
-  position: fixed; inset: 0; pointer-events: none;
-  z-index: 50; opacity: 0.035; mix-blend-mode: overlay;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
 body.home main {
-  max-width: 1440px; margin: 0 auto; padding: 0 max(20px, 6vw);
-  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
-  background-color: var(--bg-stage); min-height: 100vh; position: relative; z-index: 3;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 max(20px, 6vw);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background-color: var(--bg-stage);
+  min-height: 100vh;
+  position: relative;
+  z-index: 3;
 }
 
 /* Vertical axis label */
 .vertical-axis {
-  position: absolute; left: 15px; top: 400px;
-  writing-mode: vertical-rl; transform: rotate(180deg);
-  font-family: var(--font-mono); font-size: 10px; color: var(--fg-dim);
-  letter-spacing: 0.6em; text-transform: uppercase; pointer-events: none; opacity: 0.4;
+  position: absolute;
+  left: 15px;
+  top: 400px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-dim);
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.4;
 }
 
-/* --- HERO SECTION --- */
+/* Hero */
 body.home main > header { padding: 220px 0 120px; position: relative; }
 body.home main > header h1 {
-  font-family: var(--font-serif); font-size: clamp(3.5rem, 9.5vw, 11rem);
-  font-weight: 300; font-style: italic; line-height: 0.85; letter-spacing: -0.04em; margin: 0 0 80px;
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 9.5vw, 11rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  margin: 0 0 80px;
 }
 body.home .who {
-  font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin: 0 0 20px; display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  display: block;
 }
 body.home .lead {
-  font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.4; border-left: 4px solid var(--accent); padding-left: 40px; max-width: 850px; margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.4;
+  border-left: 4px solid var(--accent);
+  padding-left: 40px;
+  max-width: 850px;
+  margin: 0;
 }
 body.home .section-label {
-  display: block; margin-top: 90px;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim);
-  border-bottom: 1px solid var(--line); padding-bottom: 20px;
+  display: block;
+  margin-top: 90px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
 }
 
 /* =========================================================
-   ARCHIVE CARDS: PHI-GRID SYSTEM (Total Phi Layout)
-   Ratio: 61.803% (Definition) : 38.197% (Interpretation)
-   Y-Axis: Top / Breath / Bottom
+   ARCHIVE CARDS: PHI-GRID SYSTEM
    ========================================================= */
 
 body.home #archive .paper {
   display: grid;
-
-  /* [X-Axis] Golden Ratio Split */
   grid-template-columns: 61.803% 38.197%;
   column-gap: clamp(24px, 6.18vw, 96px);
-
-  /* [Y-Axis] Top(Content) / Breath(Space) / Bottom(Meta) */
   grid-template-rows: auto 1fr auto;
-
-  /* Layout Mapping */
   grid-template-areas:
     "title  quote"
     "title  quote"
     "keys   cta";
 
   position: relative;
-  margin-top: 100px; margin-bottom: 60px;
+  margin-top: 100px;
+  margin-bottom: 60px;
   padding: clamp(6rem, 10vw, 12rem) clamp(3.1rem, 6.18vw, 7.4rem);
 
   background: var(--surface);
@@ -115,7 +141,6 @@ body.home #archive .paper {
   color: inherit;
   text-decoration: none;
   z-index: 1;
-
   align-items: start;
 
   transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease;
@@ -129,21 +154,43 @@ body.home #archive .paper:hover {
   z-index: 100;
 }
 
-/* --- BACKGROUND ELEMENTS --- */
+/* Background elements */
 body.home #archive .card-base {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
-/* Note: Original large numerals removed in favor of Jo-Ha-Kyu system below */
 
+body.home #archive .work-bg-num {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(14rem, 25vw, 30rem);
+  opacity: 0.08;
+  color: #FFF;
+  mix-blend-mode: overlay;
+  transition: 0.3s ease;
+}
+
+body.home #archive .paper:hover .work-bg-num {
+  color: #FFF;
+  opacity: 0.18;
+  mix-blend-mode: normal;
+}
 
 /* =========================================================
-   GSS-φ (Golden Scribble System / Phi Edition)
-   The Main Actor (Red Script)
+   GSS-φ (Golden Scribble System)
    ========================================================= */
 
 body.home #archive .script-note {
   position: absolute;
-  z-index: 1; /* scribble is under UI (z=10) */
+  z-index: 1;
   pointer-events: none;
 
   font-family: var(--font-script);
@@ -151,26 +198,27 @@ body.home #archive .script-note {
   line-height: 1;
   white-space: nowrap;
 
-  /* keep your ink */
   color: var(--sexy-ink);
   mix-blend-mode: normal;
 
-  --tx: 0px; --ty: 0px; --rot: 0deg; --scale: 1;
+  --tx: 0px;
+  --ty: 0px;
+  --rot: 0deg;
+  --scale: 1;
+
   transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale));
   transform-origin: center center;
 
   opacity: 0.62;
   transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
 
-  will-change: auto; /* memory-safe default */
+  will-change: auto;
 }
 
-/* Performance: Predictive Prep */
 @media (hover:hover) and (pointer:fine) {
   body.home #archive .paper { will-change: transform; }
 }
 
-/* Interaction: Breath */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper:focus-within .script-note {
   --scale: 1.02;
@@ -178,12 +226,15 @@ body.home #archive .paper:focus-within .script-note {
   will-change: transform, opacity;
 }
 
-/* --- Part Definitions (Texture & Phi Placement) --- */
-
-/* Part I: "Reddington" (Bordeaux) */
+/* Scribble placement */
 body.home #archive .paper:nth-of-type(1) .script-note {
-  top: 30%; left: 0;
-  --tx: -12vw; --ty: -50%; --rot: -13deg;
+  top: 30%;
+  left: 0;
+
+  --tx: -12vw;
+  --ty: -50%;
+  --rot: -13deg;
+
   letter-spacing: -0.012em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 220, 230, 0.12),
@@ -192,10 +243,16 @@ body.home #archive .paper:nth-of-type(1) .script-note {
      0 0 0.20em rgba(200, 20, 50, 0.10);
 }
 
-/* Part II: "Joker" (Smear) */
 body.home #archive .paper:nth-of-type(2) .script-note {
-  top: 61.8%; right: 0; left: auto; text-align: right;
-  --tx: 10vw; --ty: -62%; --rot: 8deg;
+  top: 61.8%;
+  right: 0;
+  left: auto;
+  text-align: right;
+
+  --tx: 10vw;
+  --ty: -62%;
+  --rot: 8deg;
+
   letter-spacing: -0.035em;
   text-shadow:
      0.03em 0.03em 0 rgba(100, 0, 30, 0.28),
@@ -203,10 +260,14 @@ body.home #archive .paper:nth-of-type(2) .script-note {
      0 0 0.28em rgba(217, 4, 60, 0.12);
 }
 
-/* Part III: "Cruella" (Satin) */
 body.home #archive .paper:nth-of-type(3) .script-note {
-  top: 70%; left: 0;
-  --tx: 6.18vw; --ty: -30%; --rot: -21deg;
+  top: 70%;
+  left: 0;
+
+  --tx: 6.18vw;
+  --ty: -30%;
+  --rot: -21deg;
+
   letter-spacing: -0.01em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
@@ -215,164 +276,128 @@ body.home #archive .paper:nth-of-type(3) .script-note {
      0 0 0.18em rgba(255, 60, 70, 0.10);
 }
 
-/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-  body.home #archive .script-note { transition: none; will-change: auto; }
+  body.home #archive .script-note {
+    transition: none;
+    will-change: auto;
+  }
   body.home #archive .paper:hover .script-note,
-  body.home #archive .paper:focus-within .script-note { --scale: 1; opacity: 0.62; }
+  body.home #archive .paper:focus-within .script-note {
+    --scale: 1;
+    opacity: 0.62;
+  }
 }
-
 
 /* =========================================================
-   GRID AREA ASSIGNMENTS (Typography & Layout)
+   GRID AREAS
    ========================================================= */
 
-/* Title (Left / Top) */
 body.home #archive .paper-title {
   grid-area: title;
-  position: relative; z-index: 10; margin: 0;
+  position: relative;
+  z-index: 10;
+  margin: 0;
 }
+
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em;
-  text-transform: uppercase; color: var(--fg); text-decoration: none;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
   display: inline-block;
 }
 
-/* Quote (Right / Top) */
 body.home #archive .paper-signal {
   grid-area: quote;
   justify-self: start;
-  margin: 0; margin-top: clamp(18px, 3.2vw, 4.2rem);
 
-  font-family: var(--font-serif); font-style: italic;
-  font-size: clamp(1.1rem, 1.8vw, 1.9rem); line-height: 1.5; color: var(--fg-dim);
+  margin: 0;
+  margin-top: clamp(18px, 3.2vw, 4.2rem);
 
-  /* Structure line: Grey (Not Red) to respect hierarchy */
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.8vw, 1.9rem);
+  line-height: 1.5;
+  color: var(--fg-dim);
+
+  border-left: 1px solid rgba(217, 4, 41, 0.60);
   padding-left: clamp(16px, 2.618vw, 30px);
-
-  position: relative; z-index: 10;
-}
-
-/* Keywords (Left / Bottom) */
-body.home #archive .k {
-  grid-area: keys;
-  align-self: end; justify-self: start;
-  margin: 0;
-
-  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-wrap: wrap; gap: 0.9em;
-  text-align: left; position: relative; z-index: 10;
-}
-body.home #archive .k span {
-  color: var(--accent); font-weight: 700; display: inline-block;
-}
-
-/* CTA (Right / Bottom) */
-body.home #archive .pill {
-  grid-area: cta;
-  align-self: end; justify-self: start;
-  margin: 0;
-
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-  padding: 22px 44px;
-  border: 1px solid var(--line);
-  color: var(--fg); text-decoration: none; transition: 0.2s;
-  position: relative; z-index: 10;
-}
-body.home #archive .paper:hover .pill {
-  background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF;
-}
-
-
-/* =========================================================
-   JO-HA-KYU (序破急) — Background Narrative Layer
-   The "Void" Structure
-   ========================================================= */
-
-body.home #archive .paper {
-  --kanji: "";
-  --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(90px, 12vw, 220px));
-  --k-rot: -8deg;
-  --k-size: clamp(18rem, 30vw, 36rem);
-
-  --k-opacity: 0.07;
-  --k-color: #FFF; /* White ink for dark mode overlay */
-  --k-blur: 0.55px;
+  letter-spacing: -0.01em;
 
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
 
-body.home #archive .paper::before {
-  content: var(--kanji);
-  position: absolute;
-  top: var(--k-top); left: 0;
-  transform: translate(var(--k-tx), -50%) rotate(var(--k-rot));
+body.home #archive .k {
+  grid-area: keys;
+  align-self: end;
+  justify-self: start;
 
-  font-family: var(--font-jp);
-  font-weight: 400;
-  font-size: var(--k-size);
-  line-height: 1;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
 
-  color: var(--k-color);
-  opacity: var(--k-opacity);
-  mix-blend-mode: overlay; /* Watermark effect */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9em;
 
-  pointer-events: none;
-  z-index: -1;
-  -webkit-font-smoothing: antialiased;
-  filter: blur(var(--k-blur));
+  text-align: left;
+  position: relative;
+  z-index: 10;
 }
 
-/* 1. JO (序): The Beginning (Standard Size) */
-body.home #archive .paper:nth-of-type(1) {
-  --kanji: "序";
-  --k-top: 61.8%;
-  --k-rot: -10deg;
-  --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
-  --k-size: clamp(18rem, 30vw, 36rem);
+body.home #archive .k span {
+  color: var(--accent);
+  font-weight: 700;
+  display: inline-block;
 }
 
-/* 2. HA (破): The Break (Massive Size) */
-body.home #archive .paper:nth-of-type(2) {
-  --kanji: "破";
-  --k-top: 38.2%;
-  --k-rot: 7deg;
-  --k-tx: calc(61.8% + clamp(110px, 14vw, 260px));
-  
-  /* Narrative Sizing: Explosion */
-  --k-size: clamp(22rem, 38vw, 44rem);
-  --k-opacity: 0.06; /* Slightly lighter due to size */
-}
-body.home #archive .paper:nth-of-type(2)::before {
-  left: auto; right: 0;
+body.home #archive .pill {
+  grid-area: cta;
+  align-self: end;
+  justify-self: start;
+
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+
+  padding: 22px 44px;
+  border: 1px solid var(--line);
+
+  color: var(--fg);
+  text-decoration: none;
+  transition: 0.2s;
+
+  position: relative;
+  z-index: 10;
 }
 
-/* 3. KYU (急): The Finale (Fast Angle) */
-body.home #archive .paper:nth-of-type(3) {
-  --kanji: "急";
-  --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
-  
-  /* Narrative Sizing: Speed */
-  --k-rot: -12deg;
-  --k-size: clamp(20rem, 35vw, 42rem);
-  --k-opacity: 0.06;
+body.home #archive .paper:hover .pill {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
 }
-
 
 /* =========================================================
-   MOBILE SAFETY & RESPONSIVENESS
+   MOBILE
    ========================================================= */
 
 @media (max-width: 1024px) {
   body.home #archive .paper {
-    /* Reset Grid to Stack */
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
     grid-template-areas:
@@ -381,6 +406,7 @@ body.home #archive .paper:nth-of-type(3) {
       "keys"
       "cta";
     gap: 40px;
+
     padding: 60px 24px;
     transform: none !important;
     margin-left: 0;
@@ -389,71 +415,180 @@ body.home #archive .paper:nth-of-type(3) {
 
   .vertical-axis { display: none; }
 
-  /* Scale down the Scribble */
   body.home #archive .script-note {
     font-size: clamp(6rem, 25vw, 12rem) !important;
     opacity: 0.50;
     will-change: auto;
   }
+
   body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
   body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
   body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
 
-  /* Mobile Content Adjustments */
   body.home #archive .paper-signal {
-    margin-top: 0; border-left-width: 1px; padding-left: 20px;
+    margin-top: 0;
+    border-left-width: 1px;
+    padding-left: 20px;
   }
+
   body.home #archive .k {
-    flex-direction: column; gap: 0.5em;
+    flex-direction: column;
+    gap: 0.5em;
   }
+
   body.home #archive .pill {
     justify-self: start;
   }
-
-  /* Safe Kanji Positioning */
-  body.home #archive .paper {
-    --k-size: clamp(12rem, 42vw, 22rem);
-    --k-opacity: 0.06;
-    --k-blur: 0.65px;
-  }
-  body.home #archive .paper:nth-of-type(1),
-  body.home #archive .paper:nth-of-type(3) {
-    --k-tx: -20%; /* Keep inside view */
-    left: -10px;
-  }
-  body.home #archive .paper:nth-of-type(2) {
-    --k-tx: 20%; /* Keep inside view */
-    right: -10px;
-  }
 }
-
 
 /* =========================================================
-   GLOBAL NAV & FOOTER OVERRIDES
+   NAV (HOME)
    ========================================================= */
 
-/* Nav: Papers only underline (HOME specific) */
 body.home .nav .nav-papers {
-  position: relative; display: inline-block;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--fg); text-decoration: none; padding-bottom: 12px;
-  opacity: 0.88; transition: opacity .18s ease, color .18s ease;
+  position: relative;
+  display: inline-block;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+
+  color: var(--fg);
+  text-decoration: none;
+  padding-bottom: 12px;
+
+  opacity: 0.88;
+  transition: opacity .18s ease, color .18s ease;
 }
+
 body.home .nav .nav-papers::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
-  height: 2px; background: currentColor;
-  transform: scaleX(0); transform-origin: left; transition: transform .28s ease;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 2px;
+  background: currentColor;
+
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s ease;
+
   opacity: 0.85;
 }
+
 body.home .nav .nav-papers:hover,
 body.home .nav .nav-papers:focus-visible {
-  color: var(--accent); opacity: 1;
+  color: var(--accent);
+  opacity: 1;
 }
+
 body.home .nav .nav-papers:hover::after,
 body.home .nav .nav-papers:focus-visible::after {
   transform: scaleX(1);
 }
 
-/* Kill generic nav styles on HOME */
 body.home .top .nav a::after { content: none !important; }
 body.home .top .nav a { margin-left: 0 !important; }
+
+/* =========================================================
+   JO-HA-KYU — Phi Background Kanji (Void Layer)
+   ========================================================= */
+
+body.home #archive .paper{
+  --kanji: "";
+
+  --k-top: 61.8%;
+  --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
+  --k-rot: -8deg;
+
+  --k-size: clamp(18rem, 30vw, 36rem);
+
+  --k-opacity: 0.075;
+  --k-ink: rgba(255, 255, 255, 0.20);
+  --k-blend: soft-light;
+  --k-blur: 0.45px;
+
+  position: relative;
+  z-index: 1;
+}
+
+body.home #archive .paper::before{
+  content: var(--kanji);
+  position: absolute;
+  top: var(--k-top);
+  left: 0;
+  transform: translate(var(--k-tx), -50%) rotate(var(--k-rot));
+
+  font-family: 'Yuji Mai', serif;
+  font-weight: 400;
+  font-size: var(--k-size);
+  line-height: 1;
+
+  color: var(--k-ink);
+  opacity: var(--k-opacity);
+  mix-blend-mode: var(--k-blend);
+
+  pointer-events: none;
+  z-index: -1;
+  -webkit-font-smoothing: antialiased;
+  filter: blur(var(--k-blur));
+}
+
+/* 序 */
+body.home #archive .paper:nth-of-type(1){
+  --kanji: "序";
+  --k-top: 61.8%;
+  --k-tx: calc(-61.8% - clamp(130px, 16vw, 300px));
+  --k-rot: -10deg;
+  --k-size: clamp(17rem, 27.4vw, 34rem);
+  --k-opacity: 0.075;
+}
+
+/* 破 */
+body.home #archive .paper:nth-of-type(2){
+  --kanji: "破";
+  --k-top: 38.2%;
+  --k-rot: 7deg;
+  --k-tx: calc(61.8% + clamp(130px, 16vw, 300px));
+  --k-size: clamp(21rem, 38.2vw, 46rem);
+  --k-opacity: 0.065;
+}
+body.home #archive .paper:nth-of-type(2)::before{
+  left: auto;
+  right: 0;
+}
+
+/* 急 */
+body.home #archive .paper:nth-of-type(3){
+  --kanji: "急";
+  --k-top: 61.8%;
+  --k-tx: calc(-61.8% - clamp(130px, 16vw, 300px));
+  --k-rot: -6deg;
+  --k-size: clamp(18rem, 30vw, 38rem);
+  --k-opacity: 0.065;
+}
+
+/* Mobile */
+@media (max-width: 1024px){
+  body.home #archive .paper{
+    --k-size: clamp(12rem, 42vw, 22rem);
+    --k-opacity: 0.06;
+    --k-blur: 0.55px;
+  }
+
+  body.home #archive .paper:nth-of-type(2){
+    --k-size: clamp(13rem, 48vw, 24rem);
+  }
+
+  body.home #archive .paper:nth-of-type(1),
+  body.home #archive .paper:nth-of-type(3){
+    --k-tx: calc(-38.2% - 28px);
+  }
+
+  body.home #archive .paper:nth-of-type(2){
+    --k-tx: calc(38.2% + 28px);
+  }
+}
