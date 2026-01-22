@@ -88,50 +88,122 @@ body.home #archive .work-bg-num {
 body.home #archive .paper:hover .work-bg-num { color: var(--accent); opacity: 0.4; mix-blend-mode: normal; }
 
 /* =========================================================
-   SCRIPT NOTES: ALWAYS VISIBLE (NO DRAW / NO MASK)
+   GSS-φ (Golden Scribble System / Phi Edition)
+   Freeze: Scribble Final (integrated into V138)
    ========================================================= */
-body.home #archive .script-note {
+
+/* --- CORE SKELETON --- */
+body.home #archive .script-note{
   position: absolute;
-  z-index: 2;
+  z-index: 1;               /* scribble is under UI (z=10) */
   pointer-events: none;
+
   font-family: var(--font-script);
+  font-size: clamp(8rem, 20vw, 25rem);
+  line-height: 1;
   white-space: nowrap;
 
+  /* keep your ink */
   color: var(--sexy-ink);
-  opacity: 0.75;
-  mix-blend-mode: screen;
 
-  /* Kill drawing effect */
-  -webkit-mask-image: none;
-  -webkit-mask-size: auto;
-  -webkit-mask-position: 0 0;
-  -webkit-mask-repeat: no-repeat;
+  /* no neon */
+  mix-blend-mode: normal;
 
-  animation: none;
-  transition: none;
+  --tx: 0px;
+  --ty: 0px;
+  --rot: 0deg;
+  --scale: 1;
+
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale));
+  transform-origin: center center;
+
+  opacity: 0.62;
+  transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
+
+  will-change: auto; /* memory-safe default */
 }
 
-/* --- THE CALCULATED CHAOS PLACEMENT --- */
-
-/* Part I: 左側の大空白を支配する巨大な導入 */
-body.home #archive .paper:nth-of-type(1) .script-note {
-  font-size: clamp(14rem, 30vw, 35rem);
-  top: -25%; left: -28vw;
-  transform: rotate(-12deg);
+/* --- PERFORMANCE (predictive prep) --- */
+@media (hover:hover) and (pointer:fine){
+  body.home #archive .paper{
+    will-change: transform;
+  }
 }
 
-/* Part II: 右下がり・微細傾斜・官能的なオフセット */
-body.home #archive .paper:nth-of-type(2) .script-note {
-  font-size: clamp(12rem, 24vw, 28rem);
-  top: 45%; right: -28vw; left: auto;
-  transform: rotate(2deg);
+/* --- INTERACTION (Hover & Focus) --- */
+body.home #archive .paper:hover .script-note,
+body.home #archive .paper:focus-within .script-note{
+  --scale: 1.02;
+  opacity: 0.78;
+  will-change: transform, opacity;
 }
 
-/* Part III: 下層を切り裂くアグレッシブな終焉 */
-body.home #archive .paper:nth-of-type(3) .script-note {
-  font-size: clamp(10rem, 20vw, 25rem);
-  top: 40%; left: -15vw;
-  transform: rotate(-25deg);
+/* --- PART I: Phi A (Title Graze) --- */
+body.home #archive .paper:nth-of-type(1) .script-note{
+  top: 30%;
+  left: 0;
+
+  --tx: -12vw;
+  --ty: -50%;
+  --rot: -13deg;
+
+  /* Bordeaux Varnish */
+  letter-spacing: -0.012em;
+  text-shadow:
+    -0.02em -0.015em 0 rgba(255, 220, 230, 0.12),
+     0.02em  0.02em  0 rgba(80, 0, 10, 0.52),
+     0.06em  0.06em  0 rgba(80, 0, 10, 0.22),
+     0 0 0.20em rgba(200, 20, 50, 0.10);
+}
+
+/* --- PART II: Phi B (61.8%) --- */
+body.home #archive .paper:nth-of-type(2) .script-note{
+  top: 61.8%;
+  right: 0;
+  left: auto;
+  text-align: right;
+
+  --tx: 10vw;
+  --ty: -62%;
+  --rot: 8deg;
+
+  /* Smear & Stain (no neon blur) */
+  letter-spacing: -0.035em;
+  text-shadow:
+     0.03em 0.03em 0 rgba(100, 0, 30, 0.28),
+     0.07em 0.06em 0 rgba(100, 0, 30, 0.18),
+     0 0 0.28em rgba(217, 4, 60, 0.12);
+}
+
+/* --- PART III: Phi C --- */
+body.home #archive .paper:nth-of-type(3) .script-note{
+  top: 70%;
+  left: 0;
+
+  --tx: 6.18vw;
+  --ty: -30%;
+  --rot: -21deg;
+
+  /* Satin Slash (pinkish highlight) */
+  letter-spacing: -0.01em;
+  text-shadow:
+    -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
+     0.01em  0.01em  0 rgba(0, 0, 0, 0.52),
+     0.06em  0.06em  0 rgba(0, 0, 0, 0.22),
+     0 0 0.18em rgba(255, 60, 70, 0.10);
+}
+
+/* --- ACCESSIBILITY (Reduced Motion) --- */
+@media (prefers-reduced-motion: reduce){
+  body.home #archive .script-note{
+    transition: none;
+    will-change: auto;
+  }
+  body.home #archive .paper:hover .script-note,
+  body.home #archive .paper:focus-within .script-note{
+    --scale: 1;
+    opacity: 0.62;
+  }
 }
 
 /* --- UI Content Layers (z-index 10) --- */
@@ -165,17 +237,15 @@ body.home #archive .paper:hover .pill { background: var(--accent); border-color:
   body.home #archive .paper { grid-template-columns: 1fr; padding: 100px 24px; transform: none !important; margin-left: 0; width: auto; }
   .vertical-axis { display: none; }
 
-  /* Keep script-note visible even on smaller screens */
-  body.home #archive .script-note {
-    display: block;
-    opacity: 0.6;
-    mix-blend-mode: normal;
+  /* Mobile placement (scaled down) */
+  body.home #archive .script-note{
+    font-size: clamp(6rem, 25vw, 12rem) !important;
+    opacity: 0.50;
+    will-change: auto;
   }
-
-  /* Optional: tame extreme offsets on small screens */
-  body.home #archive .paper:nth-of-type(1) .script-note { left: -10vw; top: -12%; }
-  body.home #archive .paper:nth-of-type(2) .script-note { right: -10vw; top: 50%; }
-  body.home #archive .paper:nth-of-type(3) .script-note { left: -8vw;  top: 45%; }
+  body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
+  body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
+  body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
 }
 
 body.home .nav .nav-papers{
@@ -221,8 +291,8 @@ body.home .nav .nav-papers:focus-visible{
 body.home .nav .nav-papers:hover::after,
 body.home .nav .nav-papers:focus-visible::after{
   transform: scaleX(1);
-   
 }
+
 /* =========================================================
    Home header: force "Papers only" nav behavior
    (prevents site.css underline duplication)
