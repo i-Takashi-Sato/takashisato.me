@@ -1,3 +1,6 @@
+/* Optional (if Yuji Mai is not already loaded elsewhere) */
+/* @import url('https://fonts.googleapis.com/css2?family=Yuji+Mai&display=swap'); */
+
 /* =========================================================
    V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
    + Phi-Grid Cards (Golden Ratio Layout)
@@ -579,5 +582,58 @@ body.home #archive .paper:nth-of-type(3)::after{ content: "急"; }
   body.home #archive .paper{
     --sig-x: 18px;
     --sig-y: 18px;
+  }
+}
+
+
+/* =========================================================
+   JO-HA-KYU — Large Background Kanji (Per Card)
+   Uses .card-base layer (no ::before collision)
+   ========================================================= */
+
+body.home #archive .card-base::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  /* card-base 内で完結（下地専用） */
+  z-index: 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  padding: clamp(2.2rem, 3vw, 3.6rem);
+
+  font-family: 'Yuji Mai', serif;
+  font-weight: 400;
+  line-height: 1;
+
+  font-size: clamp(12rem, 22vw, 26rem);
+
+  /* “真っ黒”の差分：黒を沈ませる */
+  color: rgba(0,0,0,0.85);
+  mix-blend-mode: multiply;
+  opacity: 0.08;
+
+  transform: rotate(-6deg);
+  transform-origin: 100% 100%;
+}
+
+/* 割り当て（paper順に対応） */
+body.home #archive .paper:nth-of-type(1) .card-base::before{ content: "序"; }
+body.home #archive .paper:nth-of-type(2) .card-base::before{ content: "破"; }
+body.home #archive .paper:nth-of-type(3) .card-base::before{ content: "急"; }
+
+/* Hoverで少しだけ出す */
+body.home #archive .paper:hover .card-base::before{ opacity: 0.11; }
+
+@media (max-width: 1024px){
+  body.home #archive .card-base::before{
+    font-size: clamp(9rem, 26vw, 16rem);
+    opacity: 0.06;
+    transform: rotate(-4deg);
+    padding: 1.6rem;
   }
 }
