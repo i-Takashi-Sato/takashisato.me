@@ -349,8 +349,11 @@ body.home #archive .paper-signal {
   line-height: 1.5;
   color: var(--fg-dim);
 
-  border-left: 2px solid var(--accent);
+  /* UI赤 → インク線へ（品格） */
+  border-left: 1px solid rgba(217, 4, 41, 0.60);
   padding-left: clamp(16px, 2.618vw, 30px);
+
+  letter-spacing: -0.01em;
 
   position: relative;
   z-index: 10;
@@ -401,7 +404,10 @@ body.home #archive .pill {
   letter-spacing: 0.2em;
 
   padding: 22px 44px;
-  border: 1px solid var(--fg);
+
+  /* 枠線規格：UI線＝--line */
+  border: 1px solid var(--line);
+
   color: var(--fg);
   text-decoration: none;
   transition: 0.2s;
@@ -449,7 +455,7 @@ body.home #archive .paper:hover .pill {
 
   body.home #archive .paper-signal {
     margin-top: 0;
-    border-left-width: 2px;
+    border-left-width: 1px;
     padding-left: 20px;
   }
 
@@ -519,3 +525,59 @@ body.home .top .nav a::after { content: none !important; }
 
 /* Neutralize generic spacing on HOME only */
 body.home .top .nav a { margin-left: 0 !important; }
+
+
+/* =========================================================
+   JO-HA-KYU (序破急) — Micro Editorial Signature (CSS only)
+   Keeps Roman numerals. Adds a tiny “seal” per card.
+   ========================================================= */
+
+/* 署名位置（カード左上インセット） */
+body.home #archive .paper{
+  --sig-x: clamp(18px, 2.2vw, 34px);
+  --sig-y: clamp(18px, 2.2vw, 34px);
+}
+
+/* 赤い“印”の縦線（細く・透ける・インク感） */
+body.home #archive .paper::before{
+  content: "";
+  position: absolute;
+  left: var(--sig-x);
+  top: var(--sig-y);
+  height: 18px;
+  width: 1px;
+  background: rgba(217, 4, 41, 0.55);
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* 序破急（小さく、質感として） */
+body.home #archive .paper::after{
+  content: "";
+  position: absolute;
+  left: calc(var(--sig-x) + 10px);
+  top: calc(var(--sig-y) - 2px);
+
+  font-family: 'Yuji Mai', serif;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--fg-dim);
+  opacity: 0.86;
+
+  pointer-events: none;
+  z-index: 12;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 各カードに割り当て */
+body.home #archive .paper:nth-of-type(1)::after{ content: "序"; }
+body.home #archive .paper:nth-of-type(2)::after{ content: "破"; }
+body.home #archive .paper:nth-of-type(3)::after{ content: "急"; }
+
+/* Mobile：位置だけ少し内側へ */
+@media (max-width: 1024px){
+  body.home #archive .paper{
+    --sig-x: 18px;
+    --sig-y: 18px;
+  }
+}
