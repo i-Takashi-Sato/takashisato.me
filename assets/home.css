@@ -477,7 +477,7 @@ body.home .top .nav a::after { content: none !important; }
 body.home .top .nav a { margin-left: 0 !important; }
 
 /* =========================================================
-   JO-HA-KYU — Phi Background Kanji (Void Layer, subdued)
+   JO-HA-KYU — Phi Background Kanji (Void Layer)
    ========================================================= */
 
 body.home #archive .paper{
@@ -487,9 +487,9 @@ body.home #archive .paper{
   --k-rot: -8deg;
   --k-size: clamp(18rem, 30vw, 36rem);
 
-  --k-opacity: 0.07;
-  --k-color: rgba(0,0,0,0.92);
-  --k-blur: 0.55px;
+  --k-opacity: 0.075;
+  --k-color: rgba(255,255,255,0.16);
+  --k-blur: 0.45px;
 
   position: relative;
   z-index: 1;
@@ -509,7 +509,7 @@ body.home #archive .paper::before{
 
   color: var(--k-color);
   opacity: var(--k-opacity);
-  mix-blend-mode: multiply;
+  mix-blend-mode: soft-light;
 
   pointer-events: none;
   z-index: -1;
@@ -522,7 +522,7 @@ body.home #archive .paper:nth-of-type(1){
   --k-top: 61.8%;
   --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
   --k-rot: -10deg;
-  --k-opacity: 0.07;
+  --k-opacity: 0.075;
 }
 
 body.home #archive .paper:nth-of-type(2){
@@ -530,7 +530,7 @@ body.home #archive .paper:nth-of-type(2){
   --k-top: 38.2%;
   --k-rot: 7deg;
   --k-tx: calc(61.8% + clamp(110px, 14vw, 260px));
-  --k-opacity: 0.06;
+  --k-opacity: 0.065;
 }
 body.home #archive .paper:nth-of-type(2)::before{
   left: auto;
@@ -542,14 +542,14 @@ body.home #archive .paper:nth-of-type(3){
   --k-top: 61.8%;
   --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
   --k-rot: -6deg;
-  --k-opacity: 0.06;
+  --k-opacity: 0.065;
 }
 
 @media (max-width: 1024px){
   body.home #archive .paper{
     --k-size: clamp(12rem, 42vw, 22rem);
     --k-opacity: 0.06;
-    --k-blur: 0.65px;
+    --k-blur: 0.55px;
   }
 
   body.home #archive .paper:nth-of-type(1),
