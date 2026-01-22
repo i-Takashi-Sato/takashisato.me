@@ -1,6 +1,6 @@
 /* =========================================================
    V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
-   (UPDATED: Phi-Grid layout for paper internals)
+   + Phi-Grid Cards (Golden Ratio Layout)
    ========================================================= */
 
 body.home {
@@ -66,51 +66,61 @@ body.home .lead { font-family: var(--font-serif); font-size: 1.6rem; line-height
 body.home .section-label { display: block; margin-top: 90px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-dim); border-bottom: 1px solid var(--line); padding-bottom: 20px; }
 
 /* =========================================================
-   ARCHIVE CARDS (Phi-Grid Layout)
-   - X: 61.803% / 38.197%
-   - Y: auto / 1fr / auto  (Top / Breath / Bottom)
+   ARCHIVE CARDS: PHI-GRID SYSTEM (Total Phi Layout)
+   Ratio: 61.803% (Definition) : 38.197% (Interpretation)
+   Y-Axis: Top / Breath / Bottom
    ========================================================= */
+
 body.home #archive .paper {
   display: grid;
 
-  /* Phi split */
+  /* [X-Axis] Golden Ratio Split */
   grid-template-columns: 61.803% 38.197%;
+  column-gap: clamp(24px, 6.18vw, 96px);
+
+  /* [Y-Axis] Top(Content) / Breath(Space) / Bottom(Meta) */
   grid-template-rows: auto 1fr auto;
 
-  /* Areas */
+  /* Layout Mapping */
   grid-template-areas:
-    "title quote"
-    "title quote"
-    "keys  cta";
+    "title  quote"
+    "title  quote"
+    "keys   cta";
 
-  /* Gaps: phi-derived but bounded (prevents ultra-wide blowout) */
-  column-gap: clamp(28px, 6.18vw, 96px);
-  row-gap: clamp(28px, 3.82vw, 72px);
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 60px;
+
+  /* 元の迫力を維持しつつ、値を編集的に安定させる */
+  padding: clamp(6rem, 10vw, 12rem) clamp(3.1rem, 6.18vw, 7.4rem);
+
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: visible;
+  color: inherit;
+  text-decoration: none;
+  z-index: 1;
 
   align-items: start;
 
-  position: relative; margin-top: 100px; margin-bottom: 60px; padding: 140px 50px;
-  background: var(--surface); border: 1px solid var(--line); overflow: visible;
-  color: inherit; transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease; z-index: 1;
-  text-decoration: none;
+  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease;
 }
-
-/* Prevent overflow for grid children (long titles/keywords) */
-body.home #archive .paper > * { min-width: 0; }
 
 body.home #archive .paper:hover {
   background: #111; transform: scale(1.01) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent); border-color: #FFF; z-index: 100;
+  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
+  border-color: #FFF;
+  z-index: 100;
 }
 
-/* Numeral Base */
+/* --- BACKGROUND ELEMENTS --- */
 body.home #archive .card-base { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
 body.home #archive .work-bg-num {
   position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
   font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(14rem, 25vw, 30rem);
   opacity: 0.08; color: #FFF; mix-blend-mode: overlay; transition: 0.3s ease;
 }
-/* IMPORTANT: keep numerals from competing with scribble on hover */
+/* 交通整理：筆記体が主役なので、数字は赤にしない（端末差も減る） */
 body.home #archive .paper:hover .work-bg-num { color: #FFF; opacity: 0.18; mix-blend-mode: normal; }
 
 /* =========================================================
@@ -215,7 +225,7 @@ body.home #archive .paper:nth-of-type(3) .script-note{
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
      0.01em  0.01em  0 rgba(0, 0, 0, 0.52),
-     0.06em  0.06em  0 rgba(0,  0, 0, 0.22),
+     0.06em  0.06em  0 rgba(0, 0, 0, 0.22),
      0 0 0.18em rgba(255, 60, 70, 0.10);
 }
 
@@ -232,75 +242,129 @@ body.home #archive .paper:nth-of-type(3) .script-note{
   }
 }
 
-/* --- UI Content Layers (z-index 10) --- */
-body.home #archive .paper-title {
+/* =========================================================
+   GRID AREA ASSIGNMENTS (Title / Quote / Keywords / CTA)
+   ========================================================= */
+
+/* Title (Left / Top) */
+body.home #archive .paper-title{
   grid-area: title;
   position: relative;
   z-index: 10;
-  margin-bottom: 40px;
+  margin: 0; /* 余白はYグリッドが作る */
 }
-body.home #archive .paper-title a {
-  font-family: var(--font-sans); font-size: clamp(2.8rem, 5.5vw, 6rem);
-  font-weight: 600; line-height: 0.95; letter-spacing: -0.04em; text-transform: uppercase; color: var(--fg); text-decoration: none;
+body.home #archive .paper-title a{
+  font-family: var(--font-sans);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
 }
 
-body.home #archive .paper-signal {
+/* Quote (Right / Top) */
+body.home #archive .paper-signal{
   grid-area: quote;
-  max-width: 34ch;
+  justify-self: start;
 
-  font-family: var(--font-serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  line-height: 1.4; color: var(--fg-dim);
-  border-left: 2px solid var(--accent); padding-left: 30px;
+  /* “呼吸”の余白はRow(1fr)が担当。
+     ただし視覚的な上下関係のため、軽く落とす */
+  margin: 0;
+  margin-top: clamp(18px, 3.2vw, 4.2rem);
 
-  /* keep a controlled top offset; breath is handled by grid */
-  margin: clamp(20px, 2.6vw, 56px) 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.8vw, 1.9rem);
+  line-height: 1.5;
+  color: var(--fg-dim);
 
-  position: relative; z-index: 10;
+  border-left: 2px solid var(--accent);
+  padding-left: clamp(16px, 2.618vw, 30px);
+
+  position: relative;
+  z-index: 10;
 }
 
-body.home #archive .k {
+/* Keywords (Left / Bottom) */
+body.home #archive .k{
   grid-area: keys;
   align-self: end;
+  justify-self: start;
 
-  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-dim);
-  display: flex; flex-direction: column; align-items: flex-end; text-align: right; position: relative; z-index: 10;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-dim);
+
+  /* カード内は“情報ブロック”として扱う */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9em;
+
+  text-align: left;
+  position: relative;
+  z-index: 10;
 }
-body.home #archive .k span { color: var(--accent); font-weight: 700; }
+body.home #archive .k span{
+  color: var(--accent);
+  font-weight: 700;
+  display: inline-block;
+}
 
-body.home #archive .pill {
+/* CTA (Right / Bottom) */
+body.home #archive .pill{
   grid-area: cta;
   align-self: end;
   justify-self: start;
 
-  display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
-  padding: 22px 44px; border: 1px solid var(--fg); color: var(--fg); text-decoration: none; transition: 0.2s;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  /* grid bottom row handles spacing; keep it anchored */
-  margin-top: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
 
-  position: relative; z-index: 10;
+  padding: 22px 44px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  text-decoration: none;
+  transition: 0.2s;
+
+  position: relative;
+  z-index: 10;
 }
-body.home #archive .paper:hover .pill { background: var(--accent); border-color: var(--accent); color: #000; box-shadow: 5px 5px 0px #FFF; }
+body.home #archive .paper:hover .pill{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  box-shadow: 5px 5px 0px #FFF;
+}
 
-/* --- MOBILE SAFETY --- */
+/* --- MOBILE SAFETY (Unified) --- */
 @media (max-width: 1024px) {
-  body.home #archive .paper {
+  body.home #archive .paper{
+    /* Phi-Grid解除 → 1カラム編集 */
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
       "title"
       "quote"
       "keys"
       "cta";
-
     gap: 40px;
 
-    padding: 100px 24px;
+    padding: 60px 24px;
     transform: none !important;
     margin-left: 0;
     width: auto;
-    text-align: left;
   }
 
   .vertical-axis { display: none; }
@@ -315,17 +379,23 @@ body.home #archive .paper:hover .pill { background: var(--accent); border-color:
   body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
   body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
 
-  /* mobile: quote + keys behavior */
   body.home #archive .paper-signal{
-    max-width: none;
-    margin: 0;
+    margin-top: 0;
+    border-left-width: 2px;
+    padding-left: 20px;
   }
+
   body.home #archive .k{
-    align-items: flex-start;
-    text-align: left;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+
+  body.home #archive .pill{
+    justify-self: start;
   }
 }
 
+/* --- NAV: Papers only underline (HOME) --- */
 body.home .nav .nav-papers{
   position: relative;
   display: inline-block;
