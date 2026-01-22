@@ -1,6 +1,6 @@
 /* =========================================================
-   V138 FINAL — "THE CALCULATED CHAOS" INTEGRATED
-   + Phi-Grid Cards (Golden Ratio Layout)
+   HOME — V138: THE CALCULATED CHAOS
+   Phi-grid cards + Jo-Ha-Kyu void kanji
    ========================================================= */
 
 body.home {
@@ -29,7 +29,6 @@ body.home {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Global */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body.home ::selection { background: #FFF; color: #000; }
 
@@ -56,7 +55,6 @@ body.home main {
   z-index: 3;
 }
 
-/* Vertical axis label */
 .vertical-axis {
   position: absolute;
   left: 15px;
@@ -72,7 +70,6 @@ body.home main {
   opacity: 0.4;
 }
 
-/* Hero */
 body.home main > header { padding: 220px 0 120px; position: relative; }
 body.home main > header h1 {
   font-family: var(--font-serif);
@@ -113,14 +110,12 @@ body.home .section-label {
   padding-bottom: 20px;
 }
 
-/* =========================================================
-   ARCHIVE CARDS: PHI-GRID SYSTEM
-   ========================================================= */
-
 body.home #archive .paper {
   display: grid;
+
   grid-template-columns: 61.803% 38.197%;
   column-gap: clamp(24px, 6.18vw, 96px);
+
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "title  quote"
@@ -132,38 +127,54 @@ body.home #archive .paper {
   margin-bottom: 60px;
   padding: clamp(6rem, 10vw, 12rem) clamp(3.1rem, 6.18vw, 7.4rem);
 
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: transparent;
+  border: 0;
   overflow: visible;
   color: inherit;
   text-decoration: none;
+
   z-index: 1;
   align-items: start;
+
+  isolation: isolate;
 
   transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
+body.home #archive .paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  pointer-events: none;
+  z-index: 0;
+}
+
 body.home #archive .paper:hover {
-  background: #111;
   transform: scale(1.01) !important;
   box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
-  border-color: #FFF;
   z-index: 100;
 }
 
-/* Background elements */
+body.home #archive .paper:hover::after {
+  background: #111;
+  border-color: #FFF;
+}
+
 body.home #archive .card-base {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
+
 body.home #archive .work-bg-num {
   position: absolute;
   right: -20px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 61.8%;
+  transform: translateY(-61.8%);
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
@@ -173,25 +184,23 @@ body.home #archive .work-bg-num {
   mix-blend-mode: overlay;
   transition: 0.3s ease;
 }
+
 body.home #archive .paper:hover .work-bg-num {
   color: #FFF;
   opacity: 0.18;
   mix-blend-mode: normal;
 }
 
-/* =========================================================
-   GSS-φ (Golden Scribble System)
-   ========================================================= */
-
 body.home #archive .script-note {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 
   font-family: var(--font-script);
   font-size: clamp(8rem, 20vw, 25rem);
   line-height: 1;
   white-space: nowrap;
+
   color: var(--sexy-ink);
   mix-blend-mode: normal;
 
@@ -281,16 +290,13 @@ body.home #archive .paper:nth-of-type(3) .script-note {
   }
 }
 
-/* =========================================================
-   GRID AREAS
-   ========================================================= */
-
 body.home #archive .paper-title {
   grid-area: title;
   position: relative;
   z-index: 10;
   margin: 0;
 }
+
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
@@ -308,7 +314,7 @@ body.home #archive .paper-signal {
   justify-self: start;
 
   margin: 0;
-  margin-top: clamp(18px, 3.2vw, 4.2rem);
+  margin-top: clamp(16px, 2.618vw, 3.6rem);
 
   font-family: var(--font-serif);
   font-style: italic;
@@ -318,6 +324,7 @@ body.home #archive .paper-signal {
 
   border-left: 1px solid rgba(217, 4, 41, 0.60);
   padding-left: clamp(16px, 2.618vw, 30px);
+
   letter-spacing: -0.01em;
 
   position: relative;
@@ -344,17 +351,22 @@ body.home #archive .k {
   position: relative;
   z-index: 10;
 }
+
 body.home #archive .k span {
   color: var(--accent);
   font-weight: 700;
   display: inline-block;
 }
 
-body.home #archive .pill {
+body.home #archive .actions {
   grid-area: cta;
   align-self: end;
   justify-self: start;
+  position: relative;
+  z-index: 10;
+}
 
+body.home #archive .pill {
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -371,10 +383,8 @@ body.home #archive .pill {
   color: var(--fg);
   text-decoration: none;
   transition: 0.2s;
-
-  position: relative;
-  z-index: 10;
 }
+
 body.home #archive .paper:hover .pill {
   background: var(--accent);
   border-color: var(--accent);
@@ -382,7 +392,6 @@ body.home #archive .paper:hover .pill {
   box-shadow: 5px 5px 0px #FFF;
 }
 
-/* Mobile */
 @media (max-width: 1024px) {
   body.home #archive .paper {
     grid-template-columns: 1fr;
@@ -407,6 +416,7 @@ body.home #archive .paper:hover .pill {
     opacity: 0.50;
     will-change: auto;
   }
+
   body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
   body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
   body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
@@ -422,12 +432,11 @@ body.home #archive .paper:hover .pill {
     gap: 0.5em;
   }
 
-  body.home #archive .pill {
+  body.home #archive .actions {
     justify-self: start;
   }
 }
 
-/* Nav */
 body.home .nav .nav-papers {
   position: relative;
   display: inline-block;
@@ -476,97 +485,94 @@ body.home .nav .nav-papers:focus-visible::after {
 body.home .top .nav a::after { content: none !important; }
 body.home .top .nav a { margin-left: 0 !important; }
 
-/* =========================================================
-   JO-HA-KYU — Phi Background Kanji (Void Layer)
-   ========================================================= */
-
-body.home #archive .paper{
+body.home #archive .paper {
   --kanji: "";
+  --k-side: left;
+  --k-edge: 0;
   --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
   --k-rot: -8deg;
-  --k-size: clamp(18rem, 30vw, 36rem);
 
-  --k-opacity: 0.11;
-  --k-ink: rgba(0,0,0,0.92);
-  --k-blend: multiply;
-  --k-blur: 0.28px;
+  --k-size: clamp(20rem, 33vw, 44rem);
+  --k-opacity: 0.15;
 
-  position: relative;
-  z-index: 1;
+  --k-gloss: rgba(255,255,255,0.05);
+  --k-stone: rgba(0,0,0,0.60);
+
+  isolation: isolate;
 }
 
-body.home #archive .paper::before{
+body.home #archive .paper::before {
   content: var(--kanji);
   position: absolute;
   top: var(--k-top);
-  left: 0;
-  transform: translate(var(--k-tx), -50%) rotate(var(--k-rot));
+  transform: translateY(-61.8%) rotate(var(--k-rot));
 
-  font-family: 'Yuji Mai', serif;
-  font-weight: 400;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Hiragino Mincho Pro", "Noto Serif JP", serif;
+  font-weight: 600;
   font-size: var(--k-size);
   line-height: 1;
 
-  color: var(--k-ink);
+  color: #000;
   opacity: var(--k-opacity);
-  mix-blend-mode: var(--k-blend);
+  mix-blend-mode: normal;
+
+  text-shadow:
+    0 0 0.18em var(--k-gloss),
+    0.06em 0.06em 0 var(--k-stone);
+
+  filter: blur(0.12px);
 
   pointer-events: none;
   z-index: -1;
-  -webkit-font-smoothing: antialiased;
-
-  filter: blur(var(--k-blur));
-  text-shadow:
-    -0.035em -0.030em 0 rgba(255,255,255,0.08),
-     0.020em  0.020em 0 rgba(255,255,255,0.03),
-     0.090em  0.090em 0 rgba(0,0,0,0.40);
 }
 
-body.home #archive .paper:nth-of-type(1){
+body.home #archive .paper:nth-of-type(1) {
   --kanji: "序";
   --k-top: 61.8%;
-  --k-size: clamp(17rem, 26.0vw, 34rem);
-  --k-tx: calc(-61.8% - clamp(120px, 15vw, 280px));
-  --k-rot: -10deg;
-  --k-opacity: 0.11;
+  --k-rot: -11deg;
+  --k-size: clamp(18rem, 30vw, 40rem);
+  --k-opacity: 0.16;
 }
 
-body.home #archive .paper:nth-of-type(2){
+body.home #archive .paper:nth-of-type(2) {
   --kanji: "破";
   --k-top: 38.2%;
-  --k-size: clamp(22rem, 34.0vw, 44rem);
-  --k-rot: 7deg;
-  --k-tx: calc(61.8% + clamp(120px, 15vw, 280px));
-  --k-opacity: 0.095;
-}
-body.home #archive .paper:nth-of-type(2)::before{
-  left: auto;
-  right: 0;
+  --k-rot: 8deg;
+  --k-size: clamp(22rem, 38.2vw, 52rem);
+  --k-opacity: 0.14;
 }
 
-body.home #archive .paper:nth-of-type(3){
+body.home #archive .paper:nth-of-type(3) {
   --kanji: "急";
   --k-top: 61.8%;
-  --k-size: clamp(19rem, 30.0vw, 38rem);
-  --k-tx: calc(-61.8% - clamp(120px, 15vw, 280px));
-  --k-rot: -6deg;
-  --k-opacity: 0.095;
+  --k-rot: -7deg;
+  --k-size: clamp(20rem, 34vw, 46rem);
+  --k-opacity: 0.14;
 }
 
-@media (max-width: 1024px){
-  body.home #archive .paper{
-    --k-size: clamp(12rem, 40vw, 22rem);
-    --k-opacity: 0.085;
-    --k-blur: 0.34px;
+body.home #archive .paper:nth-of-type(1)::before,
+body.home #archive .paper:nth-of-type(3)::before {
+  left: 0;
+  transform: translate(calc(-61.8% - clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
+}
+
+body.home #archive .paper:nth-of-type(2)::before {
+  right: 0;
+  transform: translate(calc(61.8% + clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
+}
+
+@media (max-width: 1024px) {
+  body.home #archive .paper {
+    --k-size: clamp(14rem, 46vw, 26rem);
+    --k-opacity: 0.10;
   }
 
-  body.home #archive .paper:nth-of-type(1),
-  body.home #archive .paper:nth-of-type(3){
-    --k-tx: calc(-38.2% - 28px);
+  body.home #archive .paper:nth-of-type(1)::before,
+  body.home #archive .paper:nth-of-type(3)::before {
+    transform: translate(calc(-38.2% - 28px), -61.8%) rotate(var(--k-rot));
   }
 
-  body.home #archive .paper:nth-of-type(2){
-    --k-tx: calc(38.2% + 28px);
+  body.home #archive .paper:nth-of-type(2)::before {
+    transform: translate(calc(38.2% + 28px), -61.8%) rotate(var(--k-rot));
   }
 }
