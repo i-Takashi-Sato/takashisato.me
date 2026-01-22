@@ -4,7 +4,6 @@
    ========================================================= */
 
 body.home {
-  /* V72: FINAL COLOR RESTORED */
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
@@ -13,7 +12,6 @@ body.home {
   --accent: #D90429;
   --line: rgba(255, 255, 255, 0.08);
 
-  /* Nocturnal Crimson: セクシーで湿度の高い深紅 */
   --sexy-ink: #7B001C;
 
   --font-serif: 'Cormorant Garamond', serif;
@@ -31,7 +29,7 @@ body.home {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- GLOBAL ARCHITECTURE --- */
+/* Global */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body.home ::selection { background: #FFF; color: #000; }
 
@@ -58,7 +56,7 @@ body.home main {
   z-index: 3;
 }
 
-/* 垂直ラベル：左側の空白を定義する背骨 */
+/* Vertical axis label */
 .vertical-axis {
   position: absolute;
   left: 15px;
@@ -74,7 +72,7 @@ body.home main {
   opacity: 0.4;
 }
 
-/* --- HERO SECTION --- */
+/* Hero */
 body.home main > header { padding: 220px 0 120px; position: relative; }
 body.home main > header h1 {
   font-family: var(--font-serif);
@@ -116,22 +114,14 @@ body.home .section-label {
 }
 
 /* =========================================================
-   ARCHIVE CARDS: PHI-GRID SYSTEM (Total Phi Layout)
-   Ratio: 61.803% (Definition) : 38.197% (Interpretation)
-   Y-Axis: Top / Breath / Bottom
+   ARCHIVE CARDS: PHI-GRID SYSTEM
    ========================================================= */
 
 body.home #archive .paper {
   display: grid;
-
-  /* [X-Axis] Golden Ratio Split */
   grid-template-columns: 61.803% 38.197%;
   column-gap: clamp(24px, 6.18vw, 96px);
-
-  /* [Y-Axis] Top(Content) / Breath(Space) / Bottom(Meta) */
   grid-template-rows: auto 1fr auto;
-
-  /* Layout Mapping */
   grid-template-areas:
     "title  quote"
     "title  quote"
@@ -140,8 +130,6 @@ body.home #archive .paper {
   position: relative;
   margin-top: 100px;
   margin-bottom: 60px;
-
-  /* 元の迫力を維持しつつ、値を編集的に安定させる */
   padding: clamp(6rem, 10vw, 12rem) clamp(3.1rem, 6.18vw, 7.4rem);
 
   background: var(--surface);
@@ -150,7 +138,6 @@ body.home #archive .paper {
   color: inherit;
   text-decoration: none;
   z-index: 1;
-
   align-items: start;
 
   transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease;
@@ -164,7 +151,7 @@ body.home #archive .paper:hover {
   z-index: 100;
 }
 
-/* --- BACKGROUND ELEMENTS --- */
+/* Background elements */
 body.home #archive .card-base {
   position: absolute;
   inset: 0;
@@ -186,7 +173,6 @@ body.home #archive .work-bg-num {
   mix-blend-mode: overlay;
   transition: 0.3s ease;
 }
-/* 交通整理：筆記体が主役なので、数字は赤にしない（端末差も減る） */
 body.home #archive .paper:hover .work-bg-num {
   color: #FFF;
   opacity: 0.18;
@@ -194,25 +180,19 @@ body.home #archive .paper:hover .work-bg-num {
 }
 
 /* =========================================================
-   GSS-φ (Golden Scribble System / Phi Edition)
-   Freeze: Scribble Final (integrated into V138)
+   GSS-φ (Golden Scribble System)
    ========================================================= */
 
-/* --- CORE SKELETON --- */
 body.home #archive .script-note {
   position: absolute;
-  z-index: 1; /* scribble is under UI (z=10) */
+  z-index: 1;
   pointer-events: none;
 
   font-family: var(--font-script);
   font-size: clamp(8rem, 20vw, 25rem);
   line-height: 1;
   white-space: nowrap;
-
-  /* keep your ink */
   color: var(--sexy-ink);
-
-  /* no neon */
   mix-blend-mode: normal;
 
   --tx: 0px;
@@ -226,15 +206,13 @@ body.home #archive .script-note {
   opacity: 0.62;
   transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
 
-  will-change: auto; /* memory-safe default */
+  will-change: auto;
 }
 
-/* --- PERFORMANCE (predictive prep) --- */
 @media (hover:hover) and (pointer:fine) {
   body.home #archive .paper { will-change: transform; }
 }
 
-/* --- INTERACTION (Hover & Focus) --- */
 body.home #archive .paper:hover .script-note,
 body.home #archive .paper:focus-within .script-note {
   --scale: 1.02;
@@ -242,7 +220,6 @@ body.home #archive .paper:focus-within .script-note {
   will-change: transform, opacity;
 }
 
-/* --- PART I: Phi A (Title Graze) --- */
 body.home #archive .paper:nth-of-type(1) .script-note {
   top: 30%;
   left: 0;
@@ -251,7 +228,6 @@ body.home #archive .paper:nth-of-type(1) .script-note {
   --ty: -50%;
   --rot: -13deg;
 
-  /* Bordeaux Varnish */
   letter-spacing: -0.012em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 220, 230, 0.12),
@@ -260,7 +236,6 @@ body.home #archive .paper:nth-of-type(1) .script-note {
      0 0 0.20em rgba(200, 20, 50, 0.10);
 }
 
-/* --- PART II: Phi B (61.8%) --- */
 body.home #archive .paper:nth-of-type(2) .script-note {
   top: 61.8%;
   right: 0;
@@ -271,7 +246,6 @@ body.home #archive .paper:nth-of-type(2) .script-note {
   --ty: -62%;
   --rot: 8deg;
 
-  /* Smear & Stain (no neon blur) */
   letter-spacing: -0.035em;
   text-shadow:
      0.03em 0.03em 0 rgba(100, 0, 30, 0.28),
@@ -279,7 +253,6 @@ body.home #archive .paper:nth-of-type(2) .script-note {
      0 0 0.28em rgba(217, 4, 60, 0.12);
 }
 
-/* --- PART III: Phi C --- */
 body.home #archive .paper:nth-of-type(3) .script-note {
   top: 70%;
   left: 0;
@@ -288,7 +261,6 @@ body.home #archive .paper:nth-of-type(3) .script-note {
   --ty: -30%;
   --rot: -21deg;
 
-  /* Satin Slash (pinkish highlight) */
   letter-spacing: -0.01em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
@@ -297,7 +269,6 @@ body.home #archive .paper:nth-of-type(3) .script-note {
      0 0 0.18em rgba(255, 60, 70, 0.10);
 }
 
-/* --- ACCESSIBILITY (Reduced Motion) --- */
 @media (prefers-reduced-motion: reduce) {
   body.home #archive .script-note {
     transition: none;
@@ -311,15 +282,14 @@ body.home #archive .paper:nth-of-type(3) .script-note {
 }
 
 /* =========================================================
-   GRID AREA ASSIGNMENTS (Title / Quote / Keywords / CTA)
+   GRID AREAS
    ========================================================= */
 
-/* Title (Left / Top) */
 body.home #archive .paper-title {
   grid-area: title;
   position: relative;
   z-index: 10;
-  margin: 0; /* 余白はYグリッドが作る */
+  margin: 0;
 }
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
@@ -333,13 +303,10 @@ body.home #archive .paper-title a {
   display: inline-block;
 }
 
-/* Quote (Right / Top) */
 body.home #archive .paper-signal {
   grid-area: quote;
   justify-self: start;
 
-  /* “呼吸”の余白はRow(1fr)が担当。
-     ただし視覚的な上下関係のため、軽く落とす */
   margin: 0;
   margin-top: clamp(18px, 3.2vw, 4.2rem);
 
@@ -349,17 +316,14 @@ body.home #archive .paper-signal {
   line-height: 1.5;
   color: var(--fg-dim);
 
-  /* UI赤 → インク線へ（品格） */
   border-left: 1px solid rgba(217, 4, 41, 0.60);
   padding-left: clamp(16px, 2.618vw, 30px);
-
   letter-spacing: -0.01em;
 
   position: relative;
   z-index: 10;
 }
 
-/* Keywords (Left / Bottom) */
 body.home #archive .k {
   grid-area: keys;
   align-self: end;
@@ -372,7 +336,6 @@ body.home #archive .k {
   letter-spacing: 0.1em;
   color: var(--fg-dim);
 
-  /* カード内は“情報ブロック”として扱う */
   display: flex;
   flex-wrap: wrap;
   gap: 0.9em;
@@ -387,7 +350,6 @@ body.home #archive .k span {
   display: inline-block;
 }
 
-/* CTA (Right / Bottom) */
 body.home #archive .pill {
   grid-area: cta;
   align-self: end;
@@ -404,8 +366,6 @@ body.home #archive .pill {
   letter-spacing: 0.2em;
 
   padding: 22px 44px;
-
-  /* 枠線規格：UI線＝--line */
   border: 1px solid var(--line);
 
   color: var(--fg);
@@ -422,10 +382,9 @@ body.home #archive .paper:hover .pill {
   box-shadow: 5px 5px 0px #FFF;
 }
 
-/* --- MOBILE SAFETY (Unified) --- */
+/* Mobile */
 @media (max-width: 1024px) {
   body.home #archive .paper {
-    /* Phi-Grid解除 → 1カラム編集 */
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
     grid-template-areas:
@@ -443,7 +402,6 @@ body.home #archive .paper:hover .pill {
 
   .vertical-axis { display: none; }
 
-  /* Mobile placement (scaled down) */
   body.home #archive .script-note {
     font-size: clamp(6rem, 25vw, 12rem) !important;
     opacity: 0.50;
@@ -469,7 +427,7 @@ body.home #archive .paper:hover .pill {
   }
 }
 
-/* --- NAV: Papers only underline (HOME) --- */
+/* Nav */
 body.home .nav .nav-papers {
   position: relative;
   display: inline-block;
@@ -515,40 +473,28 @@ body.home .nav .nav-papers:focus-visible::after {
   transform: scaleX(1);
 }
 
-/* =========================================================
-   Home header: force "Papers only" nav behavior
-   (prevents site.css underline duplication)
-   ========================================================= */
-
-/* Kill generic nav underline on HOME only */
 body.home .top .nav a::after { content: none !important; }
-
-/* Neutralize generic spacing on HOME only */
 body.home .top .nav a { margin-left: 0 !important; }
 
-
 /* =========================================================
-   JO-HA-KYU — Phi Background Kanji (Void Layer)
-   - No small seal on cards.
-   - Kanji lives in the surrounding “void”, partially occluded by the card.
-   - CSS-only / No HTML change.
+   JO-HA-KYU — Phi Background Kanji (Void Layer, subdued)
    ========================================================= */
 
 body.home #archive .paper{
-  /* Default (overridden per card) */
   --kanji: "";
   --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(80px, 10vw, 180px));
+  --k-tx: calc(-61.8% - clamp(90px, 12vw, 220px));
   --k-rot: -8deg;
   --k-size: clamp(18rem, 30vw, 36rem);
-  --k-opacity: 0.12;
 
-  /* Ensure the pseudo-element can sit BEHIND the card surface */
+  --k-opacity: 0.07;
+  --k-color: rgba(0,0,0,0.92);
+  --k-blur: 0.55px;
+
   position: relative;
   z-index: 1;
 }
 
-/* Large kanji, placed behind the card (so it disappears when it passes under the card) */
 body.home #archive .paper::before{
   content: var(--kanji);
   position: absolute;
@@ -561,34 +507,30 @@ body.home #archive .paper::before{
   font-size: var(--k-size);
   line-height: 1;
 
-  /* “True black” ink: felt, not shouted */
-  color: rgba(0,0,0,0.88);
+  color: var(--k-color);
   opacity: var(--k-opacity);
   mix-blend-mode: multiply;
 
   pointer-events: none;
-  z-index: -1; /* behind the card */
+  z-index: -1;
   -webkit-font-smoothing: antialiased;
-
-  /* Optional: tiny softening to avoid pixel shimmer on some GPUs */
-  filter: blur(0.25px);
+  filter: blur(var(--k-blur));
 }
 
-/* Per-card placement (Phi-aware) */
 body.home #archive .paper:nth-of-type(1){
   --kanji: "序";
   --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(90px, 12vw, 220px));
+  --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
   --k-rot: -10deg;
+  --k-opacity: 0.07;
 }
 
 body.home #archive .paper:nth-of-type(2){
   --kanji: "破";
   --k-top: 38.2%;
   --k-rot: 7deg;
-
-  /* flip to the right void */
-  --k-tx: calc(61.8% + clamp(90px, 12vw, 220px));
+  --k-tx: calc(61.8% + clamp(110px, 14vw, 260px));
+  --k-opacity: 0.06;
 }
 body.home #archive .paper:nth-of-type(2)::before{
   left: auto;
@@ -598,22 +540,16 @@ body.home #archive .paper:nth-of-type(2)::before{
 body.home #archive .paper:nth-of-type(3){
   --kanji: "急";
   --k-top: 61.8%;
-  --k-tx: calc(-61.8% - clamp(90px, 12vw, 220px));
+  --k-tx: calc(-61.8% - clamp(110px, 14vw, 260px));
   --k-rot: -6deg;
+  --k-opacity: 0.06;
 }
 
-/* Hover: slightly more legible, still subordinate to the scribble */
-@media (hover:hover) and (pointer:fine){
-  body.home #archive .paper:hover::before{
-    opacity: calc(var(--k-opacity) + 0.04);
-  }
-}
-
-/* Mobile: reduce density and keep the kanji subtle */
 @media (max-width: 1024px){
   body.home #archive .paper{
     --k-size: clamp(12rem, 42vw, 22rem);
-    --k-opacity: 0.09;
+    --k-opacity: 0.06;
+    --k-blur: 0.65px;
   }
 
   body.home #archive .paper:nth-of-type(1),
