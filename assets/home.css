@@ -146,7 +146,7 @@ body.home #archive .paper {
 
   isolation: isolate;
 
-  /* Razor Focus: motion is only translate (no scale, no hacks) */
+  /* Cinema Focus base: motion is only translate */
   transform: translateY(0);
   will-change: transform;
   transition: transform 0.22s var(--ease-punk);
@@ -161,29 +161,38 @@ body.home #archive .paper::after {
   pointer-events: none;
   z-index: 0;
 
-  /* Panel-only tightening (unified easing) */
+  opacity: 1;
+  filter: none;
+
+  /* Panel-only tightening + cinema dim controls (unified easing) */
   transition:
     background-color 0.22s var(--ease-punk),
     border-color 0.22s var(--ease-punk),
-    box-shadow 0.22s var(--ease-punk);
+    box-shadow 0.22s var(--ease-punk),
+    opacity 0.22s var(--ease-punk),
+    filter 0.22s var(--ease-punk);
 }
 
 /* =========================================================
-   HOVER: "THE RAZOR FOCUS" (Production Ready)
-   - Kanji (::before) untouched
-   - Panel (::after) tightens with arterial red
-   - Accessibility: Reduced Motion + Focus Outline support
-   - Easing: Unified --ease-punk
+   HOVER: "CINEMA FOCUS" (Production Grade)
+   - Hovered card: Razor sharp, Arterial Red
+   - Others: Dimmed (Panel blur + Opacity drop; text stays crisp)
+   - Accessibility: Progressive Enhancement (:has) + Reduced Motion
    ========================================================= */
 
-/* 2. Hover (PC only) */
+/* Kanji layer: keep static */
+body.home #archive .paper::before {
+  pointer-events: none;
+}
+
+/* 2. Hover State (Target) */
 @media (hover: hover) and (pointer: fine) {
   body.home #archive .paper:hover {
     transform: translateY(-2px);
   }
 
   body.home #archive .paper:hover::after {
-    background-color: rgba(5, 5, 7, 0.95);
+    background-color: rgba(5, 5, 7, 0.96);
     border-color: var(--accent);
     box-shadow:
       2px 2px 0 var(--accent),
@@ -196,25 +205,90 @@ body.home #archive .paper::after {
   }
 }
 
-/* 3. Focus (Keyboard Accessibility) */
+/* 3. Focus State (Keyboard Target) */
 body.home #archive .paper:focus-within {
   transform: translateY(-2px);
   outline: 2px solid rgba(217, 4, 41, 0.35);
   outline-offset: 3px;
 }
 body.home #archive .paper:focus-within::after {
-  background-color: rgba(5, 5, 7, 0.95);
+  background-color: rgba(5, 5, 7, 0.96);
   border-color: var(--accent);
   box-shadow:
     2px 2px 0 var(--accent),
     10px 14px 28px rgba(0,0,0,0.60);
 }
 
-/* Reduced motion */
+/* 4. Cinema Focus Logic (:has support required) */
+@supports selector(:has(*)) {
+  @media (hover: hover) and (pointer: fine) {
+    body.home #archive:has(.paper:hover) .paper:not(:hover) {
+      transform: translateY(0);
+    }
+
+    /* Dim panel only (no text blur) */
+    body.home #archive:has(.paper:hover) .paper:not(:hover)::after {
+      opacity: 0.55;
+      filter: blur(0.8px) grayscale(100%) brightness(0.70);
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.04);
+    }
+
+    /* Decorative script-note down */
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note {
+      opacity: 0.22;
+    }
+
+    /* Secondary text gently sinks (still readable) */
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions {
+      opacity: 0.55;
+    }
+  }
+
+  /* Keyboard Cinema Focus (same logic) */
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
+    opacity: 0.55;
+    filter: blur(0.8px) grayscale(100%) brightness(0.70);
+    box-shadow: none;
+    border-color: rgba(255,255,255,0.04);
+  }
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note {
+    opacity: 0.22;
+  }
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
+    opacity: 0.55;
+  }
+}
+
+/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   body.home #archive .paper,
   body.home #archive .paper::after {
     transition: none;
+  }
+
+  @supports selector(:has(*)) {
+    body.home #archive:has(.paper:hover) .paper:not(:hover)::after,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
+      opacity: 1;
+      filter: none;
+      border-color: var(--line);
+    }
+
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
+      opacity: 1;
+    }
   }
 }
 
