@@ -450,8 +450,8 @@ h2.paper-title { margin: 0 0 1.5rem; }
   bottom: 0;
   left: 0;
   height: 2px;
-  background: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-color);
+  background: rgba(217, 4, 41, 0.45);
+  box-shadow: 0 0 10px rgba(217, 4, 41, 0.35);
   width: 0%;
   z-index: 101;
   transition: width 0.1s ease-out;
