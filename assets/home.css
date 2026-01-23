@@ -415,18 +415,28 @@ body.home #archive .paper-title {
   margin: 0;
 }
 
+/* =========================================================
+   TYPOGRAPHY & STRUCTURE: SOTD-GRADE TUNING (Final)
+   ========================================================= */
+
+/* 1) Title */
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.04em;
+
   text-transform: uppercase;
   color: var(--fg);
   text-decoration: none;
   display: inline-block;
+
+  text-wrap: balance;
+  max-width: 95%;
 }
 
+/* 2) Signal — Double Artery */
 body.home #archive .paper-signal {
   grid-area: quote;
   justify-self: start;
@@ -440,15 +450,25 @@ body.home #archive .paper-signal {
   line-height: 1.5;
   color: var(--fg-dim);
 
-  border-left: 1px solid rgba(217, 4, 41, 0.60);
+  border-left: 0;
   padding-left: clamp(16px, 2.618vw, 30px);
 
-  letter-spacing: -0.01em;
+  background-image: linear-gradient(
+    to right,
+    var(--accent) 0px 1px,
+    rgba(217, 4, 41, 0.25) 1px 2px,
+    transparent 2px
+  );
+  background-repeat: no-repeat;
+  background-size: 2px 100%;
+  background-position: 0 0;
 
+  letter-spacing: -0.01em;
   position: relative;
   z-index: 10;
 }
 
+/* 3) Keywords */
 body.home #archive .k {
   grid-area: keys;
   align-self: end;
@@ -457,13 +477,16 @@ body.home #archive .k {
   margin: 0;
   font-family: var(--font-mono);
   font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--fg-dim);
+
+  color: rgba(230, 228, 224, 0.75);
 
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9em;
+  column-gap: 1.2em;
+  row-gap: 0.5em;
 
   text-align: left;
   position: relative;
@@ -473,6 +496,7 @@ body.home #archive .k {
 body.home #archive .k span {
   color: var(--accent);
   font-weight: 700;
+  opacity: 0.9;
   display: inline-block;
 }
 
@@ -503,7 +527,6 @@ body.home #archive .pill {
   font-weight: 700;
   letter-spacing: 0.2em;
 
-  /* Variable reserved lane for arrow (prevents layout shift without button bloat) */
   --arrow-lane: clamp(18px, 2.2ch, 26px);
   padding: 22px calc(44px + var(--arrow-lane)) 22px 44px;
 
@@ -586,13 +609,15 @@ body.home #archive .paper:focus-within .pill::after {
 
   body.home #archive .paper-signal {
     margin-top: 0;
-    border-left-width: 1px;
     padding-left: 20px;
+    background-size: 2px 100%;
+    background-position: 0 0;
   }
 
   body.home #archive .k {
     flex-direction: column;
-    gap: 0.5em;
+    row-gap: 0.5em;
+    column-gap: 0;
   }
 
   body.home #archive .actions {
