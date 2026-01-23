@@ -3,6 +3,14 @@
    Phi-grid cards + Jo-Ha-Kyu void kanji
    ========================================================= */
 
+@font-face{
+  font-family: "KouzanSousho";
+  src: url("/assets/fonts/kouzansousho.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
 body.home {
   --bg-void: #050505;
   --bg-stage: #080808;
@@ -507,8 +515,8 @@ body.home #archive .paper::before {
   top: var(--k-top);
   transform: translateY(-61.8%) rotate(var(--k-rot));
 
-  font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Hiragino Mincho Pro", "Noto Serif JP", serif;
-  font-weight: 600;
+  font-family: "KouzanSousho","Yuji Mai","Hiragino Mincho ProN","Yu Mincho","YuMincho","Hiragino Mincho Pro","Noto Serif JP",serif;
+  font-weight: 400;
   font-size: var(--k-size);
   line-height: 1;
 
