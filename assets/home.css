@@ -146,7 +146,10 @@ body.home #archive .paper {
 
   isolation: isolate;
 
-  transition: transform 0.3s var(--ease-punk), box-shadow 0.3s ease, background-color 0.3s ease;
+  /* Razor Focus: motion is only translate (no scale, no hacks) */
+  transform: translateY(0);
+  will-change: transform;
+  transition: transform 0.22s var(--ease-punk);
 }
 
 body.home #archive .paper::after {
@@ -157,17 +160,62 @@ body.home #archive .paper::after {
   border: 1px solid var(--line);
   pointer-events: none;
   z-index: 0;
+
+  /* Panel-only tightening (unified easing) */
+  transition:
+    background-color 0.22s var(--ease-punk),
+    border-color 0.22s var(--ease-punk),
+    box-shadow 0.22s var(--ease-punk);
 }
 
-body.home #archive .paper:hover {
-  transform: scale(1.01) !important;
-  box-shadow: 20px 20px 0px rgba(0,0,0,0.5), -2px -2px 0px var(--accent);
-  z-index: 100;
+/* =========================================================
+   HOVER: "THE RAZOR FOCUS" (Production Ready)
+   - Kanji (::before) untouched
+   - Panel (::after) tightens with arterial red
+   - Accessibility: Reduced Motion + Focus Outline support
+   - Easing: Unified --ease-punk
+   ========================================================= */
+
+/* 2. Hover (PC only) */
+@media (hover: hover) and (pointer: fine) {
+  body.home #archive .paper:hover {
+    transform: translateY(-2px);
+  }
+
+  body.home #archive .paper:hover::after {
+    background-color: rgba(5, 5, 7, 0.95);
+    border-color: var(--accent);
+    box-shadow:
+      2px 2px 0 var(--accent),
+      10px 14px 28px rgba(0,0,0,0.60);
+  }
+
+  body.home #archive .paper:hover .paper-title a {
+    color: rgba(255,255,255,0.98);
+    text-shadow: none;
+  }
 }
 
-body.home #archive .paper:hover::after {
-  background: #111;
-  border-color: #FFF;
+/* 3. Focus (Keyboard Accessibility) */
+body.home #archive .paper:focus-within {
+  transform: translateY(-2px);
+  outline: 2px solid rgba(217, 4, 41, 0.35);
+  outline-offset: 3px;
+}
+body.home #archive .paper:focus-within::after {
+  background-color: rgba(5, 5, 7, 0.95);
+  border-color: var(--accent);
+  box-shadow:
+    2px 2px 0 var(--accent),
+    10px 14px 28px rgba(0,0,0,0.60);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body.home #archive .paper,
+  body.home #archive .paper::after {
+    transition: none;
+  }
 }
 
 body.home #archive .card-base {
@@ -381,7 +429,8 @@ body.home #archive .pill {
   transition: 0.2s;
 }
 
-body.home #archive .paper:hover .pill {
+body.home #archive .paper:hover .pill,
+body.home #archive .paper:focus-within .pill {
   background: var(--accent);
   border-color: var(--accent);
   color: #000;
