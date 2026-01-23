@@ -178,25 +178,13 @@ body.home #archive .card-base {
   z-index: 1;
 }
 
+/* --- Remove Roman numeral background (HOME only) --- */
 body.home #archive .work-bg-num {
-  position: absolute;
-  right: -20px;
-  top: 61.8%;
-  transform: translateY(-61.8%);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(14rem, 25vw, 30rem);
-  opacity: 0.08;
-  color: #FFF;
-  mix-blend-mode: overlay;
-  transition: 0.3s ease;
+  display: none !important;
 }
 
 body.home #archive .paper:hover .work-bg-num {
-  color: #FFF;
-  opacity: 0.18;
-  mix-blend-mode: normal;
+  display: none !important;
 }
 
 body.home #archive .script-note {
