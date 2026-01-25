@@ -45,7 +45,7 @@ body.home::after{
   inset: 0;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.035;
+  opacity: 0.055;
   mix-blend-mode: overlay;
   background-image: url("/assets/noise.svg");
 }
@@ -314,7 +314,6 @@ body.home main #archive .paper .paper-title a::before{
 
 /* Signal — styled via .paper-quote .paper-signal (see below) */
 body.home #archive .paper-signal{ display:block; }
-
 
 /* Keywords */
 body.home #archive .k{
@@ -677,7 +676,6 @@ body.home #archive .paper:nth-of-type(2)::before{
   transform: translate(calc(61.8% + clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
 }
 
-
 /* =========================================================
    PAPER QUOTE WRAPPER (Signal + Abstract/Citation)
    - Single grid item for the "quote" area to avoid overlap
@@ -726,45 +724,86 @@ body.home #archive .paper-quote .paper-signal{
 
 /* Academic meta area */
 body.home main #archive .paper-meta{
-  margin-top: 1.5rem;
+  margin-top: 1.618rem;                 /* φ */
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: clamp(11px, 0.78vw, 13px);
+  line-height: 1.618;                   /* φ */
   color: var(--fg-dim);
   position: relative;
 
   /* must be above stretched-link membrane (z=20) */
-  z-index: 25;
+  z-index: 40;
   pointer-events: auto;
 }
 
-body.home main #archive .abstract-toggle summary{
+body.home main #archive details.abstract-toggle{
+  position: relative;
+  z-index: 41;
+  pointer-events: auto;
+}
+
+body.home main #archive details.abstract-toggle summary{
+  display: flex;
+  align-items: center;
+  gap: 0.618rem;                        /* φ */
+  width: max-content;
+
+  min-height: 44px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+
   cursor: pointer;
-  list-style: none;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+  user-select: none;
+
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+
+  opacity: 0.78;
+  transition: opacity 0.18s, transform 0.18s, border-color 0.18s;
 }
 
-body.home main #archive .abstract-toggle summary::-webkit-details-marker{
-  display: none;
-}
+body.home main #archive details.abstract-toggle summary::-webkit-details-marker{ display: none; }
+body.home main #archive details.abstract-toggle summary::marker{ content: ""; }
 
-body.home main #archive .abstract-toggle summary:hover{
+body.home main #archive details.abstract-toggle summary:hover{
   opacity: 1;
   color: var(--accent);
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+
+body.home main #archive details.abstract-toggle summary:focus-visible{
+  outline: 2px solid rgba(217,4,41,0.55);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+body.home main #archive details.abstract-toggle summary::after{
+  content: "↘";
+  opacity: 0.65;
+  transform: translateY(-0.5px);
+}
+
+body.home main #archive details.abstract-toggle[open] summary::after{
+  content: "↗";
+  opacity: 0.85;
 }
 
 body.home main #archive .abstract-content{
-  margin-top: 0.8rem;
+  margin-top: 0.618rem;                 /* φ */
   padding: 1rem;
   border-left: 1px solid var(--line);
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.52);
+  backdrop-filter: blur(8px);
+  line-height: 1.618;
 }
 
 body.home main #archive .citation{
   display: block;
-  margin-top: 0.8rem;
+  margin-top: 0.618rem;
   white-space: normal;
+  opacity: 0.9;
 }
 
 /* =========================================================
