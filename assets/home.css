@@ -1,10 +1,10 @@
 /* =========================================================
-   HOME — V144: NOIR MONOLITH (COLD PLATINUM + WHOLE CARD CLICK)
-   - Phi-grid cards + Jo-Ha-Kyu void kanji
-   - UX: Whole card clickable (CSS stretched link), PDF pill independent
-   - Art: Subtractive focus (no red/white border), cold platinum edge
-   - Fix: --z-panel = -1 to prevent text being covered
-   - FIX2: Whole-card click MUST remain whole-card (cascade-proof)
+   HOME — V146.1: IRONCLAD GOLD MASTER (NOIR MONOLITH)
+   - Layout: Phi-grid (61.8/38.2)
+   - UX: 100% Clickable Card (stretched overlay) + PDF pill independent
+   - Robust: Cascade-guarded (high specificity, no patch tail needed)
+   - Art: Cold Platinum edges (anti-white glare)
+   - Safety: --z-panel = -1 (panel never covers text)
    ========================================================= */
 
 @font-face{
@@ -15,14 +15,16 @@
   font-weight: 400;
 }
 
-body.home {
+body.home{
   --bg-void: #050505;
   --bg-stage: #080808;
   --surface: #0E0E0E;
+
   --fg: #E6E4E0;
   --fg-dim: #949494;
+
   --accent: #D90429;
-  --line: rgba(255, 255, 255, 0.08);
+  --line: rgba(255,255,255,0.08);
 
   --sexy-ink: #7B001C;
 
@@ -41,11 +43,11 @@ body.home {
   -webkit-font-smoothing: antialiased;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body.home ::selection { background: #FFF; color: #000; }
+*{ box-sizing: border-box; margin: 0; padding: 0; }
+body.home ::selection{ background: #FFF; color: #000; }
 
 /* Noise overlay (CSP-safe) */
-body.home::after {
+body.home::after{
   content: "";
   position: fixed;
   inset: 0;
@@ -56,7 +58,7 @@ body.home::after {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
-body.home main {
+body.home main{
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 max(20px, 6vw);
@@ -68,7 +70,7 @@ body.home main {
   z-index: 3;
 }
 
-.vertical-axis {
+.vertical-axis{
   position: absolute;
   left: 15px;
   top: 400px;
@@ -83,8 +85,9 @@ body.home main {
   opacity: 0.4;
 }
 
-body.home main > header { padding: 220px 0 120px; position: relative; }
-body.home main > header h1 {
+body.home main > header{ padding: 220px 0 120px; position: relative; }
+
+body.home main > header h1{
   font-family: var(--font-serif);
   font-size: clamp(3.5rem, 9.5vw, 11rem);
   font-weight: 300;
@@ -93,7 +96,8 @@ body.home main > header h1 {
   letter-spacing: -0.04em;
   margin: 0 0 80px;
 }
-body.home .who {
+
+body.home .who{
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--accent);
@@ -102,7 +106,8 @@ body.home .who {
   margin: 0 0 20px;
   display: block;
 }
-body.home .lead {
+
+body.home .lead{
   font-family: var(--font-serif);
   font-size: 1.6rem;
   line-height: 1.4;
@@ -111,7 +116,8 @@ body.home .lead {
   max-width: 850px;
   margin: 0;
 }
-body.home .section-label {
+
+body.home .section-label{
   display: block;
   margin-top: 90px;
   font-family: var(--font-mono);
@@ -124,10 +130,11 @@ body.home .section-label {
 }
 
 /* =========================================================
-   ARCHIVE CARD — LAYER SYSTEM + WHOLE-CARD CLICK
+   ARCHIVE CARD — LAYER SYSTEM + CASCADE GUARD
    ========================================================= */
 
-body.home #archive .paper {
+/* Guarded: anchor must be .paper (relative) for overlay stretching */
+body.home main #archive .paper{
   display: grid;
   grid-template-columns: 61.803% 38.197%;
   column-gap: clamp(24px, 6.18vw, 96px);
@@ -138,14 +145,14 @@ body.home #archive .paper {
     "title  quote"
     "keys   cta";
 
-  position: relative;
+  position: relative; /* critical anchor */
 
-  /* Layer architecture (robust) */
-  --z-kanji:   -2;  /* kanji background */
-  --z-panel:   -1;  /* panel plate (MUST be behind text) */
-  --z-script:   1;  /* script-note */
-  --z-overlay: 20;  /* stretched-link membrane */
-  --z-cta:     30;  /* action button layer */
+  /* Layer architecture */
+  --z-kanji:   -2;
+  --z-panel:   -1; /* MUST be behind text */
+  --z-script:   1;
+  --z-overlay: 20; /* stretched-link membrane */
+  --z-cta:     30; /* independent CTA zone */
 
   margin-top: 100px;
   margin-bottom: 60px;
@@ -166,8 +173,8 @@ body.home #archive .paper {
   transition: transform 0.22s var(--ease-punk);
 }
 
-/* Panel plate (behind content) */
-body.home #archive .paper::after {
+/* Panel plate */
+body.home main #archive .paper::after{
   content: "";
   position: absolute;
   inset: 0;
@@ -187,24 +194,15 @@ body.home #archive .paper::after {
     filter           0.22s var(--ease-punk);
 }
 
-/* Optional base wrapper (if exists in HTML) */
-body.home #archive .card-base {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
 /* Remove Roman numeral background (HOME only) */
-body.home #archive .work-bg-num { display: none !important; }
-body.home #archive .paper:hover .work-bg-num { display: none !important; }
+body.home #archive .work-bg-num{ display: none !important; }
+body.home #archive .paper:hover .work-bg-num{ display: none !important; }
 
 /* =========================================================
    SCRIPT-NOTE (decorative)
    ========================================================= */
 
-body.home #archive .script-note {
+body.home #archive .script-note{
   position: absolute;
   z-index: var(--z-script);
   pointer-events: none;
@@ -231,20 +229,18 @@ body.home #archive .script-note {
 }
 
 body.home #archive .paper:hover .script-note,
-body.home #archive .paper:focus-within .script-note {
+body.home #archive .paper:focus-within .script-note{
   --scale: 1.02;
   opacity: 0.78;
   will-change: transform, opacity;
 }
 
-body.home #archive .paper:nth-of-type(1) .script-note {
+body.home #archive .paper:nth-of-type(1) .script-note{
   top: 30%;
   left: 0;
-
   --tx: -12vw;
   --ty: -50%;
   --rot: -13deg;
-
   letter-spacing: -0.012em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 220, 230, 0.12),
@@ -253,16 +249,14 @@ body.home #archive .paper:nth-of-type(1) .script-note {
      0 0 0.20em rgba(200, 20, 50, 0.10);
 }
 
-body.home #archive .paper:nth-of-type(2) .script-note {
+body.home #archive .paper:nth-of-type(2) .script-note{
   top: 61.8%;
   right: 0;
   left: auto;
   text-align: right;
-
   --tx: 10vw;
   --ty: -62%;
   --rot: 8deg;
-
   letter-spacing: -0.035em;
   text-shadow:
      0.03em 0.03em 0 rgba(100, 0, 30, 0.28),
@@ -270,14 +264,12 @@ body.home #archive .paper:nth-of-type(2) .script-note {
      0 0 0.28em rgba(217, 4, 60, 0.12);
 }
 
-body.home #archive .paper:nth-of-type(3) .script-note {
+body.home #archive .paper:nth-of-type(3) .script-note{
   top: 70%;
   left: 0;
-
   --tx: 6.18vw;
   --ty: -30%;
   --rot: -21deg;
-
   letter-spacing: -0.01em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
@@ -287,18 +279,18 @@ body.home #archive .paper:nth-of-type(3) .script-note {
 }
 
 /* =========================================================
-   TYPOGRAPHY & STRUCTURE
+   TYPOGRAPHY & STRUCTURE (Cascade-Guarded)
    ========================================================= */
 
-body.home #archive .paper-title {
+/* Guard: title container must stay static */
+body.home main #archive .paper .paper-title{
   grid-area: title;
-  /* IMPORTANT: keep static so overlay can reach the whole card */
-  position: static;
+  position: static; /* critical */
   margin: 0;
 }
 
-/* Title */
-body.home #archive .paper-title a {
+/* Guard: anchor must stay static to avoid becoming the overlay's containing block */
+body.home main #archive .paper .paper-title a{
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
   font-weight: 600;
@@ -312,24 +304,24 @@ body.home #archive .paper-title a {
 
   text-wrap: balance;
   max-width: 95%;
+
+  position: static; /* critical */
 }
 
-/* Whole-card click membrane (CSS only) */
-body.home #archive .paper-title a::before {
+/* Whole-card click membrane */
+body.home main #archive .paper .paper-title a::before{
   content: "";
   position: absolute;
   inset: 0;
   z-index: var(--z-overlay);
   cursor: pointer;
   background: transparent;
-
-  /* FIX: some engines/cascades behave more predictably with these */
   display: block;
   pointer-events: auto;
 }
 
 /* Signal — Double Artery */
-body.home #archive .paper-signal {
+body.home #archive .paper-signal{
   grid-area: quote;
   justify-self: start;
 
@@ -357,12 +349,14 @@ body.home #archive .paper-signal {
 
   letter-spacing: -0.01em;
 
-  /* NOTE: keep clicks going to overlay (whole card click) */
+  /* stay under overlay */
+  position: relative;
+  z-index: 1;
   pointer-events: none;
 }
 
 /* Keywords */
-body.home #archive .k {
+body.home #archive .k{
   grid-area: keys;
   align-self: end;
   justify-self: start;
@@ -383,32 +377,33 @@ body.home #archive .k {
 
   text-align: left;
 
-  /* NOTE: keep clicks going to overlay (whole card click) */
+  /* stay under overlay */
+  position: relative;
+  z-index: 1;
   pointer-events: none;
 }
 
-body.home #archive .k span {
+body.home #archive .k span{
   color: var(--accent);
   font-weight: 700;
   opacity: 0.9;
   display: inline-block;
 }
 
-/* Actions */
-body.home #archive .actions {
+/* Actions wrapper (must be above overlay) */
+body.home main #archive .paper .actions{
   grid-area: cta;
   align-self: end;
   justify-self: start;
-
   position: relative;
   z-index: var(--z-cta);
 }
 
 /* =========================================================
-   PILL (PDF) — Independent CTA
+   PILL (PDF) — Independent CTA (above overlay)
    ========================================================= */
 
-body.home #archive .pill {
+body.home main #archive .paper .pill{
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -439,7 +434,7 @@ body.home #archive .pill {
     transform        0.2s var(--ease-punk);
 }
 
-body.home #archive .pill::after {
+body.home #archive .pill::after{
   content: "→";
   position: absolute;
   right: 22px;
@@ -457,7 +452,7 @@ body.home #archive .pill::after {
 }
 
 body.home #archive .paper:hover .pill,
-body.home #archive .paper:focus-within .pill {
+body.home #archive .paper:focus-within .pill{
   background: var(--accent);
   border-color: var(--accent);
   color: rgba(255,255,255,0.98);
@@ -467,7 +462,7 @@ body.home #archive .paper:focus-within .pill {
 }
 
 body.home #archive .paper:hover .pill::after,
-body.home #archive .paper:focus-within .pill::after {
+body.home #archive .paper:focus-within .pill::after{
   opacity: 1;
   transform: translateX(0);
 }
@@ -476,17 +471,15 @@ body.home #archive .paper:focus-within .pill::after {
    HOVER: "CINEMA FOCUS" (Cold Platinum Edition)
    ========================================================= */
 
-@media (hover: hover) and (pointer: fine) {
-  body.home #archive .paper:hover {
+@media (hover: hover) and (pointer: fine){
+  body.home #archive .paper:hover{
     transform: translateY(-4px);
     z-index: 100;
     cursor: pointer;
   }
 
-  body.home #archive .paper:hover::after {
+  body.home #archive .paper:hover::after{
     background-color: rgba(0, 0, 0, 0.98);
-
-    /* Cold Platinum (anti white-glare, no red/white cheapness) */
     border-color: rgba(150, 162, 186, 0.18);
 
     box-shadow:
@@ -497,19 +490,20 @@ body.home #archive .paper:focus-within .pill::after {
     opacity: 1;
   }
 
-  body.home #archive .paper:hover .paper-title a {
+  body.home #archive .paper:hover .paper-title a{
     color: rgba(255,255,255,0.98);
     text-shadow: none;
   }
 }
 
 /* Focus (Keyboard) */
-body.home #archive .paper:focus-within {
+body.home #archive .paper:focus-within{
   transform: translateY(-4px);
   outline: 1px solid rgba(217, 4, 41, 0.65);
   outline-offset: 4px;
 }
-body.home #archive .paper:focus-within::after {
+
+body.home #archive .paper:focus-within::after{
   background-color: rgba(0, 0, 0, 0.98);
   border-color: rgba(150, 162, 186, 0.18);
   box-shadow:
@@ -517,62 +511,65 @@ body.home #archive .paper:focus-within::after {
     0 0 0 1px rgba(150, 162, 186, 0.045) inset;
 }
 
-/* Cinema Focus: dim others (progressive enhancement) */
-@supports selector(:has(*)) {
-  @media (hover: hover) and (pointer: fine) {
-    body.home #archive:has(.paper:hover) .paper:not(:hover) {
+/* Cinema Focus: dim others */
+@supports selector(:has(*)){
+  @media (hover: hover) and (pointer: fine){
+    body.home #archive:has(.paper:hover) .paper:not(:hover){
       transform: translateY(0);
     }
 
-    body.home #archive:has(.paper:hover) .paper:not(:hover)::after {
+    body.home #archive:has(.paper:hover) .paper:not(:hover)::after{
       opacity: 0.55;
       filter: blur(0.8px) grayscale(100%) brightness(0.70);
       box-shadow: none;
       border-color: rgba(255,255,255,0.04);
     }
 
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note { opacity: 0.22; }
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note{ opacity: 0.22; }
+
     body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
     body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions {
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions{
       opacity: 0.55;
     }
   }
 
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after{
     opacity: 0.55;
     filter: blur(0.8px) grayscale(100%) brightness(0.70);
     box-shadow: none;
     border-color: rgba(255,255,255,0.04);
   }
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note { opacity: 0.22; }
+
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note{ opacity: 0.22; }
+
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions{
     opacity: 0.55;
   }
 }
 
 /* Reduced Motion Override */
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce){
   body.home #archive .paper,
   body.home #archive .paper::after,
   body.home #archive .pill,
   body.home #archive .pill::after,
-  body.home #archive .script-note {
+  body.home #archive .script-note{
     transition: none;
     will-change: auto;
   }
 
   body.home #archive .paper:hover .script-note,
-  body.home #archive .paper:focus-within .script-note {
+  body.home #archive .paper:focus-within .script-note{
     --scale: 1;
     opacity: 0.62;
   }
 
-  @supports selector(:has(*)) {
+  @supports selector(:has(*)){
     body.home #archive:has(.paper:hover) .paper:not(:hover)::after,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after{
       opacity: 1;
       filter: none;
       border-color: var(--line);
@@ -585,7 +582,7 @@ body.home #archive .paper:focus-within::after {
     body.home #archive:has(.paper:hover) .paper:not(:hover) .actions,
     body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
     body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions{
       opacity: 1;
     }
   }
@@ -595,7 +592,7 @@ body.home #archive .paper:focus-within::after {
    NAV (as-is, kept)
    ========================================================= */
 
-body.home .nav .nav-papers {
+body.home .nav .nav-papers{
   position: relative;
   display: inline-block;
 
@@ -612,7 +609,7 @@ body.home .nav .nav-papers {
   transition: opacity .18s ease, color .18s ease;
 }
 
-body.home .nav .nav-papers::after {
+body.home .nav .nav-papers::after{
   content: "";
   position: absolute;
   left: 0;
@@ -630,27 +627,25 @@ body.home .nav .nav-papers::after {
 }
 
 body.home .nav .nav-papers:hover,
-body.home .nav .nav-papers:focus-visible {
+body.home .nav .nav-papers:focus-visible{
   color: var(--accent);
   opacity: 1;
 }
 
 body.home .nav .nav-papers:hover::after,
-body.home .nav .nav-papers:focus-visible::after {
+body.home .nav .nav-papers:focus-visible::after{
   transform: scaleX(1);
 }
 
-body.home .top .nav a::after { content: none !important; }
-body.home .top .nav a { margin-left: 0 !important; }
+body.home .top .nav a::after{ content: none !important; }
+body.home .top .nav a{ margin-left: 0 !important; }
 
 /* =========================================================
    JO-HA-KYU KANJI (Void Kanji) — behind panel
    ========================================================= */
 
-body.home #archive .paper {
+body.home #archive .paper{
   --kanji: "";
-  --k-side: left;
-  --k-edge: 0;
   --k-top: 61.8%;
   --k-rot: -8deg;
 
@@ -661,7 +656,7 @@ body.home #archive .paper {
   --k-stone: rgba(0,0,0,0.60);
 }
 
-body.home #archive .paper::before {
+body.home #archive .paper::before{
   content: var(--kanji);
   position: absolute;
   top: var(--k-top);
@@ -686,7 +681,7 @@ body.home #archive .paper::before {
   z-index: var(--z-kanji);
 }
 
-body.home #archive .paper:nth-of-type(1) {
+body.home #archive .paper:nth-of-type(1){
   --kanji: "序";
   --k-top: 61.8%;
   --k-rot: -11deg;
@@ -694,7 +689,7 @@ body.home #archive .paper:nth-of-type(1) {
   --k-opacity: 0.16;
 }
 
-body.home #archive .paper:nth-of-type(2) {
+body.home #archive .paper:nth-of-type(2){
   --kanji: "破";
   --k-top: 38.2%;
   --k-rot: 8deg;
@@ -702,7 +697,7 @@ body.home #archive .paper:nth-of-type(2) {
   --k-opacity: 0.14;
 }
 
-body.home #archive .paper:nth-of-type(3) {
+body.home #archive .paper:nth-of-type(3){
   --kanji: "急";
   --k-top: 61.8%;
   --k-rot: -7deg;
@@ -711,12 +706,12 @@ body.home #archive .paper:nth-of-type(3) {
 }
 
 body.home #archive .paper:nth-of-type(1)::before,
-body.home #archive .paper:nth-of-type(3)::before {
+body.home #archive .paper:nth-of-type(3)::before{
   left: 0;
   transform: translate(calc(-61.8% - clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
 }
 
-body.home #archive .paper:nth-of-type(2)::before {
+body.home #archive .paper:nth-of-type(2)::before{
   right: 0;
   transform: translate(calc(61.8% + clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
 }
@@ -725,8 +720,8 @@ body.home #archive .paper:nth-of-type(2)::before {
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 1024px) {
-  body.home #archive .paper {
+@media (max-width: 1024px){
+  body.home #archive .paper{
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto auto;
     grid-template-areas:
@@ -742,61 +737,44 @@ body.home #archive .paper:nth-of-type(2)::before {
     width: auto;
   }
 
-  .vertical-axis { display: none; }
+  .vertical-axis{ display: none; }
 
-  body.home #archive .script-note {
+  body.home #archive .script-note{
     font-size: clamp(6rem, 25vw, 12rem) !important;
     opacity: 0.50;
     will-change: auto;
   }
 
-  body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
-  body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
-  body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
+  body.home #archive .paper:nth-of-type(1) .script-note{ top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
+  body.home #archive .paper:nth-of-type(2) .script-note{ top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
+  body.home #archive .paper:nth-of-type(3) .script-note{ top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
 
-  body.home #archive .paper-signal {
+  body.home #archive .paper-signal{
     margin-top: 0;
     padding-left: 20px;
     background-size: 2px 100%;
     background-position: 0 0;
   }
 
-  body.home #archive .k {
+  body.home #archive .k{
     flex-direction: column;
     row-gap: 0.5em;
     column-gap: 0;
   }
 
-  body.home #archive .actions { justify-self: start; }
+  body.home #archive .actions{ justify-self: start; }
 
-  /* Kanji scale */
-  body.home #archive .paper { --k-size: clamp(14rem, 46vw, 26rem); --k-opacity: 0.10; }
+  body.home #archive .paper{
+    --k-size: clamp(14rem, 46vw, 26rem);
+    --k-opacity: 0.10;
+  }
 
   body.home #archive .paper:nth-of-type(1)::before,
-  body.home #archive .paper:nth-of-type(3)::before {
+  body.home #archive .paper:nth-of-type(3)::before{
     transform: translate(calc(-38.2% - 28px), -61.8%) rotate(var(--k-rot));
   }
-  body.home #archive .paper:nth-of-type(2)::before {
+
+  body.home #archive .paper:nth-of-type(2)::before{
     transform: translate(calc(38.2% + 28px), -61.8%) rotate(var(--k-rot));
   }
 }
-
-/* =========================================================
-   HARDENING PATCH (cascade-proof, no HTML changes)
-   - Prevent any later CSS from collapsing whole-card click
-   ========================================================= */
-
-body.home #archive .paper{ position: relative !important; }
-body.home #archive .paper .paper-title{ position: static !important; }
-body.home #archive .paper .paper-title a{ position: static !important; }
-
-/* membrane stays whole-card even if some rule tries to alter it */
-body.home #archive .paper .paper-title a::before{
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 20 !important;
-  display: block !important;
-  pointer-events: auto !important;
-}
-body.home #archive .paper .actions{ position: relative !important; z-index: 30 !important; }
-body.home #archive .paper .pill{ position: relative !important; z-index: 31 !important; pointer-events: auto !important; }
