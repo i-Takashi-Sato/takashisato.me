@@ -1,30 +1,35 @@
 /* =========================================================
-   HOME — V146.1: IRONCLAD GOLD MASTER (NOIR MONOLITH)
+   HOME — V146.2: IRONCLAD GOLD MASTER (NOIR MONOLITH)
    - Layout: Phi-grid (61.8/38.2)
    - UX: 100% Clickable Card (stretched overlay) + PDF pill independent
-   - Robust: Cascade-guarded (high specificity, no patch tail needed)
+   - Robust: Single-source blocks (no overwrite reliance)
    - Art: Cold Platinum edges (anti-white glare)
    - Safety: --z-panel = -1 (panel never covers text)
-   - FIX(A): Remove Abstract/Citation from HOME (structure+CSS)
+   - FIX(A): HOME has no Abstract/Citation interactions (quote non-interactive)
+   - JO-HA-KYU: 3-phase entrance (Jo → Ha → Kyu)
+   ========================================================= */
+
+/* =========================================================
+   BASE
    ========================================================= */
 
 body.home{
   --bg-void: #050505;
-  --bg-stage: #080808;
+  --bg-stage:#080808;
   --surface: #0E0E0E;
 
-  --fg: #E6E4E0;
-  --fg-dim: #949494;
+  --fg:      #E6E4E0;
+  --fg-dim:  #949494;
 
-  --accent: #D90429;
-  --line: rgba(255,255,255,0.08);
+  --accent:  #D90429;
+  --line:    rgba(255,255,255,0.08);
 
-  --sexy-ink: #7B001C;
+  --sexy-ink:#7B001C;
 
-  --font-serif: 'Cormorant Garamond', serif;
+  --font-serif:  'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans:   'Inter', system-ui, sans-serif;
+  --font-mono:   'JetBrains Mono', monospace;
 
   --ease-punk: cubic-bezier(0.1, 0.9, 0.2, 1.2);
 
@@ -37,14 +42,14 @@ body.home{
 }
 
 *{ box-sizing: border-box; margin: 0; padding: 0; }
-body.home ::selection{ background: #FFF; color: #000; }
+body.home ::selection{ background:#FFF; color:#000; }
 
 /* Noise overlay (CSP-safe) */
 body.home::after{
-  content: "";
+  content:"";
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events:none;
   z-index: 50;
   opacity: 0.055;
   mix-blend-mode: overlay;
@@ -56,7 +61,7 @@ body.home main{
   margin: 0 auto;
   padding: 0 max(20px, 6vw);
   border-left: 1px solid var(--line);
-  border-right: 1px solid var(--line);
+  border-right:1px solid var(--line);
   background-color: var(--bg-stage);
   min-height: 100vh;
   position: relative;
@@ -111,7 +116,7 @@ body.home .lead{
 }
 
 body.home .section-label{
-  display: block;
+  display:block;
   margin-top: 90px;
   font-family: var(--font-mono);
   font-size: 11px;
@@ -123,10 +128,11 @@ body.home .section-label{
 }
 
 /* =========================================================
-   ARCHIVE CARD — LAYER SYSTEM + CASCADE GUARD
+   ARCHIVE CARD — SINGLE SOURCE OF TRUTH
    ========================================================= */
 
 body.home main #archive .paper{
+  /* Layout */
   display: grid;
   grid-template-columns: 61.803% 38.197%;
   column-gap: clamp(24px, 6.18vw, 96px);
@@ -138,14 +144,6 @@ body.home main #archive .paper{
     "keys   cta";
 
   position: relative; /* anchor for stretched overlay */
-
-  /* Layer architecture */
-  --z-kanji:   -2;
-  --z-panel:   -1; /* behind text */
-  --z-script:   1;
-  --z-overlay: 20; /* stretched-link membrane */
-  --z-cta:     30; /* independent CTA zone */
-
   margin-top: 100px;
   margin-bottom: 60px;
   padding: clamp(6rem, 10vw, 12rem) clamp(3.1rem, 6.18vw, 7.4rem);
@@ -156,10 +154,24 @@ body.home main #archive .paper{
   color: inherit;
   text-decoration: none;
 
-  z-index: 1;
   align-items: start;
   isolation: isolate;
 
+  /* Layer architecture */
+  --z-kanji:   -2;
+  --z-panel:   -1;
+  --z-script:   1;
+  --z-overlay: 20;
+  --z-cta:     30;
+
+  /* Kanji defaults */
+  --k-svg: none;
+  --k-top: 61.8%;
+  --k-rot: -8deg;
+  --k-size: clamp(20rem, 33vw, 44rem);
+  --k-opacity: 0.15;
+
+  /* Motion (base) */
   transform: translateY(0);
   will-change: transform;
   transition: transform 0.22s var(--ease-punk);
@@ -167,12 +179,12 @@ body.home main #archive .paper{
 
 /* Panel plate */
 body.home main #archive .paper::after{
-  content: "";
-  position: absolute;
-  inset: 0;
+  content:"";
+  position:absolute;
+  inset:0;
   background: var(--surface);
   border: 1px solid var(--line);
-  pointer-events: none;
+  pointer-events:none;
   z-index: var(--z-panel);
 
   opacity: 1;
@@ -186,18 +198,70 @@ body.home main #archive .paper::after{
     filter           0.22s var(--ease-punk);
 }
 
+/* Kanji (Void) behind panel */
+body.home #archive .paper::before{
+  content:"";
+  position:absolute;
+  top: var(--k-top);
+  transform: translateY(-61.8%) rotate(var(--k-rot));
+  width: var(--k-size);
+  height: var(--k-size);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  background-image: var(--k-svg);
+  opacity: var(--k-opacity);
+  mix-blend-mode: normal;
+  filter: blur(0.12px);
+  pointer-events:none;
+  z-index: var(--z-kanji);
+}
+
+/* Kanji per card */
+body.home #archive .paper:nth-of-type(1){
+  --k-svg: url('/assets/img/jo.svg');
+  --k-top: 61.8%;
+  --k-rot: -11deg;
+  --k-size: clamp(18rem, 30vw, 40rem);
+  --k-opacity: 0.16;
+}
+body.home #archive .paper:nth-of-type(2){
+  --k-svg: url('/assets/img/ha.svg');
+  --k-top: 38.2%;
+  --k-rot: 8deg;
+  --k-size: clamp(22rem, 38.2vw, 52rem);
+  --k-opacity: 0.14;
+}
+body.home #archive .paper:nth-of-type(3){
+  --k-svg: url('/assets/img/kyu.svg');
+  --k-top: 61.8%;
+  --k-rot: -7deg;
+  --k-size: clamp(20rem, 34vw, 46rem);
+  --k-opacity: 0.14;
+}
+
+body.home #archive .paper:nth-of-type(1)::before,
+body.home #archive .paper:nth-of-type(3)::before{
+  left: 0;
+  transform: translate(calc(-61.8% - clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
+}
+body.home #archive .paper:nth-of-type(2)::before{
+  right: 0;
+  transform: translate(calc(61.8% + clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
+}
+
 /* Remove Roman numeral background (HOME only) */
-body.home #archive .work-bg-num{ display: none !important; }
-body.home #archive .paper:hover .work-bg-num{ display: none !important; }
+body.home #archive .work-bg-num{ display:none !important; }
+body.home #archive .paper:hover .work-bg-num{ display:none !important; }
 
 /* =========================================================
    SCRIPT-NOTE (decorative)
    ========================================================= */
 
 body.home #archive .script-note{
-  position: absolute;
+  position:absolute;
   z-index: var(--z-script);
-  pointer-events: none;
+  pointer-events:none;
 
   font-family: var(--font-script);
   font-size: clamp(8rem, 20vw, 25rem);
@@ -213,7 +277,7 @@ body.home #archive .script-note{
   --scale: 1;
 
   transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--scale));
-  transform-origin: center center;
+  transform-origin:center center;
 
   opacity: 0.62;
   transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
@@ -240,12 +304,11 @@ body.home #archive .paper:nth-of-type(1) .script-note{
      0.06em  0.06em  0 rgba(80, 0, 10, 0.22),
      0 0 0.20em rgba(200, 20, 50, 0.10);
 }
-
 body.home #archive .paper:nth-of-type(2) .script-note{
   top: 61.8%;
   right: 0;
   left: auto;
-  text-align: right;
+  text-align:right;
   --tx: 10vw;
   --ty: -62%;
   --rot: 8deg;
@@ -255,14 +318,13 @@ body.home #archive .paper:nth-of-type(2) .script-note{
      0.07em 0.06em 0 rgba(100, 0, 30, 0.18),
      0 0 0.28em rgba(217, 4, 60, 0.12);
 }
-
 body.home #archive .paper:nth-of-type(3) .script-note{
   top: 70%;
   left: 0;
   --tx: 6.18vw;
   --ty: -30%;
   --rot: -21deg;
-  letter-spacing: -0.01em;
+  letter-spacing:-0.01em;
   text-shadow:
     -0.02em -0.015em 0 rgba(255, 205, 215, 0.18),
      0.01em  0.01em  0 rgba(0, 0, 0, 0.52),
@@ -271,11 +333,11 @@ body.home #archive .paper:nth-of-type(3) .script-note{
 }
 
 /* =========================================================
-   TYPOGRAPHY & STRUCTURE (Cascade-Guarded)
+   TYPOGRAPHY & STRUCTURE
    ========================================================= */
 
 body.home main #archive .paper .paper-title{
-  grid-area: title;
+  grid-area:title;
   position: static;
   margin: 0;
 }
@@ -286,42 +348,36 @@ body.home main #archive .paper .paper-title a{
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.04em;
-
   text-transform: uppercase;
+
   color: var(--fg);
   text-decoration: none;
   display: inline-block;
 
   text-wrap: balance;
   max-width: 95%;
-
   position: static;
 }
 
 /* Whole-card click membrane */
 body.home main #archive .paper .paper-title a::before{
-  content: "";
-  position: absolute;
-  inset: 0;
+  content:"";
+  position:absolute;
+  inset:0;
   z-index: var(--z-overlay);
   cursor: pointer;
   background: transparent;
-  display: block;
-  pointer-events: auto;
+  display:block;
+  pointer-events:auto;
 }
 
-/* =========================================================
-   QUOTE AREA (Signal only) — NON-INTERACTIVE ON HOME
-   ========================================================= */
-
+/* Quote area is NON-INTERACTIVE on HOME */
 body.home #archive .paper-quote{
   grid-area: quote;
-  justify-self: start;
-  align-self: start;
-  position: relative;
+  justify-self:start;
+  align-self:start;
+  position:relative;
   z-index: 1;
-
-  /* HOMEではクリック要素を置かない。膜クリックを邪魔しない */
   pointer-events: none;
 }
 
@@ -349,8 +405,7 @@ body.home #archive .paper-quote .paper-signal{
   background-position: 0 0;
 
   letter-spacing: -0.01em;
-
-  position: relative;
+  position:relative;
   z-index: 1;
 }
 
@@ -369,14 +424,12 @@ body.home #archive .k{
 
   color: rgba(230, 228, 224, 0.75);
 
-  display: flex;
-  flex-wrap: wrap;
+  display:flex;
+  flex-wrap:wrap;
   column-gap: 1.2em;
   row-gap: 0.5em;
 
-  text-align: left;
-
-  position: relative;
+  position:relative;
   z-index: 1;
   pointer-events: none;
 }
@@ -388,7 +441,7 @@ body.home #archive .k span{
   display: inline-block;
 }
 
-/* Actions wrapper (must be above overlay) */
+/* CTA wrapper above overlay */
 body.home main #archive .paper .actions{
   grid-area: cta;
   align-self: end;
@@ -398,15 +451,12 @@ body.home main #archive .paper .actions{
   pointer-events: auto;
 }
 
-/* =========================================================
-   PILL (PDF) — Independent CTA (above overlay)
-   ========================================================= */
-
+/* PDF pill above overlay */
 body.home main #archive .paper .pill{
   margin: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 
   font-family: var(--font-mono);
   font-size: 11px;
@@ -418,7 +468,7 @@ body.home main #archive .paper .pill{
 
   border: 1px solid var(--line);
   color: var(--fg);
-  text-decoration: none;
+  text-decoration:none;
 
   position: relative;
   z-index: calc(var(--z-cta) + 1);
@@ -434,20 +484,15 @@ body.home main #archive .paper .pill{
 }
 
 body.home #archive .pill::after{
-  content: "→";
-  position: absolute;
+  content:"→";
+  position:absolute;
   right: 22px;
-
   opacity: 0;
   transform: translateX(-10px);
-
   line-height: 1;
   letter-spacing: 0;
   font-weight: 700;
-
-  transition:
-    opacity   0.2s var(--ease-punk),
-    transform 0.2s var(--ease-punk);
+  transition: opacity 0.2s var(--ease-punk), transform 0.2s var(--ease-punk);
 }
 
 body.home #archive .paper:hover .pill,
@@ -455,8 +500,7 @@ body.home #archive .paper:focus-within .pill{
   background: var(--accent);
   border-color: var(--accent);
   color: rgba(255,255,255,0.98);
-
-  box-shadow: 5px 5px 0 var(--platinum, #e0e5f0);
+  box-shadow: 5px 5px 0 rgba(224,229,240,1);
   transform: translate(-2px, -2px);
 }
 
@@ -467,13 +511,10 @@ body.home #archive .paper:focus-within .pill::after{
 }
 
 /* =========================================================
-   HOVER: "CINEMA FOCUS" (V150: OBSIDIAN ETHER)
-   - Concept: Glaze/Sheen instead of Border line.
-   - Tech: Conditional backdrop-filter for performance.
-   - Art: "Arterial Heat" inside, "Cold Reflection" on top.
+   HOVER: CINEMA FOCUS
    ========================================================= */
 
-@media (hover: hover) and (pointer: fine){
+@media (hover:hover) and (pointer:fine){
   body.home #archive .paper:hover{
     transform: translateY(-3.2px);
     z-index: 100;
@@ -481,29 +522,20 @@ body.home #archive .paper:focus-within .pill::after{
   }
 
   body.home #archive .paper:hover::after{
-    /* Base: near-black, slightly transmissive */
-    background-color: rgba(0, 0, 0, 0.92);
-
-    /* Kill the "white line" */
+    background-color: rgba(0,0,0,0.92);
     border-color: transparent;
-
-    /* Deep shadow + inner heat */
     box-shadow:
-      0 24px 72px -12px rgba(0, 0, 0, 0.98),
-      0 0 0 1px rgba(217, 4, 41, 0.14) inset;
-
-    /* Reflection as sheen (surface), not a stroke (line) */
+      0 24px 72px -12px rgba(0,0,0,0.98),
+      0 0 0 1px rgba(217,4,41,0.14) inset;
     background-image: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.00) 40%
+      rgba(255,255,255,0.08) 0%,
+      rgba(255,255,255,0.00) 40%
     );
-
-    filter: none;
-    opacity: 1;
+    filter:none;
+    opacity:1;
   }
 
-  /* Conditional frost: only where supported */
   @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
     body.home #archive .paper:hover::after{
       -webkit-backdrop-filter: blur(10px);
@@ -511,30 +543,29 @@ body.home #archive .paper:focus-within .pill::after{
     }
   }
 
-  /* Title glow: restrained */
   body.home #archive .paper:hover .paper-title a{
-    color: rgba(255, 255, 255, 0.98);
-    text-shadow: 0 0 18px rgba(255, 255, 255, 0.28);
+    color: rgba(255,255,255,0.98);
+    text-shadow: 0 0 18px rgba(255,255,255,0.28);
   }
 }
 
-/* Focus (Keyboard) — same material, functional outline */
+/* Focus (Keyboard) */
 body.home #archive .paper:focus-within{
   transform: translateY(-3.2px);
-  outline: 1px solid rgba(217, 4, 41, 0.5);
+  outline: 1px solid rgba(217,4,41,0.5);
   outline-offset: 4px;
 }
 
 body.home #archive .paper:focus-within::after{
-  background-color: rgba(0, 0, 0, 0.92);
+  background-color: rgba(0,0,0,0.92);
   border-color: transparent;
   box-shadow:
-    0 24px 72px -12px rgba(0, 0, 0, 0.98),
-    0 0 0 1px rgba(217, 4, 41, 0.14) inset;
+    0 24px 72px -12px rgba(0,0,0,0.98),
+    0 0 0 1px rgba(217,4,41,0.14) inset;
   background-image: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.00) 40%
+    rgba(255,255,255,0.08) 0%,
+    rgba(255,255,255,0.00) 40%
   );
 }
 
@@ -545,13 +576,9 @@ body.home #archive .paper:focus-within::after{
   }
 }
 
-/* Cinema Focus: dim others (kept, but no border stroke) */
+/* Dim others */
 @supports selector(:has(*)){
-  @media (hover: hover) and (pointer: fine){
-    body.home #archive:has(.paper:hover) .paper:not(:hover){
-      transform: translateY(0);
-    }
-
+  @media (hover:hover) and (pointer:fine){
     body.home #archive:has(.paper:hover) .paper:not(:hover)::after{
       opacity: 0.55;
       filter: blur(0.8px) grayscale(100%) brightness(0.70);
@@ -559,16 +586,11 @@ body.home #archive .paper:focus-within::after{
       border-color: transparent;
       background-image: none;
     }
-
     body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note{ opacity: 0.22; }
-
     body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
     body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions{
-      opacity: 0.55;
-    }
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions{ opacity: 0.55; }
   }
-
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after{
     opacity: 0.55;
     filter: blur(0.8px) grayscale(100%) brightness(0.70);
@@ -576,52 +598,108 @@ body.home #archive .paper:focus-within::after{
     border-color: transparent;
     background-image: none;
   }
-
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note{ opacity: 0.22; }
-
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions{
-    opacity: 0.55;
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions{ opacity: 0.55; }
+}
+
+/* =========================================================
+   JO-HA-KYU ENTRANCE (REAL 3-PHASE)
+   - Jo: panel/opacity rises
+   - Ha: kanji fades in
+   - Kyu: script-note snaps in
+   ========================================================= */
+
+/* Toggle:
+   - If your environment kills prefers-reduced-motion queries unexpectedly,
+     set this to 1 (force).
+*/
+body.home{ --force-enter: 0; } /* 0 = normal, 1 = force */
+
+@keyframes jo-rise{
+  from{ opacity: 0; transform: translateY(18px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+@keyframes ha-kanji{
+  from{ opacity: 0; filter: blur(6px); }
+  to  { opacity: var(--k-opacity); filter: blur(0.12px); }
+}
+@keyframes kyu-script{
+  from{ opacity: 0; transform: translate(var(--tx), calc(var(--ty) + 18px)) rotate(var(--rot)) scale(0.98); }
+  to  { opacity: 0.62; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1); }
+}
+
+/* NORMAL: obey reduced-motion */
+@media (prefers-reduced-motion: no-preference){
+  body.home #archive .paper{
+    animation: jo-rise 640ms var(--ease-punk) both;
+  }
+  body.home #archive .paper::before{
+    animation: ha-kanji 700ms var(--ease-punk) both;
+    animation-delay: 220ms;
+  }
+  body.home #archive .script-note{
+    animation: kyu-script 520ms var(--ease-punk) both;
+    animation-delay: 360ms;
+  }
+
+  body.home #archive .paper:nth-of-type(1){ animation-delay: 80ms; }
+  body.home #archive .paper:nth-of-type(2){ animation-delay: 200ms; }
+  body.home #archive .paper:nth-of-type(3){ animation-delay: 320ms; }
+  body.home #archive .paper:nth-of-type(4){ animation-delay: 440ms; }
+
+  body.home #archive .paper:nth-of-type(1)::before{ animation-delay: calc(80ms + 220ms); }
+  body.home #archive .paper:nth-of-type(2)::before{ animation-delay: calc(200ms + 220ms); }
+  body.home #archive .paper:nth-of-type(3)::before{ animation-delay: calc(320ms + 220ms); }
+  body.home #archive .paper:nth-of-type(4)::before{ animation-delay: calc(440ms + 220ms); }
+
+  body.home #archive .paper:nth-of-type(1) .script-note{ animation-delay: calc(80ms + 360ms); }
+  body.home #archive .paper:nth-of-type(2) .script-note{ animation-delay: calc(200ms + 360ms); }
+  body.home #archive .paper:nth-of-type(3) .script-note{ animation-delay: calc(320ms + 360ms); }
+  body.home #archive .paper:nth-of-type(4) .script-note{ animation-delay: calc(440ms + 360ms); }
+}
+
+/* FORCE: if you flip --force-enter to 1, run regardless */
+body.home[style*="--force-enter: 1"] #archive .paper,
+body.home[style*="--force-enter:1"]  #archive .paper{
+  animation: jo-rise 640ms var(--ease-punk) both !important;
+}
+body.home[style*="--force-enter: 1"] #archive .paper::before,
+body.home[style*="--force-enter:1"]  #archive .paper::before{
+  animation: ha-kanji 700ms var(--ease-punk) both !important;
+  animation-delay: 220ms !important;
+}
+body.home[style*="--force-enter: 1"] #archive .script-note,
+body.home[style*="--force-enter:1"]  #archive .script-note{
+  animation: kyu-script 520ms var(--ease-punk) both !important;
+  animation-delay: 360ms !important;
+}
+
+/* Reduced Motion: hard stop */
+@media (prefers-reduced-motion: reduce){
+  body.home #archive .paper,
+  body.home #archive .paper::before,
+  body.home #archive .script-note{
+    animation: none !important;
   }
 }
 
-/* Reduced Motion Override (kept; remove stroke side-effects) */
-@media (prefers-reduced-motion: reduce){
-  body.home #archive .paper,
-  body.home #archive .paper::after,
-  body.home #archive .pill,
-  body.home #archive .pill::after,
-  body.home #archive .script-note{
-    transition: none;
-    will-change: auto;
+/* =========================================================
+   INTERACTION: TACTILE CLICK (Depress Effect)
+   ========================================================= */
+
+@media (hover:hover) and (pointer:fine){
+  body.home #archive .paper:active,
+  body.home #archive .paper a:active{
+    transform: translateY(-1px) scale(0.995) !important;
+    transition-duration: 60ms;
   }
 
-  body.home #archive .paper:hover .script-note,
-  body.home #archive .paper:focus-within .script-note{
-    --scale: 1;
-    opacity: 0.62;
-  }
-
-  @supports selector(:has(*)){
-    body.home #archive:has(.paper:hover) .paper:not(:hover)::after,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after{
-      opacity: 1;
-      filter: none;
-      border-color: transparent;
-      background-image: none;
-    }
-
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions{
-      opacity: 1;
-    }
+  body.home #archive .paper:active::after{
+    box-shadow:
+      0 12px 24px -6px rgba(0,0,0,0.98),
+      0 0 0 1px rgba(217,4,41,0.16) inset !important;
   }
 }
 
@@ -632,34 +710,26 @@ body.home #archive .paper:focus-within::after{
 body.home .nav .nav-papers{
   position: relative;
   display: inline-block;
-
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-
   color: var(--fg);
   text-decoration: none;
   padding-bottom: 12px;
-
   opacity: 0.88;
   transition: opacity .18s ease, color .18s ease;
 }
 
 body.home .nav .nav-papers::after{
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  height: 2px;
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:2px;
   background: currentColor;
-
   transform: scaleX(0);
-  transform-origin: left;
+  transform-origin:left;
   transition: transform .28s ease;
-
   opacity: 0.85;
 }
 
@@ -674,81 +744,8 @@ body.home .nav .nav-papers:focus-visible::after{
   transform: scaleX(1);
 }
 
-body.home .top .nav a::after{ content: none !important; }
-body.home .top .nav a{ margin-left: 0 !important; }
-
-/* =========================================================
-   JO-HA-KYU KANJI (Void Kanji) — behind panel
-   ========================================================= */
-
-body.home #archive .paper{
-  --k-svg: none;
-  --k-top: 61.8%;
-  --k-rot: -8deg;
-
-  --k-size: clamp(20rem, 33vw, 44rem);
-  --k-opacity: 0.15;
-
-  --k-gloss: rgba(255,255,255,0.05);
-  --k-stone: rgba(0,0,0,0.60);
-}
-
-body.home #archive .paper::before{
-  content: "";
-  position: absolute;
-  top: var(--k-top);
-  transform: translateY(-61.8%) rotate(var(--k-rot));
-
-  width: var(--k-size);
-  height: var(--k-size);
-
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  background-image: var(--k-svg);
-
-  opacity: var(--k-opacity);
-  mix-blend-mode: normal;
-  filter: blur(0.12px);
-
-  pointer-events: none;
-  z-index: var(--z-kanji);
-}
-
-body.home #archive .paper:nth-of-type(1){
-  --k-svg: url('/assets/img/jo.svg');
-  --k-top: 61.8%;
-  --k-rot: -11deg;
-  --k-size: clamp(18rem, 30vw, 40rem);
-  --k-opacity: 0.16;
-}
-
-body.home #archive .paper:nth-of-type(2){
-  --k-svg: url('/assets/img/ha.svg');
-  --k-top: 38.2%;
-  --k-rot: 8deg;
-  --k-size: clamp(22rem, 38.2vw, 52rem);
-  --k-opacity: 0.14;
-}
-
-body.home #archive .paper:nth-of-type(3){
-  --k-svg: url('/assets/img/kyu.svg');
-  --k-top: 61.8%;
-  --k-rot: -7deg;
-  --k-size: clamp(20rem, 34vw, 46rem);
-  --k-opacity: 0.14;
-}
-
-body.home #archive .paper:nth-of-type(1)::before,
-body.home #archive .paper:nth-of-type(3)::before{
-  left: 0;
-  transform: translate(calc(-61.8% - clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
-}
-
-body.home #archive .paper:nth-of-type(2)::before{
-  right: 0;
-  transform: translate(calc(61.8% + clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
-}
+body.home .top .nav a::after{ content:none !important; }
+body.home .top .nav a{ margin-left:0 !important; }
 
 /* =========================================================
    RESPONSIVE
@@ -769,9 +766,12 @@ body.home #archive .paper:nth-of-type(2)::before{
     transform: none !important;
     margin-left: 0;
     width: auto;
+
+    --k-size: clamp(14rem, 46vw, 26rem);
+    --k-opacity: 0.10;
   }
 
-  .vertical-axis{ display: none; }
+  .vertical-axis{ display:none; }
 
   body.home #archive .script-note{
     font-size: clamp(6rem, 25vw, 12rem) !important;
@@ -796,61 +796,13 @@ body.home #archive .paper:nth-of-type(2)::before{
     column-gap: 0;
   }
 
-  body.home #archive .actions{ justify-self: start; }
-
-  body.home #archive .paper{
-    --k-size: clamp(14rem, 46vw, 26rem);
-    --k-opacity: 0.10;
-  }
+  body.home #archive .actions{ justify-self:start; }
 
   body.home #archive .paper:nth-of-type(1)::before,
   body.home #archive .paper:nth-of-type(3)::before{
     transform: translate(calc(-38.2% - 28px), -61.8%) rotate(var(--k-rot));
   }
-
   body.home #archive .paper:nth-of-type(2)::before{
     transform: translate(calc(38.2% + 28px), -61.8%) rotate(var(--k-rot));
-  }
-}
-
-/* =========================================================
-   ENTRANCE: "JO-HA-KYU" (Safe Stagger)
-   - Only runs when user allows motion
-   - No risk of "opacity:0 forever" if animations unsupported
-   ========================================================= */
-
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes theater-enter {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  body.home #archive .paper {
-    animation: theater-enter 640ms var(--ease-punk) both;
-  }
-
-  /* Stagger delays (extendable) */
-  body.home #archive .paper:nth-of-type(1) { animation-delay: 80ms; }
-  body.home #archive .paper:nth-of-type(2) { animation-delay: 200ms; }
-  body.home #archive .paper:nth-of-type(3) { animation-delay: 320ms; }
-  body.home #archive .paper:nth-of-type(4) { animation-delay: 440ms; }
-}
-
-/* =========================================================
-   INTERACTION: TACTILE CLICK (Depress Effect)
-   - Adds "weight" on press
-   ========================================================= */
-
-@media (hover: hover) and (pointer: fine) {
-  body.home #archive .paper:active,
-  body.home #archive .paper a:active {
-    transform: translateY(-1px) scale(0.995) !important;
-    transition-duration: 60ms;
-  }
-
-  body.home #archive .paper:active::after {
-    box-shadow:
-      0 12px 24px -6px rgba(0, 0, 0, 0.98),
-      0 0 0 1px rgba(217, 4, 41, 0.16) inset !important;
   }
 }
