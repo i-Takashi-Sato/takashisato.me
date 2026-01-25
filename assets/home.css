@@ -4,6 +4,7 @@
    - UX: Whole card clickable (CSS stretched link), PDF pill independent
    - Art: Subtractive focus (no red/white border), cold platinum edge
    - Fix: --z-panel = -1 to prevent text being covered
+   - FIX2: Whole-card click MUST remain whole-card (cascade-proof)
    ========================================================= */
 
 @font-face{
@@ -321,6 +322,10 @@ body.home #archive .paper-title a::before {
   z-index: var(--z-overlay);
   cursor: pointer;
   background: transparent;
+
+  /* FIX: some engines/cascades behave more predictably with these */
+  display: block;
+  pointer-events: auto;
 }
 
 /* Signal — Double Artery */
@@ -775,3 +780,23 @@ body.home #archive .paper:nth-of-type(2)::before {
     transform: translate(calc(38.2% + 28px), -61.8%) rotate(var(--k-rot));
   }
 }
+
+/* =========================================================
+   HARDENING PATCH (cascade-proof, no HTML changes)
+   - Prevent any later CSS from collapsing whole-card click
+   ========================================================= */
+
+body.home #archive .paper{ position: relative !important; }
+body.home #archive .paper .paper-title{ position: static !important; }
+body.home #archive .paper .paper-title a{ position: static !important; }
+
+/* membrane stays whole-card even if some rule tries to alter it */
+body.home #archive .paper .paper-title a::before{
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 20 !important;
+  display: block !important;
+  pointer-events: auto !important;
+}
+body.home #archive .paper .actions{ position: relative !important; z-index: 30 !important; }
+body.home #archive .paper .pill{ position: relative !important; z-index: 31 !important; pointer-events: auto !important; }
