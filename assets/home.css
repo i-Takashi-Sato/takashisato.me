@@ -812,3 +812,45 @@ body.home #archive .paper:nth-of-type(2)::before{
     transform: translate(calc(38.2% + 28px), -61.8%) rotate(var(--k-rot));
   }
 }
+
+/* =========================================================
+   ENTRANCE: "JO-HA-KYU" (Safe Stagger)
+   - Only runs when user allows motion
+   - No risk of "opacity:0 forever" if animations unsupported
+   ========================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes theater-enter {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  body.home #archive .paper {
+    animation: theater-enter 640ms var(--ease-punk) both;
+  }
+
+  /* Stagger delays (extendable) */
+  body.home #archive .paper:nth-of-type(1) { animation-delay: 80ms; }
+  body.home #archive .paper:nth-of-type(2) { animation-delay: 200ms; }
+  body.home #archive .paper:nth-of-type(3) { animation-delay: 320ms; }
+  body.home #archive .paper:nth-of-type(4) { animation-delay: 440ms; }
+}
+
+/* =========================================================
+   INTERACTION: TACTILE CLICK (Depress Effect)
+   - Adds "weight" on press
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+  body.home #archive .paper:active,
+  body.home #archive .paper a:active {
+    transform: translateY(-1px) scale(0.995) !important;
+    transition-duration: 60ms;
+  }
+
+  body.home #archive .paper:active::after {
+    box-shadow:
+      0 12px 24px -6px rgba(0, 0, 0, 0.98),
+      0 0 0 1px rgba(217, 4, 41, 0.16) inset !important;
+  }
+}
