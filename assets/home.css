@@ -1,6 +1,9 @@
 /* =========================================================
-   HOME — V138: THE CALCULATED CHAOS
-   Phi-grid cards + Jo-Ha-Kyu void kanji
+   HOME — V144: NOIR MONOLITH (COLD PLATINUM + WHOLE CARD CLICK)
+   - Phi-grid cards + Jo-Ha-Kyu void kanji
+   - UX: Whole card clickable (CSS stretched link), PDF pill independent
+   - Art: Subtractive focus (no red/white border), cold platinum edge
+   - Fix: --z-panel = -1 to prevent text being covered
    ========================================================= */
 
 @font-face{
@@ -40,6 +43,7 @@ body.home {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body.home ::selection { background: #FFF; color: #000; }
 
+/* Noise overlay (CSP-safe) */
 body.home::after {
   content: "";
   position: fixed;
@@ -118,9 +122,12 @@ body.home .section-label {
   padding-bottom: 20px;
 }
 
+/* =========================================================
+   ARCHIVE CARD — LAYER SYSTEM + WHOLE-CARD CLICK
+   ========================================================= */
+
 body.home #archive .paper {
   display: grid;
-
   grid-template-columns: 61.803% 38.197%;
   column-gap: clamp(24px, 6.18vw, 96px);
 
@@ -131,6 +138,14 @@ body.home #archive .paper {
     "keys   cta";
 
   position: relative;
+
+  /* Layer architecture (robust) */
+  --z-kanji:   -2;  /* kanji background */
+  --z-panel:   -1;  /* panel plate (MUST be behind text) */
+  --z-script:   1;  /* script-note */
+  --z-overlay: 20;  /* stretched-link membrane */
+  --z-cta:     30;  /* action button layer */
+
   margin-top: 100px;
   margin-bottom: 60px;
   padding: clamp(6rem, 10vw, 12rem) clamp(3.1rem, 6.18vw, 7.4rem);
@@ -143,15 +158,14 @@ body.home #archive .paper {
 
   z-index: 1;
   align-items: start;
-
   isolation: isolate;
 
-  /* Cinema Focus base: motion is only translate */
   transform: translateY(0);
   will-change: transform;
   transition: transform 0.22s var(--ease-punk);
 }
 
+/* Panel plate (behind content) */
 body.home #archive .paper::after {
   content: "";
   position: absolute;
@@ -159,139 +173,20 @@ body.home #archive .paper::after {
   background: var(--surface);
   border: 1px solid var(--line);
   pointer-events: none;
-  z-index: 0;
+  z-index: var(--z-panel);
 
   opacity: 1;
   filter: none;
 
-  /* Panel-only tightening + cinema dim controls (unified easing) */
   transition:
     background-color 0.22s var(--ease-punk),
-    border-color 0.22s var(--ease-punk),
-    box-shadow 0.22s var(--ease-punk),
-    opacity 0.22s var(--ease-punk),
-    filter 0.22s var(--ease-punk);
+    border-color     0.22s var(--ease-punk),
+    box-shadow       0.22s var(--ease-punk),
+    opacity          0.22s var(--ease-punk),
+    filter           0.22s var(--ease-punk);
 }
 
-/* =========================================================
-   HOVER: "CINEMA FOCUS" (Production Grade)
-   - Hovered card: Razor sharp, Arterial Red
-   - Others: Dimmed (Panel blur + Opacity drop; text stays crisp)
-   - Accessibility: Progressive Enhancement (:has) + Reduced Motion
-   ========================================================= */
-
-/* Kanji layer: keep static */
-body.home #archive .paper::before {
-  pointer-events: none;
-}
-
-/* 2. Hover State (Target) */
-@media (hover: hover) and (pointer: fine) {
-  body.home #archive .paper:hover {
-    transform: translateY(-2px);
-  }
-
-  body.home #archive .paper:hover::after {
-    background-color: rgba(5, 5, 7, 0.96);
-    border-color: var(--accent);
-    box-shadow:
-      2px 2px 0 var(--accent),
-      10px 14px 28px rgba(0,0,0,0.60);
-  }
-
-  body.home #archive .paper:hover .paper-title a {
-    color: rgba(255,255,255,0.98);
-    text-shadow: none;
-  }
-}
-
-/* 3. Focus State (Keyboard Target) */
-body.home #archive .paper:focus-within {
-  transform: translateY(-2px);
-  outline: 2px solid rgba(217, 4, 41, 0.35);
-  outline-offset: 3px;
-}
-body.home #archive .paper:focus-within::after {
-  background-color: rgba(5, 5, 7, 0.96);
-  border-color: var(--accent);
-  box-shadow:
-    2px 2px 0 var(--accent),
-    10px 14px 28px rgba(0,0,0,0.60);
-}
-
-/* 4. Cinema Focus Logic (:has support required) */
-@supports selector(:has(*)) {
-  @media (hover: hover) and (pointer: fine) {
-    body.home #archive:has(.paper:hover) .paper:not(:hover) {
-      transform: translateY(0);
-    }
-
-    /* Dim panel only (no text blur) */
-    body.home #archive:has(.paper:hover) .paper:not(:hover)::after {
-      opacity: 0.55;
-      filter: blur(0.8px) grayscale(100%) brightness(0.70);
-      box-shadow: none;
-      border-color: rgba(255,255,255,0.04);
-    }
-
-    /* Decorative script-note down */
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note {
-      opacity: 0.22;
-    }
-
-    /* Secondary text gently sinks (still readable) */
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions {
-      opacity: 0.55;
-    }
-  }
-
-  /* Keyboard Cinema Focus (same logic) */
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
-    opacity: 0.55;
-    filter: blur(0.8px) grayscale(100%) brightness(0.70);
-    box-shadow: none;
-    border-color: rgba(255,255,255,0.04);
-  }
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note {
-    opacity: 0.22;
-  }
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
-  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
-    opacity: 0.55;
-  }
-}
-
-/* Reduced Motion Override */
-@media (prefers-reduced-motion: reduce) {
-  body.home #archive .paper,
-  body.home #archive .paper::after {
-    transition: none;
-  }
-
-  @supports selector(:has(*)) {
-    body.home #archive:has(.paper:hover) .paper:not(:hover)::after,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
-      opacity: 1;
-      filter: none;
-      border-color: var(--line);
-    }
-
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
-    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
-    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
-      opacity: 1;
-    }
-  }
-}
-
+/* Optional base wrapper (if exists in HTML) */
 body.home #archive .card-base {
   position: absolute;
   inset: 0;
@@ -300,18 +195,17 @@ body.home #archive .card-base {
   z-index: 1;
 }
 
-/* --- Remove Roman numeral background (HOME only) --- */
-body.home #archive .work-bg-num {
-  display: none !important;
-}
+/* Remove Roman numeral background (HOME only) */
+body.home #archive .work-bg-num { display: none !important; }
+body.home #archive .paper:hover .work-bg-num { display: none !important; }
 
-body.home #archive .paper:hover .work-bg-num {
-  display: none !important;
-}
+/* =========================================================
+   SCRIPT-NOTE (decorative)
+   ========================================================= */
 
 body.home #archive .script-note {
   position: absolute;
-  z-index: 2;
+  z-index: var(--z-script);
   pointer-events: none;
 
   font-family: var(--font-script);
@@ -332,12 +226,7 @@ body.home #archive .script-note {
 
   opacity: 0.62;
   transition: transform 0.4s var(--ease-punk), opacity 0.3s ease;
-
   will-change: auto;
-}
-
-@media (hover:hover) and (pointer:fine) {
-  body.home #archive .paper { will-change: transform; }
 }
 
 body.home #archive .paper:hover .script-note,
@@ -396,30 +285,18 @@ body.home #archive .paper:nth-of-type(3) .script-note {
      0 0 0.18em rgba(255, 60, 70, 0.10);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.home #archive .script-note {
-    transition: none;
-    will-change: auto;
-  }
-  body.home #archive .paper:hover .script-note,
-  body.home #archive .paper:focus-within .script-note {
-    --scale: 1;
-    opacity: 0.62;
-  }
-}
+/* =========================================================
+   TYPOGRAPHY & STRUCTURE
+   ========================================================= */
 
 body.home #archive .paper-title {
   grid-area: title;
-  position: relative;
-  z-index: 10;
+  /* IMPORTANT: keep static so overlay can reach the whole card */
+  position: static;
   margin: 0;
 }
 
-/* =========================================================
-   TYPOGRAPHY & STRUCTURE: SOTD-GRADE TUNING (Final)
-   ========================================================= */
-
-/* 1) Title */
+/* Title */
 body.home #archive .paper-title a {
   font-family: var(--font-sans);
   font-size: clamp(2.8rem, 5.5vw, 6rem);
@@ -436,7 +313,17 @@ body.home #archive .paper-title a {
   max-width: 95%;
 }
 
-/* 2) Signal — Double Artery */
+/* Whole-card click membrane (CSS only) */
+body.home #archive .paper-title a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-overlay);
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Signal — Double Artery */
 body.home #archive .paper-signal {
   grid-area: quote;
   justify-self: start;
@@ -464,11 +351,12 @@ body.home #archive .paper-signal {
   background-position: 0 0;
 
   letter-spacing: -0.01em;
-  position: relative;
-  z-index: 10;
+
+  /* NOTE: keep clicks going to overlay (whole card click) */
+  pointer-events: none;
 }
 
-/* 3) Keywords */
+/* Keywords */
 body.home #archive .k {
   grid-area: keys;
   align-self: end;
@@ -489,8 +377,9 @@ body.home #archive .k {
   row-gap: 0.5em;
 
   text-align: left;
-  position: relative;
-  z-index: 10;
+
+  /* NOTE: keep clicks going to overlay (whole card click) */
+  pointer-events: none;
 }
 
 body.home #archive .k span {
@@ -500,20 +389,18 @@ body.home #archive .k span {
   display: inline-block;
 }
 
+/* Actions */
 body.home #archive .actions {
   grid-area: cta;
   align-self: end;
   justify-self: start;
+
   position: relative;
-  z-index: 10;
+  z-index: var(--z-cta);
 }
 
 /* =========================================================
-   COMPONENT: THE PILL (Constructivist Label — Absolute Final)
-   - Zero layout shift (Reserved arrow lane via clamp)
-   - AA-safe contrast (White on Arterial Red)
-   - Platinum stamp shadow
-   - Micro-typography stabilization (Weight 700 for 11px safety)
+   PILL (PDF) — Independent CTA
    ========================================================= */
 
 body.home #archive .pill {
@@ -535,8 +422,10 @@ body.home #archive .pill {
   text-decoration: none;
 
   position: relative;
-  will-change: transform, background-color, box-shadow;
+  z-index: calc(var(--z-cta) + 1);
+  pointer-events: auto;
 
+  will-change: transform, background-color, box-shadow;
   transition:
     background-color 0.2s var(--ease-punk),
     border-color     0.2s var(--ease-punk),
@@ -578,52 +467,128 @@ body.home #archive .paper:focus-within .pill::after {
   transform: translateX(0);
 }
 
-@media (max-width: 1024px) {
-  body.home #archive .paper {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
-    grid-template-areas:
-      "title"
-      "quote"
-      "keys"
-      "cta";
-    gap: 40px;
+/* =========================================================
+   HOVER: "CINEMA FOCUS" (Cold Platinum Edition)
+   ========================================================= */
 
-    padding: 60px 24px;
-    transform: none !important;
-    margin-left: 0;
-    width: auto;
+@media (hover: hover) and (pointer: fine) {
+  body.home #archive .paper:hover {
+    transform: translateY(-4px);
+    z-index: 100;
+    cursor: pointer;
   }
 
-  .vertical-axis { display: none; }
+  body.home #archive .paper:hover::after {
+    background-color: rgba(0, 0, 0, 0.98);
 
+    /* Cold Platinum (anti white-glare, no red/white cheapness) */
+    border-color: rgba(150, 162, 186, 0.18);
+
+    box-shadow:
+      0 18px 60px -14px rgba(0, 0, 0, 0.95),
+      0 0 0 1px rgba(150, 162, 186, 0.045) inset;
+
+    filter: none;
+    opacity: 1;
+  }
+
+  body.home #archive .paper:hover .paper-title a {
+    color: rgba(255,255,255,0.98);
+    text-shadow: none;
+  }
+}
+
+/* Focus (Keyboard) */
+body.home #archive .paper:focus-within {
+  transform: translateY(-4px);
+  outline: 1px solid rgba(217, 4, 41, 0.65);
+  outline-offset: 4px;
+}
+body.home #archive .paper:focus-within::after {
+  background-color: rgba(0, 0, 0, 0.98);
+  border-color: rgba(150, 162, 186, 0.18);
+  box-shadow:
+    0 18px 60px -14px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(150, 162, 186, 0.045) inset;
+}
+
+/* Cinema Focus: dim others (progressive enhancement) */
+@supports selector(:has(*)) {
+  @media (hover: hover) and (pointer: fine) {
+    body.home #archive:has(.paper:hover) .paper:not(:hover) {
+      transform: translateY(0);
+    }
+
+    body.home #archive:has(.paper:hover) .paper:not(:hover)::after {
+      opacity: 0.55;
+      filter: blur(0.8px) grayscale(100%) brightness(0.70);
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.04);
+    }
+
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note { opacity: 0.22; }
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions {
+      opacity: 0.55;
+    }
+  }
+
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
+    opacity: 0.55;
+    filter: blur(0.8px) grayscale(100%) brightness(0.70);
+    box-shadow: none;
+    border-color: rgba(255,255,255,0.04);
+  }
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note { opacity: 0.22; }
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
+  body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
+    opacity: 0.55;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  body.home #archive .paper,
+  body.home #archive .paper::after,
+  body.home #archive .pill,
+  body.home #archive .pill::after,
   body.home #archive .script-note {
-    font-size: clamp(6rem, 25vw, 12rem) !important;
-    opacity: 0.50;
+    transition: none;
     will-change: auto;
   }
 
-  body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
-  body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
-  body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
-
-  body.home #archive .paper-signal {
-    margin-top: 0;
-    padding-left: 20px;
-    background-size: 2px 100%;
-    background-position: 0 0;
+  body.home #archive .paper:hover .script-note,
+  body.home #archive .paper:focus-within .script-note {
+    --scale: 1;
+    opacity: 0.62;
   }
 
-  body.home #archive .k {
-    flex-direction: column;
-    row-gap: 0.5em;
-    column-gap: 0;
-  }
+  @supports selector(:has(*)) {
+    body.home #archive:has(.paper:hover) .paper:not(:hover)::after,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within)::after {
+      opacity: 1;
+      filter: none;
+      border-color: var(--line);
+    }
 
-  body.home #archive .actions {
-    justify-self: start;
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .script-note,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .script-note,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .paper-signal,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .k,
+    body.home #archive:has(.paper:hover) .paper:not(:hover) .actions,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .paper-signal,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .k,
+    body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions {
+      opacity: 1;
+    }
   }
 }
+
+/* =========================================================
+   NAV (as-is, kept)
+   ========================================================= */
 
 body.home .nav .nav-papers {
   position: relative;
@@ -673,6 +638,10 @@ body.home .nav .nav-papers:focus-visible::after {
 body.home .top .nav a::after { content: none !important; }
 body.home .top .nav a { margin-left: 0 !important; }
 
+/* =========================================================
+   JO-HA-KYU KANJI (Void Kanji) — behind panel
+   ========================================================= */
+
 body.home #archive .paper {
   --kanji: "";
   --k-side: left;
@@ -685,8 +654,6 @@ body.home #archive .paper {
 
   --k-gloss: rgba(255,255,255,0.05);
   --k-stone: rgba(0,0,0,0.60);
-
-  isolation: isolate;
 }
 
 body.home #archive .paper::before {
@@ -711,7 +678,7 @@ body.home #archive .paper::before {
   filter: blur(0.12px);
 
   pointer-events: none;
-  z-index: -1;
+  z-index: var(--z-kanji);
 }
 
 body.home #archive .paper:nth-of-type(1) {
@@ -749,17 +716,61 @@ body.home #archive .paper:nth-of-type(2)::before {
   transform: translate(calc(61.8% + clamp(120px, 14vw, 280px)), -61.8%) rotate(var(--k-rot));
 }
 
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
 @media (max-width: 1024px) {
   body.home #archive .paper {
-    --k-size: clamp(14rem, 46vw, 26rem);
-    --k-opacity: 0.10;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "title"
+      "quote"
+      "keys"
+      "cta";
+    gap: 40px;
+
+    padding: 60px 24px;
+    transform: none !important;
+    margin-left: 0;
+    width: auto;
   }
+
+  .vertical-axis { display: none; }
+
+  body.home #archive .script-note {
+    font-size: clamp(6rem, 25vw, 12rem) !important;
+    opacity: 0.50;
+    will-change: auto;
+  }
+
+  body.home #archive .paper:nth-of-type(1) .script-note { top: 20%; --tx: -5vw; --ty: -40%; --rot: -10deg; }
+  body.home #archive .paper:nth-of-type(2) .script-note { top: 50%; --tx:  5vw; --ty: -40%; --rot:   5deg; }
+  body.home #archive .paper:nth-of-type(3) .script-note { top: 60%; --tx: -2vw; --ty: -30%; --rot: -15deg; }
+
+  body.home #archive .paper-signal {
+    margin-top: 0;
+    padding-left: 20px;
+    background-size: 2px 100%;
+    background-position: 0 0;
+  }
+
+  body.home #archive .k {
+    flex-direction: column;
+    row-gap: 0.5em;
+    column-gap: 0;
+  }
+
+  body.home #archive .actions { justify-self: start; }
+
+  /* Kanji scale */
+  body.home #archive .paper { --k-size: clamp(14rem, 46vw, 26rem); --k-opacity: 0.10; }
 
   body.home #archive .paper:nth-of-type(1)::before,
   body.home #archive .paper:nth-of-type(3)::before {
     transform: translate(calc(-38.2% - 28px), -61.8%) rotate(var(--k-rot));
   }
-
   body.home #archive .paper:nth-of-type(2)::before {
     transform: translate(calc(38.2% + 28px), -61.8%) rotate(var(--k-rot));
   }
