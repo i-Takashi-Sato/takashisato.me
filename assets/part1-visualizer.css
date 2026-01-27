@@ -1,6 +1,6 @@
 .visualizer-wrapper{
   width:100%;
-  margin:5rem 0;
+  margin:0;
   position:relative;
   border:1px solid var(--border-sharp, rgba(255,255,255,0.12));
   border-radius:0;
@@ -8,20 +8,8 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
-  overflow: visible;
-  z-index:auto;
-}
-
-.visualizer-wrapper.viz-bleed{
-  width:100vw;
-  left:50%;
-  margin-left:-50vw;
-  margin-right:0;
-}
-
-.visualizer-wrapper.viz-bleed .altrion-viz{
-  max-width:1600px;
-  margin:0 auto;
+  overflow:hidden;
+  z-index:0;
 }
 
 .visualizer-wrapper::after{
@@ -135,11 +123,6 @@
 }
 
 @media (max-width:1100px){
-  .visualizer-wrapper.viz-bleed{
-    width:100%;
-    left:auto;
-    margin-left:0;
-  }
   .visualizer-wrapper .altrion-viz .altrion-grid{
     grid-template-columns:1fr;
     min-height:auto;
@@ -343,6 +326,7 @@
 }
 
 .visualizer-wrapper .altrion-viz .comboList{
+  display:none;
   position:absolute;
   left:0;
   right:0;
@@ -354,6 +338,10 @@
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 18px 44px -20px rgba(0,0,0,0.75);
   padding:6px;
+}
+
+.visualizer-wrapper .altrion-viz .comboBtn[aria-expanded="true"] + .comboList{
+  display:block;
 }
 
 .visualizer-wrapper .altrion-viz .comboOpt{
