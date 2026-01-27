@@ -12,14 +12,10 @@
 
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
-  <!-- Base -->
   <link rel="stylesheet" href="/assets/site.css" />
-  <!-- Part I visualizer skin (scoped under .altrion-viz) -->
   <link rel="stylesheet" href="/assets/part1-visualizer.css" />
-  <!-- Part I page-only -->
   <link rel="stylesheet" href="/assets/part1.css" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
@@ -125,9 +121,6 @@
           Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
         </p>
 
-        <!-- VISUALIZER (embedded, interactive)
-             NOTE: CSS MUST be scoped under .altrion-viz to avoid collisions with site.css/part1.css.
-             The outer wrapper guarantees a height so canvas does not collapse. -->
         <div class="visualizer-wrapper">
           <section class="altrion-viz" aria-label="ALTRION Gate Visualizer (Part I)">
             <div class="altrion-aura" aria-hidden="true"></div>
@@ -151,7 +144,6 @@
 
             <div class="altrion-stage" role="region" aria-label="ALTRION simulation">
               <div class="altrion-grid">
-                <!-- LEFT: VISUAL -->
                 <div class="altrion-vizpane">
                   <canvas id="scene" aria-label="Gate pipeline + phase plot"></canvas>
                   <div class="overlay">
@@ -170,7 +162,6 @@
                   </div>
                 </div>
 
-                <!-- RIGHT: CONTROLS / GATES / ADR -->
                 <aside class="altrion-panel" aria-label="Controls and gate specs">
                   <div class="block">
                     <div class="hd">
@@ -183,28 +174,12 @@
                           <label>
                             Institutional condition
                             <div class="combo" id="presetCombo" data-value="steady">
-                              <button
-                                class="comboBtn"
-                                id="presetBtn"
-                                type="button"
-                                role="combobox"
-                                aria-haspopup="listbox"
-                                aria-expanded="false"
-                                aria-controls="presetList"
-                                aria-label="Institutional condition"
-                              >
+                              <button class="comboBtn" id="presetBtn" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="presetList" aria-label="Institutional condition">
                                 <span class="comboLabel" id="presetLabelText">Steady (moderate workload)</span>
                                 <span class="comboChevron" aria-hidden="true"></span>
                               </button>
 
-                              <div
-                                class="comboList"
-                                id="presetList"
-                                role="listbox"
-                                tabindex="-1"
-                                aria-label="Institutional condition options"
-                                aria-activedescendant=""
-                              >
+                              <div class="comboList" id="presetList" role="listbox" tabindex="-1" aria-label="Institutional condition options" aria-activedescendant="">
                                 <button class="comboOpt" id="presetOpt0" type="button" role="option" data-value="steady" aria-selected="true">
                                   Steady (moderate workload)
                                 </button>
@@ -381,6 +356,196 @@
           <li>Provides a governance-first architecture aligned with institutional reality.</li>
         </ul>
 
+        <h2>1. Introduction</h2>
+        <p>
+          The integration of Artificial Intelligence (AI) into organizational decision-making has transitioned from experimental piloting to authoritative deployment. However, a fundamental disconnect remains between the technical capabilities of models and the human capacity to govern them. Existing governance frameworks remain predominantly model-centric, offering limited guidance for the sociotechnical "last mile" where human operators must interpret and act upon AI-generated recommendations.
+        </p>
+        <p>
+          Empirical studies demonstrate that human presence alone does not guarantee oversight. Paradoxically, humans often defer to automated recommendations precisely when deliberation is most needed [1, 4]. This creates a sociotechnical implementation gap: organizations possess sophisticated models but lack the structured workflows to operationalize critical thinking.
+        </p>
+        <p>
+          To address this, we propose ALTRION, a governance architecture designed to structure the human evaluation of AI-supported decisions. ALTRION acts as a "cognitive firewall," forcing decision-makers to engage in specific verification tasks before acting on an AI recommendation. We propose ALTRION not only as a model, but as a sequential oversight pipeline wherein each decision candidate must traverse four rigorously formalized gates, enforcing distinct verification criteria before human arbitration.
+        </p>
+        <h3>Contributions</h3>
+        <ul>
+          <li><strong>Formalized Architecture:</strong> We provide a formalized, four-gate workflow defined by explicit logic and configurable hyperparameters.</li>
+          <li><strong>Grounded Simulation:</strong> We evaluate the architecture using a probabilistic simulation that accounts for "compliance decay" (human fatigue), demonstrating robustness beyond idealized settings.</li>
+          <li><strong>Theoretical Formalization:</strong> We propose a "Governance Grammar" and a principal-agent cost model that define the conditions for institutional equilibrium.</li>
+        </ul>
+
+        <h2>2. Related Work</h2>
+        <p>
+          Our work bridges the gap between algorithmic auditing and human-computer interaction (HCI), addressing limitations in existing governance approaches.
+        </p>
+        <h3>2.1 Model-Centric Auditing vs. Workflow Governance</h3>
+        <p>
+          Significant progress has been made in model-centric auditing frameworks, such as internal auditing protocols and impact assessments. However, these approaches primarily focus on the artifacts (models) and their training data. As noted by Selbst et al., "fairness" is often abstracted away from the sociotechnical context of deployment. ALTRION extends this by shifting the locus of governance from the model to the workflow, specifically targeting the "last mile" of decision-making where model outputs interact with human discretion.
+        </p>
+        <h3>2.2 The Limits of "Human-in-the-Loop"</h3>
+        <p>
+          While "human-in-the-loop" (HITL) is frequently cited as a safeguard, empirical HCI research suggests that unguided human oversight is fragile. Parasuraman and Manzey and Buçinca et al. have demonstrated that humans are prone to automation bias and cognitive heuristics that lead to over-reliance. Green argues that policy mandates for oversight often fail because they do not account for the institutional pressures that discourage intervention. ALTRION operationalizes these critiques by introducing structured friction—architectural constraints designed to disrupt ritualized acceptance.
+        </p>
+        <h3>2.3 Gap Analysis</h3>
+        <p>
+          Unlike post-hoc auditing (which detects errors after damage) or standard HITL (which relies on vague "oversight" mandates), ALTRION contributes a formalized, gate-based architecture that enforces cognitive engagement before a decision is finalized.
+        </p>
+
+        <h2>3. Methodology</h2>
+        <p>This research follows a Design Science Research (DSR) approach.</p>
+        <ol>
+          <li><strong>Problem Explication:</strong> We identified failure modes (passive deference, ritualism) through a review of FAccT/CHI literature [2, 4, 10].</li>
+          <li><strong>Theoretical Synthesis:</strong> We integrated constructs from cognitive psychology (automation bias [1]) and institutional economics.</li>
+          <li><strong>Architectural Design:</strong> We structured these requirements into auditable logic gates.</li>
+          <li><strong>Analytical Evaluation:</strong> We conducted a simulation grounded in empirical parameters (See Section 6).</li>
+        </ol>
+
+        <h2>4. Conceptual Foundations</h2>
+        <p>ALTRION operationalizes established insights into four pillars:</p>
+        <ul>
+          <li><strong>Cognitive Clarity:</strong> Distinguishing raw data from inferential interpretation.</li>
+          <li><strong>Dynamic Context Awareness:</strong> Verifying the temporal freshness of model assumptions.</li>
+          <li><strong>Balanced Valuation:</strong> Safeguarding qualitative values (equity, safety) against single-metric optimization.</li>
+          <li><strong>Institutional Awareness:</strong> Mitigating affective amplification (urgency cues) inherent in AI presentation.</li>
+        </ul>
+
+        <h2>5. The ALTRION Architecture</h2>
+        <p>
+          We propose a sequential oversight pipeline where a decision candidate (D) must traverse four formalized gates (G1 to G4). While Gate 1 acts as a hard filter (immediate rejection), Gates 2 and 3 operate as flagging mechanisms that mandate specific handling in Gate 4.
+        </p>
+
+        <h3>5.1 Gate 1: Baseline Constraints</h3>
+        <ul>
+          <li><strong>Logic:</strong> Let C be the set of non-negotiable constraints. If D intersects C, then REJECT.</li>
+        </ul>
+
+        <h3>5.2 Gate 2: Optimization Balance and Value Tension Detection</h3>
+        <p>
+          Where Gate 1 enforces hard constraints (e.g., legal and safety thresholds), Gate 2 is designed to surface hidden value conflicts that arise from optimization pressure. Rather than assuming that all relevant values can be fully encoded ex ante into a single objective function, Gate 2 operates as a set of diagnostic checks that probe for misalignment between performance gains and suppressed impacts.
+        </p>
+        <p>Concretely, Gate 2 combines three classes of signals:</p>
+        <ol>
+          <li><strong>Proxy fairness and disparity metrics:</strong> We compute outcome disparities across salient groups using established fairness indicators.</li>
+          <li><strong>Sensitivity to sensitive attributes:</strong> We test the robustness of recommendations with respect to perturbations in sensitive or proxy attributes.</li>
+          <li><strong>Latent value proxies:</strong> We monitor specific "shadow metrics" that reflect institutional strain but are not optimized directly.</li>
+        </ol>
+        <p>
+          <strong>Formal Logic:</strong> Let <em>M</em> be the primary optimization metric and P = {p1, p2, ..., pn} be a set of monitored proxy metrics. Let <em>ΔM</em> be the marginal gain in the primary metric provided by the model. Let <em>Δpi</em> be the degradation in proxy metric i.
+        </p>
+        <p>
+          <strong>Criterion:</strong> The decision candidate D is flagged for VALUE CONFLICT if: ∃ i ∈ P : (ΔM > 0) ∧ (Δpi < -θi), where θi is the specific tolerance threshold for proxy i.
+        </p>
+
+        <h3>5.3 Gate 3: Temporal Context Reliability</h3>
+        <ul>
+          <li><strong>Logic:</strong> Let <em>t_data</em> be the input timestamp and <em>t_current</em> be the decision time.</li>
+          <li><strong>Criterion:</strong> If (t_current − t_data) > τ, flag Temporal Reliability Warning.</li>
+        </ul>
+
+        <h3>5.4 Gate 4: Human Arbitration</h3>
+        <ul>
+          <li><strong>Logic:</strong> Decision = Human(D, Warnings | R).</li>
+          <li><strong>Institutional Safeguard:</strong> To prevent cognitive overload, this gate employs tiered arbitration. Routine decisions require affirmation; flagged decisions require a written rationale R, recorded in the ALTRION Decision Record (ADR).</li>
+        </ul>
+
+        <h3>5.5 Illustrative Application: Public Benefits</h3>
+        <p>
+          Consider a casework scenario in public benefits administration. An AI system flags an applicant for denial based on an income discrepancy.
+        </p>
+        <ul>
+          <li>G2 flags that the model prioritizes "fraud reduction" over "safety net access."</li>
+          <li>G3 flags that the income data is 6 months old.</li>
+          <li>G4 forces the caseworker to review these flags. Finding a recent job loss event, the caseworker overrides the denial. The ADR records the justification, converting a potential "rubber-stamp" error into a deliberate intervention.</li>
+        </ul>
+
+        <h2>6. Evaluation: Simulation with Institutional Dynamics</h2>
+        <p>
+          Evaluation must account for human non-compliance. We conducted a Monte Carlo simulation (N=10,000) incorporating variables for Compliance Decay and Gaming.
+        </p>
+
+        <h3>6.1 Simulation Formalism</h3>
+        <p>
+          We model the probability of intervention (P_int) as a function of workload (W) and institutional alignment (A). Specifically, we define the intervention probability as:
+          <br>
+          <em>P_int = max(0, A · (1 - γW'))</em>
+        </p>
+        <p>
+          where A is the institutional alignment score, W represents workload, and γ represents the fatigue coefficient.
+        </p>
+
+        <h3>6.2 Results and Phase Transition</h3>
+        <p>
+          In our simulation, the baseline Human-in-the-Loop (HITL) regime yielded a 25% error rate, whereas ALTRION with realistic decay (20% non-compliance) reduced the error rate to below 5%.
+        </p>
+        <p>
+          <strong>Phase Transition:</strong> Our analysis reveals the emergence of two distinct behavioral regimes. In the "Region of Productive Friction" (Non-compliance < 40%), errors remain significantly below baseline. However, beyond this critical threshold, the system exhibits a <strong>Ritualization Collapse</strong>, where Gate 4 ceases to provide epistemic correction.
+        </p>
+
+        <h3>6.3 Sensitivity Analysis on Compliance Decay</h3>
+        <p>
+          Even under high-fatigue conditions (γ=0.7), ALTRION maintains an error rate significantly below the unguided baseline as long as non-compliance does not exceed the adjusted critical threshold. This confirms that the architecture's safety benefits are not an artifact of specific parameter tuning but a property of the staged gate design.
+        </p>
+
+        <h2>7. Institutional Analysis</h2>
+        <h3>7.1 Epistemic Rationale for an External Governance Layer</h3>
+        <p>
+          Modern AI systems do not exert influence solely through their predictive capabilities but through the institutional contexts in which they are embedded. ALTRION is not intended to shift all epistemic and moral responsibility onto individual frontline workers. The governance layer assigns explicit obligations to institutional actors who configure gate thresholds and review patterns. Gate-4 decisions are inputs into an institutional learning process rather than isolated failures.
+        </p>
+        <h3>7.2 NIST AI RMF Alignment</h3>
+        <p>
+          ALTRION operationalizes the NIST AI Risk Management Framework (RMF): Map (Gate 2), Measure (Gate 3), and Manage (Gate 4). This alignment ensures practical applicability in regulated industries.
+        </p>
+        <h3>7.3 Non-Linear Cost-Utility Model</h3>
+        <p>
+          We model the utility (U) of ALTRION in a Principal-Agent setting. Since liability costs for critical AI errors (e.g., class-action lawsuits) grow exponentially, the linear labor cost of ALTRION is economically rational for high-stakes domains.
+        </p>
+
+        <h2>8. Theoretical Contribution: Toward a Formal Notation</h2>
+        <p>
+          We propose ALTRION as a Governance Grammar (G)—a formal notation for representing oversight traces. This notation allows auditors to systematically distinguish between substantive and ritualized oversight.
+        </p>
+        <pre><code>G = ⟨D, W, R, ⊢⟩
+Valid Trace: ⟨D, W_bias, R_explained⟩ ⊢ ValidOverride
+Invalid Trace: ⟨D, W_bias, ∅⟩ ⊢ InvalidAcceptance</code></pre>
+        <p>
+          Here, ValidOverride occurs when biased warnings are accompanied by a substantive rationale, whereas InvalidAcceptance occurs when biased warnings are present but no rationale is recorded. This grammar allows organizations to parse decision logs programmatically, automatically detecting "ritualized" governance.
+        </p>
+
+        <h2>9. Limitations</h2>
+        <p>
+          Our analysis relies on simulation parameters adapted from existing literature. In real institutions, cognitive fatigue and burnout can introduce non-linear effects not fully captured here. Additionally, we abstract away from strategic gaming where workers might provide template-like rationales to satisfy Gate 4 without genuine review. Future work must explore these behaviors empirically.
+        </p>
+
+        <h2>10. Conclusion</h2>
+        <p>
+          ALTRION advances AI governance by translating diffuse normative principles into a procedurally enforceable, auditable workflow syntax. By modeling compliance decay and formalizing oversight as a grammar, we provide the tools to distinguish between genuine human agency and performative ritualism.
+        </p>
+        <p>
+          Ultimately, regulating AI requires regulating the workflows that deploy it. ALTRION is designed not to control AI itself, but to prevent the institutional and cognitive pathways through which AI-induced failures propagate.
+        </p>
+
+        <h3>Ethics Statement</h3>
+        <p>
+          This research proposes a governance architecture designed to protect human agency. However, any system introducing logging (ADR) carries the risk of being repurposed for worker surveillance. To mitigate this, we emphasize that the primary function of ALTRION is to audit institutional processes, not to penalize individual operators.
+        </p>
+
+        <h2>References</h2>
+        <ul>
+          <li>[1] Parasuraman, R. and Manzey, D.H. 2010. Complacency and Bias in Human Interaction with Automation. Human Factors.</li>
+          <li>[2] Buçinca, Z., et al. 2021. To Trust or to Think: Cognitive Forcing Functions Can Reduce Overreliance on AI. CSCW.</li>
+          <li>[3] Almada, M. 2019. Human intervention in automated decision-making. ICAIL '19.</li>
+          <li>[4] Selbst, A.D., et al. 2019. Fairness and Abstraction in Sociotechnical Systems. FAccT '19.</li>
+          <li>[5] Raji, I.D., et al. 2020. Closing the AI Accountability Gap. FAccT '20.</li>
+          <li>[6] Ananny, M. and Crawford, K. 2018. Seeing without knowing. New Media & Society.</li>
+          <li>[7] Barocas, S. and Selbst, A.D. 2016. Big Data’s Disparate Impact. California Law Review.</li>
+          <li>[8] Stumpf, S., et al. 2009. Interacting meaningfully with machine learning systems. IJHCS.</li>
+          <li>[9] Metcalf, J., et al. 2019. Owning Ethics. Social Research.</li>
+          <li>[10] Elish, M.C. 2019. Moral Crumple Zones. Engaging Science, Technology, and Society.</li>
+          <li>[11] Selbst, A.D. 2020. Negligence and AI’s Human Users. Boston University Law Review.</li>
+          <li>[12] Phansalkar, S., et al. 2010. A review of human factors principles for medication safety alerts. JAMIA.</li>
+          <li>[13] Green, B. 2022. The flaws of policies requiring human oversight of government algorithms. CLSR.</li>
+          <li>[14] Taeihagh, A. 2023. Governance of generative AI. Policy and Society.</li>
+        </ul>
+
         <div class="actions">
           <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
             Open PDF<span class="sr-only"> (opens in new tab)</span>
@@ -441,7 +606,6 @@
     </div>
   </footer>
 
-  <!-- Visualizer JS must load before scroll.js -->
   <script defer src="/assets/part1-visualizer.js"></script>
   <script defer src="/assets/scroll.js"></script>
 </body>
