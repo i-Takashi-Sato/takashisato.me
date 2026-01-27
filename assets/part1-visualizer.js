@@ -1,871 +1,876 @@
 (() => {
   "use strict";
 
-  const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const el = (id) => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
 
-  const toggleEl   = el("toggle");
-  const resetEl    = el("reset");
-  const gammaEl    = el("gamma");
-  const workEl     = el("work");
-  const frictionEl = el("friction");
+  const el = {
+    canvas: $("scene"),
+    veil: $("veil"),
+    banner: $("banner"),
+    bannerDesc: $("bannerDesc"),
+    bannerState: $("bannerState"),
+    bannerReadout: $("bannerReadout"),
+    dotSys: $("dotSys"),
+    pillSys: $("pillSys"),
+    pillCrit: $("pillCrit"),
+    pillMode: $("pillMode"),
+    dotReg: $("dotReg"),
 
-  const dotSys     = el("dotSys");
-  const pillSys    = el("pillSys");
-  const pillMode   = el("pillMode");
-  const pillCrit   = el("pillCrit");
+    presetCombo: $("presetCombo"),
+    presetBtn: $("presetBtn"),
+    presetList: $("presetList"),
+    presetLabelText: $("presetLabelText"),
+    presetOpt0: $("presetOpt0"),
+    presetOpt1: $("presetOpt1"),
+    presetOpt2: $("presetOpt2"),
 
-  const banner      = el("banner");
-  const dotReg      = el("dotReg");
-  const bannerState = el("bannerState");
-  const bannerDesc  = el("bannerDesc");
-  const bannerRead  = el("bannerReadout");
-  const veil        = el("veil");
-  const telMeta     = el("telMeta");
+    toggle: $("toggle"),
+    reset: $("reset"),
+    gamma: $("gamma"),
+    work: $("work"),
+    friction: $("friction"),
 
-  // Gate UI
-  const g1Dot = el("g1Dot"), g2Dot = el("g2Dot"), g3Dot = el("g3Dot"), g4Dot = el("g4Dot");
-  const g1State = el("g1State"), g2State = el("g2State"), g3State = el("g3State"), g4State = el("g4State");
-  const g1Badge = el("g1Badge"), g2Badge = el("g2Badge"), g3Badge = el("g3Badge"), g4Badge = el("g4Badge");
-  const g1Rate = el("g1Rate"), g2Rate = el("g2Rate"), g3Rate = el("g3Rate"), g4Req = el("g4Req");
+    telMeta: $("telMeta"),
 
-  // Live case + ADR
-  const caseIdEl   = el("caseId");
-  const cDeltaM    = el("cDeltaM");
-  const cDeltaP    = el("cDeltaP");
-  const cAge       = el("cAge");
-  const cDecision  = el("cDecision");
-  const adrJsonEl  = el("adrJson");
-  const copyAdr    = el("copyAdr");
-  const newCaseBtn = el("newCase");
+    g1Dot: $("g1Dot"),
+    g1State: $("g1State"),
+    g1Rate: $("g1Rate"),
+    g1Badge: $("g1Badge"),
 
-  // Canvas
-  const canvas = el("scene");
-  const ctx = canvas.getContext("2d", { alpha:true, desynchronized:true });
+    g2Dot: $("g2Dot"),
+    g2State: $("g2State"),
+    g2Rate: $("g2Rate"),
+    g2Badge: $("g2Badge"),
 
-  /* =========================================================
-     Custom Combobox: preset
-     - Keyboard: ↑↓ / Enter / Esc
-     - Popover: 0.12s expand (CSS transition)
-     ========================================================= */
-  const presetCombo = el("presetCombo");
-  const presetBtn   = el("presetBtn");
-  const presetLabelText = el("presetLabelText");
-  const presetList  = el("presetList");
-  const presetOpts  = Array.from(presetCombo.querySelectorAll(".comboOpt"));
+    g3Dot: $("g3Dot"),
+    g3State: $("g3State"),
+    g3Rate: $("g3Rate"),
+    g3Badge: $("g3Badge"),
 
-  let presetOpen = false;
-  let presetActiveIndex = Math.max(0, presetOpts.findIndex(o => o.getAttribute("aria-selected") === "true"));
+    g4Dot: $("g4Dot"),
+    g4State: $("g4State"),
+    g4Req: $("g4Req"),
+    g4Badge: $("g4Badge"),
 
-  function getPresetValue(){
-    return presetCombo.getAttribute("data-value") || "steady";
+    caseId: $("caseId"),
+    cDeltaM: $("cDeltaM"),
+    cDeltaP: $("cDeltaP"),
+    cAge: $("cAge"),
+    cDecision: $("cDecision"),
+
+    adrJson: $("adrJson"),
+    copyAdr: $("copyAdr"),
+    newCase: $("newCase"),
+  };
+
+  if (!el.canvas) return;
+
+  const ctx = el.canvas.getContext("2d", { alpha: true, desynchronized: true });
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const smoothstep = (t) => t * t * (3 - 2 * t);
+  const now = () => performance.now();
+
+  const fmtPct = (x) => `${Math.round(x * 100)}%`;
+  const fmtNum = (x, d = 0) => `${x.toFixed(d)}`;
+  const rand = (a = 0, b = 1) => a + Math.random() * (b - a);
+
+  const cssVar = (name, fallback) => {
+    const v = getComputedStyle(el.canvas.closest(".altrion-viz") || document.documentElement).getPropertyValue(name).trim();
+    return v || fallback;
+  };
+
+  const palette = () => ({
+    ink: cssVar("--c-ink", "rgba(212,212,212,.88)"),
+    sub: cssVar("--c-sub", "rgba(212,212,212,.52)"),
+    faint: cssVar("--c-faint", "rgba(212,212,212,.26)"),
+    warn: cssVar("--c-warn", "rgba(255,209,139,.82)"),
+    rust: cssVar("--c-rust-active", "rgba(138,44,44,.72)"),
+    line: cssVar("--line", "rgba(255,255,255,.10)"),
+    line2: cssVar("--line2", "rgba(255,255,255,.06)"),
+  });
+
+  function setDot(dotEl, mode) {
+    if (!dotEl) return;
+    dotEl.classList.remove("warn", "danger");
+    if (mode === "warn") dotEl.classList.add("warn");
+    if (mode === "danger") dotEl.classList.add("danger");
   }
 
-  function syncPresetActiveVisual(){
-    presetOpts.forEach((o, i) => o.classList.toggle("is-active", i === presetActiveIndex));
-    const act = presetOpts[presetActiveIndex];
-    if (act) {
-      presetList.setAttribute("aria-activedescendant", act.id || "");
-      if (presetOpen) act.scrollIntoView({ block: "nearest" });
+  function setBadgeKind(badgeEl, kind) {
+    if (!badgeEl) return;
+    badgeEl.classList.remove("ok", "warn", "danger");
+    if (kind) badgeEl.classList.add(kind);
+  }
+
+  function setBanner(mode, stateText, descText) {
+    if (!el.banner) return;
+    el.banner.classList.remove("ok", "warn", "collapse");
+    el.banner.classList.add(mode);
+    if (el.bannerState) el.bannerState.textContent = stateText;
+    if (el.bannerDesc) el.bannerDesc.textContent = descText;
+  }
+
+  function roundedRectPath(c, x, y, w, h, r) {
+    const rr = Math.min(r, w * 0.5, h * 0.5);
+    c.beginPath();
+    c.moveTo(x + rr, y);
+    c.arcTo(x + w, y, x + w, y + h, rr);
+    c.arcTo(x + w, y + h, x, y + h, rr);
+    c.arcTo(x, y + h, x, y, rr);
+    c.arcTo(x, y, x + w, y, rr);
+    c.closePath();
+  }
+
+  function measureTextWidth(c, text) {
+    return c.measureText(text).width;
+  }
+
+  function ellipsize(c, text, maxW) {
+    if (measureTextWidth(c, text) <= maxW) return text;
+    const ell = "…";
+    let lo = 0;
+    let hi = text.length;
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2);
+      const s = text.slice(0, mid) + ell;
+      if (measureTextWidth(c, s) <= maxW) lo = mid;
+      else hi = mid - 1;
     }
+    return text.slice(0, Math.max(0, lo)) + ell;
   }
 
-  function setPresetValue(v){
-    presetCombo.setAttribute("data-value", v);
-    presetOpts.forEach((o, i) => {
-      const on = (o.dataset.value === v);
-      o.setAttribute("aria-selected", on ? "true" : "false");
-      if (on) {
-        presetLabelText.textContent = o.textContent.trim();
-        presetActiveIndex = i;
+  function drawTextFit(c, text, x, y, maxW, align = "left") {
+    c.textAlign = align;
+    const t = ellipsize(c, text, maxW);
+    c.fillText(t, x, y);
+    return t;
+  }
+
+  function splitLinesByWidth(c, text, maxW) {
+    const words = text.split(/\s+/).filter(Boolean);
+    if (!words.length) return [""];
+    const lines = [];
+    let line = words[0];
+    for (let i = 1; i < words.length; i++) {
+      const next = `${line} ${words[i]}`;
+      if (measureTextWidth(c, next) <= maxW) line = next;
+      else {
+        lines.push(line);
+        line = words[i];
       }
-    });
-    syncPresetActiveVisual();
-  }
-
-  function closePreset({ focusBtn = false } = {}){
-    presetOpen = false;
-    presetCombo.classList.remove("open");
-    presetBtn.setAttribute("aria-expanded", "false");
-    if (focusBtn) presetBtn.focus({ preventScroll:true });
-  }
-
-  function openPreset(){
-    presetOpen = true;
-    // Align active to current selection
-    const idx = presetOpts.findIndex(o => o.getAttribute("aria-selected") === "true");
-    presetActiveIndex = idx >= 0 ? idx : 0;
-
-    presetCombo.classList.add("open");
-    presetBtn.setAttribute("aria-expanded", "true");
-    syncPresetActiveVisual();
-    presetList.focus({ preventScroll:true });
-  }
-
-  function togglePreset(){
-    if (presetOpen) closePreset();
-    else openPreset();
-  }
-
-  function movePreset(delta){
-    const n = presetOpts.length;
-    presetActiveIndex = (presetActiveIndex + delta + n) % n;
-    syncPresetActiveVisual();
-  }
-
-  function commitPreset(index){
-    const opt = presetOpts[index];
-    if (!opt) return;
-    setPresetValue(opt.dataset.value);
-    closePreset({ focusBtn:true });
-    applyPreset();
-    makeCase();
-  }
-
-  // Click
-  presetBtn.addEventListener("click", togglePreset);
-
-  // Option click (prevent focus jumps)
-  presetOpts.forEach((btn, i) => {
-    btn.addEventListener("mousedown", (e) => e.preventDefault());
-    btn.addEventListener("click", () => commitPreset(i));
-  });
-
-  // Keyboard: on button
-  presetBtn.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (!presetOpen) openPreset();
-      else movePreset(+1);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (!presetOpen) openPreset();
-      else movePreset(-1);
-    } else if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      if (!presetOpen) openPreset();
-      else commitPreset(presetActiveIndex);
-    } else if (e.key === "Escape") {
-      if (presetOpen) { e.preventDefault(); closePreset({ focusBtn:true }); }
     }
-  });
-
-  // Keyboard: when listbox focused
-  presetList.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown") { e.preventDefault(); movePreset(+1); }
-    else if (e.key === "ArrowUp") { e.preventDefault(); movePreset(-1); }
-    else if (e.key === "Enter") { e.preventDefault(); commitPreset(presetActiveIndex); }
-    else if (e.key === "Escape") { e.preventDefault(); closePreset({ focusBtn:true }); }
-    else if (e.key === "Home") { e.preventDefault(); presetActiveIndex = 0; syncPresetActiveVisual(); }
-    else if (e.key === "End") { e.preventDefault(); presetActiveIndex = presetOpts.length - 1; syncPresetActiveVisual(); }
-  });
-
-  // Close on outside click
-  document.addEventListener("pointerdown", (e) => {
-    if (!presetOpen) return;
-    if (!presetCombo.contains(e.target)) closePreset();
-  });
-
-  let W=0,H=0, dpr=1;
-  function resize(){
-    const r = canvas.getBoundingClientRect();
-    W = Math.max(320, Math.floor(r.width));
-    H = Math.max(420, Math.floor(r.height));
-    dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-    canvas.width = Math.floor(W*dpr);
-    canvas.height = Math.floor(H*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
+    lines.push(line);
+    return lines;
   }
-  window.addEventListener("resize", resize, { passive:true });
 
-  // Pull CSS vars for consistent visibility against dark
-  const rs = getComputedStyle(document.documentElement);
-  const MONO = (rs.getPropertyValue("--font-mono") || "ui-monospace").trim();
-
-  const C_INK   = (rs.getPropertyValue("--c-ink") || "rgba(212,212,212,.88)").trim();
-  const C_SUB   = (rs.getPropertyValue("--c-sub") || "rgba(212,212,212,.52)").trim();
-  const C_FAINT = (rs.getPropertyValue("--c-faint") || "rgba(212,212,212,.26)").trim();
-
-  /* IMPORTANT: OK is INK (not blue) */
-  const C_OK    = (rs.getPropertyValue("--c-ink") || "rgba(212,212,212,.88)").trim();
-  const C_WARN  = (rs.getPropertyValue("--c-warn") || "rgba(255,209,139,.82)").trim();
-  const C_DANG  = (rs.getPropertyValue("--c-rust-active") || "rgba(138,44,44,.72)").trim();
-
-  // Deterministic RNG
-  let seed = 202501;
-  function rand(){
-    seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5;
-    return ((seed >>> 0) / 4294967296);
+  function drawMultiline(c, text, x, y, maxW, lh, align = "left", maxLines = 3) {
+    const lines = splitLinesByWidth(c, text, maxW);
+    const out = lines.slice(0, maxLines);
+    if (lines.length > maxLines) out[maxLines - 1] = ellipsize(c, out[maxLines - 1], maxW);
+    c.textAlign = align;
+    for (let i = 0; i < out.length; i++) c.fillText(out[i], x, y + i * lh);
+    return out.length;
   }
-  function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
-  function lerp(a,b,t){ return a + (b-a)*t; }
-  function smoothstep(t){ return t*t*(3-2*t); }
-  function sigmoid(x){ return 1 / (1 + Math.exp(-x)); }
 
-  const CRIT = 0.40; // 40% critical NC (visual anchor)
-  const TAU_H = 24;  // temporal threshold τ (hours)
-  const THETA = 0.12;// value-conflict threshold θ
-  pillCrit.textContent = `${Math.round(CRIT*100)}% NC`;
+  function dprValue() {
+    return Math.max(1, Math.min(2.5, window.devicePixelRatio || 1));
+  }
 
-  const tokens = [];
-  const MAX_TOK = 44;
+  const geom = {
+    dpr: 1,
+    w: 0,
+    h: 0,
+    cw: 0,
+    ch: 0,
+  };
 
-  let running = true;
-  let t = 0;
+  function resize() {
+    const parent = el.canvas.parentElement;
+    const rect = parent.getBoundingClientRect();
+    const dpr = dprValue();
+    const w = Math.max(10, Math.floor(rect.width));
+    const h = Math.max(10, Math.floor(rect.height));
+    geom.dpr = dpr;
+    geom.w = w;
+    geom.h = h;
+    el.canvas.width = Math.floor(w * dpr);
+    el.canvas.height = Math.floor(h * dpr);
+    el.canvas.style.width = `${w}px`;
+    el.canvas.style.height = `${h}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    geom.cw = w;
+    geom.ch = h;
+  }
 
-  // State vars (0..1)
-  let nc = 0.12;
-  let err = 0.06;
-  let engage = 0.62;
-  let collapse = false;
+  const sim = {
+    running: true,
+    t0: now(),
+    last: now(),
+    time: 0,
+    preset: "steady",
+    gamma: 0.50,
+    work: 0.55,
+    friction: 0.62,
+    criticalNC: 0.40,
+    nc: 0.12,
+    err: 0.06,
+    eng: 0.66,
+    rej: 0.00,
+    warn: 0.00,
+    rationaleRequired: false,
+  };
 
-  // Rolling rates (EMA)
-  const roll = { g1_rej: 0, g2_warn: 0, g3_warn: 0, g4_rej: 0 };
-  function ema(prev, sample, a){ return prev*(1-a) + sample*a; }
+  function presetParams(key) {
+    if (key === "high") return { work: 0.78, gamma: 0.58, friction: 0.58 };
+    if (key === "strained") return { work: 0.72, gamma: 0.74, friction: 0.50 };
+    return { work: 0.55, gamma: 0.50, friction: 0.62 };
+  }
 
-  // Exemplar “case”
-  let caseObj = null;
+  function applyPreset(key) {
+    const p = presetParams(key);
+    sim.preset = key;
+    sim.work = p.work;
+    sim.gamma = p.gamma;
+    sim.friction = p.friction;
+    if (el.work) el.work.value = `${Math.round(sim.work * 100)}`;
+    if (el.gamma) el.gamma.value = `${Math.round(sim.gamma * 100)}`;
+    if (el.friction) el.friction.value = `${Math.round(sim.friction * 100)}`;
+    if (el.presetCombo) el.presetCombo.dataset.value = key;
+    if (el.presetLabelText) {
+      el.presetLabelText.textContent =
+        key === "high" ? "High-volume (queue pressure)" :
+        key === "strained" ? "Strained (thin staffing)" :
+        "Steady (moderate workload)";
+    }
+    if (el.presetOpt0) el.presetOpt0.setAttribute("aria-selected", key === "steady" ? "true" : "false");
+    if (el.presetOpt1) el.presetOpt1.setAttribute("aria-selected", key === "high" ? "true" : "false");
+    if (el.presetOpt2) el.presetOpt2.setAttribute("aria-selected", key === "strained" ? "true" : "false");
+  }
 
-  function makeCase(){
-    const w = clamp(Number(workEl.value)/100, 0, 1);
-    const g = clamp(Number(gammaEl.value)/100, 0.1, 0.9);
-    const f = clamp(Number(frictionEl.value)/100, 0, 1);
+  function logistic(x) {
+    return 1 / (1 + Math.exp(-x));
+  }
 
-    const dM = clamp(0.08 + 0.62 * (0.35 + 0.65*w) * (0.65 + 0.35*(1-f)) + (rand()-0.5)*0.10, 0.02, 0.85);
-    const dP = clamp(-(0.04 + 0.55 * (0.30 + 0.70*g) * (0.35 + 0.65*w)) + (rand()-0.5)*0.10, -0.95, 0.10);
-    const ageH = clamp(6 + 70*(0.20 + 0.80*w) + (rand()-0.5)*10, 0, 96);
+  function updateRates(dt) {
+    const w = sim.work;
+    const g = sim.gamma;
+    const f = sim.friction;
 
-    const breachP = clamp(0.02 + 0.20*err + 0.15*smoothstep(clamp((nc-CRIT)/0.30,0,1)), 0, 0.55);
-    const g1Breach = rand() < breachP;
+    const fatigue = clamp(0.15 + 0.95 * g, 0, 1);
+    const load = clamp(0.10 + 1.10 * w, 0, 1.25);
+    const friction = clamp(f, 0, 1);
 
-    const valueConflict = (dM > 0) && (dP < -THETA);
-    const temporalWarn = (ageH > TAU_H);
+    const baseNC = logistic((load * 1.35 + fatigue * 1.15 - friction * 1.25) * 2.6 - 1.25);
+    const noise = (Math.sin(sim.time * 0.9) + Math.sin(sim.time * 0.37 + 1.7)) * 0.007;
+    const ncTarget = clamp(baseNC + noise, 0, 1);
 
-    const nearCrit = (nc >= CRIT*0.90);
-    const rationaleRequired = valueConflict || temporalWarn || nearCrit;
+    sim.nc = lerp(sim.nc, ncTarget, clamp(dt * 2.2, 0, 1));
+
+    const below = clamp(1 - sim.nc / sim.criticalNC, 0, 1);
+    const regime = smoothstep(below);
+    const errorBase = 0.18 + 0.62 * sim.nc;
+    const benefit = 0.22 * friction * regime;
+    const collapse = smoothstep(clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1));
+    const collapsePenalty = 0.40 * collapse;
+
+    const errTarget = clamp(errorBase - benefit + collapsePenalty, 0.01, 0.98);
+    sim.err = lerp(sim.err, errTarget, clamp(dt * 1.8, 0, 1));
+
+    const engTarget = clamp(0.85 - 0.55 * sim.nc + 0.25 * friction - 0.10 * collapse, 0.05, 0.98);
+    sim.eng = lerp(sim.eng, engTarget, clamp(dt * 1.4, 0, 1));
+
+    const rejTarget = clamp(0.02 + 0.22 * friction * regime, 0, 0.40);
+    sim.rej = lerp(sim.rej, rejTarget, clamp(dt * 1.0, 0, 1));
+
+    const warnTarget = clamp(0.04 + 0.26 * (1 - regime) + 0.10 * friction, 0, 0.55);
+    sim.warn = lerp(sim.warn, warnTarget, clamp(dt * 1.0, 0, 1));
+
+    sim.rationaleRequired = sim.nc >= sim.criticalNC * 0.92 || sim.warn > 0.22;
+  }
+
+  const particles = [];
+  function seedParticles(n = 70) {
+    particles.length = 0;
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x: rand(0, 1),
+        y: rand(0.12, 0.92),
+        v: rand(0.06, 0.18),
+        r: rand(1.3, 2.4),
+        a: rand(0.25, 0.95),
+        hue: rand(0, 1),
+        gate: 0,
+      });
+    }
+  }
+
+  function stepParticles(dt) {
+    const speed = lerp(0.06, 0.22, sim.eng) * lerp(0.78, 1.15, sim.work);
+    const drift = 0.010 + 0.020 * (1 - sim.eng);
+
+    for (const p of particles) {
+      p.x += (p.v + speed) * dt;
+      p.y += (Math.sin((p.x + p.hue) * 9.0) * 0.002 + (rand(-1, 1) * drift)) * dt * 18.0;
+
+      if (p.y < 0.12) p.y = 0.12;
+      if (p.y > 0.92) p.y = 0.92;
+
+      if (p.x > 1.06) {
+        p.x = rand(-0.08, 0.02);
+        p.y = rand(0.14, 0.90);
+        p.v = rand(0.06, 0.18);
+        p.r = rand(1.2, 2.4);
+        p.a = rand(0.25, 0.95);
+        p.hue = rand(0, 1);
+        p.gate = 0;
+      }
+    }
+  }
+
+  function drawScene() {
+    const P = palette();
+    const W = geom.cw;
+    const H = geom.ch;
+
+    ctx.clearRect(0, 0, W, H);
+
+    const pad = Math.max(14, Math.round(Math.min(W, H) * 0.03));
+    const split = Math.round(W * 0.62);
+
+    const left = { x: pad, y: pad, w: split - pad * 1.25, h: H - pad * 2 };
+    const right = { x: split + pad * 0.25, y: pad, w: W - split - pad * 1.25, h: H - pad * 2 };
+
+    const cardR = 18;
+
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "rgba(255,255,255,0.06)";
+    ctx.lineWidth = 1;
+
+    roundedRectPath(ctx, left.x, left.y, left.w, left.h, cardR);
+    ctx.stroke();
+
+    roundedRectPath(ctx, right.x, right.y, right.w, right.h, cardR);
+    ctx.stroke();
+    ctx.restore();
+
+    const hudTop = left.y + 14;
+    const hudX = left.x + 14;
+
+    const mono = `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace`;
+
+    ctx.save();
+    ctx.font = `600 13px ${mono}`;
+    ctx.fillStyle = "rgba(212,212,212,0.70)";
+    const hudLine = `NC:${fmtPct(sim.nc)}  ERR:${fmtPct(sim.err)}  ENG:${fmtPct(sim.eng)}  γ:${Math.round(sim.gamma * 100)}  λ:${Math.round(sim.work * 100)}`;
+    drawTextFit(ctx, hudLine, hudX, hudTop, left.w - 28, "left");
+    ctx.restore();
+
+    const pillY = hudTop + 18;
+    const pillH = 30;
+    const pillPadX = 12;
+    const pillGap = 10;
+    const pillNames = ["G1  BASELINE", "G2  VALUE", "G3  TEMPORAL", "G4  ARBITRATE"];
+
+    ctx.save();
+    ctx.font = `600 12px ${mono}`;
+
+    const maxRowW = left.w - 28;
+    let fontSize = 12;
+    let rows = 1;
+
+    for (let attempt = 0; attempt < 6; attempt++) {
+      ctx.font = `600 ${fontSize}px ${mono}`;
+
+      let total = 0;
+      for (const s of pillNames) total += measureTextWidth(ctx, s) + pillPadX * 2;
+      total += pillGap * (pillNames.length - 1);
+
+      if (total <= maxRowW) { rows = 1; break; }
+
+      if (attempt < 3) {
+        fontSize -= 1;
+      } else {
+        rows = 2;
+        break;
+      }
+    }
+
+    ctx.font = `600 ${fontSize}px ${mono}`;
+    ctx.textBaseline = "middle";
+
+    const pillWList = pillNames.map((s) => Math.ceil(measureTextWidth(ctx, s) + pillPadX * 2));
+
+    const drawPill = (x, y, w, text, active) => {
+      roundedRectPath(ctx, x, y, w, pillH, 999);
+      ctx.fillStyle = active ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.18)";
+      ctx.fill();
+      ctx.strokeStyle = active ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.10)";
+      ctx.stroke();
+
+      ctx.fillStyle = active ? "rgba(212,212,212,0.86)" : "rgba(212,212,212,0.62)";
+      const tx = x + pillPadX;
+      drawTextFit(ctx, text, tx, y + pillH / 2, w - pillPadX * 2, "left");
+    };
+
+    const activeGate = clamp(Math.floor(sim.time * 0.8) % 4, 0, 3);
+
+    if (rows === 1) {
+      let x = hudX;
+      for (let i = 0; i < pillNames.length; i++) {
+        const w = pillWList[i];
+        drawPill(x, pillY, w, pillNames[i], i === activeGate);
+        x += w + pillGap;
+      }
+    } else {
+      const row1 = [0, 1];
+      const row2 = [2, 3];
+      const rowsIdx = [row1, row2];
+      for (let r = 0; r < 2; r++) {
+        const indices = rowsIdx[r];
+        let total = 0;
+        for (const idx of indices) total += pillWList[idx];
+        total += pillGap * (indices.length - 1);
+        let x = hudX;
+        const y = pillY + r * (pillH + 10);
+        for (let k = 0; k < indices.length; k++) {
+          const idx = indices[k];
+          const w = pillWList[idx];
+          drawPill(x, y, w, pillNames[idx], idx === activeGate);
+          x += w + pillGap;
+        }
+      }
+    }
+
+    ctx.restore();
+
+    const plotTop = left.y + 70;
+    const plotBottom = left.y + left.h - 18;
+    const plotLeft = left.x + 18;
+    const plotRight = left.x + left.w - 18;
+
+    const bands = 4;
+    for (let i = 1; i < bands; i++) {
+      const gx = plotLeft + ((plotRight - plotLeft) * i) / bands;
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.06)";
+      ctx.setLineDash([6, 10]);
+      ctx.beginPath();
+      ctx.moveTo(gx, plotTop);
+      ctx.lineTo(gx, plotBottom);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    const gW = (plotRight - plotLeft) / bands;
+
+    ctx.save();
+    ctx.fillStyle = "rgba(255,255,255,0.02)";
+    for (let i = 0; i < bands; i++) {
+      const x0 = plotLeft + i * gW;
+      ctx.fillRect(x0, plotTop, gW, plotBottom - plotTop);
+    }
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(plotLeft, plotTop, plotRight - plotLeft, plotBottom - plotTop);
+    ctx.clip();
+
+    for (const p of particles) {
+      const px = plotLeft + p.x * (plotRight - plotLeft);
+      const py = plotTop + p.y * (plotBottom - plotTop);
+      const alpha = 0.22 + 0.55 * p.a;
+      const hot = sim.nc >= sim.criticalNC ? 1 : 0;
+      const dotR = p.r;
+      ctx.fillStyle = hot ? `rgba(255,209,139,${0.16 * alpha})` : `rgba(212,212,212,${0.22 * alpha})`;
+      ctx.beginPath();
+      ctx.arc(px, py, dotR + 2.3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = hot ? `rgba(255,255,255,${0.55 * alpha})` : `rgba(255,255,255,${0.42 * alpha})`;
+      ctx.beginPath();
+      ctx.arc(px, py, dotR, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    const collapse = clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1);
+    if (collapse > 0.02) {
+      const x0 = plotLeft + (plotRight - plotLeft) * 0.84;
+      const w = (plotRight - plotLeft) * 0.16;
+      const t = smoothstep(collapse);
+      const a = 0.10 + 0.28 * t;
+      ctx.fillStyle = `rgba(138,44,44,${a})`;
+      ctx.fillRect(x0, plotTop, w, plotBottom - plotTop);
+    }
+
+    ctx.restore();
+
+    const plotPad = 18;
+    const rx0 = right.x + plotPad;
+    const ry0 = right.y + 18;
+    const rw = right.w - plotPad * 2;
+    const rh = right.h - 36;
+
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,255,255,0.07)";
+    ctx.lineWidth = 1;
+    roundedRectPath(ctx, rx0, ry0, rw, rh, 18);
+    ctx.stroke();
+    ctx.restore();
+
+    const ax = {
+      x0: rx0 + 18,
+      y0: ry0 + 26,
+      x1: rx0 + rw - 18,
+      y1: ry0 + rh - 18,
+    };
+
+    const gridN = 4;
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,255,255,0.05)";
+    ctx.lineWidth = 1;
+    for (let i = 1; i < gridN; i++) {
+      const gx = lerp(ax.x0, ax.x1, i / gridN);
+      const gy = lerp(ax.y0, ax.y1, i / gridN);
+      ctx.beginPath();
+      ctx.moveTo(gx, ax.y0);
+      ctx.lineTo(gx, ax.y1);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(ax.x0, gy);
+      ctx.lineTo(ax.x1, gy);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    const toX = (nc) => lerp(ax.x0, ax.x1, clamp(nc, 0, 1));
+    const toY = (er) => lerp(ax.y1, ax.y0, clamp(er, 0, 1));
+
+    const curve = [];
+    for (let i = 0; i <= 80; i++) {
+      const x = i / 80;
+      const below = clamp(1 - x / sim.criticalNC, 0, 1);
+      const regime = smoothstep(below);
+      const errorBase = 0.18 + 0.62 * x;
+      const benefit = 0.22 * sim.friction * regime;
+      const collapse = smoothstep(clamp((x - sim.criticalNC) / 0.18, 0, 1));
+      const collapsePenalty = 0.40 * collapse;
+      const y = clamp(errorBase - benefit + collapsePenalty, 0.01, 0.98);
+      curve.push([toX(x), toY(y)]);
+    }
+
+    ctx.save();
+    ctx.lineWidth = 2.2;
+    ctx.strokeStyle = "rgba(138,44,44,0.62)";
+    ctx.beginPath();
+    ctx.moveTo(curve[0][0], curve[0][1]);
+    for (let i = 1; i < curve.length; i++) ctx.lineTo(curve[i][0], curve[i][1]);
+    ctx.stroke();
+    ctx.restore();
+
+    const cX = toX(sim.nc);
+    const cY = toY(sim.err);
+
+    ctx.save();
+    ctx.fillStyle = "rgba(255,255,255,0.22)";
+    ctx.beginPath();
+    ctx.arc(cX, cY, 11, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,255,255,0.75)";
+    ctx.beginPath();
+    ctx.arc(cX, cY, 4.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    const critX = toX(sim.criticalNC);
+
+    ctx.save();
+    ctx.strokeStyle = "rgba(255,209,139,0.22)";
+    ctx.setLineDash([6, 10]);
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(critX, ax.y0);
+    ctx.lineTo(critX, ax.y1);
+    ctx.stroke();
+    ctx.restore();
+
+    const titleX = rx0 + 18;
+    const titleY = ry0 + 18;
+    ctx.save();
+    ctx.font = `600 13px ${mono}`;
+    ctx.fillStyle = "rgba(212,212,212,0.70)";
+    const maxW = rw - 36;
+    drawTextFit(ctx, `x: Non-Compliance (NC)`, titleX, titleY, maxW, "left");
+    ctx.fillStyle = "rgba(212,212,212,0.55)";
+    drawTextFit(ctx, `y: Critical Error`, titleX, titleY + 16, maxW, "left");
+    ctx.restore();
+
+    ctx.save();
+    ctx.font = `600 12px ${mono}`;
+    ctx.fillStyle = "rgba(255,209,139,0.62)";
+    const critLabel = `critical @ ${Math.round(sim.criticalNC * 100)}%`;
+    const cx = clamp(critX + 10, rx0 + 18, rx0 + rw - 18);
+    drawTextFit(ctx, critLabel, cx, ax.y0 + 14, Math.max(60, rx0 + rw - 18 - cx), "left");
+    ctx.restore();
+  }
+
+  function updateUI() {
+    const collapse = sim.nc >= sim.criticalNC;
+    const near = sim.nc >= sim.criticalNC * 0.80;
+
+    if (el.pillCrit) el.pillCrit.textContent = `${Math.round(sim.criticalNC * 100)}% NC`;
+    if (el.pillMode) el.pillMode.textContent = sim.running ? "SIM" : "PAUSE";
+
+    if (el.pillSys) el.pillSys.textContent = collapse ? "COLLAPSE" : near ? "RISK" : "STABLE";
+    setDot(el.dotSys, collapse ? "danger" : near ? "warn" : "");
+
+    if (el.bannerReadout) el.bannerReadout.textContent = `NC: ${fmtPct(sim.nc)} · Error: ${fmtPct(sim.err)}`;
+    setDot(el.dotReg, collapse ? "danger" : near ? "warn" : "");
+
+    if (collapse) {
+      setBanner("collapse", "COLLAPSE", "Oversight has degraded into procedure (ritualization).");
+      if (el.veil) el.veil.classList.add("on");
+    } else if (near) {
+      setBanner("warn", "RISK", "Approaching critical region (oversight integrity weakening).");
+      if (el.veil) el.veil.classList.remove("on");
+    } else {
+      setBanner("ok", "PRODUCTIVE", "Region of productive friction (oversight remains substantive).");
+      if (el.veil) el.veil.classList.remove("on");
+    }
+
+    const g1pass = sim.rej < 0.12 || sim.friction > 0.35;
+    const g2warn = sim.warn > 0.18;
+    const g3warn = sim.warn > 0.22;
+    const g4sub = !collapse;
+
+    if (el.g1State) el.g1State.textContent = g1pass ? "PASS" : "HARD";
+    if (el.g2State) el.g2State.textContent = g2warn ? "FLAG" : "CLEAR";
+    if (el.g3State) el.g3State.textContent = g3warn ? "WARN" : "FRESH";
+    if (el.g4State) el.g4State.textContent = g4sub ? "SUBSTANTIVE" : "RITUAL";
+
+    setDot(el.g1Dot, g1pass ? "" : "danger");
+    setDot(el.g2Dot, g2warn ? "warn" : "");
+    setDot(el.g3Dot, g3warn ? "warn" : "");
+    setDot(el.g4Dot, g4sub ? "" : "danger");
+
+    setBadgeKind(el.g1Badge, g1pass ? "" : "danger");
+    setBadgeKind(el.g2Badge, g2warn ? "warn" : "");
+    setBadgeKind(el.g3Badge, g3warn ? "warn" : "");
+    setBadgeKind(el.g4Badge, g4sub ? "" : "danger");
+
+    if (el.g1Rate) el.g1Rate.textContent = `rej ${fmtPct(sim.rej)}`;
+    if (el.g2Rate) el.g2Rate.textContent = `flag ${fmtPct(sim.warn * 0.55)}`;
+    if (el.g3Rate) el.g3Rate.textContent = `warn ${fmtPct(sim.warn)}`;
+    if (el.g4Req) el.g4Req.textContent = sim.rationaleRequired ? "rationale on" : "rationale off";
+
+    if (el.telMeta) {
+      el.telMeta.textContent = `${sim.running ? "live" : "paused"} · γ:${Math.round(sim.gamma * 100)} λ:${Math.round(sim.work * 100)} f:${Math.round(sim.friction * 100)}`;
+    }
+  }
+
+  function makeCase() {
+    const id = Math.random().toString(16).slice(2, 10).toUpperCase();
+    const deltaM = rand(-0.10, 0.42);
+    const deltaP = rand(-0.42, 0.22);
+    const ageDays = Math.round(rand(0, 75));
+    const stalenessTau = 28;
+
+    const g1Reject = deltaM < -0.02 && sim.friction > 0.45;
+    const g2Flag = deltaM > 0.08 && deltaP < -0.14;
+    const g3Warn = ageDays > stalenessTau;
+
+    const collapse = sim.nc >= sim.criticalNC;
+    const g4Ritual = collapse || sim.rationaleRequired;
 
     let decision = "ALLOW";
-    if (g1Breach) decision = "REJECT";
-    else if (!collapse && rationaleRequired) decision = "HOLD";
-    else decision = "ALLOW";
-
-    const id = `ALTRION-${Math.floor(100000 + rand()*900000)}`;
-
-    caseObj = {
-      id,
-      deltaM: dM,
-      deltaP: dP,
-      ageH,
-      theta: THETA,
-      tauH: TAU_H,
-      g1: { breach: g1Breach },
-      g2: { conflict: valueConflict },
-      g3: { stale: temporalWarn },
-      g4: { rationaleRequired, substantive: !collapse },
-      decision,
-      timestamp: new Date().toISOString()
-    };
-    renderCaseAndADR();
-  }
-
-  function applyPreset(){
-    const p = getPresetValue();
-    if (p === "steady"){
-      workEl.value = 55; gammaEl.value = 50; frictionEl.value = 62;
-    } else if (p === "high"){
-      workEl.value = 78; gammaEl.value = 58; frictionEl.value = 58;
-    } else {
-      workEl.value = 72; gammaEl.value = 72; frictionEl.value = 68;
-    }
-  }
-
-  function computeTargets(){
-    const g = clamp(Number(gammaEl.value)/100, 0.10, 0.90);
-    const w = clamp(Number(workEl.value)/100, 0.00, 1.00);
-    const f = clamp(Number(frictionEl.value)/100, 0.00, 1.00);
-
-    const capacity = clamp(1 - (0.55*w + 0.55*g), 0, 1);
-    const eff = clamp(0.25 + 0.75 * f * (0.45 + 0.55*capacity), 0, 1);
-
-    const ncT = clamp(
-      0.05 + 0.88 * sigmoid( 3.2*(w - 0.52) + 3.1*(g - 0.50) - 2.4*(eff - 0.55) ),
-      0, 0.98
-    );
-
-    const base = 0.20;
-    const benefit = 0.75 * eff * (1 - ncT);
-    const lowErr = clamp(base * (1 - benefit), 0.01, 0.35);
-    const spike = smoothstep( clamp((ncT - CRIT) / (0.30), 0, 1) );
-    const highErr = clamp(lerp(lowErr, 0.62 + 0.25*(1-eff), spike), 0.02, 0.92);
-
-    return { eff, ncT, errT: highErr };
-  }
-
-  function update(dt){
-    const trg = computeTargets();
-    const k = clamp(dt * 0.9, 0, 0.18);
-
-    nc = clamp(lerp(nc, trg.ncT + (rand()-0.5)*0.01, k), 0, 0.98);
-    err = clamp(lerp(err, trg.errT + (rand()-0.5)*0.008, k), 0, 0.98);
-    engage = clamp(lerp(engage, trg.eff, k), 0, 1);
-
-    collapse = (nc >= CRIT) && (err >= 0.22);
-
-    const spawnRate = lerp(10, 26, engage) * (running ? 1 : 0);
-    if (rand() < spawnRate * dt && tokens.length < MAX_TOK){
-      tokens.push(makeToken());
-    }
-
-    const speed = lerp(0.16, 0.26, 1 - nc) + lerp(0.00, 0.10, engage);
-    for (let i=tokens.length-1; i>=0; i--){
-      const tok = tokens[i];
-      tok.p += dt * speed;
-      tok.wob += dt * (0.9 + 0.6*rand());
-
-      const gates = [0.18, 0.36, 0.54, 0.72];
-      for (let gi=0; gi<4; gi++){
-        if (!tok.hit[gi] && tok.p >= gates[gi]){
-          tok.hit[gi] = true;
-          const out = gateOutcome(gi, tok);
-          tok.state = out.state;
-          tok.rej = out.rej || tok.rej;
-        }
-      }
-
-      if (tok.p > 0.98 || tok.rej){
-        tokens.splice(i, 1);
-      }
-    }
-  }
-
-  function makeToken(){
-    return {
-      p: -0.06 - rand()*0.12,
-      lane: rand(),
-      wob: rand()*6.28,
-      state: "ok",
-      rej: false,
-      hit: [false,false,false,false],
-      warnings: []
-    };
-  }
-
-  function gateOutcome(gi, tok){
-    const r = rand();
-
-    const rejP = lerp(0.020, 0.060, 1 - engage) + lerp(0.00, 0.040, nc);
-    const flagP = lerp(0.10, 0.24, engage) * (1 - lerp(0.0, 0.55, nc));
-
-    if (gi === 0){
-      const rejected = (r < rejP);
-      roll.g1_rej = ema(roll.g1_rej, rejected ? 1 : 0, 0.06);
-      return rejected ? { state:"reject", rej:true } : { state:"ok", rej:false };
-    }
-    if (gi === 1){
-      const warned = (r < flagP);
-      if (warned) tok.warnings.push("VALUE_CONFLICT");
-      roll.g2_warn = ema(roll.g2_warn, warned ? 1 : 0, 0.06);
-      return warned ? { state:"flagged", rej:false } : { state:"ok", rej:false };
-    }
-    if (gi === 2){
-      const p = flagP * lerp(0.70, 1.25, Number(workEl.value)/100);
-      const warned = (r < p);
-      if (warned) tok.warnings.push("TEMPORAL_STALE");
-      roll.g3_warn = ema(roll.g3_warn, warned ? 1 : 0, 0.06);
-      return warned ? { state:"flagged", rej:false } : { state:"ok", rej:false };
-    }
-
-    const needsR = tok.warnings.length > 0 || (nc >= CRIT*0.90);
-    g4Req.textContent = needsR ? "rationale on" : "rationale off";
-
-    if (collapse){
-      roll.g4_rej = ema(roll.g4_rej, 0, 0.06);
-      return { state:"ok", rej:false };
-    }
-
-    const arbRej = needsR ? (0.04 + 0.12 * (1 - nc) * engage) : (0.01 + 0.03 * (1 - nc));
-    const rejected = (r < arbRej);
-    roll.g4_rej = ema(roll.g4_rej, rejected ? 1 : 0, 0.06);
-    return rejected ? { state:"reject", rej:true } : { state:"ok", rej:false };
-  }
-
-  function riskColor(score){
-    if (score < 0.52) return C_OK;
-    if (score < 0.78) return C_WARN;
-    return C_DANG;
-  }
-
-  function roundRect(x,y,w,h,r){
-    const rr = Math.min(r, w/2, h/2);
-    ctx.beginPath();
-    ctx.moveTo(x+rr, y);
-    ctx.arcTo(x+w, y, x+w, y+h, rr);
-    ctx.arcTo(x+w, y+h, x, y+h, rr);
-    ctx.arcTo(x, y+h, x, y, rr);
-    ctx.arcTo(x, y, x+w, y, rr);
-    ctx.closePath();
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-
-    const bg = ctx.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0, "rgba(0,0,0,.08)");
-    bg.addColorStop(1, "rgba(0,0,0,.66)");
-    ctx.fillStyle = bg;
-    ctx.fillRect(0,0,W,H);
-
-    const pad = 18;
-    const leftW = Math.floor(W * 0.56);
-    const rightW = W - leftW;
-
-    const pipeX0 = pad;
-    const pipeY0 = pad;
-    const pipeW  = leftW - pad*1.5;
-    const pipeH  = H - pad*2;
-
-    const plotX0 = leftW + pad*0.5;
-    const plotY0 = pad;
-    const plotW  = rightW - pad*1.5;
-    const plotH  = H - pad*2;
-
-    drawPipeline(pipeX0, pipeY0, pipeW, pipeH);
-    drawPhasePlot(plotX0, plotY0, plotW, plotH);
-
-    ctx.save();
-    ctx.globalAlpha = 0.84;
-    ctx.fillStyle = "rgba(212,212,212,.82)";
-    ctx.font = `12px ${MONO}`;
-    const txt = `NC:${Math.round(nc*100)}%  ERR:${Math.round(err*100)}%  ENG:${Math.round(engage*100)}%  | γ:${gammaEl.value}  λ:${workEl.value}`;
-    ctx.fillText(txt, 22, 28);
-    ctx.restore();
-  }
-
-  function drawPipeline(x,y,w,h){
-    ctx.save();
-    ctx.globalAlpha = 0.30;
-    ctx.strokeStyle = "rgba(255,255,255,.16)";
-    ctx.lineWidth = 1;
-    roundRect(x,y,w,h,14);
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.save();
-    ctx.globalAlpha = 0.10;
-    ctx.strokeStyle = "rgba(255,255,255,.12)";
-    ctx.lineWidth = 1;
-    const step = 44;
-    for (let yy=y+step; yy<y+h; yy+=step){
-      ctx.beginPath(); ctx.moveTo(x,yy); ctx.lineTo(x+w,yy); ctx.stroke();
-    }
-    ctx.restore();
-
-    const gateXs = [0.18,0.36,0.54,0.72].map(t => x + w*t);
-    const laneMid = y + h*0.58;
-
-    const ribbon = lerp(h*0.18, h*0.10, smoothstep(nc));
-    ctx.save();
-    ctx.globalAlpha = 0.22;
-    ctx.fillStyle = collapse ? "rgba(138,44,44,.10)" : "rgba(212,212,212,.06)";
-    roundRect(x+10, laneMid - ribbon/2, w-20, ribbon, 999);
-    ctx.fill();
-    ctx.restore();
-
-    const labels = ["G1  BASELINE", "G2  VALUE", "G3  TEMPORAL", "G4  ARBITRATE"];
-    for (let i=0;i<4;i++){
-      const gx = gateXs[i];
-
-      ctx.save();
-      ctx.globalAlpha = 0.34;
-      ctx.strokeStyle = "rgba(255,255,255,.16)";
-      ctx.setLineDash([6,10]);
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(gx, y+16);
-      ctx.lineTo(gx, y+h-16);
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.save();
-      const capW = 122;
-      const capH = 26;
-      const cx = clamp(gx - capW/2, x+12, x+w-capW-12);
-      const cy = y + 18;
-      ctx.globalAlpha = 0.92;
-      ctx.fillStyle = "rgba(10,10,10,.56)";
-      ctx.strokeStyle = "rgba(255,255,255,.10)";
-      ctx.lineWidth = 1;
-      roundRect(cx,cy,capW,capH,999);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "rgba(212,212,212,.82)";
-      ctx.font = `11px ${MONO}`;
-      ctx.fillText(labels[i], cx+12, cy+17);
-      ctx.restore();
-    }
-
-    for (const tok of tokens){
-      const px = x + w * tok.p;
-      const wob = Math.sin(tok.wob) * lerp(8, 4, smoothstep(nc));
-      const py = laneMid + (tok.lane - 0.5) * ribbon * 0.75 + wob;
-
-      let c = C_OK;
-      if (tok.warnings.length) c = C_WARN;
-      if (tok.state === "reject") c = C_DANG;
-
-      ctx.save();
-      ctx.globalAlpha = 0.84;
-      ctx.fillStyle = c;
-      ctx.strokeStyle = "rgba(0,0,0,.38)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(px, py, 3.2, 0, Math.PI*2);
-      ctx.fill(); ctx.stroke();
-
-      ctx.globalAlpha = 0.22;
-      ctx.strokeStyle = c;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(px-10, py);
-      ctx.lineTo(px-2, py);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    ctx.save();
-    ctx.globalAlpha = 0.78;
-    ctx.fillStyle = "rgba(212,212,212,.70)";
-    ctx.font = `12px ${MONO}`;
-    const msg = collapse ? "RITUALIZATION COLLAPSE: Gate 4 loses epistemic correction." : "PRODUCTIVE FRICTION: staged gates preserve engagement.";
-    ctx.fillText(msg, x+18, y+h-18);
-    ctx.restore();
-  }
-
-  function drawPhasePlot(x,y,w,h){
-    ctx.save();
-    ctx.globalAlpha = 0.30;
-    ctx.strokeStyle = "rgba(255,255,255,.16)";
-    ctx.lineWidth = 1;
-    roundRect(x,y,w,h,14);
-    ctx.stroke();
-    ctx.restore();
-
-    const pad = 16;
-    const axX = x + pad;
-    const axY = y + pad;
-    const axW = w - pad*2;
-    const axH = h - pad*2;
-
-    ctx.save();
-    ctx.globalAlpha = 0.10;
-    ctx.strokeStyle = "rgba(255,255,255,.12)";
-    ctx.lineWidth = 1;
-    for (let i=1;i<=4;i++){
-      const yy = axY + axH * (i/5);
-      ctx.beginPath(); ctx.moveTo(axX,yy); ctx.lineTo(axX+axW,yy); ctx.stroke();
-    }
-    for (let i=1;i<=4;i++){
-      const xx = axX + axW * (i/5);
-      ctx.beginPath(); ctx.moveTo(xx,axY); ctx.lineTo(xx,axY+axH); ctx.stroke();
-    }
-    ctx.restore();
-
-    ctx.save();
-    ctx.globalAlpha = 0.10;
-    ctx.fillStyle = "rgba(220,230,255,.18)";
-    const critX = axX + axW * CRIT;
-    roundRect(axX, axY, critX-axX, axH, 12);
-    ctx.fill();
-    ctx.restore();
-
-    ctx.save();
-    ctx.globalAlpha = 0.40;
-    ctx.strokeStyle = "rgba(255,209,139,.40)";
-    ctx.setLineDash([6,10]);
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(critX, axY);
-    ctx.lineTo(critX, axY+axH);
-    ctx.stroke();
-    ctx.restore();
-
-    const score = (nc+err)/2;
-    ctx.save();
-    ctx.globalAlpha = 0.90;
-    ctx.strokeStyle = riskColor(score);
-    ctx.lineWidth = 2.25;
-    ctx.beginPath();
-    for (let i=0;i<=120;i++){
-      const xx = i/120;
-      const errAt = errorGivenNc(xx);
-      const px = axX + axW * xx;
-      const py = axY + axH * (1 - errAt);
-      if (i===0) ctx.moveTo(px,py);
-      else ctx.lineTo(px,py);
-    }
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.save();
-    ctx.globalAlpha = 0.95;
-    const px = axX + axW * nc;
-    const py = axY + axH * (1 - err);
-    ctx.fillStyle = "rgba(212,212,212,.86)";
-    ctx.strokeStyle = "rgba(0,0,0,.42)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.arc(px, py, 4.2, 0, Math.PI*2);
-    ctx.fill(); ctx.stroke();
-
-    ctx.globalAlpha = 0.18;
-    ctx.strokeStyle = riskColor(score);
-    ctx.lineWidth = 8;
-    ctx.beginPath();
-    ctx.arc(px, py, 6.5, 0, Math.PI*2);
-    ctx.stroke();
-    ctx.restore();
-
-    ctx.save();
-    ctx.globalAlpha = 0.78;
-    ctx.fillStyle = "rgba(212,212,212,.66)";
-    ctx.font = `11px ${MONO}`;
-    ctx.fillText("x: Non-Compliance (NC)", axX+6, axY+14);
-    ctx.fillText("y: Critical Error", axX+6, axY+28);
-    ctx.fillText("critical @ 40%", critX+6, axY+14);
-    ctx.restore();
-  }
-
-  function errorGivenNc(ncX){
-    const f = clamp(Number(frictionEl.value)/100, 0.00, 1.00);
-    const g = clamp(Number(gammaEl.value)/100, 0.10, 0.90);
-    const w = clamp(Number(workEl.value)/100, 0.00, 1.00);
-
-    const capacity = clamp(1 - (0.55*w + 0.55*g), 0, 1);
-    const eff = clamp(0.25 + 0.75 * f * (0.45 + 0.55*capacity), 0, 1);
-
-    const base = 0.20;
-    const benefit = 0.75 * eff * (1 - ncX);
-    const lowErr = clamp(base * (1 - benefit), 0.01, 0.35);
-
-    const spike = smoothstep( clamp((ncX - CRIT) / 0.30, 0, 1) );
-    const highErr = clamp(lerp(lowErr, 0.62 + 0.25*(1-eff), spike), 0.02, 0.92);
-    return highErr;
-  }
-
-  function pct(x){ return (x*100).toFixed(1) + "%"; }
-
-  function setBadge(badgeEl, dotEl, stateEl, level){
-    badgeEl.className = "badgeMini " + (level || "");
-    dotEl.className = "dot" + (level === "warn" ? " warn" : level === "danger" ? " danger" : "");
-    stateEl.style.color = (level === "danger") ? "rgba(212,212,212,.86)" : "rgba(212,212,212,.78)";
-  }
-
-  function renderCaseAndADR(){
-    if (!caseObj) return;
-
-    caseIdEl.textContent = `case: ${caseObj.id}`;
-    cDeltaM.textContent = `+${caseObj.deltaM.toFixed(2)}`;
-    cDeltaP.textContent = `${caseObj.deltaP.toFixed(2)}`;
-    cAge.textContent = `${caseObj.ageH.toFixed(0)}h (τ=${caseObj.tauH}h)`;
-
-    const vc = caseObj.g2.conflict;
-    const tw = caseObj.g3.stale;
-    const nearCrit = (nc >= CRIT*0.90);
-    const needsR = caseObj.g4.rationaleRequired;
-
-    if (caseObj.g1.breach){
-      g1State.textContent = "REJECT";
-      setBadge(g1Badge, g1Dot, g1State, "danger");
-    } else {
-      g1State.textContent = "PASS";
-      setBadge(g1Badge, g1Dot, g1State, "ok");
-    }
-
-    if (vc){
-      g2State.textContent = "FLAG";
-      setBadge(g2Badge, g2Dot, g2State, "warn");
-    } else {
-      g2State.textContent = "CLEAR";
-      setBadge(g2Badge, g2Dot, g2State, "ok");
-    }
-
-    if (tw){
-      g3State.textContent = "WARN";
-      setBadge(g3Badge, g3Dot, g3State, "warn");
-    } else {
-      g3State.textContent = "FRESH";
-      setBadge(g3Badge, g3Dot, g3State, "ok");
-    }
-
-    if (collapse){
-      g4State.textContent = "PROCEDURAL";
-      setBadge(g4Badge, g4Dot, g4State, "danger");
-    } else if (needsR){
-      g4State.textContent = "RATIONALE";
-      setBadge(g4Badge, g4Dot, g4State, "warn");
-    } else {
-      g4State.textContent = "SUBSTANTIVE";
-      setBadge(g4Badge, g4Dot, g4State, "ok");
-    }
-    g4Req.textContent = needsR ? "rationale on" : "rationale off";
-
-    let decisionText = caseObj.decision;
-    if (caseObj.decision === "HOLD") decisionText = "HOLD (written rationale required)";
-    if (caseObj.decision === "REJECT") decisionText = "REJECT (baseline constraint breach)";
-    cDecision.textContent = decisionText;
+    if (g1Reject) decision = "REJECT";
+    else if (g2Flag || g3Warn) decision = g4Ritual ? "ALLOW (RITUAL)" : "ALLOW (RATIONALE)";
 
     const adr = {
-      adr_id: caseObj.id,
-      timestamp: caseObj.timestamp,
-      regime: {
-        nc: Number((nc).toFixed(4)),
-        err: Number((err).toFixed(4)),
-        engagement: Number((engage).toFixed(4)),
-        critical_nc: CRIT,
-        collapse: !!collapse
+      id: `ADR-${id}`,
+      timestamp: new Date().toISOString(),
+      context: {
+        preset: sim.preset,
+        gamma: Number(fmtNum(sim.gamma, 2)),
+        workload: Number(fmtNum(sim.work, 2)),
+        friction: Number(fmtNum(sim.friction, 2)),
+        nc: Number(fmtNum(sim.nc, 3)),
+        error: Number(fmtNum(sim.err, 3)),
+        critical_nc: Number(fmtNum(sim.criticalNC, 2)),
       },
-      parameters: {
-        fatigue_gamma: Number(gammaEl.value),
-        workload_lambda: Number(workEl.value),
-        gate_friction: Number(frictionEl.value),
-        theta: caseObj.theta,
-        tau_hours: caseObj.tauH
+      case: {
+        deltaM: Number(fmtNum(deltaM, 3)),
+        deltaP: Number(fmtNum(deltaP, 3)),
+        staleness_days: ageDays,
+        tau_days: stalenessTau,
       },
       gates: {
-        G1_baseline_constraints: { pass: !caseObj.g1.breach, enforce: caseObj.g1.breach ? "REJECT" : "PASS" },
-        G2_value_conflict: { conflict: vc, enforce: vc ? "FLAG" : "CLEAR" },
-        G3_temporal_reliability: { stale: tw, enforce: tw ? "WARN" : "FRESH" },
-        G4_human_arbitration: {
-          rationale_required: needsR || nearCrit,
-          mode: collapse ? "PROCEDURAL" : "SUBSTANTIVE"
-        }
+        G1: { detect: "C breach", enforce: "REJECT", triggered: !!g1Reject },
+        G2: { detect: "value conflict", enforce: "FLAG", triggered: !!g2Flag },
+        G3: { detect: "staleness", enforce: "WARN", triggered: !!g3Warn },
+        G4: {
+          detect: "FLAG/WARN or proximity",
+          enforce: "Rationale + ADR",
+          mode: g4Ritual ? "RITUALIZED" : "SUBSTANTIVE",
+          rationale_required: !!(g2Flag || g3Warn),
+        },
       },
-      warnings: [
-        ...(vc ? ["VALUE_CONFLICT"] : []),
-        ...(tw ? ["TEMPORAL_STALE"] : []),
-        ...(nearCrit ? ["NEAR_CRITICAL_REGIME"] : [])
-      ],
-      decision: caseObj.decision,
-      auditable: !collapse,
-      rationale_template: (needsR || nearCrit) ? {
-        required: true,
-        fields: ["context", "tradeoff_acknowledgement", "mitigations", "owner", "expiry_or_review_date"]
-      } : { required: false }
+      decision,
+      auditable: !(collapse),
+      rationale_template: {
+        required: !!(g2Flag || g3Warn),
+        fields: ["context", "tradeoff_acknowledgement", "mitigations", "owner", "expiry_or_review_date"],
+      },
     };
 
-    adrJsonEl.textContent = JSON.stringify(adr, null, 2);
+    if (el.caseId) el.caseId.textContent = `case: ${id}`;
+    if (el.cDeltaM) el.cDeltaM.textContent = fmtNum(deltaM, 3);
+    if (el.cDeltaP) el.cDeltaP.textContent = fmtNum(deltaP, 3);
+    if (el.cAge) el.cAge.textContent = `${ageDays}d`;
+    if (el.cDecision) el.cDecision.textContent = decision;
+    if (el.adrJson) el.adrJson.textContent = JSON.stringify(adr, null, 2);
+
+    return adr;
   }
 
-  function renderUI(){
-    const ncPct = Math.round(nc*100);
-    const erPct = Math.round(err*100);
-    bannerRead.textContent = `NC: ${ncPct}% · Error: ${erPct}%`;
+  async function copyText(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (_) {}
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "true");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (_) {
+      return false;
+    }
+  }
 
-    if (collapse){
-      banner.className = "banner collapse";
-      bannerState.textContent = "COLLAPSE";
-      bannerDesc.textContent = "Ritualization collapse: Gate 4 is no longer epistemic correction.";
-      dotReg.className = "dot danger";
-      dotSys.className = "dot danger";
-      pillSys.textContent = "COLLAPSED";
-      veil.classList.add("on");
-    } else if (nc >= CRIT*0.9){
-      banner.className = "banner warn";
-      bannerState.textContent = "AT-RISK";
-      bannerDesc.textContent = "Approaching critical non-compliance: arbitration becoming procedural.";
-      dotReg.className = "dot warn";
-      dotSys.className = "dot warn";
-      pillSys.textContent = "AT-RISK";
-      veil.classList.remove("on");
-    } else {
-      banner.className = "banner ok";
-      bannerState.textContent = "PRODUCTIVE";
-      bannerDesc.textContent = "Region of productive friction: staged gates preserve engagement.";
-      dotReg.className = "dot";
-      dotSys.className = "dot";
-      pillSys.textContent = "STABLE";
-      veil.classList.remove("on");
+  function setComboOpen(open) {
+    if (!el.presetCombo || !el.presetBtn || !el.presetList) return;
+    el.presetCombo.classList.toggle("open", open);
+    el.presetBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) el.presetList.focus({ preventScroll: true });
+  }
+
+  function wire() {
+    const onToggle = () => {
+      sim.running = !sim.running;
+      if (el.toggle) el.toggle.textContent = sim.running ? "Pause" : "Resume";
+      updateUI();
+    };
+
+    const onReset = () => {
+      sim.nc = 0.12;
+      sim.err = 0.06;
+      sim.eng = 0.66;
+      sim.time = 0;
+      seedParticles(70);
+      makeCase();
+      updateUI();
+    };
+
+    const onParam = () => {
+      sim.gamma = clamp((Number(el.gamma?.value || 50) || 50) / 100, 0, 1);
+      sim.work = clamp((Number(el.work?.value || 55) || 55) / 100, 0, 1);
+      sim.friction = clamp((Number(el.friction?.value || 62) || 62) / 100, 0, 1);
+      updateUI();
+    };
+
+    if (el.toggle) el.toggle.addEventListener("click", onToggle);
+    if (el.reset) el.reset.addEventListener("click", onReset);
+
+    if (el.gamma) el.gamma.addEventListener("input", onParam);
+    if (el.work) el.work.addEventListener("input", onParam);
+    if (el.friction) el.friction.addEventListener("input", onParam);
+
+    if (el.presetBtn) {
+      el.presetBtn.addEventListener("click", () => setComboOpen(!el.presetCombo.classList.contains("open")));
+      el.presetBtn.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setComboOpen(true);
+        }
+      });
     }
 
-    telMeta.textContent = running ? "live" : "hold";
+    const optHandler = (value) => {
+      applyPreset(value);
+      setComboOpen(false);
+      makeCase();
+      updateUI();
+    };
 
-    g1Rate.textContent = `rej ${pct(roll.g1_rej)}`;
-    g2Rate.textContent = `warn ${pct(roll.g2_warn)}`;
-    g3Rate.textContent = `warn ${pct(roll.g3_warn)}`;
+    if (el.presetOpt0) el.presetOpt0.addEventListener("click", () => optHandler("steady"));
+    if (el.presetOpt1) el.presetOpt1.addEventListener("click", () => optHandler("high"));
+    if (el.presetOpt2) el.presetOpt2.addEventListener("click", () => optHandler("strained"));
 
-    if (!caseObj) makeCase();
-    renderCaseAndADR();
-  }
-
-  function copyText(str){
-    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(str);
-    const ta = document.createElement("textarea");
-    ta.value = str;
-    ta.style.position = "fixed";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    try{ document.execCommand("copy"); } catch(_){}
-    document.body.removeChild(ta);
-    return Promise.resolve();
-  }
-
-  let last = 0;
-  function tick(now){
-    if (!last) last = now;
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
-
-    if (running && !prefersReduced){
-      t += dt;
-      update(dt);
-    }
-
-    draw();
-    renderUI();
-    requestAnimationFrame(tick);
-  }
-
-  // Controls
-  toggleEl.addEventListener("click", () => {
-    running = !running;
-    toggleEl.textContent = running ? "Pause" : "Play";
-    pillMode.textContent = running ? "SIM" : "HOLD";
-  });
-
-  resetEl.addEventListener("click", () => {
-    seed = (seed * 1664525 + 1013904223) >>> 0;
-    tokens.length = 0;
-    roll.g1_rej = roll.g2_warn = roll.g3_warn = roll.g4_rej = 0;
-    nc = 0.12; err = 0.06;
-    engage = clamp(Number(frictionEl.value)/100, 0, 1);
-    collapse = false;
-    makeCase();
-  });
-
-  gammaEl.addEventListener("input", () => makeCase());
-  workEl.addEventListener("input", () => makeCase());
-  frictionEl.addEventListener("input", () => makeCase());
-
-  newCaseBtn.addEventListener("click", () => makeCase());
-  copyAdr.addEventListener("click", () => {
-    copyText(adrJsonEl.textContent).then(() => {
-      copyAdr.textContent = "Copied";
-      setTimeout(() => (copyAdr.textContent = "Copy JSON"), 900);
+    document.addEventListener("click", (e) => {
+      if (!el.presetCombo) return;
+      if (!el.presetCombo.contains(e.target)) setComboOpen(false);
     });
-  });
 
-  // init
-  resize();
-  setPresetValue(getPresetValue());
-  applyPreset();
-  makeCase();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setComboOpen(false);
+    });
 
-  if (prefersReduced){
-    running = false;
-    toggleEl.textContent = "Play";
-    pillMode.textContent = "STATIC";
+    if (el.newCase) el.newCase.addEventListener("click", () => makeCase());
+    if (el.copyAdr) {
+      el.copyAdr.addEventListener("click", async () => {
+        const text = el.adrJson?.textContent || "{}";
+        const ok = await copyText(text);
+        el.copyAdr.textContent = ok ? "Copied" : "Copy failed";
+        setTimeout(() => { el.copyAdr.textContent = "Copy JSON"; }, 900);
+      });
+    }
+
+    window.addEventListener("resize", () => {
+      resize();
+      drawScene();
+    }, { passive: true });
   }
 
-  requestAnimationFrame(tick);
+  function loop() {
+    const t = now();
+    const dt = clamp((t - sim.last) / 1000, 0, 0.05);
+    sim.last = t;
+
+    if (sim.running) {
+      sim.time += dt;
+      updateRates(dt);
+      stepParticles(dt);
+      updateUI();
+    }
+
+    drawScene();
+    requestAnimationFrame(loop);
+  }
+
+  function init() {
+    resize();
+    wire();
+    applyPreset("steady");
+    seedParticles(70);
+    makeCase();
+    updateUI();
+    sim.last = now();
+    requestAnimationFrame(loop);
+  }
+
+  init();
 })();
