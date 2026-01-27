@@ -10,10 +10,10 @@
   <meta name="description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.">
 
   <link rel="canonical" href="https://takashisato.me/papers/part1.html">
+
   <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <link rel="stylesheet" href="/assets/site.css" />
-  <link rel="stylesheet" href="/assets/part1.css" />
+  <link rel="stylesheet" href="/assets/site.css">
 
   <meta property="og:title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato">
   <meta property="og:type" content="article">
@@ -31,13 +31,24 @@
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
     "headline": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
-    "author": { "@type": "Person", "name": "Takashi Sato" },
-    "publisher": { "@type": "Person", "name": "Takashi Sato" },
+    "author": {
+      "@type": "Person",
+      "name": "Takashi Sato"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Takashi Sato"
+    },
     "datePublished": "2026-01-01",
     "dateModified": "2026-01-26",
-    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://takashisato.me/papers/part1.html" }
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://takashisato.me/papers/part1.html"
+    }
   }
   </script>
+
+  <link rel="stylesheet" href="/assets/part1.css">
 </head>
 
 <body class="paper">
@@ -75,138 +86,75 @@
     <article class="article-body">
       <p class="lead">To preserve the human, we must engineer the friction of thought.</p>
 
-      <section class="visualizer-wrapper">
-        <div class="altrion-viz" data-theme="obsidian">
-          <div class="altrion-top">
-            <div class="altrion-title">
-              <div class="altrion-kicker">ALTRION GATE VISUALIZER (PART I)</div>
-              <div class="altrion-desc">
-                Four-gate workflow governance as a cognitive firewall. Left: pipeline + phase transition
-                (NC → ritualization collapse). Right: explicit gate specs (Detect/Enforce) + live evaluation
-                + ADR preview.
-              </div>
-            </div>
+      <section class="visualizer-wrapper" aria-label="ALTRION Gate Visualizer (Part I)">
+        <div class="altrion-viz">
+          <div class="altrion-shell">
+            <div class="altrion-grid">
+              <div class="altrion-panel">
+                <div class="block">
+                  <div class="hd">
+                    <b>ALTRION Gate Visualizer</b>
+                    <div class="kpi">
+                      <span class="badgeMini ok"><span class="dot"></span>Live</span>
+                      <span class="badgeMini"><span>t</span> <span id="tval">—</span></span>
+                    </div>
+                  </div>
 
-            <div class="altrion-status">
-              <button id="collapseBtn" class="btn">Collapse</button>
-              <div class="status-row">
-                <span class="badge" id="badgeCrit">critical: <b id="critPct">—</b>%</span>
-                <span class="badge">NC: <b id="ncPct">—</b>%</span>
-              </div>
-              <div class="status-row">
-                <span class="badge">mode: <b id="mode">SIM</b></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="altrion-grid">
-            <div class="pane pane-left">
-              <div class="pane-head">
-                <div class="pane-kpi">
-                  <span>NC:<b id="kNC">—</b>%</span>
-                  <span>ERR:<b id="kERR">—</b>%</span>
-                  <span>ENG:<b id="kENG">—</b>%</span>
-                  <span>γ:<b id="kG">—</b></span>
-                  <span>λ:<b id="kL">—</b></span>
-                </div>
-
-                <div class="tabs" role="tablist" aria-label="Gates">
-                  <button class="tab is-active" data-tab="g1">G1 Baseline</button>
-                  <button class="tab" data-tab="g2">G2 Value</button>
-                  <button class="tab" data-tab="g3">G3 Temporal</button>
-                  <button class="tab" data-tab="g4">G4 Arbitrator</button>
-                </div>
-              </div>
-
-              <div class="scene">
-                <canvas id="scene" aria-label="Simulation canvas"></canvas>
-                <div id="veil" class="veil" aria-hidden="true"></div>
-              </div>
-
-              <div class="pane-foot">
-                <span class="small">controls</span>
-                <span class="small">embedded · CSP-friendly</span>
-              </div>
-            </div>
-
-            <div class="pane pane-right">
-              <div class="right-wrap">
-                <div class="spec-head">
-                  <div class="spec-title">x: Non-Compliance (NC)<br>y: Critical Error</div>
-                  <div class="spec-badges">
-                    <span class="badgeMini ok"><span class="dot"></span>LIVE</span>
-                    <span class="badgeMini">t:<b id="t">—</b></span>
+                  <div class="sceneWrap">
+                    <canvas id="scene" width="720" height="360"></canvas>
                   </div>
                 </div>
 
-                <div class="spec-plot">
-                  <canvas id="plot"></canvas>
-                  <div class="plot-lines" aria-hidden="true"></div>
-                  <div class="plot-label" id="plotLabel">critical @ <b>—</b>%</div>
-                </div>
+                <div class="block controls">
+                  <div>
+                    <label for="cond">Condition</label>
+                    <select id="cond">
+                      <option value="baseline">Baseline</option>
+                      <option value="strained">Strained</option>
+                      <option value="stressed">Stressed</option>
+                    </select>
+                  </div>
 
-                <div class="spec-box" id="specBox">
-                  <div class="spec-row"><span class="k">G1</span><span id="g1" class="v">—</span></div>
-                  <div class="spec-row"><span class="k">G2</span><span id="g2" class="v">—</span></div>
-                  <div class="spec-row"><span class="k">G3</span><span id="g3" class="v">—</span></div>
-                  <div class="spec-row"><span class="k">G4</span><span id="g4" class="v">—</span></div>
+                  <div>
+                    <label for="play">Playback</label>
+                    <button id="play" type="button">Pause</button>
+                  </div>
+
+                  <div class="range">
+                    <label for="fatigue">Fatigue (r)</label>
+                    <input id="fatigue" type="range" min="0" max="100" value="50">
+                  </div>
+
+                  <div class="range">
+                    <label for="workload">Workload (λ)</label>
+                    <input id="workload" type="range" min="0" max="100" value="50">
+                  </div>
+
+                  <div class="range">
+                    <label for="friction">Gate Friction</label>
+                    <input id="friction" type="range" min="0" max="100" value="50">
+                  </div>
+
+                  <div>
+                    <label for="rearm">Re-arm</label>
+                    <button id="rearm" type="button">Reset</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="altrion-controls">
-            <div class="control">
-              <label for="cond">Institutional Condition</label>
-              <select id="cond">
-                <option value="baseline">Baseline</option>
-                <option value="strained">Strained (thin staffing)</option>
-                <option value="stressed">Stressed (shock)</option>
-              </select>
+              <aside class="altrion-panel">
+                <div class="block">
+                  <div class="hd">
+                    <b>Gate State</b>
+                    <div class="kpi">
+                      <span class="badgeMini pass"><span class="dot"></span>Pass</span>
+                      <span class="badgeMini"><span>rej</span> <span id="rej">—</span></span>
+                    </div>
+                  </div>
+                  <p class="altrion-sub" id="gateNote">—</p>
+                </div>
+              </aside>
             </div>
-
-            <div class="control">
-              <label>Playback</label>
-              <button id="play" class="btn">Pause</button>
-            </div>
-
-            <div class="control range">
-              <label for="fatigue">Fatigue Coefficient (r)</label>
-              <input id="fatigue" type="range" min="0" max="100" value="50">
-            </div>
-
-            <div class="control range">
-              <label for="workload">Workload (λ)</label>
-              <input id="workload" type="range" min="0" max="100" value="50">
-            </div>
-
-            <div class="control range">
-              <label for="friction">Gate Friction (time/attention)</label>
-              <input id="friction" type="range" min="0" max="100" value="50">
-            </div>
-
-            <div class="control">
-              <label>Re-arm</label>
-              <button id="rearm" class="btn">Reset / Re-seed</button>
-            </div>
-          </div>
-
-          <div class="altrion-note">
-            <div class="note-head">NOTE</div>
-            <div class="note-body" id="note">
-              <b>INTERPRETATION</b><br>
-              NC = institutional non-compliance (overrides/ignores under fatigue/workload). Below critical NC,
-              staged gates reduce error. Beyond the critical region, gate 4 becomes procedural (ritualization)
-              and error rises sharply.
-            </div>
-          </div>
-
-          <div class="altrion-adr" id="adr">
-            <div class="adr-head">
-              <div class="adr-title">GOVERNANCE REGIME</div>
-              <div class="adr-chip" id="adrChip">—</div>
-            </div>
-            <pre class="adr-body" id="adrBody">{}</pre>
           </div>
         </div>
       </section>
