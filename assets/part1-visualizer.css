@@ -1,100 +1,130 @@
 /* =========================================================
-   THEME: "SWISS BRUTALISM" (Museum / Awwwards Grade)
-   Concept: Radical reduction. Wireframe only. Typography driven.
-   Target: assets/part1-visualizer.css ONLY.
+   THEME: "THE SINGULARITY" (Cinematic / FUI Grade)
+   Concept: Self-Illuminated Data. Deep Void. Living UI.
+   Target: Awwwards SOTD / FWA
    ========================================================= */
 
 .altrion-viz {
-  /* --- Palette: Strict High-Contrast Monochrome --- */
-  --bg-void: transparent; /* 背景なし。ボディの黒を活かす */
-  --line-heavy: #ffffff;  /* 太い線 */
-  --line-light: #333333;  /* 細い線 */
-  --ink: #ffffff;
-  --ink-dim: #666666;
+  /* --- Palette: Luminous Energy --- */
+  --bg-void: #020202;
+  --line-faint: rgba(255,255,255,0.08);
+  --line-active: rgba(255,255,255,0.3);
   
-  /* Typography */
-  --font-art: "Inter", sans-serif;
-  --font-code: "JetBrains Mono", monospace;
+  /* Phosphor White (冷たい発光白) */
+  --ink: #e0e6ff;
+  --ink-dim: rgba(224, 230, 255, 0.4);
+  
+  /* The Glow (光の滲み) */
+  --glow-text: 0 0 12px rgba(200, 220, 255, 0.3);
+  --glow-border: 0 0 10px rgba(255, 255, 255, 0.1);
+
+  /* Font Stack */
+  --font-display: "Inter", sans-serif;
+  --font-data: "JetBrains Mono", monospace;
 
   position: relative;
-  font-family: var(--font-art);
+  font-family: var(--font-data); /* 基本をデータフォントに */
   color: var(--ink);
   
-  /* Reset Containers */
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+  /* Container: The Void */
+  background: var(--bg-void) !important;
+  border: 1px solid var(--line-faint) !important;
+  box-shadow: 0 0 80px -20px rgba(0,0,0,1) !important;
   border-radius: 0 !important;
   
-  /* Top & Bottom Heavy Borders (Poster feel) */
-  border-top: 2px solid var(--line-heavy) !important;
-  border-bottom: 2px solid var(--line-heavy) !important;
-  padding: 4rem 0;
-  margin: 2rem 0;
+  overflow: hidden;
+  isolation: isolate; /* 光の合成用 */
 }
 
 /* Scoped Reset */
 .altrion-viz * { box-sizing: border-box; border-radius: 0 !important; }
 
-/* 1. Header: Typographic, not structural */
+/* --- 0. Cinematic Effects (Pure CSS) --- */
+
+/* Scanline Overlay (微細な走査線) */
+.altrion-viz::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Vignette (四隅の減光) */
+.altrion-viz::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 50%, #000 120%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* --- 1. Header: The HUD Bar --- */
 .altrion-viz .altrion-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 4rem;
-  padding: 0 1rem;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--line-faint);
+  background: rgba(255,255,255,0.01);
+  position: relative;
+  z-index: 10;
 }
 
 .altrion-viz .altrion-brand h2 {
-  font-family: var(--font-art);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   margin: 0;
-  line-height: 1;
+  color: var(--ink);
+  text-shadow: var(--glow-text); /* 発光 */
 }
 
 .altrion-viz .altrion-brand p {
-  font-family: var(--font-code);
-  font-size: 0.75rem;
-  color: var(--ink-dim);
-  margin-top: 0.5rem;
-  max-width: 40ch;
+  display: none; /* ノイズ除去 */
 }
 
-/* Pills: Text tags, not buttons */
+/* Pills as Illuminated Indicators */
 .altrion-viz .altrion-pillrow {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
 }
 .altrion-viz .pill {
-  font-family: var(--font-code);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--ink-dim);
   background: transparent !important;
-  border: none !important;
-  padding: 0;
-  box-shadow: none !important;
+  border: 1px solid var(--line-faint) !important;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
 }
-.altrion-viz .pill span { color: var(--ink); }
-.altrion-viz .dot {
-  display: inline-block;
-  width: 6px; height: 6px;
-  background: var(--ink);
-  margin-right: 8px;
-  border-radius: 0; /* Square dots */
+.altrion-viz .pill:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  box-shadow: var(--glow-text);
 }
 
-/* 2. Main Grid: Wireframe Layout */
+.altrion-viz .dot {
+  width: 4px; height: 4px; background: var(--ink);
+  box-shadow: 0 0 6px var(--ink); /* 点光源 */
+}
+
+/* --- 2. Main Stage: The Hologram --- */
 .altrion-viz .altrion-stage { padding: 0; }
 
 .altrion-viz .grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr; /* Canvas priority */
-  gap: 0; /* No gaps, used borders instead */
-  border: 1px solid var(--line-light) !important;
-  min-height: 600px;
+  grid-template-columns: 1fr 340px; /* Panel fixed width */
+  min-height: 640px;
+  border: none !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -102,184 +132,204 @@
 /* Left Pane (Visualizer) */
 .altrion-viz .vizpane {
   position: relative;
-  border-right: 1px solid var(--line-light);
-  background: transparent !important;
+  border-right: 1px solid var(--line-faint);
+  background: radial-gradient(circle at 50% 50%, rgba(20,25,40,0.2) 0%, transparent 70%); /* 微かなアンビエント光 */
 }
 
 .altrion-viz canvas {
   width: 100%;
   height: 100%;
   display: block;
-  opacity: 0.8;
-  /* Pure white lines on black */
-  filter: grayscale(100%) brightness(5.0) contrast(1.5);
+  opacity: 0.9;
+  /* Magic Filter: 線を発光させる */
+  filter: grayscale(100%) brightness(1.8) contrast(1.4) drop-shadow(0 0 8px rgba(200, 220, 255, 0.4));
   mix-blend-mode: screen;
 }
 
-/* Banner: Minimalist Status Overlay */
+/* Floating Status Banner */
 .altrion-viz .banner {
   position: absolute;
-  top: 1rem; left: 1rem;
+  top: 2rem; left: 2rem;
   background: transparent !important;
   border: none !important;
   padding: 0;
   box-shadow: none !important;
+  pointer-events: none;
 }
 .altrion-viz .banner .label b {
-  font-family: var(--font-art);
-  font-size: 3rem; /* Massive Type */
-  font-weight: 300;
-  line-height: 0.9;
-  color: var(--ink);
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
 }
-.altrion-viz .banner .state { display: none; } /* Hide clutter */
+.altrion-viz .banner .state span {
+  font-family: var(--font-data);
+  font-size: 2rem;
+  color: #fff;
+  font-weight: 300;
+  text-shadow: 0 0 20px rgba(255,255,255,0.6); /* 強い発光 */
+}
 
-/* Right Pane (Controls & Data) */
+/* --- 3. Right Panel: The Terminal --- */
 .altrion-viz .altrion-panel {
   display: flex;
   flex-direction: column;
-  background: transparent !important;
+  background: rgba(0,0,0,0.4) !important;
+  backdrop-filter: blur(4px);
+  z-index: 5;
 }
 
 .altrion-viz .block {
-  border-bottom: 1px solid var(--line-light) !important;
+  border-bottom: 1px solid var(--line-faint) !important;
   background: transparent !important;
   box-shadow: none !important;
 }
 
-.altrion-viz .block:last-child { border-bottom: none !important; }
-
 .altrion-viz .block .hd {
-  padding: 1rem;
-  border-bottom: 1px solid var(--line-light) !important;
-  background: transparent !important;
-  font-family: var(--font-code);
-  font-size: 0.7rem;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line-faint) !important;
+  background: rgba(255,255,255,0.02) !important;
+  font-size: 0.65rem;
   text-transform: uppercase;
+  letter-spacing: 0.15em;
   color: var(--ink-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+/* Live Indicator */
+.altrion-viz .block .hd span::after {
+  content: "●";
+  color: #0f0;
+  margin-left: 6px;
+  font-size: 8px;
+  text-shadow: 0 0 5px #0f0;
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-.altrion-viz .block .bd { padding: 1.5rem 1rem; }
+.altrion-viz .block .bd { padding: 16px; }
 
-/* Controls: Wireframe Style */
-.altrion-viz .controls { display: grid; gap: 1.5rem; }
+/* Controls: Cyberpunk Sliders */
+.altrion-viz .controls { display: grid; gap: 1.2rem; }
 .altrion-viz .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 .altrion-viz label {
-  font-family: var(--font-code);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--ink-dim);
-  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
   display: block;
 }
 
-/* Inputs & Buttons: Architects Lines */
+/* Buttons */
 .altrion-viz button,
 .altrion-viz .comboBtn {
   width: 100%;
   padding: 10px 0;
-  background: transparent !important;
-  border: 1px solid var(--line-light) !important;
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid var(--line-faint) !important;
   color: var(--ink) !important;
-  font-family: var(--font-code);
-  font-size: 0.75rem;
+  font-family: var(--font-data);
+  font-size: 0.7rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .altrion-viz button:hover {
-  background: var(--ink) !important;
-  color: #000 !important; /* Invert on hover */
+  background: rgba(255,255,255,0.1) !important;
   border-color: var(--ink) !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.15);
+  color: #fff !important;
 }
 
+/* Range Inputs: Light Beams */
 .altrion-viz input[type="range"] {
   -webkit-appearance: none;
   background: transparent;
   width: 100%;
 }
 .altrion-viz input[type="range"]::-webkit-slider-runnable-track {
-  height: 1px;
-  background: var(--line-light);
+  height: 2px;
+  background: linear-gradient(90deg, var(--line-active), var(--line-faint));
 }
 .altrion-viz input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 10px; height: 10px;
-  background: var(--ink);
+  width: 2px; height: 12px; /* 薄いバー */
+  background: #fff;
   margin-top: -5px;
   border: none;
-  border-radius: 0; /* Square thumb */
+  box-shadow: 0 0 8px #fff; /* 発光 */
 }
 
-/* Gates: The List Aesthetic */
-.altrion-viz .subgrid { display: grid; gap: 0; } /* border separated */
+/* Gates: Data Stream */
+.altrion-viz .subgrid { display: grid; gap: 1px; background: var(--line-faint); border: 1px solid var(--line-faint); }
 
 .altrion-viz .gate {
-  padding: 1rem 0;
+  background: #050505 !important;
+  padding: 10px;
   border: none !important;
-  border-bottom: 1px solid var(--line-light) !important;
-  background: transparent !important;
   margin: 0;
+  transition: background 0.3s;
 }
-.altrion-viz .gate:last-child { border-bottom: none; }
+.altrion-viz .gate:hover { background: #0a0a0a !important; }
 
 .altrion-viz .gTop {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
 }
 .altrion-viz .gTitle b {
-  font-family: var(--font-code);
-  font-size: 0.8rem;
-  color: var(--ink);
+  font-size: 0.7rem;
+  color: #fff;
+  letter-spacing: 0.05em;
 }
 
 .altrion-viz .gBody .kv {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-code);
-  font-size: 0.7rem;
-  margin-top: 0.25rem;
+  font-size: 0.65rem;
   color: var(--ink-dim);
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+  padding: 2px 0;
 }
+.altrion-viz .gBody .kv:last-child { border-bottom: none; }
 
-/* Live Case: Big Data */
-.altrion-viz .split { display: grid; gap: 2rem; margin-top: 1rem; }
+/* Live Data Box */
+.altrion-viz .split { display: grid; gap: 1rem; margin-top: 1rem; }
 .altrion-viz .case {
-  border: 1px solid var(--line-light);
-  padding: 1rem;
-  background: transparent !important;
+  border: 1px solid var(--line-faint);
+  padding: 12px;
+  background: rgba(255,255,255,0.02) !important;
 }
 .altrion-viz .caseHead b {
-  font-family: var(--font-code);
-  font-size: 0.7rem;
-  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
   color: var(--ink-dim);
 }
 .altrion-viz .caseGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 8px;
+  margin-top: 8px;
 }
-.altrion-viz .stat .t {
-  font-size: 0.65rem;
-  color: var(--ink-dim);
-  text-transform: uppercase;
+.altrion-viz .stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
-.altrion-viz .stat .n {
-  font-family: var(--font-art);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--ink);
-  margin-top: 2px;
-}
+.altrion-viz .stat .t { font-size: 0.6rem; color: var(--ink-dim); }
+.altrion-viz .stat .n { font-size: 0.8rem; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
 
 /* Mobile */
 @media (max-width: 900px) {
   .altrion-viz .grid { grid-template-columns: 1fr; }
-  .altrion-viz .vizpane { border-right: none; border-bottom: 1px solid var(--line-light); min-height: 400px; }
-  .altrion-viz .altrion-top { flex-direction: column; gap: 1rem; }
+  .altrion-viz .vizpane { border-right: none; border-bottom: 1px solid var(--line-faint); min-height: 400px; }
 }
