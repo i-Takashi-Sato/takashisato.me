@@ -123,7 +123,9 @@
           Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
         </p>
 
-        <!-- VISUALIZER (embedded, interactive) -->
+        <!-- VISUALIZER (embedded, interactive)
+             NOTE: CSS MUST be scoped under .altrion-viz to avoid collisions with site.css/part1.css.
+             The outer wrapper guarantees a height so canvas does not collapse. -->
         <div class="visualizer-wrapper">
           <section class="altrion-viz" aria-label="ALTRION Gate Visualizer (Part I)">
             <div class="altrion-aura" aria-hidden="true"></div>
@@ -146,9 +148,9 @@
             </header>
 
             <div class="altrion-stage" role="region" aria-label="ALTRION simulation">
-              <div class="grid">
+              <div class="altrion-grid">
                 <!-- LEFT: VISUAL -->
-                <div class="viz">
+                <div class="altrion-vizpane">
                   <canvas id="scene" aria-label="Gate pipeline + phase plot"></canvas>
                   <div class="overlay">
                     <div class="veil" id="veil"></div>
@@ -167,7 +169,7 @@
                 </div>
 
                 <!-- RIGHT: CONTROLS / GATES / ADR -->
-                <aside class="panel" aria-label="Controls and gate specs">
+                <aside class="altrion-panel" aria-label="Controls and gate specs">
                   <div class="block">
                     <div class="hd">
                       <b>controls</b>
