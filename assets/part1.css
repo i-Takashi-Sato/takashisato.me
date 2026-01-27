@@ -5,7 +5,7 @@
    Scope: Only inside .visualizer-wrapper and its viz subtree
    ========================================================= */
 
-/* 0) Local HUD tokens (fallbacks if site.css tokens differ) */
+/* 0) Local HUD tokens */
 .visualizer-wrapper{
   --hud-ink: rgba(255,255,255,.90);
   --hud-sub: rgba(255,255,255,.62);
@@ -17,34 +17,33 @@
   --hud-stroke: var(--accent-stroke, rgba(255,255,255,.55));
   --hud-glow:   var(--accent-glow, rgba(255,255,255,.18));
 
-  --hud-bg: rgba(5, 5, 6, 0.64);
-  --hud-bg2: rgba(10, 10, 12, 0.52);
+  --hud-bg:  rgba(5, 5, 6, 0.92);
+  --hud-bg2: rgba(10, 10, 12, 0.86);
 
   --hud-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* =========================================================
-   1) The Wrapper (Outer Frame)
-   “Card” -> “Instrument Glass Plate”
-   ========================================================= */
+/* 1) Wrapper (Outer Frame) */
 .visualizer-wrapper{
   width: 100%;
   margin: 5rem 0;
 
   border: 1px solid var(--hud-line);
-  border-radius: 0; /* Obsidian Style: sharp */
+  border-radius: 0;
 
   background:
-    radial-gradient(1100px 620px at 12% -8%, rgba(255,255,255,.030), transparent 62%),
-    radial-gradient(1000px 600px at 88% 12%, rgba(255,255,255,.016), transparent 66%),
-    linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.006)),
+    radial-gradient(1100px 620px at 12% -8%, rgba(255,255,255,.028), transparent 62%),
+    radial-gradient(1000px 600px at 88% 12%, rgba(255,255,255,.014), transparent 66%),
+    linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.004)),
     linear-gradient(180deg, var(--hud-bg), var(--hud-bg2));
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 
   overflow: hidden;
   position: relative;
+
+  isolation: isolate;
 
   box-shadow:
     0 22px 70px rgba(0,0,0,.62),
@@ -52,14 +51,14 @@
     inset 0 0 26px rgba(0,0,0,.82);
 }
 
-/* scanlines (subtle, always-on) */
+/* scanlines */
 .visualizer-wrapper::after{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
   z-index:2;
-  opacity:.14;
+  opacity:.12;
   background:
     repeating-linear-gradient(
       to bottom,
@@ -70,14 +69,14 @@
     );
 }
 
-/* corner ticks (HUD detail, no layout changes) */
+/* corner ticks */
 .visualizer-wrapper::before{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
   z-index:1;
-  opacity:.60;
+  opacity:.58;
   background:
     linear-gradient(var(--hud-stroke),var(--hud-stroke)) left 14px top 12px / 18px 1px no-repeat,
     linear-gradient(var(--hud-stroke),var(--hud-stroke)) left 14px top 12px / 1px 18px no-repeat,
@@ -97,11 +96,7 @@
   z-index: 3;
 }
 
-/* =========================================================
-   2) HUD Typography (Monospaced Data + Tabular Numbers)
-   ========================================================= */
-
-/* Only “data UI” becomes mono; do not kill your main serif identity elsewhere */
+/* 2) HUD Typography */
 .visualizer-wrapper .altrion-viz .altrion-panel,
 .visualizer-wrapper .altrion-viz .block,
 .visualizer-wrapper .altrion-viz .banner,
@@ -120,7 +115,6 @@
   letter-spacing: -0.01em;
 }
 
-/* operator labels */
 .visualizer-wrapper .altrion-viz label,
 .visualizer-wrapper .altrion-viz .hd span,
 .visualizer-wrapper .altrion-viz .hd b{
@@ -130,41 +124,38 @@
   color: var(--hud-sub);
 }
 
-/* =========================================================
-   3) Internal surfaces -> instrument panels (no new elements)
-   ========================================================= */
-
-/* grid/pane mapping: your DOM uses .altrion-grid / .altrion-panel */
+/* 3) Surfaces */
 .visualizer-wrapper .altrion-viz .altrion-grid{
   border-radius: 0;
   border: 1px solid var(--hud-line);
   background:
-    radial-gradient(920px 560px at 70% 8%, rgba(255,255,255,.024), transparent 62%),
-    linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,.006));
+    radial-gradient(920px 560px at 70% 8%, rgba(255,255,255,.018), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.008), rgba(255,255,255,.003)),
+    rgba(0,0,0,.48);
   box-shadow:
     0 18px 60px rgba(0,0,0,.55),
     inset 0 1px 0 rgba(255,255,255,.05);
   overflow: hidden;
 }
 
-/* right panel */
 .visualizer-wrapper .altrion-viz .altrion-panel{
   border-left: 1px solid var(--hud-line2);
   background:
-    linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.006));
+    linear-gradient(180deg, rgba(255,255,255,.007), rgba(255,255,255,.002)),
+    rgba(0,0,0,.44);
 }
 
-/* blocks -> squared dense modules */
 .visualizer-wrapper .altrion-viz .block{
   border-radius: 0 !important;
   border: 1px solid var(--hud-line) !important;
-  background: rgba(255,255,255,.010) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.006), rgba(255,255,255,.002)),
+    rgba(0,0,0,.46) !important;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.05),
     inset 0 0 22px rgba(0,0,0,.70);
 }
 
-/* badges/pills -> operator tags */
 .visualizer-wrapper .altrion-viz .pill,
 .visualizer-wrapper .altrion-viz .badge,
 .visualizer-wrapper .altrion-viz .badgeMini{
@@ -175,27 +166,22 @@
   text-shadow: 0 0 14px rgba(255,255,255,.10);
 }
 
-/* dot signal -> luminous neutral */
 .visualizer-wrapper .altrion-viz .dot{
   background: rgba(255,255,255,.72) !important;
   box-shadow: 0 0 0 4px rgba(255,255,255,.08) !important;
 }
 
-/* =========================================================
-   4) Canvas: phosphor-white conversion (CSS-only)
-   DOM: your canvas is canvas#scene
-   ========================================================= */
-
+/* 4) Canvas */
 .visualizer-wrapper .altrion-viz canvas#scene{
   border-radius: 0 !important;
   border: 1px solid rgba(255,255,255,.08) !important;
-  background: linear-gradient(180deg, rgba(0,0,0,.24), rgba(0,0,0,.62)) !important;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.62)) !important;
 
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,.04),
     inset 0 0 28px rgba(0,0,0,.86) !important;
 
-  /* CSS-only “white phosphor” */
   filter:
     grayscale(1)
     saturate(0)
@@ -207,11 +193,7 @@
   opacity: .92;
 }
 
-/* =========================================================
-   5) “Gate” states (if classes exist): monochrome by default, blood only on failure
-   ========================================================= */
-
-/* ok/pass */
+/* 5) Gate states (if classes exist) */
 .visualizer-wrapper .altrion-viz .badgeMini.ok,
 .visualizer-wrapper .altrion-viz .badgeMini.pass{
   border-color: rgba(255,255,255,.26) !important;
@@ -219,7 +201,6 @@
   box-shadow: 0 0 16px -10px rgba(255,255,255,.22);
 }
 
-/* danger/fail */
 .visualizer-wrapper .altrion-viz .badgeMini.danger,
 .visualizer-wrapper .altrion-viz .badgeMini.fail,
 .visualizer-wrapper .altrion-viz .badgeMini.collapse{
@@ -230,10 +211,7 @@
   box-shadow: 0 0 20px -8px rgba(217, 4, 41, 0.35);
 }
 
-/* =========================================================
-   6) Controls: range slider as “console” (no round knob)
-   ========================================================= */
-
+/* 6) Controls */
 .visualizer-wrapper .altrion-viz input[type="range"]{
   -webkit-appearance: none;
   appearance: none;
@@ -266,7 +244,6 @@
   transform: scaleY(1.2);
 }
 
-/* buttons -> operator keys */
 .visualizer-wrapper .altrion-viz button{
   border-radius: 0 !important;
   border: 1px solid rgba(255,255,255,.12) !important;
@@ -282,16 +259,13 @@
   transform: translateY(-1px);
 }
 
-/* focus: luminous, not blue */
 .visualizer-wrapper .altrion-viz :focus-visible{
   outline: 2px solid rgba(255,255,255,.78);
   outline-offset: 3px;
   box-shadow: 0 0 0 6px rgba(255,255,255,.06);
 }
 
-/* =========================================================
-   Reduced Motion: keep terminal stable
-   ========================================================= */
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce){
   .visualizer-wrapper::after{ opacity: .10; }
   .visualizer-wrapper .altrion-viz button{ transition: none !important; }
