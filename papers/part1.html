@@ -12,8 +12,7 @@
   <link rel="canonical" href="https://takashisato.me/papers/part1.html">
   <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <link rel="stylesheet" href="/assets/site.css">
-  <link rel="stylesheet" href="/assets/part1.css">
+  <link rel="stylesheet" href="/assets/site.css" />
 
   <meta property="og:title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato">
   <meta property="og:type" content="article">
@@ -64,6 +63,7 @@
 
     <header class="article-header">
       <h1>Workflow-Centric AI Governance</h1>
+
       <div class="article-meta">
         <span>Part I</span>
         <span>Friction</span>
@@ -74,145 +74,7 @@
     <article class="article-body">
       <p class="lead">To preserve the human, we must engineer the friction of thought.</p>
 
-      <section class="visualizer-wrapper" aria-label="ALTRION Gate Visualizer">
-        <div class="altrion-viz">
-          <div class="altrion-shell">
-
-            <div class="altrion-top">
-              <div class="altrion-title">
-                ALTRION GATE VISUALIZER (PART I)
-                <span class="altrion-sub">
-                  Four-gate workflow governance as a cognitive firewall. Left: pipeline + phase transition (NC → ritualization collapse). Right: explicit gate specs (Detect/Enforce) + live evaluation + ADR preview.
-                </span>
-              </div>
-
-              <div class="altrion-status">
-                <span class="badgeMini ok"><span class="dot"></span><span id="liveMode">LIVE</span></span>
-                <span class="badgeMini"><span>t:</span> <span id="tval">—</span></span>
-                <span class="badgeMini"><span>NC:</span> <span id="nc">—</span></span>
-                <span class="badgeMini"><span>ERR:</span> <span id="err">—</span></span>
-                <span class="badgeMini"><span>ENG:</span> <span id="eng">—</span></span>
-                <span class="badgeMini"><span>γ:</span> <span id="g">—</span></span>
-                <span class="badgeMini"><span>λ:</span> <span id="lam">—</span></span>
-              </div>
-            </div>
-
-            <div class="altrion-grid">
-              <div class="pane">
-                <div class="tabs" role="tablist" aria-label="Modes">
-                  <button class="pill is-active" data-mode="baseline" role="tab" aria-selected="true">G1 Baseline</button>
-                  <button class="pill" data-mode="value" role="tab" aria-selected="false">G2 Value</button>
-                  <button class="pill" data-mode="temporal" role="tab" aria-selected="false">G3 Temporal</button>
-                  <button class="pill" data-mode="arbitrate" role="tab" aria-selected="false">G4 Arbitrate</button>
-                </div>
-
-                <div class="sceneWrap">
-                  <canvas id="scene" width="720" height="360" aria-label="Simulation scene"></canvas>
-                  <div id="veil" class="veil" aria-hidden="true"></div>
-                </div>
-
-                <div class="paneFoot">
-                  <span>CONTROLS</span>
-                  <span class="muted">EMBEDDED · CSP-FRIENDLY</span>
-                </div>
-
-                <div class="controls">
-                  <div class="row">
-                    <div class="field">
-                      <label for="cond">INSTITUTIONAL CONDITION</label>
-                      <select id="cond">
-                        <option value="baseline">Baseline</option>
-                        <option value="strained">Strained (thin staffing)</option>
-                        <option value="stressed">Stressed (multi-incident)</option>
-                      </select>
-                    </div>
-
-                    <div class="field">
-                      <label for="play">PLAYBACK</label>
-                      <button id="play" type="button">Pause</button>
-                    </div>
-                  </div>
-
-                  <div class="row two">
-                    <div class="field">
-                      <label for="fatigue">FATIGUE COEFFICIENT (r)</label>
-                      <input id="fatigue" type="range" min="0" max="100" value="50">
-                    </div>
-
-                    <div class="field">
-                      <label for="workload">WORKLOAD (λ)</label>
-                      <input id="workload" type="range" min="0" max="100" value="50">
-                    </div>
-                  </div>
-
-                  <div class="row two">
-                    <div class="field">
-                      <label for="friction">GATE FRICTION (TIME/ATTENTION)</label>
-                      <input id="friction" type="range" min="0" max="100" value="50">
-                    </div>
-
-                    <div class="field">
-                      <label for="rearm">RE-ARM</label>
-                      <button id="rearm" type="button">Reset / Re-seed</button>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="note">
-                  <div class="hd">
-                    <b>NOTE</b>
-                    <span class="badgeMini"><span>mode:</span> <span id="modeName">—</span></span>
-                  </div>
-                  <p id="noteText" class="muted">—</p>
-                </div>
-              </div>
-
-              <aside class="pane side">
-                <div class="spec">
-                  <div class="hd">
-                    <b>GATE SPECIFICATIONS</b>
-                    <div class="kpi">
-                      <span class="badgeMini pass"><span class="dot"></span><span id="state">PASS</span></span>
-                      <span class="badgeMini"><span>rej</span> <span id="rej">—</span></span>
-                    </div>
-                  </div>
-
-                  <div class="plotWrap">
-                    <canvas id="plot" width="420" height="360" aria-label="Trajectory plot"></canvas>
-                  </div>
-
-                  <div class="specBody" id="specBody">
-                    <div class="specItem">
-                      <div class="specK">X:</div>
-                      <div class="specV">Non-Compliance (NC)</div>
-                    </div>
-                    <div class="specItem">
-                      <div class="specK">Y:</div>
-                      <div class="specV">Critical Error</div>
-                    </div>
-                    <div class="specItem">
-                      <div class="specK">Detect:</div>
-                      <div class="specV">Threshold crossing + drift signature</div>
-                    </div>
-                    <div class="specItem">
-                      <div class="specK">Enforce:</div>
-                      <div class="specV">Structured friction + forced rationale template</div>
-                    </div>
-                    <div class="specItem">
-                      <div class="specK">ADR:</div>
-                      <div class="specV">Decision record emitted on override</div>
-                    </div>
-                  </div>
-
-                  <div class="collapse">
-                    <button id="collapse" type="button">COLLAPSE</button>
-                  </div>
-                </div>
-              </aside>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- Visualizer removed intentionally (will be re-introduced later) -->
 
       <h2>1. Introduction</h2>
       <p>...</p>
@@ -257,7 +119,6 @@
     </footer>
   </main>
 
-  <script src="/assets/part1-visualizer.js" defer></script>
   <script src="/assets/scroll.js" defer></script>
 </body>
 </html>
