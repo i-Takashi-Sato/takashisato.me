@@ -1,279 +1,285 @@
 /* =========================================================
-   THEME: "STRATEGIC COMMAND" (Military/Financial Grade HUD)
-   Concept: High contrast, Monospaced, Raw Data, No Blur.
+   THEME: "SWISS BRUTALISM" (Museum / Awwwards Grade)
+   Concept: Radical reduction. Wireframe only. Typography driven.
+   Target: assets/part1-visualizer.css ONLY.
    ========================================================= */
 
 .altrion-viz {
-  /* --- Palette: Strict Monochrome & Signal Colors --- */
-  --bg-void: #000000;
-  --bg-panel: #0a0a0a;
-  --border-dim: #333333;
-  --border-light: #555555;
+  /* --- Palette: Strict High-Contrast Monochrome --- */
+  --bg-void: transparent; /* 背景なし。ボディの黒を活かす */
+  --line-heavy: #ffffff;  /* 太い線 */
+  --line-light: #333333;  /* 細い線 */
+  --ink: #ffffff;
+  --ink-dim: #666666;
   
-  --ink-main: #eeeeee;
-  --ink-dim: #888888;
-  
-  /* Signal Colors (Neon Phosphor) */
-  --signal-ok: #ffffff;      /* Pure White for active */
-  --signal-warn: #ffcc00;    /* Industrial Yellow */
-  --signal-err: #ff3333;     /* Alert Red */
-
   /* Typography */
-  --font-hud: "JetBrains Mono", "Roboto Mono", Consolas, monospace;
+  --font-art: "Inter", sans-serif;
+  --font-code: "JetBrains Mono", monospace;
 
-  /* Layout */
-  --r-hud: 0px; /* No rounded corners */
-  --pad: 20px;
-  
-  /* Base Container */
   position: relative;
-  font-family: var(--font-hud);
-  background: var(--bg-void);
-  border: 1px solid var(--border-dim);
-  box-shadow: 0 0 0 1px #111, 0 20px 50px -10px rgba(0,0,0,0.8);
-  color: var(--ink-main);
-  z-index: 10; /* Ensure it sits above red lines */
-  isolation: isolate;
+  font-family: var(--font-art);
+  color: var(--ink);
+  
+  /* Reset Containers */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  
+  /* Top & Bottom Heavy Borders (Poster feel) */
+  border-top: 2px solid var(--line-heavy) !important;
+  border-bottom: 2px solid var(--line-heavy) !important;
+  padding: 4rem 0;
+  margin: 2rem 0;
 }
 
 /* Scoped Reset */
-.altrion-viz * { box-sizing: border-box; }
+.altrion-viz * { box-sizing: border-box; border-radius: 0 !important; }
 
-/* 1. Grid & Lines (The Bloomberg/Radar Look) */
-.altrion-viz::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  /* Subtle grid pattern */
-  background-image: 
-    linear-gradient(var(--border-dim) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.15;
-  z-index: -1;
-}
-
-/* 2. Header Area */
+/* 1. Header: Typographic, not structural */
 .altrion-viz .altrion-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  padding: var(--pad);
-  border-bottom: 1px solid var(--border-dim);
-  background: var(--bg-panel);
+  align-items: flex-start;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
 }
 
 .altrion-viz .altrion-brand h2 {
-  font-size: 14px;
+  font-family: var(--font-art);
+  font-size: 1rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  margin: 0 0 8px 0;
-  color: var(--ink-main);
+  letter-spacing: 0.05em;
+  margin: 0;
+  line-height: 1;
 }
 
 .altrion-viz .altrion-brand p {
-  font-size: 11px;
+  font-family: var(--font-code);
+  font-size: 0.75rem;
   color: var(--ink-dim);
-  max-width: 60ch;
-  margin: 0;
-  line-height: 1.4;
+  margin-top: 0.5rem;
+  max-width: 40ch;
 }
 
-/* Pills as "Status Indicators" */
+/* Pills: Text tags, not buttons */
 .altrion-viz .altrion-pillrow {
   display: flex;
-  gap: 8px;
+  gap: 2rem;
 }
-
 .altrion-viz .pill {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 1px solid var(--border-dim);
-  padding: 4px 8px;
-  background: #000;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
   color: var(--ink-dim);
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+  box-shadow: none !important;
 }
-
+.altrion-viz .pill span { color: var(--ink); }
 .altrion-viz .dot {
   display: inline-block;
   width: 6px; height: 6px;
-  background: var(--ink-dim);
-  margin-right: 6px;
-  border-radius: 50%;
+  background: var(--ink);
+  margin-right: 8px;
+  border-radius: 0; /* Square dots */
 }
-.altrion-viz .dot.warn { background: var(--signal-warn); box-shadow: 0 0 8px var(--signal-warn); }
-.altrion-viz .dot.danger { background: var(--signal-err); box-shadow: 0 0 8px var(--signal-err); }
 
-/* 3. Main Stage */
-.altrion-viz .altrion-stage {
-  padding: 0;
-}
+/* 2. Main Grid: Wireframe Layout */
+.altrion-viz .altrion-stage { padding: 0; }
 
 .altrion-viz .grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1.5fr 1fr; /* Canvas priority */
+  gap: 0; /* No gaps, used borders instead */
+  border: 1px solid var(--line-light) !important;
   min-height: 600px;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /* Left Pane (Visualizer) */
 .altrion-viz .vizpane {
   position: relative;
-  border-right: 1px solid var(--border-dim);
-  background: #050505;
+  border-right: 1px solid var(--line-light);
+  background: transparent !important;
 }
 
 .altrion-viz canvas {
   width: 100%;
   height: 100%;
   display: block;
-  /* Force High Contrast "Radar" Look */
-  filter: grayscale(100%) brightness(1.5) contrast(1.2);
-  opacity: 0.9;
+  opacity: 0.8;
+  /* Pure white lines on black */
+  filter: grayscale(100%) brightness(5.0) contrast(1.5);
+  mix-blend-mode: screen;
 }
 
-/* Banner Overlay */
+/* Banner: Minimalist Status Overlay */
 .altrion-viz .banner {
   position: absolute;
-  bottom: 20px; left: 20px; right: 20px;
-  border: 1px solid var(--border-light);
-  background: rgba(0,0,0,0.9);
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  top: 1rem; left: 1rem;
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+  box-shadow: none !important;
 }
-.altrion-viz .banner .label b { display: block; font-size: 10px; letter-spacing: 0.15em; color: var(--ink-dim); }
-.altrion-viz .banner .state { font-size: 12px; color: var(--signal-ok); font-weight: bold; }
+.altrion-viz .banner .label b {
+  font-family: var(--font-art);
+  font-size: 3rem; /* Massive Type */
+  font-weight: 300;
+  line-height: 0.9;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.altrion-viz .banner .state { display: none; } /* Hide clutter */
 
-/* Right Pane (Controls) */
+/* Right Pane (Controls & Data) */
 .altrion-viz .altrion-panel {
-  background: var(--bg-panel);
   display: flex;
   flex-direction: column;
+  background: transparent !important;
 }
 
 .altrion-viz .block {
-  border-bottom: 1px solid var(--border-dim);
+  border-bottom: 1px solid var(--line-light) !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
+
+.altrion-viz .block:last-child { border-bottom: none !important; }
 
 .altrion-viz .block .hd {
-  background: #111;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border-dim);
-  font-size: 10px;
+  padding: 1rem;
+  border-bottom: 1px solid var(--line-light) !important;
+  background: transparent !important;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
   color: var(--ink-dim);
-  display: flex;
-  justify-content: space-between;
 }
 
-.altrion-viz .block .bd {
-  padding: 16px;
-}
+.altrion-viz .block .bd { padding: 1.5rem 1rem; }
 
-/* Controls (Sliders & Buttons) */
-.altrion-viz .controls { display: grid; gap: 16px; }
-.altrion-viz .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* Controls: Wireframe Style */
+.altrion-viz .controls { display: grid; gap: 1.5rem; }
+.altrion-viz .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 .altrion-viz label {
-  font-size: 10px;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
   color: var(--ink-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
+/* Inputs & Buttons: Architects Lines */
 .altrion-viz button,
-.altrion-viz .comboBtn,
-.altrion-viz .miniBtn {
-  appearance: none;
-  background: #000;
-  border: 1px solid var(--border-dim);
-  color: var(--ink-main);
-  font-family: var(--font-hud);
-  font-size: 11px;
-  padding: 8px 12px;
-  cursor: pointer;
+.altrion-viz .comboBtn {
+  width: 100%;
+  padding: 10px 0;
+  background: transparent !important;
+  border: 1px solid var(--line-light) !important;
+  color: var(--ink) !important;
+  font-family: var(--font-code);
+  font-size: 0.75rem;
   text-align: center;
-  transition: all 0.1s;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .altrion-viz button:hover {
-  background: #1a1a1a;
-  border-color: var(--border-light);
-  color: #fff;
+  background: var(--ink) !important;
+  color: #000 !important; /* Invert on hover */
+  border-color: var(--ink) !important;
 }
 
-.altrion-viz button.primary {
-  border-color: var(--ink-main);
-  background: #111;
-}
-
-/* Sliders - Tactical Look */
 .altrion-viz input[type="range"] {
   -webkit-appearance: none;
   background: transparent;
   width: 100%;
 }
 .altrion-viz input[type="range"]::-webkit-slider-runnable-track {
-  height: 2px;
-  background: var(--border-dim);
+  height: 1px;
+  background: var(--line-light);
 }
 .altrion-viz input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  margin-top: -6px;
-  width: 6px;
-  height: 14px;
-  background: var(--ink-main);
+  width: 10px; height: 10px;
+  background: var(--ink);
+  margin-top: -5px;
   border: none;
-  box-shadow: 0 0 5px rgba(255,255,255,0.5);
+  border-radius: 0; /* Square thumb */
 }
 
-/* Gate Cards (The Right Side List) */
-.altrion-viz .subgrid { display: grid; gap: 8px; }
+/* Gates: The List Aesthetic */
+.altrion-viz .subgrid { display: grid; gap: 0; } /* border separated */
+
 .altrion-viz .gate {
-  border: 1px solid var(--border-dim);
-  background: #000;
-  padding: 10px;
+  padding: 1rem 0;
+  border: none !important;
+  border-bottom: 1px solid var(--line-light) !important;
+  background: transparent !important;
+  margin: 0;
 }
+.altrion-viz .gate:last-child { border-bottom: none; }
+
 .altrion-viz .gTop {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--border-dim);
-  padding-bottom: 4px;
+  margin-bottom: 0.5rem;
 }
-.altrion-viz .gTitle b { font-size: 11px; color: var(--signal-ok); }
+.altrion-viz .gTitle b {
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+
 .altrion-viz .gBody .kv {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
-  margin-top: 4px;
-}
-.altrion-viz .gBody .k { color: var(--ink-dim); }
-.altrion-viz .gBody .v { text-align: right; color: var(--ink-main); }
-
-/* Live Case & JSON Box */
-.altrion-viz .split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.altrion-viz .case, .altrion-viz .adr {
-  border: 1px solid var(--border-dim);
-  background: #000;
-  padding: 10px;
-}
-.altrion-viz pre {
-  font-size: 10px;
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  margin-top: 0.25rem;
   color: var(--ink-dim);
-  white-space: pre-wrap;
-  margin: 0;
 }
 
-/* Mobile Responsiveness */
+/* Live Case: Big Data */
+.altrion-viz .split { display: grid; gap: 2rem; margin-top: 1rem; }
+.altrion-viz .case {
+  border: 1px solid var(--line-light);
+  padding: 1rem;
+  background: transparent !important;
+}
+.altrion-viz .caseHead b {
+  font-family: var(--font-code);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.altrion-viz .caseGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.altrion-viz .stat .t {
+  font-size: 0.65rem;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+.altrion-viz .stat .n {
+  font-family: var(--font-art);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+/* Mobile */
 @media (max-width: 900px) {
   .altrion-viz .grid { grid-template-columns: 1fr; }
-  .altrion-viz .vizpane { border-right: none; border-bottom: 1px solid var(--border-dim); min-height: 400px; }
+  .altrion-viz .vizpane { border-right: none; border-bottom: 1px solid var(--line-light); min-height: 400px; }
+  .altrion-viz .altrion-top { flex-direction: column; gap: 1rem; }
 }
