@@ -1,188 +1,150 @@
-/* =========================================================
-   ALTRION Visualizer — Part I (SCOPED)
-   Policy:
-   - NO :root / body / global typography overrides.
-   - Everything is scoped under .altrion-viz
-   - Keeps your "Museum of Governance" skin + φ ladder system
-   ========================================================= */
-
 .altrion-viz{
-  /* --- φ system --- */
   --phi: 1.61803398875;
 
-  /* Spacing (φ ladder) */
   --u: clamp(10px, 1.05vw, 14px);
   --s1: var(--u);
   --s2: calc(var(--u) * var(--phi));
   --s3: calc(var(--s2) * var(--phi));
   --s4: calc(var(--s3) * var(--phi));
 
-  /* Radii (φ ladder) */
   --r0: 2px;
   --r1: calc(2px * var(--phi));
   --r2: calc(var(--r1) * var(--phi));
   --r3: calc(var(--r2) * var(--phi));
   --r4: calc(var(--r3) * var(--phi));
 
-  /* Type (disciplined) */
   --fs0: clamp(12px, 0.60vw + 10px, 13.5px);
-  --fs1: calc(var(--fs0) * var(--phi));
-  --fs2: calc(var(--fs1) / var(--phi));
   --fs3: clamp(18px, 1.00vw + 13px, 22px);
-  --fs4: clamp(24px, 1.60vw + 14px, 30px);
 
-  /* Fonts (keep within visualizer) */
-  --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* --- V1500 palette (ratios) --- */
   --bg-void:  #050505;
   --bg1:      #07070a;
-  --panel:    #0a0a0a;
-  --panel2:   #080808;
 
-  /* Ink */
   --c-ink:   rgba(212,212,212,.88);
   --c-sub:   rgba(212,212,212,.52);
   --c-faint: rgba(212,212,212,.26);
 
-  /* Glass (edge/reflection only) */
-  --c-glass:      rgba(220,230,255,0.030);
-  --c-glass-edge: rgba(220,230,255,0.140);
-  --c-beam:       rgba(220,240,255,0.080);
-
-  /* Accent (10%) — warm amber */
   --c-warn: rgba(255,209,139,.82);
 
-  /* Rust (event-only) */
   --c-rust:        rgba(138,44,44,.38);
   --c-rust-active: rgba(138,44,44,.72);
 
-  --c-flash:   rgba(255,255,240,.92);
-  --c-residue: rgba(138,44,44,.62);
-
-  /* Lines / shadows */
   --line:  rgba(255,255,255,.10);
   --line2: rgba(255,255,255,.06);
 
   --shadow:  0 22px 70px rgba(0,0,0,.58);
   --shadow2: 0 14px 44px rgba(0,0,0,.46);
 
-  --max: 1180px;
   --pad: clamp(16px, 2.2vw, 26px);
 
   --ease:  cubic-bezier(.18,.88,.18,1);
   --ease2: cubic-bezier(.16,1,.3,1);
 
-  /* Focus should NOT be blue */
   --focus: rgba(255,209,139,.32);
 
-  /* Kill browser-blue (esp. Chrome range/select) */
   accent-color: rgba(212,212,212,.70);
 
-  position: relative;
-  color: var(--c-ink);
   font-family: var(--font-sans);
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
+  color: var(--c-ink);
+
+  position: relative;
+  isolation: isolate;
+  contain: layout paint;
 }
 
-/* Scoped box-sizing (do NOT touch global *) */
-.altrion-viz,
-.altrion-viz *{
-  box-sizing: border-box;
-}
+.altrion-viz *{ box-sizing:border-box; }
 
-/* Visualizer surface background (local) */
 .altrion-viz{
   border-radius: var(--r4);
-  border: 1px solid rgba(255,255,255,.10);
-  background:
-    radial-gradient(1100px 620px at 16% -10%, rgba(220,230,255,.04), transparent 62%),
-    radial-gradient(900px 560px at 88% 10%, rgba(255,209,139,.04), transparent 64%),
-    radial-gradient(820px 560px at 52% 118%, rgba(138,44,44,.02), transparent 64%),
-    linear-gradient(180deg, var(--bg-void), var(--bg1) 55%, #030304);
-  box-shadow: var(--shadow);
   overflow: hidden;
+  background:
+    radial-gradient(1100px 620px at 16% -10%, rgba(220,230,255,.035), transparent 62%),
+    radial-gradient(900px 560px at 88% 10%, rgba(255,209,139,.035), transparent 64%),
+    radial-gradient(820px 560px at 52% 118%, rgba(138,44,44,.018), transparent 64%),
+    linear-gradient(180deg, var(--bg-void), var(--bg1) 55%, #030304);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: var(--shadow);
 }
 
-/* Film grain / scanline (subtle) — local only */
 .altrion-viz::before{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.06;
+  opacity:.035;
   background-image:
     repeating-linear-gradient(0deg,
       rgba(255,255,255,.030),
       rgba(255,255,255,.030) 1px,
       transparent 1px,
-      transparent 3px),
+      transparent 4px),
     repeating-linear-gradient(90deg,
-      rgba(0,0,0,.30),
-      rgba(0,0,0,.30) 1px,
+      rgba(0,0,0,.22),
+      rgba(0,0,0,.22) 1px,
       transparent 1px,
-      transparent 4px);
-  mix-blend-mode: overlay;
-  z-index: 0;
+      transparent 6px);
+  mix-blend-mode: normal;
 }
 
-/* Ambient museum glow (slow) — use your existing DOM node: .altrion-aura */
 .altrion-viz .altrion-aura{
   position:absolute;
-  inset:-20%;
+  inset:-18%;
   pointer-events:none;
-  opacity:.22;
-  filter: blur(28px);
+  opacity:.16;
+  filter: blur(30px);
   background:
     conic-gradient(from 220deg at 50% 50%,
-      rgba(138,44,44,.04),
-      rgba(220,230,255,.05),
-      rgba(255,209,139,.05),
-      rgba(138,44,44,.04));
+      rgba(138,44,44,.035),
+      rgba(220,230,255,.040),
+      rgba(255,209,139,.040),
+      rgba(138,44,44,.035));
   transform: translate3d(0,0,0);
   animation: altrion-drift 14s var(--ease2) infinite alternate;
   z-index: 0;
 }
+
 @keyframes altrion-drift{
-  0%{ transform: translate3d(-1.2%, -0.6%, 0) rotate(-2deg); }
+  0%{ transform: translate3d(-1.1%, -0.6%, 0) rotate(-2deg); }
   100%{ transform: translate3d(1.0%, 0.9%, 0) rotate(2deg); }
 }
 
-/* Top header area inside visualizer */
 .altrion-viz .altrion-top{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
   gap: var(--s2);
-  padding: calc(var(--pad) + 2px) var(--pad) 0;
-  position: relative;
-  z-index: 1;
+  padding: calc(var(--pad) + 4px) var(--pad) 0;
+  position:relative;
+  z-index: 2;
+}
+
+.altrion-viz .altrion-brand{
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+  min-width: 260px;
 }
 
 .altrion-viz .altrion-brand h2{
   margin:0;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: .10em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: .02em;
   font-size: var(--fs3);
-  line-height: 1.08;
+  line-height: 1.10;
 }
 
 .altrion-viz .altrion-brand p{
-  margin: 8px 0 0;
+  margin:0;
   color: var(--c-sub);
-  line-height: calc(var(--phi) * 1.0);
+  line-height: 1.55;
   font-size: var(--fs0);
   max-width: 78ch;
 }
 
 .altrion-viz .emph{ color: rgba(212,212,212,.92); }
 
-/* Pill row */
 .altrion-viz .altrion-pillrow{
   display:flex;
   gap:10px;
@@ -199,7 +161,7 @@
   padding: 8px 10px;
   border-radius: 999px;
   border: 1px solid var(--line2);
-  background: rgba(255,255,255,.02);
+  background: rgba(0,0,0,.22);
   box-shadow: 0 10px 25px rgba(0,0,0,.30);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -208,166 +170,67 @@
   position:relative;
   overflow:hidden;
 }
+
 .altrion-viz .pill::after{
   content:"";
   position:absolute;
   inset:-1px;
   pointer-events:none;
-  background: radial-gradient(160px 60px at 10% 20%, rgba(255,255,255,.06), transparent 70%);
-  opacity:.55;
+  background: radial-gradient(160px 60px at 10% 20%, rgba(255,255,255,.05), transparent 70%);
+  opacity:.50;
 }
 
 .altrion-viz .dot{
   width:8px;height:8px;border-radius:99px;
   background: rgba(212,212,212,.78);
-  box-shadow: 0 0 0 4px rgba(212,212,212,.08);
+  box-shadow: 0 0 0 4px rgba(212,212,212,.07);
 }
-.altrion-viz .dot.warn{ background: rgba(255,209,139,.78); box-shadow:0 0 0 4px rgba(255,209,139,.08); }
-.altrion-viz .dot.danger{ background: rgba(138,44,44,.72); box-shadow:0 0 0 4px rgba(138,44,44,.08); }
+.altrion-viz .dot.warn{ background: rgba(255,209,139,.78); box-shadow:0 0 0 4px rgba(255,209,139,.07); }
+.altrion-viz .dot.danger{ background: rgba(138,44,44,.72); box-shadow:0 0 0 4px rgba(138,44,44,.07); }
 
-/* Main stage region */
 .altrion-viz .altrion-stage{
   position:relative;
   margin-top: var(--s2);
+  border-top: 1px solid rgba(255,255,255,.07);
   padding: var(--pad);
-  z-index: 1;
+  z-index: 2;
 }
 
-.altrion-viz .grid{
-  position: relative;
-  border-radius: var(--r4);
-  border: 1px solid rgba(255,255,255,.10);
-  background:
-    radial-gradient(920px 560px at 72% 10%, rgba(220,230,255,.04), transparent 62%),
-    linear-gradient(180deg, rgba(255,255,255,.032), rgba(255,255,255,.014));
-  box-shadow: var(--shadow);
-  overflow:hidden;
-
+.altrion-viz .altrion-grid{
   display:grid;
   grid-template-columns: 1.06fr .94fr;
   gap: 0;
   min-height: clamp(580px, 74vh, 780px);
+  border-radius: var(--r4);
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.18);
+  overflow:hidden;
+  position:relative;
 }
 
-.altrion-viz .grid::before{
+.altrion-viz .altrion-grid::before{
   content:"";
   position:absolute;
-  inset:-2px;
-  border-radius: inherit;
+  inset: 0;
   pointer-events:none;
   background:
-    radial-gradient(820px 320px at 18% 0%, rgba(255,255,255,.06), transparent 66%),
-    radial-gradient(920px 520px at 88% 35%, rgba(220,230,255,.04), transparent 62%),
-    radial-gradient(1100px 760px at 50% 120%, rgba(0,0,0,.58), transparent 62%);
-  mix-blend-mode: screen;
-  opacity:.52;
-  z-index: 0;
+    radial-gradient(820px 320px at 18% 0%, rgba(255,255,255,.045), transparent 66%),
+    radial-gradient(920px 520px at 88% 35%, rgba(220,230,255,.030), transparent 62%),
+    radial-gradient(1100px 760px at 50% 120%, rgba(0,0,0,.55), transparent 62%);
+  opacity:.28;
+  mix-blend-mode: normal;
+  z-index:0;
 }
 
-/* Left (canvas) */
-.altrion-viz .viz{
+.altrion-viz .altrion-vizpane{
   position:relative;
   padding: var(--pad);
   border-right: 1px solid rgba(255,255,255,.07);
   z-index: 1;
 }
 
-.altrion-viz canvas{
-  width:100%;
-  height: 100%;
-  display:block;
-  border-radius: var(--r4);
-  background: linear-gradient(180deg, rgba(0,0,0,.26), rgba(0,0,0,.52));
-  border: 1px solid rgba(255,255,255,.055);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.35);
-}
-
-.altrion-viz .overlay{
-  position:absolute;
-  inset: var(--pad);
-  pointer-events:none;
-}
-
-/* Bottom banner */
-.altrion-viz .banner{
-  position:absolute;
-  left: var(--pad);
-  right: var(--pad);
-  bottom: var(--pad);
-  display:flex;
-  gap:10px;
-  align-items:center;
-  justify-content:space-between;
-  padding: 12px 14px;
-  border-radius: var(--r3);
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(10,10,10,.48);
-  backdrop-filter: blur(10px);
-  box-shadow: var(--shadow2);
-  pointer-events:none;
-}
-
-.altrion-viz .banner .label{ display:flex; flex-direction:column; gap:2px; }
-.altrion-viz .banner .label b{
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: .10em;
-  text-transform: uppercase;
-  color: rgba(212,212,212,.84);
-}
-.altrion-viz .banner .label span{
-  font-size: 12px;
-  color: rgba(212,212,212,.58);
-}
-.altrion-viz .banner .state{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: rgba(212,212,212,.72);
-}
-.altrion-viz .banner .badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.02);
-}
-.altrion-viz .banner.ok{ border-color: rgba(212,212,212,.12); }
-.altrion-viz .banner.warn{ border-color: rgba(255,209,139,.16); }
-.altrion-viz .banner.collapse{
-  border-color: rgba(138,44,44,.28);
-  background:
-    radial-gradient(420px 140px at 10% 0%, rgba(138,44,44,.10), transparent 70%),
-    rgba(10,10,10,.56);
-}
-.altrion-viz .banner.collapse .label span{ color: rgba(212,212,212,.62); }
-.altrion-viz .banner.collapse .badge{
-  border-color: rgba(138,44,44,.28);
-  background: rgba(138,44,44,.06);
-}
-
-/* Collapse veil */
-.altrion-viz .veil{
-  position:absolute;
-  inset: var(--pad);
-  border-radius: var(--r4);
-  background:
-    radial-gradient(920px 540px at 50% 30%, rgba(138,44,44,.06), transparent 64%),
-    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.78));
-  border: 1px solid rgba(138,44,44,.14);
-  opacity:0;
-  transform: scale(1.012);
-  transition: opacity .22s var(--ease), transform .22s var(--ease);
-  pointer-events:none;
-}
-.altrion-viz .veil.on{ opacity:.85; transform: scale(1); }
-
-/* Right panel */
-.altrion-viz .panel{
+.altrion-viz .altrion-panel{
+  position:relative;
   padding: var(--pad);
   display:flex;
   flex-direction:column;
@@ -378,9 +241,9 @@
 .altrion-viz .block{
   border-radius: var(--r4);
   border: 1px solid rgba(255,255,255,.10);
-  background: rgba(10,10,10,.52);
+  background: rgba(8,8,8,.74);
   box-shadow: 0 14px 44px rgba(0,0,0,.36);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px) saturate(105%);
   overflow:hidden;
 }
 
@@ -409,7 +272,6 @@
 
 .altrion-viz .block .bd{ padding: 14px; }
 
-/* Controls */
 .altrion-viz .controls{ display:grid; gap: 10px; }
 .altrion-viz .row{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .altrion-viz label{
@@ -419,10 +281,6 @@
   font-size: 12px;
   color: rgba(212,212,212,.70);
 }
-
-/* =========================================================
-   Buttons + Custom Combo (SCOPED) — NO OS blue
-   ========================================================= */
 
 .altrion-viz button,
 .altrion-viz .miniBtn,
@@ -456,9 +314,6 @@
 .altrion-viz .miniBtn:hover,
 .altrion-viz .comboBtn:hover{
   border-color: rgba(255,255,255,.22);
-  background:
-    radial-gradient(260px 80px at 18% 0%, rgba(255,255,255,.10), transparent 70%),
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
   filter: brightness(1.02);
 }
 .altrion-viz button:active,
@@ -484,24 +339,15 @@
     0 0 0 3px rgba(255,209,139,.10);
 }
 
-/* Primary */
 .altrion-viz button.primary{
   border-color: rgba(255,209,139,.20);
   background:
     radial-gradient(280px 90px at 18% 0%, rgba(255,209,139,.10), transparent 72%),
     linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
 }
-.altrion-viz button.primary:hover{
-  border-color: rgba(255,209,139,.28);
-  background:
-    radial-gradient(300px 96px at 16% 0%, rgba(255,209,139,.13), transparent 72%),
-    linear-gradient(180deg, rgba(255,255,255,.050), rgba(255,255,255,.014));
-}
 
-/* Custom Combo */
 .altrion-viz .combo{ position:relative; }
 .altrion-viz .comboBtn{
-  width:100%;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -522,7 +368,6 @@
   opacity:.9;
   flex: 0 0 auto;
 }
-
 .altrion-viz .comboList{
   position:absolute;
   left:0; right:0;
@@ -532,14 +377,13 @@
   border: 1px solid rgba(255,255,255,.14);
   background:
     radial-gradient(420px 140px at 16% 0%, rgba(255,255,255,.06), transparent 70%),
-    rgba(10,10,10,.92);
+    rgba(8,8,8,.96);
   box-shadow:
     0 26px 74px rgba(0,0,0,.64),
     inset 0 1px 0 rgba(255,255,255,.07);
   padding: 8px;
   max-height: 280px;
   overflow:auto;
-
   opacity: 0;
   transform: translateY(-6px) scaleY(.985);
   transform-origin: top;
@@ -551,7 +395,6 @@
   transform: translateY(0) scaleY(1);
   pointer-events: auto;
 }
-
 .altrion-viz .comboOpt{
   width:100%;
   text-align:left;
@@ -567,9 +410,7 @@
 .altrion-viz .comboOpt:hover,
 .altrion-viz .comboOpt.is-active{
   border-color: rgba(255,255,255,.14);
-  background:
-    radial-gradient(260px 70px at 14% 0%, rgba(255,255,255,.07), transparent 72%),
-    rgba(255,255,255,.02);
+  background: rgba(255,255,255,.02);
 }
 .altrion-viz .comboOpt[aria-selected="true"]{
   border-color: rgba(255,209,139,.18);
@@ -577,13 +418,7 @@
     radial-gradient(260px 70px at 14% 0%, rgba(255,209,139,.10), transparent 72%),
     rgba(255,255,255,.02);
 }
-.altrion-viz .comboOpt:focus-visible{
-  outline:none;
-  border-color: rgba(255,209,139,.26);
-  box-shadow: 0 0 0 3px rgba(255,209,139,.10);
-}
 
-/* Range */
 .altrion-viz input[type="range"]{
   -webkit-appearance: none;
   appearance: none;
@@ -595,8 +430,8 @@
   height: 10px;
   border-radius: 999px;
   background:
-    linear-gradient(90deg, rgba(255,209,139,.16), rgba(255,209,139,.06)),
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.26));
+    linear-gradient(90deg, rgba(255,209,139,.14), rgba(255,209,139,.05)),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.26));
   border: 1px solid rgba(255,255,255,.10);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,.40);
 }
@@ -607,50 +442,111 @@
   margin-top: -5px;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 35% 35%, rgba(255,255,255,.26), transparent 60%),
+    radial-gradient(circle at 35% 35%, rgba(255,255,255,.24), transparent 60%),
     linear-gradient(180deg, rgba(212,212,212,.92), rgba(212,212,212,.62));
   border: 1px solid rgba(0,0,0,.55);
   box-shadow:
     0 10px 22px rgba(0,0,0,.45),
-    0 0 0 4px rgba(255,209,139,.06);
-}
-.altrion-viz input[type="range"]::-moz-range-track{
-  height: 10px;
-  border-radius: 999px;
-  background:
-    linear-gradient(90deg, rgba(255,209,139,.16), rgba(255,209,139,.06)),
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.26));
-  border: 1px solid rgba(255,255,255,.10);
-}
-.altrion-viz input[type="range"]::-moz-range-thumb{
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(212,212,212,.92), rgba(212,212,212,.62));
-  border: 1px solid rgba(0,0,0,.55);
-  box-shadow: 0 10px 22px rgba(0,0,0,.45);
-}
-.altrion-viz input[type="range"]::-moz-range-progress{
-  height: 10px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255,209,139,.22), rgba(255,209,139,.10));
+    0 0 0 4px rgba(255,209,139,.05);
 }
 
-/* Note box */
 .altrion-viz .note{
   padding: 14px;
   border-radius: var(--r4);
   border: 1px solid rgba(255,255,255,.09);
-  background: rgba(10,10,10,.46);
-  box-shadow: 0 14px 40px rgba(0,0,0,.28);
+  background: rgba(0,0,0,.22);
+  box-shadow: 0 14px 40px rgba(0,0,0,.22);
   color: rgba(212,212,212,.64);
-  line-height: calc(var(--phi) * 1.0);
+  line-height: 1.55;
   font-size: 12px;
 }
 .altrion-viz .note b{ color: rgba(212,212,212,.90); }
 .altrion-viz .note code{ font-family: var(--font-mono); font-size: 12px; color: rgba(212,212,212,.84); }
 
-/* Gate UI */
+.altrion-viz canvas{
+  width:100%;
+  height: 100%;
+  display:block;
+  border-radius: var(--r4);
+  background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.55));
+  border: 1px solid rgba(255,255,255,.055);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.35);
+}
+
+.altrion-viz .overlay{
+  position:absolute;
+  inset: var(--pad);
+  pointer-events:none;
+}
+
+.altrion-viz .banner{
+  position:absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: var(--pad);
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  padding: 12px 14px;
+  border-radius: var(--r3);
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(8,8,8,.76);
+  backdrop-filter: blur(6px) saturate(105%);
+  box-shadow: var(--shadow2);
+  pointer-events:none;
+}
+.altrion-viz .banner .label{ display:flex; flex-direction:column; gap:2px; }
+.altrion-viz .banner .label b{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(212,212,212,.84);
+}
+.altrion-viz .banner .label span{ font-size: 12px; color: rgba(212,212,212,.58); }
+.altrion-viz .banner .state{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(212,212,212,.72);
+}
+.altrion-viz .banner .badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.20);
+}
+
+.altrion-viz .banner.collapse{
+  border-color: rgba(138,44,44,.28);
+  background: rgba(8,8,8,.82);
+}
+.altrion-viz .banner.collapse .badge{
+  border-color: rgba(138,44,44,.28);
+  background: rgba(138,44,44,.05);
+}
+
+.altrion-viz .veil{
+  position:absolute;
+  inset: var(--pad);
+  border-radius: var(--r4);
+  background:
+    radial-gradient(920px 540px at 50% 30%, rgba(138,44,44,.05), transparent 64%),
+    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.80));
+  border: 1px solid rgba(138,44,44,.12);
+  opacity:0;
+  transform: scale(1.008);
+  transition: opacity .22s var(--ease), transform .22s var(--ease);
+  pointer-events:none;
+}
+.altrion-viz .veil.on{ opacity:.88; transform: scale(1); }
+
 .altrion-viz .subgrid{ display:grid; gap: 10px; }
 .altrion-viz .split{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .altrion-viz .gatecards{ display:grid; gap: 10px; }
@@ -658,19 +554,10 @@
 .altrion-viz .gate{
   border-radius: var(--r4);
   border: 1px solid rgba(255,255,255,.07);
-  background: rgba(255,255,255,.015);
+  background: rgba(255,255,255,.012);
   overflow:hidden;
   position:relative;
 }
-.altrion-viz .gate::after{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  pointer-events:none;
-  background: radial-gradient(220px 80px at 12% 0%, rgba(255,255,255,.05), transparent 70%);
-  opacity:.32;
-}
-
 .altrion-viz .gate .gTop{
   display:flex;
   align-items:center;
@@ -679,7 +566,6 @@
   padding: 10px 10px;
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
-
 .altrion-viz .gTitle{ display:flex; align-items:baseline; gap: 10px; min-width: 0; }
 .altrion-viz .gTitle b{
   font-family: var(--font-mono);
@@ -696,7 +582,6 @@
   text-overflow: ellipsis;
   max-width: 28ch;
 }
-
 .altrion-viz .gBadges{
   display:flex;
   gap:8px;
@@ -704,7 +589,6 @@
   flex-wrap:wrap;
   justify-content:flex-end;
 }
-
 .altrion-viz .badgeMini{
   display:inline-flex;
   align-items:center;
@@ -717,8 +601,6 @@
   font-size: 11px;
   color: rgba(212,212,212,.72);
 }
-.altrion-viz .badgeMini.ok{ border-color: rgba(212,212,212,.12); }
-.altrion-viz .badgeMini.warn{ border-color: rgba(255,209,139,.16); }
 .altrion-viz .badgeMini.danger{ border-color: rgba(138,44,44,.24); background: rgba(138,44,44,.05); }
 
 .altrion-viz .gate .gBody{
@@ -726,7 +608,6 @@
   display:grid;
   gap: 8px;
 }
-
 .altrion-viz .kv{ display:grid; gap: 6px; }
 .altrion-viz .kv .k{
   font-family: var(--font-mono);
@@ -738,7 +619,7 @@
 .altrion-viz .kv .v{
   font-size: 12px;
   color: rgba(212,212,212,.70);
-  line-height: calc(var(--phi) * 1.0);
+  line-height: 1.55;
 }
 .altrion-viz .kv .v code{
   font-family: var(--font-mono);
@@ -746,11 +627,10 @@
   color: rgba(212,212,212,.86);
 }
 
-/* Live evaluation */
 .altrion-viz .case{
   border-radius: var(--r4);
   border: 1px solid rgba(255,255,255,.07);
-  background: rgba(255,255,255,.015);
+  background: rgba(255,255,255,.012);
   padding: 12px;
   display:grid;
   gap: 10px;
@@ -773,7 +653,6 @@
   font-size: 11px;
   color: rgba(212,212,212,.50);
 }
-
 .altrion-viz .caseGrid{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -799,14 +678,12 @@
   color: rgba(212,212,212,.84);
 }
 
-/* ADR preview */
 .altrion-viz .adr{
   border-radius: var(--r4);
   border: 1px solid rgba(255,255,255,.07);
-  background: rgba(0,0,0,.16);
+  background: rgba(0,0,0,.22);
   overflow:hidden;
 }
-
 .altrion-viz .adrTop{
   display:flex;
   align-items:center;
@@ -823,7 +700,6 @@
   color: rgba(212,212,212,.84);
 }
 .altrion-viz .adrTop .btnRow{ display:flex; gap: 8px; align-items:center; }
-
 .altrion-viz .miniBtn{
   width:auto;
   padding: 8px 10px;
@@ -831,7 +707,6 @@
   font-family: var(--font-mono);
   font-size: 11px;
 }
-
 .altrion-viz pre{
   margin:0;
   padding: 12px 12px 14px;
@@ -842,7 +717,6 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
-
 .altrion-viz .foot{
   margin-top: 8px;
   color: rgba(212,212,212,.44);
@@ -851,21 +725,20 @@
   line-height: 1.55;
 }
 
-/* Responsive */
 @media (max-width: 980px){
-  .altrion-viz .grid{ grid-template-columns: 1fr; }
-  .altrion-viz .viz{ border-right:none; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .altrion-viz .altrion-grid{ grid-template-columns: 1fr; }
+  .altrion-viz .altrion-vizpane{ border-right:none; border-bottom: 1px solid rgba(255,255,255,.07); }
   .altrion-viz .split{ grid-template-columns: 1fr; }
   .altrion-viz .caseGrid{ grid-template-columns: 1fr; }
   .altrion-viz .altrion-top{ flex-direction:column; align-items:stretch; }
   .altrion-viz .altrion-pillrow{ justify-content:flex-start; }
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .altrion-viz .altrion-aura{ display:none; }
   .altrion-viz button,
   .altrion-viz input{ transition:none; }
+  .altrion-viz::before{ opacity:.028; }
   .altrion-viz .veil{ transition:none; }
   .altrion-viz .comboList{ transition:none; transform:none; }
 }
