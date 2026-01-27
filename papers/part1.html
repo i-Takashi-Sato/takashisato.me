@@ -9,11 +9,12 @@
   <title>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato</title>
   <meta name="description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.">
 
-  <link rel="canonical" href="https://takashisato.me/papers/part1.html/">
+  <link rel="canonical" href="https://takashisato.me/papers/part1.html">
 
   <meta name="robots" content="index,follow,max-image-preview:large">
 
   <link rel="stylesheet" href="/assets/site.css" />
+  <link rel="stylesheet" href="/assets/part1.css" />
 
   <meta property="og:title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato">
   <meta property="og:type" content="article">
@@ -48,7 +49,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="/assets/part1.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 
 <body class="paper">
@@ -86,61 +87,78 @@
     <article class="article-body">
       <p class="lead">To preserve the human, we must engineer the friction of thought.</p>
 
-      <!-- =========================================================
-           VISUALIZER (structure/logic unchanged)
-           ========================================================= -->
-      <section class="visualizer-wrapper">
+      <section class="visualizer-wrapper" aria-label="ALTRION Gate Visualizer">
         <div class="altrion-viz">
           <div class="altrion-shell">
             <div class="altrion-grid">
               <div class="altrion-panel">
                 <div class="block">
                   <div class="hd">
-                    <b>ALTRION Gate Visualizer</b>
+                    <b>ALTRION Gate Visualizer (Part I)</b>
                     <div class="kpi">
                       <span class="badgeMini ok"><span class="dot"></span>Live</span>
-                      <span class="badgeMini"><span>t</span> <span id="tval">—</span></span>
+                      <span class="badgeMini"><span>t:</span> <span id="tval">—</span></span>
+                      <span class="badgeMini"><span>NC:</span> <span id="ncval">—</span></span>
+                      <span class="badgeMini"><span>ERR:</span> <span id="errval">—</span></span>
+                      <span class="badgeMini"><span>ENG:</span> <span id="engval">—</span></span>
+                      <span class="badgeMini"><span>γ:</span> <span id="gval">—</span></span>
+                      <span class="badgeMini"><span>λ:</span> <span id="lval">—</span></span>
                     </div>
                   </div>
 
+                  <div class="subhd">
+                    Four-gate workflow governance as a cognitive firewall. Left: pipeline + phase transition (NC → ritualization collapse). Right: explicit gate specs (Detect/Enforce) + live evaluation + ADR preview.
+                  </div>
+
                   <div class="sceneWrap">
-                    <canvas id="scene" width="720" height="360"></canvas>
+                    <canvas id="scene" width="720" height="360" aria-label="Simulation canvas"></canvas>
                   </div>
                 </div>
 
                 <div class="block controls">
-                  <div>
-                    <label for="cond">Condition</label>
-                    <select id="cond">
-                      <option value="baseline">Baseline</option>
-                      <option value="strained">Strained</option>
-                      <option value="stressed">Stressed</option>
-                    </select>
+                  <div class="row">
+                    <div class="col">
+                      <label for="cond">Institutional Condition</label>
+                      <select id="cond">
+                        <option value="baseline">Baseline</option>
+                        <option value="strained">Strained</option>
+                        <option value="stressed">Stressed</option>
+                      </select>
+                    </div>
+
+                    <div class="col">
+                      <label for="play">Playback</label>
+                      <button id="play" type="button">Pause</button>
+                    </div>
                   </div>
 
-                  <div>
-                    <label for="play">Playback</label>
-                    <button id="play" type="button">Pause</button>
+                  <div class="row">
+                    <div class="col range">
+                      <label for="fatigue">Fatigue Coefficient (r)</label>
+                      <input id="fatigue" type="range" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="col range">
+                      <label for="workload">Workload (λ)</label>
+                      <input id="workload" type="range" min="0" max="100" value="50">
+                    </div>
                   </div>
 
-                  <div class="range">
-                    <label for="fatigue">Fatigue (r)</label>
-                    <input id="fatigue" type="range" min="0" max="100" value="50">
+                  <div class="row">
+                    <div class="col range">
+                      <label for="friction">Gate Friction (Time/Attention)</label>
+                      <input id="friction" type="range" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="col">
+                      <label for="rearm">Re-arm</label>
+                      <button id="rearm" type="button">Reset / Re-seed</button>
+                    </div>
                   </div>
 
-                  <div class="range">
-                    <label for="workload">Workload (λ)</label>
-                    <input id="workload" type="range" min="0" max="100" value="50">
-                  </div>
-
-                  <div class="range">
-                    <label for="friction">Gate Friction</label>
-                    <input id="friction" type="range" min="0" max="100" value="50">
-                  </div>
-
-                  <div>
-                    <label for="rearm">Re-arm</label>
-                    <button id="rearm" type="button">Reset</button>
+                  <div class="note">
+                    <b>Note</b>
+                    <div class="altrion-sub" id="noteText">—</div>
                   </div>
                 </div>
               </div>
@@ -148,13 +166,72 @@
               <aside class="altrion-panel">
                 <div class="block">
                   <div class="hd">
-                    <b>Gate State</b>
+                    <b>Gate Specifications</b>
                     <div class="kpi">
-                      <span class="badgeMini pass"><span class="dot"></span>Pass</span>
-                      <span class="badgeMini"><span>rej</span> <span id="rej">—</span></span>
+                      <span class="badgeMini pass"><span class="dot"></span><span id="stateLabel">PASS</span></span>
+                      <span class="badgeMini"><span>rej:</span> <span id="rej">—</span></span>
                     </div>
                   </div>
-                  <p class="altrion-sub" id="gateNote">—</p>
+
+                  <div class="spec">
+                    <div class="specRow">
+                      <div class="specKey">G1</div>
+                      <div class="specVal">Baseline constraints</div>
+                    </div>
+                    <div class="specBox">
+                      <div class="specTag">DETECT</div>
+                      <div class="specText" id="g1d">—</div>
+                      <div class="specTag">ENFORCE</div>
+                      <div class="specText" id="g1e">—</div>
+                    </div>
+                  </div>
+
+                  <div class="spec">
+                    <div class="specRow">
+                      <div class="specKey">G2</div>
+                      <div class="specVal">Value conflict</div>
+                    </div>
+                    <div class="specBox">
+                      <div class="specTag">DETECT</div>
+                      <div class="specText" id="g2d">—</div>
+                      <div class="specTag">ENFORCE</div>
+                      <div class="specText" id="g2e">—</div>
+                    </div>
+                  </div>
+
+                  <div class="spec">
+                    <div class="specRow">
+                      <div class="specKey">G3</div>
+                      <div class="specVal">Institutional fatigue</div>
+                    </div>
+                    <div class="specBox">
+                      <div class="specTag">DETECT</div>
+                      <div class="specText" id="g3d">—</div>
+                      <div class="specTag">ENFORCE</div>
+                      <div class="specText" id="g3e">—</div>
+                    </div>
+                  </div>
+
+                  <div class="spec">
+                    <div class="specRow">
+                      <div class="specKey">G4</div>
+                      <div class="specVal">Arbitration failure</div>
+                    </div>
+                    <div class="specBox">
+                      <div class="specTag">DETECT</div>
+                      <div class="specText" id="g4d">—</div>
+                      <div class="specTag">ENFORCE</div>
+                      <div class="specText" id="g4e">—</div>
+                    </div>
+                  </div>
+
+                  <div class="regime">
+                    <div class="regimeRow">
+                      <div class="regimeKey">GOVERNANCE REGIME</div>
+                      <div class="regimeVal" id="regime">—</div>
+                    </div>
+                    <div class="altrion-sub" id="gateNote">—</div>
+                  </div>
                 </div>
               </aside>
             </div>
@@ -162,14 +239,10 @@
         </div>
       </section>
 
-      <!-- =========================================================
-           Article content (unchanged below)
-           ========================================================= -->
-
-      <h2>1. Introduction</h2>
+      <h2 id="intro">1. Introduction</h2>
       <p>...</p>
 
-      <h2>2. The Four Gates</h2>
+      <h2 id="gates">2. The Four Gates</h2>
       <p>...</p>
 
       <div class="citation-box">
@@ -209,7 +282,7 @@
     </footer>
   </main>
 
-  <script src="/assets/part1-visualizer.js" defer></script>
-  <script src="/assets/scroll.js" defer></script>
+  <script defer src="/assets/part1-visualizer.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
