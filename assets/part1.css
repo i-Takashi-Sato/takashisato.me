@@ -1,186 +1,586 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#050507" />
+/* Part I — Visualizer (HUD) */
 
-  <title>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Part I</title>
-  <meta name="description" content="Part I of a workflow-centric governance architecture: engineered friction in human–AI decision pipelines." />
-  <link rel="canonical" href="https://takashisato.me/papers/part1.html" />
+.visualizer-wrapper{
+  --hud-ink: rgba(255,255,255,.90);
+  --hud-sub: rgba(255,255,255,.62);
+  --hud-faint: rgba(255,255,255,.28);
+  --hud-line: rgba(255,255,255,.10);
+  --hud-line2: rgba(255,255,255,.06);
 
-  <meta name="robots" content="index,follow,max-image-preview:large" />
+  --hud-bg:  rgba(5,5,6,.92);
+  --hud-bg2: rgba(10,10,12,.88);
 
-  <link rel="stylesheet" href="/assets/site.css" />
-  <link rel="stylesheet" href="/assets/part1.css" />
+  --hud-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  <meta property="og:title" content="Workflow-Centric AI Governance · Part I" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://takashisato.me/papers/part1.html" />
-  <meta property="og:image" content="https://takashisato.me/og.jpg" />
-</head>
+  width: 100%;
+  margin: 5rem 0;
+  border: 1px solid var(--hud-line);
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  background:
+    radial-gradient(1100px 620px at 12% -8%, rgba(255,255,255,.030), transparent 62%),
+    radial-gradient(1000px 600px at 88% 12%, rgba(255,255,255,.016), transparent 66%),
+    linear-gradient(180deg, rgba(255,255,255,.010), rgba(255,255,255,.006)),
+    linear-gradient(180deg, var(--hud-bg), var(--hud-bg2));
 
-  <header class="top" role="banner">
-    <div class="top-inner">
-      <a class="brand" href="/" aria-label="Takashi Sato home">
-        <img class="signature-logo" src="/assets/signature.svg" alt="Takashi Sato" />
-      </a>
+  box-shadow:
+    0 22px 70px rgba(0,0,0,.62),
+    inset 0 1px 0 rgba(255,255,255,.06),
+    inset 0 0 26px rgba(0,0,0,.82);
+}
 
-      <nav class="nav" aria-label="Primary">
-        <a href="/papers/part1.html" aria-current="page">Part I</a>
-        <a href="/papers/part2.html">Part II</a>
-        <a href="/papers/part3.html">Part III</a>
-      </nav>
-    </div>
-  </header>
+.visualizer-wrapper::before,
+.visualizer-wrapper::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
 
-  <main id="main" class="article-container" role="main">
-    <a class="back-link" href="/#archive">Back to archive</a>
+.visualizer-wrapper::before{
+  opacity:.35;
+  background:
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) left 14px top 12px / 18px 1px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) left 14px top 12px / 1px 18px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) right 14px top 12px / 18px 1px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) right 14px top 12px / 1px 18px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) left 14px bottom 12px / 18px 1px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) left 14px bottom 12px / 1px 18px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) right 14px bottom 12px / 18px 1px no-repeat,
+    linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.26)) right 14px bottom 12px / 1px 18px no-repeat;
+}
 
-    <header class="article-header">
-      <h1>Workflow-Centric AI Governance</h1>
+.visualizer-wrapper::after{
+  opacity:.12;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,.28) 3px,
+      rgba(0,0,0,0) 4px
+    );
+}
 
-      <div class="article-meta" role="list">
-        <span role="listitem">Part I</span>
-        <span role="listitem">Structure &amp; Framing</span>
-        <span role="listitem">Takashi Sato</span>
-      </div>
-    </header>
+.visualizer-wrapper .altrion-viz{
+  position: relative;
+  z-index: 1;
+}
 
-    <article class="article-body">
-      <p class="lead">
-        To preserve the human, we must engineer the friction of thought.
-      </p>
+/* ===== merged: assets/part1-visualizer.css ===== */
 
-      <!-- VISUALIZER (structure unchanged; only CSS replaced) -->
-      <section class="visualizer-wrapper" aria-label="ALTRION Gate Visualizer">
-        <div class="altrion-viz">
-          <!--
-            Keep your existing visualizer HTML subtree here as-is.
-            This file template assumes your JS binds to elements within .altrion-viz,
-            especially canvas#scene. Do not change ids/classes in your existing subtree.
-          -->
-          <div class="altrion-shell">
-            <h2 class="altrion-title">ALTRION Gate Visualizer (Part I)</h2>
-            <p class="altrion-sub">
-              Four-gate workflow governance as a cognitive firewall: pipeline state + phase transition preview.
-            </p>
+:root{
+  --v-bg: rgba(12,12,14,.62);
+  --v-panel: rgba(18,18,22,.62);
+  --v-ink: rgba(255,255,255,.92);
+  --v-sub: rgba(255,255,255,.66);
+  --v-faint: rgba(255,255,255,.28);
+  --v-line: rgba(255,255,255,.10);
+  --v-line2: rgba(255,255,255,.06);
+  --v-ok: rgba(255,255,255,.84);
+  --v-warn: rgba(217, 4, 41, .85);
+  --v-warnSoft: rgba(217, 4, 41, .14);
+  --v-shadow: rgba(0,0,0,.65);
+  --v-glow: rgba(255,255,255,.12);
+  --v-r2: 8px;
+  --v-r3: 12px;
+  --v-r4: 18px;
+  --v-ease: cubic-bezier(.16,1,.3,1);
+}
 
-            <div class="altrion-grid">
-              <div class="altrion-panel">
-                <div class="block">
-                  <div class="hd">
-                    <b>Simulation</b>
-                    <div class="kpi">
-                      <span class="badgeMini ok"><span class="dot"></span>Live</span>
-                      <span class="badgeMini"><span>t</span> <span id="tval">—</span></span>
-                    </div>
-                  </div>
+.altrion-viz{
+  position: relative;
+  width: min(980px, 92vw);
+  margin: 5rem auto 5rem;
+  padding: 3rem 3rem 3.25rem;
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)) , var(--v-bg);
+  border: 1px solid var(--v-line);
+  border-radius: var(--v-r4);
+  box-shadow:
+    0 40px 90px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.04) inset;
+  overflow: hidden;
+}
 
-                  <div class="sceneWrap">
-                    <canvas id="scene" width="720" height="360" aria-label="simulation canvas"></canvas>
-                  </div>
-                </div>
+.altrion-viz::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(800px 400px at 20% -20%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 120% 10%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(700px 500px at 50% 120%, rgba(217, 4, 41, .10), transparent 60%);
+  pointer-events:none;
+  mix-blend-mode: overlay;
+  opacity:.22;
+}
 
-                <div class="block controls">
-                  <div>
-                    <label for="cond">Institutional Condition</label>
-                    <select id="cond">
-                      <option value="baseline">Baseline</option>
-                      <option value="strained">Strained</option>
-                      <option value="stressed">Stressed</option>
-                    </select>
-                  </div>
+.altrion-top{
+  display:flex;
+  gap: 2rem;
+  align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom: 1.75rem;
+}
 
-                  <div>
-                    <label for="play">Playback</label>
-                    <button id="play" type="button">Pause</button>
-                  </div>
+.altrion-title{
+  max-width: 56ch;
+}
 
-                  <div class="range">
-                    <label for="fatigue">Fatigue Coefficient (r)</label>
-                    <input id="fatigue" type="range" min="0" max="100" value="50" />
-                  </div>
+.altrion-kicker{
+  font-size: .78rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+}
 
-                  <div class="range">
-                    <label for="workload">Workload (λ)</label>
-                    <input id="workload" type="range" min="0" max="100" value="50" />
-                  </div>
+.altrion-desc{
+  margin-top: .8rem;
+  font-size: .95rem;
+  line-height: 1.7;
+  color: var(--v-sub);
+}
 
-                  <div class="range">
-                    <label for="friction">Gate Friction (time/attention)</label>
-                    <input id="friction" type="range" min="0" max="100" value="50" />
-                  </div>
+.altrion-status{
+  display:flex;
+  flex-direction:column;
+  gap: .6rem;
+  align-items:flex-end;
+  min-width: 220px;
+}
 
-                  <div>
-                    <label for="rearm">Re-arm</label>
-                    <button id="rearm" type="button">Reset / Re-seed</button>
-                  </div>
-                </div>
-              </div>
+.status-row{
+  display:flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  justify-content:flex-end;
+}
 
-              <aside class="altrion-panel" aria-label="Gate specifications">
-                <div class="block">
-                  <div class="hd">
-                    <b>Gate Specifications</b>
-                    <div class="kpi">
-                      <span class="badgeMini pass"><span class="dot"></span>Pass</span>
-                      <span class="badgeMini"><span>rej</span> <span id="rej">—</span></span>
-                    </div>
-                  </div>
-                  <p class="altrion-sub" id="gateNote">
-                    Oversight has degraded into procedure (ritualization).
-                  </p>
-                </div>
-              </aside>
-            </div>
-          </div>
-        </div>
-      </section>
+.btn{
+  appearance:none;
+  border: 1px solid var(--v-line);
+  background: rgba(255,255,255,.02);
+  color: var(--v-ink);
+  padding: .55rem .8rem;
+  border-radius: 10px;
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .18s var(--v-ease), background-color .18s var(--v-ease), border-color .18s var(--v-ease);
+}
 
-      <!-- YOUR EXISTING PART I ARTICLE CONTENT CONTINUES BELOW -->
-      <!-- Keep all your existing headings/sections as-is. -->
+.btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.22);
+  background: rgba(255,255,255,.04);
+}
 
-    </article>
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap: .35rem;
+  border: 1px solid var(--v-line2);
+  background: rgba(0,0,0,.18);
+  color: var(--v-sub);
+  padding: .35rem .55rem;
+  border-radius: 999px;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 
-    <nav class="paper-nav" aria-label="Inter-paper navigation">
-      <div class="paper-nav-inner">
-        <a class="nav-link prev" href="/papers/part0.html">
-          <span class="nav-label">Previous</span>
-          <span class="nav-title">Archive</span>
-        </a>
+.badge b{ color: var(--v-ink); font-weight: 600; }
 
-        <a class="nav-link next" href="/papers/part2.html">
-          <span class="nav-label">Next</span>
-          <span class="nav-title">Part II</span>
-        </a>
-      </div>
-    </nav>
+.altrion-grid{
+  display:grid;
+  grid-template-columns: 1.35fr .75fr;
+  gap: 1.25rem;
+  border: 1px solid var(--v-line2);
+  border-radius: var(--v-r3);
+  background: rgba(255,255,255,.01);
+  overflow: hidden;
+}
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <nav class="social-nav" aria-label="Social">
-          <a class="social-link" href="https://github.com/i-Takashi-Sato" target="_blank" rel="noopener">GitHub</a>
-          <a class="social-link" href="/security.html">Security</a>
-          <a class="social-link" href="/privacy.html">Privacy</a>
-        </nav>
+.pane{
+  position:relative;
+  padding: 1.15rem 1.15rem 1rem;
+}
 
-        <div class="footer-meta">
-          <nav class="meta-nav" aria-label="Meta">
-            <a class="meta-link" href="/colophon.html">Colophon</a>
-            <a class="meta-link" href="/.well-known/security.txt">security.txt</a>
-          </nav>
-          <p class="copyright">© 2026 Takashi Sato</p>
-        </div>
-      </div>
-    </footer>
-  </main>
+.pane-left{
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+}
 
-  <script src="/assets/part1-visualizer.js" defer></script>
-  <script src="/assets/scroll.js" defer></script>
-</body>
-</html>
+.pane-right{
+  background: linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,.006));
+  border-left: 1px solid var(--v-line2);
+}
+
+.pane-head{
+  display:flex;
+  flex-direction:column;
+  gap: .85rem;
+  margin-bottom: .9rem;
+}
+
+.pane-kpi{
+  display:flex;
+  flex-wrap:wrap;
+  gap: .6rem 1rem;
+  font-size: .78rem;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+}
+
+.pane-kpi b{ color: var(--v-ink); font-weight: 600; }
+
+.tabs{
+  display:flex;
+  gap: .5rem;
+  flex-wrap:wrap;
+}
+
+.tab{
+  appearance:none;
+  border: 1px solid var(--v-line2);
+  background: rgba(255,255,255,.015);
+  color: var(--v-sub);
+  padding: .38rem .55rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor:pointer;
+  transition: background-color .15s var(--v-ease), border-color .15s var(--v-ease), color .15s var(--v-ease);
+}
+
+.tab.is-active{
+  border-color: rgba(255,255,255,.20);
+  color: var(--v-ink);
+  background: rgba(255,255,255,.04);
+}
+
+.scene{
+  position: relative;
+  height: clamp(260px, 36vw, 420px);
+  border-radius: var(--v-r3);
+  border: 1px solid var(--v-line2);
+  background: rgba(0,0,0,.22);
+  overflow:hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+.scene canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.veil{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background: radial-gradient(800px 400px at 30% 0%, rgba(255,255,255,.10), transparent 60%);
+  opacity: .0;
+  transition: opacity .2s var(--v-ease);
+}
+
+.pane-foot{
+  display:flex;
+  justify-content:space-between;
+  margin-top: .85rem;
+  color: var(--v-faint);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.small{ color: var(--v-faint); }
+
+.right-wrap{
+  display:flex;
+  flex-direction:column;
+  gap: .85rem;
+}
+
+.spec-head{
+  display:flex;
+  justify-content:space-between;
+  gap: 1rem;
+  align-items:flex-start;
+}
+
+.spec-title{
+  font-size: .78rem;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+  line-height: 1.4;
+}
+
+.spec-badges{
+  display:flex;
+  gap: .5rem;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.badgeMini{
+  display:inline-flex;
+  align-items:center;
+  gap: .35rem;
+  border: 1px solid var(--v-line2);
+  background: rgba(0,0,0,.18);
+  color: var(--v-sub);
+  padding: .28rem .45rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.badgeMini b{ color: var(--v-ink); font-weight: 600; }
+
+.dot{
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.08);
+}
+
+.spec-plot{
+  position:relative;
+  height: 220px;
+  border-radius: var(--v-r3);
+  border: 1px solid var(--v-line2);
+  background: rgba(0,0,0,.22);
+  overflow:hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+.spec-plot canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.plot-lines{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px) 0 0 / 40px 40px;
+  opacity: .25;
+}
+
+.plot-label{
+  position:absolute;
+  right: 10px;
+  top: 10px;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+  padding: .25rem .45rem;
+  border: 1px solid var(--v-line2);
+  border-radius: 999px;
+  background: rgba(0,0,0,.20);
+}
+
+.spec-box{
+  border: 1px solid var(--v-line2);
+  border-radius: var(--v-r3);
+  background: rgba(255,255,255,.01);
+  overflow:hidden;
+}
+
+.spec-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: .55rem .7rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.spec-row:first-child{ border-top: 0; }
+
+.spec-row .k{
+  color: var(--v-sub);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.spec-row .v{
+  color: var(--v-ink);
+  font-size: .82rem;
+  letter-spacing: .06em;
+}
+
+.altrion-controls{
+  margin-top: 1.25rem;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--v-line2);
+  border-radius: var(--v-r3);
+  background: rgba(255,255,255,.01);
+}
+
+.control{
+  display:flex;
+  flex-direction:column;
+  gap: .5rem;
+}
+
+.control label{
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+}
+
+.control select{
+  border: 1px solid var(--v-line2);
+  background: rgba(0,0,0,.20);
+  color: var(--v-ink);
+  padding: .55rem .65rem;
+  border-radius: 10px;
+}
+
+.control.range input[type="range"]{
+  width: 100%;
+}
+
+.altrion-note{
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--v-line2);
+  border-radius: var(--v-r3);
+  background: rgba(255,255,255,.01);
+}
+
+.note-head{
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+  margin-bottom: .6rem;
+}
+
+.note-body{
+  color: var(--v-sub);
+  font-size: .90rem;
+  line-height: 1.7;
+}
+
+.altrion-adr{
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--v-line2);
+  border-radius: var(--v-r3);
+  background: rgba(255,255,255,.01);
+}
+
+.adr-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 1rem;
+  margin-bottom: .6rem;
+}
+
+.adr-title{
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--v-sub);
+}
+
+.adr-chip{
+  border: 1px solid var(--v-line2);
+  background: rgba(0,0,0,.18);
+  color: var(--v-ink);
+  padding: .25rem .45rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.adr-body{
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: rgba(255,255,255,.78);
+  font-size: .86rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 900px){
+  .altrion-viz{ padding: 2rem 1.5rem 2.25rem; }
+  .altrion-grid{ grid-template-columns: 1fr; }
+  .pane-right{ border-left: 0; border-top: 1px solid var(--v-line2); }
+  .altrion-controls{ grid-template-columns: 1fr; }
+}
+
+/* ===== end merged ===== */
+
+.visualizer-wrapper .altrion-viz{
+  margin: 0 !important;
+  padding: 2.25rem !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+
+  position: relative;
+  isolation: isolate;
+
+  font-family: var(--hud-mono) !important;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.visualizer-wrapper .altrion-viz::before{
+  mix-blend-mode: normal !important;
+  opacity: .10 !important;
+}
+
+.visualizer-wrapper .altrion-viz canvas{ mix-blend-mode: screen; }
+
+.visualizer-wrapper .altrion-viz input,
+.visualizer-wrapper .altrion-viz select,
+.visualizer-wrapper .altrion-viz button,
+.visualizer-wrapper .altrion-viz label,
+.visualizer-wrapper .altrion-viz .hd,
+.visualizer-wrapper .altrion-viz .badge,
+.visualizer-wrapper .altrion-viz .badgeMini,
+.visualizer-wrapper .altrion-viz .pill,
+.visualizer-wrapper .altrion-viz .kpi,
+.visualizer-wrapper .altrion-viz .altrion-sub{
+  font-family: var(--hud-mono) !important;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.visualizer-wrapper .altrion-viz :focus-visible{
+  outline: 2px solid rgba(255,255,255,.78);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(255,255,255,.06);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .visualizer-wrapper::after{ opacity: .08; }
+}
