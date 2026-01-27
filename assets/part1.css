@@ -1,9 +1,3 @@
-/* =========================================================
-   Part I — Article Styles (TEXT ONLY)
-   File: /assets/part1.css
-   Rule: No visualizer styles here.
-   ========================================================= */
-
 :root{
   --measure: 74ch;
 }
@@ -99,6 +93,16 @@
   letter-spacing: .02em;
 }
 
+/* make the visualizer escape the 74ch measure */
+.viz-bleed{
+  width: min(1200px, calc(100vw - 2rem));
+  margin: 2.25rem auto;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .actions{
   margin: 2rem 0 0 0;
   display:flex;
@@ -128,30 +132,35 @@
   border-top: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
   padding-top: 1.5rem;
 }
+
 .paper-nav-inner{
   display:flex;
   justify-content:flex-end;
 }
+
+/* remove the boxed card styling on the Next link */
 .nav-link{
-  display:block;
+  display:inline-block;
   text-decoration:none;
-  border: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
-  padding: 1rem 1rem;
-  background: rgba(255,255,255,0.02);
+  border:none;
+  background:transparent;
+  padding:0;
   color: var(--text-main, rgba(255,255,255,0.92));
-  width: min(520px, 100%);
+  width:auto;
 }
 .nav-link:hover{
-  border-color: rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.05);
   color: var(--text-head, #fff);
+  text-decoration: underline;
+  text-underline-offset: .25em;
 }
+
 .nav-label{
   display:block;
   font-size:.85rem;
   color: var(--text-muted, rgba(255,255,255,0.66));
   margin-bottom:.25rem;
 }
+
 .nav-title{
   display:block;
   font-size:1.05rem;
@@ -163,6 +172,7 @@
   border: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
   background: rgba(255,255,255,0.02);
 }
+
 .citation-head{
   display:flex;
   justify-content:space-between;
@@ -171,11 +181,13 @@
   padding: .75rem 1rem;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
+
 .citation-label{
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
   font-size:.85rem;
   color: var(--text-muted, rgba(255,255,255,0.66));
 }
+
 .citation-box .copy{
   padding: .5rem .75rem;
   border: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
@@ -185,6 +197,7 @@
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
   font-size:.8rem;
 }
+
 .citation-box .copy:hover{
   border-color: rgba(255,255,255,0.35);
   color: var(--text-head, #fff);
@@ -205,4 +218,9 @@
 @media (max-width: 720px){
   .article-container{ padding: 3rem 0 4rem; }
   .article-header{ margin-bottom: 1.5rem; }
+  .viz-bleed{
+    width: calc(100vw - 1.25rem);
+    padding-left: .625rem;
+    padding-right: .625rem;
+  }
 }
