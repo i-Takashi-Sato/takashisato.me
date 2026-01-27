@@ -1,225 +1,134 @@
-:root{
-  --measure: 74ch;
-}
+/* =========================================================
+   Part I — Visualizer & HUD Styles
+   Theme: "The Obsidian Terminal" (Military/Financial Grade)
+   State: RESTORED "Perfect" Version (Glass HUD)
+   ========================================================= */
 
-.article-container{
-  width: min(var(--measure), calc(100% - 2rem));
-  margin: 0 auto;
-  padding: 4rem 0 5rem;
-}
-
-.back-link{
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  font-size:.9rem;
-  color: var(--text-muted);
-  text-decoration:none;
-  margin: 0 0 1.5rem 0;
-}
-.back-link:hover{ color: var(--text-head); }
-
-.article-header{
-  margin: 0 0 2rem 0;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
-}
-
-.article-header h1{
-  margin: 0 0 1rem 0;
-  font-size: clamp(1.8rem, 2.6vw + 1rem, 2.6rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--text-head, #fff);
-}
-
-.article-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.75rem 1.25rem;
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
-  font-size:.85rem;
-  color: var(--text-muted, rgba(255,255,255,0.66));
-}
-
-.article-body{
-  font-size: var(--body, 1rem);
-  line-height: var(--leading, 1.8);
-  color: var(--text-main, rgba(255,255,255,0.92));
-}
-
-.article-body h2{
-  margin: 2.75rem 0 1rem;
-  font-size: clamp(1.25rem, 1.3vw + 1rem, 1.6rem);
-  line-height: 1.2;
-  color: var(--text-head, #fff);
-  letter-spacing: -0.01em;
-}
-
-.article-body p{
-  margin: 0 0 1.25rem 0;
-}
-
-.article-body .lead{
-  font-size: 1.08em;
-  color: var(--text-main, rgba(255,255,255,0.92));
-}
-
-.article-body ul{
-  margin: 0 0 1.5rem 1.2rem;
-  padding: 0;
-}
-.article-body li{ margin: .4rem 0; }
-
-.article-body blockquote{
-  margin: 2rem 0;
-  padding: 1.25rem 1.25rem;
-  border-left: 2px solid var(--border-sharp, rgba(255,255,255,0.12));
-  background: rgba(255,255,255,0.03);
-  color: var(--text-head, #fff);
-}
-.article-body blockquote .quote-translation{
-  display:inline-block;
-  margin-top:.6rem;
-  color: var(--text-muted, rgba(255,255,255,0.66));
-  font-size: .92em;
-}
-
-.section-label{
-  margin: 1.5rem 0 1.5rem 0;
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
-  font-size: .85rem;
-  color: var(--text-muted, rgba(255,255,255,0.66));
-  letter-spacing: .02em;
-}
-
-/* visualizer bleed: wider than article measure */
-.viz-bleed{
-  width: min(1200px, calc(100vw - 2rem));
-  margin: 2.5rem 0 3rem;
+/* 1. The Wrapper (Outer Frame) */
+.visualizer-wrapper {
+  width: 100%;
+  margin: 5rem 0;
+  border: 1px solid var(--border-sharp);
+  border-radius: 0; /* Sharp Edges */
+  
+  /* The "Perfect" Glass Texture */
+  background: rgba(5, 5, 8, 0.65); /* 透明度を少しだけ調整し、視認性を確保 */
+  backdrop-filter: blur(16px);      /* ぼかしを強めに入れて背後の文字を溶かす */
+  -webkit-backdrop-filter: blur(16px);
+  
+  overflow: hidden;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+
+  /* 【重要】赤線（z-index:101）より手前に表示して、物理的に隠す設定 */
+  z-index: 105; 
 }
 
-.actions{
-  margin: 2rem 0 0 0;
-  display:flex;
-  gap:.75rem;
-  flex-wrap:wrap;
+/* Scanline Effect */
+.visualizer-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.2) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.2;
 }
 
-.actions .pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:.5rem;
-  padding: .75rem 1rem;
-  border: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
-  text-decoration:none;
-  color: var(--text-main, rgba(255,255,255,0.92));
-  background: rgba(255,255,255,0.02);
-}
-.actions .pill:hover{
-  color: var(--text-head, #fff);
-  border-color: rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.05);
+/* =========================================================
+   VISUALIZER HUD INTERNALS (Overriding JS Styles)
+   ========================================================= */
+
+/* Reset Container */
+#visualizer-container,
+.visualizer-box {
+  background: transparent !important;
+  border: none !important;
+  padding: 2.5rem;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  color: var(--text-main);
 }
 
-/* paper nav: NO box */
-.paper-nav{
-  margin-top: 3rem;
-  padding-top: 1.5rem;
+/* Canvas White Phosphor Mode */
+canvas, 
+#sim-canvas,
+.visualizer-graph {
+  /* JSの青色を強制的に「発光する白」に変換 */
+  filter: grayscale(100%) brightness(400%) contrast(1.2) drop-shadow(0 0 5px rgba(255,255,255,0.5)) !important;
+  mix-blend-mode: screen !important;
+  opacity: 0.95 !important;
 }
 
-.paper-nav-inner{
-  display:flex;
-  justify-content:flex-end;
+/* Typography & Metrics */
+.stat-value, .metric-value, .gate-label, #simulation-canvas {
+  font-family: "JetBrains Mono", monospace !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-.nav-link{
-  display:inline-flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:.25rem;
-  text-decoration:none;
-  padding: 0;
-  border: none;
+.metric-item {
+  border-bottom: 1px solid var(--border-sharp);
+  padding: 0.8rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.metric-value {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Gate Indicators */
+.gate-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.gate-indicator.active, .gate-indicator.pass {
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  box-shadow: 0 0 15px -4px var(--accent-glow);
+}
+
+.gate-indicator.fail, .gate-indicator.collapse {
+  border-color: rgba(217, 4, 41, 0.5);
+  background: rgba(217, 4, 41, 0.15);
+  color: #ffcfcf;
+  text-shadow: 0 0 8px rgba(217, 4, 41, 0.6);
+}
+
+/* Controls */
+input[type="range"] {
+  -webkit-appearance: none;
   background: transparent;
-  color: var(--text-main, rgba(255,255,255,0.92));
-  width: auto;
-  max-width: min(520px, 100%);
+  width: 100%;
+  margin-top: 1rem;
 }
-
-.nav-link:hover{
-  color: var(--text-head, #fff);
+input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--border-sharp);
+  height: 1px;
 }
-
-.nav-label{
-  display:block;
-  font-size:.85rem;
-  color: var(--text-muted, rgba(255,255,255,0.66));
-}
-
-.nav-title{
-  display:block;
-  font-size:1.05rem;
-  color: var(--text-head, #fff);
-  text-decoration: underline;
-  text-decoration-color: rgba(255,255,255,0.22);
-  text-underline-offset: 3px;
-}
-
-.nav-link:hover .nav-title{
-  text-decoration-color: rgba(255,255,255,0.55);
-}
-
-.citation-box{
-  margin-top: 2.5rem;
-  border: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
-  background: rgba(255,255,255,0.02);
-}
-.citation-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap: 1rem;
-  padding: .75rem 1rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.citation-label{
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
-  font-size:.85rem;
-  color: var(--text-muted, rgba(255,255,255,0.66));
-}
-.citation-box .copy{
-  padding: .5rem .75rem;
-  border: 1px solid var(--border-sharp, rgba(255,255,255,0.12));
-  background: transparent;
-  color: var(--text-main, rgba(255,255,255,0.92));
-  cursor:pointer;
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
-  font-size:.8rem;
-}
-.citation-box .copy:hover{
-  border-color: rgba(255,255,255,0.35);
-  color: var(--text-head, #fff);
-  background: rgba(255,255,255,0.05);
-}
-
-.citation-text{
-  margin: 0;
-  padding: 1rem;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace);
-  font-size: .85rem;
-  color: var(--text-main, rgba(255,255,255,0.92));
-}
-
-@media (max-width: 720px){
-  .article-container{ padding: 3rem 0 4rem; }
-  .article-header{ margin-bottom: 1.5rem; }
-  .viz-bleed{ margin: 2rem 0 2.5rem; }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #fff;
+  width: 4px; height: 16px;
+  margin-top: -7px;
+  box-shadow: 0 0 8px #fff;
+  cursor: ew-resize;
 }
