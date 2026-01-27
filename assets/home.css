@@ -1,4 +1,4 @@
-/* HOME — V146.3 (Noir Monolith) */
+/* HOME — V146.3 (Noir Monolith) — Jo-Ha-Kyu: Platinum Mist */
 
 body.home{
   --bg-void:#050505;
@@ -148,7 +148,7 @@ body.home main #archive .paper{
   --k-top:61.8%;
   --k-rot:-8deg;
   --k-size:clamp(20rem, 33vw, 44rem);
-  --k-opacity:0.13;
+  --k-opacity:0.14;
 
   transform:translateY(0);
   will-change:transform;
@@ -185,13 +185,12 @@ body.home #archive .paper::before{
   background-image:var(--k-svg);
   opacity:var(--k-opacity);
   mix-blend-mode:normal;
-
   filter:
     brightness(0) invert(1)
-    contrast(1.10)
-    drop-shadow(0 0 10px rgba(255,255,255,0.16))
-    drop-shadow(0 0 28px rgba(255,255,255,0.08));
-
+    brightness(1.06)
+    contrast(1.04)
+    drop-shadow(0 0 10px rgba(240,244,255,0.14))
+    drop-shadow(0 0 26px rgba(240,244,255,0.08));
   pointer-events:none;
   z-index:var(--z-kanji);
 }
@@ -201,21 +200,21 @@ body.home #archive .paper:nth-of-type(1){
   --k-top:61.8%;
   --k-rot:-11deg;
   --k-size:clamp(18rem, 30vw, 40rem);
-  --k-opacity:0.14;
+  --k-opacity:0.16;
 }
 body.home #archive .paper:nth-of-type(2){
   --k-svg:url("/assets/img/ha.svg");
   --k-top:38.2%;
   --k-rot:8deg;
   --k-size:clamp(22rem, 38.2vw, 52rem);
-  --k-opacity:0.13;
+  --k-opacity:0.15;
 }
 body.home #archive .paper:nth-of-type(3){
   --k-svg:url("/assets/img/kyu.svg");
   --k-top:61.8%;
   --k-rot:-7deg;
   --k-size:clamp(20rem, 34vw, 46rem);
-  --k-opacity:0.13;
+  --k-opacity:0.15;
 }
 
 body.home #archive .paper:nth-of-type(1)::before,
@@ -564,9 +563,10 @@ body.home #archive .paper:focus-within::after{
     opacity:var(--k-opacity);
     filter:
       brightness(0) invert(1)
-      contrast(1.10)
-      drop-shadow(0 0 10px rgba(255,255,255,0.16))
-      drop-shadow(0 0 28px rgba(255,255,255,0.08));
+      brightness(1.06)
+      contrast(1.04)
+      drop-shadow(0 0 10px rgba(240,244,255,0.14))
+      drop-shadow(0 0 26px rgba(240,244,255,0.08));
   }
 }
 @keyframes kyu-script{
@@ -694,7 +694,7 @@ body.home .top .nav a{ margin-left:0 !important; }
     width:auto;
 
     --k-size:clamp(14rem, 46vw, 26rem);
-    --k-opacity:0.11;
+    --k-opacity:0.12;
   }
 
   .vertical-axis{ display:none; }
