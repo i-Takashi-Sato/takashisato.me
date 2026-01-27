@@ -1,74 +1,91 @@
 /* =========================================================
-   THEME: "THE FORENSIC LEDGER" (Audit Grade / Ver. 97 FINAL INTEGRATED)
-   Target: Awwwards / D&AD / Webby
+   THEME: "THE FORENSIC LEDGER" (Diamond Master / Final)
+   Target: Webby / Awwwards / D&AD / FWA
    Concept: Structured friction. Evidence over decoration.
-   Scope: Safe (.visualizer-wrapper .altrion-viz)
-   Logic: Synced with JS (ok/warn/danger)
+   Integrity: Zero Side-Effects / Strict Layout Safety / Browser Pure
    ========================================================= */
 
-/* 0. Scoped Root Variables */
-.visualizer-wrapper .altrion-viz {
-  /* --- Palette: Forensic Monochrome --- */
-  --bg-void: #080808;       /* Deep matte black */
-  --bg-panel: #0a0a0a;
-  
-  /* Structure */
-  --line-struct: #333333;   /* Grid structure */
-  --line-audit: #555555;    /* Active lines */
-  --line-tick: #444444;     /* Measurement ticks */
+/* --- 0. Wrapper Safety (Conditional Neutralization) --- */
+/* DEFAULT: Do NOT touch .visualizer-wrapper globally. 
+   This ensures no side-effects on other pages using this class. */
 
-  /* Ink System */
-  --ink-head: #ffffff;      /* Authority (Inter) */
-  --ink-data: #e0e0e0;      /* Evidence (Mono) */
-  --ink-dim: #888888;       /* Meta/Labels */
-
-  /* Signal Logic (Structure > Color) */
-  --sig-ok: #333333;        /* Silent */
-  --sig-warn: #e0e0e0;      /* Texture (Dashed) */
-  --sig-err: #ff3333;       /* The only color allowed (Alert) */
-
-  /* Typography System */
-  --font-auth: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-audit: "JetBrains Mono", "Roboto Mono", "Consolas", monospace;
-
-  /* Layout Constants */
-  --strip-width: 6px;       /* Widened for visibility */
+/* CONDITION: Only neutralize wrapper if it contains .altrion-viz */
+@supports selector(:has(*)) {
+  .visualizer-wrapper:has(.altrion-viz) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 }
 
-/* 1. Base Container (Safe Scope) */
+/* --- 1. Visualizer Scope & Variables --- */
 .visualizer-wrapper .altrion-viz {
+  /* Harmony: Connect to site tokens */
+  --bg-void:   var(--bg, #050507);
+  --bg-panel:  var(--card-bg, #0f0f12);
+
+  --ink-head:  var(--text-head, #ffffff);
+  --ink-data:  var(--text-main, #e0e0e0);
+  --ink-dim:   var(--text-muted, #a0a0b0);
+
+  /* Forensic Lines */
+  --line-struct: var(--border-sharp, rgba(255,255,255,0.12));
+  --line-audit:  rgba(255,255,255,0.18);
+  --line-tick:   rgba(255,255,255,0.14);
+
+  /* Signals */
+  --sig-ok:   rgba(255,255,255,0.00); 
+  --sig-warn: rgba(255,255,255,0.55); 
+  --sig-err:  #ff3333;
+
+  /* Typography */
+  --font-auth: "Inter", var(--font-sans, system-ui, sans-serif);
+  --font-audit: "JetBrains Mono", "Roboto Mono", monospace;
+
+  /* Golden Ratio (Base: 10px) */
+  --phi: 1.618;
+  --u: 10px;
+  --s1: var(--u);                        /* 10px */
+  --s2: calc(var(--u) * var(--phi));     /* ~16px */
+  --s3: calc(var(--s2) * var(--phi));    /* ~26px */
+  --s4: calc(var(--s3) * var(--phi));    /* ~42px */
+
+  --strip-width: 6px;
+
+  /* Self-Contained Physics */
   position: relative;
   font-family: var(--font-auth);
   color: var(--ink-data);
   background: var(--bg-void) !important;
-  border: 1px solid var(--line-struct) !important;
+  border: 1px solid var(--line-struct) !important; 
   border-radius: 0 !important;
-  box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7) !important;
+  /* Shadow Fallback (if :has fails, this ensures depth) */
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8);
   isolation: isolate;
-  margin: 0; 
   width: 100%;
 }
 
-/* Global Reset inside Viz */
-.visualizer-wrapper .altrion-viz * { 
-  box-sizing: border-box; 
-  border-radius: 0 !important; 
-}
+/* Global Reset */
+.visualizer-wrapper .altrion-viz * { box-sizing: border-box; border-radius: 0 !important; }
 
 /* ---------------------------------------------------------
-   2. Header: The Signature (Measurement Ticks)
+   2. Header
    --------------------------------------------------------- */
 .visualizer-wrapper .altrion-viz .altrion-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 1.5rem 2rem;
+  padding: var(--s3) var(--s4);
   border-bottom: 1px solid var(--line-struct);
   background: var(--bg-panel);
   position: relative;
 }
 
-/* SIGNATURE: Measurement Ticks (Ruler) */
 .visualizer-wrapper .altrion-viz .altrion-top::after {
   content: "";
   position: absolute;
@@ -99,8 +116,8 @@
   margin: 0;
 }
 
-/* Pills as Standardized Labels */
-.visualizer-wrapper .altrion-viz .altrion-pillrow { display: flex; gap: 1rem; }
+/* Pills */
+.visualizer-wrapper .altrion-viz .altrion-pillrow { display: flex; gap: var(--s2); }
 
 .visualizer-wrapper .altrion-viz .pill {
   font-family: var(--font-audit);
@@ -117,27 +134,30 @@
 .visualizer-wrapper .altrion-viz .dot { width: 4px; height: 4px; background: var(--ink-dim); }
 
 /* ---------------------------------------------------------
-   3. Main Stage & Canvas
+   3. Main Stage: Phi-Preferred Grid (Collapse Proof)
    --------------------------------------------------------- */
 .visualizer-wrapper .altrion-viz .altrion-stage { padding: 0; }
 
-.visualizer-wrapper .altrion-viz .grid {
+.visualizer-wrapper .altrion-viz .altrion-grid {
   display: grid;
-  grid-template-columns: 1fr 340px; /* Fixed panel width */
+  /* PHI-PREFERRED + COLLAPSE-PROOF:
+     Wide viewports: ~Phi split (Right ≈ 38.2%)
+     Narrow: clamp ensures panel usability without breaking layout */
+  grid-template-columns: minmax(0, 1.618fr) clamp(300px, 38.2%, 420px);
   min-height: 640px;
   background: var(--bg-void) !important;
   border: none !important;
 }
 
-/* Left Pane: Canvas with Restricted Grid */
-.visualizer-wrapper .altrion-viz .vizpane {
+/* Left Pane: Canvas */
+.visualizer-wrapper .altrion-viz .altrion-vizpane {
   position: relative;
   border-right: 1px solid var(--line-struct);
   overflow: hidden;
+  min-width: 0; /* Prevents flex blowout */
 }
 
-/* CANVAS GRID */
-.visualizer-wrapper .altrion-viz .vizpane::before {
+.visualizer-wrapper .altrion-viz .altrion-vizpane::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -146,26 +166,31 @@
     linear-gradient(var(--line-struct) 1px, transparent 1px),
     linear-gradient(90deg, var(--line-struct) 1px, transparent 1px);
   background-size: 100px 100px;
-  opacity: 0.3;
+  opacity: 0.28;
   z-index: 0;
 }
 
 .visualizer-wrapper .altrion-viz canvas {
-  opacity: 0.9;
-  filter: grayscale(100%) brightness(1.2) contrast(1.15);
+  opacity: 0.92;
+  filter: grayscale(100%) brightness(1.18) contrast(1.15);
   position: relative;
   z-index: 1;
 }
 
-/* Safety Fallback for blend-mode */
 @supports (mix-blend-mode: screen) {
   .visualizer-wrapper .altrion-viz canvas { mix-blend-mode: screen; }
 }
+@supports not (mix-blend-mode: screen) {
+  .visualizer-wrapper .altrion-viz canvas {
+    opacity: 1;
+    filter: grayscale(100%) brightness(1.06) contrast(1.12);
+  }
+}
 
-/* Banner: Standardized Readout */
+/* Banner */
 .visualizer-wrapper .altrion-viz .banner {
   position: absolute;
-  bottom: 2rem; left: 2rem;
+  bottom: var(--s4); left: var(--s4);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -174,24 +199,19 @@
   z-index: 2;
   min-width: 200px;
   overflow: hidden;
-  padding: 1rem;
-  padding-left: calc(1rem + var(--strip-width));
+  padding: var(--s2);
+  padding-left: calc(var(--s2) + var(--strip-width));
 }
 
-/* Banner Audit Strip */
 .visualizer-wrapper .altrion-viz .banner::before {
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--strip-width);
   background: var(--sig-ok);
 }
-
-/* Banner States (Logic synced with JS: danger/collapse) */
 .visualizer-wrapper .altrion-viz .banner.ok::before { background: var(--sig-ok); }
 .visualizer-wrapper .altrion-viz .banner.warn::before { 
-  background: repeating-linear-gradient(0deg, var(--sig-warn), var(--sig-warn) 2px, transparent 2px, transparent 4px);
+  background: repeating-linear-gradient(0deg, var(--sig-warn), var(--sig-warn) 3px, transparent 3px, transparent 6px);
 }
-.visualizer-wrapper .altrion-viz .banner.collapse::before,
-.visualizer-wrapper .altrion-viz .banner.fail::before,
-.visualizer-wrapper .altrion-viz .banner.danger::before { 
+.visualizer-wrapper .altrion-viz .banner.collapse::before { 
   background: var(--sig-err);
   width: 8px;
 }
@@ -205,29 +225,32 @@
 }
 .visualizer-wrapper .altrion-viz .banner .state {
   font-family: var(--font-audit);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--ink-head);
 }
 
 /* ---------------------------------------------------------
-   4. Right Panel: The Audit Ledger
+   4. Right Panel: The Ledger
    --------------------------------------------------------- */
 .visualizer-wrapper .altrion-viz .altrion-panel {
   display: flex;
   flex-direction: column;
   background: var(--bg-panel) !important;
+  /* Min-width: 0 allows the clamp() on the parent grid to control width,
+     preventing flex content from forcing blowout */
+  min-width: 0; 
+  overflow-wrap: anywhere; 
 }
 
-/* Block: The unit of audit */
+/* Block */
 .visualizer-wrapper .altrion-viz .block {
   position: relative;
   border-bottom: 1px solid var(--line-struct) !important;
   background: transparent !important;
   box-shadow: none !important;
-  padding-left: calc(12px + var(--strip-width)); 
+  padding-left: calc(var(--s2) + var(--strip-width)); 
 }
 
-/* Block Strip */
 .visualizer-wrapper .altrion-viz .block::before {
   content: "";
   position: absolute;
@@ -236,11 +259,9 @@
   background: transparent;
   transition: background 0.2s;
 }
-
 .visualizer-wrapper .altrion-viz .block:hover::before { background: var(--line-audit); }
 .visualizer-wrapper .altrion-viz .block:hover { background: rgba(255,255,255,0.02) !important; }
 
-/* Header */
 .visualizer-wrapper .altrion-viz .block .hd {
   padding: 12px 16px 12px 4px;
   border-bottom: 1px solid var(--line-struct) !important;
@@ -266,10 +287,10 @@
 .visualizer-wrapper .altrion-viz .block .bd { padding: 16px 16px 16px 4px; }
 
 /* ---------------------------------------------------------
-   5. Controls & Inputs
+   5. Controls & Inputs (Fully Cross-Browser Safe)
    --------------------------------------------------------- */
-.visualizer-wrapper .altrion-viz .controls { display: grid; gap: 1.25rem; }
-.visualizer-wrapper .altrion-viz .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.visualizer-wrapper .altrion-viz .controls { display: grid; gap: var(--s2); }
+.visualizer-wrapper .altrion-viz .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
 
 .visualizer-wrapper .altrion-viz label {
   font-family: var(--font-auth);
@@ -281,6 +302,19 @@
   align-items: center;
 }
 
+/* Note box */
+.visualizer-wrapper .altrion-viz .note {
+  font-family: var(--font-audit);
+  font-size: 0.65rem;
+  color: var(--ink-dim);
+  line-height: 1.5;
+  margin-top: 8px;
+  border-top: 1px dashed var(--line-struct);
+  padding-top: 8px;
+}
+.visualizer-wrapper .altrion-viz .note b { color: var(--ink-data); }
+
+/* Buttons */
 .visualizer-wrapper .altrion-viz button,
 .visualizer-wrapper .altrion-viz .comboBtn {
   width: 100%;
@@ -291,25 +325,33 @@
   font-family: var(--font-audit);
   font-size: 0.7rem;
   text-align: left;
-  transition: all 0.15s ease-out;
   cursor: pointer;
+  transition: all 0.15s ease-out;
 }
-.visualizer-wrapper .altrion-viz button:hover {
+.visualizer-wrapper .altrion-viz button:hover,
+.visualizer-wrapper .altrion-viz .comboBtn:hover {
   border-color: var(--ink-head) !important;
   background: rgba(255,255,255,0.05) !important;
+  color: var(--ink-head) !important;
 }
-/* A11y Focus */
+.visualizer-wrapper .altrion-viz button:active { transform: translateY(1px); }
+
+/* Focus Visibility (A11y) */
 .visualizer-wrapper .altrion-viz button:focus-visible,
 .visualizer-wrapper .altrion-viz input:focus-visible {
   outline: 1px solid var(--ink-head);
   outline-offset: 2px;
 }
 
+/* Range Inputs (WebKit) */
 .visualizer-wrapper .altrion-viz input[type="range"] {
   -webkit-appearance: none;
   background: transparent;
   width: 100%;
   margin: 0;
+  height: 20px;
+  cursor: col-resize;
+  accent-color: var(--ink-data);
 }
 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track {
   height: 1px;
@@ -322,16 +364,38 @@
   margin-top: -7px;
   border: none;
   box-shadow: 0 0 0 1px #000;
-  cursor: col-resize;
-  transition: background 0.2s, transform 0.2s;
+  transition: transform 0.1s;
 }
 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb:hover {
   background: var(--ink-head);
-  transform: scaleY(1.1);
+  transform: scaleY(1.2);
+}
+
+/* Range Inputs (Firefox Neutralization) */
+.visualizer-wrapper .altrion-viz input[type="range"]::-moz-range-track {
+  height: 1px;
+  background: var(--line-struct);
+}
+.visualizer-wrapper .altrion-viz input[type="range"]::-moz-range-progress {
+  background: transparent; /* Fix: Kill default fill */
+}
+.visualizer-wrapper .altrion-viz input[type="range"]::-moz-focus-outer {
+  border: 0; /* Fix: Kill default focus outline */
+}
+.visualizer-wrapper .altrion-viz input[type="range"]::-moz-range-thumb {
+  width: 8px; height: 16px;
+  background: var(--ink-data);
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 0 0 1px #000;
+  cursor: col-resize;
+}
+.visualizer-wrapper .altrion-viz input[type="range"]::-moz-range-thumb:hover {
+  background: var(--ink-head);
 }
 
 /* ---------------------------------------------------------
-   6. Gate List & States (CORRECTED JS SYNC)
+   6. Gate List & States
    --------------------------------------------------------- */
 .visualizer-wrapper .altrion-viz .subgrid { 
   display: grid; gap: 0; 
@@ -347,31 +411,25 @@
   margin: 0;
 }
 
-/* Primary Strip Logic */
 .visualizer-wrapper .altrion-viz .gate::before {
   content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--strip-width);
   background: transparent;
 }
 
-/* Modern Browsers: :has() for Strip */
 @supports (selector(:has(*))) {
   .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.warn)::before {
-    background: repeating-linear-gradient(0deg, var(--sig-warn), var(--sig-warn) 2px, transparent 2px, transparent 4px);
+    background: repeating-linear-gradient(0deg, var(--sig-warn), var(--sig-warn) 3px, transparent 3px, transparent 6px);
   }
-  /* FIX: Sync with JS (.danger instead of .fail) */
   .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.danger)::before {
     background: var(--sig-err);
     width: 8px;
   }
 }
 
-/* Legacy Fallback: Badge itself carries the texture */
 @supports not (selector(:has(*))) {
   .visualizer-wrapper .altrion-viz .badgeMini.warn { 
-    border-left: 4px solid var(--sig-warn) !important; 
-    border-left-style: dotted !important;
+    border-left: 4px dotted var(--sig-warn) !important; 
   }
-  /* FIX: Sync with JS (.danger instead of .fail) */
   .visualizer-wrapper .altrion-viz .badgeMini.danger { 
     border-left: 4px solid var(--sig-err) !important; 
   }
@@ -388,6 +446,7 @@
   color: var(--ink-head);
 }
 
+/* KV Fix: Alignment and Spacing */
 .visualizer-wrapper .altrion-viz .kv {
   display: flex;
   justify-content: space-between;
@@ -395,25 +454,42 @@
   font-size: 0.65rem;
   color: var(--ink-dim);
   margin-top: 3px;
+  gap: 12px;
 }
-.visualizer-wrapper .altrion-viz .kv .v { color: var(--ink-data); }
+.visualizer-wrapper .altrion-viz .kv .v { 
+  color: var(--ink-data);
+  text-align: right; 
+}
 
 /* ---------------------------------------------------------
-   7. Live Data Box (ADR)
+   7. Live Data Box
    --------------------------------------------------------- */
-.visualizer-wrapper .altrion-viz .split { display: grid; gap: 1rem; margin-top: 1rem; }
+.visualizer-wrapper .altrion-viz .split { display: grid; gap: var(--s2); margin-top: var(--s2); }
 
-.visualizer-wrapper .altrion-viz .case {
+.visualizer-wrapper .altrion-viz .case,
+.visualizer-wrapper .altrion-viz .adr {
   border: 1px solid var(--line-struct);
   padding: 12px;
   background: rgba(255,255,255,0.01) !important;
 }
-.visualizer-wrapper .altrion-viz .caseHead b {
+
+.visualizer-wrapper .altrion-viz .caseHead,
+.visualizer-wrapper .altrion-viz .adrTop {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.visualizer-wrapper .altrion-viz .caseHead b,
+.visualizer-wrapper .altrion-viz .adrTop b {
   font-family: var(--font-auth);
   font-size: 0.7rem;
   text-transform: uppercase;
   color: var(--ink-dim);
 }
+
+.visualizer-wrapper .altrion-viz .caseGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 .visualizer-wrapper .altrion-viz .stat {
   display: flex;
@@ -426,10 +502,40 @@
 .visualizer-wrapper .altrion-viz .stat .t { font-family: var(--font-audit); font-size: 0.6rem; color: var(--ink-dim); }
 .visualizer-wrapper .altrion-viz .stat .n { font-family: var(--font-audit); font-size: 0.75rem; color: var(--ink-head); }
 
+.visualizer-wrapper .altrion-viz .foot {
+  margin-top: 8px;
+  font-size: 0.6rem;
+  color: var(--ink-dim);
+  font-family: var(--font-auth);
+  opacity: 0.7;
+}
+
+/* Readability Fix: Audit Grade Text Wrapping */
+.visualizer-wrapper .altrion-viz pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  font-family: var(--font-audit);
+  font-size: 0.65rem;
+  color: var(--ink-data);
+}
+
+.visualizer-wrapper .altrion-viz .btnRow { display: flex; gap: 8px; }
+.visualizer-wrapper .altrion-viz .miniBtn {
+  padding: 4px 8px;
+  font-size: 0.6rem;
+  border: 1px solid var(--line-struct);
+  background: transparent;
+  color: var(--ink-dim);
+  cursor: pointer;
+}
+.visualizer-wrapper .altrion-viz .miniBtn:hover { border-color: var(--ink-head); color: var(--ink-head); }
+
 /* Mobile */
 @media (max-width: 900px) {
-  .visualizer-wrapper .altrion-viz .grid { grid-template-columns: 1fr; }
-  .visualizer-wrapper .altrion-viz .vizpane { 
+  .visualizer-wrapper .altrion-viz .altrion-grid { grid-template-columns: 1fr; }
+  .visualizer-wrapper .altrion-viz .altrion-vizpane { 
     border-right: none; 
     border-bottom: 1px solid var(--line-struct); 
     min-height: 400px; 
