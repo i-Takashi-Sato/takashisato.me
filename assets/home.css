@@ -20,7 +20,7 @@ body.home{
 
   --ease-punk:cubic-bezier(0.1, 0.9, 0.2, 1.2);
 
-  --z-kanji:-2;
+  --z-kanji:0;
   --z-panel:-1;
   --z-script:1;
   --z-overlay:20;
