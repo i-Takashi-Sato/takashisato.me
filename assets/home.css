@@ -146,7 +146,7 @@ body.home main #archive .paper{
   --k-top:61.8%;
   --k-rot:-8deg;
   --k-size:clamp(20rem, 33vw, 44rem);
-  --k-opacity:0.12;
+  --k-opacity:0.11;
 
   transform:translateY(0);
   will-change:transform;
@@ -182,8 +182,12 @@ body.home #archive .paper::before{
   background-size:contain;
   background-image:var(--k-svg);
   opacity:var(--k-opacity);
-  mix-blend-mode:screen;
-  filter:brightness(1.12) saturate(1.08) drop-shadow(0 0 18px rgba(217,4,41,0.16));
+  mix-blend-mode:normal;
+  filter:
+    brightness(0) invert(1)
+    contrast(1.06)
+    drop-shadow(0 0 10px rgba(255,255,255,0.12))
+    drop-shadow(0 0 28px rgba(217,4,41,0.06));
   pointer-events:none;
   z-index:var(--z-kanji);
 }
@@ -200,14 +204,14 @@ body.home #archive .paper:nth-of-type(2){
   --k-top:38.2%;
   --k-rot:8deg;
   --k-size:clamp(22rem, 38.2vw, 52rem);
-  --k-opacity:0.12;
+  --k-opacity:0.11;
 }
 body.home #archive .paper:nth-of-type(3){
   --k-svg:url("/assets/img/kyu.svg");
   --k-top:61.8%;
   --k-rot:-7deg;
   --k-size:clamp(20rem, 34vw, 46rem);
-  --k-opacity:0.12;
+  --k-opacity:0.11;
 }
 
 body.home #archive .paper:nth-of-type(1)::before,
@@ -552,7 +556,7 @@ body.home #archive .paper:focus-within::after{
 }
 @keyframes ha-kanji{
   from{ opacity:0; filter:blur(6px); }
-  to  { opacity:var(--k-opacity); filter:brightness(1.12) saturate(1.08) drop-shadow(0 0 18px rgba(217,4,41,0.16)); }
+  to  { opacity:var(--k-opacity); filter:brightness(0) invert(1) contrast(1.06) drop-shadow(0 0 10px rgba(255,255,255,0.12)) drop-shadow(0 0 28px rgba(217,4,41,0.06)); }
 }
 @keyframes kyu-script{
   from{ opacity:0; transform:translate(var(--tx), calc(var(--ty) + 18px)) rotate(var(--rot)) scale(0.98); }
