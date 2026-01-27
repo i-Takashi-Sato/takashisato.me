@@ -148,43 +148,11 @@
     return t;
   }
 
-  function splitLinesByWidth(c, text, maxW) {
-    const words = text.split(/\s+/).filter(Boolean);
-    if (!words.length) return [""];
-    const lines = [];
-    let line = words[0];
-    for (let i = 1; i < words.length; i++) {
-      const next = `${line} ${words[i]}`;
-      if (measureTextWidth(c, next) <= maxW) line = next;
-      else {
-        lines.push(line);
-        line = words[i];
-      }
-    }
-    lines.push(line);
-    return lines;
-  }
-
-  function drawMultiline(c, text, x, y, maxW, lh, align = "left", maxLines = 3) {
-    const lines = splitLinesByWidth(c, text, maxW);
-    const out = lines.slice(0, maxLines);
-    if (lines.length > maxLines) out[maxLines - 1] = ellipsize(c, out[maxLines - 1], maxW);
-    c.textAlign = align;
-    for (let i = 0; i < out.length; i++) c.fillText(out[i], x, y + i * lh);
-    return out.length;
-  }
-
   function dprValue() {
     return Math.max(1, Math.min(2.5, window.devicePixelRatio || 1));
   }
 
-  const geom = {
-    dpr: 1,
-    w: 0,
-    h: 0,
-    cw: 0,
-    ch: 0,
-  };
+  const geom = { dpr: 1, w: 0, h: 0, cw: 0, ch: 0 };
 
   function resize() {
     const parent = el.canvas.parentElement;
@@ -210,22 +178,22 @@
     last: now(),
     time: 0,
     preset: "steady",
-    gamma: 0.50,
+    gamma: 0.5,
     work: 0.55,
     friction: 0.62,
-    criticalNC: 0.40,
+    criticalNC: 0.4,
     nc: 0.12,
     err: 0.06,
     eng: 0.66,
-    rej: 0.00,
-    warn: 0.00,
+    rej: 0.0,
+    warn: 0.0,
     rationaleRequired: false,
   };
 
   function presetParams(key) {
     if (key === "high") return { work: 0.78, gamma: 0.58, friction: 0.58 };
-    if (key === "strained") return { work: 0.72, gamma: 0.74, friction: 0.50 };
-    return { work: 0.55, gamma: 0.50, friction: 0.62 };
+    if (key === "strained") return { work: 0.72, gamma: 0.74, friction: 0.5 };
+    return { work: 0.55, gamma: 0.5, friction: 0.62 };
   }
 
   function applyPreset(key) {
@@ -259,13 +227,12 @@
     const f = sim.friction;
 
     const fatigue = clamp(0.15 + 0.95 * g, 0, 1);
-    const load = clamp(0.10 + 1.10 * w, 0, 1.25);
+    const load = clamp(0.1 + 1.1 * w, 0, 1.25);
     const friction = clamp(f, 0, 1);
 
     const baseNC = logistic((load * 1.35 + fatigue * 1.15 - friction * 1.25) * 2.6 - 1.25);
     const noise = (Math.sin(sim.time * 0.9) + Math.sin(sim.time * 0.37 + 1.7)) * 0.007;
     const ncTarget = clamp(baseNC + noise, 0, 1);
-
     sim.nc = lerp(sim.nc, ncTarget, clamp(dt * 2.2, 0, 1));
 
     const below = clamp(1 - sim.nc / sim.criticalNC, 0, 1);
@@ -273,24 +240,25 @@
     const errorBase = 0.18 + 0.62 * sim.nc;
     const benefit = 0.22 * friction * regime;
     const collapse = smoothstep(clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1));
-    const collapsePenalty = 0.40 * collapse;
+    const collapsePenalty = 0.4 * collapse;
 
     const errTarget = clamp(errorBase - benefit + collapsePenalty, 0.01, 0.98);
     sim.err = lerp(sim.err, errTarget, clamp(dt * 1.8, 0, 1));
 
-    const engTarget = clamp(0.85 - 0.55 * sim.nc + 0.25 * friction - 0.10 * collapse, 0.05, 0.98);
+    const engTarget = clamp(0.85 - 0.55 * sim.nc + 0.25 * friction - 0.1 * collapse, 0.05, 0.98);
     sim.eng = lerp(sim.eng, engTarget, clamp(dt * 1.4, 0, 1));
 
-    const rejTarget = clamp(0.02 + 0.22 * friction * regime, 0, 0.40);
+    const rejTarget = clamp(0.02 + 0.22 * friction * regime, 0, 0.4);
     sim.rej = lerp(sim.rej, rejTarget, clamp(dt * 1.0, 0, 1));
 
-    const warnTarget = clamp(0.04 + 0.26 * (1 - regime) + 0.10 * friction, 0, 0.55);
+    const warnTarget = clamp(0.04 + 0.26 * (1 - regime) + 0.1 * friction, 0, 0.55);
     sim.warn = lerp(sim.warn, warnTarget, clamp(dt * 1.0, 0, 1));
 
     sim.rationaleRequired = sim.nc >= sim.criticalNC * 0.92 || sim.warn > 0.22;
   }
 
   const particles = [];
+
   function seedParticles(n = 70) {
     particles.length = 0;
     for (let i = 0; i < n; i++) {
@@ -308,7 +276,7 @@
 
   function stepParticles(dt) {
     const speed = lerp(0.06, 0.22, sim.eng) * lerp(0.78, 1.15, sim.work);
-    const drift = 0.010 + 0.020 * (1 - sim.eng);
+    const drift = 0.01 + 0.02 * (1 - sim.eng);
 
     for (const p of particles) {
       p.x += (p.v + speed) * dt;
@@ -319,7 +287,7 @@
 
       if (p.x > 1.06) {
         p.x = rand(-0.08, 0.02);
-        p.y = rand(0.14, 0.90);
+        p.y = rand(0.14, 0.9);
         p.v = rand(0.06, 0.18);
         p.r = rand(1.2, 2.4);
         p.a = rand(0.25, 0.95);
@@ -327,6 +295,75 @@
         p.gate = 0;
       }
     }
+  }
+
+  function drawPillRow(c, names, x0, y0, maxW, mono, activeIdx) {
+    const pillH = 30;
+    const pillGap = 10;
+    const pillPadX = 12;
+
+    let fs = 12;
+    let rows = 1;
+
+    const measureRow = (idxs) => {
+      let total = 0;
+      for (const i of idxs) total += Math.ceil(measureTextWidth(c, names[i]) + pillPadX * 2);
+      total += pillGap * (idxs.length - 1);
+      return total;
+    };
+
+    for (let attempt = 0; attempt < 6; attempt++) {
+      c.font = `600 ${fs}px ${mono}`;
+      const total = measureRow([0, 1, 2, 3]);
+      if (total <= maxW) { rows = 1; break; }
+      fs -= 1;
+      if (fs <= 9) { rows = 2; break; }
+    }
+
+    const drawRow = (idxs, y) => {
+      c.font = `600 ${fs}px ${mono}`;
+      const rawW = idxs.map((i) => Math.ceil(measureTextWidth(c, names[i]) + pillPadX * 2));
+      const totalRaw = rawW.reduce((a, b) => a + b, 0) + pillGap * (idxs.length - 1);
+      const available = maxW;
+
+      let widths = rawW.slice();
+      if (totalRaw > available) {
+        const each = Math.max(92, Math.floor((available - pillGap * (idxs.length - 1)) / idxs.length));
+        widths = widths.map(() => each);
+      }
+
+      let x = x0;
+      c.textBaseline = "middle";
+
+      for (let k = 0; k < idxs.length; k++) {
+        const idx = idxs[k];
+        const w = widths[k];
+
+        roundedRectPath(c, x, y, w, pillH, 999);
+        c.fillStyle = idx === activeIdx ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.18)";
+        c.fill();
+        c.strokeStyle = idx === activeIdx ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.10)";
+        c.stroke();
+
+        c.fillStyle = idx === activeIdx ? "rgba(212,212,212,0.86)" : "rgba(212,212,212,0.62)";
+        drawTextFit(c, names[idx], x + pillPadX, y + pillH / 2, w - pillPadX * 2, "left");
+
+        x += w + pillGap;
+      }
+    };
+
+    c.save();
+
+    if (rows === 1) {
+      drawRow([0, 1, 2, 3], y0);
+      c.restore();
+      return { endY: y0 + pillH };
+    }
+
+    drawRow([0, 1], y0);
+    drawRow([2, 3], y0 + pillH + 10);
+    c.restore();
+    return { endY: y0 + pillH * 2 + 10 };
   }
 
   function drawScene() {
@@ -345,105 +382,33 @@
     const cardR = 18;
 
     ctx.save();
-    ctx.globalAlpha = 1;
     ctx.strokeStyle = "rgba(255,255,255,0.06)";
     ctx.lineWidth = 1;
-
     roundedRectPath(ctx, left.x, left.y, left.w, left.h, cardR);
     ctx.stroke();
-
     roundedRectPath(ctx, right.x, right.y, right.w, right.h, cardR);
     ctx.stroke();
     ctx.restore();
 
+    const mono = `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace`;
+
     const hudTop = left.y + 14;
     const hudX = left.x + 14;
-
-    const mono = `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace`;
 
     ctx.save();
     ctx.font = `600 13px ${mono}`;
     ctx.fillStyle = "rgba(212,212,212,0.70)";
+    ctx.textBaseline = "alphabetic";
     const hudLine = `NC:${fmtPct(sim.nc)}  ERR:${fmtPct(sim.err)}  ENG:${fmtPct(sim.eng)}  γ:${Math.round(sim.gamma * 100)}  λ:${Math.round(sim.work * 100)}`;
     drawTextFit(ctx, hudLine, hudX, hudTop, left.w - 28, "left");
     ctx.restore();
 
     const pillY = hudTop + 18;
-    const pillH = 30;
-    const pillPadX = 12;
-    const pillGap = 10;
     const pillNames = ["G1  BASELINE", "G2  VALUE", "G3  TEMPORAL", "G4  ARBITRATE"];
-
-    ctx.save();
-    ctx.font = `600 12px ${mono}`;
-
-    const maxRowW = left.w - 28;
-    let fontSize = 12;
-    let rows = 1;
-
-    for (let attempt = 0; attempt < 6; attempt++) {
-      ctx.font = `600 ${fontSize}px ${mono}`;
-
-      let total = 0;
-      for (const s of pillNames) total += measureTextWidth(ctx, s) + pillPadX * 2;
-      total += pillGap * (pillNames.length - 1);
-
-      if (total <= maxRowW) { rows = 1; break; }
-
-      if (attempt < 3) {
-        fontSize -= 1;
-      } else {
-        rows = 2;
-        break;
-      }
-    }
-
-    ctx.font = `600 ${fontSize}px ${mono}`;
-    ctx.textBaseline = "middle";
-
-    const pillWList = pillNames.map((s) => Math.ceil(measureTextWidth(ctx, s) + pillPadX * 2));
-
-    const drawPill = (x, y, w, text, active) => {
-      roundedRectPath(ctx, x, y, w, pillH, 999);
-      ctx.fillStyle = active ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.18)";
-      ctx.fill();
-      ctx.strokeStyle = active ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.10)";
-      ctx.stroke();
-
-      ctx.fillStyle = active ? "rgba(212,212,212,0.86)" : "rgba(212,212,212,0.62)";
-      const tx = x + pillPadX;
-      drawTextFit(ctx, text, tx, y + pillH / 2, w - pillPadX * 2, "left");
-    };
-
     const activeGate = clamp(Math.floor(sim.time * 0.8) % 4, 0, 3);
 
-    if (rows === 1) {
-      let x = hudX;
-      for (let i = 0; i < pillNames.length; i++) {
-        const w = pillWList[i];
-        drawPill(x, pillY, w, pillNames[i], i === activeGate);
-        x += w + pillGap;
-      }
-    } else {
-      const row1 = [0, 1];
-      const row2 = [2, 3];
-      const rowsIdx = [row1, row2];
-      for (let r = 0; r < 2; r++) {
-        const indices = rowsIdx[r];
-        let total = 0;
-        for (const idx of indices) total += pillWList[idx];
-        total += pillGap * (indices.length - 1);
-        let x = hudX;
-        const y = pillY + r * (pillH + 10);
-        for (let k = 0; k < indices.length; k++) {
-          const idx = indices[k];
-          const w = pillWList[idx];
-          drawPill(x, y, w, pillNames[idx], idx === activeGate);
-          x += w + pillGap;
-        }
-      }
-    }
-
+    ctx.save();
+    const pillInfo = drawPillRow(ctx, pillNames, hudX, pillY, left.w - 28, mono, activeGate);
     ctx.restore();
 
     const plotTop = left.y + 70;
@@ -485,6 +450,7 @@
       const alpha = 0.22 + 0.55 * p.a;
       const hot = sim.nc >= sim.criticalNC ? 1 : 0;
       const dotR = p.r;
+
       ctx.fillStyle = hot ? `rgba(255,209,139,${0.16 * alpha})` : `rgba(212,212,212,${0.22 * alpha})`;
       ctx.beginPath();
       ctx.arc(px, py, dotR + 2.3, 0, Math.PI * 2);
@@ -496,11 +462,11 @@
       ctx.fill();
     }
 
-    const collapse = clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1);
-    if (collapse > 0.02) {
+    const cCollapse = clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1);
+    if (cCollapse > 0.02) {
       const x0 = plotLeft + (plotRight - plotLeft) * 0.84;
       const w = (plotRight - plotLeft) * 0.16;
-      const t = smoothstep(collapse);
+      const t = smoothstep(cCollapse);
       const a = 0.10 + 0.28 * t;
       ctx.fillStyle = `rgba(138,44,44,${a})`;
       ctx.fillRect(x0, plotTop, w, plotBottom - plotTop);
@@ -556,8 +522,8 @@
       const regime = smoothstep(below);
       const errorBase = 0.18 + 0.62 * x;
       const benefit = 0.22 * sim.friction * regime;
-      const collapse = smoothstep(clamp((x - sim.criticalNC) / 0.18, 0, 1));
-      const collapsePenalty = 0.40 * collapse;
+      const cc = smoothstep(clamp((x - sim.criticalNC) / 0.18, 0, 1));
+      const collapsePenalty = 0.4 * cc;
       const y = clamp(errorBase - benefit + collapsePenalty, 0.01, 0.98);
       curve.push([toX(x), toY(y)]);
     }
@@ -600,10 +566,12 @@
 
     const titleX = rx0 + 18;
     const titleY = ry0 + 18;
+
     ctx.save();
     ctx.font = `600 13px ${mono}`;
     ctx.fillStyle = "rgba(212,212,212,0.70)";
     const maxW = rw - 36;
+    ctx.textBaseline = "alphabetic";
     drawTextFit(ctx, `x: Non-Compliance (NC)`, titleX, titleY, maxW, "left");
     ctx.fillStyle = "rgba(212,212,212,0.55)";
     drawTextFit(ctx, `y: Critical Error`, titleX, titleY + 16, maxW, "left");
@@ -612,15 +580,47 @@
     ctx.save();
     ctx.font = `600 12px ${mono}`;
     ctx.fillStyle = "rgba(255,209,139,0.62)";
+    ctx.textBaseline = "alphabetic";
+
     const critLabel = `critical @ ${Math.round(sim.criticalNC * 100)}%`;
-    const cx = clamp(critX + 10, rx0 + 18, rx0 + rw - 18);
-    drawTextFit(ctx, critLabel, cx, ax.y0 + 14, Math.max(60, rx0 + rw - 18 - cx), "left");
+    const critW = measureTextWidth(ctx, critLabel);
+
+    let cx = critX + 10;
+    let align = "left";
+    if (cx + critW > ax.x1) {
+      cx = critX - 10;
+      align = "right";
+    }
+    cx = clamp(cx, ax.x0 + 6, ax.x1 - 6);
+
+    let cy = ax.y0 + 14;
+    const titleBlock = { x: titleX, y: titleY - 12, w: maxW, h: 34 };
+    const critBox = {
+      x: align === "left" ? cx : cx - critW,
+      y: cy - 12,
+      w: critW,
+      h: 16,
+    };
+
+    const overlaps =
+      critBox.x < titleBlock.x + titleBlock.w &&
+      critBox.x + critBox.w > titleBlock.x &&
+      critBox.y < titleBlock.y + titleBlock.h &&
+      critBox.y + critBox.h > titleBlock.y;
+
+    if (overlaps) {
+      cy = ax.y0 + 52;
+      if (cy > ax.y1 - 10) cy = ax.y1 - 10;
+    }
+
+    ctx.textAlign = align;
+    drawTextFit(ctx, critLabel, cx, cy, Math.max(60, align === "left" ? ax.x1 - cx : cx - ax.x0), align);
     ctx.restore();
   }
 
   function updateUI() {
     const collapse = sim.nc >= sim.criticalNC;
-    const near = sim.nc >= sim.criticalNC * 0.80;
+    const near = sim.nc >= sim.criticalNC * 0.8;
 
     if (el.pillCrit) el.pillCrit.textContent = `${Math.round(sim.criticalNC * 100)}% NC`;
     if (el.pillMode) el.pillMode.textContent = sim.running ? "SIM" : "PAUSE";
@@ -674,7 +674,7 @@
 
   function makeCase() {
     const id = Math.random().toString(16).slice(2, 10).toUpperCase();
-    const deltaM = rand(-0.10, 0.42);
+    const deltaM = rand(-0.1, 0.42);
     const deltaP = rand(-0.42, 0.22);
     const ageDays = Math.round(rand(0, 75));
     const stalenessTau = 28;
@@ -720,7 +720,7 @@
         },
       },
       decision,
-      auditable: !(collapse),
+      auditable: !collapse,
       rationale_template: {
         required: !!(g2Flag || g3Warn),
         fields: ["context", "tradeoff_acknowledgement", "mitigations", "owner", "expiry_or_review_date"],
