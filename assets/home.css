@@ -1,4 +1,4 @@
-/* HOME — V146.2 (Noir Monolith) */
+/* HOME — V146.3 (Noir Monolith) */
 
 body.home{
   --bg-void:#050505;
@@ -6,7 +6,7 @@ body.home{
   --surface:#0E0E0E;
 
   --fg:#E6E4E0;
-  --fg-dim:#949494;
+  --fg-dim:#A3A3A3;
 
   --accent:#D90429;
   --line:rgba(255,255,255,0.08);
@@ -100,9 +100,9 @@ body.home .who{
 body.home .lead{
   font-family:var(--font-serif);
   font-size:1.6rem;
-  line-height:1.4;
-  border-left:4px solid var(--accent);
-  padding-left:40px;
+  line-height:1.45;
+  border-left:2px solid var(--accent);
+  padding-left:28px;
   max-width:850px;
   margin:0;
 }
@@ -118,8 +118,6 @@ body.home .section-label{
   border-bottom:1px solid var(--line);
   padding-bottom:20px;
 }
-
-/* Archive card */
 
 body.home main #archive .paper{
   display:grid;
@@ -226,8 +224,6 @@ body.home #archive .paper:nth-of-type(2)::before{
 
 body.home #archive .work-bg-num{ display:none !important; }
 
-/* Script note */
-
 body.home #archive .script-note{
   position:absolute;
   z-index:var(--z-script);
@@ -299,8 +295,6 @@ body.home #archive .paper:nth-of-type(3) .script-note{
      0 0 0.18em rgba(255, 60, 70, 0.10);
 }
 
-/* Typography */
-
 body.home main #archive .paper .paper-title{
   grid-area:title;
   margin:0;
@@ -312,7 +306,7 @@ body.home main #archive .paper .paper-title a{
   font-family:var(--font-sans);
   font-size:clamp(2.8rem, 5.5vw, 6rem);
   font-weight:600;
-  line-height:0.95;
+  line-height:1.02;
   letter-spacing:-0.04em;
   text-transform:uppercase;
 
@@ -324,7 +318,6 @@ body.home main #archive .paper .paper-title a{
   max-width:95%;
 }
 
-/* Full-card hit (preferred) */
 body.home main #archive .paper > a.paper-hit{
   position:absolute;
   inset:0;
@@ -334,7 +327,6 @@ body.home main #archive .paper > a.paper-hit{
   z-index:var(--z-overlay);
 }
 
-/* Ensure stretched-link membrane never competes */
 body.home main #archive .paper .paper-title a::before{ content:none !important; }
 
 body.home #archive .paper-quote{
@@ -401,7 +393,6 @@ body.home #archive .k span{
   display:inline-block;
 }
 
-/* CTA above hit */
 body.home main #archive .paper .actions{
   grid-area:cta;
   align-self:end;
@@ -468,8 +459,6 @@ body.home #archive .paper:focus-within .pill::after{
   transform:translateX(0);
 }
 
-/* Hover material */
-
 @media (hover:hover) and (pointer:fine){
   body.home #archive .paper:hover{
     transform:translateY(-3.2px);
@@ -481,7 +470,7 @@ body.home #archive .paper:focus-within .pill::after{
     background-color:rgba(0,0,0,0.92);
     border-color:transparent;
     box-shadow:
-      0 24px 72px -12px rgba(0,0,0,0.98),
+      0 28px 80px -18px rgba(0,0,0,0.98),
       0 0 0 1px rgba(217,4,41,0.14) inset;
     background-image:linear-gradient(
       180deg,
@@ -515,7 +504,7 @@ body.home #archive .paper:focus-within::after{
   background-color:rgba(0,0,0,0.92);
   border-color:transparent;
   box-shadow:
-    0 24px 72px -12px rgba(0,0,0,0.98),
+    0 28px 80px -18px rgba(0,0,0,0.98),
     0 0 0 1px rgba(217,4,41,0.14) inset;
   background-image:linear-gradient(
     180deg,
@@ -559,8 +548,6 @@ body.home #archive .paper:focus-within::after{
   body.home #archive:has(.paper:focus-within) .paper:not(:focus-within) .actions{ opacity:0.55; }
 }
 
-/* Jo-Ha-Kyu entrance */
-
 @keyframes jo-rise{
   from{ opacity:0; transform:translateY(18px); }
   to  { opacity:1; transform:translateY(0); }
@@ -574,7 +561,6 @@ body.home #archive .paper:focus-within::after{
   to  { opacity:0.62; transform:translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1); }
 }
 
-/* Normal mode: obey reduced-motion */
 @media (prefers-reduced-motion: no-preference){
   body.home #archive .paper{ animation:jo-rise 640ms var(--ease-punk) both; }
   body.home #archive .paper::before{ animation:ha-kanji 700ms var(--ease-punk) both; animation-delay:220ms; }
@@ -596,7 +582,6 @@ body.home #archive .paper:focus-within::after{
   body.home #archive .paper:nth-of-type(4) .script-note{ animation-delay:calc(440ms + 360ms); }
 }
 
-/* Force mode: add class "force-enter" on body */
 body.home.force-enter #archive .paper{
   animation:jo-rise 640ms var(--ease-punk) both !important;
 }
@@ -617,8 +602,6 @@ body.home.force-enter #archive .script-note{
   }
 }
 
-/* Press */
-
 @media (hover:hover) and (pointer:fine){
   body.home #archive .paper:active,
   body.home #archive .paper a:active{
@@ -632,8 +615,6 @@ body.home.force-enter #archive .script-note{
       0 0 0 1px rgba(217,4,41,0.16) inset !important;
   }
 }
-
-/* Nav */
 
 body.home .nav .nav-papers{
   position:relative;
@@ -674,8 +655,6 @@ body.home .nav .nav-papers:focus-visible::after{
 
 body.home .top .nav a::after{ content:none !important; }
 body.home .top .nav a{ margin-left:0 !important; }
-
-/* Responsive */
 
 @media (max-width: 1024px){
   body.home main > header{
