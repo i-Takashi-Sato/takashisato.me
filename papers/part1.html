@@ -1,124 +1,448 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#050507">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#050507" />
 
   <title>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato</title>
-  <meta name="description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.">
+  <meta name="description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates." />
+  <link rel="canonical" href="https://takashisato.me/papers/part1.html" />
 
-  <link rel="canonical" href="https://takashisato.me/papers/part1.html">
-  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="robots" content="index,follow,max-image-preview:large" />
 
+  <!-- Base -->
   <link rel="stylesheet" href="/assets/site.css" />
+  <!-- Part I visualizer skin (scoped under .altrion-viz) -->
+  <link rel="stylesheet" href="/assets/part1-visualizer.css" />
+  <!-- Part I page-only -->
+  <link rel="stylesheet" href="/assets/part1.css" />
 
-  <meta property="og:title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://takashisato.me/papers/part1.html">
-  <meta property="og:image" content="https://takashisato.me/og.jpg">
-  <meta property="og:description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato">
-  <meta name="twitter:description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.">
-  <meta name="twitter:image" content="https://takashisato.me/og.jpg">
+  <meta name="citation_title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems" />
+  <meta name="citation_author" content="Takashi Sato" />
+  <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
+  <meta name="citation_publication_date" content="2025/12/12" />
+  <meta name="citation_online_date" content="2026/01/09" />
+  <meta name="citation_pdf_url" content="https://takashisato.me/pdf/part1.pdf" />
+  <meta name="citation_abstract_html_url" content="https://takashisato.me/papers/part1.html" />
+  <meta name="citation_language" content="en" />
+  <meta name="citation_author_orcid" content="0009-0003-1584-6965" />
+  <meta name="citation_keywords" content="AI governance; sociotechnical systems; accountable AI; workflow governance; auditability; ALTRION" />
+  <meta name="citation_technical_report_institution" content="SSRN" />
+  <meta name="citation_technical_report_number" content="5911063" />
+
+  <meta property="og:title" content="Workflow-Centric AI Governance · Takashi Sato" />
+  <meta property="og:description" content="ALTRION: structured friction for accountable human–AI decision systems." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://takashisato.me/papers/part1.html" />
+  <meta property="og:image" content="https://takashisato.me/assets/og-part1.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Workflow-Centric AI Governance (ALTRION) · Takashi Sato" />
+  <meta property="og:site_name" content="Takashi Sato · AI Governance Archive" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Workflow-Centric AI Governance · Takashi Sato" />
+  <meta name="twitter:description" content="ALTRION: structured friction for accountable human–AI decision systems." />
+  <meta name="twitter:image" content="https://takashisato.me/assets/og-part1.jpg" />
+  <meta name="twitter:site" content="@takashisato_me" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
+    "@id": "https://takashisato.me/papers/part1.html#article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://takashisato.me/papers/part1.html"
+    },
     "headline": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
-    "author": { "@type": "Person", "name": "Takashi Sato" },
-    "publisher": { "@type": "Person", "name": "Takashi Sato" },
-    "datePublished": "2026-01-01",
-    "dateModified": "2026-01-26",
-    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://takashisato.me/papers/part1.html" }
+    "description": "ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Takashi Sato",
+      "url": "https://takashisato.me/"
+    },
+    "datePublished": "2025-12-12",
+    "dateModified": "2026-01-09",
+    "identifier": [
+      { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5911063" }
+    ],
+    "image": "https://takashisato.me/assets/og-part1.jpg",
+    "keywords": "AI governance, sociotechnical systems, accountable AI, workflow governance, auditability, ALTRION",
+    "encoding": {
+      "@type": "MediaObject",
+      "contentUrl": "https://takashisato.me/pdf/part1.pdf",
+      "encodingFormat": "application/pdf"
+    }
   }
   </script>
 </head>
 
-<body class="paper">
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="top" role="banner">
+<body>
+  <header class="top" aria-label="Site header">
     <div class="top-inner">
       <a class="brand" href="/" aria-label="Home">
-        <img class="signature-logo" src="/assets/signature.svg" alt="Takashi Sato">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo" />
       </a>
 
-      <nav class="nav" aria-label="Site">
-        <a href="/">Home</a>
-        <a href="/papers/part1.html" aria-current="page">Part I</a>
-        <a href="/papers/part2.html">Part II</a>
-        <a href="/papers/part3.html">Part III</a>
-        <a href="/security.html">Security</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/papers/part1.html" aria-current="page">PART I</a>
+        <a href="/papers/part2.html">PART II</a>
+        <a href="/papers/part3.html">PART III</a>
       </nav>
     </div>
   </header>
 
-  <main id="main" class="article-container">
-    <a class="back-link" href="/#archive" aria-label="Back to archive">← Back to Archive</a>
+  <main>
+    <div class="article-container">
+      <a href="/" class="back-link">Back to Archive</a>
 
-    <header class="article-header">
-      <h1>Workflow-Centric AI Governance</h1>
+      <header class="article-header">
+        <h1>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems</h1>
 
-      <div class="article-meta">
-        <span>Part I</span>
-        <span>Friction</span>
-        <span>2026</span>
-      </div>
-    </header>
-
-    <article class="article-body">
-      <p class="lead">To preserve the human, we must engineer the friction of thought.</p>
-
-      <!-- Visualizer removed intentionally (will be re-introduced later) -->
-
-      <h2>1. Introduction</h2>
-      <p>...</p>
-
-      <h2>2. The Four Gates</h2>
-      <p>...</p>
-
-      <div class="citation-box">
-        <div class="citation-head">
-          <span class="citation-label">BibTeX</span>
-          <button class="copy" type="button" data-copy="#bibtex">Copy</button>
+        <div class="article-meta" aria-label="Paper metadata">
+          <span>Published: 2025/12/12</span>
+          <span>SSRN: 5911063</span>
+          <span>Rev: 2026/01/09</span>
         </div>
-        <pre id="bibtex" class="citation-text">@article{...}</pre>
-      </div>
+      </header>
 
-      <nav class="paper-nav" aria-label="Inter-paper navigation">
+      <article class="article-body">
+        <blockquote>
+          “To preserve the human, we must engineer the friction of thought.”
+          <br />
+          <span class="quote-translation">思考に摩擦を仕込むという設計。</span>
+        </blockquote>
+
+        <p class="section-label">
+          Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
+        </p>
+
+        <!-- VISUALIZER (embedded, interactive)
+             NOTE: CSS MUST be scoped under .altrion-viz to avoid collisions with site.css/part1.css.
+             The outer wrapper guarantees a height so canvas does not collapse. -->
+        <div class="visualizer-wrapper">
+          <section class="altrion-viz" aria-label="ALTRION Gate Visualizer (Part I)">
+            <div class="altrion-aura" aria-hidden="true"></div>
+
+            <header class="altrion-top">
+              <div class="altrion-brand">
+                <h2>ALTRION Gate Visualizer (Part I)</h2>
+                <p>
+                  Four-gate workflow governance as a <span class="emph">cognitive firewall</span>.
+                  Left: pipeline + phase transition (NC → ritualization collapse).
+                  Right: <span class="emph">explicit gate specs (Detect/Enforce) + live evaluation + ADR preview</span>.
+                </p>
+              </div>
+
+              <div class="altrion-pillrow" aria-hidden="true">
+                <div class="pill"><span class="dot" id="dotSys"></span><span id="pillSys">STABLE</span></div>
+                <div class="pill"><span>Critical:</span><span id="pillCrit">40% NC</span></div>
+                <div class="pill"><span>Mode:</span><span id="pillMode">SIM</span></div>
+              </div>
+            </header>
+
+            <div class="altrion-stage" role="region" aria-label="ALTRION simulation">
+              <div class="altrion-grid">
+                <!-- LEFT: VISUAL -->
+                <div class="altrion-vizpane">
+                  <canvas id="scene" aria-label="Gate pipeline + phase plot"></canvas>
+                  <div class="overlay">
+                    <div class="veil" id="veil"></div>
+                  </div>
+
+                  <div class="banner ok" id="banner">
+                    <div class="label">
+                      <b>governance regime</b>
+                      <span id="bannerDesc">Region of productive friction (oversight remains substantive).</span>
+                    </div>
+                    <div class="state">
+                      <span class="badge"><span class="dot" id="dotReg"></span><span id="bannerState">PRODUCTIVE</span></span>
+                      <span id="bannerReadout">NC: 12% · Error: 6%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- RIGHT: CONTROLS / GATES / ADR -->
+                <aside class="altrion-panel" aria-label="Controls and gate specs">
+                  <div class="block">
+                    <div class="hd">
+                      <b>controls</b>
+                      <span>embedded · CSP-friendly</span>
+                    </div>
+                    <div class="bd">
+                      <div class="controls">
+                        <div class="row">
+                          <label>
+                            Institutional condition
+                            <div class="combo" id="presetCombo" data-value="steady">
+                              <button
+                                class="comboBtn"
+                                id="presetBtn"
+                                type="button"
+                                role="combobox"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                                aria-controls="presetList"
+                                aria-label="Institutional condition"
+                              >
+                                <span class="comboLabel" id="presetLabelText">Steady (moderate workload)</span>
+                                <span class="comboChevron" aria-hidden="true"></span>
+                              </button>
+
+                              <div
+                                class="comboList"
+                                id="presetList"
+                                role="listbox"
+                                tabindex="-1"
+                                aria-label="Institutional condition options"
+                                aria-activedescendant=""
+                              >
+                                <button class="comboOpt" id="presetOpt0" type="button" role="option" data-value="steady" aria-selected="true">
+                                  Steady (moderate workload)
+                                </button>
+                                <button class="comboOpt" id="presetOpt1" type="button" role="option" data-value="high" aria-selected="false">
+                                  High-volume (queue pressure)
+                                </button>
+                                <button class="comboOpt" id="presetOpt2" type="button" role="option" data-value="strained" aria-selected="false">
+                                  Strained (thin staffing)
+                                </button>
+                              </div>
+                            </div>
+                          </label>
+
+                          <label>
+                            Playback
+                            <button id="toggle" class="primary" type="button">Pause</button>
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <label>
+                            Fatigue coefficient (γ)
+                            <input id="gamma" type="range" min="10" max="90" value="50" />
+                          </label>
+                          <label>
+                            Workload (λ)
+                            <input id="work" type="range" min="0" max="100" value="55" />
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <label>
+                            Gate friction (time/attention)
+                            <input id="friction" type="range" min="0" max="100" value="62" />
+                          </label>
+                          <label>
+                            Re-arm
+                            <button id="reset" type="button">Reset / Re-seed</button>
+                          </label>
+                        </div>
+
+                        <label>
+                          Note
+                          <div class="note">
+                            <b>Interpretation</b><br/>
+                            <code>NC</code> = Institutional non-compliance (overrides/ignores under fatigue).<br/>
+                            Below critical NC, staged gates reduce error. Beyond the critical region, Gate 4 becomes procedural
+                            (<code>ritualization</code>) and error rises sharply.
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="block">
+                    <div class="hd">
+                      <b>gate specifications</b>
+                      <span id="telMeta">live</span>
+                    </div>
+                    <div class="bd">
+                      <div class="subgrid">
+                        <div class="gatecards" aria-label="G1 to G4 definitions">
+                          <div class="gate" id="gate1">
+                            <div class="gTop">
+                              <div class="gTitle"><b>G1</b><span>Baseline Constraints</span></div>
+                              <div class="gBadges">
+                                <span class="badgeMini" id="g1Badge"><span class="dot" id="g1Dot"></span><span id="g1State">PASS</span></span>
+                                <span class="badgeMini ok" id="g1Rate">rej 0.0%</span>
+                              </div>
+                            </div>
+                            <div class="gBody">
+                              <div class="kv"><div class="k">Detect</div><div class="v">Non-negotiable constraints <code>C</code> breach (policy/legal/safety baseline).</div></div>
+                              <div class="kv"><div class="k">Enforce</div><div class="v"><code>REJECT</code> (hard stop). No human “exception” without explicit override channel.</div></div>
+                            </div>
+                          </div>
+
+                          <div class="gate" id="gate2">
+                            <div class="gTop">
+                              <div class="gTitle"><b>G2</b><span>Value Conflict</span></div>
+                              <div class="gBadges">
+                                <span class="badgeMini" id="g2Badge"><span class="dot" id="g2Dot"></span><span id="g2State">CLEAR</span></span>
+                                <span class="badgeMini ok" id="g2Rate">warn 0.0%</span>
+                              </div>
+                            </div>
+                            <div class="gBody">
+                              <div class="kv"><div class="k">Detect</div><div class="v">Optimization tension: primary gain <code>ΔM&gt;0</code> while a proxy/secondary degrades <code>Δp&lt;−θ</code>.</div></div>
+                              <div class="kv"><div class="k">Enforce</div><div class="v"><code>FLAG</code> value conflict → escalates to Gate 4 (written rationale required).</div></div>
+                            </div>
+                          </div>
+
+                          <div class="gate" id="gate3">
+                            <div class="gTop">
+                              <div class="gTitle"><b>G3</b><span>Temporal Reliability</span></div>
+                              <div class="gBadges">
+                                <span class="badgeMini" id="g3Badge"><span class="dot" id="g3Dot"></span><span id="g3State">FRESH</span></span>
+                                <span class="badgeMini ok" id="g3Rate">warn 0.0%</span>
+                              </div>
+                            </div>
+                            <div class="gBody">
+                              <div class="kv"><div class="k">Detect</div><div class="v">Staleness: <code>(t_current − t_data) &gt; τ</code> (context drift / out-of-date basis).</div></div>
+                              <div class="kv"><div class="k">Enforce</div><div class="v"><code>WARN</code> temporal reliability → escalates to Gate 4 (explicit acknowledgement + rationale).</div></div>
+                            </div>
+                          </div>
+
+                          <div class="gate" id="gate4">
+                            <div class="gTop">
+                              <div class="gTitle"><b>G4</b><span>Human Arbitration</span></div>
+                              <div class="gBadges">
+                                <span class="badgeMini" id="g4Badge"><span class="dot" id="g4Dot"></span><span id="g4State">SUBSTANTIVE</span></span>
+                                <span class="badgeMini ok" id="g4Req">rationale off</span>
+                              </div>
+                            </div>
+                            <div class="gBody">
+                              <div class="kv"><div class="k">Detect</div><div class="v">Presence of <code>FLAG/WARN</code> from G2/G3; or proximity to critical regime (NC approaching threshold).</div></div>
+                              <div class="kv"><div class="k">Enforce</div><div class="v"><code>R</code> written rationale required for flagged cases; generate <code>ADR</code> for auditability. In collapse, arbitration degrades to procedure (“ritual”).</div></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="split" aria-label="Live evaluation and ADR">
+                          <div class="case" aria-label="Live case evaluation">
+                            <div class="caseHead"><b>live evaluation</b><span id="caseId">case: —</span></div>
+                            <div class="caseGrid">
+                              <div class="stat"><div class="t">ΔM (primary)</div><div class="n" id="cDeltaM">—</div></div>
+                              <div class="stat"><div class="t">Δp (proxy)</div><div class="n" id="cDeltaP">—</div></div>
+                              <div class="stat"><div class="t">staleness</div><div class="n" id="cAge">—</div></div>
+                              <div class="stat"><div class="t">decision</div><div class="n" id="cDecision">—</div></div>
+                            </div>
+                            <div class="foot">
+                              This “case” is a synthetic exemplar to make Gate logic explicit in UI.
+                              Token flow on the left remains the ambient throughput simulation.
+                            </div>
+                          </div>
+
+                          <div class="adr" aria-label="ADR preview">
+                            <div class="adrTop">
+                              <b>adr preview</b>
+                              <div class="btnRow">
+                                <button class="miniBtn" id="copyAdr" type="button">Copy JSON</button>
+                                <button class="miniBtn" id="newCase" type="button">New Case</button>
+                              </div>
+                            </div>
+                            <pre id="adrJson">{}</pre>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <h2>Abstract</h2>
+
+        <p class="lead">
+          The integration of AI into high-stakes domains has revealed a critical sociotechnical gap: while model performance improves, institutional capacity to responsibly operationalize AI outputs remains fragile.
+        </p>
+
+        <p>
+          Without robust procedural safeguards, human oversight often devolves into performative ritualism rather than substantive review. To address this, we propose <strong>ALTRION</strong>, a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines. ALTRION formalizes four governance gates—from baseline constraints to human arbitration—that are designed to enforce cognitive engagement and preserve meaningful human agency.
+        </p>
+
+        <p>
+          We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
+        </p>
+
+        <h2>Why it matters</h2>
+        <ul>
+          <li>Turns “oversight” into a <strong>workflow object</strong>—auditable, revisable, and enforceable.</li>
+          <li>Introduces <strong>structured friction</strong> to prevent ritualized compliance and moral crumple zones.</li>
+          <li>Provides a governance-first architecture aligned with institutional reality.</li>
+        </ul>
+
+        <div class="actions">
+          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF<span class="sr-only"> (opens in new tab)</span>
+          </a>
+        </div>
+      </article>
+
+      <nav class="paper-nav" aria-label="Paper navigation">
         <div class="paper-nav-inner">
-          <a class="nav-link next" href="/papers/part2.html">
-            <span class="nav-label">Next</span>
-            <span class="nav-title">Part II</span>
+          <a href="/papers/part2.html" class="nav-link next">
+            <span class="nav-label">Next: Part II</span>
+            <span class="nav-title">The Silent Decay: Forecasting Failure</span>
           </a>
         </div>
       </nav>
-    </article>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <nav class="social-nav" aria-label="Social">
-          <a class="social-link" href="https://github.com/i-Takashi-Sato" target="_blank" rel="noopener">GitHub</a>
-          <a class="social-link" href="/security.html">Security</a>
-          <a class="social-link" href="/privacy.html">Privacy</a>
-        </nav>
-
-        <div class="footer-meta">
-          <nav class="meta-nav" aria-label="Meta">
-            <a class="meta-link" href="/colophon.html">Colophon</a>
-            <a class="meta-link" href="/.well-known/security.txt">security.txt</a>
-          </nav>
-          <p class="copyright">© 2026 Takashi Sato</p>
+      <div class="citation-box" aria-label="Citation">
+        <div class="citation-head">
+          <span class="citation-label">BibTeX Citation</span>
+          <button
+            class="copy"
+            type="button"
+            data-copy-target="#bibtex-part1"
+            aria-label="Copy BibTeX citation"
+          >Copy</button>
         </div>
+
+        <pre id="bibtex-part1" class="citation-text">@misc{sato2025workflowcentric,
+  title = {Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human--AI Decision Systems},
+  author = {Sato, Takashi},
+  year = {2025},
+  note = {Preprint},
+  url = {https://takashisato.me/pdf/part1.pdf}
+}</pre>
       </div>
-    </footer>
+    </div>
   </main>
 
-  <script src="/assets/scroll.js" defer></script>
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="footer-inner">
+      <nav class="social-nav" aria-label="External links">
+        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+      </nav>
+
+      <div class="footer-meta">
+        <nav class="meta-nav" aria-label="Policies and meta">
+          <a href="/privacy.html" class="meta-link">Privacy</a>
+          <a href="/colophon.html" class="meta-link">Colophon</a>
+          <a href="/.well-known/security.txt" class="meta-link">Security</a>
+        </nav>
+
+        <p class="copyright">© 2026 Takashi Sato</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Visualizer JS must load before scroll.js -->
+  <script defer src="/assets/part1-visualizer.js"></script>
+  <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
