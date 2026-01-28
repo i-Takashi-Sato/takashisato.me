@@ -1,231 +1,304 @@
-/* =========================================================
-   PART I — VIZ_ABSOLUTE_PROTOCOL_100 (Gemini layout)
-   Scope: papers/part1.html only (body.part1)
-   ========================================================= */
+(() => {
+  "use strict";
 
-body.part1 .visualizer-wrapper{
-  width:100%;
-  position:relative;
-  margin:clamp(56px,7vh,96px) 0;
-  padding:0;
-  z-index:1;
-}
+  const $ = (id) => document.getElementById(id);
 
-body.part1 .article-container .visualizer-wrapper{
-  max-width:min(1100px, 100%);
-  margin-left:auto;
-  margin-right:auto;
-}
+  const el = {
+    app: $("altrion-app"),
+    vWrap: $("alt-v-wrap"),
+    canvas: $("scene"),
+    controls: $("alt-controls"),
+    vP: $("v-P"),
+    vStatus: $("v-Status"),
+  };
 
-/* Component root */
-body.part1 .visualizer-wrapper .altrion-container{
-  --alt-bg-base:#050507;
-  --alt-bg-panel:#08080c;
-  --alt-bg-canvas:#000000;
+  if (!el.app || !el.vWrap || !el.canvas) return;
 
-  --alt-border-s:rgba(255,255,255,0.10);
-  --alt-border-d:rgba(255,255,255,0.07);
+  const ctx = el.canvas.getContext("2d", { alpha: true, desynchronized: true });
+  if (!ctx) return;
 
-  --alt-ink:rgba(240,240,242,0.96);
-  --alt-dim:rgba(255,255,255,0.55);
-  --alt-dimmer:rgba(255,255,255,0.34);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
 
-  --alt-r-sm:16px;
-  --alt-r-md:24px;
-  --alt-r-lg:32px;
+  const prefersReducedMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  --alt-pad-x:40px;
-  --alt-gate-inset:12%;
-  --alt-gutter:20px;
+  const dprValue = () => Math.max(1, Math.min(2.25, window.devicePixelRatio || 1));
 
-  width:100%;
-  display:flex;
-  flex-direction:column;
+  const geom = { w: 0, h: 0, dpr: 1 };
 
-  background:var(--alt-bg-base);
-  border:1px solid var(--alt-border-d);
-  border-radius:var(--alt-r-lg);
-  overflow:hidden;
+  function resize() {
+    const rect = el.vWrap.getBoundingClientRect();
+    const w = Math.max(10, Math.floor(rect.width));
+    const h = Math.max(10, Math.floor(rect.height));
+    const dpr = dprValue();
 
-  box-shadow:
-    0 50px 170px -120px rgba(0,0,0,0.95),
-    0 18px 60px -34px rgba(0,0,0,0.85);
-}
+    geom.w = w;
+    geom.h = h;
+    geom.dpr = dpr;
 
-/* Top viewport */
-body.part1 .visualizer-wrapper .altrion-viewport{
-  height:clamp(320px,44vh,480px);
-  position:relative;
-  overflow:hidden;
-  background:var(--alt-bg-canvas);
-}
+    el.canvas.width = Math.floor(w * dpr);
+    el.canvas.height = Math.floor(h * dpr);
+    el.canvas.style.width = w + "px";
+    el.canvas.style.height = h + "px";
 
-/* Canvas */
-body.part1 .visualizer-wrapper #scene{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-  mix-blend-mode:screen;
-}
-
-/* Gate overlay */
-body.part1 .visualizer-wrapper .altrion-gate-overlay{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:space-between;
-  padding:0 var(--alt-gate-inset);
-  pointer-events:none;
-}
-
-body.part1 .visualizer-wrapper .altrion-gate{
-  height:100%;
-  width:1px;
-  background:linear-gradient(
-    to bottom,
-    transparent,
-    var(--alt-border-s) 40%,
-    var(--alt-border-s) 60%,
-    transparent
-  );
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-}
-
-body.part1 .visualizer-wrapper .altrion-gate-id{
-  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
-  font-size:10px;
-  letter-spacing:0.22em;
-  color:rgba(255,255,255,0.34);
-  transform:translateY(18px);
-}
-
-body.part1 .visualizer-wrapper .altrion-gate-lbl{
-  font-family: var(--font-serif, "Cormorant Garamond", serif);
-  font-style:italic;
-  font-size:11px;
-  letter-spacing:0.22em;
-  color:rgba(255,255,255,0.22);
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
-  padding-bottom:36px;
-}
-
-/* Console (bottom) */
-body.part1 .visualizer-wrapper .altrion-console{
-  display:grid;
-  grid-template-columns: 1.2fr 1.5fr 1fr;
-  gap:var(--alt-pad-x);
-  padding:var(--alt-r-lg) var(--alt-pad-x);
-  background:var(--alt-bg-panel);
-  border-top:1px solid var(--alt-border-d);
-}
-
-/* Typography */
-body.part1 .visualizer-wrapper .alt-h1{
-  font-family: var(--font-serif, "Cormorant Garamond", serif);
-  font-weight:300;
-  font-size:32px;
-  line-height:1.0;
-  letter-spacing:-0.01em;
-  margin:0;
-  color:#fff;
-}
-
-body.part1 .visualizer-wrapper .alt-sub{
-  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
-  font-size:10px;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.40);
-  margin-top:12px;
-}
-
-body.part1 .visualizer-wrapper .alt-val{
-  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
-  font-size:42px;
-  font-weight:200;
-  letter-spacing:-0.02em;
-  margin-top:4px;
-  color:#fff;
-}
-
-body.part1 .visualizer-wrapper .alt-st-msg{
-  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:0.18em;
-  margin-top:10px;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.78);
-}
-
-/* Buttons */
-body.part1 .visualizer-wrapper .altrion-btn-stack{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  margin-top:var(--alt-r-sm);
-}
-
-body.part1 .visualizer-wrapper .altrion-btn{
-  background:transparent;
-  border:1px solid var(--alt-border-s);
-  color:rgba(255,255,255,0.42);
-  height:48px;
-  padding:0 20px;
-  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
-  font-size:10px;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  text-align:left;
-  cursor:pointer;
-  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
-}
-
-body.part1 .visualizer-wrapper .altrion-btn:hover{
-  border-color:#fff;
-  color:#fff;
-}
-
-body.part1 .visualizer-wrapper .altrion-btn.is-active{
-  background:#fff;
-  color:#000;
-  border-color:#fff;
-  font-weight:700;
-}
-
-/* Mobile editorial */
-@media (max-width: 844px){
-  body.part1 .visualizer-wrapper{
-    margin:48px 0;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  body.part1 .article-container .visualizer-wrapper{
-    max-width:100%;
+  const sim = {
+    time: 0,
+    last: performance.now(),
+    pert: 0,
+
+    // mode params
+    A: 1.0,
+    targetA: 1.0,
+    W: 0.05,
+    targetW: 0.05,
+    gamma: 0.5,
+
+    // output
+    P: 1.0,
+    status: "Productive Friction",
+  };
+
+  const modes = [
+    { A: 1.0, W: 0.05, gamma: 0.5, status: "Productive Friction" },      // Crystalline
+    { A: 0.65, W: 0.85, gamma: 0.5, status: "Cognitive Engagement" },     // Tension
+    { A: 0.15, W: 1.0, gamma: 0.9, status: "Ritualization Collapse" },    // Ritualism
+  ];
+
+  function computeP(A, W, gamma) {
+    // P_int = max(0, A * (1 - gamma * W))
+    return Math.max(0, A * (1 - gamma * W));
   }
 
-  body.part1 .visualizer-wrapper .altrion-viewport{
-    height:clamp(280px,42vh,400px);
+  function updateUI() {
+    if (el.vP) el.vP.textContent = sim.P.toFixed(3);
+    if (el.vStatus) el.vStatus.textContent = sim.status;
   }
 
-  body.part1 .visualizer-wrapper .altrion-console{
-    display:flex;
-    flex-direction:column;
-    padding:var(--alt-r-md) var(--alt-gutter);
-    gap:var(--alt-r-md);
+  // Particle stream (Gemini line-flow feel)
+  class Particle {
+    constructor(w, h) {
+      this.reset(w, h, true);
+    }
+    reset(w, h, first = false) {
+      this.x = first ? Math.random() * w * 0.2 : -50;
+      this.y = Math.random() * h;
+      this.speed = 0.9 + Math.random() * 2.2;
+      this.len = 28 + Math.random() * 44;
+      this.history = [];
+      this.phase = Math.random() * 10;
+    }
+    update(w, h, A, W, P, ritual, time) {
+      const scale = 0.00135 * (1 + W * 3.2);
+      const n = Math.sin(this.x * scale + time + this.phase) * Math.cos(this.y * scale);
+
+      let vx = ritual ? n * 4.6 : (this.speed + n * W * 9.0);
+      let vy = ritual ? Math.sin(time * 1.2 + this.y * 0.01) * 3.2 : n * W * 6.2;
+
+      // Gate attraction lines (match overlay positions)
+      if (!ritual) {
+        const gates = [0.12, 0.37, 0.62, 0.87];
+        for (const gx of gates) {
+          const dx = gx * w - this.x;
+          if (Math.abs(dx) < 200) {
+            const pull = Math.cos((dx / 200) * (Math.PI / 2));
+            vy += (h * 0.5 - this.y) * pull * A * 0.06;
+          }
+        }
+        vy += (h * 0.5 - this.y) * A * 0.0105;
+      }
+
+      this.history.push({ x: this.x, y: this.y });
+      if (this.history.length > this.len) this.history.shift();
+
+      this.x += vx;
+      this.y += vy;
+
+      if (this.x > w + 120 || this.y < -120 || this.y > h + 120) {
+        this.reset(w, h);
+      }
+    }
+    draw(c, A, W, P, ritual) {
+      if (this.history.length < 2) return;
+
+      const alphaBase = ritual ? 0.010 : 0.016 + A * 0.030;
+      const lum = ritual ? 80 : 210 + P * 45;
+
+      c.beginPath();
+      c.moveTo(this.history[0].x, this.history[0].y);
+      for (let i = 1; i < this.history.length - 1; i++) {
+        const a = this.history[i];
+        const b = this.history[i + 1];
+        const xc = (a.x + b.x) * 0.5;
+        const yc = (a.y + b.y) * 0.5;
+        c.quadraticCurveTo(a.x, a.y, xc, yc);
+      }
+
+      if (P < 0.8 && !ritual) {
+        c.strokeStyle = `rgba(220,220,255,${alphaBase})`;
+        c.lineWidth = 0.75 + W * 0.9;
+        c.stroke();
+
+        // dispersion fringe
+        c.beginPath();
+        c.moveTo(this.history[0].x + 0.9, this.history[0].y);
+        for (let i = 1; i < this.history.length - 1; i++) {
+          const a = this.history[i];
+          const b = this.history[i + 1];
+          const xc = (a.x + b.x) * 0.5 + 0.9;
+          const yc = (a.y + b.y) * 0.5;
+          c.quadraticCurveTo(a.x + 0.9, a.y, xc, yc);
+        }
+        c.strokeStyle = `rgba(255,160,255,${alphaBase * 0.55})`;
+        c.lineWidth = 0.7;
+        c.stroke();
+      } else {
+        c.strokeStyle = `rgba(${lum},${lum},${lum},${alphaBase * 2.8})`;
+        c.lineWidth = ritual ? 0.55 : 0.9 + W * 0.75;
+        c.stroke();
+      }
+    }
   }
 
-  body.part1 .visualizer-wrapper .alt-h1{
-    font-size:28px;
-    line-height:1.05;
+  let particles = [];
+
+  function particleCount() {
+    // mobile throttling
+    const isMobile = window.matchMedia && window.matchMedia("(max-width: 844px)").matches;
+    if (prefersReducedMotion) return 0;
+    return isMobile ? 900 : 1800;
   }
 
-  body.part1 .visualizer-wrapper .altrion-btn-stack{
-    gap:10px;
+  function buildParticles() {
+    const n = particleCount();
+    particles = [];
+    for (let i = 0; i < n; i++) particles.push(new Particle(geom.w, geom.h));
   }
-}
+
+  function setMode(idx) {
+    const m = modes[idx] || modes[0];
+    sim.targetA = m.A;
+    sim.targetW = m.W;
+    sim.gamma = m.gamma;
+  }
+
+  function bindEvents() {
+    if (el.controls) {
+      el.controls.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-alt-mode]");
+        if (!btn) return;
+        const idx = parseInt(btn.getAttribute("data-alt-mode"), 10);
+        setMode(Number.isFinite(idx) ? idx : 0);
+
+        el.controls.querySelectorAll(".altrion-btn").forEach((b) => {
+          b.classList.toggle("is-active", b === btn);
+        });
+      });
+    }
+
+    el.vWrap.addEventListener(
+      "mousemove",
+      (e) => {
+        const rect = el.vWrap.getBoundingClientRect();
+        const w = Math.max(1, rect.width);
+        sim.pert = ((e.clientX - rect.left) / w - 0.5) * 0.18;
+      },
+      { passive: true }
+    );
+
+    el.vWrap.addEventListener(
+      "mouseleave",
+      () => {
+        sim.pert = 0;
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      "resize",
+      () => {
+        resize();
+        buildParticles();
+      },
+      { passive: true }
+    );
+  }
+
+  function drawBackdrop(w, h) {
+    // deep void + subtle vignette (Gemini feel)
+    ctx.clearRect(0, 0, w, h);
+
+    const g = ctx.createRadialGradient(w * 0.5, h * 0.55, 0, w * 0.5, h * 0.55, Math.max(w, h) * 0.75);
+    g.addColorStop(0, "rgba(255,255,255,0.02)");
+    g.addColorStop(0.55, "rgba(255,255,255,0.00)");
+    g.addColorStop(1, "rgba(0,0,0,0.00)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+
+    // micro grain
+    ctx.save();
+    ctx.globalAlpha = 0.04;
+    ctx.fillStyle = "#fff";
+    const n = Math.floor((w * h) / 140000);
+    for (let i = 0; i < n; i++) {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      ctx.fillRect(x, y, 1, 1);
+    }
+    ctx.restore();
+  }
+
+  function loop() {
+    const t = performance.now();
+    const dt = clamp((t - sim.last) / 1000, 0, 0.05);
+    sim.last = t;
+    sim.time += dt;
+
+    // smooth params
+    sim.A += (sim.targetA - sim.A) * (0.065 + dt * 0.3);
+    sim.W += (sim.targetW - sim.W) * (0.065 + dt * 0.3);
+
+    const effA = clamp(sim.A + sim.pert, 0, 1);
+    sim.P = computeP(effA, sim.W, sim.gamma);
+
+    const ritual = sim.P < 0.25;
+    if (ritual) sim.status = "Ritualization Collapse";
+    else if (sim.P > 0.8) sim.status = "Productive Friction";
+    else sim.status = "Cognitive Engagement";
+
+    const w = geom.w;
+    const h = geom.h;
+
+    drawBackdrop(w, h);
+
+    if (!prefersReducedMotion) {
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      const time = sim.time * 0.75;
+
+      for (const p of particles) {
+        p.update(w, h, effA, sim.W, sim.P, ritual, time);
+        p.draw(ctx, effA, sim.W, sim.P, ritual);
+      }
+
+      ctx.restore();
+    }
+
+    updateUI();
+    requestAnimationFrame(loop);
+  }
+
+  function init() {
+    resize();
+    buildParticles();
+    bindEvents();
+    setMode(0);
+    updateUI();
+    requestAnimationFrame(loop);
+  }
+
+  init();
+})();
