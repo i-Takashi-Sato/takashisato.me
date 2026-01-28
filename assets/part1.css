@@ -2,38 +2,62 @@
    Part I — Visualizer & HUD Styles
    Theme: "The Obsidian Terminal" (Military/Financial Grade)
    State: RESTORED "Perfect" Version (Glass HUD)
+   Scope: Part I only
    ========================================================= */
 
 /* 1. The Wrapper (Outer Frame) */
-.visualizer-wrapper {
-  width: 100%;
-  margin: 5rem 0;
+.visualizer-wrapper{
+  --bleed-gutter: 1.75rem;
+
+  /* Breakout: visualizer only */
+  width: calc(100dvw - (var(--bleed-gutter) * 2));
+  margin-left: calc(50% - 50dvw + var(--bleed-gutter));
+  margin-right: calc(50% - 50dvw + var(--bleed-gutter));
+
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+
   border: 1px solid var(--border-sharp);
-  border-radius: 0; /* Sharp Edges */
-  
-  /* The "Perfect" Glass Texture */
-  background: rgba(5, 5, 8, 0.65); /* 透明度を少しだけ調整し、視認性を確保 */
-  backdrop-filter: blur(16px);      /* ぼかしを強めに入れて背後の文字を溶かす */
+  border-radius: 0;
+
+  background: rgba(5,5,8,0.65);
+  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  
+
   overflow: hidden;
   position: relative;
+
   box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
 
-  /* 【重要】赤線（z-index:101）より手前に表示して、物理的に隠す設定 */
-  z-index: 105; 
+  /* keep safe stacking (do NOT jump over header/nav) */
+  z-index: 1;
+}
+
+/* Fallback for browsers without dvw */
+@supports not (width: 100dvw){
+  .visualizer-wrapper{
+    width: calc(100vw - (var(--bleed-gutter) * 2));
+    margin-left: calc(50% - 50vw + var(--bleed-gutter));
+    margin-right: calc(50% - 50vw + var(--bleed-gutter));
+  }
+}
+
+@media (max-width: 900px){
+  .visualizer-wrapper{
+    --bleed-gutter: 1.25rem;
+  }
 }
 
 /* Scanline Effect */
-.visualizer-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.2) 50%);
-  background-size: 100% 4px;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.2;
+.visualizer-wrapper::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.2) 50%);
+  background-size:100% 4px;
+  pointer-events:none;
+  z-index:2;
+  opacity:0.2;
 }
 
 /* =========================================================
@@ -41,94 +65,102 @@
    ========================================================= */
 
 /* Reset Container */
-#visualizer-container,
-.visualizer-box {
-  background: transparent !important;
-  border: none !important;
-  padding: 2.5rem;
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  color: var(--text-main);
+.visualizer-wrapper #visualizer-container,
+.visualizer-wrapper .visualizer-box{
+  background:transparent !important;
+  border:none !important;
+  padding:2.5rem;
+  font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  color:var(--text-main);
 }
 
-/* Canvas White Phosphor Mode */
-canvas, 
-#sim-canvas,
-.visualizer-graph {
-  /* JSの青色を強制的に「発光する白」に変換 */
-  filter: grayscale(100%) brightness(400%) contrast(1.2) drop-shadow(0 0 5px rgba(255,255,255,0.5)) !important;
-  mix-blend-mode: screen !important;
-  opacity: 0.95 !important;
+/* Canvas White Phosphor Mode (scoped) */
+.visualizer-wrapper canvas,
+.visualizer-wrapper #sim-canvas,
+.visualizer-wrapper .visualizer-graph{
+  filter:grayscale(100%) brightness(400%) contrast(1.2)
+         drop-shadow(0 0 5px rgba(255,255,255,0.5)) !important;
+  mix-blend-mode:screen !important;
+  opacity:0.95 !important;
 }
 
 /* Typography & Metrics */
-.stat-value, .metric-value, .gate-label, #simulation-canvas {
-  font-family: "JetBrains Mono", monospace !important;
+.visualizer-wrapper .stat-value,
+.visualizer-wrapper .metric-value,
+.visualizer-wrapper .gate-label,
+.visualizer-wrapper #simulation-canvas{
+  font-family:"JetBrains Mono", monospace !important;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing:-0.02em;
 }
 
-.metric-item {
-  border-bottom: 1px solid var(--border-sharp);
-  padding: 0.8rem 0;
-  margin-bottom: 0.5rem;
+.visualizer-wrapper .metric-item{
+  border-bottom:1px solid var(--border-sharp);
+  padding:0.8rem 0;
+  margin-bottom:0.5rem;
 }
 
-.metric-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: var(--text-muted);
+.visualizer-wrapper .metric-label{
+  font-size:0.75rem;
+  text-transform:uppercase;
+  color:var(--text-muted);
 }
 
-.metric-value {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+.visualizer-wrapper .metric-value{
+  font-size:1.1rem;
+  font-weight:500;
+  color:#fff;
+  text-shadow:0 0 10px rgba(255,255,255,0.2);
 }
 
 /* Gate Indicators */
-.gate-indicator {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4rem 0.8rem;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-right: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  transition: all 0.3s ease;
+.visualizer-wrapper .gate-indicator{
+  display:inline-flex;
+  align-items:center;
+  padding:0.4rem 0.8rem;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.1);
+  margin-right:0.5rem;
+  font-size:0.75rem;
+  color:var(--text-muted);
+  transition:all 0.3s ease;
 }
 
-.gate-indicator.active, .gate-indicator.pass {
-  border-color: rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  box-shadow: 0 0 15px -4px var(--accent-glow);
+.visualizer-wrapper .gate-indicator.active,
+.visualizer-wrapper .gate-indicator.pass{
+  border-color:rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  box-shadow:0 0 15px -4px var(--accent-glow);
 }
 
-.gate-indicator.fail, .gate-indicator.collapse {
-  border-color: rgba(217, 4, 41, 0.5);
-  background: rgba(217, 4, 41, 0.15);
-  color: #ffcfcf;
-  text-shadow: 0 0 8px rgba(217, 4, 41, 0.6);
+.visualizer-wrapper .gate-indicator.fail,
+.visualizer-wrapper .gate-indicator.collapse{
+  border-color:rgba(217, 4, 41, 0.5);
+  background:rgba(217, 4, 41, 0.15);
+  color:#ffcfcf;
+  text-shadow:0 0 8px rgba(217, 4, 41, 0.6);
 }
 
 /* Controls */
-input[type="range"] {
-  -webkit-appearance: none;
-  background: transparent;
-  width: 100%;
-  margin-top: 1rem;
+.visualizer-wrapper input[type="range"]{
+  -webkit-appearance:none;
+  background:transparent;
+  width:100%;
+  margin-top:1rem;
 }
-input[type="range"]::-webkit-slider-runnable-track {
-  background: var(--border-sharp);
-  height: 1px;
+
+.visualizer-wrapper input[type="range"]::-webkit-slider-runnable-track{
+  background:var(--border-sharp);
+  height:1px;
 }
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  background: #fff;
-  width: 4px; height: 16px;
-  margin-top: -7px;
-  box-shadow: 0 0 8px #fff;
-  cursor: ew-resize;
+
+.visualizer-wrapper input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  background:#fff;
+  width:4px;
+  height:16px;
+  margin-top:-7px;
+  box-shadow:0 0 8px #fff;
+  cursor:ew-resize;
 }
