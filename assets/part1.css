@@ -1,5 +1,10 @@
+/* =========================================================
+   PART I — ALTRION VISUALIZER (Museum-grade)
+   - DOM: Minimal (canvas + controls) / no extra nodes required
+   - Design: Phi-rhythm / instrument glass / meaning-first
+   ========================================================= */
+
 .part1 .visualizer-wrapper{
-  /* A) In-column (safe): kill breakout */
   width:100%;
   position:relative;
   left:auto;
@@ -8,72 +13,99 @@
   z-index:1;
 }
 
+/* ===== Tokens ===== */
 .part1 .visualizer-wrapper .altrion-viz{
-  --v-bg: rgba(10,10,12,0.62);
-  --v-panel: rgba(14,14,16,0.42);
-  --v-line: rgba(255,255,255,0.10);
-  --v-line-2: rgba(255,255,255,0.14);
+  /* Surface / Glass */
+  --v-bg: rgba(10,10,12,0.58);
+  --v-panel: rgba(14,14,16,0.40);
 
-  --v-ink: rgba(240,240,240,0.95);
-  --v-dim: rgba(255,255,255,0.55);
-  --v-dimmer: rgba(255,255,255,0.38);
+  /* Lines */
+  --v-line: rgba(255,255,255,0.095);
+  --v-line-2: rgba(255,255,255,0.145);
+  --v-hair: rgba(255,255,255,0.055);
 
-  --v-accent: rgba(217,4,41,0.95);
+  /* Type */
+  --v-ink: rgba(242,242,242,0.94);
+  --v-dim: rgba(255,255,255,0.56);
+  --v-dimmer: rgba(255,255,255,0.36);
+
+  /* Semantic accent (arterial) */
+  --v-accent: rgba(217,4,41,0.92);
+  --v-warn: rgba(255,209,139,0.80);
 
   --v-font: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  --v-mono: "JetBrains Mono","Roboto Mono","Consolas",monospace;
+  --v-mono: "JetBrains Mono","Roboto Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
 
-  /* A) In-column: no centering, no max width fight */
+  /* Phi rhythm */
+  --phi: 1.618;
+  --u: clamp(10px, 1.1vw, 14px);     /* base unit */
+  --r: 18px;
+
   width:100%;
   max-width:100%;
-  margin:0;           /* left align */
+  margin:0;
   position:relative;
+
   color:var(--v-ink);
   font-family:var(--v-font);
+  font-feature-settings:"kern","liga","calt";
+  text-rendering:optimizeLegibility;
 
   background:var(--v-bg);
   border:1px solid var(--v-line);
-  box-shadow:0 40px 120px -40px rgba(0,0,0,0.85);
-  backdrop-filter: blur(18px) saturate(1.1);
-  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  border-radius:calc(var(--r) + 2px);
+
+  /* heavier, more physical */
+  box-shadow:
+    0 50px 160px -70px rgba(0,0,0,0.92),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.40);
+
+  backdrop-filter: blur(18px) saturate(1.12);
+  -webkit-backdrop-filter: blur(18px) saturate(1.12);
 
   isolation:isolate;
   overflow:hidden;
 }
 
+/* Soft specular + top bloom (no cliché scanlines) */
 .part1 .visualizer-wrapper .altrion-viz::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  background:
-    radial-gradient(1200px 500px at 18% 0%, rgba(255,255,255,0.06), transparent 55%),
-    radial-gradient(900px 420px at 92% 18%, rgba(255,255,255,0.04), transparent 60%);
-  mix-blend-mode:overlay;
-  opacity:0.9;
-}
-
-.part1 .visualizer-wrapper .altrion-viz::after{
   content:"";
   position:absolute;
   inset:-2px;
   pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(1100px 520px at 16% -10%, rgba(255,255,255,0.085), transparent 56%),
+    radial-gradient(900px 420px at 92% 12%, rgba(255,255,255,0.055), transparent 62%),
+    linear-gradient(to bottom, rgba(255,255,255,0.045), transparent 18%, transparent 78%, rgba(0,0,0,0.38));
+  opacity:0.95;
+  mix-blend-mode:overlay;
+}
+
+/* Inner hairline frame */
+.part1 .visualizer-wrapper .altrion-viz::after{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid var(--v-hair);
+  border-radius:calc(var(--r) - 6px);
+  pointer-events:none;
   z-index:2;
-  background:linear-gradient(to bottom, rgba(255,255,255,0.04), transparent 18%, transparent 82%, rgba(0,0,0,0.35));
-  opacity:0.55;
+  opacity:0.95;
 }
 
 .part1 .visualizer-wrapper .altrion-viz *{
   box-sizing:border-box;
 }
 
+/* ===== Top bar ===== */
 .part1 .visualizer-wrapper .altrion-viz .altrion-top{
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
-  gap:24px;
-  padding:20px 24px;
+  gap:calc(var(--u) * var(--phi));
+  padding:calc(var(--u) * 1.6) calc(var(--u) * 1.8);
   border-bottom:1px solid var(--v-line);
   background:var(--v-panel);
   position:relative;
@@ -85,7 +117,7 @@
   font-family:var(--v-font);
   font-size:0.78rem;
   font-weight:600;
-  letter-spacing:0.14em;
+  letter-spacing:0.16em;
   text-transform:uppercase;
   color:rgba(255,255,255,0.96);
 }
@@ -95,10 +127,12 @@
   max-width:72ch;
   font-family:var(--v-mono);
   font-size:0.68rem;
-  line-height:1.55;
+  line-height:1.62;
+  letter-spacing:0.02em;
   color:var(--v-dimmer);
 }
 
+/* optional pill row styles (safe if not present) */
 .part1 .visualizer-wrapper .altrion-viz .altrion-pillrow{
   display:flex;
   flex-wrap:wrap;
@@ -106,7 +140,6 @@
   align-items:center;
   justify-content:flex-end;
 }
-
 .part1 .visualizer-wrapper .altrion-viz .pill{
   display:flex;
   gap:8px;
@@ -114,37 +147,35 @@
   padding:6px 10px;
   border:1px solid var(--v-line);
   background:rgba(255,255,255,0.02);
+  border-radius:999px;
   font-family:var(--v-mono);
   font-size:0.66rem;
   color:var(--v-dimmer);
   white-space:nowrap;
 }
-
-.part1 .visualizer-wrapper .altrion-viz .pill span{
-  color:var(--v-ink);
-}
-
+.part1 .visualizer-wrapper .altrion-viz .pill span{ color:var(--v-ink); }
 .part1 .visualizer-wrapper .altrion-viz .dot{
-  width:6px;
-  height:6px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.9);
-  box-shadow:0 0 10px rgba(255,255,255,0.35);
-  opacity:0.6;
+  width:6px; height:6px; border-radius:999px;
+  background:rgba(255,255,255,0.90);
+  box-shadow:0 0 10px rgba(255,255,255,0.30);
+  opacity:0.55;
 }
 
+/* ===== Stage / Layout ===== */
 .part1 .visualizer-wrapper .altrion-viz .altrion-stage{
   padding:0;
 }
 
+/* Golden split: canvas : panel ≈ φ : 1  */
 .part1 .visualizer-wrapper .altrion-viz .altrion-grid{
   display:grid;
-  grid-template-columns:minmax(0,1fr) 360px;
-  height:min(72vh,720px);
+  grid-template-columns: minmax(0, 1.618fr) minmax(320px, 1fr);
+  height:min(72vh, 720px);
   min-height:560px;
   background:transparent;
 }
 
+/* Left (canvas) */
 .part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
   position:relative;
   height:100%;
@@ -152,78 +183,35 @@
   overflow:hidden;
 }
 
+/* Quiet technical grid (instrument calibration, not décor) */
 .part1 .visualizer-wrapper .altrion-viz .altrion-vizpane::before{
   content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size:120px 120px;
-  opacity:0.16;
   z-index:0;
+  background-image:
+    linear-gradient(var(--v-hair) 1px, transparent 1px),
+    linear-gradient(90deg, var(--v-hair) 1px, transparent 1px);
+  background-size:144px 144px;
+  opacity:0.10;
 }
 
+/* Canvas treatment: “OLED instrument” */
 .part1 .visualizer-wrapper .altrion-viz canvas{
   position:relative;
   z-index:1;
   width:100% !important;
   height:100% !important;
   display:block;
-  opacity:0.92;
-  filter:grayscale(100%) brightness(1.15) contrast(1.18);
-  mix-blend-mode:screen;
+
+  /* keep it physical, not “web toy” */
+  opacity:0.96;
+  filter: grayscale(1) brightness(1.12) contrast(1.20);
+  mix-blend-mode: screen;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .banner,
-.part1 .visualizer-wrapper .altrion-viz #banner{
-  position:absolute;
-  left:18px;
-  bottom:18px;
-  z-index:3;
-  min-width:240px;
-  max-width:360px;
-
-  padding:14px 14px 14px 18px;
-  border:1px solid var(--v-line);
-  background:rgba(0,0,0,0.42);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.part1 .visualizer-wrapper .altrion-viz .banner::before,
-.part1 .visualizer-wrapper .altrion-viz #banner::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:8px;
-  background:var(--v-accent);
-  opacity:0.9;
-}
-
-.part1 .visualizer-wrapper .altrion-viz .banner .label b,
-.part1 .visualizer-wrapper .altrion-viz #banner .label b{
-  font-family:var(--v-font);
-  font-size:0.68rem;
-  letter-spacing:0.14em;
-  text-transform:uppercase;
-  color:var(--v-dimmer);
-}
-
-.part1 .visualizer-wrapper .altrion-viz .banner .state,
-.part1 .visualizer-wrapper .altrion-viz #banner .state{
-  font-family:var(--v-mono);
-  font-size:0.78rem;
-  color:rgba(255,255,255,0.95);
-}
-
+/* Right (controls) */
 .part1 .visualizer-wrapper .altrion-viz .altrion-panel{
   background:var(--v-panel);
   height:100%;
@@ -233,12 +221,12 @@
   scrollbar-width:none;
   -ms-overflow-style:none;
 }
-
 .part1 .visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar{
   width:0;
   height:0;
 }
 
+/* Blocks */
 .part1 .visualizer-wrapper .altrion-viz .block{
   border-bottom:1px solid var(--v-line);
   background:transparent;
@@ -249,7 +237,7 @@
   justify-content:space-between;
   align-items:baseline;
   gap:12px;
-  padding:12px 16px;
+  padding:calc(var(--u) * 1.05) calc(var(--u) * 1.2);
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
@@ -257,7 +245,7 @@
   font-family:var(--v-font);
   font-size:0.70rem;
   font-weight:600;
-  letter-spacing:0.12em;
+  letter-spacing:0.14em;
   text-transform:uppercase;
   color:rgba(255,255,255,0.92);
 }
@@ -265,13 +253,15 @@
 .part1 .visualizer-wrapper .altrion-viz .block .hd span{
   font-family:var(--v-mono);
   font-size:0.66rem;
+  letter-spacing:0.02em;
   color:var(--v-dimmer);
 }
 
 .part1 .visualizer-wrapper .altrion-viz .block .bd{
-  padding:14px 16px 18px 16px;
+  padding:calc(var(--u) * 1.25) calc(var(--u) * 1.2) calc(var(--u) * 1.55) calc(var(--u) * 1.2);
 }
 
+/* Labels */
 .part1 .visualizer-wrapper .altrion-viz label{
   display:flex;
   justify-content:space-between;
@@ -280,20 +270,30 @@
   margin:0 0 10px 0;
   font-family:var(--v-font);
   font-size:0.72rem;
+  letter-spacing:0.01em;
   color:var(--v-dim);
 }
 
+/* Buttons */
 .part1 .visualizer-wrapper .altrion-viz button,
 .part1 .visualizer-wrapper .altrion-viz .comboBtn{
   width:100%;
-  padding:10px 12px;
-  background:rgba(255,255,255,0.03);
+  padding:12px 12px;
+  border-radius:12px;
+
+  background:rgba(255,255,255,0.028);
   border:1px solid var(--v-line);
+
   color:rgba(255,255,255,0.92);
   font-family:var(--v-mono);
   font-size:0.72rem;
+  letter-spacing:0.02em;
   text-align:left;
-  transition:background 0.15s ease, border-color 0.15s ease;
+
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.08s ease;
   cursor:pointer;
 }
 
@@ -302,6 +302,17 @@
   border-color:var(--v-line-2);
 }
 
+.part1 .visualizer-wrapper .altrion-viz button:active{
+  transform: translateY(1px);
+}
+
+.part1 .visualizer-wrapper .altrion-viz button.primary{
+  border-color: rgba(255,255,255,0.16);
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+}
+
+/* Range inputs — minimal, precise, tool-like */
 .part1 .visualizer-wrapper .altrion-viz input[type="range"]{
   -webkit-appearance:none;
   appearance:none;
@@ -312,7 +323,7 @@
 
 .part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track{
   height:1px;
-  background:rgba(255,255,255,0.16);
+  background:rgba(255,255,255,0.18);
 }
 
 .part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb{
@@ -322,10 +333,24 @@
   background:rgba(255,255,255,0.92);
   margin-top:-8px;
   border:none;
-  box-shadow:0 0 0 1px rgba(0,0,0,0.9);
+  border-radius:6px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.92),
+    0 10px 20px -14px rgba(0,0,0,0.9);
   cursor:col-resize;
 }
 
+.part1 .visualizer-wrapper .altrion-viz input[type="range"]:focus-visible{
+  outline: none;
+}
+.part1 .visualizer-wrapper .altrion-viz button:focus-visible{
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.85),
+    0 0 0 3px rgba(255,255,255,0.20);
+}
+
+/* code/pre safe */
 .part1 .visualizer-wrapper .altrion-viz pre,
 .part1 .visualizer-wrapper .altrion-viz code{
   white-space:pre-wrap;
@@ -333,10 +358,14 @@
   word-break:break-word;
 }
 
+/* ===== Mobile ===== */
 @media (max-width: 900px){
   .part1 .visualizer-wrapper{
-    padding:0;
     margin:48px 0;
+  }
+
+  .part1 .visualizer-wrapper .altrion-viz::after{
+    inset:6px;
   }
 
   .part1 .visualizer-wrapper .altrion-viz .altrion-top{
@@ -354,9 +383,5 @@
     min-height:360px;
     border-right:none;
     border-bottom:1px solid var(--v-line);
-  }
-
-  .part1 .visualizer-wrapper .altrion-viz .altrion-panel{
-    max-height:none;
   }
 }
