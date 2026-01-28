@@ -3,7 +3,7 @@
 
   const $ = (id) => document.getElementById(id);
 
-  // New DOM (Absolute Protocol 100)
+  // DOM (Absolute Protocol 100)
   const el = {
     app: $("altrion-app"),
     canvas: $("scene"),
@@ -13,7 +13,7 @@
     vStatus: $("v-Status"),
   };
 
-  if (!el.canvas || !el.app) return;
+  if (!el.canvas || !el.app || !el.vWrap) return;
 
   const ctx = el.canvas.getContext("2d", { alpha: true, desynchronized: true });
 
@@ -23,7 +23,10 @@
   const now = () => performance.now();
   const rand = (a = 0, b = 1) => a + Math.random() * (b - a);
 
-  const fmtPct = (x) => (x <= 1 ? (x * 100) : x).toFixed(1) + "%";
+  const fmtPct = (x01) => `${Math.round(clamp(x01, 0, 1) * 100)}%`;
+
+  const prefersReducedMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Use container tokens if present (CSS: --alt-*)
   const cssVar = (name, fallback) => {
@@ -62,11 +65,7 @@
   const geom = { dpr: 1, w: 0, h: 0, cw: 0, ch: 0 };
 
   function resize() {
-    // Use viewport wrapper as sizing reference (not parentElement, which can be a canvas-only wrapper)
-    const host = el.vWrap || el.canvas.parentElement;
-    if (!host) return;
-
-    const rect = host.getBoundingClientRect();
+    const rect = el.vWrap.getBoundingClientRect();
     const dpr = dprValue();
     const w = Math.max(10, Math.floor(rect.width));
     const h = Math.max(10, Math.floor(rect.height));
@@ -146,27 +145,60 @@
   // Particles: “workflow objects” moving through the gates
   const particles = [];
 
-  function seedParticles(n = 70) {
+  function desiredParticleCount() {
+    // Gemini-like density: desktop ~1200–1600, mobile ~700–1100
+    const base = prefersReducedMotion ? 520 : 1250;
+    const s = Math.sqrt(Math.max(1, (geom.cw * geom.ch) / (720 * 420)));
+    const n = Math.floor(base * clamp(s, 0.75, 1.35));
+    return clamp(n, prefersReducedMotion ? 420 : 700, prefersReducedMotion ? 700 : 1700);
+  }
+
+  function seedParticles(n) {
     particles.length = 0;
     for (let i = 0; i < n; i++) {
       particles.push({
         x: rand(0, 1),
         y: rand(0.12, 0.92),
-        v: rand(0.06, 0.18),
-        r: rand(1.2, 2.2),
-        a: rand(0.25, 0.95),
+        v: rand(0.05, 0.17),
+        r: rand(0.9, 1.9),
+        a: rand(0.12, 0.92),
         hue: rand(0, 1),
       });
     }
   }
 
+  function rescaleParticlesIfNeeded() {
+    const target = desiredParticleCount();
+    if (particles.length === 0) {
+      seedParticles(target);
+      return;
+    }
+    const diff = target - particles.length;
+    if (Math.abs(diff) < 60) return; // avoid churn
+
+    if (diff > 0) {
+      for (let i = 0; i < diff; i++) {
+        particles.push({
+          x: rand(-0.06, 1.02),
+          y: rand(0.12, 0.92),
+          v: rand(0.05, 0.17),
+          r: rand(0.9, 1.9),
+          a: rand(0.12, 0.92),
+          hue: rand(0, 1),
+        });
+      }
+    } else {
+      particles.length = target;
+    }
+  }
+
   function stepParticles(dt) {
-    const speed = lerp(0.06, 0.22, sim.eng) * lerp(0.78, 1.15, sim.work);
-    const drift = 0.01 + 0.02 * (1 - sim.eng);
+    const speed = lerp(0.06, 0.24, sim.eng) * lerp(0.78, 1.20, sim.work);
+    const drift = 0.012 + 0.022 * (1 - sim.eng);
 
     for (const p of particles) {
       p.x += (p.v + speed) * dt;
-      p.y += (Math.sin((p.x + p.hue) * 9.0) * 0.002 + (rand(-1, 1) * drift)) * dt * 18.0;
+      p.y += (Math.sin((p.x + p.hue) * 9.0) * 0.002 + rand(-1, 1) * drift) * dt * 18.0;
 
       if (p.y < 0.12) p.y = 0.12;
       if (p.y > 0.92) p.y = 0.92;
@@ -174,9 +206,9 @@
       if (p.x > 1.06) {
         p.x = rand(-0.08, 0.02);
         p.y = rand(0.14, 0.9);
-        p.v = rand(0.06, 0.18);
-        p.r = rand(1.1, 2.2);
-        p.a = rand(0.25, 0.95);
+        p.v = rand(0.05, 0.17);
+        p.r = rand(0.9, 1.9);
+        p.a = rand(0.12, 0.92);
         p.hue = rand(0, 1);
       }
     }
@@ -201,7 +233,6 @@
   }
 
   function uiRegimeLabel() {
-    // Status is a qualitative readout of the institutional regime
     if (sim.nc >= sim.criticalNC) return "Ritualized Compliance";
     if (sim.nc >= sim.criticalNC * 0.78) return "Shear Layer";
     if (sim.nc >= sim.criticalNC * 0.55) return "Transitional";
@@ -209,7 +240,6 @@
   }
 
   function uiIntegrityP() {
-    // A simple “integrity probability” mapping
     const collapse = smoothstep(clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1));
     const p = clamp(1 - (0.75 * sim.err + 0.35 * sim.nc + 0.25 * collapse), 0.001, 0.999);
     return p;
@@ -228,6 +258,7 @@
 
     ctx.clearRect(0, 0, W, H);
 
+    // Phi-based composition
     const pad = Math.max(14, Math.round(Math.min(W, H) * 0.03));
     const phiInv = 0.6180339887;
     const split = Math.round(W * (0.5 + 0.12 * phiInv));
@@ -236,6 +267,7 @@
 
     const cardR = 18;
 
+    // Material frames
     ctx.save();
     ctx.strokeStyle = "rgba(255,255,255,0.06)";
     ctx.lineWidth = 1;
@@ -245,7 +277,7 @@
     ctx.stroke();
     ctx.restore();
 
-    // HUD line
+    // HUD line (instrument readout)
     const hudX = left.x + 14;
     const hudY = left.y + 18;
 
@@ -266,13 +298,13 @@
     drawTextFit(ctx, hud, hudX, hudY, left.w - 28);
     ctx.restore();
 
-    // Left plot
+    // Left plot region
     const plotTop = left.y + 38;
     const plotBottom = left.y + left.h - 18;
     const plotLeft = left.x + 18;
     const plotRight = left.x + left.w - 18;
 
-    // Gate partitions
+    // Gate partitions (4 gates)
     const bands = 4;
     for (let i = 1; i < bands; i++) {
       const gx = plotLeft + ((plotRight - plotLeft) * i) / bands;
@@ -286,18 +318,19 @@
       ctx.restore();
     }
 
+    // Clip
     ctx.save();
     ctx.beginPath();
     ctx.rect(plotLeft, plotTop, plotRight - plotLeft, plotBottom - plotTop);
     ctx.clip();
 
-    // Collapse tint
+    // Collapse region tint
     const cCollapse = clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1);
     if (cCollapse > 0.01) {
       const x0 = plotLeft + (plotRight - plotLeft) * 0.82;
       const w = (plotRight - plotLeft) * 0.18;
       const t = smoothstep(cCollapse);
-      const a = 0.08 + 0.26 * t;
+      const a = 0.08 + 0.24 * t;
       ctx.fillStyle = `rgba(217,4,41,${a})`;
       ctx.fillRect(x0, plotTop, w, plotBottom - plotTop);
 
@@ -315,23 +348,25 @@
       ctx.restore();
     }
 
-    // Particles
+    // Particles (platinum + collapse accent)
     const hot = sim.nc >= sim.criticalNC;
     for (const p of particles) {
       const px = plotLeft + p.x * (plotRight - plotLeft);
       const py = plotTop + p.y * (plotBottom - plotTop);
-      const alpha = 0.20 + 0.58 * p.a;
+      const alpha = 0.12 + 0.68 * p.a;
 
+      // Outer bloom
       ctx.fillStyle = hot
-        ? `rgba(255,255,255,${0.10 * alpha})`
-        : `rgba(255,255,255,${0.10 * alpha})`;
+        ? `rgba(217,4,41,${0.10 * alpha})`
+        : `rgba(255,255,255,${0.08 * alpha})`;
       ctx.beginPath();
-      ctx.arc(px, py, p.r + 2.4, 0, Math.PI * 2);
+      ctx.arc(px, py, p.r + 2.0, 0, Math.PI * 2);
       ctx.fill();
 
+      // Core dot
       ctx.fillStyle = hot
-        ? `rgba(255,255,255,${0.48 * alpha})`
-        : `rgba(255,255,255,${0.42 * alpha})`;
+        ? `rgba(255,255,255,${0.44 * alpha})`
+        : `rgba(255,255,255,${0.40 * alpha})`;
       ctx.beginPath();
       ctx.arc(px, py, p.r, 0, Math.PI * 2);
       ctx.fill();
@@ -360,6 +395,7 @@
       y1: ry0 + rh - 18,
     };
 
+    // inner grid
     ctx.save();
     ctx.strokeStyle = "rgba(255,255,255,0.05)";
     ctx.lineWidth = 1;
@@ -380,6 +416,7 @@
     const toX = (ncV) => lerp(ax.x0, ax.x1, clamp(ncV, 0, 1));
     const toY = (erV) => lerp(ax.y1, ax.y0, clamp(erV, 0, 1));
 
+    // curve samples
     const curve = [];
     for (let i = 0; i <= 80; i++) {
       const x = i / 80;
@@ -395,6 +432,7 @@
 
     const splitIdx = Math.max(1, Math.floor(sim.criticalNC * 80));
 
+    // pre-collapse segment
     ctx.save();
     ctx.lineWidth = 2.2;
     ctx.strokeStyle = "rgba(255,255,255,0.18)";
@@ -404,6 +442,7 @@
     ctx.stroke();
     ctx.restore();
 
+    // collapse segment
     ctx.save();
     ctx.lineWidth = 2.2;
     ctx.strokeStyle = "rgba(217,4,41,0.62)";
@@ -413,6 +452,7 @@
     ctx.stroke();
     ctx.restore();
 
+    // current point
     const cX = toX(sim.nc);
     const cY = toY(sim.err);
 
@@ -428,6 +468,7 @@
     ctx.fill();
     ctx.restore();
 
+    // critical line + labels
     const critX = toX(sim.criticalNC);
 
     ctx.save();
@@ -449,31 +490,31 @@
     drawTextFit(ctx, `y: Critical Error`, rx0 + 18, ry0 + 34, rw - 36);
     ctx.restore();
 
-    // Fine grain
-    ctx.save();
-    ctx.globalAlpha = 0.035;
-    ctx.fillStyle = "rgba(255,255,255,1)";
-    const n = Math.floor((W * H) / 90000);
-    for (let i = 0; i < n; i++) {
-      const x = rand(0, W);
-      const y = rand(0, H);
-      ctx.fillRect(x, y, 1, 1);
+    // Fine grain (very subtle)
+    if (!prefersReducedMotion) {
+      ctx.save();
+      ctx.globalAlpha = 0.028;
+      ctx.fillStyle = "rgba(255,255,255,1)";
+      const n = Math.floor((W * H) / 110000);
+      for (let i = 0; i < n; i++) {
+        ctx.fillRect(rand(0, W), rand(0, H), 1, 1);
+      }
+      ctx.restore();
     }
-    ctx.restore();
   }
 
   function setMode(modeIdx) {
-    // 0: Crystalline (low fatigue, medium work, high friction)
-    // 1: Tension (higher work, medium friction)
-    // 2: Ritualism (high fatigue, low friction -> collapse-prone)
+    // 0: Crystalline (stable)
+    // 1: Tension (higher load)
+    // 2: Ritualism (collapse-prone)
     if (modeIdx === 1) {
       sim.gamma = 0.62;
-      sim.work = 0.78;
-      sim.friction = 0.48;
+      sim.work = 0.82;
+      sim.friction = 0.44;
     } else if (modeIdx === 2) {
-      sim.gamma = 0.82;
-      sim.work = 0.70;
-      sim.friction = 0.22;
+      sim.gamma = 0.84;
+      sim.work = 0.74;
+      sim.friction = 0.18;
     } else {
       sim.gamma = 0.48;
       sim.work = 0.55;
@@ -494,35 +535,33 @@
           b.classList.toggle("is-active", b === btn);
         });
 
-        // Immediate UI refresh after mode switch
         updateConsoleUI();
       });
     }
 
-    if (el.vWrap) {
-      el.vWrap.addEventListener(
-        "mousemove",
-        (e) => {
-          const rect = el.vWrap.getBoundingClientRect();
-          const w = Math.max(1, rect.width);
-          sim.pert = ((e.clientX - rect.left) / w - 0.5) * 0.2;
-        },
-        { passive: true }
-      );
+    el.vWrap.addEventListener(
+      "mousemove",
+      (e) => {
+        const rect = el.vWrap.getBoundingClientRect();
+        const w = Math.max(1, rect.width);
+        sim.pert = ((e.clientX - rect.left) / w - 0.5) * 0.2;
+      },
+      { passive: true }
+    );
 
-      el.vWrap.addEventListener(
-        "mouseleave",
-        () => {
-          sim.pert = 0;
-        },
-        { passive: true }
-      );
-    }
+    el.vWrap.addEventListener(
+      "mouseleave",
+      () => {
+        sim.pert = 0;
+      },
+      { passive: true }
+    );
 
     window.addEventListener(
       "resize",
       () => {
         resize();
+        rescaleParticlesIfNeeded();
         drawScene();
       },
       { passive: true }
@@ -546,11 +585,10 @@
   }
 
   function init() {
-    // default active mode (Crystalline)
-    setMode(0);
+    setMode(0); // Crystalline default
     resize();
+    seedParticles(desiredParticleCount());
     bindEvents();
-    seedParticles(70);
     sim.last = now();
     updateConsoleUI();
     requestAnimationFrame(loop);
