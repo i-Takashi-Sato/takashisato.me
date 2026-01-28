@@ -100,3 +100,167 @@
       <a href="/" class="back-link">Back to Archive</a>
 
       <header class="article-header">
+        <h1>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems</h1>
+
+        <div class="article-meta" aria-label="Paper metadata">
+          <span>Published: 2025/12/12</span>
+          <span>SSRN: 5911063</span>
+          <span>Rev: 2026/01/09</span>
+        </div>
+      </header>
+
+      <article class="article-body">
+        <blockquote>
+          “To preserve the human, we must engineer the friction of thought.”
+          <br />
+          <span class="quote-translation">思考に摩擦を仕込むという設計。</span>
+        </blockquote>
+
+        <p class="section-label">
+          Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
+        </p>
+
+        <!-- VIZ_MINIMAL (Phase 1: DOM only, JS still disabled) -->
+        <div class="visualizer-wrapper">
+          <section class="altrion-viz" aria-label="ALTRION Visualizer (Minimal)">
+            <header class="altrion-top">
+              <div class="altrion-brand">
+                <h2>ALTRION Visualizer</h2>
+                <p>Minimal: canvas + controls (Phase 1)</p>
+              </div>
+            </header>
+
+            <div class="altrion-stage" role="region" aria-label="ALTRION simulation">
+              <div class="altrion-grid">
+                <div class="altrion-vizpane">
+                  <canvas id="scene" aria-label="Gate pipeline canvas"></canvas>
+                </div>
+
+                <aside class="altrion-panel" aria-label="Controls">
+                  <div class="block">
+                    <div class="hd"><b>controls</b><span>phase 1</span></div>
+                    <div class="bd">
+                      <div class="controls">
+                        <div class="row">
+                          <label>
+                            Playback
+                            <button id="toggle" class="primary" type="button">Pause</button>
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <label>
+                            Fatigue coefficient (γ)
+                            <input id="gamma" type="range" min="10" max="90" value="50" />
+                          </label>
+                          <label>
+                            Workload (λ)
+                            <input id="work" type="range" min="0" max="100" value="55" />
+                          </label>
+                        </div>
+
+                        <div class="row">
+                          <label>
+                            Gate friction (time/attention)
+                            <input id="friction" type="range" min="0" max="100" value="62" />
+                          </label>
+                          <label>
+                            Re-arm
+                            <button id="reset" type="button">Reset</button>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- /VIZ_MINIMAL -->
+
+        <h2>Abstract</h2>
+
+        <p class="lead">
+          The integration of AI into high-stakes domains has revealed a critical sociotechnical gap: while model performance improves, institutional capacity to responsibly operationalize AI outputs remains fragile.
+        </p>
+
+        <p>
+          Without robust procedural safeguards, human oversight often devolves into performative ritualism rather than substantive review. To address this, we propose <strong>ALTRION</strong>, a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines. ALTRION formalizes four governance gates—from baseline constraints to human arbitration—that are designed to enforce cognitive engagement and preserve meaningful human agency.
+        </p>
+
+        <p>
+          We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
+        </p>
+
+        <h2>Why it matters</h2>
+        <ul>
+          <li>Turns “oversight” into a <strong>workflow object</strong>—auditable, revisable, and enforceable.</li>
+          <li>Introduces <strong>structured friction</strong> to prevent ritualized compliance and moral crumple zones.</li>
+          <li>Provides a governance-first architecture aligned with institutional reality.</li>
+        </ul>
+
+        <div class="actions">
+          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
+            Open PDF<span class="sr-only"> (opens in new tab)</span>
+          </a>
+        </div>
+      </article>
+
+      <nav class="paper-nav" aria-label="Paper navigation">
+        <div class="paper-nav-inner">
+          <a href="/papers/part2.html" class="nav-link next">
+            <span class="nav-label">Next: Part II</span>
+            <span class="nav-title">The Silent Decay: Forecasting Failure</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="citation-box" aria-label="Citation">
+        <div class="citation-head">
+          <span class="citation-label">BibTeX Citation</span>
+          <button
+            class="copy"
+            type="button"
+            data-copy-target="#bibtex-part1"
+            aria-label="Copy BibTeX citation"
+          >Copy</button>
+        </div>
+
+        <pre id="bibtex-part1" class="citation-text">@misc{sato2025workflowcentric,
+  title = {Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human--AI Decision Systems},
+  author = {Sato, Takashi},
+  year = {2025},
+  note = {Preprint},
+  url = {https://takashisato.me/pdf/part1.pdf}
+}</pre>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="footer-inner">
+      <nav class="social-nav" aria-label="External links">
+        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+      </nav>
+
+      <div class="footer-meta">
+        <nav class="meta-nav" aria-label="Policies and meta">
+          <a href="/privacy.html" class="meta-link">Privacy</a>
+          <a href="/colophon.html" class="meta-link">Colophon</a>
+          <a href="/.well-known/security.txt" class="meta-link">Security</a>
+        </nav>
+
+        <p class="copyright">© 2026 Takashi Sato</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- <script defer src="/assets/part1-visualizer.js"></script> -->
+  <script defer src="/assets/scroll.js"></script>
+</body>
+</html>
