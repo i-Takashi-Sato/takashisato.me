@@ -1,11 +1,10 @@
 .part1 .visualizer-wrapper{
-  width:100vw;
+  /* A) In-column (safe): kill breakout */
+  width:100%;
   position:relative;
-  left:50%;
-  margin-left:-50vw;
-  margin-right:-50vw;
-  padding:0 clamp(16px,4vw,56px);
+  left:auto;
   margin:clamp(56px,7vh,96px) 0;
+  padding:0;
   z-index:1;
 }
 
@@ -24,8 +23,10 @@
   --v-font: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --v-mono: "JetBrains Mono","Roboto Mono","Consolas",monospace;
 
-  width:min(1320px,100%);
-  margin:0 auto;
+  /* A) In-column: no centering, no max width fight */
+  width:100%;
+  max-width:100%;
+  margin:0;           /* left align */
   position:relative;
   color:var(--v-ink);
   font-family:var(--v-font);
@@ -334,7 +335,7 @@
 
 @media (max-width: 900px){
   .part1 .visualizer-wrapper{
-    padding:0 16px;
+    padding:0;
     margin:48px 0;
   }
 
