@@ -1,613 +1,361 @@
-/* Part I — Visualizer (Stabilized Version) */
-
-.visualizer-wrapper {
-  /* Colors & Tokens */
-  --frame: rgba(255,255,255,0.08);
-  --frame-strong: rgba(255,255,255,0.12);
-  --ink: rgba(255,255,255,0.82);
-  --ink-dim: rgba(255,255,255,0.56);
-  --ink-faint: rgba(255,255,255,0.38);
-  --panel: rgba(15,15,18,0.62);
-  --void: rgba(5,5,8,0.70);
-  --glow: rgba(255,255,255,0.10);
-  --danger: #d90429;
-  --warn: rgba(255,255,255,0.72);
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --sans: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
-
-  /* Layout Stabilization: Force 100% width, No Bleed */
-  width: 100%;
-  margin: 5rem 0;
-  position: relative;
-  z-index: 1;
+.part1 .visualizer-wrapper{
+  width:100vw;
+  position:relative;
+  left:50%;
+  margin-left:-50vw;
+  margin-right:-50vw;
+  padding:0 clamp(16px,4vw,56px);
+  margin:clamp(56px,7vh,96px) 0;
+  z-index:1;
 }
 
-.visualizer-wrapper .altrion-viz {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--sans);
-  border: 1px solid var(--frame);
-  border-radius: 0;
-  isolation: isolate;
-  background: var(--void);
-  box-shadow: 0 30px 80px -24px rgba(0,0,0,0.72);
-  overflow: hidden;
+.part1 .visualizer-wrapper .altrion-viz{
+  --v-bg: rgba(10,10,12,0.62);
+  --v-panel: rgba(14,14,16,0.42);
+  --v-line: rgba(255,255,255,0.10);
+  --v-line-2: rgba(255,255,255,0.14);
+
+  --v-ink: rgba(240,240,240,0.95);
+  --v-dim: rgba(255,255,255,0.55);
+  --v-dimmer: rgba(255,255,255,0.38);
+
+  --v-accent: rgba(217,4,41,0.95);
+
+  --v-font: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --v-mono: "JetBrains Mono","Roboto Mono","Consolas",monospace;
+
+  width:min(1320px,100%);
+  margin:0 auto;
+  position:relative;
+  color:var(--v-ink);
+  font-family:var(--v-font);
+
+  background:var(--v-bg);
+  border:1px solid var(--v-line);
+  box-shadow:0 40px 120px -40px rgba(0,0,0,0.85);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+
+  isolation:isolate;
+  overflow:hidden;
 }
 
-/* Glass Effect */
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .visualizer-wrapper .altrion-viz {
-    background: linear-gradient(180deg, rgba(5,5,8,0.52), rgba(5,5,8,0.74));
-    -webkit-backdrop-filter: blur(14px) saturate(1.05);
-    backdrop-filter: blur(14px) saturate(1.05);
-  }
-}
-
-/* Internal Texture (Background) */
-.visualizer-wrapper .altrion-viz::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  pointer-events: none;
+.part1 .visualizer-wrapper .altrion-viz::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
   background:
-    radial-gradient(1200px 420px at 12% -10%, rgba(255,255,255,0.10), transparent 60%),
-    radial-gradient(900px 520px at 95% 0%, rgba(255,255,255,0.06), transparent 62%),
-    linear-gradient(180deg, rgba(255,255,255,0.05), transparent 22%, transparent 78%, rgba(255,255,255,0.04));
-  opacity: 0.75;
-  z-index: 0;
+    radial-gradient(1200px 500px at 18% 0%, rgba(255,255,255,0.06), transparent 55%),
+    radial-gradient(900px 420px at 92% 18%, rgba(255,255,255,0.04), transparent 60%);
+  mix-blend-mode:overlay;
+  opacity:0.9;
 }
 
-/* Surface Glare (Overlay) */
-.visualizer-wrapper .altrion-viz::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: linear-gradient(to bottom, rgba(255,255,255,0.028), rgba(255,255,255,0.0));
-  mix-blend-mode: overlay;
-  opacity: 0.55;
-  z-index: 0;
+.part1 .visualizer-wrapper .altrion-viz::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  pointer-events:none;
+  z-index:2;
+  background:linear-gradient(to bottom, rgba(255,255,255,0.04), transparent 18%, transparent 82%, rgba(0,0,0,0.35));
+  opacity:0.55;
 }
 
-.visualizer-wrapper .altrion-viz * {
-  box-sizing: border-box;
-  border-radius: 0;
-  min-width: 0;
+.part1 .visualizer-wrapper .altrion-viz *{
+  box-sizing:border-box;
 }
 
-/* Top Header */
-.visualizer-wrapper .altrion-viz .altrion-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-  padding: 1.35rem 1.75rem;
-  border-bottom: 1px solid var(--frame);
-  background: rgba(15,15,18,0.70);
-  position: relative;
-  z-index: 1;
+.part1 .visualizer-wrapper .altrion-viz .altrion-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:24px;
+  padding:20px 24px;
+  border-bottom:1px solid var(--v-line);
+  background:var(--v-panel);
+  position:relative;
+  z-index:3;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .visualizer-wrapper .altrion-viz .altrion-top {
-    background: rgba(15,15,18,0.48);
-    -webkit-backdrop-filter: blur(12px) saturate(1.05);
-    backdrop-filter: blur(12px) saturate(1.05);
-  }
+.part1 .visualizer-wrapper .altrion-viz .altrion-brand h2{
+  margin:0 0 8px 0;
+  font-family:var(--v-font);
+  font-size:0.78rem;
+  font-weight:600;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.96);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-top::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background-image: linear-gradient(90deg, rgba(255,255,255,0.16) 1px, transparent 1px);
-  background-size: 10px 100%;
-  opacity: 0.35;
-  pointer-events: none;
+.part1 .visualizer-wrapper .altrion-viz .altrion-brand p{
+  margin:0;
+  max-width:72ch;
+  font-family:var(--v-mono);
+  font-size:0.68rem;
+  line-height:1.55;
+  color:var(--v-dimmer);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-brand h2 {
-  margin: 0 0 0.45rem 0;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.90);
+.part1 .visualizer-wrapper .altrion-viz .altrion-pillrow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-end;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-brand p {
-  margin: 0;
-  max-width: 62ch;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  line-height: 1.55;
-  color: var(--ink-dim);
+.part1 .visualizer-wrapper .altrion-viz .pill{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  padding:6px 10px;
+  border:1px solid var(--v-line);
+  background:rgba(255,255,255,0.02);
+  font-family:var(--v-mono);
+  font-size:0.66rem;
+  color:var(--v-dimmer);
+  white-space:nowrap;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-pillrow {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
+.part1 .visualizer-wrapper .altrion-viz .pill span{
+  color:var(--v-ink);
 }
 
-.visualizer-wrapper .altrion-viz .pill {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 4px 8px;
-  font-family: var(--mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.02em;
-  color: var(--ink-dim);
-  background: rgba(0,0,0,0.18);
-  border: 1px solid var(--frame);
+.part1 .visualizer-wrapper .altrion-viz .dot{
+  width:6px;
+  height:6px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.9);
+  box-shadow:0 0 10px rgba(255,255,255,0.35);
+  opacity:0.6;
 }
 
-.visualizer-wrapper .altrion-viz .pill span {
-  color: rgba(255,255,255,0.76);
+.part1 .visualizer-wrapper .altrion-viz .altrion-stage{
+  padding:0;
 }
 
-.visualizer-wrapper .altrion-viz .dot {
-  width: 4px;
-  height: 4px;
-  background: rgba(255,255,255,0.62);
-  box-shadow: 0 0 10px rgba(255,255,255,0.18);
+.part1 .visualizer-wrapper .altrion-viz .altrion-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  height:min(72vh,720px);
+  min-height:560px;
+  background:transparent;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .visualizer-wrapper .altrion-viz .dot {
-    animation: altrionPulse 1.8s ease-in-out infinite;
-  }
+.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
+  position:relative;
+  height:100%;
+  border-right:1px solid var(--v-line);
+  overflow:hidden;
 }
 
-@keyframes altrionPulse {
-  0%, 100% { opacity: 0.45; transform: translateZ(0); }
-  50% { opacity: 0.95; }
-}
-
-.visualizer-wrapper .altrion-viz .altrion-stage {
-  padding: 0;
-  position: relative;
-  z-index: 1;
-}
-
-/* Grid Layout - Responsive Safe */
-.visualizer-wrapper .altrion-viz .altrion-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 0;
-  align-items: start;
-  background: transparent;
-  border: none;
-}
-
-.visualizer-wrapper .altrion-viz .altrion-vizpane {
-  position: relative;
-  border-right: 1px solid var(--frame);
-  overflow: hidden;
-  height: clamp(440px, 56vh, 680px);
-}
-
-.visualizer-wrapper .altrion-viz .altrion-vizpane::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
   background-image:
-    linear-gradient(rgba(255,255,255,0.075) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.075) 1px, transparent 1px);
-  background-size: 120px 120px;
-  opacity: 0.24;
-  z-index: 0;
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size:120px 120px;
+  opacity:0.16;
+  z-index:0;
 }
 
-/* Scanline Animation */
-.visualizer-wrapper .altrion-viz .altrion-vizpane::after {
-  content: "";
-  position: absolute;
-  inset: -30% 0;
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%);
-  opacity: 0.22;
-  z-index: 2;
-  transform: translate3d(0, -20%, 0);
+.part1 .visualizer-wrapper .altrion-viz canvas{
+  position:relative;
+  z-index:1;
+  width:100% !important;
+  height:100% !important;
+  display:block;
+  opacity:0.92;
+  filter:grayscale(100%) brightness(1.15) contrast(1.18);
+  mix-blend-mode:screen;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .visualizer-wrapper .altrion-viz .altrion-vizpane::after {
-    animation: altrionScan 6.5s linear infinite;
-  }
+.part1 .visualizer-wrapper .altrion-viz .banner,
+.part1 .visualizer-wrapper .altrion-viz #banner{
+  position:absolute;
+  left:18px;
+  bottom:18px;
+  z-index:3;
+  min-width:240px;
+  max-width:360px;
+
+  padding:14px 14px 14px 18px;
+  border:1px solid var(--v-line);
+  background:rgba(0,0,0,0.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-@keyframes altrionScan {
-  0% { transform: translate3d(0, -35%, 0); opacity: 0; }
-  10% { opacity: 0.22; }
-  90% { opacity: 0.22; }
-  100% { transform: translate3d(0, 35%, 0); opacity: 0; }
+.part1 .visualizer-wrapper .altrion-viz .banner::before,
+.part1 .visualizer-wrapper .altrion-viz #banner::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:8px;
+  background:var(--v-accent);
+  opacity:0.9;
 }
 
-.visualizer-wrapper .altrion-viz canvas {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-  opacity: 0.92;
-  filter: grayscale(100%) brightness(1.18) contrast(1.12);
+.part1 .visualizer-wrapper .altrion-viz .banner .label b,
+.part1 .visualizer-wrapper .altrion-viz #banner .label b{
+  font-family:var(--v-font);
+  font-size:0.68rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--v-dimmer);
 }
 
-@supports (mix-blend-mode: screen) {
-  .visualizer-wrapper .altrion-viz canvas { mix-blend-mode: screen; }
+.part1 .visualizer-wrapper .altrion-viz .banner .state,
+.part1 .visualizer-wrapper .altrion-viz #banner .state{
+  font-family:var(--v-mono);
+  font-size:0.78rem;
+  color:rgba(255,255,255,0.95);
 }
 
-/* Banner / Status Indicator */
-.visualizer-wrapper .altrion-viz .banner,
-.visualizer-wrapper .altrion-viz #banner {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  min-width: 220px;
-  padding: 0.95rem 1rem 0.95rem calc(1rem + 6px);
-  background: rgba(0,0,0,0.24);
-  border: 1px solid var(--frame);
-  overflow: hidden;
-  z-index: 3;
+.part1 .visualizer-wrapper .altrion-viz .altrion-panel{
+  background:var(--v-panel);
+  height:100%;
+  overflow:auto;
+  overscroll-behavior:contain;
+
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .visualizer-wrapper .altrion-viz .banner,
-  .visualizer-wrapper .altrion-viz #banner {
-    background: rgba(0,0,0,0.14);
-    -webkit-backdrop-filter: blur(10px) saturate(1.05);
-    backdrop-filter: blur(10px) saturate(1.05);
-  }
+.part1 .visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar{
+  width:0;
+  height:0;
 }
 
-.visualizer-wrapper .altrion-viz .banner::before,
-.visualizer-wrapper .altrion-viz #banner::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: rgba(255,255,255,0.14);
+.part1 .visualizer-wrapper .altrion-viz .block{
+  border-bottom:1px solid var(--v-line);
+  background:transparent;
 }
 
-.visualizer-wrapper .altrion-viz .banner.warn::before,
-.visualizer-wrapper .altrion-viz #banner.warn::before {
-  background: repeating-linear-gradient(0deg, var(--warn), var(--warn) 2px, transparent 2px, transparent 4px);
+.part1 .visualizer-wrapper .altrion-viz .block .hd{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
-.visualizer-wrapper .altrion-viz .banner.collapse::before,
-.visualizer-wrapper .altrion-viz .banner.fail::before,
-.visualizer-wrapper .altrion-viz .banner.danger::before,
-.visualizer-wrapper .altrion-viz #banner.collapse::before,
-.visualizer-wrapper .altrion-viz #banner.fail::before,
-.visualizer-wrapper .altrion-viz #banner.danger::before {
-  background: var(--danger);
-  width: 8px;
+.part1 .visualizer-wrapper .altrion-viz .block .hd b{
+  font-family:var(--v-font);
+  font-size:0.70rem;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.92);
 }
 
-.visualizer-wrapper .altrion-viz .banner .label b,
-.visualizer-wrapper .altrion-viz #banner .label b {
-  font-size: 0.66rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+.part1 .visualizer-wrapper .altrion-viz .block .hd span{
+  font-family:var(--v-mono);
+  font-size:0.66rem;
+  color:var(--v-dimmer);
 }
 
-.visualizer-wrapper .altrion-viz .banner .state,
-.visualizer-wrapper .altrion-viz #banner .state {
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  color: rgba(255,255,255,0.92);
+.part1 .visualizer-wrapper .altrion-viz .block .bd{
+  padding:14px 16px 18px 16px;
 }
 
-/* Panel Controls */
-.visualizer-wrapper .altrion-viz .altrion-panel {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  background: rgba(15,15,18,0.46);
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.part1 .visualizer-wrapper .altrion-viz label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin:0 0 10px 0;
+  font-family:var(--v-font);
+  font-size:0.72rem;
+  color:var(--v-dim);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+.part1 .visualizer-wrapper .altrion-viz button,
+.part1 .visualizer-wrapper .altrion-viz .comboBtn{
+  width:100%;
+  padding:10px 12px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--v-line);
+  color:rgba(255,255,255,0.92);
+  font-family:var(--v-mono);
+  font-size:0.72rem;
+  text-align:left;
+  transition:background 0.15s ease, border-color 0.15s ease;
+  cursor:pointer;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .visualizer-wrapper .altrion-viz .altrion-panel {
-    background: rgba(15,15,18,0.34);
-    -webkit-backdrop-filter: blur(12px) saturate(1.05);
-    backdrop-filter: blur(12px) saturate(1.05);
-  }
+.part1 .visualizer-wrapper .altrion-viz button:hover{
+  background:rgba(255,255,255,0.06);
+  border-color:var(--v-line-2);
 }
 
-.visualizer-wrapper .altrion-viz pre,
-.visualizer-wrapper .altrion-viz code {
-  font-family: var(--mono);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.part1 .visualizer-wrapper .altrion-viz input[type="range"]{
+  -webkit-appearance:none;
+  appearance:none;
+  background:transparent;
+  width:100%;
+  margin:0;
 }
 
-.visualizer-wrapper .altrion-viz .block {
-  position: relative;
-  border-bottom: 1px solid var(--frame);
-  background: transparent;
-  box-shadow: none;
-  padding-left: calc(12px + 6px);
+.part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track{
+  height:1px;
+  background:rgba(255,255,255,0.16);
 }
 
-.visualizer-wrapper .altrion-viz .block::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: transparent;
-  transition: background 0.18s ease-out;
+.part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:10px;
+  height:18px;
+  background:rgba(255,255,255,0.92);
+  margin-top:-8px;
+  border:none;
+  box-shadow:0 0 0 1px rgba(0,0,0,0.9);
+  cursor:col-resize;
 }
 
-.visualizer-wrapper .altrion-viz .block:hover::before { background: rgba(255,255,255,0.14); }
-.visualizer-wrapper .altrion-viz .block:hover { background: rgba(255,255,255,0.02); }
-
-.visualizer-wrapper .altrion-viz .block .hd {
-  padding: 12px 16px 12px 4px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+.part1 .visualizer-wrapper .altrion-viz pre,
+.part1 .visualizer-wrapper .altrion-viz code{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
 
-.visualizer-wrapper .altrion-viz .block .hd b {
-  font-size: 0.68rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  color: rgba(255,255,255,0.88);
-}
-
-.visualizer-wrapper .altrion-viz .block .hd span {
-  font-family: var(--mono);
-  font-size: 0.64rem;
-  color: var(--ink-faint);
-}
-
-.visualizer-wrapper .altrion-viz .block .bd {
-  padding: 14px 16px 16px 4px;
-}
-
-.visualizer-wrapper .altrion-viz .controls {
-  display: grid;
-  gap: 1.05rem;
-}
-
-.visualizer-wrapper .altrion-viz .row {
-  display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-  gap: 0.85rem;
-}
-
-.visualizer-wrapper .altrion-viz label {
-  font-size: 0.70rem;
-  color: var(--ink-dim);
-  margin-bottom: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.visualizer-wrapper .altrion-viz button,
-.visualizer-wrapper .altrion-viz .comboBtn {
-  width: 100%;
-  padding: 10px 12px;
-  background: rgba(0,0,0,0.16);
-  border: 1px solid var(--frame);
-  color: rgba(255,255,255,0.80);
-  font-family: var(--mono);
-  font-size: 0.70rem;
-  text-align: left;
-  letter-spacing: 0.01em;
-  transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
-  cursor: pointer;
-}
-
-.visualizer-wrapper .altrion-viz button:hover {
-  border-color: rgba(255,255,255,0.22);
-  background: rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.92);
-}
-
-.visualizer-wrapper .altrion-viz button:focus-visible,
-.visualizer-wrapper .altrion-viz input:focus-visible {
-  outline: 2px solid rgba(255,255,255,0.60);
-  outline-offset: 2px;
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"] {
-  -webkit-appearance: none;
-  background: transparent;
-  width: 100%;
-  margin: 0;
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track {
-  height: 1px;
-  background: rgba(255,255,255,0.16);
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 6px;
-  height: 16px;
-  background: rgba(255,255,255,0.86);
-  margin-top: -7px;
-  border: none;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.55), 0 0 16px rgba(255,255,255,0.20);
-  cursor: ew-resize;
-}
-
-.visualizer-wrapper .altrion-viz .subgrid {
-  display: grid;
-  gap: 0;
-  border-top: 1px solid rgba(255,255,255,0.07);
-}
-
-.visualizer-wrapper .altrion-viz .gate {
-  position: relative;
-  padding: 12px 0 12px 12px;
-  border-bottom: 1px solid var(--frame);
-  margin: 0;
-}
-
-.visualizer-wrapper .altrion-viz .gate::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background: transparent;
-}
-
-@supports (selector(:has(*))) {
-  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.warn)::before {
-    background: repeating-linear-gradient(0deg, var(--warn), var(--warn) 2px, transparent 2px, transparent 4px);
-  }
-  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.danger)::before {
-    background: var(--danger);
-    width: 8px;
-  }
-}
-
-@supports not (selector(:has(*))) {
-  .visualizer-wrapper .altrion-viz .badgeMini.warn {
-    border-left: 4px dotted var(--warn);
-  }
-  .visualizer-wrapper .altrion-viz .badgeMini.danger {
-    border-left: 4px solid var(--danger);
-  }
-}
-
-.visualizer-wrapper .altrion-viz .gTop {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.visualizer-wrapper .altrion-viz .gTitle b {
-  font-size: 0.76rem;
-  color: rgba(255,255,255,0.90);
-}
-
-.visualizer-wrapper .altrion-viz .kv {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  color: var(--ink-faint);
-  margin-top: 3px;
-}
-
-.visualizer-wrapper .altrion-viz .kv .v {
-  color: rgba(255,255,255,0.78);
-}
-
-.visualizer-wrapper .altrion-viz .split {
-  display: grid;
-  gap: 0.85rem;
-  margin-top: 0.95rem;
-}
-
-.visualizer-wrapper .altrion-viz .case {
-  border: 1px solid rgba(255,255,255,0.10);
-  padding: 12px;
-  background: rgba(255,255,255,0.015);
-}
-
-.visualizer-wrapper .altrion-viz .caseHead b {
-  font-size: 0.66rem;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  color: var(--ink-faint);
-}
-
-.visualizer-wrapper .altrion-viz .stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  border-bottom: 1px dashed rgba(255,255,255,0.14);
-  padding: 4px 0;
-}
-
-.visualizer-wrapper .altrion-viz .stat:last-child { border-bottom: none; }
-
-.visualizer-wrapper .altrion-viz .stat .t {
-  font-family: var(--mono);
-  font-size: 0.60rem;
-  color: var(--ink-faint);
-}
-
-.visualizer-wrapper .altrion-viz .stat .n {
-  font-family: var(--mono);
-  font-size: 0.76rem;
-  color: rgba(255,255,255,0.90);
-}
-
-/* RESPONSIVE STABILIZATION */
-@media (max-width: 1024px) {
-  .visualizer-wrapper {
-    /* Safe width */
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+@media (max-width: 900px){
+  .part1 .visualizer-wrapper{
+    padding:0 16px;
+    margin:48px 0;
   }
 
-  .visualizer-wrapper .altrion-viz .altrion-top {
-    padding: 1.1rem 1.1rem;
+  .part1 .visualizer-wrapper .altrion-viz .altrion-top{
+    padding:16px 16px;
   }
 
-  /* Force vertical Stack */
-  .visualizer-wrapper .altrion-viz .altrion-grid {
-    grid-template-columns: 1fr;
+  .part1 .visualizer-wrapper .altrion-viz .altrion-grid{
+    grid-template-columns:1fr;
+    height:auto;
+    min-height:0;
   }
 
-  .visualizer-wrapper .altrion-viz .altrion-vizpane {
-    border-right: none;
-    border-bottom: 1px solid var(--frame);
-    height: clamp(360px, 46vh, 460px);
+  .part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
+    height:min(54vh,420px);
+    min-height:360px;
+    border-right:none;
+    border-bottom:1px solid var(--v-line);
   }
 
-  .visualizer-wrapper .altrion-viz .banner,
-  .visualizer-wrapper .altrion-viz #banner {
-    left: 1rem;
-    bottom: 1rem;
-    min-width: 200px;
+  .part1 .visualizer-wrapper .altrion-viz .altrion-panel{
+    max-height:none;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .visualizer-wrapper .altrion-viz .altrion-vizpane::after { display: none; }
-  .visualizer-wrapper .altrion-viz .dot { animation: none; }
 }
