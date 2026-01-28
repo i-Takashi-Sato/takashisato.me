@@ -3,7 +3,7 @@
 
   const $ = (id) => document.getElementById(id);
 
-  // Minimal DOM only
+  // Minimal DOM only (keep exact IDs)
   const el = {
     canvas: $("scene"),
     toggle: $("toggle"),
@@ -25,7 +25,7 @@
 
   const fmtPct = (x) => `${Math.round(x * 100)}%`;
 
-  // Use visualizer tokens if present (your CSS is --v-*)
+  // Use visualizer tokens if present (CSS: --v-*)
   const cssVar = (name, fallback) => {
     const root = el.canvas.closest(".altrion-viz") || document.documentElement;
     const v = getComputedStyle(root).getPropertyValue(name).trim();
@@ -33,12 +33,13 @@
   };
 
   const palette = () => ({
-    ink: cssVar("--v-ink", "rgba(212,212,212,.88)"),
-    dim: cssVar("--v-dim", "rgba(212,212,212,.52)"),
-    dimmer: cssVar("--v-dimmer", "rgba(212,212,212,.26)"),
-    line: cssVar("--v-line", "rgba(255,255,255,.10)"),
-    line2: cssVar("--v-line-2", "rgba(255,255,255,.06)"),
-    accent: cssVar("--v-accent", "rgba(217,4,41,.95)"),
+    ink: cssVar("--v-ink", "rgba(242,242,242,0.94)"),
+    dim: cssVar("--v-dim", "rgba(255,255,255,0.56)"),
+    dimmer: cssVar("--v-dimmer", "rgba(255,255,255,0.36)"),
+    line: cssVar("--v-line", "rgba(255,255,255,0.095)"),
+    line2: cssVar("--v-line-2", "rgba(255,255,255,0.145)"),
+    accent: cssVar("--v-accent", "rgba(217,4,41,0.92)"),
+    warn: cssVar("--v-warn", "rgba(255,209,139,0.80)"),
   });
 
   function roundedRectPath(c, x, y, w, h, r) {
@@ -59,7 +60,6 @@
   const geom = { dpr: 1, w: 0, h: 0, cw: 0, ch: 0 };
 
   function resize() {
-    // The canvas is inside .altrion-vizpane which is sized by CSS.
     const parent = el.canvas.parentElement;
     if (!parent) return;
 
@@ -82,12 +82,13 @@
     geom.ch = h;
   }
 
-  // Simulation state (kept minimal but coherent)
+  // Simulation state (coherent, minimal)
   const sim = {
     running: true,
     last: now(),
     time: 0,
-    // params in 0..1
+
+    // params (0..1)
     gamma: 0.5,
     work: 0.55,
     friction: 0.62,
@@ -119,8 +120,10 @@
 
     const below = clamp(1 - sim.nc / sim.criticalNC, 0, 1);
     const regime = smoothstep(below);
+
     const errorBase = 0.18 + 0.62 * sim.nc;
     const benefit = 0.22 * friction * regime;
+
     const collapse = smoothstep(clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1));
     const collapsePenalty = 0.4 * collapse;
 
@@ -131,6 +134,7 @@
     sim.eng = lerp(sim.eng, engTarget, clamp(dt * 1.4, 0, 1));
   }
 
+  // Particles: “workflow objects” moving through the gates (not neural-net décor)
   const particles = [];
 
   function seedParticles(n = 70) {
@@ -140,7 +144,7 @@
         x: rand(0, 1),
         y: rand(0.12, 0.92),
         v: rand(0.06, 0.18),
-        r: rand(1.3, 2.4),
+        r: rand(1.2, 2.2),
         a: rand(0.25, 0.95),
         hue: rand(0, 1),
       });
@@ -162,20 +166,16 @@
         p.x = rand(-0.08, 0.02);
         p.y = rand(0.14, 0.9);
         p.v = rand(0.06, 0.18);
-        p.r = rand(1.2, 2.4);
+        p.r = rand(1.1, 2.2);
         p.a = rand(0.25, 0.95);
         p.hue = rand(0, 1);
       }
     }
   }
 
-  function drawTextFit(c, text, x, y, maxW) {
-    // simple ellipsis fit
+  function ellipsize(c, text, maxW) {
     const ell = "…";
-    if (c.measureText(text).width <= maxW) {
-      c.fillText(text, x, y);
-      return;
-    }
+    if (c.measureText(text).width <= maxW) return text;
     let lo = 0;
     let hi = text.length;
     while (lo < hi) {
@@ -184,7 +184,11 @@
       if (c.measureText(s).width <= maxW) lo = mid;
       else hi = mid - 1;
     }
-    c.fillText(text.slice(0, Math.max(0, lo)) + ell, x, y);
+    return text.slice(0, Math.max(0, lo)) + ell;
+  }
+
+  function drawTextFit(c, text, x, y, maxW) {
+    c.fillText(ellipsize(c, text, maxW), x, y);
   }
 
   function drawScene() {
@@ -194,14 +198,16 @@
 
     ctx.clearRect(0, 0, W, H);
 
+    // Phi-based composition
     const pad = Math.max(14, Math.round(Math.min(W, H) * 0.03));
-    const split = Math.round(W * 0.62);
-
+    const phiInv = 0.6180339887;
+    const split = Math.round(W * (0.5 + 0.12 * phiInv)); // ~0.574..0.62; stable across sizes
     const left = { x: pad, y: pad, w: split - pad * 1.25, h: H - pad * 2 };
     const right = { x: split + pad * 0.25, y: pad, w: W - split - pad * 1.25, h: H - pad * 2 };
+
     const cardR = 18;
 
-    // Cards
+    // Subtle material frame
     ctx.save();
     ctx.strokeStyle = "rgba(255,255,255,0.06)";
     ctx.lineWidth = 1;
@@ -211,29 +217,42 @@
     ctx.stroke();
     ctx.restore();
 
-    const mono = `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace`;
+    const mono =
+      `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace`;
 
-    // HUD line
+    // HUD (reads like an instrument, not a toy)
+    const hudX = left.x + 14;
+    const hudY = left.y + 18;
+
     ctx.save();
-    ctx.font = `600 13px ${mono}`;
+    ctx.font = `600 12.5px ${mono}`;
     ctx.fillStyle = P.dim;
     ctx.textBaseline = "alphabetic";
-    const hud = `NC:${fmtPct(sim.nc)}  ERR:${fmtPct(sim.err)}  ENG:${fmtPct(sim.eng)}  γ:${Math.round(sim.gamma * 100)}  λ:${Math.round(sim.work * 100)}  f:${Math.round(sim.friction * 100)}`;
-    drawTextFit(ctx, hud, left.x + 14, left.y + 18, left.w - 28);
+
+    const nc = fmtPct(sim.nc);
+    const err = fmtPct(sim.err);
+    const eng = fmtPct(sim.eng);
+
+    const gamma = Math.round(sim.gamma * 100);
+    const lambda = Math.round(sim.work * 100);
+    const f = Math.round(sim.friction * 100);
+
+    const hud = `NC:${nc}  ERR:${err}  ENG:${eng}  γ:${gamma}  λ:${lambda}  f:${f}`;
+    drawTextFit(ctx, hud, hudX, hudY, left.w - 28);
     ctx.restore();
 
-    // Left panel: particle flow
+    // Left plot region
     const plotTop = left.y + 38;
     const plotBottom = left.y + left.h - 18;
     const plotLeft = left.x + 18;
     const plotRight = left.x + left.w - 18;
 
-    // Band grid
+    // Gate partitions (meaning: four gates)
     const bands = 4;
     for (let i = 1; i < bands; i++) {
       const gx = plotLeft + ((plotRight - plotLeft) * i) / bands;
       ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,0.06)";
+      ctx.strokeStyle = "rgba(255,255,255,0.055)";
       ctx.setLineDash([6, 10]);
       ctx.beginPath();
       ctx.moveTo(gx, plotTop);
@@ -242,35 +261,56 @@
       ctx.restore();
     }
 
-    // clip
+    // Clip
     ctx.save();
     ctx.beginPath();
     ctx.rect(plotLeft, plotTop, plotRight - plotLeft, plotBottom - plotTop);
     ctx.clip();
 
-    // collapse region tint
+    // Collapse region (ritualization): a “dead zone” tint
     const cCollapse = clamp((sim.nc - sim.criticalNC) / 0.18, 0, 1);
-    if (cCollapse > 0.02) {
-      const x0 = plotLeft + (plotRight - plotLeft) * 0.84;
-      const w = (plotRight - plotLeft) * 0.16;
+    if (cCollapse > 0.01) {
+      const x0 = plotLeft + (plotRight - plotLeft) * 0.82;
+      const w = (plotRight - plotLeft) * 0.18;
       const t = smoothstep(cCollapse);
-      const a = 0.10 + 0.28 * t;
-      ctx.fillStyle = `rgba(138,44,44,${a})`;
+      const a = 0.08 + 0.26 * t;
+      ctx.fillStyle = `rgba(217,4,41,${a})`;
       ctx.fillRect(x0, plotTop, w, plotBottom - plotTop);
+
+      // faint “procedure” banding inside collapse (subtle)
+      ctx.save();
+      ctx.globalAlpha = 0.22 * t;
+      ctx.strokeStyle = "rgba(255,255,255,0.10)";
+      ctx.setLineDash([2, 10]);
+      for (let k = 0; k < 6; k++) {
+        const yy = plotTop + ((plotBottom - plotTop) * (k + 1)) / 7;
+        ctx.beginPath();
+        ctx.moveTo(x0, yy);
+        ctx.lineTo(x0 + w, yy);
+        ctx.stroke();
+      }
+      ctx.restore();
     }
 
+    // Particles (workflow objects)
+    const hot = sim.nc >= sim.criticalNC;
     for (const p of particles) {
       const px = plotLeft + p.x * (plotRight - plotLeft);
       const py = plotTop + p.y * (plotBottom - plotTop);
-      const alpha = 0.22 + 0.55 * p.a;
-      const hot = sim.nc >= sim.criticalNC ? 1 : 0;
+      const alpha = 0.20 + 0.58 * p.a;
 
-      ctx.fillStyle = hot ? `rgba(255,209,139,${0.16 * alpha})` : `rgba(212,212,212,${0.22 * alpha})`;
+      // Outer bloom
+      ctx.fillStyle = hot
+        ? `rgba(255,209,139,${0.14 * alpha})`
+        : `rgba(255,255,255,${0.14 * alpha})`;
       ctx.beginPath();
-      ctx.arc(px, py, p.r + 2.3, 0, Math.PI * 2);
+      ctx.arc(px, py, p.r + 2.4, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = hot ? `rgba(255,255,255,${0.55 * alpha})` : `rgba(255,255,255,${0.42 * alpha})`;
+      // Core dot
+      ctx.fillStyle = hot
+        ? `rgba(255,255,255,${0.50 * alpha})`
+        : `rgba(255,255,255,${0.42 * alpha})`;
       ctx.beginPath();
       ctx.arc(px, py, p.r, 0, Math.PI * 2);
       ctx.fill();
@@ -278,7 +318,7 @@
 
     ctx.restore();
 
-    // Right panel: curve plot (NC vs Error)
+    // Right: NC vs Error curve (institutional regime)
     const rp = 18;
     const rx0 = right.x + rp;
     const ry0 = right.y + 14;
@@ -317,8 +357,8 @@
     }
     ctx.restore();
 
-    const toX = (nc) => lerp(ax.x0, ax.x1, clamp(nc, 0, 1));
-    const toY = (er) => lerp(ax.y1, ax.y0, clamp(er, 0, 1));
+    const toX = (ncV) => lerp(ax.x0, ax.x1, clamp(ncV, 0, 1));
+    const toY = (erV) => lerp(ax.y1, ax.y0, clamp(erV, 0, 1));
 
     // curve
     const curve = [];
@@ -334,31 +374,46 @@
       curve.push([toX(x), toY(y)]);
     }
 
+    // “productive friction” portion accent + collapse portion accent
+    const splitIdx = Math.max(1, Math.floor(sim.criticalNC * 80));
+
     ctx.save();
     ctx.lineWidth = 2.2;
-    ctx.strokeStyle = "rgba(138,44,44,0.62)";
+    ctx.strokeStyle = "rgba(255,255,255,0.18)";
     ctx.beginPath();
     ctx.moveTo(curve[0][0], curve[0][1]);
-    for (let i = 1; i < curve.length; i++) ctx.lineTo(curve[i][0], curve[i][1]);
+    for (let i = 1; i <= splitIdx; i++) ctx.lineTo(curve[i][0], curve[i][1]);
     ctx.stroke();
     ctx.restore();
 
-    // current dot
+    ctx.save();
+    ctx.lineWidth = 2.2;
+    ctx.strokeStyle = "rgba(217,4,41,0.62)";
+    ctx.beginPath();
+    ctx.moveTo(curve[splitIdx][0], curve[splitIdx][1]);
+    for (let i = splitIdx + 1; i < curve.length; i++) ctx.lineTo(curve[i][0], curve[i][1]);
+    ctx.stroke();
+    ctx.restore();
+
+    // current point
     const cX = toX(sim.nc);
     const cY = toY(sim.err);
+
     ctx.save();
-    ctx.fillStyle = "rgba(255,255,255,0.22)";
+    ctx.fillStyle = "rgba(255,255,255,0.20)";
     ctx.beginPath();
     ctx.arc(cX, cY, 11, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = "rgba(255,255,255,0.75)";
+
+    ctx.fillStyle = "rgba(255,255,255,0.78)";
     ctx.beginPath();
     ctx.arc(cX, cY, 4.2, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
 
-    // critical line
+    // critical line + label
     const critX = toX(sim.criticalNC);
+
     ctx.save();
     ctx.strokeStyle = "rgba(255,209,139,0.22)";
     ctx.setLineDash([6, 10]);
@@ -369,14 +424,25 @@
     ctx.stroke();
     ctx.restore();
 
-    // labels
     ctx.save();
-    ctx.font = `600 13px ${mono}`;
+    ctx.font = `600 12.5px ${mono}`;
     ctx.fillStyle = P.dim;
     ctx.textBaseline = "alphabetic";
     drawTextFit(ctx, `x: Non-Compliance (NC)`, rx0 + 18, ry0 + 18, rw - 36);
     ctx.fillStyle = P.dimmer;
     drawTextFit(ctx, `y: Critical Error`, rx0 + 18, ry0 + 34, rw - 36);
+    ctx.restore();
+
+    // Fine grain (very subtle — avoids “flat canvas”)
+    ctx.save();
+    ctx.globalAlpha = 0.035;
+    ctx.fillStyle = "rgba(255,255,255,1)";
+    const n = Math.floor((W * H) / 90000);
+    for (let i = 0; i < n; i++) {
+      const x = rand(0, W);
+      const y = rand(0, H);
+      ctx.fillRect(x, y, 1, 1);
+    }
     ctx.restore();
   }
 
