@@ -134,64 +134,52 @@
           We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
         </p>
 
-        <!-- VIZ_MINIMAL (moved here: immediately after Abstract) -->
+        <!-- VIZ_ABSOLUTE_PROTOCOL_100 (replaces VIZ_MINIMAL) -->
         <div class="visualizer-wrapper">
-          <section class="altrion-viz" aria-label="ALTRION Visualizer (Minimal)">
-            <header class="altrion-top">
-              <div class="altrion-brand">
-                <h2>ALTRION Visualizer</h2>
-                <p>Minimal: canvas + controls (Phase 1)</p>
-              </div>
-            </header>
+          <div class="altrion-container" id="altrion-app" aria-label="ALTRION Visualizer">
+            <div class="altrion-viewport" id="alt-v-wrap">
+              <canvas id="scene" aria-label="Gate pipeline canvas"></canvas>
 
-            <div class="altrion-stage" role="region" aria-label="ALTRION simulation">
-              <div class="altrion-grid">
-                <div class="altrion-vizpane">
-                  <canvas id="scene" aria-label="Gate pipeline canvas"></canvas>
+              <div class="altrion-gate-overlay" aria-hidden="true">
+                <div class="altrion-gate">
+                  <span class="altrion-gate-id">G.01</span><span class="altrion-gate-lbl">CONSTRAINT</span>
                 </div>
-
-                <aside class="altrion-panel" aria-label="Controls">
-                  <div class="block">
-                    <div class="hd"><b>controls</b><span>phase 1</span></div>
-                    <div class="bd">
-                      <div class="controls">
-                        <div class="row">
-                          <label>
-                            Playback
-                            <button id="toggle" class="primary" type="button">Pause</button>
-                          </label>
-                        </div>
-
-                        <div class="row">
-                          <label>
-                            Fatigue coefficient (γ)
-                            <input id="gamma" type="range" min="10" max="90" value="50" />
-                          </label>
-                          <label>
-                            Workload (λ)
-                            <input id="work" type="range" min="0" max="100" value="55" />
-                          </label>
-                        </div>
-
-                        <div class="row">
-                          <label>
-                            Gate friction (time/attention)
-                            <input id="friction" type="range" min="0" max="100" value="62" />
-                          </label>
-                          <label>
-                            Re-arm
-                            <button id="reset" type="button">Reset</button>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </aside>
+                <div class="altrion-gate">
+                  <span class="altrion-gate-id">G.02</span><span class="altrion-gate-lbl">BALANCE</span>
+                </div>
+                <div class="altrion-gate">
+                  <span class="altrion-gate-id">G.03</span><span class="altrion-gate-lbl">CONTEXT</span>
+                </div>
+                <div class="altrion-gate">
+                  <span class="altrion-gate-id">G.04</span><span class="altrion-gate-lbl">AGENCY</span>
+                </div>
               </div>
             </div>
-          </section>
+
+            <div class="altrion-console" aria-label="ALTRION console">
+              <div class="altrion-block-id">
+                <h2 class="alt-h1">The Absolute</h2>
+                <div class="alt-sub">Systemic Architecture</div>
+              </div>
+
+              <div class="altrion-block-tel">
+                <span class="alt-sub">Integrity probability</span>
+                <div class="alt-val" id="v-P">1.000</div>
+                <div class="alt-st-msg" id="v-Status">Laminar Flow</div>
+              </div>
+
+              <div class="altrion-block-pro">
+                <span class="alt-sub">Execute regime</span>
+                <div class="altrion-btn-stack" id="alt-controls" role="group" aria-label="Execute regime controls">
+                  <button class="altrion-btn is-active" data-alt-mode="0" type="button">Crystalline</button>
+                  <button class="altrion-btn" data-alt-mode="1" type="button">Tension</button>
+                  <button class="altrion-btn" data-alt-mode="2" type="button">Ritualism</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- /VIZ_MINIMAL -->
+        <!-- /VIZ_ABSOLUTE_PROTOCOL_100 -->
 
         <h2>Why it matters</h2>
         <ul>
