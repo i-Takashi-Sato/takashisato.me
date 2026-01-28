@@ -1,5 +1,7 @@
-.visualizer-wrapper{
-  --bleed: clamp(24px, 6vw, 160px);
+/* Part I — Visualizer (Stabilized Version) */
+
+.visualizer-wrapper {
+  /* Colors & Tokens */
   --frame: rgba(255,255,255,0.08);
   --frame-strong: rgba(255,255,255,0.12);
   --ink: rgba(255,255,255,0.82);
@@ -13,20 +15,14 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --sans: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
 
-  width: calc(100% + (var(--bleed) * 2));
-  margin-left: calc(var(--bleed) * -1);
-  margin-right: calc(var(--bleed) * -1);
-  margin-top: 5rem;
-  margin-bottom: 5rem;
+  /* Layout Stabilization: Force 100% width, No Bleed */
+  width: 100%;
+  margin: 5rem 0;
   position: relative;
   z-index: 1;
 }
 
-@media (max-width: 900px){
-  .visualizer-wrapper{ --bleed: 16px; }
-}
-
-.visualizer-wrapper .altrion-viz{
+.visualizer-wrapper .altrion-viz {
   position: relative;
   width: 100%;
   margin: 0;
@@ -40,19 +36,21 @@
   overflow: hidden;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
-  .visualizer-wrapper .altrion-viz{
+/* Glass Effect */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .visualizer-wrapper .altrion-viz {
     background: linear-gradient(180deg, rgba(5,5,8,0.52), rgba(5,5,8,0.74));
     -webkit-backdrop-filter: blur(14px) saturate(1.05);
     backdrop-filter: blur(14px) saturate(1.05);
   }
 }
 
-.visualizer-wrapper .altrion-viz::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  pointer-events:none;
+/* Internal Texture (Background) */
+.visualizer-wrapper .altrion-viz::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
   background:
     radial-gradient(1200px 420px at 12% -10%, rgba(255,255,255,0.10), transparent 60%),
     radial-gradient(900px 520px at 95% 0%, rgba(255,255,255,0.06), transparent 62%),
@@ -61,24 +59,26 @@
   z-index: 0;
 }
 
-.visualizer-wrapper .altrion-viz::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+/* Surface Glare (Overlay) */
+.visualizer-wrapper .altrion-viz::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background-image: linear-gradient(to bottom, rgba(255,255,255,0.028), rgba(255,255,255,0.0));
   mix-blend-mode: overlay;
   opacity: 0.55;
   z-index: 0;
 }
 
-.visualizer-wrapper .altrion-viz *{
+.visualizer-wrapper .altrion-viz * {
   box-sizing: border-box;
   border-radius: 0;
   min-width: 0;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-top{
+/* Top Header */
+.visualizer-wrapper .altrion-viz .altrion-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -91,28 +91,28 @@
   z-index: 1;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
-  .visualizer-wrapper .altrion-viz .altrion-top{
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .visualizer-wrapper .altrion-viz .altrion-top {
     background: rgba(15,15,18,0.48);
     -webkit-backdrop-filter: blur(12px) saturate(1.05);
     backdrop-filter: blur(12px) saturate(1.05);
   }
 }
 
-.visualizer-wrapper .altrion-viz .altrion-top::after{
-  content:"";
-  position:absolute;
-  bottom:-1px;
-  left:0;
-  right:0;
-  height:3px;
+.visualizer-wrapper .altrion-viz .altrion-top::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
   background-image: linear-gradient(90deg, rgba(255,255,255,0.16) 1px, transparent 1px);
   background-size: 10px 100%;
   opacity: 0.35;
-  pointer-events:none;
+  pointer-events: none;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-brand h2{
+.visualizer-wrapper .altrion-viz .altrion-brand h2 {
   margin: 0 0 0.45rem 0;
   font-size: 0.82rem;
   font-weight: 600;
@@ -121,7 +121,7 @@
   color: rgba(255,255,255,0.90);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-brand p{
+.visualizer-wrapper .altrion-viz .altrion-brand p {
   margin: 0;
   max-width: 62ch;
   font-family: var(--mono);
@@ -130,7 +130,7 @@
   color: var(--ink-dim);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-pillrow{
+.visualizer-wrapper .altrion-viz .altrion-pillrow {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
@@ -138,9 +138,9 @@
   justify-content: flex-end;
 }
 
-.visualizer-wrapper .altrion-viz .pill{
-  display:flex;
-  align-items:center;
+.visualizer-wrapper .altrion-viz .pill {
+  display: flex;
+  align-items: center;
   gap: 0.45rem;
   padding: 4px 8px;
   font-family: var(--mono);
@@ -151,35 +151,36 @@
   border: 1px solid var(--frame);
 }
 
-.visualizer-wrapper .altrion-viz .pill span{
+.visualizer-wrapper .altrion-viz .pill span {
   color: rgba(255,255,255,0.76);
 }
 
-.visualizer-wrapper .altrion-viz .dot{
+.visualizer-wrapper .altrion-viz .dot {
   width: 4px;
   height: 4px;
   background: rgba(255,255,255,0.62);
   box-shadow: 0 0 10px rgba(255,255,255,0.18);
 }
 
-@media (prefers-reduced-motion: no-preference){
-  .visualizer-wrapper .altrion-viz .dot{
+@media (prefers-reduced-motion: no-preference) {
+  .visualizer-wrapper .altrion-viz .dot {
     animation: altrionPulse 1.8s ease-in-out infinite;
   }
 }
 
-@keyframes altrionPulse{
-  0%,100%{ opacity: 0.45; transform: translateZ(0); }
-  50%{ opacity: 0.95; }
+@keyframes altrionPulse {
+  0%, 100% { opacity: 0.45; transform: translateZ(0); }
+  50% { opacity: 0.95; }
 }
 
-.visualizer-wrapper .altrion-viz .altrion-stage{
+.visualizer-wrapper .altrion-viz .altrion-stage {
   padding: 0;
   position: relative;
   z-index: 1;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-grid{
+/* Grid Layout - Responsive Safe */
+.visualizer-wrapper .altrion-viz .altrion-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
   gap: 0;
@@ -188,18 +189,18 @@
   border: none;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-vizpane{
+.visualizer-wrapper .altrion-viz .altrion-vizpane {
   position: relative;
   border-right: 1px solid var(--frame);
   overflow: hidden;
   height: clamp(440px, 56vh, 680px);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-vizpane::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+.visualizer-wrapper .altrion-viz .altrion-vizpane::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background-image:
     linear-gradient(rgba(255,255,255,0.075) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.075) 1px, transparent 1px);
@@ -208,31 +209,32 @@
   z-index: 0;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-vizpane::after{
-  content:"";
-  position:absolute;
-  inset:-30% 0;
-  pointer-events:none;
+/* Scanline Animation */
+.visualizer-wrapper .altrion-viz .altrion-vizpane::after {
+  content: "";
+  position: absolute;
+  inset: -30% 0;
+  pointer-events: none;
   background: linear-gradient(to bottom, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%);
   opacity: 0.22;
   z-index: 2;
   transform: translate3d(0, -20%, 0);
 }
 
-@media (prefers-reduced-motion: no-preference){
-  .visualizer-wrapper .altrion-viz .altrion-vizpane::after{
+@media (prefers-reduced-motion: no-preference) {
+  .visualizer-wrapper .altrion-viz .altrion-vizpane::after {
     animation: altrionScan 6.5s linear infinite;
   }
 }
 
-@keyframes altrionScan{
-  0%{ transform: translate3d(0, -35%, 0); opacity: 0; }
-  10%{ opacity: 0.22; }
-  90%{ opacity: 0.22; }
-  100%{ transform: translate3d(0, 35%, 0); opacity: 0; }
+@keyframes altrionScan {
+  0% { transform: translate3d(0, -35%, 0); opacity: 0; }
+  10% { opacity: 0.22; }
+  90% { opacity: 0.22; }
+  100% { transform: translate3d(0, 35%, 0); opacity: 0; }
 }
 
-.visualizer-wrapper .altrion-viz canvas{
+.visualizer-wrapper .altrion-viz canvas {
   position: relative;
   z-index: 1;
   display: block;
@@ -242,29 +244,30 @@
   filter: grayscale(100%) brightness(1.18) contrast(1.12);
 }
 
-@supports (mix-blend-mode: screen){
-  .visualizer-wrapper .altrion-viz canvas{ mix-blend-mode: screen; }
+@supports (mix-blend-mode: screen) {
+  .visualizer-wrapper .altrion-viz canvas { mix-blend-mode: screen; }
 }
 
+/* Banner / Status Indicator */
 .visualizer-wrapper .altrion-viz .banner,
-.visualizer-wrapper .altrion-viz #banner{
-  position:absolute;
+.visualizer-wrapper .altrion-viz #banner {
+  position: absolute;
   left: 1.5rem;
   bottom: 1.5rem;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   gap: 0.45rem;
   min-width: 220px;
   padding: 0.95rem 1rem 0.95rem calc(1rem + 6px);
   background: rgba(0,0,0,0.24);
   border: 1px solid var(--frame);
-  overflow:hidden;
+  overflow: hidden;
   z-index: 3;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .visualizer-wrapper .altrion-viz .banner,
-  .visualizer-wrapper .altrion-viz #banner{
+  .visualizer-wrapper .altrion-viz #banner {
     background: rgba(0,0,0,0.14);
     -webkit-backdrop-filter: blur(10px) saturate(1.05);
     backdrop-filter: blur(10px) saturate(1.05);
@@ -272,18 +275,18 @@
 }
 
 .visualizer-wrapper .altrion-viz .banner::before,
-.visualizer-wrapper .altrion-viz #banner::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:6px;
+.visualizer-wrapper .altrion-viz #banner::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
   background: rgba(255,255,255,0.14);
 }
 
 .visualizer-wrapper .altrion-viz .banner.warn::before,
-.visualizer-wrapper .altrion-viz #banner.warn::before{
+.visualizer-wrapper .altrion-viz #banner.warn::before {
   background: repeating-linear-gradient(0deg, var(--warn), var(--warn) 2px, transparent 2px, transparent 4px);
 }
 
@@ -292,13 +295,13 @@
 .visualizer-wrapper .altrion-viz .banner.danger::before,
 .visualizer-wrapper .altrion-viz #banner.collapse::before,
 .visualizer-wrapper .altrion-viz #banner.fail::before,
-.visualizer-wrapper .altrion-viz #banner.danger::before{
+.visualizer-wrapper .altrion-viz #banner.danger::before {
   background: var(--danger);
   width: 8px;
 }
 
 .visualizer-wrapper .altrion-viz .banner .label b,
-.visualizer-wrapper .altrion-viz #banner .label b{
+.visualizer-wrapper .altrion-viz #banner .label b {
   font-size: 0.66rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -306,15 +309,16 @@
 }
 
 .visualizer-wrapper .altrion-viz .banner .state,
-.visualizer-wrapper .altrion-viz #banner .state{
+.visualizer-wrapper .altrion-viz #banner .state {
   font-family: var(--mono);
   font-size: 0.82rem;
   color: rgba(255,255,255,0.92);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-panel{
-  display:flex;
-  flex-direction:column;
+/* Panel Controls */
+.visualizer-wrapper .altrion-viz .altrion-panel {
+  display: flex;
+  flex-direction: column;
   padding: 0;
   background: rgba(15,15,18,0.46);
   height: auto;
@@ -325,13 +329,13 @@
   -ms-overflow-style: none;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar{
-  width:0;
-  height:0;
+.visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
-  .visualizer-wrapper .altrion-viz .altrion-panel{
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .visualizer-wrapper .altrion-viz .altrion-panel {
     background: rgba(15,15,18,0.34);
     -webkit-backdrop-filter: blur(12px) saturate(1.05);
     backdrop-filter: blur(12px) saturate(1.05);
@@ -339,44 +343,44 @@
 }
 
 .visualizer-wrapper .altrion-viz pre,
-.visualizer-wrapper .altrion-viz code{
+.visualizer-wrapper .altrion-viz code {
   font-family: var(--mono);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
-.visualizer-wrapper .altrion-viz .block{
-  position:relative;
+.visualizer-wrapper .altrion-viz .block {
+  position: relative;
   border-bottom: 1px solid var(--frame);
   background: transparent;
   box-shadow: none;
   padding-left: calc(12px + 6px);
 }
 
-.visualizer-wrapper .altrion-viz .block::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
+.visualizer-wrapper .altrion-viz .block::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
   width: 6px;
   background: transparent;
   transition: background 0.18s ease-out;
 }
 
-.visualizer-wrapper .altrion-viz .block:hover::before{ background: rgba(255,255,255,0.14); }
-.visualizer-wrapper .altrion-viz .block:hover{ background: rgba(255,255,255,0.02); }
+.visualizer-wrapper .altrion-viz .block:hover::before { background: rgba(255,255,255,0.14); }
+.visualizer-wrapper .altrion-viz .block:hover { background: rgba(255,255,255,0.02); }
 
-.visualizer-wrapper .altrion-viz .block .hd{
+.visualizer-wrapper .altrion-viz .block .hd {
   padding: 12px 16px 12px 4px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
-.visualizer-wrapper .altrion-viz .block .hd b{
+.visualizer-wrapper .altrion-viz .block .hd b {
   font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -384,38 +388,38 @@
   color: rgba(255,255,255,0.88);
 }
 
-.visualizer-wrapper .altrion-viz .block .hd span{
+.visualizer-wrapper .altrion-viz .block .hd span {
   font-family: var(--mono);
   font-size: 0.64rem;
   color: var(--ink-faint);
 }
 
-.visualizer-wrapper .altrion-viz .block .bd{
+.visualizer-wrapper .altrion-viz .block .bd {
   padding: 14px 16px 16px 4px;
 }
 
-.visualizer-wrapper .altrion-viz .controls{
-  display:grid;
+.visualizer-wrapper .altrion-viz .controls {
+  display: grid;
   gap: 1.05rem;
 }
 
-.visualizer-wrapper .altrion-viz .row{
-  display:grid;
+.visualizer-wrapper .altrion-viz .row {
+  display: grid;
   grid-template-columns: minmax(0,1fr) minmax(0,1fr);
   gap: 0.85rem;
 }
 
-.visualizer-wrapper .altrion-viz label{
+.visualizer-wrapper .altrion-viz label {
   font-size: 0.70rem;
   color: var(--ink-dim);
   margin-bottom: 0.5rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .visualizer-wrapper .altrion-viz button,
-.visualizer-wrapper .altrion-viz .comboBtn{
+.visualizer-wrapper .altrion-viz .comboBtn {
   width: 100%;
   padding: 10px 12px;
   background: rgba(0,0,0,0.16);
@@ -423,38 +427,38 @@
   color: rgba(255,255,255,0.80);
   font-family: var(--mono);
   font-size: 0.70rem;
-  text-align:left;
+  text-align: left;
   letter-spacing: 0.01em;
   transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
-  cursor:pointer;
+  cursor: pointer;
 }
 
-.visualizer-wrapper .altrion-viz button:hover{
+.visualizer-wrapper .altrion-viz button:hover {
   border-color: rgba(255,255,255,0.22);
   background: rgba(255,255,255,0.05);
   color: rgba(255,255,255,0.92);
 }
 
 .visualizer-wrapper .altrion-viz button:focus-visible,
-.visualizer-wrapper .altrion-viz input:focus-visible{
+.visualizer-wrapper .altrion-viz input:focus-visible {
   outline: 2px solid rgba(255,255,255,0.60);
   outline-offset: 2px;
 }
 
-.visualizer-wrapper .altrion-viz input[type="range"]{
-  -webkit-appearance:none;
+.visualizer-wrapper .altrion-viz input[type="range"] {
+  -webkit-appearance: none;
   background: transparent;
   width: 100%;
   margin: 0;
 }
 
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track{
+.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track {
   height: 1px;
   background: rgba(255,255,255,0.16);
 }
 
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;
+.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
   width: 6px;
   height: 16px;
   background: rgba(255,255,255,0.86);
@@ -464,143 +468,146 @@
   cursor: ew-resize;
 }
 
-.visualizer-wrapper .altrion-viz .subgrid{
-  display:grid;
+.visualizer-wrapper .altrion-viz .subgrid {
+  display: grid;
   gap: 0;
   border-top: 1px solid rgba(255,255,255,0.07);
 }
 
-.visualizer-wrapper .altrion-viz .gate{
-  position:relative;
+.visualizer-wrapper .altrion-viz .gate {
+  position: relative;
   padding: 12px 0 12px 12px;
   border-bottom: 1px solid var(--frame);
   margin: 0;
 }
 
-.visualizer-wrapper .altrion-viz .gate::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
+.visualizer-wrapper .altrion-viz .gate::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
   width: 6px;
   background: transparent;
 }
 
-@supports (selector(:has(*))){
-  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.warn)::before{
+@supports (selector(:has(*))) {
+  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.warn)::before {
     background: repeating-linear-gradient(0deg, var(--warn), var(--warn) 2px, transparent 2px, transparent 4px);
   }
-  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.danger)::before{
+  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.danger)::before {
     background: var(--danger);
     width: 8px;
   }
 }
 
-@supports not (selector(:has(*))){
-  .visualizer-wrapper .altrion-viz .badgeMini.warn{
+@supports not (selector(:has(*))) {
+  .visualizer-wrapper .altrion-viz .badgeMini.warn {
     border-left: 4px dotted var(--warn);
   }
-  .visualizer-wrapper .altrion-viz .badgeMini.danger{
+  .visualizer-wrapper .altrion-viz .badgeMini.danger {
     border-left: 4px solid var(--danger);
   }
 }
 
-.visualizer-wrapper .altrion-viz .gTop{
-  display:flex;
-  justify-content:space-between;
+.visualizer-wrapper .altrion-viz .gTop {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 6px;
 }
 
-.visualizer-wrapper .altrion-viz .gTitle b{
+.visualizer-wrapper .altrion-viz .gTitle b {
   font-size: 0.76rem;
   color: rgba(255,255,255,0.90);
 }
 
-.visualizer-wrapper .altrion-viz .kv{
-  display:flex;
-  justify-content:space-between;
+.visualizer-wrapper .altrion-viz .kv {
+  display: flex;
+  justify-content: space-between;
   font-family: var(--mono);
   font-size: 0.66rem;
   color: var(--ink-faint);
   margin-top: 3px;
 }
 
-.visualizer-wrapper .altrion-viz .kv .v{
+.visualizer-wrapper .altrion-viz .kv .v {
   color: rgba(255,255,255,0.78);
 }
 
-.visualizer-wrapper .altrion-viz .split{
-  display:grid;
+.visualizer-wrapper .altrion-viz .split {
+  display: grid;
   gap: 0.85rem;
   margin-top: 0.95rem;
 }
 
-.visualizer-wrapper .altrion-viz .case{
+.visualizer-wrapper .altrion-viz .case {
   border: 1px solid rgba(255,255,255,0.10);
   padding: 12px;
   background: rgba(255,255,255,0.015);
 }
 
-.visualizer-wrapper .altrion-viz .caseHead b{
+.visualizer-wrapper .altrion-viz .caseHead b {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.10em;
   color: var(--ink-faint);
 }
 
-.visualizer-wrapper .altrion-viz .stat{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
+.visualizer-wrapper .altrion-viz .stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   border-bottom: 1px dashed rgba(255,255,255,0.14);
   padding: 4px 0;
 }
 
-.visualizer-wrapper .altrion-viz .stat:last-child{ border-bottom: none; }
+.visualizer-wrapper .altrion-viz .stat:last-child { border-bottom: none; }
 
-.visualizer-wrapper .altrion-viz .stat .t{
+.visualizer-wrapper .altrion-viz .stat .t {
   font-family: var(--mono);
   font-size: 0.60rem;
   color: var(--ink-faint);
 }
 
-.visualizer-wrapper .altrion-viz .stat .n{
+.visualizer-wrapper .altrion-viz .stat .n {
   font-family: var(--mono);
   font-size: 0.76rem;
   color: rgba(255,255,255,0.90);
 }
 
-@media (max-width:900px){
-  .visualizer-wrapper{
+/* RESPONSIVE STABILIZATION */
+@media (max-width: 1024px) {
+  .visualizer-wrapper {
+    /* Safe width */
     width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
 
-  .visualizer-wrapper .altrion-viz .altrion-top{
+  .visualizer-wrapper .altrion-viz .altrion-top {
     padding: 1.1rem 1.1rem;
   }
 
-  .visualizer-wrapper .altrion-viz .altrion-grid{
+  /* Force vertical Stack */
+  .visualizer-wrapper .altrion-viz .altrion-grid {
     grid-template-columns: 1fr;
   }
 
-  .visualizer-wrapper .altrion-viz .altrion-vizpane{
+  .visualizer-wrapper .altrion-viz .altrion-vizpane {
     border-right: none;
     border-bottom: 1px solid var(--frame);
     height: clamp(360px, 46vh, 460px);
   }
 
   .visualizer-wrapper .altrion-viz .banner,
-  .visualizer-wrapper .altrion-viz #banner{
+  .visualizer-wrapper .altrion-viz #banner {
     left: 1rem;
     bottom: 1rem;
     min-width: 200px;
   }
 }
 
-@media (prefers-reduced-motion: reduce){
-  .visualizer-wrapper .altrion-viz .altrion-vizpane::after{ display:none; }
-  .visualizer-wrapper .altrion-viz .dot{ animation:none; }
+@media (prefers-reduced-motion: reduce) {
+  .visualizer-wrapper .altrion-viz .altrion-vizpane::after { display: none; }
+  .visualizer-wrapper .altrion-viz .dot { animation: none; }
 }
