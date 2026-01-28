@@ -1,4 +1,4 @@
-.part1 .visualizer-wrapper{
+body.part1 .visualizer-wrapper{
   width:100%;
   position:relative;
   left:auto;
@@ -7,13 +7,13 @@
   z-index:1;
 }
 
-.part1 .article-container .visualizer-wrapper{
+body.part1 .article-container .visualizer-wrapper{
   max-width:min(1100px, 100%);
   margin-left:auto;
   margin-right:auto;
 }
 
-.part1 .visualizer-wrapper .altrion-viz{
+body.part1 .visualizer-wrapper .altrion-viz{
   --v-bg: rgba(8,8,10,0.62);
   --v-panel: rgba(10,10,12,0.46);
 
@@ -61,7 +61,7 @@
   overflow:hidden;
 }
 
-.part1 .visualizer-wrapper .altrion-viz::before{
+body.part1 .visualizer-wrapper .altrion-viz::before{
   content:"";
   position:absolute;
   inset:-2px;
@@ -79,7 +79,7 @@
   mix-blend-mode:overlay;
 }
 
-.part1 .visualizer-wrapper .altrion-viz::after{
+body.part1 .visualizer-wrapper .altrion-viz::after{
   content:"";
   position:absolute;
   inset:10px;
@@ -90,9 +90,9 @@
   opacity:0.9;
 }
 
-.part1 .visualizer-wrapper .altrion-viz *{ box-sizing:border-box; }
+body.part1 .visualizer-wrapper .altrion-viz *{ box-sizing:border-box; }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-top{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-top{
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
@@ -104,7 +104,7 @@
   z-index:3;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-top::before{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-top::before{
   content:"";
   position:absolute;
   left:0;
@@ -115,7 +115,7 @@
   opacity:0.85;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-brand h2{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-brand h2{
   margin:0 0 6px 0;
   font-family:var(--v-mono);
   font-size:0.74rem;
@@ -125,7 +125,7 @@
   color:rgba(255,255,255,0.96);
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-brand p{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-brand p{
   margin:0;
   max-width:72ch;
   font-family:var(--v-font);
@@ -135,9 +135,9 @@
   color:var(--v-dimmer);
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-stage{ padding:0; }
+body.part1 .visualizer-wrapper .altrion-viz .altrion-stage{ padding:0; }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-grid{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-grid{
   display:grid;
   grid-template-columns: minmax(0, 1fr) 420px;
   height:min(80vh, 820px);
@@ -145,14 +145,14 @@
   background:transparent;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
   position:relative;
   height:100%;
   border-right:1px solid rgba(255,255,255,0.12);
   overflow:hidden;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane::before{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane::before{
   content:"";
   position:absolute;
   inset:0;
@@ -165,7 +165,7 @@
   opacity:0.10;
 }
 
-.part1 .visualizer-wrapper .altrion-viz canvas{
+body.part1 .visualizer-wrapper .altrion-viz canvas{
   position:relative;
   z-index:1;
   width:100% !important;
@@ -176,7 +176,7 @@
   mix-blend-mode:screen;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .altrion-panel{
+body.part1 .visualizer-wrapper .altrion-viz .altrion-panel{
   background:
     linear-gradient(to bottom, rgba(255,255,255,0.016), rgba(255,255,255,0.006)),
     var(--v-panel);
@@ -186,14 +186,14 @@
   scrollbar-width:none;
   -ms-overflow-style:none;
 }
-.part1 .visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar{ width:0; height:0; }
+body.part1 .visualizer-wrapper .altrion-viz .altrion-panel::-webkit-scrollbar{ width:0; height:0; }
 
-.part1 .visualizer-wrapper .altrion-viz .block{
+body.part1 .visualizer-wrapper .altrion-viz .block{
   border-bottom:1px solid rgba(255,255,255,0.12);
   background:transparent;
 }
 
-.part1 .visualizer-wrapper .altrion-viz .block .hd{
+body.part1 .visualizer-wrapper .altrion-viz .block .hd{
   display:flex;
   justify-content:space-between;
   align-items:baseline;
@@ -202,7 +202,7 @@
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
-.part1 .visualizer-wrapper .altrion-viz .block .hd b{
+body.part1 .visualizer-wrapper .altrion-viz .block .hd b{
   font-family:var(--v-mono);
   font-size:0.70rem;
   font-weight:700;
@@ -211,7 +211,7 @@
   color:rgba(255,255,255,0.92);
 }
 
-.part1 .visualizer-wrapper .altrion-viz .block .hd span{
+body.part1 .visualizer-wrapper .altrion-viz .block .hd span{
   font-family:var(--v-mono);
   font-size:0.64rem;
   letter-spacing:0.10em;
@@ -219,14 +219,14 @@
   color:rgba(255,255,255,0.40);
 }
 
-.part1 .visualizer-wrapper .altrion-viz .block .bd{
+body.part1 .visualizer-wrapper .altrion-viz .block .bd{
   padding:calc(var(--u) * 1.35) calc(var(--u) * 1.35) calc(var(--u) * 1.55) calc(var(--u) * 1.35);
 }
 
-.part1 .visualizer-wrapper .altrion-viz .controls{ display:flex; flex-direction:column; gap:14px; }
-.part1 .visualizer-wrapper .altrion-viz .controls .row{ display:flex; flex-direction:column; gap:14px; }
+body.part1 .visualizer-wrapper .altrion-viz .controls{ display:flex; flex-direction:column; gap:14px; }
+body.part1 .visualizer-wrapper .altrion-viz .controls .row{ display:flex; flex-direction:column; gap:14px; }
 
-.part1 .visualizer-wrapper .altrion-viz label{
+body.part1 .visualizer-wrapper .altrion-viz label{
   display:block;
   margin:0;
   font-family:var(--v-font);
@@ -234,13 +234,13 @@
   letter-spacing:0.01em;
   color:var(--v-dim);
 }
-.part1 .visualizer-wrapper .altrion-viz label > button,
-.part1 .visualizer-wrapper .altrion-viz label > input{
+body.part1 .visualizer-wrapper .altrion-viz label > button,
+body.part1 .visualizer-wrapper .altrion-viz label > input{
   margin-top:8px;
 }
 
-.part1 .visualizer-wrapper .altrion-viz button,
-.part1 .visualizer-wrapper .altrion-viz .comboBtn{
+body.part1 .visualizer-wrapper .altrion-viz button,
+body.part1 .visualizer-wrapper .altrion-viz .comboBtn{
   width:100%;
   padding:12px 14px;
   border-radius:14px;
@@ -256,7 +256,7 @@
   cursor:pointer;
 }
 
-.part1 .visualizer-wrapper .altrion-viz button.primary{
+body.part1 .visualizer-wrapper .altrion-viz button.primary{
   border-color: rgba(255,255,255,0.20);
   background:
     linear-gradient(to bottom, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
@@ -265,34 +265,34 @@
     inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
-.part1 .visualizer-wrapper .altrion-viz button:hover{
+body.part1 .visualizer-wrapper .altrion-viz button:hover{
   background:rgba(255,255,255,0.07);
   border-color:rgba(255,255,255,0.22);
 }
 
-.part1 .visualizer-wrapper .altrion-viz button:active{
+body.part1 .visualizer-wrapper .altrion-viz button:active{
   transform:translateY(1px);
 }
 
-.part1 .visualizer-wrapper .altrion-viz button:focus-visible{
+body.part1 .visualizer-wrapper .altrion-viz button:focus-visible{
   outline:none;
   box-shadow:
     0 0 0 2px rgba(0,0,0,0.85),
     0 0 0 3px rgba(255,255,255,0.22);
 }
 
-.part1 .visualizer-wrapper .altrion-viz input[type="range"]{
+body.part1 .visualizer-wrapper .altrion-viz input[type="range"]{
   -webkit-appearance:none;
   appearance:none;
   background:transparent;
   width:100%;
   margin:0;
 }
-.part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track{
+body.part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track{
   height:2px;
   background:rgba(255,255,255,0.18);
 }
-.part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb{
+body.part1 .visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb{
   -webkit-appearance:none;
   width:12px;
   height:22px;
@@ -305,31 +305,31 @@
     0 18px 34px -22px rgba(0,0,0,0.92);
   cursor:col-resize;
 }
-.part1 .visualizer-wrapper .altrion-viz input[type="range"]:focus-visible{ outline:none; }
+body.part1 .visualizer-wrapper .altrion-viz input[type="range"]:focus-visible{ outline:none; }
 
-.part1 .visualizer-wrapper .altrion-viz pre,
-.part1 .visualizer-wrapper .altrion-viz code{
+body.part1 .visualizer-wrapper .altrion-viz pre,
+body.part1 .visualizer-wrapper .altrion-viz code{
   white-space:pre-wrap;
   overflow-wrap:anywhere;
   word-break:break-word;
 }
 
 @media (max-width: 900px){
-  .part1 .visualizer-wrapper{ margin:48px 0; }
-  .part1 .visualizer-wrapper .altrion-viz::after{ inset:7px; }
-  .part1 .visualizer-wrapper .altrion-viz .altrion-top{ padding:16px 16px; }
-  .part1 .visualizer-wrapper .altrion-viz .altrion-grid{
+  body.part1 .visualizer-wrapper{ margin:48px 0; }
+  body.part1 .visualizer-wrapper .altrion-viz::after{ inset:7px; }
+  body.part1 .visualizer-wrapper .altrion-viz .altrion-top{ padding:16px 16px; }
+  body.part1 .visualizer-wrapper .altrion-viz .altrion-grid{
     grid-template-columns:1fr;
     height:auto;
     min-height:0;
   }
-  .part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
+  body.part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
     height:min(56vh, 460px);
     min-height:380px;
     border-right:none;
     border-bottom:1px solid rgba(255,255,255,0.12);
   }
-  .part1 .article-container .visualizer-wrapper{
+  body.part1 .article-container .visualizer-wrapper{
     max-width:100%;
   }
 }
