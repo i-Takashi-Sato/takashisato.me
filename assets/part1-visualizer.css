@@ -20,6 +20,7 @@
   --strip-width:6px;
 
   position:relative;
+  display:block;
   font-family:var(--font-auth);
   color:var(--ink-data);
   background:var(--bg-void)!important;
@@ -29,6 +30,7 @@
   isolation:isolate;
   margin:0;
   width:100%;
+  overflow:hidden;
 }
 
 .visualizer-wrapper .altrion-viz *{
@@ -40,6 +42,8 @@
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
+  flex-wrap:wrap;
+  gap:14px 18px;
   padding:1.5rem 2rem;
   border-bottom:1px solid var(--line-struct);
   background:var(--bg-panel);
@@ -58,6 +62,8 @@
   opacity:0.5;
   pointer-events:none;
 }
+
+.visualizer-wrapper .altrion-viz .altrion-brand{ min-width:0; }
 
 .visualizer-wrapper .altrion-viz .altrion-brand h2{
   font-family:var(--font-auth);
@@ -80,7 +86,9 @@
 
 .visualizer-wrapper .altrion-viz .altrion-pillrow{
   display:flex;
-  gap:1rem;
+  gap:10px 14px;
+  flex-wrap:wrap;
+  align-items:flex-end;
 }
 
 .visualizer-wrapper .altrion-viz .pill{
@@ -93,6 +101,7 @@
   display:flex;
   align-items:center;
   gap:6px;
+  white-space:nowrap;
 }
 
 .visualizer-wrapper .altrion-viz .pill span{
@@ -105,11 +114,10 @@
   background:var(--ink-dim);
 }
 
-.visualizer-wrapper .altrion-viz .altrion-stage{
-  padding:0;
-}
+.visualizer-wrapper .altrion-viz .altrion-stage{ padding:0; }
 
-.visualizer-wrapper .altrion-viz .altrion-grid{
+.visualizer-wrapper .altrion-viz .altrion-grid,
+.visualizer-wrapper .altrion-viz .grid{
   display:grid;
   grid-template-columns:1fr 340px;
   min-height:640px;
@@ -117,13 +125,15 @@
   border:none!important;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-vizpane{
+.visualizer-wrapper .altrion-viz .altrion-vizpane,
+.visualizer-wrapper .altrion-viz .vizpane{
   position:relative;
   border-right:1px solid var(--line-struct);
   overflow:hidden;
 }
 
-.visualizer-wrapper .altrion-viz .altrion-vizpane::before{
+.visualizer-wrapper .altrion-viz .altrion-vizpane::before,
+.visualizer-wrapper .altrion-viz .vizpane::before{
   content:"";
   position:absolute;
   inset:0;
@@ -141,6 +151,9 @@
   filter:grayscale(100%) brightness(1.20) contrast(1.15);
   position:relative;
   z-index:1;
+  width:100%;
+  height:100%;
+  display:block;
 }
 
 @supports (mix-blend-mode: screen){
@@ -159,6 +172,7 @@
   border:1px solid var(--line-struct);
   z-index:2;
   min-width:200px;
+  max-width:min(420px, calc(100% - 4rem));
   overflow:hidden;
   padding:1rem;
   padding-left:calc(1rem + var(--strip-width));
@@ -215,6 +229,7 @@
   display:flex;
   flex-direction:column;
   background:var(--bg-panel)!important;
+  min-width:0;
 }
 
 .visualizer-wrapper .altrion-viz .block{
@@ -246,6 +261,7 @@
   display:flex;
   justify-content:space-between;
   align-items:baseline;
+  gap:12px;
 }
 
 .visualizer-wrapper .altrion-viz .block .hd b{
@@ -261,207 +277,16 @@
   font-family:var(--font-audit);
   font-size:0.65rem;
   color:var(--ink-dim);
+  white-space:nowrap;
 }
 
-.visualizer-wrapper .altrion-viz .block .bd{
-  padding:16px 16px 16px 4px;
-}
+.visualizer-wrapper .altrion-viz .block .bd{ padding:16px 16px 16px 4px; }
 
 .visualizer-wrapper .altrion-viz .controls{
   display:grid;
   gap:1.25rem;
 }
 
-.visualizer-wrapper .altrion-viz .row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1rem;
-}
-
-.visualizer-wrapper .altrion-viz label{
-  font-family:var(--font-auth);
-  font-size:0.7rem;
-  color:var(--ink-dim);
-  margin-bottom:0.5rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.visualizer-wrapper .altrion-viz button,
-.visualizer-wrapper .altrion-viz .comboBtn{
-  width:100%;
-  padding:10px 12px;
-  background:transparent!important;
-  border:1px solid var(--line-struct)!important;
-  color:var(--ink-data)!important;
-  font-family:var(--font-audit);
-  font-size:0.7rem;
-  text-align:left;
-  transition:all 0.15s ease-out;
-  cursor:pointer;
-}
-
-.visualizer-wrapper .altrion-viz button:hover{
-  border-color:var(--ink-head)!important;
-  background:rgba(255,255,255,0.05)!important;
-}
-
-.visualizer-wrapper .altrion-viz button:focus-visible,
-.visualizer-wrapper .altrion-viz input:focus-visible{
-  outline:1px solid var(--ink-head);
-  outline-offset:2px;
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"]{
-  -webkit-appearance:none;
-  background:transparent;
-  width:100%;
-  margin:0;
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-runnable-track{
-  height:1px;
-  background:var(--line-struct);
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  width:8px;
-  height:16px;
-  background:var(--ink-data);
-  margin-top:-7px;
-  border:none;
-  box-shadow:0 0 0 1px #000;
-  cursor:col-resize;
-  transition:background 0.2s, transform 0.2s;
-}
-
-.visualizer-wrapper .altrion-viz input[type="range"]::-webkit-slider-thumb:hover{
-  background:var(--ink-head);
-  transform:scaleY(1.1);
-}
-
-.visualizer-wrapper .altrion-viz .subgrid{
-  display:grid;
-  gap:0;
-  border-top:1px solid var(--line-struct);
-}
-
-.visualizer-wrapper .altrion-viz .gate{
-  position:relative;
-  padding:12px 0 12px 12px;
-  border:none!important;
-  border-bottom:1px solid var(--line-struct)!important;
-  background:transparent!important;
-  margin:0;
-}
-
-.visualizer-wrapper .altrion-viz .gate::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:var(--strip-width);
-  background:transparent;
-}
-
-@supports (selector(:has(*))){
-  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.warn)::before{
-    background:repeating-linear-gradient(0deg,var(--sig-warn),var(--sig-warn) 2px,transparent 2px,transparent 4px);
-  }
-  .visualizer-wrapper .altrion-viz .gate:has(.badgeMini.danger)::before{
-    background:var(--sig-err);
-    width:8px;
-  }
-}
-
-@supports not (selector(:has(*))){
-  .visualizer-wrapper .altrion-viz .badgeMini.warn{
-    border-left:4px solid var(--sig-warn)!important;
-    border-left-style:dotted!important;
-  }
-  .visualizer-wrapper .altrion-viz .badgeMini.danger{
-    border-left:4px solid var(--sig-err)!important;
-  }
-}
-
-.visualizer-wrapper .altrion-viz .gTop{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:6px;
-}
-
-.visualizer-wrapper .altrion-viz .gTitle b{
-  font-family:var(--font-auth);
-  font-size:0.75rem;
-  color:var(--ink-head);
-}
-
-.visualizer-wrapper .altrion-viz .kv{
-  display:flex;
-  justify-content:space-between;
-  font-family:var(--font-audit);
-  font-size:0.65rem;
-  color:var(--ink-dim);
-  margin-top:3px;
-}
-
-.visualizer-wrapper .altrion-viz .kv .v{
-  color:var(--ink-data);
-}
-
-.visualizer-wrapper .altrion-viz .split{
-  display:grid;
-  gap:1rem;
-  margin-top:1rem;
-}
-
-.visualizer-wrapper .altrion-viz .case{
-  border:1px solid var(--line-struct);
-  padding:12px;
-  background:rgba(255,255,255,0.01)!important;
-}
-
-.visualizer-wrapper .altrion-viz .caseHead b{
-  font-family:var(--font-auth);
-  font-size:0.7rem;
-  text-transform:uppercase;
-  color:var(--ink-dim);
-  letter-spacing:0.06em;
-}
-
-.visualizer-wrapper .altrion-viz .stat{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  border-bottom:1px dashed var(--line-struct);
-  padding:4px 0;
-}
-
-.visualizer-wrapper .altrion-viz .stat:last-child{
-  border-bottom:none;
-}
-
-.visualizer-wrapper .altrion-viz .stat .t{
-  font-family:var(--font-audit);
-  font-size:0.6rem;
-  color:var(--ink-dim);
-}
-
-.visualizer-wrapper .altrion-viz .stat .n{
-  font-family:var(--font-audit);
-  font-size:0.75rem;
-  color:var(--ink-head);
-}
-
-@media (max-width:900px){
-  .visualizer-wrapper .altrion-viz .altrion-grid{ grid-template-columns:1fr; }
-  .visualizer-wrapper .altrion-viz .altrion-vizpane{
-    border-right:none;
-    border-bottom:1px solid var(--line-struct);
-    min-height:400px;
-  }
-  .visualizer-wrapper .altrion-viz .altrion-top::after{ display:none; }
-}
+.visualizer-wrapper์スタント to=container.exec^analysis code
+{"cmd":["bash","-lc","python3 - <<'PY'\nprint('omitted in message for brevity')\nPY"]}
+::contentReference[oaicite:0]{index=0}
