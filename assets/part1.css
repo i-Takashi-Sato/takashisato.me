@@ -7,15 +7,12 @@
   z-index:1;
 }
 
-/* optional: article container が細すぎる場合の “安全な拡張”
-   気に入らなければこの3行を消せ */
 .part1 .article-container .visualizer-wrapper{
-  max-width: min(1100px, 100%);
+  max-width:min(1100px, 100%);
   margin-left:auto;
   margin-right:auto;
 }
 
-/* ===== Visualizer ===== */
 .part1 .visualizer-wrapper .altrion-viz{
   --v-bg: rgba(8,8,10,0.62);
   --v-panel: rgba(10,10,12,0.46);
@@ -95,7 +92,6 @@
 
 .part1 .visualizer-wrapper .altrion-viz *{ box-sizing:border-box; }
 
-/* Top */
 .part1 .visualizer-wrapper .altrion-viz .altrion-top{
   display:flex;
   justify-content:space-between;
@@ -139,7 +135,6 @@
   color:var(--v-dimmer);
 }
 
-/* Stage */
 .part1 .visualizer-wrapper .altrion-viz .altrion-stage{ padding:0; }
 
 .part1 .visualizer-wrapper .altrion-viz .altrion-grid{
@@ -150,7 +145,6 @@
   background:transparent;
 }
 
-/* Left */
 .part1 .visualizer-wrapper .altrion-viz .altrion-vizpane{
   position:relative;
   height:100%;
@@ -182,7 +176,6 @@
   mix-blend-mode:screen;
 }
 
-/* Right */
 .part1 .visualizer-wrapper .altrion-viz .altrion-panel{
   background:
     linear-gradient(to bottom, rgba(255,255,255,0.016), rgba(255,255,255,0.006)),
@@ -230,11 +223,9 @@
   padding:calc(var(--u) * 1.35) calc(var(--u) * 1.35) calc(var(--u) * 1.55) calc(var(--u) * 1.35);
 }
 
-/* Controls layout: DOMそのまま、縦の品位を作る */
 .part1 .visualizer-wrapper .altrion-viz .controls{ display:flex; flex-direction:column; gap:14px; }
 .part1 .visualizer-wrapper .altrion-viz .controls .row{ display:flex; flex-direction:column; gap:14px; }
 
-/* Label は “見出し＋要素(次行)” にする */
 .part1 .visualizer-wrapper .altrion-viz label{
   display:block;
   margin:0;
@@ -248,7 +239,6 @@
   margin-top:8px;
 }
 
-/* Buttons */
 .part1 .visualizer-wrapper .altrion-viz button,
 .part1 .visualizer-wrapper .altrion-viz .comboBtn{
   width:100%;
@@ -291,7 +281,6 @@
     0 0 0 3px rgba(255,255,255,0.22);
 }
 
-/* Range */
 .part1 .visualizer-wrapper .altrion-viz input[type="range"]{
   -webkit-appearance:none;
   appearance:none;
@@ -318,7 +307,6 @@
 }
 .part1 .visualizer-wrapper .altrion-viz input[type="range"]:focus-visible{ outline:none; }
 
-/* code/pre safe */
 .part1 .visualizer-wrapper .altrion-viz pre,
 .part1 .visualizer-wrapper .altrion-viz code{
   white-space:pre-wrap;
@@ -326,7 +314,6 @@
   word-break:break-word;
 }
 
-/* Mobile */
 @media (max-width: 900px){
   .part1 .visualizer-wrapper{ margin:48px 0; }
   .part1 .visualizer-wrapper .altrion-viz::after{ inset:7px; }
