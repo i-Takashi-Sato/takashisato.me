@@ -134,7 +134,7 @@
           We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
         </p>
 
-        <!-- VIZ_ABSOLUTE_PROTOCOL_100 (replaces VIZ_MINIMAL) -->
+        <!-- VIZ — ALTRION HUD (HTML must match CSS/JS contract) -->
         <div class="visualizer-wrapper">
           <div class="altrion-container" id="altrion-app" aria-label="ALTRION Visualizer">
             <div class="altrion-viewport" id="alt-v-wrap">
@@ -142,44 +142,45 @@
 
               <div class="altrion-gate-overlay" aria-hidden="true">
                 <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.01</span><span class="altrion-gate-lbl">CONSTRAINT</span>
+                  <span class="altrion-gate-id">G.01</span><span class="altrion-gate-lbl">BASELINE CONSTRAINTS</span>
                 </div>
                 <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.02</span><span class="altrion-gate-lbl">BALANCE</span>
+                  <span class="altrion-gate-id">G.02</span><span class="altrion-gate-lbl">OPTIMIZATION BALANCE</span>
                 </div>
                 <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.03</span><span class="altrion-gate-lbl">CONTEXT</span>
+                  <span class="altrion-gate-id">G.03</span><span class="altrion-gate-lbl">TEMPORAL CONTEXT</span>
                 </div>
                 <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.04</span><span class="altrion-gate-lbl">AGENCY</span>
+                  <span class="altrion-gate-id">G.04</span><span class="altrion-gate-lbl">HUMAN ARBITRATION</span>
                 </div>
               </div>
             </div>
 
             <div class="altrion-console" aria-label="ALTRION console">
               <div class="altrion-block-id">
-                <h2 class="alt-h1">The Absolute</h2>
-                <div class="alt-sub">Systemic Architecture</div>
+                <h2 class="alt-h1">ALTRION</h2>
+                <div class="alt-sub">Workflow-Centric AI Governance</div>
               </div>
 
               <div class="altrion-block-tel">
-                <span class="alt-sub">Integrity probability</span>
+                <span class="alt-sub">Intervention Probability (P_int)</span>
                 <div class="alt-val" id="v-P">1.000</div>
-                <div class="alt-st-msg" id="v-Status">Laminar Flow</div>
+                <div class="alt-st-msg" id="v-Status">Productive Friction</div>
               </div>
 
               <div class="altrion-block-pro">
-                <span class="alt-sub">Execute regime</span>
+                <span class="alt-sub">Execute protocol</span>
+                <!-- JS expects: #alt-controls + data-alt-mode -->
                 <div class="altrion-btn-stack" id="alt-controls" role="group" aria-label="Execute regime controls">
-                  <button class="altrion-btn is-active" data-alt-mode="0" type="button">Crystalline</button>
-                  <button class="altrion-btn" data-alt-mode="1" type="button">Tension</button>
-                  <button class="altrion-btn" data-alt-mode="2" type="button">Ritualism</button>
+                  <button class="altrion-btn is-active" data-alt-mode="0" type="button">Crystalline (Ideal)</button>
+                  <button class="altrion-btn" data-alt-mode="1" type="button">Tension (Dispersion)</button>
+                  <button class="altrion-btn" data-alt-mode="2" type="button">Ritualism (Collapse)</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- /VIZ_ABSOLUTE_PROTOCOL_100 -->
+        <!-- /VIZ -->
 
         <h2>Why it matters</h2>
         <ul>
@@ -249,8 +250,7 @@
   </footer>
 
   <!-- IMPORTANT: keep only ONE include -->
-  <script defer src="/assets/part1-visualizer.js?v=20260129-1"></script>
+  <script defer src="/assets/part1-visualizer.js?v=20260129-2"></script>
   <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
-
