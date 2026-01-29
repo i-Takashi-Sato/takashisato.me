@@ -134,25 +134,16 @@
           We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
         </p>
 
-        <!-- VIZ — ALTRION HUD (HTML must match CSS/JS contract) -->
         <div class="visualizer-wrapper">
           <div class="altrion-container" id="altrion-app" aria-label="ALTRION Visualizer">
             <div class="altrion-viewport" id="alt-v-wrap">
               <canvas id="scene" aria-label="Gate pipeline canvas"></canvas>
 
               <div class="altrion-gate-overlay" aria-hidden="true">
-                <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.01</span><span class="altrion-gate-lbl">BASELINE CONSTRAINTS</span>
-                </div>
-                <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.02</span><span class="altrion-gate-lbl">OPTIMIZATION BALANCE</span>
-                </div>
-                <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.03</span><span class="altrion-gate-lbl">TEMPORAL CONTEXT</span>
-                </div>
-                <div class="altrion-gate">
-                  <span class="altrion-gate-id">G.04</span><span class="altrion-gate-lbl">HUMAN ARBITRATION</span>
-                </div>
+                <div class="altrion-gate"><span class="altrion-gate-id">G1</span><span class="altrion-gate-lbl">BASELINE CONSTRAINTS</span></div>
+                <div class="altrion-gate"><span class="altrion-gate-id">G2</span><span class="altrion-gate-lbl">OPTIMIZATION BALANCE</span></div>
+                <div class="altrion-gate"><span class="altrion-gate-id">G3</span><span class="altrion-gate-lbl">TEMPORAL CONTEXT</span></div>
+                <div class="altrion-gate"><span class="altrion-gate-id">G4</span><span class="altrion-gate-lbl">HUMAN ARBITRATION</span></div>
               </div>
             </div>
 
@@ -169,8 +160,7 @@
               </div>
 
               <div class="altrion-block-pro">
-                <span class="alt-sub">Execute protocol</span>
-                <!-- JS expects: #alt-controls + data-alt-mode -->
+                <span class="alt-sub">Execute Regime</span>
                 <div class="altrion-btn-stack" id="alt-controls" role="group" aria-label="Execute regime controls">
                   <button class="altrion-btn is-active" data-alt-mode="0" type="button">Crystalline (Ideal)</button>
                   <button class="altrion-btn" data-alt-mode="1" type="button">Tension (Dispersion)</button>
@@ -180,8 +170,6 @@
             </div>
           </div>
         </div>
-        <!-- /VIZ -->
-
         <h2>Why it matters</h2>
         <ul>
           <li>Turns “oversight” into a <strong>workflow object</strong>—auditable, revisable, and enforceable.</li>
@@ -249,7 +237,6 @@
     </div>
   </footer>
 
-  <!-- IMPORTANT: keep only ONE include -->
   <script defer src="/assets/part1-visualizer.js?v=20260129-2"></script>
   <script defer src="/assets/scroll.js"></script>
 </body>
