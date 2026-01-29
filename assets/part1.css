@@ -1,197 +1,134 @@
 .visualizer-wrapper {
-  width: 100%;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  background: #020202;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .altrion-container {
-  --alt-bg-base: #050507;
-  --alt-bg-panel: #08080c;
-  --alt-bg-canvas: #000000;
-  --alt-ink: rgba(242, 242, 242, 0.94);
-  --alt-dim: rgba(255, 255, 255, 0.56);
-  --alt-dimmer: rgba(255, 255, 255, 0.34);
-  --alt-line: rgba(255, 255, 255, 0.085);
-  --alt-line-2: rgba(255, 255, 255, 0.14);
-  --c-ideal: #00A3FF;
-  --c-tension: #BF5AF2;
-  --c-collapse: #FF2D55;
-  --alt-r-lg: 28px;
-  --alt-pad-x: 28px;
-  --alt-pad-y: 22px;
-  --alt-gate-inset: 12%;
+  --opus-bg: #020202;
+  --opus-text: #EAEAEA;
+  --opus-dim: rgba(255, 255, 255, 0.4);
+  --opus-accent: rgba(255, 255, 255, 0.15);
+  width: 100%;
+  height: 85vh;
+  min-height: 600px;
+  max-height: 900px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--alt-bg-base);
-  border: 1px solid var(--alt-line);
-  border-radius: var(--alt-r-lg);
-  overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.25) inset, 0 18px 60px rgba(0,0,0,0.45);
+  justify-content: flex-end;
   font-family: 'Inter', sans-serif;
-}
-
-.altrion-viewport {
-  position: relative;
-  background: var(--alt-bg-canvas);
-  height: clamp(300px, 44vh, 520px);
-  overflow: hidden;
 }
 
 #scene {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   mix-blend-mode: screen;
-}
-
-.altrion-gate-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 var(--alt-gate-inset);
+  z-index: 1;
   pointer-events: none;
 }
 
-.altrion-gate {
-  height: 100%;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.11) 42%, rgba(255,255,255,0.11) 58%, transparent 100%);
+.opus-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 50px 8%;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 }
 
-.altrion-gate-id {
-  font-family: "Space Mono", monospace;
-  font-size: 10px;
-  color: rgba(255,255,255,0.34);
-  letter-spacing: 0.22em;
-  transform: translateY(18px);
+.opus-gates {
+  position: absolute;
+  top: 0; left: 8%; right: 8%; bottom: 0;
+  display: flex;
+  justify-content: space-between;
 }
 
-.altrion-gate-lbl {
+.opus-gate {
+  height: 100%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.2) 80%, transparent 100%);
+  position: relative;
+}
+
+.opus-gate-label {
+  position: absolute;
+  bottom: 160px;
+  left: 8px;
   font-family: "Space Mono", monospace;
   font-size: 10px;
-  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.25em;
+  color: var(--opus-dim);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  letter-spacing: 0.22em;
-  padding-bottom: 34px;
+  text-transform: uppercase;
 }
 
-.altrion-console {
-  background: radial-gradient(120% 220% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 60%) , var(--alt-bg-panel);
-  border-top: 1px solid var(--alt-line);
-  padding: var(--alt-pad-y) var(--alt-pad-x);
-  display: grid;
-  grid-template-columns: 1.3fr 1fr 1.3fr;
-  gap: 22px;
-  align-items: center;
-}
-
-.altrion-block-id .alt-h1 {
-  margin: 0;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 18px;
-  line-height: 1.15;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--alt-ink);
-}
-
-.alt-sub {
+.opus-data {
+  position: absolute;
+  top: 50px; right: 8%;
+  text-align: right;
   font-family: "Space Mono", monospace;
   font-size: 10px;
-  letter-spacing: 0.22em;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.12em;
+}
+
+.opus-header {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 20px;
+}
+
+.opus-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 56px;
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.0;
+  text-shadow: 0 0 40px rgba(255,255,255,0.15);
+}
+
+.opus-meta {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  color: var(--opus-dim);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--alt-dimmer);
-  margin-top: 8px;
+  margin-top: 16px;
   display: block;
 }
 
-.alt-val {
-  margin-top: 6px;
-  font-family: "Space Mono", monospace;
-  font-size: 34px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  color: var(--alt-ink);
-}
-
-.alt-st-msg {
-  margin-top: 8px;
-  font-family: "Space Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.62);
-  transition: all 0.6s ease;
-}
-
-.alt-st-msg.is-ideal { color: var(--c-ideal); text-shadow: 0 0 10px rgba(0,163,255,0.3); }
-.alt-st-msg.is-tension { color: var(--c-tension); text-shadow: 0 0 10px rgba(191,90,242,0.3); }
-.alt-st-msg.is-collapse { color: var(--c-collapse); text-shadow: 0 0 10px rgba(255,45,85,0.3); }
-
-.altrion-btn-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.altrion-btn {
-  height: 40px;
-  padding: 0 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.11);
-  background: transparent;
-  color: rgba(255,255,255,0.62);
-  font-family: "Space Mono", monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-}
-
-.altrion-btn:hover {
-  border-color: rgba(255,255,255,0.24);
-  color: rgba(255,255,255,0.86);
-}
-
-.altrion-btn.is-active {
-  background: rgba(255,255,255,0.92);
-  border-color: rgba(255,255,255,0.92);
-  color: #000;
-  font-weight: 700;
+.opus-quote {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 18px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 24px;
+  max-width: 420px;
+  line-height: 1.5;
+  border-left: 1px solid rgba(255,255,255,0.3);
+  padding-left: 20px;
 }
 
 @media (max-width: 844px) {
-  .altrion-container {
-    --alt-pad-x: 16px;
-    --alt-pad-y: 16px;
-    --alt-gate-inset: 10%;
-  }
-
-  .altrion-viewport {
-    height: clamp(260px, 38vh, 420px);
-  }
-
-  .altrion-console {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    align-items: start;
-  }
-
-  .alt-val {
-    font-size: 30px;
-  }
-
-  .altrion-btn {
-    height: 44px;
-  }
+  .altrion-container { height: 60vh; min-height: 500px; }
+  .opus-title { font-size: 36px; }
+  .opus-gates { display: none; }
+  .opus-data { display: none; }
 }
