@@ -1,338 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="color-scheme" content="dark" />
-<title>ALTRION — Integrated Demo (Phase-Modulated Spectral Truthline)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#070707;
-
-    --fg: rgba(240,230,210,.86);
-    --fg-dim: rgba(220,200,180,.55);
-    --fg-faint: rgba(220,200,180,.28);
-
-    --line: rgba(255,255,255,.10);
-    --gold: #D4AF37;
-    --warn: #E63946;
-
-    --serif: "Italiana", serif;
-    --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    --mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-    /* Phi-ish spacing (visual, not dogmatic) */
-    --pad: clamp(18px, 5.8vw, 72px);
-    --colL: 280px;
-    --colR: 320px;
-  }
-
-  html,body{
-    margin:0; height:100%;
-    background: var(--bg);
-    color: var(--fg);
-    overflow:hidden;
-    -webkit-font-smoothing: antialiased;
-    font-synthesis-weight: none;
-  }
-
-  .stage{
-    position:relative; width:100%; height:100vh;
-    background: var(--bg);
-
-    /* ultra-subtle grain (CSP-safe, inline data) */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    user-select:none;
-    cursor:none;
-    isolation:isolate;
-  }
-
-  canvas{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    display:block;
-  }
-
-  #dust{ z-index:1; mix-blend-mode: plus-lighter; opacity:.92; }
-  #strands{ z-index:2; mix-blend-mode: screen; opacity:.95; }
-
-  .cursorLight{
-    position:absolute; z-index:3; pointer-events:none;
-    width:320px; height:320px; border-radius:50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-    transform: translate(-50%,-50%);
-    mix-blend-mode: screen;
-  }
-  body.dragging .cursorLight{
-    width:120px; height:120px;
-    background: radial-gradient(circle, rgba(230,57,70,0.06) 0%, transparent 70%);
-  }
-
-  /* UI grid */
-  .ui{
-    position:absolute; inset:0; z-index:10;
-    padding: var(--pad);
-    display:grid;
-    grid-template-columns: var(--colL) 1fr var(--colR);
-    grid-template-rows: auto 1fr auto;
-    pointer-events:none;
-  }
-
-  .label{
-    font-family: var(--sans);
-    font-size: 9px;
-    letter-spacing: .20em;
-    text-transform: uppercase;
-    color: rgba(220,200,180,.42);
-    margin: 0 0 10px 0;
-  }
-
-  .desc{
-    font-family: var(--sans);
-    font-size: 11px;
-    line-height: 1.8;
-    color: rgba(220,200,180,.62);
-    border-left: 1px solid rgba(220,200,180,.18);
-    padding-left: 14px;
-    margin: 0;
-    max-width: 280px;
-  }
-
-  .value{
-    font-family: var(--sans);
-    font-size: 54px;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    color: rgba(240,230,210,.92);
-    font-feature-settings:"tnum";
-  }
-
-  .meta{
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: .10em;
-    color: rgba(220,200,180,.40);
-    text-align:right;
-    line-height: 1.7;
-  }
-  .meta b{ color: rgba(240,230,210,.85); font-weight: 400; }
-
-  .workTitle{
-    font-family: var(--serif);
-    font-size: 28px;
-    letter-spacing: .02em;
-    color: rgba(255,255,255,.84);
-    opacity: .85;
-  }
-
-  .statusRow{
-    display:flex; align-items:center; justify-content:flex-end; gap:12px;
-    font-family: var(--sans);
-    font-size: 9px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: rgba(220,200,180,.62);
-  }
-  .gem{
-    width:4px; height:4px; border-radius:50%;
-    background: var(--gold);
-    box-shadow: 0 0 10px rgba(212,175,55,.55);
-  }
-
-  /* Gates wires (kept, slightly stronger) */
-  .gates{
-    grid-column: 1 / span 3;
-    grid-row: 1 / span 3;
-    display:flex;
-    justify-content: space-between;
-    padding: 0 18%;
-    pointer-events:none;
-    opacity: .88;
-  }
-  .wire{
-    width:1px; height:100%;
-    position:relative;
-    background: linear-gradient(to bottom,
-      transparent 0%,
-      rgba(255,255,255,.06) 14%,
-      rgba(255,255,255,.06) 86%,
-      transparent 100%);
-  }
-  .wire.active{
-    background: linear-gradient(to bottom, transparent, rgba(212,175,55,.44), transparent);
-    box-shadow: 0 0 16px rgba(212,175,55,.14);
-  }
-  .wire.warn{
-    background: linear-gradient(to bottom, transparent, rgba(230,57,70,.44), transparent);
-    box-shadow: 0 0 16px rgba(230,57,70,.16);
-  }
-  .wlabel{
-    position:absolute; top:50%; left:10px; transform: translateY(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: .18em;
-    color: rgba(220,200,180,.34);
-    white-space: nowrap;
-  }
-
-  /* ADR panel: bottom-left (Phi-ish placement) */
-  .adr{
-    grid-column: 1;
-    grid-row: 3;
-    align-self:end;
-    justify-self:start;
-
-    width: min(520px, calc(100vw - (var(--pad) * 2)));
-    border-left: 1px solid rgba(220,200,180,.16);
-    padding-left: 14px;
-
-    /* keep it off the absolute corner */
-    transform: translateY(-2px);
-  }
-  .adr .hint{
-    margin: 8px 0 10px 0;
-    font-family: var(--sans);
-    font-size: 10px;
-    line-height: 1.6;
-    color: rgba(220,200,180,.52);
-  }
-  .log{
-    font-family: var(--mono);
-    font-size: 9px;
-    line-height: 1.55;
-    color: rgba(220,200,180,.46);
-    max-height: 200px;
-    overflow:hidden;
-    white-space: pre-wrap;
-  }
-  .log .ok{ color: rgba(212,175,55,.80); }
-  .log .bad{ color: rgba(230,57,70,.82); }
-
-  .adr-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin: 10px 0 10px 0;
-  }
-
-  .adr-btn{
-    pointer-events: auto;
-    appearance:none;
-    border: 1px solid rgba(220,200,180,.18);
-    background: rgba(255,255,255,.02);
-    color: rgba(240,230,210,.82);
-    font-family: var(--sans);
-    font-size: 9px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    padding: 8px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: transform .12s ease, background .2s ease, border-color .2s ease;
-  }
-  .adr-btn:hover{
-    background: rgba(255,255,255,.04);
-    border-color: rgba(212,175,55,.32);
-    transform: translateY(-1px);
-  }
-  .adr-note{
-    font-family: var(--mono);
-    font-size: 9px;
-    color: rgba(220,200,180,.45);
-  }
-
-  /* Collapse styling */
-  body.collapse .gem{
-    background: var(--warn);
-    box-shadow: 0 0 14px rgba(230,57,70,.55);
-  }
-  body.collapse .wire{ opacity:.55; }
-  body.collapse .workTitle{ opacity:.55; }
-  body.collapse .value{ color: rgba(200,190,175,.70); }
-
-  @media (max-width: 980px){
-    .ui{
-      grid-template-columns: 1fr;
-      grid-template-rows:auto auto 1fr auto;
-      padding: 24px;
-      gap: 18px;
-    }
-    .gates{ display:none; }
-
-    .meta{ text-align:left; }
-    .adr{
-      grid-column:1;
-      grid-row:4;
-      width: min(560px, 100%);
-      border-left: 1px solid rgba(220,200,180,.16);
-    }
-  }
-</style>
-</head>
-<body>
-<div class="stage" id="stage">
-  <canvas id="dust"></canvas>
-  <canvas id="strands"></canvas>
-  <div class="cursorLight" id="cursor"></div>
-
-  <div class="ui">
-    <div style="grid-column:1;grid-row:1;">
-      <div class="label">Concept</div>
-      <p class="desc">
-        ALTRION rendered as a workflow-centric “cognitive firewall”:
-        four gates impose structured friction; oversight can phase-transition
-        into ritualized collapse under fatigue and non-compliance.
-      </p>
-    </div>
-
-    <div style="grid-column:3;grid-row:1; text-align:right;">
-      <div class="label">P(INT) · Intervention Probability</div>
-      <div class="value" id="uiP">0.00</div>
-      <div class="meta" id="uiMeta"></div>
-    </div>
-
-    <div class="gates">
-      <div class="wire" id="g1"><span class="wlabel">01 / CONSTRAINT</span></div>
-      <div class="wire" id="g2"><span class="wlabel">02 / VALUE TENSION</span></div>
-      <div class="wire" id="g3"><span class="wlabel">03 / TEMPORAL RELIABILITY</span></div>
-      <div class="wire" id="g4"><span class="wlabel">04 / ARBITRATION · ADR</span></div>
-    </div>
-
-    <div style="grid-column:2; grid-row:3; align-self:end;">
-      <div class="workTitle">ALTRION · The Governance Collider</div>
-    </div>
-
-    <div style="grid-column:3; grid-row:3; align-self:end; justify-self:end;">
-      <div class="statusRow">
-        <span class="gem" id="gem"></span>
-        <span id="uiStatus">STABLE FLOW</span>
-      </div>
-    </div>
-
-    <div class="adr">
-      <div class="label">ADR · Auditable Decision Record</div>
-
-      <div class="adr-actions">
-        <button class="adr-btn" id="btnExport" type="button">EXPORT ADR JSON</button>
-        <button class="adr-btn" id="btnCopy" type="button">COPY</button>
-        <span class="adr-note" id="adrNote"></span>
-      </div>
-
-      <div class="hint">
-        Every ~1.6s a synthetic “case” arrives. If flagged, you may intervene:
-        press <b>O</b> to Override (you’ll be asked for a rationale).<br/>
-        Desktop: move mouse to change Alignment (X) + Workload baseline (Y), drag to spike workload.
-        Mobile: auto-run.
-      </div>
-      <div class="log" id="uiLog"></div>
-    </div>
-  </div>
-</div>
-
-<script>
 (() => {
   "use strict";
 
@@ -340,6 +5,8 @@
   const stage = document.getElementById("stage");
   const cDust = document.getElementById("dust");
   const cStr  = document.getElementById("strands");
+  if (!stage || !cDust || !cStr) return;
+
   const ctxD  = cDust.getContext("2d", { alpha: false });
   const ctxS  = cStr.getContext("2d");
   const cursor = document.getElementById("cursor");
@@ -358,12 +25,12 @@
     document.getElementById("g2"),
     document.getElementById("g3"),
     document.getElementById("g4"),
-  ];
+  ].filter(Boolean);
 
-  const isTouch = matchMedia && matchMedia("(pointer: coarse)").matches;
+  const isTouch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
 
   // ====== CANVAS / DPR ======
-  let W=0,H=0,DPR=1;
+  let W = 0, H = 0, DPR = 1;
 
   function resize(){
     DPR = Math.min(window.devicePixelRatio || 1, 2);
@@ -373,8 +40,8 @@
     for(const c of [cDust, cStr]){
       c.width  = Math.floor(W * DPR);
       c.height = Math.floor(H * DPR);
-      c.style.width = W+"px";
-      c.style.height= H+"px";
+      c.style.width = W + "px";
+      c.style.height = H + "px";
     }
     ctxD.setTransform(DPR,0,0,DPR,0,0);
     ctxS.setTransform(DPR,0,0,DPR,0,0);
@@ -398,7 +65,7 @@
     W: 0.35,
 
     // derived
-    Wp: 0.35,   // workload after friction
+    Wp: 0.35,
     Pint: 0.0,
     collapsed:false,
 
@@ -430,14 +97,19 @@
     return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   }
   function escapeHTML(s){
-    return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;");
   }
 
   if(!isTouch){
     window.addEventListener("mousemove", (e) => {
       state.mx = e.clientX; state.my = e.clientY;
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top  = e.clientY + "px";
+      if (cursor){
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top  = e.clientY + "px";
+      }
 
       state.tA = clamp01(e.clientX / Math.max(1, W));
       state.tW = clamp01(e.clientY / Math.max(1, H));
@@ -456,8 +128,7 @@
       if (e.key.toLowerCase() === "o") state.overrideRequested = true;
     });
   } else {
-    // Mobile: hide cursor light and auto-drive A/W
-    cursor.style.display = "none";
+    if (cursor) cursor.style.display = "none";
     state.mx = W*0.5; state.my = H*0.5;
   }
 
@@ -476,6 +147,7 @@
     renderLog();
   }
   function renderLog(){
+    if (!uiLog) return;
     uiLog.innerHTML = adr.map(r => {
       const cls = r.auditable ? "ok" : "bad";
       return `<span class="${cls}">${escapeHTML(r.line)}</span>`;
@@ -647,7 +319,7 @@
 
   // ====== Visual system B: dust + flow field ======
   const FIELD_RES = 42;
-  let cols=0, rows=0, field = null;
+  let cols = 0, rows = 0, field = null;
 
   const PARTICLES = 9000;
   const P = {
@@ -788,11 +460,9 @@
   function drawTruthLineSpectral(){
     if(state.A <= 0.25) return;
 
-    // alpha envelope: strong only when alignment is high and workload isn't drowning it
     const baseAlpha = Math.max(0, (state.A * 0.40) * (1 - state.Wp * 0.72));
     if(baseAlpha <= 0.0005) return;
 
-    // collapse -> dead logic blue-ash
     if(state.collapsed){
       ctxS.save();
       ctxS.beginPath();
@@ -806,25 +476,19 @@
       return;
     }
 
-    // integrity proxy (0..1): high when Pint is high and noncompliance low
     const integrity = clamp01((state.Pint * 0.75) + (1 - state.noncompRate) * 0.25);
-
-    // phase modulation: NOT color jitter
     const t = state.t;
-    const phase = Math.sin(t * 2.2 + integrity * 3.1);      // slow phase
-    const micro = Math.sin(t * 12.0 + integrity * 7.0);     // micro shimmer
-    const jitterX = (phase * 0.25) + (micro * 0.10);        // subpixel
-    const blur = 10 + (1 - integrity) * 10 + (Math.abs(phase) * 3); // blur breath
+    const phase = Math.sin(t * 2.2 + integrity * 3.1);
+    const micro = Math.sin(t * 12.0 + integrity * 7.0);
+    const jitterX = (phase * 0.25) + (micro * 0.10);
+    const blur = 10 + (1 - integrity) * 10 + (Math.abs(phase) * 3);
     const a = baseAlpha;
 
-    // Fixed spectral stack at Hue 204
     const hue = 204;
-
-    // draw 3 passes: core, inner, outer (color fixed; only phase/alpha/blur offsets move)
     const passes = [
-      { ox: jitterX * 1.00, lw: 0.75, sat: 1.5, lig: 95, mulA: 1.00, sh: blur * 0.35 }, // core
-      { ox: jitterX * 0.55, lw: 1.25, sat: 6.0, lig: 90, mulA: 0.60, sh: blur * 0.65 }, // inner
-      { ox: jitterX * 0.20, lw: 2.20, sat: 14.0, lig: 86, mulA: 0.25, sh: blur * 1.00 }, // outer
+      { ox: jitterX * 1.00, lw: 0.75, sat: 1.5, lig: 95, mulA: 1.00, sh: blur * 0.35 },
+      { ox: jitterX * 0.55, lw: 1.25, sat: 6.0, lig: 90, mulA: 0.60, sh: blur * 0.65 },
+      { ox: jitterX * 0.20, lw: 2.20, sat: 14.0, lig: 86, mulA: 0.25, sh: blur * 1.00 },
     ];
 
     for(const p of passes){
@@ -834,7 +498,7 @@
       ctxS.moveTo(0, H*0.5);
       ctxS.lineTo(W, H*0.5);
 
-      const alpha = a * p.mulA * (0.92 + 0.08 * (1 + micro)); // slight amplitude shimmer
+      const alpha = a * p.mulA * (0.92 + 0.08 * (1 + micro));
       ctxS.strokeStyle = `hsla(${hue}, ${p.sat}%, ${p.lig}%, ${alpha})`;
       ctxS.lineWidth = p.lw;
 
@@ -847,14 +511,13 @@
   }
 
   // ====== Main loop ======
-  let frame=0;
-  let lastCaseAt=0;
+  let frame = 0;
+  let lastCaseAt = 0;
 
   function loop(){
     frame++;
     state.t = frame * 0.004;
 
-    // Mobile auto-drive A/W so it always "lives"
     if(isTouch){
       const tt = frame * 0.006;
       state.tA = 0.52 + Math.sin(tt * 0.9) * 0.22;
@@ -863,7 +526,6 @@
       state.my = H*0.5 + Math.cos(tt*0.8) * (H*0.14);
     }
 
-    // Smooth A/W
     state.A += (state.tA - state.A) * 0.040;
     state.W += (state.tW - state.W) * 0.040;
 
@@ -876,18 +538,16 @@
     const rawP = state.A * (1 - state.gamma * state.Wp);
     state.Pint = clamp01(rawP);
 
-    // UI
-    uiP.textContent = state.Pint.toFixed(2);
-    uiMeta.innerHTML =
+    if (uiP) uiP.textContent = state.Pint.toFixed(2);
+    if (uiMeta) uiMeta.innerHTML =
       `ALIGNMENT <b>${state.A.toFixed(3)}</b><br/>` +
       `WORKLOAD W <b>${state.W.toFixed(3)}</b><br/>` +
       `FRICTION W' <b>${state.Wp.toFixed(3)}</b><br/>` +
       `NON-COMPLIANCE <b>${(state.noncompRate*100).toFixed(1)}%</b><br/>` +
       `MODE <b>${state.collapsed ? "RITUALIZATION COLLAPSE" : "PRODUCTIVE FRICTION"}</b>`;
 
-    uiStatus.textContent = state.collapsed ? "COLLAPSE" : "STABLE FLOW";
+    if (uiStatus) uiStatus.textContent = state.collapsed ? "COLLAPSE" : "STABLE FLOW";
 
-    // Gate highlight
     const gx = gateXs();
     const mGate = Math.max(0, Math.min(3, Math.floor((state.mx / Math.max(1,W)) * 4)));
     const activeAny = (!isTouch && state.dragging) || state.Wp > 0.55;
@@ -1025,13 +685,13 @@
     ctxS.globalCompositeOperation = "screen";
 
     const ab = state.Wp * (state.collapsed ? 3.2 : 1.6);
-    const passes = [
+    const rgbPasses = [
       { r:255,g:80, b:60,  ox:+ab, oy:0 },
       { r:60, g:255,b:90,  ox:0,   oy:0 },
       { r:120,g:200,b:255, ox:-ab, oy:0 },
     ];
 
-    for(const pass of passes){
+    for(const pass of rgbPasses){
       ctxS.save();
       ctxS.translate(pass.ox, pass.oy);
 
@@ -1058,10 +718,8 @@
       ctxS.restore();
     }
 
-    // ====== Truthline (spectral stack) ======
     drawTruthLineSpectral();
 
-    // case tick
     if(frame - lastCaseAt > 96){
       lastCaseAt = frame;
       stepCase();
@@ -1075,6 +733,3 @@
   logADR({ auditable: true, line: `[${nowHHMMSS()}] boot · desktop: move mouse (A/W), drag to spike workload, press O to Override · mobile: auto-run.` });
   requestAnimationFrame(loop);
 })();
-</script>
-</body>
-</html>
