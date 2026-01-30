@@ -12,9 +12,10 @@
 
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
+  <!-- Base tokens/layout -->
   <link rel="stylesheet" href="/assets/site.css" />
-  <link rel="stylesheet" href="/assets/part1.css" />
 
+  <!-- Fonts (keep as-is for now) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -135,35 +136,35 @@
           We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
         </p>
 
-        <div class="visualizer-wrapper">
-          <div class="altrion-container" id="opus-wrap">
-            <canvas id="scene"></canvas>
+        <!-- Demo link (replaces embedded visualizer) -->
+        <section class="demo-callout" aria-label="Interactive simulation">
+          <p class="demo-label">Interactive Simulation</p>
+          <p class="demo-desc">
+            Explore ALTRION’s four-gate workflow, intervention probability P(INT), and collapse dynamics in a live interactive simulation.
+          </p>
+          <a class="demo-link" href="/demo/altrion.html">Open Live Demo →</a>
+        </section>
 
-            <div class="opus-overlay">
-              <div class="opus-data">
-                SYS.STATUS: NOMINAL<br>
-                ALIGNMENT: 0.998<br>
-                ENTROPY: 0.012<br>
-                GATES: ACTIVE
-              </div>
+        <section class="sysblock" aria-label="System status">
+          <p>
+            <strong>SYS.STATUS:</strong> NOMINAL<br>
+            <strong>ALIGNMENT:</strong> 0.998<br>
+            <strong>ENTROPY:</strong> 0.012<br>
+            <strong>GATES:</strong> ACTIVE
+          </p>
+          <p>
+            I. CONSTRAINTS<br>
+            II. BALANCE<br>
+            III. CONTEXT<br>
+            IV. AGENCY
+          </p>
 
-              <div class="opus-gates">
-                <div class="opus-gate"><span class="opus-gate-label">I. CONSTRAINTS</span></div>
-                <div class="opus-gate"><span class="opus-gate-label">II. BALANCE</span></div>
-                <div class="opus-gate"><span class="opus-gate-label">III. CONTEXT</span></div>
-                <div class="opus-gate"><span class="opus-gate-label">IV. AGENCY</span></div>
-              </div>
-
-              <div class="opus-header">
-                <h2 class="opus-title">Magnum Opus</h2>
-                <span class="opus-meta">ALTRION ARCHITECTURE / SATO (2026)</span>
-                <div class="opus-quote">
-                  “Governance is the structural friction that protects the collapse of meaning.”
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <h2>Magnum Opus</h2>
+          <p>ALTRION ARCHITECTURE / SATO (2026)</p>
+          <blockquote>
+            “Governance is the structural friction that protects the collapse of meaning.”
+          </blockquote>
+        </section>
 
         <h2>Why it matters</h2>
         <ul>
@@ -232,7 +233,7 @@
     </div>
   </footer>
 
-  <script defer src="/assets/part1-visualizer.js?v=20260129-3"></script>
+  <!-- removed: /assets/part1-visualizer.js -->
   <script defer src="/assets/scroll.js"></script>
 </body>
 </html>
