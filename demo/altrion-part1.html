@@ -1,28 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#070707" />
-  <title>ALTRION Visualizer — Part I</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<title>ALTRION — Integrated Demo (Phase-Modulated Spectral Truthline)</title>
 
-  <link rel="stylesheet" href="/demo/_assets/altrion-demo.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/demo/_assets/altrion-part1.css">
 </head>
-<body class="altrion-demo">
-  <div class="stage" id="stage">
-    <canvas id="dust"></canvas>
-    <canvas id="strands"></canvas>
 
-    <div class="ui">
-      <!-- UI DOM（必要最低限） -->
-      <div class="adr">
-        <div class="label">ADR</div>
-        <div class="log" id="uiLog"></div>
+<body>
+<div class="stage" id="stage">
+  <canvas id="dust"></canvas>
+  <canvas id="strands"></canvas>
+  <div class="cursorLight" id="cursor"></div>
+
+  <div class="ui">
+    <div class="concept">
+      <div class="label">Concept</div>
+      <p class="desc">
+        ALTRION rendered as a workflow-centric “cognitive firewall”:
+        four gates impose structured friction; oversight can phase-transition
+        into ritualized collapse under fatigue and non-compliance.
+      </p>
+    </div>
+
+    <div class="pblock">
+      <div class="label">P(INT) · Intervention Probability</div>
+      <div class="value" id="uiP">0.00</div>
+      <div class="meta" id="uiMeta"></div>
+    </div>
+
+    <div class="gates">
+      <div class="wire" id="g1"><span class="wlabel">01 / CONSTRAINT</span></div>
+      <div class="wire" id="g2"><span class="wlabel">02 / VALUE TENSION</span></div>
+      <div class="wire" id="g3"><span class="wlabel">03 / TEMPORAL RELIABILITY</span></div>
+      <div class="wire" id="g4"><span class="wlabel">04 / ARBITRATION · ADR</span></div>
+    </div>
+
+    <div class="titleblock">
+      <div class="workTitle">ALTRION · The Governance Collider</div>
+    </div>
+
+    <div class="statusblock">
+      <div class="statusRow">
+        <span class="gem" id="gem"></span>
+        <span id="uiStatus">STABLE FLOW</span>
       </div>
     </div>
-  </div>
 
-  <script defer src="/demo/_assets/altrion-part1.js"></script>
+    <div class="adr">
+      <div class="label">ADR · Auditable Decision Record</div>
+
+      <div class="adr-actions">
+        <button class="adr-btn" id="btnExport" type="button">EXPORT ADR JSON</button>
+        <button class="adr-btn" id="btnCopy" type="button">COPY</button>
+        <span class="adr-note" id="adrNote"></span>
+      </div>
+
+      <div class="hint">
+        Every ~1.6s a synthetic “case” arrives. If flagged, you may intervene:
+        press <b>O</b> to Override (you’ll be asked for a rationale).<br/>
+        Desktop: move mouse to change Alignment (X) + Workload baseline (Y), drag to spike workload.
+        Mobile: auto-run.
+      </div>
+      <div class="log" id="uiLog"></div>
+    </div>
+  </div>
+</div>
+
+<script defer src="/demo/_assets/altrion-part1.js"></script>
 </body>
 </html>
