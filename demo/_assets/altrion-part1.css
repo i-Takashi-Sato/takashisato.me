@@ -1,0 +1,44 @@
+:root{
+  --bg:#070707;
+  --fg: rgba(240,230,210,.86);
+}
+
+html,body{
+  margin:0;
+  height:100%;
+  background: var(--bg);
+  color: var(--fg);
+  overflow:hidden;
+}
+
+.stage{
+  position:relative;
+  width:100%;
+  height:100vh;
+  background: var(--bg);
+  cursor:none;
+  isolation:isolate;
+}
+
+canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+#dust{ z-index:1; }
+#strands{ z-index:2; }
+
+.cursorLight{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+  width:320px;
+  height:320px;
+  border-radius:50%;
+  transform: translate(-50%,-50%);
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
