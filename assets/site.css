@@ -721,8 +721,8 @@ h2.paper-title { margin: 0 0 1.5rem; }
   h1 { font-size: 2.8rem; margin-top: 7rem; }
   .paper { padding: 3rem 1.5rem; }
   .paper-title { font-size: 2rem; }
-  .pill { width: 100%; justify-content: center; }
-  .actions { justify-content: center; }
+  .pill { width: 100%; }
+  .actions { justify-content: flex-start; }
   .footer-inner { padding-left: 0; }
 
   .article-container{
@@ -806,4 +806,29 @@ h2.paper-title { margin: 0 0 1.5rem; }
 @media (max-width: 768px) {
   .paper-nav-inner { flex-direction: column; gap: 3rem; }
   .nav-link { width: 100%; text-align: left !important; align-items: flex-start !important; }
+}
+
+@media (max-width: 640px){
+  .actions{
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 1.6rem;
+  }
+
+  .pill{
+    width: 100%;
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 14px;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+  }
+
+  .pill[target="_blank"]::after{
+    margin-left: auto;
+    opacity: 0.70;
+  }
 }
