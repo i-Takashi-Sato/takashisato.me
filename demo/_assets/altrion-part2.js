@@ -14,14 +14,11 @@ function chooseParticleBudget(){
   const w = Math.max(1, window.innerWidth);
   const h = Math.max(1, window.innerHeight);
   const megapixels = (w * h * dpr * dpr) / 1_000_000;
-
   const base = 320_000;
   const k = 1 / Math.max(1.0, megapixels * 0.52);
   const budget = Math.floor(base * k);
-
   const coarse = w < 820 ? 1 : 0;
   const mobileCap = coarse ? 190_000 : 340_000;
-
   return Math.max(150_000, Math.min(mobileCap, budget));
 }
 
@@ -73,21 +70,15 @@ const commonUniforms = {
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.075;
-
 controls.enablePan = false;
-
 controls.enableZoom = true;
 controls.zoomSpeed = 0.90;
-
 controls.enableRotate = true;
 controls.rotateSpeed = 0.38;
-
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.14;
-
 controls.minPolarAngle = 0.92;
 controls.maxPolarAngle = 1.50;
-
 controls.target.set(0.0, 0.0, 0.0);
 
 const vertexShader = `
@@ -279,13 +270,11 @@ function buildGeometry(count, radius, seedShift){
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const randoms = new Float32Array(count * 3);
-
   const scale = radius * 0.52;
 
   for (let i = 0; i < count; i++){
     const u = Math.random() * Math.PI * 2;
     const v = Math.random() * Math.PI * 2;
-
     const r = (3.05 + Math.cos(5.0 * u) * 0.62 + Math.sin(5.0 * v) * 0.58) * 0.86;
 
     let x = r * Math.cos(u) * Math.sin(v);
@@ -475,6 +464,7 @@ function setEntropyUI(v){
   targetEntropy = clamp01(v);
   ui.slider.value = String(targetEntropy);
   ui.progress.style.width = (targetEntropy * 100) + "%";
+  ui.wrap.style.setProperty("--p", String(targetEntropy));
 }
 
 ui.slider.addEventListener("input", (e) => {
@@ -488,30 +478,37 @@ function setFromClientX(clientX){
 }
 
 let dragging = false;
+let activePointer = null;
 
 const onPointerDown = (e) => {
+  if (activePointer !== null) return;
+  activePointer = e.pointerId;
   dragging = true;
-  ui.wrap.setPointerCapture?.(e.pointerId);
+  ui.wrap.setPointerCapture(e.pointerId);
   setFromClientX(e.clientX);
+  ui.slider.dispatchEvent(new Event("input", { bubbles: true }));
   e.preventDefault();
 };
 
 const onPointerMove = (e) => {
-  if (!dragging) return;
+  if (!dragging || e.pointerId !== activePointer) return;
   setFromClientX(e.clientX);
+  ui.slider.dispatchEvent(new Event("input", { bubbles: true }));
   e.preventDefault();
 };
 
 const onPointerUp = (e) => {
+  if (e.pointerId !== activePointer) return;
   dragging = false;
-  ui.wrap.releasePointerCapture?.(e.pointerId);
+  activePointer = null;
+  ui.wrap.releasePointerCapture(e.pointerId);
   e.preventDefault();
 };
 
-ui.hit.addEventListener("pointerdown", onPointerDown, { passive: false });
-ui.hit.addEventListener("pointermove", onPointerMove, { passive: false });
-ui.hit.addEventListener("pointerup", onPointerUp, { passive: false });
-ui.hit.addEventListener("pointercancel", onPointerUp, { passive: false });
+ui.wrap.addEventListener("pointerdown", onPointerDown, { passive: false });
+ui.wrap.addEventListener("pointermove", onPointerMove, { passive: false });
+ui.wrap.addEventListener("pointerup", onPointerUp, { passive: false });
+ui.wrap.addEventListener("pointercancel", onPointerUp, { passive: false });
 
 {
   const panel = document.querySelector(".panel-glass");
