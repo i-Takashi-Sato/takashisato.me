@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-surface="home">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -12,6 +12,7 @@
 
   <meta name="robots" content="index,follow,max-image-preview:large">
 
+  <!-- IMPORTANT: top page uses site.css (tokens/base) + home.css (home-only layout) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -63,10 +64,8 @@
   </script>
 </head>
 
-<body class="m-surface-engine">
-  <div class="m-viewport-filter"></div>
-
-  <header class="top c-interface-metal" aria-label="Site header">
+<body class="home">
+  <header class="top" aria-label="Site header">
     <div class="top-inner">
       <a class="brand" href="/" aria-label="Home">
         <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
@@ -76,27 +75,27 @@
         <a class="nav-papers" href="/papers/part1.html">Papers</a>
       </nav>
     </div>
-    <div class="u-edge-refraction"></div>
   </header>
 
   <main>
     <header>
-      <h1 class="reveal">Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
+      <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
 
-      <div class="who reveal">
+      <div class="who">
         AI Governance &amp; Sociotechnical Systems Research
       </div>
 
-      <p class="lead reveal">
+      <p class="lead">
         Peer-citable research archive on workflow-centric AI governance.<br>
         Engineering friction (ALTRION), forecasting entropy-driven pre-abuse failure (resolution collapse), and building drift indicators &amp; circuit breakers for silent breakdowns in oversight.
       </p>
     </header>
 
     <section id="archive" aria-label="Archive">
-      <span class="section-label reveal">Selected Works 2025–2026</span>
+      <span class="section-label">Selected Works 2025–2026</span>
 
-      <article class="paper reveal c-document-paper">
+      <!-- Part I -->
+      <article class="paper">
         <div class="card-base" aria-hidden="true">
           <div class="work-bg-num" aria-hidden="true">I</div>
         </div>
@@ -117,6 +116,7 @@
           <span>Keywords</span> AI governance · workflow-centric oversight · human-in-the-loop
         </div>
 
+        <!-- FULL CARD CLICK — HARD FIX (added) -->
         <a class="paper-hit" href="/papers/part1.html" aria-label="Open Part I"></a>
 
         <div class="actions">
@@ -126,7 +126,8 @@
         </div>
       </article>
 
-      <article class="paper reveal c-document-paper">
+      <!-- Part II -->
+      <article class="paper">
         <div class="card-base" aria-hidden="true">
           <div class="work-bg-num" aria-hidden="true">II</div>
         </div>
@@ -148,6 +149,7 @@
           <span>Keywords</span> institutional failure · governance drift · pre-abuse failure
         </div>
 
+        <!-- FULL CARD CLICK — HARD FIX (added) -->
         <a class="paper-hit" href="/papers/part2.html" aria-label="Open Part II"></a>
 
         <div class="actions">
@@ -157,7 +159,8 @@
         </div>
       </article>
 
-      <article class="paper reveal c-document-paper">
+      <!-- Part III -->
+      <article class="paper">
         <div class="card-base" aria-hidden="true">
           <div class="work-bg-num" aria-hidden="true">III</div>
         </div>
@@ -178,6 +181,7 @@
           <span>Keywords</span> Resolution Collapse · semantic entropy · circuit breakers
         </div>
 
+        <!-- FULL CARD CLICK — HARD FIX (added) -->
         <a class="paper-hit" href="/papers/part3.html" aria-label="Open Part III"></a>
 
         <div class="actions">
@@ -188,8 +192,7 @@
       </article>
     </section>
 
-    <footer class="site-footer c-interface-metal" aria-label="Site footer">
-      <div class="u-edge-refraction" style="position:absolute; top:0; left:0;"></div>
+    <footer class="site-footer" aria-label="Site footer">
       <div class="footer-inner">
         <nav class="social-nav" aria-label="External links">
           <a href="mailto:i@takashisato.me" class="social-link">Email</a>
