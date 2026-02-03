@@ -7,9 +7,19 @@
   <title>ALTRION — Integrated Demo (Phase-Modulated Spectral Truthline)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/demo/_assets/altrion-part1.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 
 <body>
@@ -72,6 +82,6 @@
     </div>
   </div>
 
-  <script defer src="/demo/_assets/altrion-part1.js"></script>
+  <script type="module" src="/demo/_assets/altrion-part1.js"></script>
 </body>
 </html>
