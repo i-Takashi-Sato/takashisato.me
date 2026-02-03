@@ -1,29 +1,41 @@
 :root {
   --bg: #050507;
   --card-bg: #0f0f12;
+
   --text-head: #ffffff;
   --text-main: #f2f2f2;
   --text-muted: #a0a0b0;
+
   --accent-color: rgba(255, 255, 255, 0.82);
   --accent-stroke: rgba(255, 255, 255, 0.55);
   --accent-glow: rgba(255, 255, 255, 0.22);
+
   --platinum: #e0e5f0;
   --platinum-dim: rgba(224, 229, 240, 0.2);
+
   --border-sharp: rgba(255, 255, 255, 0.12);
+
   --font-serif: Georgia, "Times New Roman", Times, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
   --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+
   --m-color-void: #050505;
+
   --m-asset-grain: url("/assets/materials/overlays/grain.jpg");
   --m-asset-metal: url("/assets/materials/surfaces/black-metal.jpg");
   --m-asset-paper: url("/assets/materials/surfaces/paper.jpg");
   --m-asset-glass: url("/assets/materials/surfaces/ribbed-glass.jpg");
   --m-asset-env-home: url("/assets/materials/env/blue-depth.jpg");
   --m-asset-env-papers: url("/assets/materials/env/dark-depth.jpg");
+
+  --m-env: var(--m-asset-env-home);
+
   --m-layer-bg: 0;
   --m-layer-content: 10;
   --m-layer-ui: 100;
   --m-layer-film: 1000;
+
   --m-grain: 0.012;
   --m-void: 0.3;
   --m-void-blur: 110px;
@@ -129,6 +141,15 @@ body {
   }
 }
 
+main {
+  max-width: 1600px;
+  width: 92%;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+  position: relative;
+  z-index: 1;
+}
+
 h1 {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -182,15 +203,6 @@ h1 {
   margin-left: 2px;
 }
 
-main {
-  max-width: 1600px;
-  width: 92%;
-  margin: 0 auto;
-  padding: 0 0 4rem;
-  position: relative;
-  z-index: 1;
-}
-
 .top {
   position: fixed;
   top: 0;
@@ -201,9 +213,7 @@ main {
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  background-image: 
-    linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)),
-    var(--m-asset-metal);
+  background-image: linear-gradient(rgba(5, 5, 7, 0.85), rgba(5, 5, 7, 0.85)), var(--m-asset-metal);
   background-size: 400px auto;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -263,29 +273,32 @@ main {
 .paper {
   position: relative;
   background-color: var(--card-bg);
-  background-image: var(--m-asset-paper);
-  background-size: 600px auto;
-  mix-blend-mode: luminosity;
   border: 1px solid var(--border-sharp);
   padding: 5rem 4rem;
   margin-bottom: 5rem;
   overflow: hidden;
   will-change: transform, box-shadow;
-  transition:
-    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
-    background-color 0.2s ease-out,
-    border-color 0.2s ease-out,
-    box-shadow 0.2s ease-out;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--m-asset-paper);
+  background-size: 600px auto;
+  opacity: 0.55;
+  filter: contrast(1.05) saturate(0.7);
+  mix-blend-mode: luminosity;
+  transform: translateZ(0);
 }
 
 .paper:hover {
   transform: translateY(-4px) scale(1.005);
-  box-shadow:
-    0 30px 60px -12px rgba(0, 0, 0, 0.6),
-    0 0 0 1px var(--platinum);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--platinum);
   background-color: #15151a;
   border-color: var(--platinum);
-  mix-blend-mode: normal;
   z-index: 10;
 }
 
@@ -306,6 +319,7 @@ main {
   display: block;
   text-decoration: none;
   line-height: 1.1;
+  position: relative;
 }
 
 .paper:hover .paper-title {
@@ -335,9 +349,7 @@ main {
   margin-top: 6rem;
   padding: 4rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
-  background-image: 
-    linear-gradient(rgba(5, 5, 7, 0.9), rgba(5, 5, 7, 0.9)),
-    var(--m-asset-metal);
+  background-image: linear-gradient(rgba(5, 5, 7, 0.9), rgba(5, 5, 7, 0.9)), var(--m-asset-metal);
   background-size: 400px auto;
   font-family: var(--font-sans);
   color: var(--text-muted);
@@ -376,10 +388,22 @@ main {
   margin-top: 4.5rem;
   padding: 2.25rem;
   background-color: var(--card-bg);
+  border: 1px solid var(--border-sharp);
+  position: relative;
+  overflow: hidden;
+}
+
+.citation-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background-image: var(--m-asset-paper);
   background-size: 600px auto;
+  opacity: 0.55;
+  filter: contrast(1.05) saturate(0.7);
   mix-blend-mode: luminosity;
-  border: 1px solid var(--border-sharp);
+  transform: translateZ(0);
 }
 
 @media (max-width: 768px) {
@@ -388,7 +412,9 @@ main {
     background-image: none;
     background-color: rgba(5, 5, 7, 0.8);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
+
   .nav {
     display: flex;
     flex-wrap: nowrap;
@@ -399,6 +425,7 @@ main {
     mask-image: linear-gradient(to right, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
   }
+
   .paper {
     padding: 3rem 1.5rem;
   }
