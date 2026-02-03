@@ -13,7 +13,6 @@
   --font-serif: Georgia, "Times New Roman", Times, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
-
   --m-color-void: #050505;
   --m-asset-grain: url("/assets/materials/overlays/grain.jpg");
   --m-asset-metal: url("/assets/materials/surfaces/black-metal.jpg");
@@ -25,27 +24,30 @@
   --m-layer-content: 10;
   --m-layer-ui: 100;
   --m-layer-film: 1000;
+  --m-grain: 0.012;
+  --m-void: 0.3;
+  --m-void-blur: 110px;
 }
 
 html[data-surface="home"] {
   --m-env: var(--m-asset-env-home);
-  --m-grain: 0.018;
-  --m-void: 0.35;
-  --m-void-blur: 120px;
+  --m-grain: 0.012;
+  --m-void: 0.32;
+  --m-void-blur: 140px;
 }
 
 html[data-surface="papers"] {
   --m-env: var(--m-asset-env-papers);
-  --m-grain: 0.012;
+  --m-grain: 0.008;
   --m-void: 0.22;
-  --m-void-blur: 90px;
+  --m-void-blur: 100px;
 }
 
 html[data-surface="demo"] {
   --m-env: var(--m-asset-env-home);
-  --m-grain: 0.014;
+  --m-grain: 0.015;
   --m-void: 0.28;
-  --m-void-blur: 100px;
+  --m-void-blur: 120px;
 }
 
 *,
@@ -293,7 +295,7 @@ main {
   background-image: var(--m-asset-glass);
   background-size: cover;
   opacity: 0.38;
-  filter: brightness(1.25) contrast(1.15);
+  filter: saturate(0.6) brightness(1.25) contrast(1.15);
 }
 
 .paper-title {
@@ -387,7 +389,6 @@ main {
     background-color: rgba(5, 5, 7, 0.8);
     backdrop-filter: blur(20px);
   }
-
   .nav {
     display: flex;
     flex-wrap: nowrap;
@@ -398,7 +399,6 @@ main {
     mask-image: linear-gradient(to right, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, black 92%, transparent 100%);
   }
-
   .paper {
     padding: 3rem 1.5rem;
   }
