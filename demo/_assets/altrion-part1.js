@@ -1,675 +1,735 @@
-import * as THREE from "./vendor/three/three.module.js";
-import { OrbitControls } from "./vendor/three/OrbitControls.js";
-
-
-const clamp01 = (x) => Math.min(1, Math.max(0, x));
-const mix = (a, b, t) => a * (1 - t) + b * t;
-
-function smoothstep(a, b, x){
-  const t = clamp01((x - a) / (b - a));
-  return t * t * (3 - 2 * t);
-}
-
-function chooseParticleBudget(){
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const w = Math.max(1, window.innerWidth);
-  const h = Math.max(1, window.innerHeight);
-  const megapixels = (w * h * dpr * dpr) / 1_000_000;
-  const base = 320_000;
-  const k = 1 / Math.max(1.0, megapixels * 0.52);
-  const budget = Math.floor(base * k);
-  const coarse = w < 820 ? 1 : 0;
-  const cap = coarse ? 190_000 : 340_000;
-  return Math.max(150_000, Math.min(cap, budget));
-}
-
-const BUDGET = chooseParticleBudget();
-const COUNTS = {
-  core: Math.floor(BUDGET * 0.58),
-  halo: Math.floor(BUDGET * 0.28),
-  dust: Math.max(14_000, BUDGET - Math.floor(BUDGET * 0.86))
-};
-
-const CONFIG = {
-  radius: 16,
-  symmetry: 5,
-  grid: 1.85,
-  gridResidueCount: Math.min(16_000, Math.floor(BUDGET * 0.075))
-};
-
-let entropy = 0;
-let targetEntropy = 0;
-
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x050507);
-
-const renderer = new THREE.WebGLRenderer({
-  antialias: true,
-  powerPreference: "high-performance",
-  alpha: false,
-  stencil: false,
-  depth: true
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.55;
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.domElement.style.touchAction = "none";
-document.body.appendChild(renderer.domElement);
-
-const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 240);
-
-const commonUniforms = {
-  uTime: { value: 0 },
-  uEntropy: { value: 0 },
-  uPixelRatio: { value: Math.min(window.devicePixelRatio || 1, 2) },
-  uFocus: { value: 58.0 }
-};
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.075;
-controls.enablePan = false;
-controls.enableZoom = true;
-controls.zoomSpeed = 0.90;
-controls.enableRotate = true;
-controls.rotateSpeed = 0.38;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 0.14;
-controls.minPolarAngle = 0.92;
-controls.maxPolarAngle = 1.50;
-controls.target.set(0.0, 0.0, 0.0);
-
-const vertexShader = `
-precision highp float;
-
-uniform float uTime;
-uniform float uEntropy;
-uniform float uPixelRatio;
-uniform float uSizeMul;
-uniform float uAlphaMul;
-uniform float uFocus;
-
-attribute vec3 aRandom;
-varying vec3 vColor;
-varying float vAlpha;
-varying float vBlur;
-varying float vHeat;
-
-vec3 mod289(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec4 mod289(vec4 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }
-vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314*r; }
-
-float snoise(vec3 v){
-  const vec2 C = vec2(1.0/6.0, 1.0/3.0);
-  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-  vec3 i = floor(v + dot(v, C.yyy));
-  vec3 x0 = v - i + dot(i, C.xxx);
-  vec3 g = step(x0.yzx, x0.xyz);
-  vec3 l = 1.0 - g;
-  vec3 i1 = min(g.xyz, l.zxy);
-  vec3 i2 = max(g.xyz, l.zxy);
-  vec3 x1 = x0 - i1 + C.xxx;
-  vec3 x2 = x0 - i2 + C.yyy;
-  vec3 x3 = x0 - D.yyy;
-  i = mod289(i);
-  vec4 p = permute( permute( permute(
-    i.z + vec4(0.0, i1.z, i2.z, 1.0)) +
-    i.y + vec4(0.0, i1.y, i2.y, 1.0)) +
-    i.x + vec4(0.0, i1.x, i2.x, 1.0));
-  float n_ = 0.142857142857;
-  vec3 ns = n_ * D.wyz - D.xzx;
-  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-  vec4 x_ = floor(j * ns.z);
-  vec4 y_ = floor(j - 7.0 * x_);
-  vec4 x = x_ * ns.x + ns.yyyy;
-  vec4 y = y_ * ns.x + ns.yyyy;
-  vec4 h = 1.0 - abs(x) - abs(y);
-  vec4 b0 = vec4(x.xy, y.xy);
-  vec4 b1 = vec4(x.zw, y.zw);
-  vec4 s0 = floor(b0)*2.0 + 1.0;
-  vec4 s1 = floor(b1)*2.0 + 1.0;
-  vec4 sh = -step(h, vec4(0.0));
-  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
-  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
-  vec3 p0 = vec3(a0.xy, h.x);
-  vec3 p1 = vec3(a0.zw, h.y);
-  vec3 p2 = vec3(a1.xy, h.z);
-  vec3 p3 = vec3(a1.zw, h.w);
-  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
-  p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
-  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-  m = m*m;
-  return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
-}
-
-vec3 curl(vec3 p){
-  float e = 0.12;
-  vec3 dx = vec3(e,0.0,0.0);
-  vec3 dy = vec3(0.0,e,0.0);
-  vec3 dz = vec3(0.0,0.0,e);
-  float x = snoise(p + dy) - snoise(p - dy);
-  float y = snoise(p + dz) - snoise(p - dz);
-  float z = snoise(p + dx) - snoise(p - dx);
-  return vec3(x,y,z);
-}
-
-float sat(float x){ return clamp(x,0.0,1.0); }
-
-void main(){
-  vec3 pos = position;
-  float t = uTime;
-
-  float e0 = sat(uEntropy);
-  float e1 = smoothstep(0.02, 0.22, e0);
-  float e2 = smoothstep(0.25, 0.60, e0);
-  float e3 = smoothstep(0.55, 0.88, e0);
-  float e4 = smoothstep(0.85, 1.00, e0);
-
-  float seed = aRandom.x;
-  float drift = aRandom.z;
-
-  vec3 pN = pos * 0.16 + vec3(seed*7.1, seed*3.7, seed*5.9);
-
-  if (e1 > 0.0){
-    vec3 c = curl(pN * 2.2 + t * 0.82);
-    pos += c * (0.95 + seed*0.6) * e1 * 0.46;
-  }
-
-  if (e2 > 0.0){
-    float spike = max(0.0, sin(t * (1.6 + seed) + (pos.x*0.8 + pos.z*0.6) * 2.2));
-    spike *= e2 * (2.0 + seed*2.4);
-    vec3 dir = normalize(pos + 0.0001);
-    pos += dir * spike;
-  }
-
-  if (e3 > 0.0){
-    vec3 flow = curl(pN * 0.52 + t * 0.18);
-    pos += flow * e3 * (4.1 + seed*2.0);
-    pos.y -= e3 * (abs(drift) * 7.0 + 1.2);
-  }
-
-  if (e4 > 0.0){
-    float grid = 1.85;
-    vec3 snapped = floor(pos / grid + 0.5) * grid;
-    pos = mix(pos, snapped, e4);
-    vec3 scatter = (aRandom - 0.5) * 2.0;
-    pos += scatter * e4 * 40.0;
-  }
-
-  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-  gl_Position = projectionMatrix * mv;
-
-  float dist = length(mv.xyz);
-  float dof = abs(dist - uFocus);
-  float blur = smoothstep(0.0, 12.0, dof);
-  vBlur = blur;
-
-  float base = (66.0 + 30.0 * (1.0 - smoothstep(0.0, 1.0, e0))) * aRandom.y;
-  float bokeh = (1.0 + blur * 2.25);
-  gl_PointSize = base * uSizeMul * bokeh * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
-
-  vec3 cMarble = vec3(0.99, 0.99, 0.995);
-  vec3 cIris   = vec3(0.48, 0.50, 1.00);
-  vec3 cVio    = vec3(0.28, 0.14, 0.78);
-  vec3 cCrim   = vec3(0.66, 0.06, 0.08);
-  vec3 cVoid   = vec3(0.03, 0.03, 0.035);
-
-  vec3 col = cMarble;
-  if (e0 <= 0.35) col = mix(cMarble, cIris, e0 * 2.857142857);
-  else if (e0 <= 0.70) col = mix(cIris, cVio, (e0 - 0.35) * 2.857142857);
-  else if (e0 <= 0.88) col = mix(cVio, cCrim, (e0 - 0.70) * 5.555555556);
-  else col = mix(cCrim, cVoid, (e0 - 0.88) * 8.333333333);
-
-  float heat = smoothstep(0.14, 0.58, e0) * (1.0 - smoothstep(0.62, 0.98, e0));
-  vHeat = heat;
-
-  float micro = snoise(pN * 2.4 + t * 0.25) * 0.09;
-  col += vec3(0.44, 0.58, 1.0) * heat * 0.22;
-  col += micro;
-
-  vColor = col;
-
-  float focusFade = 1.0 - blur * 0.50;
-  float entropyFade = 1.0 - e4 * 0.30;
-  vAlpha = uAlphaMul * focusFade * entropyFade;
-}
-`;
-
-const fragmentShader = `
-precision highp float;
-
-varying vec3 vColor;
-varying float vAlpha;
-varying float vBlur;
-varying float vHeat;
-
-void main(){
-  vec2 uv = gl_PointCoord - vec2(0.5);
-  float r = length(uv);
-  if (r > 0.5) discard;
-
-  float hardness = 0.50 - (vBlur * 0.38);
-  float alpha = 1.0 - smoothstep(hardness, 0.5, r);
-
-  float core = 1.0 - smoothstep(0.0, 0.13, r);
-  vec3 col = vColor + core * (0.22 + vHeat * 0.22);
-
-  float edgeGlow = 1.0 - smoothstep(0.22, 0.5, r);
-  col += edgeGlow * (0.10 + vHeat * 0.10);
-
-  gl_FragColor = vec4(col, alpha * vAlpha);
-}
-`;
-
-function buildGeometry(count, radius, seedShift){
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(count * 3);
-  const randoms = new Float32Array(count * 3);
-  const scale = radius * 0.52;
-
-  for (let i = 0; i < count; i++){
-    const u = Math.random() * Math.PI * 2;
-    const v = Math.random() * Math.PI * 2;
-    const r = (3.05 + Math.cos(5.0 * u) * 0.62 + Math.sin(5.0 * v) * 0.58) * 0.86;
-
-    let x = r * Math.cos(u) * Math.sin(v);
-    let y = r * Math.sin(u) * Math.sin(v);
-    let z = r * Math.cos(v);
-
-    const twist = Math.sin(x * 0.52 + y * 0.50) * 2.10;
-    const x2 = x * Math.cos(twist) - y * Math.sin(twist);
-    const y2 = x * Math.sin(twist) + y * Math.cos(twist);
-    x = x2; y = y2;
-
-    positions[i * 3 + 0] = x * scale;
-    positions[i * 3 + 1] = y * scale;
-    positions[i * 3 + 2] = z * scale;
-
-    const s = Math.random();
-    randoms[i * 3 + 0] = (s + seedShift) % 1.0;
-    randoms[i * 3 + 1] = 0.58 + Math.random() * 0.42;
-    randoms[i * 3 + 2] = (Math.random() - 0.5);
-  }
-
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("aRandom", new THREE.BufferAttribute(randoms, 3));
-  geometry.computeBoundingSphere();
-  return geometry;
-}
-
-function makeLayerMaterial(sizeMul, alphaMul){
-  return new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader,
-    uniforms: {
-      uTime: commonUniforms.uTime,
-      uEntropy: commonUniforms.uEntropy,
-      uPixelRatio: commonUniforms.uPixelRatio,
-      uFocus: commonUniforms.uFocus,
-      uSizeMul: { value: sizeMul },
-      uAlphaMul: { value: alphaMul }
-    },
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending
-  });
-}
-
-const geoCore = buildGeometry(COUNTS.core, CONFIG.radius, 0.13);
-const geoHalo = buildGeometry(COUNTS.halo, CONFIG.radius, 0.47);
-const geoDust = buildGeometry(COUNTS.dust, CONFIG.radius, 0.79);
-
-const matCore = makeLayerMaterial(1.00, 1.05);
-const matHalo = makeLayerMaterial(1.28, 0.70);
-const matDust = makeLayerMaterial(0.78, 0.42);
-
-const ptsCore = new THREE.Points(geoCore, matCore);
-const ptsHalo = new THREE.Points(geoHalo, matHalo);
-const ptsDust = new THREE.Points(geoDust, matDust);
-
-ptsCore.frustumCulled = false;
-ptsHalo.frustumCulled = false;
-ptsDust.frustumCulled = false;
-
-scene.add(ptsDust);
-scene.add(ptsHalo);
-scene.add(ptsCore);
-
-const residueGeom = new THREE.BufferGeometry();
-const residuePos = new Float32Array(CONFIG.gridResidueCount * 3);
-
-{
-  const src = geoCore.attributes.position.array;
-  const n = Math.min(CONFIG.gridResidueCount, Math.floor(src.length / 3));
-  const grid = CONFIG.grid;
-
-  for (let i = 0; i < n; i++){
-    const j = (Math.floor(Math.random() * (src.length / 3))) * 3;
-
-    let x = src[j + 0];
-    let y = src[j + 1];
-    let z = src[j + 2];
-
-    x = Math.round(x / grid) * grid;
-    y = Math.round(y / grid) * grid;
-    z = Math.round(z / grid) * grid;
-
-    residuePos[i * 3 + 0] = x;
-    residuePos[i * 3 + 1] = y;
-    residuePos[i * 3 + 2] = z;
-  }
-
-  residueGeom.setAttribute("position", new THREE.BufferAttribute(residuePos, 3));
-  residueGeom.computeBoundingSphere();
-}
-
-const residueMat = new THREE.ShaderMaterial({
-  transparent: true,
-  depthWrite: false,
-  blending: THREE.AdditiveBlending,
-  uniforms: {
-    uTime: commonUniforms.uTime,
-    uEntropy: commonUniforms.uEntropy,
-    uPixelRatio: commonUniforms.uPixelRatio
-  },
-  vertexShader: `
-precision highp float;
-uniform float uTime;
-uniform float uEntropy;
-uniform float uPixelRatio;
-varying float vA;
-
-void main(){
-  vec3 pos = position;
-  float e4 = smoothstep(0.85, 1.0, uEntropy);
-
-  float trem = (sin(uTime * 0.9 + pos.x*0.08) + sin(uTime*1.3 + pos.y*0.06)) * 0.03;
-  pos += vec3(trem, -trem*0.35, trem*0.25) * (1.0 - e4) * 0.45;
-
-  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-  gl_Position = projectionMatrix * mv;
-
-  float s = 22.0;
-  gl_PointSize = s * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
-
-  vA = e4;
-}
-`,
-  fragmentShader: `
-precision highp float;
-varying float vA;
-
-void main(){
-  vec2 uv = gl_PointCoord - vec2(0.5);
-  float r = length(uv);
-  if (r > 0.5) discard;
-
-  float a = 1.0 - smoothstep(0.18, 0.5, r);
-  vec3 c = vec3(0.99, 0.99, 1.0);
-  c += (1.0 - smoothstep(0.0, 0.12, r)) * 0.22;
-
-  gl_FragColor = vec4(c, a * vA * 0.92);
-}
-`
-});
-
-const residuePts = new THREE.Points(residueGeom, residueMat);
-residuePts.frustumCulled = false;
-scene.add(residuePts);
-
-{
-  const r = (geoCore.boundingSphere?.radius || 26.0) * 1.14;
-  const fov = (camera.fov * Math.PI) / 180.0;
-  const fit = r / Math.sin(fov * 0.50);
-
-  camera.position.set(0.0, r * 0.18, fit * 1.05);
-
-  controls.minDistance = fit * 0.72;
-  controls.maxDistance = fit * 2.35;
-
-  controls.update();
-  commonUniforms.uFocus.value = fit * 0.92;
-}
-
-const ui = {
-  slider: document.getElementById("entropy-slider"),
-  hit: document.getElementById("slider-hit"),
-  wrap: document.getElementById("slider-wrap"),
-  progress: document.getElementById("progress-bar"),
-  num: document.getElementById("ph-num"),
-  title: document.getElementById("ph-title"),
-  desc: document.getElementById("ph-desc"),
-  badge: document.getElementById("ph-badge"),
-  items: Array.from(document.querySelectorAll(".traj-item")),
-  mForms: document.getElementById("m-forms"),
-  mExc: document.getElementById("m-exc"),
-  mLat: document.getElementById("m-lat"),
-  mLiab: document.getElementById("m-liab")
-};
-
-const phases = [
-  { t:"Formal Coherence",    d:"Rules close into a self-consistent loop. The system is “sound” on paper. Costs are deferred into procedure, waiting to be paid by operators.", s:"STATUS: NOMINAL" },
-  { t:"Cognitive Offload",   d:"Operational pressure rises. People stop thinking in first principles and begin thinking in checklists. Judgment migrates from humans into protocol.", s:"STATUS: LOADING" },
-  { t:"Liability Hardening", d:"Responsibility inverts. The system optimizes for defensibility, not truth. Interfaces sharpen into spikes: more gates, more forms, less nuance.", s:"STATUS: DEFENSIVE" },
-  { t:"Operational Entropy", d:"Daily work heats the machine. Exceptions accumulate; attention fragments; coordination liquefies. The structure drips into lower-energy routines.", s:"STATUS: DEGRADING" },
-  { t:"Legibility Capture",  d:"Reality is forced into a grid for reporting. Complexity is quantized into static categories. The system survives as dead data — and loses the world.", s:"STATUS: ARCHIVED" }
-];
-
-function setEntropyUI(v){
-  targetEntropy = clamp01(v);
-  ui.slider.value = String(targetEntropy);
-  ui.progress.style.width = (targetEntropy * 100) + "%";
-}
-
-function setFromClientX(clientX){
-  const r = ui.wrap.getBoundingClientRect();
-  const t = clamp01((clientX - r.left) / Math.max(1, r.width));
-  setEntropyUI(t);
-}
-
-let dragging = false;
-
-const onPointerDown = (e) => {
-  dragging = true;
-  ui.wrap.setPointerCapture?.(e.pointerId);
-  setFromClientX(e.clientX);
-  e.preventDefault();
-};
-
-const onPointerMove = (e) => {
-  if (!dragging) return;
-  setFromClientX(e.clientX);
-  e.preventDefault();
-};
-
-const onPointerUp = (e) => {
-  dragging = false;
-  ui.wrap.releasePointerCapture?.(e.pointerId);
-  e.preventDefault();
-};
-
-ui.hit.addEventListener("pointerdown", onPointerDown, { passive: false });
-ui.hit.addEventListener("pointermove", onPointerMove, { passive: false });
-ui.hit.addEventListener("pointerup", onPointerUp, { passive: false });
-ui.hit.addEventListener("pointercancel", onPointerUp, { passive: false });
-
-ui.items.forEach((el, i) => {
-  el.setAttribute("role", "button");
-  el.setAttribute("tabindex", "0");
-  const toPhase = () => setEntropyUI(i === 0 ? 0 : (i / 4));
-  el.addEventListener("click", toPhase, { passive: true });
-  el.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " "){
-      e.preventDefault();
-      toPhase();
+(() => {
+  "use strict";
+
+  // ====== DOM ======
+  const stage = document.getElementById("stage");
+  const cDust = document.getElementById("dust");
+  const cStr  = document.getElementById("strands");
+  if (!stage || !cDust || !cStr) return;
+
+  const ctxD  = cDust.getContext("2d", { alpha: false });
+  const ctxS  = cStr.getContext("2d");
+  const cursor = document.getElementById("cursor");
+
+  const uiP = document.getElementById("uiP");
+  const uiMeta = document.getElementById("uiMeta");
+  const uiStatus = document.getElementById("uiStatus");
+  const uiLog = document.getElementById("uiLog");
+
+  const btnExport = document.getElementById("btnExport");
+  const btnCopy = document.getElementById("btnCopy");
+  const adrNote = document.getElementById("adrNote");
+
+  const gateEls = [
+    document.getElementById("g1"),
+    document.getElementById("g2"),
+    document.getElementById("g3"),
+    document.getElementById("g4"),
+  ].filter(Boolean);
+
+  const isTouch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+
+  // ====== CANVAS / DPR ======
+  let W = 0, H = 0, DPR = 1;
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    for(const c of [cDust, cStr]){
+      c.width  = Math.floor(W * DPR);
+      c.height = Math.floor(H * DPR);
+      c.style.width = W + "px";
+      c.style.height = H + "px";
     }
-  }, { passive: false });
-});
+    ctxD.setTransform(DPR,0,0,DPR,0,0);
+    ctxS.setTransform(DPR,0,0,DPR,0,0);
 
-{
-  const panel = document.querySelector(".panel-glass");
-  const forwardWheel = (e) => {
-    renderer.domElement.dispatchEvent(new WheelEvent("wheel", {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-      deltaMode: e.deltaMode,
-      deltaX: e.deltaX,
-      deltaY: e.deltaY,
-      deltaZ: e.deltaZ,
-      clientX: e.clientX,
-      clientY: e.clientY,
-      ctrlKey: e.ctrlKey,
-      shiftKey: e.shiftKey,
-      altKey: e.altKey,
-      metaKey: e.metaKey
-    }));
+    initField();
+    initStrands();
+  }
+  window.addEventListener("resize", resize);
+
+  // ====== ALTRION STATE (A/W/P + noncompliance + collapse) ======
+  const state = {
+    mx: -9999, my: -9999,
+    dragging:false,
+
+    // target inputs (0..1)
+    tA: 0.65,
+    tW: 0.35,
+
+    // smoothed
+    A: 0.65,
+    W: 0.35,
+
+    // derived
+    Wp: 0.35,
+    Pint: 0.0,
+    collapsed:false,
+
+    // flags from gates
+    fG1:false, fG2:false, fG3:false,
+
+    // compliance dynamics
+    gamma: 0.55,
+    noncomplianceWin: 120,
+    recentIgnored: [],
+    recentFlagged: [],
+    noncompRate: 0.0,
+
+    // case stream
+    caseId: 0,
+    pendingFlagged: false,
+    pendingAIwrong: false,
+    overrideRequested: false,
+
+    // time
+    t: 0,
   };
-  panel.addEventListener("wheel", forwardWheel, { passive: true });
-}
 
-const rootStyle = document.documentElement.style;
-const clock = new THREE.Clock();
-
-function phaseImpulse(time, entropyNow){
-  const thresholds = [0.25, 0.55, 0.85];
-  let imp = 0.0;
-  for (let i = 0; i < thresholds.length; i++){
-    const x = entropyNow - thresholds[i];
-    imp += Math.exp(-Math.abs(x) * 55.0) * 0.022;
+  // ====== INPUT ======
+  function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+  function nowHHMMSS(){
+    const d = new Date();
+    const pad = (n)=>String(n).padStart(2,"0");
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   }
-  imp *= (0.35 + 0.65 * Math.min(1.0, entropyNow * 1.6));
-  imp *= (0.5 + 0.5 * Math.sin(time * 6.5));
-  return imp;
-}
-
-function pad3(n){
-  const s = String(Math.max(0, Math.floor(n)));
-  if (s.length >= 3) return s.slice(-3);
-  return ("000" + s).slice(-3);
-}
-
-function animate(){
-  requestAnimationFrame(animate);
-
-  const time = clock.getElapsedTime();
-
-  entropy += (targetEntropy - entropy) * 0.032;
-  entropy = clamp01(entropy);
-
-  commonUniforms.uTime.value = time;
-  commonUniforms.uEntropy.value = entropy;
-
-  {
-    const d = camera.position.distanceTo(controls.target);
-    commonUniforms.uFocus.value = mix(54.0, d, 0.72);
+  function escapeHTML(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;");
   }
 
-  {
-    const base = 0.16;
-    const slow = mix(base, 0.07, smoothstep(0.35, 0.95, entropy));
-    const micro = (Math.sin(time * 0.55) + Math.sin(time * 1.11 + 1.7)) * 0.032;
-    controls.autoRotateSpeed = slow * (1.0 + micro);
+  if(!isTouch){
+    window.addEventListener("mousemove", (e) => {
+      state.mx = e.clientX; state.my = e.clientY;
+      if (cursor){
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top  = e.clientY + "px";
+      }
+
+      state.tA = clamp01(e.clientX / Math.max(1, W));
+      state.tW = clamp01(e.clientY / Math.max(1, H));
+    });
+
+    window.addEventListener("mousedown", () => {
+      state.dragging = true;
+      document.body.classList.add("dragging");
+    });
+    window.addEventListener("mouseup", () => {
+      state.dragging = false;
+      document.body.classList.remove("dragging");
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "o") state.overrideRequested = true;
+    });
+  } else {
+    if (cursor) cursor.style.display = "none";
+    state.mx = W*0.5; state.my = H*0.5;
   }
 
-  renderer.toneMappingExposure = 1.55 + phaseImpulse(time, entropy);
+  // ====== Gates geometry ======
+  function gateXs(){
+    const margin = W * 0.18;
+    const avail = W - margin*2;
+    return [ margin, margin + avail*0.33, margin + avail*0.66, W - margin ];
+  }
 
-  const rotSpeed = 0.10 + entropy * 0.22;
-  ptsCore.rotation.y = time * rotSpeed * 0.28;
-  ptsCore.rotation.z = time * rotSpeed * 0.10;
+  // ====== ADR LOGGING ======
+  const adr = [];
+  function logADR(entry){
+    adr.unshift(entry);
+    if(adr.length > 10) adr.length = 10;
+    renderLog();
+  }
+  function renderLog(){
+    if (!uiLog) return;
+    uiLog.innerHTML = adr.map(r => {
+      const cls = r.auditable ? "ok" : "bad";
+      return `<span class="${cls}">${escapeHTML(r.line)}</span>`;
+    }).join("\n");
+  }
 
-  ptsHalo.rotation.y = time * rotSpeed * 0.26 + 0.22;
-  ptsHalo.rotation.z = time * rotSpeed * 0.08 + 0.10;
+  // ====== ADR EXPORT ======
+  function buildADRExportPayload(){
+    const records = adr.slice().reverse();
+    return {
+      schema: "ALTRION_ADR_V1",
+      exported_at: new Date().toISOString(),
+      meta: {
+        version: "phase-modulated-spectral-truthline",
+        window: { width: W, height: H, dpr: DPR },
+        pointer: isTouch ? "coarse" : "fine"
+      },
+      records: records.map(r => ({
+        D: r.final_decision ?? null,
+        W: {
+          warnings: [
+            ...(r.warnings_G2?.length ? ["G2:" + r.warnings_G2.join("|")] : []),
+            ...(r.warnings_G3?.length ? ["G3:" + r.warnings_G3.join("|")] : []),
+          ],
+          gates_passed: r.gates_passed ?? []
+        },
+        R: r.human_rationale ?? null,
+        caseId: r.caseId ?? null,
+        auditable: !!r.auditable,
+        timestamp: r.timestamp ?? null
+      }))
+    };
+  }
 
-  ptsDust.rotation.y = time * rotSpeed * 0.20 + 0.44;
-  ptsDust.rotation.z = time * rotSpeed * 0.06 + 0.18;
+  function downloadJSON(filename, obj){
+    const json = JSON.stringify(obj, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    return json;
+  }
 
-  residuePts.rotation.y = time * 0.035;
-  residuePts.rotation.z = time * 0.018;
+  function flashNote(text){
+    if(!adrNote) return;
+    adrNote.textContent = text;
+    window.setTimeout(() => { adrNote.textContent = ""; }, 1600);
+  }
 
-  const idx = Math.min(Math.floor(entropy * 4.999), 4);
-  if (ui.title.innerText !== phases[idx].t){
-    ui.num.innerText = `PHASE 0${idx}`;
-    ui.title.innerText = phases[idx].t;
-    ui.desc.innerText = phases[idx].d;
-    ui.badge.innerText = phases[idx].s;
+  btnExport?.addEventListener("click", () => {
+    const payload = buildADRExportPayload();
+    const stamp = new Date().toISOString().replaceAll(":","-").replaceAll(".","-");
+    downloadJSON(`altrion-adr-${stamp}.json`, payload);
+    flashNote("exported");
+  });
 
-    ui.items.forEach((el, i) => {
-      if (i === idx) el.classList.add("active");
-      else el.classList.remove("active");
+  btnCopy?.addEventListener("click", async () => {
+    try{
+      const payload = buildADRExportPayload();
+      const json = JSON.stringify(payload, null, 2);
+      await navigator.clipboard.writeText(json);
+      flashNote("copied");
+    } catch {
+      flashNote("copy failed");
+    }
+  });
+
+  // ====== Decision stream (cases) ======
+  function stepCase(){
+    state.caseId++;
+
+    const g1 = (Math.random() < (0.03 + (1-state.A)*0.05)) && (state.Wp > 0.75);
+    const g2 = !g1 && (Math.random() < (0.18 + state.Wp*0.22));
+    const g3 = !g1 && (Math.random() < (0.14 + state.W*0.26));
+
+    state.fG1 = g1; state.fG2 = g2; state.fG3 = g3;
+
+    const aiWrong = Math.random() < 0.20;
+    state.pendingAIwrong = aiWrong;
+    state.pendingFlagged = g1 || g2 || g3;
+
+    const humanWouldIntervene = (Math.random() < state.Pint);
+
+    let finalDecision = "ACCEPT";
+    let rationale = null;
+    let auditable = true;
+    let ignored = 0;
+
+    if (g1) {
+      finalDecision = "REJECT (G1)";
+      rationale = "Baseline constraint triggered.";
+      auditable = true;
+      ignored = 0;
+    } else if (state.pendingFlagged) {
+      const needsIntervention = aiWrong;
+
+      if (state.overrideRequested) {
+        state.overrideRequested = false;
+        rationale = prompt("Gate-4 Rationale (required):", "Flagged: provide a substantive rationale.");
+        if (!rationale || !rationale.trim()) {
+          finalDecision = "ACCEPT (RITUALIZED)";
+          auditable = false;
+          ignored = needsIntervention ? 1 : 0;
+        } else {
+          finalDecision = needsIntervention ? "OVERRIDE (JUSTIFIED)" : "ACCEPT (JUSTIFIED)";
+          auditable = true;
+          ignored = 0;
+        }
+      } else {
+        if (needsIntervention && humanWouldIntervene) {
+          finalDecision = "OVERRIDE (AUTO)";
+          rationale = "Auto-intervention (simulated).";
+          auditable = true;
+          ignored = 0;
+        } else {
+          finalDecision = needsIntervention ? "ACCEPT (CRITICAL ERROR)" : "ACCEPT";
+          auditable = false;
+          ignored = needsIntervention ? 1 : 0;
+        }
+      }
+    } else {
+      finalDecision = aiWrong ? "ACCEPT (UNSEEN ERROR)" : "ACCEPT";
+      auditable = true;
+      ignored = aiWrong ? 1 : 0;
+    }
+
+    state.recentIgnored.push(ignored);
+    state.recentFlagged.push(state.pendingFlagged ? 1 : 0);
+    if (state.recentIgnored.length > state.noncomplianceWin) state.recentIgnored.shift();
+    if (state.recentFlagged.length > state.noncomplianceWin) state.recentFlagged.shift();
+
+    const ignoredSum = state.recentIgnored.reduce((a,b)=>a+b,0);
+    const flaggedSum = Math.max(1, state.recentFlagged.reduce((a,b)=>a+b,0));
+    state.noncompRate = clamp01(ignoredSum / flaggedSum);
+
+    const was = state.collapsed;
+    state.collapsed = state.noncompRate > 0.40;
+    if (state.collapsed !== was) document.body.classList.toggle("collapse", state.collapsed);
+
+    const warnings = [];
+    if (g2) warnings.push("G2:ValueConflict");
+    if (g3) warnings.push("G3:StaleContext");
+
+    const line =
+      `[${nowHHMMSS()}] case#${state.caseId} ` +
+      `W=${state.Wp.toFixed(2)} A=${state.A.toFixed(2)} P=${state.Pint.toFixed(2)} ` +
+      `AI=${aiWrong?"WRONG":"OK"} ` +
+      `${g1?"G1:REJECT":"Warnings=["+warnings.join(",")+"]"} ` +
+      `→ ${finalDecision}` +
+      (rationale ? ` | R="${rationale.slice(0,40)}${rationale.length>40?"…":""}"` : "");
+
+    logADR({
+      timestamp: Date.now(),
+      caseId: state.caseId,
+      gates_passed: g1 ? ["G1"] : ["G1","G2","G3","G4"],
+      warnings_G2: g2 ? ["Metric_Imbalance_High"] : [],
+      warnings_G3: g3 ? ["Freshness_Threshold_Breach"] : [],
+      human_rationale: rationale,
+      final_decision: finalDecision,
+      auditable,
+      line
     });
   }
 
-  const dim = smoothstep(0.30, 0.985, entropy);
-  const noise = mix(0.08, 1.00, smoothstep(0.12, 0.96, entropy));
-  const blur = mix(0.00, 1.00, smoothstep(0.60, 0.985, entropy));
-  const skew = mix(0.00, 1.00, smoothstep(0.45, 0.93, entropy));
-  const ruleBoost = mix(0.00, 1.00, smoothstep(0.18, 0.76, entropy));
-  const letter = mix(0.00, 1.00, smoothstep(0.28, 0.90, entropy));
-  const scan = mix(0.00, 1.00, smoothstep(0.66, 0.985, entropy));
-  const hudGlow = mix(0.00, 1.00, smoothstep(0.10, 0.55, entropy)) * (0.65 + 0.35 * Math.sin(time * 0.85));
+  // ====== Visual system B: dust + flow field ======
+  const FIELD_RES = 42;
+  let cols = 0, rows = 0, field = null;
 
-  const stamp = smoothstep(0.44, 0.82, entropy);
-  const stampRot = (time * (6.0 + entropy * 12.0)) * (0.35 + 0.65 * stamp);
+  const PARTICLES = 9000;
+  const P = {
+    x: new Float32Array(PARTICLES),
+    y: new Float32Array(PARTICLES),
+    vx:new Float32Array(PARTICLES),
+    vy:new Float32Array(PARTICLES),
+    z: new Float32Array(PARTICLES),
+    s: new Float32Array(PARTICLES),
+    t: new Uint8Array(PARTICLES),
+  };
 
-  const g0 = 1.0;
-  const g1 = smoothstep(0.18, 0.38, entropy);
-  const g2 = smoothstep(0.42, 0.64, entropy);
-  const g3 = smoothstep(0.70, 0.92, entropy);
+  function initField(){
+    cols = Math.ceil(W / FIELD_RES) + 3;
+    rows = Math.ceil(H / FIELD_RES) + 3;
+    field = new Float32Array(cols * rows * 2);
+    for(let i=0;i<PARTICLES;i++) resetParticle(i, Math.random()*W, Math.random()*H);
+  }
 
-  rootStyle.setProperty("--uiE", entropy.toFixed(6));
-  rootStyle.setProperty("--uiDim", dim.toFixed(6));
-  rootStyle.setProperty("--uiNoise", noise.toFixed(6));
-  rootStyle.setProperty("--uiBlur", blur.toFixed(6));
-  rootStyle.setProperty("--uiSkew", skew.toFixed(6));
-  rootStyle.setProperty("--uiRuleBoost", ruleBoost.toFixed(6));
-  rootStyle.setProperty("--uiLetter", letter.toFixed(6));
-  rootStyle.setProperty("--uiScan", scan.toFixed(6));
-  rootStyle.setProperty("--uiFlicker", (time * (1.0 + entropy * 6.0)).toFixed(6));
-  rootStyle.setProperty("--hudGlow", hudGlow.toFixed(6));
+  function resetParticle(i,x,y){
+    P.x[i]=x; P.y[i]=y;
+    P.vx[i]=0; P.vy[i]=0;
+    const z = Math.random();
+    P.z[i]=z;
+    P.s[i]=(1-z)*1.6 + 0.45;
+    P.t[i]=(Math.random()>0.82) ? 1 : 0;
+  }
 
-  rootStyle.setProperty("--stamp", stamp.toFixed(6));
-  rootStyle.setProperty("--stampRot", `${stampRot.toFixed(3)}deg`);
+  function noise2(x,y,t){
+    return Math.sin(x*0.008 + t*0.2) * Math.cos(y*0.010 + t*0.11) * 2.0;
+  }
 
-  rootStyle.setProperty("--gate0", g0.toFixed(6));
-  rootStyle.setProperty("--gate1", g1.toFixed(6));
-  rootStyle.setProperty("--gate2", g2.toFixed(6));
-  rootStyle.setProperty("--gate3", g3.toFixed(6));
+  function updateField(t){
+    const gx = gateXs();
+    const stress = clamp01(state.dragging ? (state.Wp) : 0);
 
-  const forms = 18 + entropy * 988 + (Math.sin(time * (0.55 + entropy * 0.85)) * 8.0);
-  const exc = entropy * entropy * 540 + (Math.sin(time * 0.75 + 1.2) * 6.0);
-  const lat = 0.45 + entropy * 14.2 + (Math.sin(time * 0.33 + entropy * 1.2) * 0.25);
-  const liab = 0.08 + entropy * 0.86 + (Math.sin(time * 0.48) * 0.02);
+    for(let x=0;x<cols;x++){
+      for(let y=0;y<rows;y++){
+        const idx = (x + y*cols)*2;
+        const px = x*FIELD_RES;
+        const py = y*FIELD_RES;
 
-  ui.mForms.innerText = pad3(forms);
-  ui.mExc.innerText = pad3(exc);
-  ui.mLat.innerText = `${Math.max(0, lat).toFixed(1)}d`;
-  ui.mLiab.innerText = clamp01(liab).toFixed(2);
+        let ang = 0.10 * Math.cos(x*0.10 + t*0.8);
 
-  controls.update();
-  renderer.render(scene, camera);
-}
+        const dx2 = Math.abs(px - gx[1]);
+        if (dx2 < 140){
+          const f = (1 - dx2/140) * (state.fG2 ? 2.2 : 0.9);
+          ang += (py < H*0.5 ? -1 : 1) * f;
+        }
 
-window.addEventListener("resize", () => {
-  const w = Math.max(1, window.innerWidth);
-  const h = Math.max(1, window.innerHeight);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
-  commonUniforms.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 2);
-}, { passive: true });
+        const dx3 = Math.abs(px - gx[2]);
+        if (dx3 < 140){
+          const f = (1 - dx3/140) * (state.fG3 ? 1.8 : 0.6);
+          ang += noise2(px,py,t) * f * 0.65;
+        }
 
-window.onload = () => {
-  setTimeout(() => {
-    const l = document.getElementById("loader");
-    if (!l) return;
-    l.style.opacity = "0";
-    setTimeout(() => l.remove(), 1800);
-  }, 900);
-  setEntropyUI(0);
-  animate();
-};
+        if (state.dragging){
+          ang += noise2(px,py,t) * (0.8 + stress*2.0);
+        }
+
+        const dx = px - state.mx, dy = py - state.my;
+        const dsq = dx*dx + dy*dy;
+        const rsq = 280*280;
+        if(dsq < rsq){
+          const f = (1 - dsq/rsq) * 1.8 * (1 + state.Wp);
+          const push = Math.atan2(dy,dx);
+          ang += push * f * 0.12;
+        }
+
+        field[idx]   = Math.cos(ang);
+        field[idx+1] = Math.sin(ang);
+      }
+    }
+  }
+
+  // ====== Visual system A: strands (Verlet) ======
+  const STRANDS = 52;
+  const POINTS  = 58;
+  const ITER    = 3;
+
+  class VPoint{
+    constructor(x,y,pin){
+      this.x=x; this.y=y;
+      this.ox=x; this.oy=y;
+      this.pin=pin;
+    }
+    step(drag, gravity){
+      if(this.pin) return;
+      const vx = (this.x - this.ox) * drag;
+      const vy = (this.y - this.oy) * drag;
+      this.ox = this.x; this.oy = this.y;
+      this.x += vx;
+      this.y += vy + gravity;
+    }
+  }
+  class Link{
+    constructor(a,b){
+      this.a=a; this.b=b;
+      this.rest = Math.hypot(a.x-b.x, a.y-b.y);
+    }
+    solve(k){
+      const dx = this.a.x - this.b.x;
+      const dy = this.a.y - this.b.y;
+      const d = Math.sqrt(dx*dx + dy*dy) || 0.0001;
+      const diff = (this.rest - d) / d * k;
+      const ox = dx * diff * 0.5;
+      const oy = dy * diff * 0.5;
+      if(!this.a.pin){ this.a.x += ox; this.a.y += oy; }
+      if(!this.b.pin){ this.b.x -= ox; this.b.y -= oy; }
+    }
+  }
+
+  let strands = [];
+  function initStrands(){
+    strands = [];
+    const startX = -60;
+    const endX = W + 60;
+    const stepX = (endX - startX) / POINTS;
+
+    for(let s=0;s<STRANDS;s++){
+      const ns = (s/(STRANDS-1))*2 - 1;
+      const spread = H * 0.06 * ns;
+
+      const pts = [];
+      const links = [];
+      for(let i=0;i<=POINTS;i++){
+        const x = startX + i*stepX;
+        const y = H*0.5 + spread;
+        const pin = (i===0 || i===POINTS);
+        pts.push(new VPoint(x,y,pin));
+        if(i>0) links.push(new Link(pts[i], pts[i-1]));
+      }
+      strands.push({ ns, pts, links });
+    }
+  }
+
+  // ====== THE LINE: Phase-Modulated Spectral Stack (204° fixed) ======
+  function drawTruthLineSpectral(){
+    if(state.A <= 0.25) return;
+
+    const baseAlpha = Math.max(0, (state.A * 0.40) * (1 - state.Wp * 0.72));
+    if(baseAlpha <= 0.0005) return;
+
+    if(state.collapsed){
+      ctxS.save();
+      ctxS.beginPath();
+      ctxS.moveTo(0, H*0.5);
+      ctxS.lineTo(W, H*0.5);
+      ctxS.strokeStyle = `hsla(210, 3%, 22%, ${Math.min(0.18, baseAlpha*0.65)})`;
+      ctxS.lineWidth = 1;
+      ctxS.shadowBlur = 0;
+      ctxS.stroke();
+      ctxS.restore();
+      return;
+    }
+
+    const integrity = clamp01((state.Pint * 0.75) + (1 - state.noncompRate) * 0.25);
+    const t = state.t;
+    const phase = Math.sin(t * 2.2 + integrity * 3.1);
+    const micro = Math.sin(t * 12.0 + integrity * 7.0);
+    const jitterX = (phase * 0.25) + (micro * 0.10);
+    const blur = 10 + (1 - integrity) * 10 + (Math.abs(phase) * 3);
+    const a = baseAlpha;
+
+    const hue = 204;
+    const passes = [
+      { ox: jitterX * 1.00, lw: 0.75, sat: 1.5, lig: 95, mulA: 1.00, sh: blur * 0.35 },
+      { ox: jitterX * 0.55, lw: 1.25, sat: 6.0, lig: 90, mulA: 0.60, sh: blur * 0.65 },
+      { ox: jitterX * 0.20, lw: 2.20, sat: 14.0, lig: 86, mulA: 0.25, sh: blur * 1.00 },
+    ];
+
+    for(const p of passes){
+      ctxS.save();
+      ctxS.beginPath();
+      ctxS.translate(p.ox, 0);
+      ctxS.moveTo(0, H*0.5);
+      ctxS.lineTo(W, H*0.5);
+
+      const alpha = a * p.mulA * (0.92 + 0.08 * (1 + micro));
+      ctxS.strokeStyle = `hsla(${hue}, ${p.sat}%, ${p.lig}%, ${alpha})`;
+      ctxS.lineWidth = p.lw;
+
+      ctxS.shadowBlur = p.sh;
+      ctxS.shadowColor = `hsla(${hue}, 40%, 80%, ${alpha * 0.55})`;
+
+      ctxS.stroke();
+      ctxS.restore();
+    }
+  }
+
+  // ====== Main loop ======
+  let frame = 0;
+  let lastCaseAt = 0;
+
+  function loop(){
+    frame++;
+    state.t = frame * 0.004;
+
+    if(isTouch){
+      const tt = frame * 0.006;
+      state.tA = 0.52 + Math.sin(tt * 0.9) * 0.22;
+      state.tW = 0.48 + Math.cos(tt * 0.7) * 0.20;
+      state.mx = W*0.5 + Math.sin(tt*1.1) * (W*0.18);
+      state.my = H*0.5 + Math.cos(tt*0.8) * (H*0.14);
+    }
+
+    state.A += (state.tA - state.A) * 0.040;
+    state.W += (state.tW - state.W) * 0.040;
+
+    const deltaV = state.fG2 ? 0.18 : 0.0;
+    const deltaS = state.fG3 ? 0.08 : 0.0;
+    const dragSpike = (!isTouch && state.dragging) ? 0.28 : 0.0;
+
+    state.Wp = clamp01(state.W + deltaV + deltaS + dragSpike);
+
+    const rawP = state.A * (1 - state.gamma * state.Wp);
+    state.Pint = clamp01(rawP);
+
+    if (uiP) uiP.textContent = state.Pint.toFixed(2);
+    if (uiMeta) uiMeta.innerHTML =
+      `ALIGNMENT <b>${state.A.toFixed(3)}</b><br/>` +
+      `WORKLOAD W <b>${state.W.toFixed(3)}</b><br/>` +
+      `FRICTION W' <b>${state.Wp.toFixed(3)}</b><br/>` +
+      `NON-COMPLIANCE <b>${(state.noncompRate*100).toFixed(1)}%</b><br/>` +
+      `MODE <b>${state.collapsed ? "RITUALIZATION COLLAPSE" : "PRODUCTIVE FRICTION"}</b>`;
+
+    if (uiStatus) uiStatus.textContent = state.collapsed ? "COLLAPSE" : "STABLE FLOW";
+
+    const gx = gateXs();
+    const mGate = Math.max(0, Math.min(3, Math.floor((state.mx / Math.max(1,W)) * 4)));
+    const activeAny = (!isTouch && state.dragging) || state.Wp > 0.55;
+
+    gateEls.forEach((el,i)=>{
+      el.classList.toggle("active", activeAny && i===mGate);
+      el.classList.toggle("warn",
+        (i===0 && state.fG1) ||
+        (i===1 && state.fG2) ||
+        (i===2 && state.fG3) ||
+        (i===3 && state.pendingFlagged && (state.pendingAIwrong || state.overrideRequested))
+      );
+    });
+
+    // ====== Dust render ======
+    updateField(state.t);
+
+    ctxD.globalCompositeOperation = "source-over";
+    ctxD.fillStyle = "rgba(7,7,7,0.86)";
+    ctxD.fillRect(0,0,W,H);
+
+    ctxD.globalCompositeOperation = "lighter";
+
+    const g1x = gx[0], g4x = gx[3];
+    const cluster = state.pendingFlagged ? (0.6 + state.A*0.6) : 0.0;
+
+    for(let i=0;i<PARTICLES;i++){
+      const cx = Math.floor(P.x[i]/FIELD_RES);
+      const cy = Math.floor(P.y[i]/FIELD_RES);
+      let fx=1, fy=0;
+      if(cx>=0 && cx<cols && cy>=0 && cy<rows){
+        const idx = (cx + cy*cols)*2;
+        fx = field[idx]; fy = field[idx+1];
+      }
+
+      const mass = P.s[i];
+      const speed = (1.2 + (1-P.z[i])*2.6) * (1 + state.Wp*0.9);
+
+      P.vx[i] += (fx*speed - P.vx[i]) * (0.10 + (1-mass)*0.02);
+      P.vy[i] += (fy*speed - P.vy[i]) * (0.10 + (1-mass)*0.02);
+
+      if (cluster > 0){
+        const dx = g4x - P.x[i];
+        P.vx[i] += dx * 0.00018 * cluster;
+      }
+
+      if (state.collapsed) P.vy[i] += 0.010 + state.Wp*0.006;
+
+      P.x[i] += P.vx[i];
+      P.y[i] += P.vy[i];
+
+      if(P.x[i] > W){ P.x[i]=0; P.y[i]=Math.random()*H; }
+      if(P.x[i] < 0){ P.x[i]=W; }
+      if(P.y[i] > H){ P.y[i]=0; }
+      if(P.y[i] < 0){ P.y[i]=H; }
+
+      if(state.fG1 && P.x[i] < g1x + 18){
+        resetParticle(i, Math.random()*W, Math.random()*H);
+        continue;
+      }
+
+      const vel = Math.hypot(P.vx[i], P.vy[i]);
+      const bright = 0.25 + Math.min(1, vel/6.5) * 0.75;
+      const alpha = (1-P.z[i]) * bright;
+
+      let h,s,l;
+      if(state.collapsed || state.Wp > 0.78){
+        h = 350; s = 82; l = 58 + bright*18;
+      } else if (P.t[i]===0){
+        h = 42; s = 62; l = 68 + bright*10;
+      } else {
+        h = 200; s = 10; l = 80 + bright*8;
+      }
+
+      ctxD.fillStyle = `hsla(${h},${s}%,${l}%,${alpha})`;
+      const wRect = P.s[i] + vel*0.55;
+      ctxD.fillRect(P.x[i], P.y[i], wRect, P.s[i]);
+    }
+
+    // ====== Strands update + render ======
+    const stiffness = state.collapsed ? 0.03 : (0.20 + state.A*0.85);
+    const gravity = state.collapsed ? (0.12 + state.Wp*0.18) : 0.0;
+    const drag = state.collapsed ? 0.945 : 0.962;
+
+    const g2x = gx[1], g3x = gx[2];
+
+    for(const st of strands){
+      const pts = st.pts;
+
+      for(let i=0;i<pts.length;i++){
+        const p = pts[i];
+        if(p.pin) continue;
+
+        const amp = state.Wp * (state.collapsed ? 2.0 : 0.55);
+        p.x += Math.sin(state.t*2.2 + i*0.22 + st.ns) * amp;
+        p.y += Math.cos(state.t*2.8 + i*0.28) * amp;
+
+        const dx2 = g2x - p.x;
+        const d2 = Math.abs(dx2);
+        if(d2 < 140){
+          const pull = Math.cos((d2/140)*(Math.PI/2));
+          const twist = (p.y - H*0.5) * 0.0022 * pull * (state.fG2 ? 2.1 : 0.9);
+          p.x += twist * (H*0.5 - p.y) * 0.08;
+          p.y += twist * (p.x - g2x) * 0.08;
+        }
+
+        const dx3 = g3x - p.x;
+        const d3 = Math.abs(dx3);
+        if(d3 < 140){
+          const pull = Math.cos((d3/140)*(Math.PI/2));
+          const lag = (state.fG3 ? 0.18 : 0.08) * pull;
+          p.x += (p.ox - p.x) * lag;
+          p.y += (p.oy - p.y) * lag;
+        }
+
+        if(!state.collapsed && state.pendingFlagged){
+          const dx4 = gx[3] - p.x;
+          const d4 = Math.abs(dx4);
+          if(d4 < 170){
+            const pull = Math.cos((d4/170)*(Math.PI/2));
+            const ydist = (H*0.5 - p.y);
+            p.y += ydist * pull * (0.07 + state.A*0.12);
+          }
+        }
+
+        p.step(drag, gravity);
+      }
+
+      for(let k=0;k<ITER;k++){
+        for(const ln of st.links) ln.solve(stiffness);
+      }
+    }
+
+    ctxS.clearRect(0,0,W,H);
+    ctxS.globalCompositeOperation = "screen";
+
+    const ab = state.Wp * (state.collapsed ? 3.2 : 1.6);
+    const rgbPasses = [
+      { r:255,g:80, b:60,  ox:+ab, oy:0 },
+      { r:60, g:255,b:90,  ox:0,   oy:0 },
+      { r:120,g:200,b:255, ox:-ab, oy:0 },
+    ];
+
+    for(const pass of rgbPasses){
+      ctxS.save();
+      ctxS.translate(pass.ox, pass.oy);
+
+      for(const st of strands){
+        const pts = st.pts;
+        ctxS.beginPath();
+        ctxS.moveTo(pts[0].x, pts[0].y);
+        for(let i=1;i<pts.length-1;i++){
+          const xc = (pts[i].x + pts[i+1].x)/2;
+          const yc = (pts[i].y + pts[i+1].y)/2;
+          ctxS.quadraticCurveTo(pts[i].x, pts[i].y, xc, yc);
+        }
+        ctxS.lineTo(pts[pts.length-1].x, pts[pts.length-1].y);
+
+        let a = state.collapsed ? 0.035 : 0.075;
+        a *= (1 - Math.abs(st.ns));
+        if(!state.collapsed) a += state.A * 0.09;
+
+        ctxS.strokeStyle = `rgba(${pass.r},${pass.g},${pass.b},${a})`;
+        ctxS.lineWidth = state.collapsed ? 1.0 : 1.4;
+        ctxS.stroke();
+      }
+
+      ctxS.restore();
+    }
+
+    drawTruthLineSpectral();
+
+    if(frame - lastCaseAt > 96){
+      lastCaseAt = frame;
+      stepCase();
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  // boot
+  resize();
+  logADR({ auditable: true, line: `[${nowHHMMSS()}] boot · desktop: move mouse (A/W), drag to spike workload, press O to Override · mobile: auto-run.` });
+  requestAnimationFrame(loop);
+})();
