@@ -5,100 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#050507" />
-  <title>FORECASTING FAILURE — PART II VISUALIZER (BUREAUCRATIC THERMODYNAMICS)</title>
+  <title>ALTRION — Part II Visualizer</title>
 
   <link rel="stylesheet" href="/demo/_assets/altrion-part2.css" />
-
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
-    }
-  </script>
 </head>
 
 <body>
-  <div id="loader">
-    <div>INITIALIZING GOVERNANCE MODEL...</div>
-    <div class="loader-bar"><div class="loader-fill"></div></div>
-  </div>
-
-  <div id="interface">
-    <div class="panel-glass">
-      <div class="panel-inner">
-        <div class="kicker"><span class="dot"></span><span>OPERATIONS / OVERSIGHT / REPORTING</span></div>
-
-        <h1>Forecasting<br>Failure</h1>
-        <div class="subtitle">PART II: THE THERMODYNAMICS OF BUREAUCRACY</div>
-        <p class="assertion">GOVERNANCE FAILS BEFORE IT IS ABUSED — BY ACCUMULATED PROCEDURE, NOT MALICE.</p>
-
-        <div class="gates" aria-hidden="true">
-          <div class="gate g0"><i></i><span>Gate: Review</span></div>
-          <div class="gate g1"><i></i><span>Gate: Approval</span></div>
-          <div class="gate g2"><i></i><span>Gate: Compliance</span></div>
-          <div class="gate g3"><i></i><span>Gate: Reporting</span></div>
-        </div>
-
-        <div class="trajectory-list">
-          <div class="traj-item active" id="t0">00. FORMAL COHERENCE</div>
-          <div class="traj-item" id="t1">01. COGNITIVE OFFLOAD</div>
-          <div class="traj-item" id="t2">02. LIABILITY HARDENING</div>
-          <div class="traj-item" id="t3">03. OPERATIONAL ENTROPY</div>
-          <div class="traj-item" id="t4">04. LEGIBILITY CAPTURE</div>
-        </div>
-
-        <div class="phase-container">
-          <div class="phase-meta">
-            <span id="ph-num">PHASE 00</span>
-            <span class="badge" id="ph-badge">STATUS: NOMINAL</span>
-          </div>
-
-          <div class="phase-title" id="ph-title">Formal Coherence</div>
-
-          <div class="phase-desc" id="ph-desc">
-            The system looks perfect: rules close into a self-consistent loop. Compliance is legible; responsibility is “covered.” The hidden cost is only deferred.
-          </div>
-
-          <div class="audit" aria-hidden="true">
-            <div class="metric"><div class="k">FORMS ISSUED</div><div class="v" id="m-forms">000</div></div>
-            <div class="metric"><div class="k">EXCEPTIONS PENDING</div><div class="v" id="m-exc">000</div></div>
-            <div class="metric"><div class="k">APPROVAL LATENCY</div><div class="v" id="m-lat">0.0d</div></div>
-            <div class="metric"><div class="k">LIABILITY INDEX</div><div class="v" id="m-liab">0.00</div></div>
-          </div>
-
-          <div class="stamp" aria-hidden="true">
-            <svg viewBox="0 0 200 200" role="img" aria-label="audit stamp">
-              <defs>
-                <path id="stampPath" d="M 100 100 m -72 0 a 72 72 0 1 1 144 0 a 72 72 0 1 1 -144 0" />
-              </defs>
-              <circle class="ring" cx="100" cy="100" r="78"></circle>
-              <circle class="inner" cx="100" cy="100" r="60"></circle>
-              <text class="text">
-                <textPath href="#stampPath" startOffset="5%">FILED • VERIFIED • ARCHIVED • FILED • VERIFIED • ARCHIVED •</textPath>
-              </text>
-              <g transform="translate(100 100)">
-                <path class="mark" d="M-28 -6 L 28 -6 L 28 6 L-28 6 Z"></path>
-                <path class="mark" d="M-6 -28 L 6 -28 L 6 28 L-6 28 Z"></path>
-                <circle class="mark" cx="0" cy="0" r="10" fill="none" stroke="rgba(138,3,3,.70)" stroke-width="2"></circle>
-              </g>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="controls">
-        <div class="slider-wrap" id="slider-wrap">
-          <div class="slider-hit" id="slider-hit" aria-hidden="true"></div>
-          <input type="range" id="entropy-slider" min="0" max="1" step="0.0001" value="0" />
-          <div class="slider-progress" id="progress-bar"></div>
-        </div>
-      </div>
-    </div>
-    <div></div>
-  </div>
-
   <script type="module" src="/demo/_assets/altrion-part2.js"></script>
 </body>
 </html>
