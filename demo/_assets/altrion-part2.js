@@ -1,5 +1,5 @@
-import * as THREE from "./vendor/three/three.module.js";
-import { OrbitControls } from "./vendor/three/OrbitControls.js";
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const mix = (a, b, t) => a * (1 - t) + b * t;
@@ -14,12 +14,15 @@ function chooseParticleBudget(){
   const w = Math.max(1, window.innerWidth);
   const h = Math.max(1, window.innerHeight);
   const megapixels = (w * h * dpr * dpr) / 1_000_000;
+
   const base = 320_000;
   const k = 1 / Math.max(1.0, megapixels * 0.52);
   const budget = Math.floor(base * k);
+
   const coarse = w < 820 ? 1 : 0;
-  const cap = coarse ? 190_000 : 340_000;
-  return Math.max(150_000, Math.min(cap, budget));
+  const mobileCap = coarse ? 190_000 : 340_000;
+
+  return Math.max(150_000, Math.min(mobileCap, budget));
 }
 
 const BUDGET = chooseParticleBudget();
@@ -70,209 +73,219 @@ const commonUniforms = {
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.075;
+
 controls.enablePan = false;
+
 controls.enableZoom = true;
 controls.zoomSpeed = 0.90;
+
 controls.enableRotate = true;
 controls.rotateSpeed = 0.38;
+
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.14;
+
 controls.minPolarAngle = 0.92;
 controls.maxPolarAngle = 1.50;
+
 controls.target.set(0.0, 0.0, 0.0);
 
 const vertexShader = `
-precision highp float;
+  precision highp float;
 
-uniform float uTime;
-uniform float uEntropy;
-uniform float uPixelRatio;
-uniform float uSizeMul;
-uniform float uAlphaMul;
-uniform float uFocus;
+  uniform float uTime;
+  uniform float uEntropy;
+  uniform float uPixelRatio;
+  uniform float uSizeMul;
+  uniform float uAlphaMul;
+  uniform float uFocus;
 
-attribute vec3 aRandom;
-varying vec3 vColor;
-varying float vAlpha;
-varying float vBlur;
-varying float vHeat;
+  attribute vec3 aRandom;
+  varying vec3 vColor;
+  varying float vAlpha;
+  varying float vBlur;
+  varying float vHeat;
+  varying float vResidue;
 
-vec3 mod289(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec4 mod289(vec4 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }
-vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314*r; }
+  vec3 mod289(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
+  vec4 mod289(vec4 x){ return x - floor(x*(1.0/289.0))*289.0; }
+  vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }
+  vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314*r; }
 
-float snoise(vec3 v){
-  const vec2 C = vec2(1.0/6.0, 1.0/3.0);
-  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-  vec3 i = floor(v + dot(v, C.yyy));
-  vec3 x0 = v - i + dot(i, C.xxx);
-  vec3 g = step(x0.yzx, x0.xyz);
-  vec3 l = 1.0 - g;
-  vec3 i1 = min(g.xyz, l.zxy);
-  vec3 i2 = max(g.xyz, l.zxy);
-  vec3 x1 = x0 - i1 + C.xxx;
-  vec3 x2 = x0 - i2 + C.yyy;
-  vec3 x3 = x0 - D.yyy;
-  i = mod289(i);
-  vec4 p = permute( permute( permute(
-    i.z + vec4(0.0, i1.z, i2.z, 1.0)) +
-    i.y + vec4(0.0, i1.y, i2.y, 1.0)) +
-    i.x + vec4(0.0, i1.x, i2.x, 1.0));
-  float n_ = 0.142857142857;
-  vec3 ns = n_ * D.wyz - D.xzx;
-  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-  vec4 x_ = floor(j * ns.z);
-  vec4 y_ = floor(j - 7.0 * x_);
-  vec4 x = x_ * ns.x + ns.yyyy;
-  vec4 y = y_ * ns.x + ns.yyyy;
-  vec4 h = 1.0 - abs(x) - abs(y);
-  vec4 b0 = vec4(x.xy, y.xy);
-  vec4 b1 = vec4(x.zw, y.zw);
-  vec4 s0 = floor(b0)*2.0 + 1.0;
-  vec4 s1 = floor(b1)*2.0 + 1.0;
-  vec4 sh = -step(h, vec4(0.0));
-  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
-  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
-  vec3 p0 = vec3(a0.xy, h.x);
-  vec3 p1 = vec3(a0.zw, h.y);
-  vec3 p2 = vec3(a1.xy, h.z);
-  vec3 p3 = vec3(a1.zw, h.w);
-  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
-  p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
-  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-  m = m*m;
-  return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
-}
-
-vec3 curl(vec3 p){
-  float e = 0.12;
-  vec3 dx = vec3(e,0.0,0.0);
-  vec3 dy = vec3(0.0,e,0.0);
-  vec3 dz = vec3(0.0,0.0,e);
-  float x = snoise(p + dy) - snoise(p - dy);
-  float y = snoise(p + dz) - snoise(p - dz);
-  float z = snoise(p + dx) - snoise(p - dx);
-  return vec3(x,y,z);
-}
-
-float sat(float x){ return clamp(x,0.0,1.0); }
-
-void main(){
-  vec3 pos = position;
-  float t = uTime;
-
-  float e0 = sat(uEntropy);
-  float e1 = smoothstep(0.02, 0.22, e0);
-  float e2 = smoothstep(0.25, 0.60, e0);
-  float e3 = smoothstep(0.55, 0.88, e0);
-  float e4 = smoothstep(0.85, 1.00, e0);
-
-  float seed = aRandom.x;
-  float drift = aRandom.z;
-
-  vec3 pN = pos * 0.16 + vec3(seed*7.1, seed*3.7, seed*5.9);
-
-  if (e1 > 0.0){
-    vec3 c = curl(pN * 2.2 + t * 0.82);
-    pos += c * (0.95 + seed*0.6) * e1 * 0.46;
+  float snoise(vec3 v){
+    const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+    vec3 i = floor(v + dot(v, C.yyy));
+    vec3 x0 = v - i + dot(i, C.xxx);
+    vec3 g = step(x0.yzx, x0.xyz);
+    vec3 l = 1.0 - g;
+    vec3 i1 = min(g.xyz, l.zxy);
+    vec3 i2 = max(g.xyz, l.zxy);
+    vec3 x1 = x0 - i1 + C.xxx;
+    vec3 x2 = x0 - i2 + C.yyy;
+    vec3 x3 = x0 - D.yyy;
+    i = mod289(i);
+    vec4 p = permute( permute( permute(
+      i.z + vec4(0.0, i1.z, i2.z, 1.0)) +
+      i.y + vec4(0.0, i1.y, i2.y, 1.0)) +
+      i.x + vec4(0.0, i1.x, i2.x, 1.0));
+    float n_ = 0.142857142857;
+    vec3 ns = n_ * D.wyz - D.xzx;
+    vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+    vec4 x_ = floor(j * ns.z);
+    vec4 y_ = floor(j - 7.0 * x_);
+    vec4 x = x_ * ns.x + ns.yyyy;
+    vec4 y = y_ * ns.x + ns.yyyy;
+    vec4 h = 1.0 - abs(x) - abs(y);
+    vec4 b0 = vec4(x.xy, y.xy);
+    vec4 b1 = vec4(x.zw, y.zw);
+    vec4 s0 = floor(b0)*2.0 + 1.0;
+    vec4 s1 = floor(b1)*2.0 + 1.0;
+    vec4 sh = -step(h, vec4(0.0));
+    vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+    vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+    vec3 p0 = vec3(a0.xy, h.x);
+    vec3 p1 = vec3(a0.zw, h.y);
+    vec3 p2 = vec3(a1.xy, h.z);
+    vec3 p3 = vec3(a1.zw, h.w);
+    vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+    p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+    vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+    m = m*m;
+    return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
   }
 
-  if (e2 > 0.0){
-    float spike = max(0.0, sin(t * (1.6 + seed) + (pos.x*0.8 + pos.z*0.6) * 2.2));
-    spike *= e2 * (2.0 + seed*2.4);
-    vec3 dir = normalize(pos + 0.0001);
-    pos += dir * spike;
+  vec3 curl(vec3 p){
+    float e = 0.12;
+    vec3 dx = vec3(e,0.0,0.0);
+    vec3 dy = vec3(0.0,e,0.0);
+    vec3 dz = vec3(0.0,0.0,e);
+    float x = snoise(p + dy) - snoise(p - dy);
+    float y = snoise(p + dz) - snoise(p - dz);
+    float z = snoise(p + dx) - snoise(p - dx);
+    return vec3(x,y,z);
   }
 
-  if (e3 > 0.0){
-    vec3 flow = curl(pN * 0.52 + t * 0.18);
-    pos += flow * e3 * (4.1 + seed*2.0);
-    pos.y -= e3 * (abs(drift) * 7.0 + 1.2);
+  float sat(float x){ return clamp(x,0.0,1.0); }
+
+  void main(){
+    vec3 pos = position;
+    float t = uTime;
+
+    float e0 = sat(uEntropy);
+    float e1 = smoothstep(0.02, 0.22, e0);
+    float e2 = smoothstep(0.25, 0.60, e0);
+    float e3 = smoothstep(0.55, 0.88, e0);
+    float e4 = smoothstep(0.85, 1.00, e0);
+
+    float seed = aRandom.x;
+    float drift = aRandom.z;
+
+    vec3 pN = pos * 0.16 + vec3(seed*7.1, seed*3.7, seed*5.9);
+
+    if (e1 > 0.0){
+      vec3 c = curl(pN * 2.2 + t * 0.82);
+      pos += c * (0.95 + seed*0.6) * e1 * 0.46;
+    }
+
+    if (e2 > 0.0){
+      float spike = max(0.0, sin(t * (1.6 + seed) + (pos.x*0.8 + pos.z*0.6) * 2.2));
+      spike *= e2 * (2.0 + seed*2.4);
+      vec3 dir = normalize(pos + 0.0001);
+      pos += dir * spike;
+    }
+
+    if (e3 > 0.0){
+      vec3 flow = curl(pN * 0.52 + t * 0.18);
+      pos += flow * e3 * (4.1 + seed*2.0);
+      pos.y -= e3 * (abs(drift) * 7.0 + 1.2);
+    }
+
+    if (e4 > 0.0){
+      float grid = 1.85;
+      vec3 snapped = floor(pos / grid + 0.5) * grid;
+      pos = mix(pos, snapped, e4);
+      vec3 scatter = (aRandom - 0.5) * 2.0;
+      pos += scatter * e4 * 40.0;
+    }
+
+    vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+    gl_Position = projectionMatrix * mv;
+
+    float dist = length(mv.xyz);
+    float dof = abs(dist - uFocus);
+    float blur = smoothstep(0.0, 12.0, dof);
+    vBlur = blur;
+
+    float base = (66.0 + 30.0 * (1.0 - smoothstep(0.0, 1.0, e0))) * aRandom.y;
+    float bokeh = (1.0 + blur * 2.25);
+    gl_PointSize = base * uSizeMul * bokeh * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
+
+    vec3 cMarble = vec3(0.99, 0.99, 0.995);
+    vec3 cGold   = vec3(0.88, 0.75, 0.30);
+    vec3 cCrim   = vec3(0.66, 0.06, 0.08);
+    vec3 cVoid   = vec3(0.03, 0.03, 0.035);
+
+    vec3 col = cMarble;
+    if (e0 <= 0.4) col = mix(cMarble, cGold, e0 * 2.5);
+    else if (e0 <= 0.8) col = mix(cGold, cCrim, (e0 - 0.4) * 2.5);
+    else col = mix(cCrim, cVoid, (e0 - 0.8) * 5.0);
+
+    float heat = smoothstep(0.14, 0.58, e0) * (1.0 - smoothstep(0.62, 0.98, e0));
+    vHeat = heat;
+
+    float micro = snoise(pN * 2.4 + t * 0.25) * 0.09;
+    col += vec3(1.0, 0.48, 0.14) * heat * 0.46;
+    col += micro;
+
+    vColor = col;
+
+    float focusFade = 1.0 - blur * 0.50;
+    float entropyFade = 1.0 - e4 * 0.30;
+    vAlpha = uAlphaMul * focusFade * entropyFade;
+
+    vResidue = e4;
   }
-
-  if (e4 > 0.0){
-    float grid = 1.85;
-    vec3 snapped = floor(pos / grid + 0.5) * grid;
-    pos = mix(pos, snapped, e4);
-    vec3 scatter = (aRandom - 0.5) * 2.0;
-    pos += scatter * e4 * 40.0;
-  }
-
-  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-  gl_Position = projectionMatrix * mv;
-
-  float dist = length(mv.xyz);
-  float dof = abs(dist - uFocus);
-  float blur = smoothstep(0.0, 12.0, dof);
-  vBlur = blur;
-
-  float base = (66.0 + 30.0 * (1.0 - smoothstep(0.0, 1.0, e0))) * aRandom.y;
-  float bokeh = (1.0 + blur * 2.25);
-  gl_PointSize = base * uSizeMul * bokeh * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
-
-  vec3 cMarble = vec3(0.99, 0.99, 0.995);
-  vec3 cIris   = vec3(0.48, 0.50, 1.00);
-  vec3 cVio    = vec3(0.28, 0.14, 0.78);
-  vec3 cCrim   = vec3(0.66, 0.06, 0.08);
-  vec3 cVoid   = vec3(0.03, 0.03, 0.035);
-
-  vec3 col = cMarble;
-  if (e0 <= 0.35) col = mix(cMarble, cIris, e0 * 2.857142857);
-  else if (e0 <= 0.70) col = mix(cIris, cVio, (e0 - 0.35) * 2.857142857);
-  else if (e0 <= 0.88) col = mix(cVio, cCrim, (e0 - 0.70) * 5.555555556);
-  else col = mix(cCrim, cVoid, (e0 - 0.88) * 8.333333333);
-
-  float heat = smoothstep(0.14, 0.58, e0) * (1.0 - smoothstep(0.62, 0.98, e0));
-  vHeat = heat;
-
-  float micro = snoise(pN * 2.4 + t * 0.25) * 0.09;
-  col += vec3(0.44, 0.58, 1.0) * heat * 0.22;
-  col += micro;
-
-  vColor = col;
-
-  float focusFade = 1.0 - blur * 0.50;
-  float entropyFade = 1.0 - e4 * 0.30;
-  vAlpha = uAlphaMul * focusFade * entropyFade;
-}
 `;
 
 const fragmentShader = `
-precision highp float;
+  precision highp float;
 
-varying vec3 vColor;
-varying float vAlpha;
-varying float vBlur;
-varying float vHeat;
+  varying vec3 vColor;
+  varying float vAlpha;
+  varying float vBlur;
+  varying float vHeat;
+  varying float vResidue;
 
-void main(){
-  vec2 uv = gl_PointCoord - vec2(0.5);
-  float r = length(uv);
-  if (r > 0.5) discard;
+  void main(){
+    vec2 uv = gl_PointCoord - vec2(0.5);
+    float r = length(uv);
+    if (r > 0.5) discard;
 
-  float hardness = 0.50 - (vBlur * 0.38);
-  float alpha = 1.0 - smoothstep(hardness, 0.5, r);
+    float hardness = 0.50 - (vBlur * 0.38);
+    float alpha = 1.0 - smoothstep(hardness, 0.5, r);
 
-  float core = 1.0 - smoothstep(0.0, 0.13, r);
-  vec3 col = vColor + core * (0.22 + vHeat * 0.22);
+    float core = 1.0 - smoothstep(0.0, 0.13, r);
+    vec3 col = vColor + core * (0.26 + vHeat * 0.30);
 
-  float edgeGlow = 1.0 - smoothstep(0.22, 0.5, r);
-  col += edgeGlow * (0.10 + vHeat * 0.10);
+    float edgeGlow = 1.0 - smoothstep(0.22, 0.5, r);
+    col += edgeGlow * (0.10 + vHeat * 0.14);
 
-  gl_FragColor = vec4(col, alpha * vAlpha);
-}
+    gl_FragColor = vec4(col, alpha * vAlpha);
+  }
 `;
 
 function buildGeometry(count, radius, seedShift){
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const randoms = new Float32Array(count * 3);
+
   const scale = radius * 0.52;
 
   for (let i = 0; i < count; i++){
     const u = Math.random() * Math.PI * 2;
     const v = Math.random() * Math.PI * 2;
+
     const r = (3.05 + Math.cos(5.0 * u) * 0.62 + Math.sin(5.0 * v) * 0.58) * 0.86;
 
     let x = r * Math.cos(u) * Math.sin(v);
@@ -376,44 +389,44 @@ const residueMat = new THREE.ShaderMaterial({
     uPixelRatio: commonUniforms.uPixelRatio
   },
   vertexShader: `
-precision highp float;
-uniform float uTime;
-uniform float uEntropy;
-uniform float uPixelRatio;
-varying float vA;
+    precision highp float;
+    uniform float uTime;
+    uniform float uEntropy;
+    uniform float uPixelRatio;
+    varying float vA;
 
-void main(){
-  vec3 pos = position;
-  float e4 = smoothstep(0.85, 1.0, uEntropy);
+    void main(){
+      vec3 pos = position;
+      float e4 = smoothstep(0.85, 1.0, uEntropy);
 
-  float trem = (sin(uTime * 0.9 + pos.x*0.08) + sin(uTime*1.3 + pos.y*0.06)) * 0.03;
-  pos += vec3(trem, -trem*0.35, trem*0.25) * (1.0 - e4) * 0.45;
+      float trem = (sin(uTime * 0.9 + pos.x*0.08) + sin(uTime*1.3 + pos.y*0.06)) * 0.03;
+      pos += vec3(trem, -trem*0.35, trem*0.25) * (1.0 - e4) * 0.45;
 
-  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-  gl_Position = projectionMatrix * mv;
+      vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+      gl_Position = projectionMatrix * mv;
 
-  float s = 22.0;
-  gl_PointSize = s * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
+      float s = 22.0;
+      gl_PointSize = s * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
 
-  vA = e4;
-}
-`,
+      vA = e4;
+    }
+  `,
   fragmentShader: `
-precision highp float;
-varying float vA;
+    precision highp float;
+    varying float vA;
 
-void main(){
-  vec2 uv = gl_PointCoord - vec2(0.5);
-  float r = length(uv);
-  if (r > 0.5) discard;
+    void main(){
+      vec2 uv = gl_PointCoord - vec2(0.5);
+      float r = length(uv);
+      if (r > 0.5) discard;
 
-  float a = 1.0 - smoothstep(0.18, 0.5, r);
-  vec3 c = vec3(0.99, 0.99, 1.0);
-  c += (1.0 - smoothstep(0.0, 0.12, r)) * 0.22;
+      float a = 1.0 - smoothstep(0.18, 0.5, r);
+      vec3 c = vec3(0.99, 0.99, 1.0);
+      c += (1.0 - smoothstep(0.0, 0.12, r)) * 0.22;
 
-  gl_FragColor = vec4(c, a * vA * 0.92);
-}
-`
+      gl_FragColor = vec4(c, a * vA * 0.92);
+    }
+  `
 });
 
 const residuePts = new THREE.Points(residueGeom, residueMat);
@@ -443,7 +456,7 @@ const ui = {
   title: document.getElementById("ph-title"),
   desc: document.getElementById("ph-desc"),
   badge: document.getElementById("ph-badge"),
-  items: Array.from(document.querySelectorAll(".traj-item")),
+  items: document.querySelectorAll(".traj-item"),
   mForms: document.getElementById("m-forms"),
   mExc: document.getElementById("m-exc"),
   mLat: document.getElementById("m-lat"),
@@ -463,6 +476,10 @@ function setEntropyUI(v){
   ui.slider.value = String(targetEntropy);
   ui.progress.style.width = (targetEntropy * 100) + "%";
 }
+
+ui.slider.addEventListener("input", (e) => {
+  setEntropyUI(parseFloat(e.target.value));
+}, { passive: true });
 
 function setFromClientX(clientX){
   const r = ui.wrap.getBoundingClientRect();
@@ -495,19 +512,6 @@ ui.hit.addEventListener("pointerdown", onPointerDown, { passive: false });
 ui.hit.addEventListener("pointermove", onPointerMove, { passive: false });
 ui.hit.addEventListener("pointerup", onPointerUp, { passive: false });
 ui.hit.addEventListener("pointercancel", onPointerUp, { passive: false });
-
-ui.items.forEach((el, i) => {
-  el.setAttribute("role", "button");
-  el.setAttribute("tabindex", "0");
-  const toPhase = () => setEntropyUI(i === 0 ? 0 : (i / 4));
-  el.addEventListener("click", toPhase, { passive: true });
-  el.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " "){
-      e.preventDefault();
-      toPhase();
-    }
-  }, { passive: false });
-});
 
 {
   const panel = document.querySelector(".panel-glass");
@@ -590,7 +594,7 @@ function animate(){
   residuePts.rotation.y = time * 0.035;
   residuePts.rotation.z = time * 0.018;
 
-  const idx = Math.min(Math.floor(entropy * 4.999), 4);
+  const idx = Math.min(Math.floor(entropy * 4.99), 4);
   if (ui.title.innerText !== phases[idx].t){
     ui.num.innerText = `PHASE 0${idx}`;
     ui.title.innerText = phases[idx].t;
@@ -608,6 +612,7 @@ function animate(){
   const blur = mix(0.00, 1.00, smoothstep(0.60, 0.985, entropy));
   const skew = mix(0.00, 1.00, smoothstep(0.45, 0.93, entropy));
   const ruleBoost = mix(0.00, 1.00, smoothstep(0.18, 0.76, entropy));
+  const goldMute = mix(0.00, 1.00, smoothstep(0.62, 1.00, entropy));
   const letter = mix(0.00, 1.00, smoothstep(0.28, 0.90, entropy));
   const scan = mix(0.00, 1.00, smoothstep(0.66, 0.985, entropy));
   const hudGlow = mix(0.00, 1.00, smoothstep(0.10, 0.55, entropy)) * (0.65 + 0.35 * Math.sin(time * 0.85));
@@ -626,6 +631,7 @@ function animate(){
   rootStyle.setProperty("--uiBlur", blur.toFixed(6));
   rootStyle.setProperty("--uiSkew", skew.toFixed(6));
   rootStyle.setProperty("--uiRuleBoost", ruleBoost.toFixed(6));
+  rootStyle.setProperty("--uiGoldMute", goldMute.toFixed(6));
   rootStyle.setProperty("--uiLetter", letter.toFixed(6));
   rootStyle.setProperty("--uiScan", scan.toFixed(6));
   rootStyle.setProperty("--uiFlicker", (time * (1.0 + entropy * 6.0)).toFixed(6));
