@@ -12,8 +12,24 @@
   "author": {
     "@type": "Person",
     "name": "Takashi Sato",
+    "url": "https://takashisato.me/",
+    "identifier": "https://orcid.org/0009-0003-1584-6965"
+  },
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "AI Governance Archive (Part I–III)",
     "url": "https://takashisato.me/"
   },
   "datePublished": "2025-12-13",
-  "dateModified": "2026-01-12"
+  "dateModified": "2026-01-12",
+  "identifier": [
+    { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5913703" }
+  ],
+  "image": "https://takashisato.me/assets/og-part2.jpg",
+  "keywords": "AI governance, sociotechnical systems, pre-abuse failure, organizational entropy, ALTRION",
+  "encoding": {
+    "@type": "MediaObject",
+    "contentUrl": "https://takashisato.me/pdf/part2.pdf",
+    "encodingFormat": "application/pdf"
+  }
 }
