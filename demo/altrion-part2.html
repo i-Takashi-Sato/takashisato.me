@@ -5,12 +5,91 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#050507" />
-  <title>ALTRION — Part II Visualizer</title>
-
+  <title>FORECASTING FAILURE — PART II VISUALIZER (BUREAUCRATIC THERMODYNAMICS)</title>
   <link rel="stylesheet" href="/demo/_assets/altrion-part2.css" />
 </head>
 
 <body>
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-label">INITIALIZING GOVERNANCE MODEL…</div>
+      <div class="loader-bar"><span></span></div>
+    </div>
+  </div>
+
+  <main class="stage">
+    <section class="panel panel-glass" aria-label="Phase panel">
+      <header class="panel-head">
+        <div class="ph-left">
+          <div class="ph-num" id="ph-num">PHASE 00</div>
+          <h1 class="ph-title" id="ph-title">Formal Coherence</h1>
+          <p class="ph-desc" id="ph-desc">
+            Rules close into a self-consistent loop. The system is “sound” on paper. Costs are deferred into procedure, waiting to be paid by operators.
+          </p>
+        </div>
+
+        <div class="ph-right">
+          <div class="badge" id="ph-badge">STATUS: NOMINAL</div>
+
+          <div class="metrics" aria-label="Operational metrics">
+            <div class="metric">
+              <div class="metric-k">FORMS</div>
+              <div class="metric-v" id="m-forms">018</div>
+            </div>
+            <div class="metric">
+              <div class="metric-k">EXCEPTIONS</div>
+              <div class="metric-v" id="m-exc">000</div>
+            </div>
+            <div class="metric">
+              <div class="metric-k">LATENCY</div>
+              <div class="metric-v" id="m-lat">0.4d</div>
+            </div>
+            <div class="metric">
+              <div class="metric-k">LIABILITY</div>
+              <div class="metric-v" id="m-liab">0.08</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="slider" id="slider-wrap" aria-label="Entropy slider">
+        <div class="slider-rail" aria-hidden="true"></div>
+        <div class="slider-progress" id="progress-bar" aria-hidden="true"></div>
+        <input id="entropy-slider" class="slider-input" type="range" min="0" max="1" step="0.001" value="0" aria-label="Entropy" />
+        <div id="slider-hit" class="slider-hit" aria-hidden="true"></div>
+      </div>
+
+      <nav class="traj" aria-label="Trajectories">
+        <button class="traj-item active" type="button">
+          <span class="t-idx">00</span>
+          <span class="t-name">Formal Coherence</span>
+        </button>
+        <button class="traj-item" type="button">
+          <span class="t-idx">01</span>
+          <span class="t-name">Cognitive Offload</span>
+        </button>
+        <button class="traj-item" type="button">
+          <span class="t-idx">02</span>
+          <span class="t-name">Liability Hardening</span>
+        </button>
+        <button class="traj-item" type="button">
+          <span class="t-idx">03</span>
+          <span class="t-name">Operational Entropy</span>
+        </button>
+        <button class="traj-item" type="button">
+          <span class="t-idx">04</span>
+          <span class="t-name">Legibility Capture</span>
+        </button>
+      </nav>
+
+      <footer class="panel-foot">
+        <div class="hint">
+          Drag entropy. Click phases. Scroll on the panel to zoom/rotate.
+        </div>
+      </footer>
+    </section>
+  </main>
+
   <script type="module" src="/demo/_assets/altrion-part2.js"></script>
 </body>
 </html>
