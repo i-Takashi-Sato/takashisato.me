@@ -4,143 +4,74 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <title>ALTRION — Part I (Entropy Instrument)</title>
-  <link rel="stylesheet" href="/demo/_assets/altrion-part1.css" />
+  <title>ALTRION — Integrated Demo (Phase-Modulated Spectral Truthline)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/demo/_assets/altrion-part1.css">
 </head>
+
 <body>
-  <div id="loader" class="loader" aria-hidden="true">
-    <div class="loader-inner">
-      <div class="loader-ring"></div>
-      <div class="loader-text">
-        <div class="loader-title">CALIBRATING</div>
-        <div class="loader-sub">INSTRUMENT BUS</div>
+  <div class="stage" id="stage">
+    <canvas id="dust"></canvas>
+    <canvas id="strands"></canvas>
+    <div class="cursorLight" id="cursor"></div>
+
+    <div class="ui">
+      <div class="concept">
+        <div class="label">Concept</div>
+        <p class="desc">
+          ALTRION rendered as a workflow-centric “cognitive firewall”:
+          four gates impose structured friction; oversight can phase-transition
+          into ritualized collapse under fatigue and non-compliance.
+        </p>
+      </div>
+
+      <div class="pblock">
+        <div class="label">P(INT) · Intervention Probability</div>
+        <div class="value" id="uiP">0.00</div>
+        <div class="meta" id="uiMeta"></div>
+      </div>
+
+      <div class="gates">
+        <div class="wire" id="g1"><span class="wlabel">01 / CONSTRAINT</span></div>
+        <div class="wire" id="g2"><span class="wlabel">02 / VALUE TENSION</span></div>
+        <div class="wire" id="g3"><span class="wlabel">03 / TEMPORAL RELIABILITY</span></div>
+        <div class="wire" id="g4"><span class="wlabel">04 / ARBITRATION · ADR</span></div>
+      </div>
+
+      <div class="titleblock">
+        <div class="workTitle">ALTRION · The Governance Collider</div>
+      </div>
+
+      <div class="statusblock">
+        <div class="statusRow">
+          <span class="gem" id="gem"></span>
+          <span id="uiStatus">STABLE FLOW</span>
+        </div>
+      </div>
+
+      <div class="adr">
+        <div class="label">ADR · Auditable Decision Record</div>
+
+        <div class="adr-actions">
+          <button class="adr-btn" id="btnExport" type="button">EXPORT ADR JSON</button>
+          <button class="adr-btn" id="btnCopy" type="button">COPY</button>
+          <span class="adr-note" id="adrNote"></span>
+        </div>
+
+        <div class="hint">
+          Every ~1.6s a synthetic “case” arrives. If flagged, you may intervene:
+          press <b>O</b> to Override (you’ll be asked for a rationale).<br/>
+          Desktop: move mouse to change Alignment (X) + Workload baseline (Y), drag to spike workload.
+          Mobile: auto-run.
+        </div>
+        <div class="log" id="uiLog"></div>
       </div>
     </div>
   </div>
 
-  <div class="root">
-    <div class="frame">
-      <div class="panel-glass">
-        <div class="panel-head">
-          <div class="panel-kicker">ALTRION</div>
-          <div class="panel-title">
-            <span class="panel-title-strong">ENTROPY</span>
-            <span class="panel-title-soft">INSTRUMENT</span>
-          </div>
-          <div class="panel-sub">PART I</div>
-        </div>
-
-        <div class="panel-body">
-          <div class="phase">
-            <div class="phase-row">
-              <div class="phase-num" id="ph-num">PHASE 00</div>
-              <div class="phase-badge" id="ph-badge">STATUS: NOMINAL</div>
-            </div>
-            <div class="phase-title" id="ph-title">Formal Coherence</div>
-            <div class="phase-desc" id="ph-desc">
-              Rules close into a self-consistent loop. The system is “sound” on paper. Costs are deferred into procedure, waiting to be paid by operators.
-            </div>
-          </div>
-
-          <div class="metrics">
-            <div class="metric">
-              <div class="metric-k">FORMS</div>
-              <div class="metric-v" id="m-forms">018</div>
-            </div>
-            <div class="metric">
-              <div class="metric-k">EXCEPTIONS</div>
-              <div class="metric-v" id="m-exc">000</div>
-            </div>
-            <div class="metric">
-              <div class="metric-k">LATENCY</div>
-              <div class="metric-v" id="m-lat">0.5d</div>
-            </div>
-            <div class="metric">
-              <div class="metric-k">LIABILITY</div>
-              <div class="metric-v" id="m-liab">0.08</div>
-            </div>
-          </div>
-
-          <div class="traj">
-            <div class="traj-head">TRAJECTORIES</div>
-
-            <div class="traj-list">
-              <div class="traj-item active">
-                <div class="traj-dot"></div>
-                <div class="traj-meta">
-                  <div class="traj-name">Formal Coherence</div>
-                  <div class="traj-sub">Paper integrity</div>
-                </div>
-              </div>
-
-              <div class="traj-item">
-                <div class="traj-dot"></div>
-                <div class="traj-meta">
-                  <div class="traj-name">Cognitive Offload</div>
-                  <div class="traj-sub">Checklist gravity</div>
-                </div>
-              </div>
-
-              <div class="traj-item">
-                <div class="traj-dot"></div>
-                <div class="traj-meta">
-                  <div class="traj-name">Liability Hardening</div>
-                  <div class="traj-sub">Defensibility over truth</div>
-                </div>
-              </div>
-
-              <div class="traj-item">
-                <div class="traj-dot"></div>
-                <div class="traj-meta">
-                  <div class="traj-name">Operational Entropy</div>
-                  <div class="traj-sub">Exception heat</div>
-                </div>
-              </div>
-
-              <div class="traj-item">
-                <div class="traj-dot"></div>
-                <div class="traj-meta">
-                  <div class="traj-name">Legibility Capture</div>
-                  <div class="traj-sub">Grid compression</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="sig">
-            <div class="sig-rule"></div>
-            <div class="sig-mark">
-              <div class="sig-glyph">
-                <svg viewBox="0 0 100 100" aria-hidden="true">
-                  <g fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M50 12.5C69.5 12.5 85.5 28.5 85.5 48C85.5 67.5 69.5 83.5 50 83.5C30.5 83.5 14.5 67.5 14.5 48C14.5 28.5 30.5 12.5 50 12.5Z" opacity="0.65"/>
-                    <path d="M50 24.5C62.8 24.5 73.3 35 73.3 47.8C73.3 60.6 62.8 71.1 50 71.1C37.2 71.1 26.7 60.6 26.7 47.8C26.7 35 37.2 24.5 50 24.5Z" opacity="0.35"/>
-                    <path d="M33.5 59.8L66.5 35.8" opacity="0.9"/>
-                    <path d="M33.5 35.8L66.5 59.8" opacity="0.9"/>
-                  </g>
-                </svg>
-              </div>
-              <div class="sig-text">
-                <div class="sig-top">INSTRUMENT VERIFIED</div>
-                <div class="sig-bottom">STATEFUL ENTROPY MODEL</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <div class="slider-wrap" id="slider-wrap">
-            <div class="slider-hit" id="slider-hit" aria-hidden="true"></div>
-            <input type="range" id="entropy-slider" min="0" max="1" step="0.0001" value="0" />
-            <div class="slider-progress" id="progress-bar"></div>
-          </div>
-        </div>
-      </div>
-
-      <div></div>
-    </div>
-  </div>
-
-  <script type="module" src="/demo/_assets/altrion-part1.js"></script>
+  <script defer src="/demo/_assets/altrion-part1.js"></script>
 </body>
 </html>
