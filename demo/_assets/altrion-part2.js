@@ -14,11 +14,14 @@ function chooseParticleBudget(){
   const w = Math.max(1, window.innerWidth);
   const h = Math.max(1, window.innerHeight);
   const megapixels = (w * h * dpr * dpr) / 1_000_000;
+
   const base = 320_000;
   const k = 1 / Math.max(1.0, megapixels * 0.52);
   const budget = Math.floor(base * k);
+
   const coarse = w < 820 ? 1 : 0;
   const cap = coarse ? 190_000 : 340_000;
+
   return Math.max(150_000, Math.min(cap, budget));
 }
 
@@ -31,7 +34,6 @@ const COUNTS = {
 
 const CONFIG = {
   radius: 16,
-  symmetry: 5,
   grid: 1.85,
   gridResidueCount: Math.min(16_000, Math.floor(BUDGET * 0.075))
 };
@@ -266,11 +268,13 @@ function buildGeometry(count, radius, seedShift){
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const randoms = new Float32Array(count * 3);
+
   const scale = radius * 0.52;
 
   for (let i = 0; i < count; i++){
     const u = Math.random() * Math.PI * 2;
     const v = Math.random() * Math.PI * 2;
+
     const r = (3.05 + Math.cos(5.0 * u) * 0.62 + Math.sin(5.0 * v) * 0.58) * 0.86;
 
     let x = r * Math.cos(u) * Math.sin(v);
@@ -458,11 +462,12 @@ const phases = [
 
 function setEntropyUI(v){
   targetEntropy = clamp01(v);
-  ui.slider.value = String(targetEntropy);
-  ui.progress.style.width = (targetEntropy * 100) + "%";
+  if (ui.slider) ui.slider.value = String(targetEntropy);
+  if (ui.progress) ui.progress.style.width = (targetEntropy * 100) + "%";
 }
 
 function setFromClientX(clientX){
+  if (!ui.wrap) return;
   const r = ui.wrap.getBoundingClientRect();
   const t = clamp01((clientX - r.left) / Math.max(1, r.width));
   setEntropyUI(t);
@@ -472,7 +477,7 @@ let dragging = false;
 
 const onPointerDown = (e) => {
   dragging = true;
-  ui.wrap.setPointerCapture?.(e.pointerId);
+  ui.wrap?.setPointerCapture?.(e.pointerId);
   setFromClientX(e.clientX);
   e.preventDefault();
 };
@@ -485,18 +490,20 @@ const onPointerMove = (e) => {
 
 const onPointerUp = (e) => {
   dragging = false;
-  ui.wrap.releasePointerCapture?.(e.pointerId);
+  ui.wrap?.releasePointerCapture?.(e.pointerId);
   e.preventDefault();
 };
 
-ui.hit.addEventListener("pointerdown", onPointerDown, { passive: false });
-ui.hit.addEventListener("pointermove", onPointerMove, { passive: false });
-ui.hit.addEventListener("pointerup", onPointerUp, { passive: false });
-ui.hit.addEventListener("pointercancel", onPointerUp, { passive: false });
+ui.hit?.addEventListener("pointerdown", onPointerDown, { passive: false });
+ui.hit?.addEventListener("pointermove", onPointerMove, { passive: false });
+ui.hit?.addEventListener("pointerup", onPointerUp, { passive: false });
+ui.hit?.addEventListener("pointercancel", onPointerUp, { passive: false });
+
+ui.slider?.addEventListener("input", (e) => {
+  setEntropyUI(parseFloat(e.target.value));
+}, { passive: true });
 
 ui.items.forEach((el, i) => {
-  el.setAttribute("role", "button");
-  el.setAttribute("tabindex", "0");
   const toPhase = () => setEntropyUI(i === 0 ? 0 : (i / 4));
   el.addEventListener("click", toPhase, { passive: true });
   el.addEventListener("keydown", (e) => {
@@ -526,7 +533,7 @@ ui.items.forEach((el, i) => {
       metaKey: e.metaKey
     }));
   };
-  panel.addEventListener("wheel", forwardWheel, { passive: true });
+  panel?.addEventListener("wheel", forwardWheel, { passive: true });
 }
 
 const rootStyle = document.documentElement.style;
@@ -589,11 +596,11 @@ function animate(){
   residuePts.rotation.z = time * 0.018;
 
   const idx = Math.min(Math.floor(entropy * 4.999), 4);
-  if (ui.title.innerText !== phases[idx].t){
-    ui.num.innerText = \`PHASE 0\${idx}\`;
-    ui.title.innerText = phases[idx].t;
-    ui.desc.innerText = phases[idx].d;
-    ui.badge.innerText = phases[idx].s;
+  if (ui.title && ui.title.innerText !== phases[idx].t){
+    if (ui.num) ui.num.innerText = `PHASE 0${idx}`;
+    if (ui.title) ui.title.innerText = phases[idx].t;
+    if (ui.desc) ui.desc.innerText = phases[idx].d;
+    if (ui.badge) ui.badge.innerText = phases[idx].s;
 
     ui.items.forEach((el, i) => {
       if (i === idx) el.classList.add("active");
@@ -606,9 +613,18 @@ function animate(){
   const blur = mix(0.00, 1.00, smoothstep(0.60, 0.985, entropy));
   const skew = mix(0.00, 1.00, smoothstep(0.45, 0.93, entropy));
   const ruleBoost = mix(0.00, 1.00, smoothstep(0.18, 0.76, entropy));
+  const goldMute = mix(0.00, 1.00, smoothstep(0.62, 1.00, entropy));
   const letter = mix(0.00, 1.00, smoothstep(0.28, 0.90, entropy));
   const scan = mix(0.00, 1.00, smoothstep(0.66, 0.985, entropy));
   const hudGlow = mix(0.00, 1.00, smoothstep(0.10, 0.55, entropy)) * (0.65 + 0.35 * Math.sin(time * 0.85));
+
+  const stamp = smoothstep(0.44, 0.82, entropy);
+  const stampRot = (time * (6.0 + entropy * 12.0)) * (0.35 + 0.65 * stamp);
+
+  const g0 = 1.0;
+  const g1 = smoothstep(0.18, 0.38, entropy);
+  const g2 = smoothstep(0.42, 0.64, entropy);
+  const g3 = smoothstep(0.70, 0.92, entropy);
 
   rootStyle.setProperty("--uiE", entropy.toFixed(6));
   rootStyle.setProperty("--uiDim", dim.toFixed(6));
@@ -616,25 +632,29 @@ function animate(){
   rootStyle.setProperty("--uiBlur", blur.toFixed(6));
   rootStyle.setProperty("--uiSkew", skew.toFixed(6));
   rootStyle.setProperty("--uiRuleBoost", ruleBoost.toFixed(6));
+  rootStyle.setProperty("--uiGoldMute", goldMute.toFixed(6));
   rootStyle.setProperty("--uiLetter", letter.toFixed(6));
   rootStyle.setProperty("--uiScan", scan.toFixed(6));
   rootStyle.setProperty("--uiFlicker", (time * (1.0 + entropy * 6.0)).toFixed(6));
   rootStyle.setProperty("--hudGlow", hudGlow.toFixed(6));
 
-  const stamp = smoothstep(0.44, 0.82, entropy);
-  const stampRot = (time * (6.0 + entropy * 12.0)) * (0.35 + 0.65 * stamp);
   rootStyle.setProperty("--stamp", stamp.toFixed(6));
-  rootStyle.setProperty("--stampRot", \`\${stampRot.toFixed(3)}deg\`);
+  rootStyle.setProperty("--stampRot", `${stampRot.toFixed(3)}deg`);
+
+  rootStyle.setProperty("--gate0", g0.toFixed(6));
+  rootStyle.setProperty("--gate1", g1.toFixed(6));
+  rootStyle.setProperty("--gate2", g2.toFixed(6));
+  rootStyle.setProperty("--gate3", g3.toFixed(6));
 
   const forms = 18 + entropy * 988 + (Math.sin(time * (0.55 + entropy * 0.85)) * 8.0);
   const exc = entropy * entropy * 540 + (Math.sin(time * 0.75 + 1.2) * 6.0);
   const lat = 0.45 + entropy * 14.2 + (Math.sin(time * 0.33 + entropy * 1.2) * 0.25);
   const liab = 0.08 + entropy * 0.86 + (Math.sin(time * 0.48) * 0.02);
 
-  ui.mForms.innerText = pad3(forms);
-  ui.mExc.innerText = pad3(exc);
-  ui.mLat.innerText = \`\${Math.max(0, lat).toFixed(1)}d\`;
-  ui.mLiab.innerText = clamp01(liab).toFixed(2);
+  if (ui.mForms) ui.mForms.innerText = pad3(forms);
+  if (ui.mExc) ui.mExc.innerText = pad3(exc);
+  if (ui.mLat) ui.mLat.innerText = `${Math.max(0, lat).toFixed(1)}d`;
+  if (ui.mLiab) ui.mLiab.innerText = clamp01(liab).toFixed(2);
 
   controls.update();
   renderer.render(scene, camera);
