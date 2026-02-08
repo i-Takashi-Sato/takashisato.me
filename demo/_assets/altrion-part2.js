@@ -1,6 +1,5 @@
 import * as THREE from "./vendor/three/three.module.js";
 import { OrbitControls } from "./vendor/three/OrbitControls.js";
-
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const mix = (a, b, t) => a * (1 - t) + b * t;
 
