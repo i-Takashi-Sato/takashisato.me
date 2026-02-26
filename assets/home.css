@@ -21,7 +21,13 @@ body.home.home-v4{
   overflow-x:hidden;
 }
 
-body.home.home-v4 svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
+body.home.home-v4 svg#fx{
+  position:absolute;
+  width:0;
+  height:0;
+  left:-9999px;
+  top:-9999px;
+}
 
 body.home.home-v4 .bg{
   position:fixed;
@@ -59,13 +65,22 @@ body.home.home-v4 .bg::after{
   pointer-events:none;
 }
 
+/* ========= ★ 修正点はここだけ ★ ========= */
 body.home.home-v4 .wrap{
+  --top-safe: max(env(safe-area-inset-top), 0px);
+  --header-h: 72px;
+
   min-height:calc(100vh - 1px);
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:clamp(28px,4vw,56px) 18px;
+
+  padding:
+    calc(var(--top-safe) + var(--header-h) + clamp(20px, 3vw, 36px))
+    18px
+    clamp(28px,4vw,56px);
 }
+/* ======================================= */
 
 body.home.home-v4 .stack{
   width:min(1060px,100%);
@@ -84,7 +99,11 @@ body.home.home-v4 .card{
   -webkit-backdrop-filter:blur(14px);
   overflow:hidden;
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  transition:transform 900ms var(--ease2), border-color 600ms var(--ease), background-color 600ms var(--ease), box-shadow 900ms var(--ease2);
+  transition:
+    transform 900ms var(--ease2),
+    border-color 600ms var(--ease),
+    background-color 600ms var(--ease),
+    box-shadow 900ms var(--ease2);
   will-change:transform;
   box-shadow:0 40px 90px -30px rgba(0,0,0,.9);
   cursor:pointer;
@@ -184,8 +203,18 @@ body.home.home-v4 .part{
   color:rgba(255,255,255,.86);
 }
 
-body.home.home-v4 .rule{height:1px;width:36px;background:var(--line)}
-body.home.home-v4 .label{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--dim)}
+body.home.home-v4 .rule{
+  height:1px;
+  width:36px;
+  background:var(--line);
+}
+
+body.home.home-v4 .label{
+  font-size:.68rem;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--dim);
+}
 
 body.home.home-v4 h2{
   font-family:var(--serif);
@@ -197,7 +226,10 @@ body.home.home-v4 h2{
   text-shadow:0 12px 28px rgba(0,0,0,.45);
 }
 
-body.home.home-v4 h2 strong{font-weight:400;color:rgba(255,255,255,.72)}
+body.home.home-v4 h2 strong{
+  font-weight:400;
+  color:rgba(255,255,255,.72);
+}
 
 body.home.home-v4 .sub{
   font-family:var(--serif);
@@ -206,7 +238,6 @@ body.home.home-v4 .sub{
   font-size:clamp(1.05rem, 1.6vw, 1.22rem);
   line-height:1.68;
   max-width:50ch;
-  margin:0;
 }
 
 body.home.home-v4 .foot{
@@ -229,7 +260,12 @@ body.home.home-v4 .tag{
   white-space:nowrap;
 }
 
-body.home.home-v4 .actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+body.home.home-v4 .actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
 body.home.home-v4 .cta{
   display:inline-flex;
@@ -245,14 +281,17 @@ body.home.home-v4 .cta{
   color:rgba(255,255,255,.82);
   background:rgba(255,255,255,.03);
   text-decoration:none;
-  transition:transform 650ms var(--ease2), border-color 500ms var(--ease), background-color 500ms var(--ease), color 500ms var(--ease);
+  transition:
+    transform 650ms var(--ease2),
+    border-color 500ms var(--ease),
+    background-color 500ms var(--ease),
+    color 500ms var(--ease);
 }
 
 body.home.home-v4 .cta svg{
   width:18px;
   height:18px;
   opacity:.72;
-  flex:0 0 auto;
   transition:transform 650ms var(--ease2), opacity 500ms var(--ease);
 }
 
@@ -264,7 +303,10 @@ body.home.home-v4 .cta:hover{
 
 body.home.home-v4 .cta:hover svg{opacity:1}
 
-body.home.home-v4 .cta:focus-visible{outline:2px solid rgba(255,255,255,.22);outline-offset:3px}
+body.home.home-v4 .cta:focus-visible{
+  outline:2px solid rgba(255,255,255,.22);
+  outline-offset:3px;
+}
 
 body.home.home-v4 .cta.primary{
   background:rgba(255,255,255,.08);
@@ -277,7 +319,9 @@ body.home.home-v4 .cta.primary:hover{
   border-color:rgba(255,255,255,.22);
 }
 
-body.home.home-v4 .cta.primary:hover svg{transform:translateX(6px)}
+body.home.home-v4 .cta.primary:hover svg{
+  transform:translateX(6px);
+}
 
 body.home.home-v4 .quote{
   font-family:var(--serif);
@@ -285,7 +329,6 @@ body.home.home-v4 .quote{
   color:rgba(255,255,255,.55);
   font-size:1.08rem;
   line-height:1.72;
-  margin:0;
 }
 
 body.home.home-v4 .klabel{
@@ -296,7 +339,7 @@ body.home.home-v4 .klabel{
   letter-spacing:.22em;
   text-transform:uppercase;
   color:rgba(255,255,255,.38);
-  margin:0 0 10px;
+  margin-bottom:10px;
 }
 
 body.home.home-v4 .qmeta{
