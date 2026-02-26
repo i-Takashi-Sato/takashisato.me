@@ -9,61 +9,17 @@
   <title>Takashi Sato · AI Governance Archive</title>
   <meta name="description" content="Takashi Sato — Research archive on AI governance and sociotechnical failure.">
   <link rel="canonical" href="https://takashisato.me/">
-
   <meta name="robots" content="index,follow,max-image-preview:large">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="stylesheet" href="/assets/home.css">
-
-  <meta property="og:title" content="Takashi Sato · AI Governance Archive">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://takashisato.me/">
-  <meta property="og:image" content="https://takashisato.me/assets/og.jpg">
-  <meta property="og:description" content="Peer-citable research archive on workflow-centric AI governance.">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Takashi Sato · AI Governance Archive">
-  <meta name="twitter:description" content="Peer-citable research archive on workflow-centric AI governance.">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Person",
-        "@id": "https://takashisato.me/#person",
-        "name": "Takashi Sato",
-        "url": "https://takashisato.me/",
-        "sameAs": [
-          "https://orcid.org/0009-0003-1584-6965",
-          "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
-          "https://x.com/takashisato_me",
-          "https://www.instagram.com/takashisato_me/"
-        ],
-        "jobTitle": "Independent Researcher",
-        "knowsAbout": [
-          "AI Governance",
-          "Sociotechnical Systems",
-          "Algorithmic Oversight"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://takashisato.me/#website",
-        "name": "Takashi Sato · AI Governance Archive",
-        "url": "https://takashisato.me/",
-        "publisher": { "@id": "https://takashisato.me/#person" }
-      }
-    ]
-  }
-  </script>
 </head>
 
-<body class="home">
+<body class="home home-v4">
   <svg id="fx" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
     <filter id="paperFibers" x="-30%" y="-30%" width="160%" height="160%">
       <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" stitchTiles="noStitch" />
@@ -82,7 +38,19 @@
 
   <div class="bg" aria-hidden="true"></div>
 
-  <main class="wrap">
+  <header class="top" aria-label="Site header">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-papers" href="/papers/part1.html">Papers</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" aria-label="Selected Works">
     <div class="stack">
       <article class="card" tabindex="0" role="link" aria-label="Part I: The Cold Genesis" data-href="/papers/part1.html">
         <div class="paper" aria-hidden="true"></div>
@@ -196,6 +164,28 @@
       </article>
     </div>
   </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="footer-inner">
+      <nav class="social-nav" aria-label="External links">
+        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+      </nav>
+
+      <div class="footer-meta">
+        <nav class="meta-nav" aria-label="Policies and meta">
+          <a href="/privacy.html" class="meta-link">Privacy</a>
+          <a href="/colophon.html" class="meta-link">Colophon</a>
+          <a href="/security.html" class="meta-link">Security</a>
+        </nav>
+
+        <p class="copyright">© 2026 Takashi Sato</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="/assets/scroll.js" defer></script>
   <script src="/assets/home.js" defer></script>
