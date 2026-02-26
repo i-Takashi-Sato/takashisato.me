@@ -1,48 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#050507">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#050507" />
+<title>Takashi Sato — Selected Works</title>
 
-  <title>Takashi Sato · AI Governance Archive</title>
-  <meta name="description" content="Takashi Sato — Research archive on AI governance and sociotechnical failure.">
-  <link rel="canonical" href="https://takashisato.me/">
-
-  <meta name="robots" content="index,follow,max-image-preview:large">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-  <link rel="icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Takashi Sato · AI Governance Archive">
-  <meta property="og:description" content="Research archive on AI governance and sociotechnical failure.">
-  <meta property="og:url" content="https://takashisato.me/">
-  <meta property="og:image" content="https://takashisato.me/assets/og.png">
-
-  <meta name="twitter:card" content="summary_large_image">
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Takashi Sato · AI Governance Archive",
-  "url": "https://takashisato.me/",
-  "description": "Research archive on AI governance and sociotechnical failure.",
-  "publisher": {
-    "@type": "Person",
-    "name": "Takashi Sato"
-  }
-}
-  </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -59,6 +26,7 @@
   --serif:"Cormorant Garamond",serif;
   --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
@@ -68,8 +36,10 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
+
 a{color:inherit}
 svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
+
 .bg{
   position:fixed;
   inset:0;
@@ -79,6 +49,7 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
     radial-gradient(900px 700px at 20% 110%, rgba(255,255,255,.05), transparent 60%),
     linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55));
 }
+
 .bg::before{
   content:"";
   position:absolute;
@@ -92,6 +63,7 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   filter:url(#paperFibers);
   transform:translateZ(0);
 }
+
 .bg::after{
   content:"";
   position:absolute;
@@ -103,6 +75,7 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   opacity:.22;
   pointer-events:none;
 }
+
 .wrap{
   min-height:100vh;
   display:flex;
@@ -110,31 +83,36 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   justify-content:center;
   padding:clamp(28px,4vw,56px) 18px;
 }
+
 .stack{
   width:min(1060px,100%);
   display:flex;
   flex-direction:column;
   gap:clamp(22px,3.2vw,42px);
 }
+
 .mast{
   display:flex;
   align-items:flex-end;
   justify-content:space-between;
-  gap:20px;
+  gap:18px;
   padding:0 2px;
 }
+
 .brand{
   display:flex;
-  align-items:center;
+  align-items:flex-end;
   gap:14px;
   text-decoration:none;
 }
+
 .signature{
-  width:136px;
+  width:140px;
   height:auto;
   opacity:.92;
   filter:drop-shadow(0 18px 36px rgba(0,0,0,.55));
 }
+
 .mastline{
   font-size:.66rem;
   letter-spacing:.28em;
@@ -142,6 +120,7 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   color:rgba(255,255,255,.46);
   white-space:nowrap;
 }
+
 .card{
   position:relative;
   display:grid;
@@ -157,15 +136,18 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   box-shadow:0 40px 90px -30px rgba(0,0,0,.9);
   cursor:pointer;
 }
+
 .card:hover{
   background:var(--card2);
   border-color:rgba(255,255,255,.16);
   box-shadow:0 70px 140px -40px rgba(0,0,0,.98);
 }
+
 .card:focus-visible{
   outline:2px solid rgba(255,255,255,.22);
   outline-offset:3px;
 }
+
 .paper{
   position:absolute;
   inset:-40px;
@@ -179,6 +161,7 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   pointer-events:none;
   z-index:1;
 }
+
 .metal{
   position:absolute;
   inset:-80px;
@@ -200,6 +183,7 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   pointer-events:none;
   z-index:2;
 }
+
 .glare{
   position:absolute;
   inset:0;
@@ -210,13 +194,16 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   pointer-events:none;
   z-index:3;
 }
+
 .card:hover .metal{opacity:.80}
 .card:hover .glare{opacity:1}
+
 .main{
   padding:clamp(22px,3vw,44px);
   position:relative;
   z-index:5;
 }
+
 .aside{
   border-left:1px solid var(--line);
   background:rgba(0,0,0,.26);
@@ -228,12 +215,14 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   justify-content:space-between;
   gap:18px;
 }
+
 .meta{
   display:flex;
   align-items:center;
   gap:14px;
   margin-bottom:clamp(18px,2.2vw,30px);
 }
+
 .part{
   font-size:.68rem;
   letter-spacing:.28em;
@@ -244,23 +233,27 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   align-items:center;
   gap:10px;
 }
+
 .kana{
   width:22px;
   height:22px;
-  opacity:.72;
+  opacity:.74;
   filter:drop-shadow(0 14px 26px rgba(0,0,0,.55));
 }
+
 .rule{
   height:1px;
   width:36px;
   background:var(--line);
 }
+
 .label{
   font-size:.68rem;
   letter-spacing:.26em;
   text-transform:uppercase;
   color:var(--dim);
 }
+
 h2{
   font-family:var(--serif);
   font-weight:300;
@@ -270,10 +263,12 @@ h2{
   margin-bottom:16px;
   text-shadow:0 12px 28px rgba(0,0,0,.45);
 }
+
 h2 strong{
   font-weight:400;
   color:rgba(255,255,255,.72);
 }
+
 .sub{
   font-family:var(--serif);
   font-style:italic;
@@ -282,6 +277,7 @@ h2 strong{
   line-height:1.68;
   max-width:52ch;
 }
+
 .foot{
   margin-top:clamp(20px,2.6vw,36px);
   display:flex;
@@ -289,6 +285,7 @@ h2 strong{
   gap:12px;
   flex-wrap:wrap;
 }
+
 .tag{
   font-size:.58rem;
   letter-spacing:.22em;
@@ -300,12 +297,14 @@ h2 strong{
   border-radius:999px;
   white-space:nowrap;
 }
+
 .actions{
   margin-left:auto;
   display:flex;
   align-items:center;
   gap:10px;
 }
+
 .cta{
   display:inline-flex;
   align-items:center;
@@ -322,32 +321,40 @@ h2 strong{
   text-decoration:none;
   transition:transform 650ms var(--ease2), border-color 500ms var(--ease), background-color 500ms var(--ease), color 500ms var(--ease);
 }
+
 .cta svg{
   width:18px;
   height:18px;
   opacity:.72;
   transition:transform 650ms var(--ease2), opacity 500ms var(--ease);
 }
+
 .cta:hover{
   border-color:rgba(255,255,255,.18);
   background:rgba(255,255,255,.06);
   transform:translateY(-1px);
 }
+
 .cta:hover svg{opacity:1}
+
 .cta:focus-visible{
   outline:2px solid rgba(255,255,255,.22);
   outline-offset:3px;
 }
+
 .cta.primary{
   background:rgba(255,255,255,.08);
   border-color:rgba(255,255,255,.14);
   color:rgba(255,255,255,.90);
 }
+
 .cta.primary:hover{
   background:rgba(255,255,255,.12);
   border-color:rgba(255,255,255,.22);
 }
+
 .cta.primary:hover svg{transform:translateX(6px)}
+
 .quote{
   font-family:var(--serif);
   font-style:italic;
@@ -355,6 +362,7 @@ h2 strong{
   font-size:1.08rem;
   line-height:1.72;
 }
+
 .klabel{
   display:block;
   font-family:var(--sans);
@@ -365,6 +373,7 @@ h2 strong{
   color:rgba(255,255,255,.38);
   margin-bottom:10px;
 }
+
 .qmeta{
   border-top:1px solid var(--line);
   padding-top:14px;
@@ -375,6 +384,7 @@ h2 strong{
   text-transform:uppercase;
   color:rgba(255,255,255,.38);
 }
+
 .sr-only{
   position:absolute;
   width:1px;
@@ -386,6 +396,7 @@ h2 strong{
   white-space:nowrap;
   border:0;
 }
+
 @media (max-width: 900px){
   .mast{align-items:flex-start;flex-direction:column;gap:10px}
   .mastline{white-space:normal;line-height:1.6}
@@ -430,11 +441,7 @@ h2 strong{
       <div class="glare"></div>
 
       <section class="main">
-        <div class="meta">
-          <span class="part"><img class="kana" src="/assets/img/jo.svg" alt="">Part I</span>
-          <span class="rule"></span>
-          <span class="label">Grand Design</span>
-        </div>
+        <div class="meta"><span class="part"><img class="kana" src="/assets/img/jo.svg" alt="">Part I</span><span class="rule"></span><span class="label">Grand Design</span></div>
         <h2><strong>Part I:</strong> The Cold<br>Genesis</h2>
         <p class="sub">“To preserve the human, we must engineer the friction of thought.”</p>
 
@@ -471,11 +478,7 @@ h2 strong{
       <div class="glare"></div>
 
       <section class="main">
-        <div class="meta">
-          <span class="part"><img class="kana" src="/assets/img/ha.svg" alt="">Part II</span>
-          <span class="rule"></span>
-          <span class="label">Silent Rot</span>
-        </div>
+        <div class="meta"><span class="part"><img class="kana" src="/assets/img/ha.svg" alt="">Part II</span><span class="rule"></span><span class="label">Silent Rot</span></div>
         <h2><strong>Part II:</strong> The Silent<br>Decay</h2>
         <p class="sub">“The system shatters under its own weight before it is ever abused.”<br><br>“It is a physical suicide, executed by goodwill.”</p>
 
@@ -512,11 +515,7 @@ h2 strong{
       <div class="glare"></div>
 
       <section class="main">
-        <div class="meta">
-          <span class="part"><img class="kana" src="/assets/img/kyu.svg" alt="">Part III</span>
-          <span class="rule"></span>
-          <span class="label">Requiem</span>
-        </div>
+        <div class="meta"><span class="part"><img class="kana" src="/assets/img/kyu.svg" alt="">Part III</span><span class="rule"></span><span class="label">Requiem</span></div>
         <h2><strong>Part III:</strong> The Proper<br>Ending</h2>
         <p class="sub">“Silence is the scream of a failing system.”</p>
 
