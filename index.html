@@ -3,14 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="color-scheme" content="dark" />
-<meta name="theme-color" content="#050507" />
-<title>Takashi Sato — Selected Works</title>
-
+<title>THE WASHI SCAN</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --phi:1.61803398875;
@@ -37,7 +33,6 @@ body{
   overflow-x:hidden;
 }
 
-a{color:inherit}
 svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
 
 .bg{
@@ -89,36 +84,6 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   display:flex;
   flex-direction:column;
   gap:clamp(22px,3.2vw,42px);
-}
-
-.mast{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:18px;
-  padding:0 2px;
-}
-
-.brand{
-  display:flex;
-  align-items:flex-end;
-  gap:14px;
-  text-decoration:none;
-}
-
-.signature{
-  width:140px;
-  height:auto;
-  opacity:.92;
-  filter:drop-shadow(0 18px 36px rgba(0,0,0,.55));
-}
-
-.mastline{
-  font-size:.66rem;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.46);
-  white-space:nowrap;
 }
 
 .card{
@@ -229,16 +194,6 @@ svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
   text-transform:uppercase;
   font-weight:600;
   color:rgba(255,255,255,.86);
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.kana{
-  width:22px;
-  height:22px;
-  opacity:.74;
-  filter:drop-shadow(0 14px 26px rgba(0,0,0,.55));
 }
 
 .rule{
@@ -275,7 +230,7 @@ h2 strong{
   color:var(--muted);
   font-size:clamp(1.05rem, 1.6vw, 1.22rem);
   line-height:1.68;
-  max-width:52ch;
+  max-width:50ch;
 }
 
 .foot{
@@ -335,7 +290,9 @@ h2 strong{
   transform:translateY(-1px);
 }
 
-.cta:hover svg{opacity:1}
+.cta:hover svg{
+  opacity:1;
+}
 
 .cta:focus-visible{
   outline:2px solid rgba(255,255,255,.22);
@@ -353,7 +310,9 @@ h2 strong{
   border-color:rgba(255,255,255,.22);
 }
 
-.cta.primary:hover svg{transform:translateX(6px)}
+.cta.primary:hover svg{
+  transform:translateX(6px);
+}
 
 .quote{
   font-family:var(--serif);
@@ -398,9 +357,6 @@ h2 strong{
 }
 
 @media (max-width: 900px){
-  .mast{align-items:flex-start;flex-direction:column;gap:10px}
-  .mastline{white-space:normal;line-height:1.6}
-  .signature{width:128px}
   .card{grid-template-columns:1fr}
   .aside{border-left:none;border-top:1px solid var(--line)}
   .actions{margin-left:0;width:100%;justify-content:flex-start}
@@ -428,20 +384,13 @@ h2 strong{
 
 <main class="wrap">
   <div class="stack">
-    <header class="mast" aria-label="Archive header">
-      <a class="brand" href="/" aria-label="Home">
-        <img class="signature" src="/assets/signature.jpg" alt="Takashi Sato">
-      </a>
-      <div class="mastline">AI Governance · Sociotechnical Failure · Selected Works</div>
-    </header>
-
     <article class="card" tabindex="0" role="link" aria-label="Part I: The Cold Genesis" data-href="/papers/part1.html">
       <div class="paper"></div>
       <div class="metal"></div>
       <div class="glare"></div>
 
       <section class="main">
-        <div class="meta"><span class="part"><img class="kana" src="/assets/img/jo.svg" alt="">Part I</span><span class="rule"></span><span class="label">Grand Design</span></div>
+        <div class="meta"><span class="part">Part I</span><span class="rule"></span><span class="label">Grand Design</span></div>
         <h2><strong>Part I:</strong> The Cold<br>Genesis</h2>
         <p class="sub">“To preserve the human, we must engineer the friction of thought.”</p>
 
@@ -478,7 +427,7 @@ h2 strong{
       <div class="glare"></div>
 
       <section class="main">
-        <div class="meta"><span class="part"><img class="kana" src="/assets/img/ha.svg" alt="">Part II</span><span class="rule"></span><span class="label">Silent Rot</span></div>
+        <div class="meta"><span class="part">Part II</span><span class="rule"></span><span class="label">Silent Rot</span></div>
         <h2><strong>Part II:</strong> The Silent<br>Decay</h2>
         <p class="sub">“The system shatters under its own weight before it is ever abused.”<br><br>“It is a physical suicide, executed by goodwill.”</p>
 
@@ -515,12 +464,12 @@ h2 strong{
       <div class="glare"></div>
 
       <section class="main">
-        <div class="meta"><span class="part"><img class="kana" src="/assets/img/kyu.svg" alt="">Part III</span><span class="rule"></span><span class="label">Requiem</span></div>
+        <div class="meta"><span class="part">Part III</span><span class="rule"></span><span class="label">Requiem</span></div>
         <h2><strong>Part III:</strong> The Proper<br>Ending</h2>
         <p class="sub">“Silence is the scream of a failing system.”</p>
 
         <div class="foot">
-          <span class="tag">resolution collapse</span>
+          <span class="tag">Resolution Collapse</span>
           <span class="tag">semantic entropy</span>
           <span class="tag">circuit breakers</span>
 
@@ -540,7 +489,7 @@ h2 strong{
       <aside class="aside" aria-label="Part III keywords">
         <div>
           <span class="klabel">Keywords</span>
-          <p class="quote">resolution collapse · semantic entropy · circuit breakers</p>
+          <p class="quote">Resolution Collapse · semantic entropy · circuit breakers</p>
         </div>
         <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
       </aside>
@@ -561,7 +510,7 @@ h2 strong{
     el.style.setProperty("--y", y + "px");
     const cx = r.width / 2, cy = r.height / 2;
     const rx = ((y - cy) / cy) * -1.4;
-    const ry = ((x - cx) / cx) *  1.4;
+    const ry = ((x - cx) / cx) * 1.4;
     el.style.setProperty("--rx", rx + "deg");
     el.style.setProperty("--ry", ry + "deg");
   };
