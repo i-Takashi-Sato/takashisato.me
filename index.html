@@ -1,545 +1,419 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>THE WASHI SCAN</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
-<style>
-:root{
-  --phi:1.61803398875;
-  --bg:#050507;
-  --ink:rgba(255,255,255,.92);
-  --muted:rgba(255,255,255,.62);
-  --dim:rgba(255,255,255,.32);
-  --line:rgba(255,255,255,.10);
-  --card:rgba(10,10,12,.55);
-  --card2:rgba(10,10,12,.75);
-  --ease:cubic-bezier(.16,1,.3,1);
-  --ease2:cubic-bezier(.2,0,.1,1);
-  --serif:"Cormorant Garamond",serif;
-  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#050507">
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--sans);
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
+  <title>Takashi Sato · AI Governance Archive</title>
+  <meta name="description" content="Takashi Sato — Research archive on AI governance and sociotechnical failure.">
+  <link rel="canonical" href="https://takashisato.me/">
 
-svg#fx{position:absolute;width:0;height:0;left:-9999px;top:-9999px}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/home.css">
 
-.bg{
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  background:
-    radial-gradient(1200px 800px at 50% -10%, rgba(255,255,255,.08), transparent 65%),
-    radial-gradient(900px 700px at 20% 110%, rgba(255,255,255,.05), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55));
-}
+  <style>
+    :root {
+      /* デザイン案用の変数を定義 */
+      --card-bg: rgba(10,10,12,.55);
+      --card-bg-hover: rgba(10,10,12,.75);
+      --card-line: rgba(255,255,255,.10);
+      --card-ease: cubic-bezier(.16,1,.3,1);
+      --card-ease2: cubic-bezier(.2,0,.1,1);
+      --card-dim: rgba(255,255,255,.32);
+      --card-muted: rgba(255,255,255,.62);
+    }
 
-.bg::before{
-  content:"";
-  position:absolute;
-  inset:-40px;
-  background:
-    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.14), transparent 60%),
-    radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(1px 1px at 30% 90%, rgba(255,255,255,.08), transparent 60%),
-    linear-gradient(90deg, rgba(255,255,255,.02), rgba(0,0,0,0));
-  opacity:.55;
-  filter:url(#paperFibers);
-  transform:translateZ(0);
-}
+    /* フィルター用SVGを非表示 */
+    svg#fx { position: absolute; width: 0; height: 0; left: -9999px; top: -9999px; }
 
-.bg::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 4px);
-  mix-blend-mode:overlay;
-  opacity:.22;
-  pointer-events:none;
-}
+    /* カードエリアのコンテナ（元々の section id="archive" の代わり） */
+    .new-card-wrap {
+      width: min(1060px, 100%);
+      margin: 0 auto;
+      padding: clamp(28px, 4vw, 56px) 18px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(22px, 3.2vw, 42px);
+    }
 
-.wrap{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:clamp(28px,4vw,56px) 18px;
-}
+    /* 以下、デザイン案④のカード用CSS（衝突を避けるためセレクタを調整） */
+    .ds4-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(260px, 0.75fr) 1fr;
+      border: 1px solid var(--card-line);
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+      transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+      transition: transform 900ms var(--card-ease2), border-color 600ms var(--card-ease), background-color 600ms var(--card-ease), box-shadow 900ms var(--card-ease2);
+      will-change: transform;
+      box-shadow: 0 40px 90px -30px rgba(0,0,0,.9);
+      cursor: pointer;
+      text-align: left; /* 念のため */
+    }
 
-.stack{
-  width:min(1060px,100%);
-  display:flex;
-  flex-direction:column;
-  gap:clamp(22px,3.2vw,42px);
-}
+    .ds4-card:hover {
+      background: var(--card-bg-hover);
+      border-color: rgba(255,255,255,.16);
+      box-shadow: 0 70px 140px -40px rgba(0,0,0,.98);
+    }
 
-.card{
-  position:relative;
-  display:grid;
-  grid-template-columns:minmax(260px, 0.75fr) 1fr;
-  border:1px solid var(--line);
-  background:var(--card);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  overflow:hidden;
-  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  transition:transform 900ms var(--ease2), border-color 600ms var(--ease), background-color 600ms var(--ease), box-shadow 900ms var(--ease2);
-  will-change:transform;
-  box-shadow:0 40px 90px -30px rgba(0,0,0,.9);
-  cursor:pointer;
-}
+    .ds4-card:focus-visible { outline: 2px solid rgba(255,255,255,.22); outline-offset: 3px; }
 
-.card:hover{
-  background:var(--card2);
-  border-color:rgba(255,255,255,.16);
-  box-shadow:0 70px 140px -40px rgba(0,0,0,.98);
-}
+    .ds4-paper {
+      position: absolute;
+      inset: -40px;
+      opacity: .60;
+      filter: url(#paperFibers);
+      background:
+        radial-gradient(900px 700px at 20% 10%, rgba(255,255,255,.07), transparent 60%),
+        radial-gradient(800px 700px at 90% 80%, rgba(255,255,255,.05), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,0));
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-.card:focus-visible{
-  outline:2px solid rgba(255,255,255,.22);
-  outline-offset:3px;
-}
+    .ds4-metal {
+      position: absolute;
+      inset: -80px;
+      opacity: 0;
+      background:
+        conic-gradient(from 210deg at 50% 50%, rgba(255,255,255,.0), rgba(255,255,255,.10), rgba(255,255,255,.0), rgba(255,255,255,.18), rgba(255,255,255,.0)),
+        radial-gradient(900px 520px at 50% 40%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(800px 600px at 30% 90%, rgba(255,255,255,.06), transparent 62%);
+      filter: contrast(1.2) saturate(.9);
+      mix-blend-mode: color-dodge;
+      -webkit-mask-image: radial-gradient(var(--spot,420px) circle at var(--x,50%) var(--y,50%), #000 0%, transparent 72%);
+      mask-image: radial-gradient(var(--spot,420px) circle at var(--x,50%) var(--y,50%), #000 0%, transparent 72%);
+      transition: opacity 450ms var(--card-ease);
+      pointer-events: none;
+      z-index: 2;
+    }
 
-.paper{
-  position:absolute;
-  inset:-40px;
-  opacity:.60;
-  filter:url(#paperFibers);
-  background:
-    radial-gradient(900px 700px at 20% 10%, rgba(255,255,255,.07), transparent 60%),
-    radial-gradient(800px 700px at 90% 80%, rgba(255,255,255,.05), transparent 55%),
-    linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,0));
-  mix-blend-mode:soft-light;
-  pointer-events:none;
-  z-index:1;
-}
+    .ds4-glare {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: radial-gradient(var(--spot2,520px) circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.10), transparent 62%);
+      mix-blend-mode: overlay;
+      transition: opacity 350ms var(--card-ease);
+      pointer-events: none;
+      z-index: 3;
+    }
 
-.metal{
-  position:absolute;
-  inset:-80px;
-  opacity:0;
-  background:
-    conic-gradient(from 210deg at 50% 50%,
-      rgba(255,255,255,.0),
-      rgba(255,255,255,.10),
-      rgba(255,255,255,.0),
-      rgba(255,255,255,.18),
-      rgba(255,255,255,.0)),
-    radial-gradient(900px 520px at 50% 40%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(800px 600px at 30% 90%, rgba(255,255,255,.06), transparent 62%);
-  filter:contrast(1.2) saturate(.9);
-  mix-blend-mode:color-dodge;
-  -webkit-mask-image:radial-gradient(var(--spot,420px) circle at var(--x,50%) var(--y,50%), #000 0%, transparent 72%);
-  mask-image:radial-gradient(var(--spot,420px) circle at var(--x,50%) var(--y,50%), #000 0%, transparent 72%);
-  transition:opacity 450ms var(--ease);
-  pointer-events:none;
-  z-index:2;
-}
+    .ds4-card:hover .ds4-metal { opacity: .80; }
+    .ds4-card:hover .ds4-glare { opacity: 1; }
 
-.glare{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  background:radial-gradient(var(--spot2,520px) circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.10), transparent 62%);
-  mix-blend-mode:overlay;
-  transition:opacity 350ms var(--ease);
-  pointer-events:none;
-  z-index:3;
-}
+    .ds4-main {
+      padding: clamp(22px, 3vw, 44px);
+      position: relative;
+      z-index: 5;
+    }
 
-.card:hover .metal{opacity:.80}
-.card:hover .glare{opacity:1}
+    .ds4-aside {
+      border-left: 1px solid var(--card-line);
+      background: rgba(0,0,0,.26);
+      padding: clamp(22px, 3vw, 44px);
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-.main{
-  padding:clamp(22px,3vw,44px);
-  position:relative;
-  z-index:5;
-}
+    .ds4-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: clamp(18px, 2.2vw, 30px);
+    }
 
-.aside{
-  border-left:1px solid var(--line);
-  background:rgba(0,0,0,.26);
-  padding:clamp(22px,3vw,44px);
-  position:relative;
-  z-index:5;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:18px;
-}
+    .ds4-part { font-family: 'Inter', sans-serif; font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,.86); }
+    .ds4-rule { height: 1px; width: 36px; background: var(--card-line); }
+    .ds4-label { font-family: 'Inter', sans-serif; font-size: .68rem; letter-spacing: .26em; text-transform: uppercase; color: var(--card-dim); }
 
-.meta{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  margin-bottom:clamp(18px,2.2vw,30px);
-}
+    .ds4-main h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -.02em;
+      font-size: clamp(2.1rem, 4.8vw, 3.7rem);
+      margin-bottom: 16px;
+      text-shadow: 0 12px 28px rgba(0,0,0,.45);
+      color: rgba(255,255,255,.92); /* 明示的に白を指定 */
+      margin-top: 0; /* 既存CSSのリセット */
+    }
+    .ds4-main h2 strong { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: rgba(255,255,255,.72); }
 
-.part{
-  font-size:.68rem;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  font-weight:600;
-  color:rgba(255,255,255,.86);
-}
+    .ds4-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--card-muted);
+      font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+      line-height: 1.68;
+      max-width: 50ch;
+      margin: 0; /* 既存CSSのリセット */
+    }
 
-.rule{
-  height:1px;
-  width:36px;
-  background:var(--line);
-}
+    .ds4-foot { margin-top: clamp(20px, 2.6vw, 36px); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    
+    .ds4-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38);
+      border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); padding: 10px 14px; border-radius: 999px; white-space: nowrap;
+    }
 
-.label{
-  font-size:.68rem;
-  letter-spacing:.26em;
-  text-transform:uppercase;
-  color:var(--dim);
-}
+    .ds4-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 
-h2{
-  font-family:var(--serif);
-  font-weight:300;
-  line-height:1.02;
-  letter-spacing:-.02em;
-  font-size:clamp(2.1rem, 4.8vw, 3.7rem);
-  margin-bottom:16px;
-  text-shadow:0 12px 28px rgba(0,0,0,.45);
-}
+    .ds4-cta {
+      font-family: 'Inter', sans-serif;
+      display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.10);
+      padding: 11px 14px; font-size: .62rem; letter-spacing: .28em; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,.82);
+      background: rgba(255,255,255,.03); text-decoration: none;
+      transition: transform 650ms var(--card-ease2), border-color 500ms var(--card-ease), background-color 500ms var(--card-ease), color 500ms var(--card-ease);
+    }
+    .ds4-cta svg { width: 18px; height: 18px; opacity: .72; transition: transform 650ms var(--card-ease2), opacity 500ms var(--card-ease); }
+    .ds4-cta:hover { border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.06); transform: translateY(-1px); }
+    .ds4-cta:hover svg { opacity: 1; }
+    .ds4-cta:focus-visible { outline: 2px solid rgba(255,255,255,.22); outline-offset: 3px; }
+    
+    .ds4-cta.primary { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: rgba(255,255,255,.90); }
+    .ds4-cta.primary:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.22); }
+    .ds4-cta.primary:hover svg { transform: translateX(6px); }
 
-h2 strong{
-  font-weight:400;
-  color:rgba(255,255,255,.72);
-}
+    .ds4-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; color: rgba(255,255,255,.55); font-size: 1.08rem; line-height: 1.72; margin:0;}
+    .ds4-klabel { display: block; font-family: 'Inter', sans-serif; font-style: normal; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: 10px; }
+    .ds4-qmeta { border-top: 1px solid var(--card-line); padding-top: 14px; display: flex; justify-content: space-between; font-family: 'Inter', sans-serif; font-size: .56rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38); }
+    
+    .ds4-kanji-bg {
+      position: absolute;
+      right: -5%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif; /* 既存の筆文字画像等がある場合はここに適用 */
+      font-size: clamp(12rem, 16vw, 16rem);
+      line-height: 1;
+      color: rgba(255,255,255,.07);
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+    .ds4-aside > div:not(.ds4-kanji-bg) { position: relative; z-index: 1; }
 
-.sub{
-  font-family:var(--serif);
-  font-style:italic;
-  color:var(--muted);
-  font-size:clamp(1.05rem, 1.6vw, 1.22rem);
-  line-height:1.68;
-  max-width:50ch;
-}
-
-.foot{
-  margin-top:clamp(20px,2.6vw,36px);
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.tag{
-  font-size:.58rem;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.38);
-  border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.02);
-  padding:10px 14px;
-  border-radius:999px;
-  white-space:nowrap;
-}
-
-.actions{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.cta{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  padding:11px 14px;
-  font-size:.62rem;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  font-weight:600;
-  color:rgba(255,255,255,.82);
-  background:rgba(255,255,255,.03);
-  text-decoration:none;
-  transition:transform 650ms var(--ease2), border-color 500ms var(--ease), background-color 500ms var(--ease), color 500ms var(--ease);
-}
-
-.cta svg{
-  width:18px;
-  height:18px;
-  opacity:.72;
-  transition:transform 650ms var(--ease2), opacity 500ms var(--ease);
-}
-
-.cta:hover{
-  border-color:rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);
-  transform:translateY(-1px);
-}
-
-.cta:hover svg{
-  opacity:1;
-}
-
-.cta:focus-visible{
-  outline:2px solid rgba(255,255,255,.22);
-  outline-offset:3px;
-}
-
-.cta.primary{
-  background:rgba(255,255,255,.08);
-  border-color:rgba(255,255,255,.14);
-  color:rgba(255,255,255,.90);
-}
-
-.cta.primary:hover{
-  background:rgba(255,255,255,.12);
-  border-color:rgba(255,255,255,.22);
-}
-
-.cta.primary:hover svg{
-  transform:translateX(6px);
-}
-
-.quote{
-  font-family:var(--serif);
-  font-style:italic;
-  color:rgba(255,255,255,.55);
-  font-size:1.08rem;
-  line-height:1.72;
-}
-
-.klabel{
-  display:block;
-  font-family:var(--sans);
-  font-style:normal;
-  font-size:.56rem;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.38);
-  margin-bottom:10px;
-}
-
-.qmeta{
-  border-top:1px solid var(--line);
-  padding-top:14px;
-  display:flex;
-  justify-content:space-between;
-  font-size:.56rem;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.38);
-}
-
-.sr-only{
-  position:absolute;
-  width:1px;
-  height:1px;
-  padding:0;
-  margin:-1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
-  white-space:nowrap;
-  border:0;
-}
-
-@media (max-width: 900px){
-  .card{grid-template-columns:1fr}
-  .aside{border-left:none;border-top:1px solid var(--line)}
-  .actions{margin-left:0;width:100%;justify-content:flex-start}
-}
-</style>
+    @media (max-width: 900px) {
+      .ds4-card { grid-template-columns: 1fr; }
+      .ds4-aside { border-left: none; border-top: 1px solid var(--card-line); }
+      .ds4-actions { margin-left: 0; width: 100%; justify-content: flex-start; }
+    }
+  </style>
 </head>
-<body>
-<svg id="fx" xmlns="http://www.w3.org/2000/svg">
-  <filter id="paperFibers" x="-30%" y="-30%" width="160%" height="160%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" stitchTiles="noStitch" />
-    <feColorMatrix type="matrix" values="
-      1 0 0 0 0
-      0 1 0 0 0
-      0 0 1 0 0
-      0 0 0 1 0" />
-    <feComponentTransfer>
-      <feFuncR type="gamma" amplitude="1" exponent="1.15" offset="0"/>
-      <feFuncG type="gamma" amplitude="1" exponent="1.15" offset="0"/>
-      <feFuncB type="gamma" amplitude="1" exponent="1.15" offset="0"/>
-    </feComponentTransfer>
-  </filter>
-</svg>
 
-<div class="bg"></div>
+<body class="home">
+  <svg id="fx" xmlns="http://www.w3.org/2000/svg">
+    <filter id="paperFibers" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" stitchTiles="noStitch" />
+      <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+      <feComponentTransfer>
+        <feFuncR type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+        <feFuncG type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+        <feFuncB type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+      </feComponentTransfer>
+    </filter>
+  </svg>
 
-<main class="wrap">
-  <div class="stack">
-    <article class="card" tabindex="0" role="link" aria-label="Part I: The Cold Genesis" data-href="/papers/part1.html">
-      <div class="paper"></div>
-      <div class="metal"></div>
-      <div class="glare"></div>
+  <header class="top" aria-label="Site header">
+    <div class="top-inner">
+      <a class="brand" href="/" aria-label="Home">
+        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo">
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-papers" href="/papers/part1.html">Papers</a>
+      </nav>
+    </div>
+  </header>
 
-      <section class="main">
-        <div class="meta"><span class="part">Part I</span><span class="rule"></span><span class="label">Grand Design</span></div>
-        <h2><strong>Part I:</strong> The Cold<br>Genesis</h2>
-        <p class="sub">“To preserve the human, we must engineer the friction of thought.”</p>
+  <main>
+    <header>
+      <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
+      <div class="who">AI Governance &amp; Sociotechnical Systems Research</div>
+      <p class="lead">
+        Peer-citable research archive on workflow-centric AI governance.<br>
+        Engineering friction (ALTRION), forecasting entropy-driven pre-abuse failure (resolution collapse), and building drift indicators &amp; circuit breakers for silent breakdowns in oversight.
+      </p>
+    </header>
 
-        <div class="foot">
-          <span class="tag">AI governance</span>
-          <span class="tag">workflow-centric oversight</span>
-          <span class="tag">human-in-the-loop</span>
-
-          <div class="actions" aria-label="Part I actions">
-            <a class="cta primary" href="/papers/part1.html">
-              Open Part
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a class="cta" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
-              Open PDF <span class="sr-only">(opens in new tab)</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-            </a>
+    <section aria-label="Archive" class="new-card-wrap">
+      
+      <article class="ds4-card" tabindex="0" role="link" aria-label="Part I: The Cold Genesis" data-href="/papers/part1.html">
+        <div class="ds4-paper"></div>
+        <div class="ds4-metal"></div>
+        <div class="ds4-glare"></div>
+  
+        <section class="ds4-main">
+          <div class="ds4-meta"><span class="ds4-part">Part I</span><span class="ds4-rule"></span><span class="ds4-label">Grand Design</span></div>
+          <h2><strong>Part I:</strong> The Cold<br>Genesis</h2>
+          <p class="ds4-sub">“To preserve the human, we must engineer the friction of thought.”</p>
+  
+          <div class="ds4-foot">
+            <span class="ds4-tag">AI governance</span>
+            <span class="ds4-tag">workflow-centric oversight</span>
+            <span class="ds4-tag">human-in-the-loop</span>
+            <div class="ds4-actions" aria-label="Part I actions">
+              <a class="ds4-cta primary" href="/papers/part1.html">Open Part <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <a class="ds4-cta" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">Open PDF <span class="sr-only">(opens in new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></a>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <aside class="aside" aria-label="Part I keywords">
-        <div>
-          <span class="klabel">Keywords</span>
-          <p class="quote">AI governance · workflow-centric oversight · human-in-the-loop</p>
-        </div>
-        <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
-      </aside>
-    </article>
-
-    <article class="card" tabindex="0" role="link" aria-label="Part II: The Silent Decay" data-href="/papers/part2.html">
-      <div class="paper"></div>
-      <div class="metal"></div>
-      <div class="glare"></div>
-
-      <section class="main">
-        <div class="meta"><span class="part">Part II</span><span class="rule"></span><span class="label">Silent Rot</span></div>
-        <h2><strong>Part II:</strong> The Silent<br>Decay</h2>
-        <p class="sub">“The system shatters under its own weight before it is ever abused.”<br><br>“It is a physical suicide, executed by goodwill.”</p>
-
-        <div class="foot">
-          <span class="tag">institutional failure</span>
-          <span class="tag">governance drift</span>
-          <span class="tag">pre-abuse failure</span>
-
-          <div class="actions" aria-label="Part II actions">
-            <a class="cta primary" href="/papers/part2.html">
-              Open Part
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a class="cta" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">
-              Open PDF <span class="sr-only">(opens in new tab)</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-            </a>
+        </section>
+  
+        <aside class="ds4-aside" aria-label="Part I keywords">
+          <div class="ds4-kanji-bg">序</div>
+          <div>
+            <span class="ds4-klabel">Keywords</span>
+            <p class="ds4-quote">AI governance · workflow-centric oversight · human-in-the-loop</p>
           </div>
-        </div>
-      </section>
-
-      <aside class="aside" aria-label="Part II keywords">
-        <div>
-          <span class="klabel">Keywords</span>
-          <p class="quote">institutional failure · governance drift · pre-abuse failure</p>
-        </div>
-        <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
-      </aside>
-    </article>
-
-    <article class="card" tabindex="0" role="link" aria-label="Part III: The Proper Ending" data-href="/papers/part3.html">
-      <div class="paper"></div>
-      <div class="metal"></div>
-      <div class="glare"></div>
-
-      <section class="main">
-        <div class="meta"><span class="part">Part III</span><span class="rule"></span><span class="label">Requiem</span></div>
-        <h2><strong>Part III:</strong> The Proper<br>Ending</h2>
-        <p class="sub">“Silence is the scream of a failing system.”</p>
-
-        <div class="foot">
-          <span class="tag">Resolution Collapse</span>
-          <span class="tag">semantic entropy</span>
-          <span class="tag">circuit breakers</span>
-
-          <div class="actions" aria-label="Part III actions">
-            <a class="cta primary" href="/papers/part3.html">
-              Open Part
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-            <a class="cta" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">
-              Open PDF <span class="sr-only">(opens in new tab)</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-            </a>
+          <div class="ds4-qmeta"><span>Selected Works 2025–2026</span><span></span></div>
+        </aside>
+      </article>
+  
+      <article class="ds4-card" tabindex="0" role="link" aria-label="Part II: The Silent Decay" data-href="/papers/part2.html">
+        <div class="ds4-paper"></div>
+        <div class="ds4-metal"></div>
+        <div class="ds4-glare"></div>
+  
+        <section class="ds4-main">
+          <div class="ds4-meta"><span class="ds4-part">Part II</span><span class="ds4-rule"></span><span class="ds4-label">Silent Rot</span></div>
+          <h2><strong>Part II:</strong> The Silent<br>Decay</h2>
+          <p class="ds4-sub">“The system shatters under its own weight before it is ever abused.”<br><br>“It is a physical suicide, executed by goodwill.”</p>
+  
+          <div class="ds4-foot">
+            <span class="ds4-tag">institutional failure</span>
+            <span class="ds4-tag">governance drift</span>
+            <span class="ds4-tag">pre-abuse failure</span>
+            <div class="ds4-actions" aria-label="Part II actions">
+              <a class="ds4-cta primary" href="/papers/part2.html">Open Part <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <a class="ds4-cta" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">Open PDF <span class="sr-only">(opens in new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></a>
+            </div>
           </div>
+        </section>
+  
+        <aside class="ds4-aside" aria-label="Part II keywords">
+          <div class="ds4-kanji-bg">破</div>
+          <div>
+            <span class="ds4-klabel">Keywords</span>
+            <p class="ds4-quote">institutional failure · governance drift · pre-abuse failure</p>
+          </div>
+          <div class="ds4-qmeta"><span>Selected Works 2025–2026</span><span></span></div>
+        </aside>
+      </article>
+  
+      <article class="ds4-card" tabindex="0" role="link" aria-label="Part III: The Proper Ending" data-href="/papers/part3.html">
+        <div class="ds4-paper"></div>
+        <div class="ds4-metal"></div>
+        <div class="ds4-glare"></div>
+  
+        <section class="ds4-main">
+          <div class="ds4-meta"><span class="ds4-part">Part III</span><span class="ds4-rule"></span><span class="ds4-label">Requiem</span></div>
+          <h2><strong>Part III:</strong> The Proper<br>Ending</h2>
+          <p class="ds4-sub">“Silence is the scream of a failing system.”</p>
+  
+          <div class="ds4-foot">
+            <span class="ds4-tag">Resolution Collapse</span>
+            <span class="ds4-tag">semantic entropy</span>
+            <span class="ds4-tag">circuit breakers</span>
+            <div class="ds4-actions" aria-label="Part III actions">
+              <a class="ds4-cta primary" href="/papers/part3.html">Open Part <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <a class="ds4-cta" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">Open PDF <span class="sr-only">(opens in new tab)</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></a>
+            </div>
+          </div>
+        </section>
+  
+        <aside class="ds4-aside" aria-label="Part III keywords">
+          <div class="ds4-kanji-bg">急</div>
+          <div>
+            <span class="ds4-klabel">Keywords</span>
+            <p class="ds4-quote">Resolution Collapse · semantic entropy · circuit breakers</p>
+          </div>
+          <div class="ds4-qmeta"><span>Selected Works 2025–2026</span><span></span></div>
+        </aside>
+      </article>
+    </section>
+
+    <footer class="site-footer" aria-label="Site footer">
+      <div class="footer-inner">
+        <nav class="social-nav" aria-label="External links">
+          <a href="mailto:i@takashisato.me" class="social-link">Email</a>
+          <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
+          <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
+          <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
+          <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
+        </nav>
+
+        <div class="footer-meta">
+          <nav class="meta-nav" aria-label="Policies and meta">
+            <a href="/privacy.html" class="meta-link">Privacy</a>
+            <a href="/colophon.html" class="meta-link">Colophon</a>
+            <a href="/security.html" class="meta-link">Security</a>
+          </nav>
+
+          <p class="copyright">© 2026 Takashi Sato</p>
         </div>
-      </section>
+      </div>
+    </footer>
+  </main>
 
-      <aside class="aside" aria-label="Part III keywords">
-        <div>
-          <span class="klabel">Keywords</span>
-          <p class="quote">Resolution Collapse · semantic entropy · circuit breakers</p>
-        </div>
-        <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
-      </aside>
-    </article>
-  </div>
-</main>
-
-<script>
-(() => {
-  const cards = [...document.querySelectorAll(".card")];
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  const isInteractive = (t) => !!t.closest("a,button,input,select,textarea,[role='button']");
-  const setFromEvent = (el, e) => {
-    const r = el.getBoundingClientRect();
-    const x = clamp(e.clientX - r.left, 0, r.width);
-    const y = clamp(e.clientY - r.top, 0, r.height);
-    el.style.setProperty("--x", x + "px");
-    el.style.setProperty("--y", y + "px");
-    const cx = r.width / 2, cy = r.height / 2;
-    const rx = ((y - cy) / cy) * -1.4;
-    const ry = ((x - cx) / cx) * 1.4;
-    el.style.setProperty("--rx", rx + "deg");
-    el.style.setProperty("--ry", ry + "deg");
-  };
-
-  for (const el of cards){
-    el.addEventListener("pointermove", (e) => setFromEvent(el, e), { passive: true });
-    el.addEventListener("pointerenter", (e) => setFromEvent(el, e), { passive: true });
-    el.addEventListener("pointerleave", () => {
-      el.style.setProperty("--rx", "0deg");
-      el.style.setProperty("--ry", "0deg");
-    }, { passive: true });
-
-    el.addEventListener("click", (e) => {
-      if (isInteractive(e.target)) return;
-      const href = el.getAttribute("data-href");
-      if (href) window.location.href = href;
-    });
-
-    el.addEventListener("keydown", (e) => {
-      if (isInteractive(e.target)) return;
-      if (e.key === "Enter" || e.key === " ") {
+  <script src="/assets/scroll.js" defer></script>
+  <script>
+  (() => {
+    const cards = [...document.querySelectorAll(".ds4-card")];
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const isInteractive = (t) => !!t.closest("a,button,input,select,textarea,[role='button']");
+    const setFromEvent = (el, e) => {
+      const r = el.getBoundingClientRect();
+      const x = clamp(e.clientX - r.left, 0, r.width);
+      const y = clamp(e.clientY - r.top, 0, r.height);
+      el.style.setProperty("--x", x + "px");
+      el.style.setProperty("--y", y + "px");
+      const cx = r.width / 2, cy = r.height / 2;
+      const rx = ((y - cy) / cy) * -1.4;
+      const ry = ((x - cx) / cx) * 1.4;
+      el.style.setProperty("--rx", rx + "deg");
+      el.style.setProperty("--ry", ry + "deg");
+    };
+  
+    for (const el of cards){
+      el.addEventListener("pointermove", (e) => setFromEvent(el, e), { passive: true });
+      el.addEventListener("pointerenter", (e) => setFromEvent(el, e), { passive: true });
+      el.addEventListener("pointerleave", () => {
+        el.style.setProperty("--rx", "0deg");
+        el.style.setProperty("--ry", "0deg");
+      }, { passive: true });
+  
+      el.addEventListener("click", (e) => {
+        if (isInteractive(e.target)) return;
         const href = el.getAttribute("data-href");
-        if (!href) return;
-        e.preventDefault();
-        window.location.href = href;
-      }
-    });
-  }
-})();
-</script>
+        if (href) window.location.href = href;
+      });
+  
+      el.addEventListener("keydown", (e) => {
+        if (isInteractive(e.target)) return;
+        if (e.key === "Enter" || e.key === " ") {
+          const href = el.getAttribute("data-href");
+          if (!href) return;
+          e.preventDefault();
+          window.location.href = href;
+        }
+      });
+    }
+  })();
+  </script>
 </body>
 </html>
