@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Pinyon+Script&family=Newsreader:opsz,wght@6..72,300..700&family=Yuji+Mai&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="stylesheet" href="/assets/home.css">
@@ -23,147 +23,181 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://takashisato.me/">
   <meta property="og:image" content="https://takashisato.me/assets/og.jpg">
-  <meta property="og:description" content="Peer-citable research archive on AI governance and sociotechnical failure.">
+  <meta property="og:description" content="Peer-citable research archive on workflow-centric AI governance.">
 
-  <style>
-    /* 和紙の質感を出すためのSVGフィルターを非表示にする設定 */
-    svg#new-card-fx {
-      position: absolute;
-      width: 0;
-      height: 0;
-      left: -9999px;
-      top: -9999px;
-    }
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Takashi Sato · AI Governance Archive">
+  <meta name="twitter:description" content="Peer-citable research archive on workflow-centric AI governance.">
 
-    /* 新しいカード群を包むコンテナ */
-    .new-cards-container {
-      width: min(1060px, 100%);
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: clamp(22px, 3.2vw, 42px);
-      /* 既存の padding-bottom をリセットして調整 */
-      padding-bottom: 80px; 
-    }
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://takashisato.me/#person",
+        "name": "Takashi Sato",
+        "url": "https://takashisato.me/",
+        "sameAs": [
+          "https://orcid.org/0009-0003-1584-6965",
+          "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+          "https://x.com/takashisato_me",
+          "https://www.instagram.com/takashisato_me/"
+        ],
+        "jobTitle": "Independent Researcher",
+        "knowsAbout": [
+          "AI Governance",
+          "Sociotechnical Systems",
+          "Algorithmic Oversight"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://takashisato.me/#website",
+        "name": "Takashi Sato · AI Governance Archive",
+        "url": "https://takashisato.me/",
+        "publisher": { "@id": "https://takashisato.me/#person" }
+      }
+    ]
+  }
+  </script>
+</head>
 
-    /* --- 個別のカードデザイン --- */
-    .nc-card {
-      position: relative;
-      display: grid;
-      grid-template-columns: minmax(260px, 0.75fr) 1fr;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(10,10,12,.55);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      overflow: hidden;
-      transform: rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-      transition: transform 900ms cubic-bezier(.2,0,.1,1), border-color 600ms cubic-bezier(.16,1,.3,1), background-color 600ms cubic-bezier(.16,1,.3,1), box-shadow 900ms cubic-bezier(.2,0,.1,1);
-      will-change: transform;
-      box-shadow: 0 40px 90px -30px rgba(0,0,0,.9);
-      cursor: pointer;
-      text-decoration: none;
-      color: rgba(255,255,255,.92);
-      text-align: left;
-    }
+<body class="home">
+  <svg id="fx" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <filter id="paperFibers" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" stitchTiles="noStitch" />
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        0 0 0 1 0" />
+      <feComponentTransfer>
+        <feFuncR type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+        <feFuncG type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+        <feFuncB type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+      </feComponentTransfer>
+    </filter>
+  </svg>
 
-    .nc-card:hover {
-      background: rgba(10,10,12,.75);
-      border-color: rgba(255,255,255,.16);
-      box-shadow: 0 70px 140px -40px rgba(0,0,0,.98);
-    }
+  <div class="bg" aria-hidden="true"></div>
 
-    .nc-card:focus-visible { outline: 2px solid rgba(255,255,255,.22); outline-offset: 3px; }
+  <main class="wrap">
+    <div class="stack">
+      <article class="card" tabindex="0" role="link" aria-label="Part I: The Cold Genesis" data-href="/papers/part1.html">
+        <div class="paper" aria-hidden="true"></div>
+        <div class="metal" aria-hidden="true"></div>
+        <div class="glare" aria-hidden="true"></div>
 
-    /* 背景エフェクト層 */
-    .nc-paper {
-      position: absolute;
-      inset: -40px;
-      opacity: .60;
-      filter: url(#paperFibers);
-      background:
-        radial-gradient(900px 700px at 20% 10%, rgba(255,255,255,.07), transparent 60%),
-        radial-gradient(800px 700px at 90% 80%, rgba(255,255,255,.05), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,0));
-      mix-blend-mode: soft-light;
-      pointer-events: none;
-      z-index: 1;
-    }
+        <section class="main">
+          <div class="meta"><span class="part">Part I</span><span class="rule"></span><span class="label">Grand Design</span></div>
+          <h2><strong>Part I:</strong> The Cold<br>Genesis</h2>
+          <p class="sub">“To preserve the human, we must engineer the friction of thought.”</p>
 
-    .nc-metal {
-      position: absolute;
-      inset: -80px;
-      opacity: 0;
-      background:
-        conic-gradient(from 210deg at 50% 50%, rgba(255,255,255,.0), rgba(255,255,255,.10), rgba(255,255,255,.0), rgba(255,255,255,.18), rgba(255,255,255,.0)),
-        radial-gradient(900px 520px at 50% 40%, rgba(255,255,255,.10), transparent 60%),
-        radial-gradient(800px 600px at 30% 90%, rgba(255,255,255,.06), transparent 62%);
-      filter: contrast(1.2) saturate(.9);
-      mix-blend-mode: color-dodge;
-      -webkit-mask-image: radial-gradient(var(--spot,420px) circle at var(--x,50%) var(--y,50%), #000 0%, transparent 72%);
-      mask-image: radial-gradient(var(--spot,420px) circle at var(--x,50%) var(--y,50%), #000 0%, transparent 72%);
-      transition: opacity 450ms cubic-bezier(.16,1,.3,1);
-      pointer-events: none;
-      z-index: 2;
-    }
+          <div class="foot">
+            <span class="tag">AI governance</span>
+            <span class="tag">workflow-centric oversight</span>
+            <span class="tag">human-in-the-loop</span>
 
-    .nc-glare {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      background: radial-gradient(var(--spot2,520px) circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.10), transparent 62%);
-      mix-blend-mode: overlay;
-      transition: opacity 350ms cubic-bezier(.16,1,.3,1);
-      pointer-events: none;
-      z-index: 3;
-    }
+            <div class="actions" aria-label="Part I actions">
+              <a class="cta primary" href="/papers/part1.html">
+                Open Part
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a class="cta" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
+                Open PDF <span class="sr-only">(opens in new tab)</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
 
-    .nc-card:hover .nc-metal { opacity: .80; }
-    .nc-card:hover .nc-glare { opacity: 1; }
+        <aside class="aside" aria-label="Part I keywords">
+          <div>
+            <span class="klabel">Keywords</span>
+            <p class="quote">AI governance · workflow-centric oversight · human-in-the-loop</p>
+          </div>
+          <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
+        </aside>
+      </article>
 
-    /* 左側（メイン情報） */
-    .nc-main {
-      padding: clamp(22px, 3vw, 44px);
-      position: relative;
-      z-index: 5;
-    }
+      <article class="card" tabindex="0" role="link" aria-label="Part II: The Silent Decay" data-href="/papers/part2.html">
+        <div class="paper" aria-hidden="true"></div>
+        <div class="metal" aria-hidden="true"></div>
+        <div class="glare" aria-hidden="true"></div>
 
-    .nc-meta { display: flex; align-items: center; gap: 14px; margin-bottom: clamp(18px, 2.2vw, 30px); }
-    .nc-part { font-family: 'Inter', sans-serif; font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,.86); }
-    .nc-rule { height: 1px; width: 36px; background: rgba(255,255,255,.10); }
-    .nc-label { font-family: 'Inter', sans-serif; font-size: .68rem; letter-spacing: .26em; text-transform: uppercase; color: rgba(255,255,255,.32); }
+        <section class="main">
+          <div class="meta"><span class="part">Part II</span><span class="rule"></span><span class="label">Silent Rot</span></div>
+          <h2><strong>Part II:</strong> The Silent<br>Decay</h2>
+          <p class="sub">“The system shatters under its own weight before it is ever abused.”<br><br>“It is a physical suicide, executed by goodwill.”</p>
 
-    .nc-main h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      line-height: 1.02;
-      letter-spacing: -.02em;
-      font-size: clamp(2.1rem, 4.8vw, 3.7rem);
-      margin: 0 0 16px 0;
-      text-shadow: 0 12px 28px rgba(0,0,0,.45);
-      color: rgba(255,255,255,.92);
-      text-transform: none; /* 既存CSSのリセット */
-    }
-    .nc-main h2 strong { font-weight: 400; color: rgba(255,255,255,.72); }
+          <div class="foot">
+            <span class="tag">institutional failure</span>
+            <span class="tag">governance drift</span>
+            <span class="tag">pre-abuse failure</span>
 
-    .nc-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      color: rgba(255,255,255,.62);
-      font-size: clamp(1.05rem, 1.6vw, 1.22rem);
-      line-height: 1.68;
-      max-width: 50ch;
-      margin: 0;
-    }
+            <div class="actions" aria-label="Part II actions">
+              <a class="cta primary" href="/papers/part2.html">
+                Open Part
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a class="cta" href="/pdf/part2.pdf" target="_blank" rel="noopener noreferrer">
+                Open PDF <span class="sr-only">(opens in new tab)</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
 
-    .nc-foot { margin-top: clamp(20px, 2.6vw, 36px); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    
-    .nc-tag {
-      font-family: 'Inter', sans-serif; font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38);
-      border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); padding: 10px 14px; border-radius: 999px; white-space: nowrap;
-    }
+        <aside class="aside" aria-label="Part II keywords">
+          <div>
+            <span class="klabel">Keywords</span>
+            <p class="quote">institutional failure · governance drift · pre-abuse failure</p>
+          </div>
+          <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
+        </aside>
+      </article>
 
-    .nc-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+      <article class="card" tabindex="0" role="link" aria-label="Part III: The Proper Ending" data-href="/papers/part3.html">
+        <div class="paper" aria-hidden="true"></div>
+        <div class="metal" aria-hidden="true"></div>
+        <div class="glare" aria-hidden="true"></div>
 
-    .nc-cta {
-      display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.10);
-      padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: .62rem; letter-spacing
+        <section class="main">
+          <div class="meta"><span class="part">Part III</span><span class="rule"></span><span class="label">Requiem</span></div>
+          <h2><strong>Part III:</strong> The Proper<br>Ending</h2>
+          <p class="sub">“Silence is the scream of a failing system.”</p>
+
+          <div class="foot">
+            <span class="tag">Resolution Collapse</span>
+            <span class="tag">semantic entropy</span>
+            <span class="tag">circuit breakers</span>
+
+            <div class="actions" aria-label="Part III actions">
+              <a class="cta primary" href="/papers/part3.html">
+                Open Part
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a class="cta" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">
+                Open PDF <span class="sr-only">(opens in new tab)</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <aside class="aside" aria-label="Part III keywords">
+          <div>
+            <span class="klabel">Keywords</span>
+            <p class="quote">Resolution Collapse · semantic entropy · circuit breakers</p>
+          </div>
+          <div class="qmeta"><span>Selected Works 2025–2026</span><span></span></div>
+        </aside>
+      </article>
+    </div>
+  </main>
+
+  <script src="/assets/scroll.js" defer></script>
+  <script src="/assets/home.js" defer></script>
+</body>
+</html>
