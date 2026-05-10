@@ -1,296 +1,705 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#020203" />
-  <title>Resolution Collapse — Circuit Breakers</title>
-  <meta name="description" content="Interactive visualizer for Resolution Collapse, Governance Drift Indicators, Circuit Breakers, and the Proper Ending." />
-  <link rel="canonical" href="https://takashisato.me/demo/altrion-part3.html" />
-  <meta property="og:title" content="Resolution Collapse — Circuit Breakers" />
-  <meta property="og:description" content="Semantic entropy, temporal compression, dissent exhaustion, and structural containment." />
-  <meta property="og:image" content="https://takashisato.me/assets/og-part3.jpg" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resolution Collapse — Human Intercession</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#020203;
-      --ink:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.58);
-      --dim:rgba(255,255,255,.34);
-      --line:rgba(255,255,255,.12);
-      --gold:rgba(218,202,126,.86);
-      --danger:rgba(255,112,92,.84);
-      --blue:rgba(168,196,255,.78);
-      --serif: Georgia, "Times New Roman", serif;
-      --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --ease:cubic-bezier(.16,1,.3,1);
+    :root {
+      --phi: 1.618;
+      --black: #020202;
+      --black-2: #060605;
+      --bone: #efe8d8;
+      --bone-2: #c8bea9;
+      --muted: #827767;
+      --dim: #4b463d;
+      --blue: #26313e;
+      --gold: #b99d57;
+      --gold-2: #dcc179;
+      --panel: rgba(5, 5, 4, .68);
+      --line: rgba(239, 232, 216, .115);
+      --gutter: clamp(22px, 3vw, 42px);
+      --header: 72px;
+      --footer: 90px;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
-    body::before{
-      content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #1d1d1d;
+      color: var(--bone);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .frame {
+      position: relative;
+      width: min(94vw, 1500px);
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      isolation: isolate;
       background:
-        linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),
-        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
-      background-size:52px 52px;
-      mask-image:radial-gradient(circle at 50% 45%,black,transparent 78%);
-      opacity:.4;
+        radial-gradient(circle at 61.8% 45%, rgba(239, 232, 216, .058), transparent 32%),
+        radial-gradient(circle at 61.8% 53%, rgba(185, 157, 87, .052), transparent 30%),
+        radial-gradient(circle at 38.2% 74%, rgba(38, 49, 62, .10), transparent 35%),
+        linear-gradient(180deg, #060606, #020202 70%, #010101);
+      border: 1px solid rgba(255, 255, 255, .045);
+      box-shadow: 0 46px 140px rgba(0, 0, 0, .72);
     }
-    body::after{
-      content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
-      background:radial-gradient(900px 680px at 65% 45%,transparent,rgba(0,0,0,.74)),
-      linear-gradient(90deg,rgba(0,0,0,.62),transparent 38%,rgba(0,0,0,.45));
+
+    #stage {
+      position: absolute;
+      inset: var(--header) 0 var(--footer) 0;
+      width: 100%;
+      height: calc(100% - var(--header) - var(--footer));
+      display: block;
+      z-index: 1;
     }
-    .shell{position:relative;z-index:4;min-height:100svh;display:grid;grid-template-columns:minmax(360px, 38vw) 1fr}
-    .panel{
-      min-height:100svh;padding:clamp(28px,4vw,56px);
-      border-right:1px solid rgba(255,255,255,.09);
-      background:linear-gradient(90deg,rgba(7,7,9,.92),rgba(7,7,9,.72) 72%,rgba(7,7,9,.22));
-      backdrop-filter:blur(10px);
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
-    .nav{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:clamp(42px,8vh,86px)}
-    .nav a{color:rgba(255,255,255,.62);text-decoration:none;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}
-    .kicker{color:var(--gold);font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;margin:0 0 20px}
-    h1{font-family:var(--serif);font-size:clamp(3.1rem,6vw,7rem);line-height:.86;font-weight:400;letter-spacing:-.04em;margin:0}
-    .subtitle{margin:28px 0 0;border-left:1px solid var(--gold);padding-left:18px;max-width:62ch;color:rgba(255,255,255,.68);font-family:var(--serif);font-style:italic;font-size:1rem;line-height:1.75}
-    .phases{margin:44px 0 0;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.08)}
-    .phases li{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.42);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase}
-    .phases li::before{content:"";width:7px;height:7px;border-radius:999px;border:1px solid rgba(255,255,255,.28)}
-    .phases li.active{color:#fff}
-    .phases li.active::before{background:var(--gold);box-shadow:0 0 22px var(--gold);border-color:var(--gold)}
-    .readout{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px}
-    .metric{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.025);padding:14px 12px}
-    .metric span{display:block;color:rgba(255,255,255,.36);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase}
-    .metric strong{display:block;margin-top:8px;font-family:var(--serif);font-weight:400;font-size:1.55rem}
-    .meter{height:2px;background:rgba(255,255,255,.10);margin-top:10px;overflow:hidden}
-    .meter i{display:block;height:100%;width:var(--v);background:linear-gradient(90deg,var(--gold),var(--danger));box-shadow:0 0 18px rgba(255,255,255,.22)}
-    .breaker{margin-top:40px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.025);padding:18px}
-    .breaker-head{display:flex;justify-content:space-between;gap:16px;align-items:center}
-    .breaker strong{font-family:var(--serif);font-weight:400;font-size:1.4rem}
-    .badge{padding:6px 9px;border:1px solid rgba(255,255,255,.16);border-radius:999px;color:var(--gold);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase}
-    .breaker p{margin:12px 0 0;color:rgba(255,255,255,.54);font-size:.78rem;line-height:1.65}
-    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-    button,.actions a{cursor:pointer;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.22);color:rgba(255,255,255,.78);padding:10px 12px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
-    button:hover,.actions a:hover{border-color:rgba(255,255,255,.32);color:#fff}
-    .stage{position:relative;min-height:100svh;overflow:hidden}
-    canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-    .status{
-      position:absolute;right:clamp(24px,4vw,64px);top:clamp(28px,5vw,70px);
-      text-align:right;z-index:5;color:rgba(255,255,255,.74)
+
+    .grain, .vignette, .field, .sweep {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
-    .status span{display:block;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.34)}
-    .status strong{display:block;margin-top:10px;font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);font-weight:400;line-height:.8}
-    .threshold{
-      position:absolute;right:clamp(24px,4vw,64px);bottom:clamp(24px,4vw,64px);z-index:5;
-      width:min(420px,45vw);border-top:1px solid rgba(255,255,255,.16);padding-top:18px
+
+    .grain {
+      z-index: 9;
+      opacity: .024;
+      mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.58'/%3E%3C/svg%3E");
     }
-    .threshold h2{margin:0;font-family:var(--serif);font-size:1.4rem;font-weight:400}
-    .threshold p{margin:10px 0 0;color:rgba(255,255,255,.52);font-size:.74rem;line-height:1.65}
-    .scanline{position:absolute;left:0;right:0;top:var(--scan,50%);height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 28px rgba(218,202,126,.38);opacity:.55}
-    .proper-ending{
-      position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:40px;
-      background:radial-gradient(700px 400px at 50% 48%,rgba(255,255,255,.08),rgba(0,0,0,.92));
-      opacity:0;pointer-events:none;transition:opacity .8s var(--ease);z-index:8
+
+    .vignette {
+      z-index: 8;
+      background:
+        radial-gradient(circle at 61.8% 48%, transparent 0 46%, rgba(0, 0, 0, .30) 75%, rgba(0, 0, 0, .96) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, .18), transparent 22%, rgba(0, 0, 0, .42));
     }
-    .proper-ending.show{opacity:1;pointer-events:auto}
-    .proper-ending h2{font-family:var(--serif);font-size:clamp(3rem,8vw,7rem);font-weight:400;line-height:.92;margin:0}
-    .proper-ending p{max-width:54ch;margin:22px auto 0;color:rgba(255,255,255,.62);line-height:1.75}
-    @media(max-width:900px){
-      html,body{overflow:auto}
-      .shell{grid-template-columns:1fr}
-      .panel{min-height:auto;border-right:0;border-bottom:1px solid rgba(255,255,255,.10)}
-      .stage{min-height:80svh}
-      .threshold{position:relative;right:auto;bottom:auto;width:auto;margin:0 24px 30px}
-      .readout{grid-template-columns:1fr}
+
+    .field {
+      z-index: 2;
+      opacity: .038;
+      background-image:
+        linear-gradient(rgba(239, 232, 216, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239, 232, 216, .045) 1px, transparent 1px);
+      background-size: 128px 128px;
+      mask-image: radial-gradient(circle at 61.8% 48%, black 0 40%, transparent 80%);
+    }
+
+    .sweep {
+      z-index: 3;
+      opacity: .10;
+      background: linear-gradient(112deg, transparent 0 47%, rgba(239, 232, 216, .07) 49%, transparent 52% 100%);
+      transform: translateX(-80%);
+      animation: sweep 11s cubic-bezier(.16, 1, .3, 1) infinite;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes sweep {
+      0%, 45% { transform: translateX(-84%); opacity: 0; }
+      58% { opacity: .13; }
+      100% { transform: translateX(86%); opacity: 0; }
+    }
+
+    .top {
+      position: absolute;
+      inset: 0 0 auto 0;
+      z-index: 15;
+      height: var(--header);
+      display: grid;
+      grid-template-columns: minmax(260px, 34%) 1fr minmax(150px, 18%);
+      align-items: center;
+      padding: 0 var(--gutter);
+      border-bottom: 1px solid rgba(239, 232, 216, .075);
+      background: rgba(2, 2, 2, .76);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand { display: flex; gap: 14px; align-items: center; min-width: 0; }
+
+    .mark {
+      width: 35px;
+      height: 35px;
+      flex: 0 0 35px;
+      border-radius: 50%;
+      border: 1px solid rgba(185, 157, 87, .44);
+      display: grid;
+      place-items: center;
+      position: relative;
+      box-shadow: inset 0 0 22px rgba(185, 157, 87, .08);
+    }
+
+    .mark::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(239, 232, 216, .14);
+    }
+
+    .mark::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold-2);
+      box-shadow: 0 0 16px rgba(220, 193, 121, .8);
+    }
+
+    .brand-title {
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-size: 18px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .brand-sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 8px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: clamp(20px, 2.8vw, 42px);
+      color: #b7ad99;
+      font-size: 9px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+    }
+
+    .nav span { position: relative; }
+    .nav .active { color: var(--gold-2); }
+    .nav .active::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -16px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold-2);
+      transform: translateX(-50%);
+      box-shadow: 0 0 18px rgba(220, 193, 121, .85);
+    }
+
+    .part {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .star {
+      width: 31px;
+      height: 31px;
+      border: 1px solid rgba(185, 157, 87, .34);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--gold-2);
+      font-size: 15px;
+    }
+
+    .hero {
+      position: absolute;
+      z-index: 12;
+      inset: var(--header) 0 var(--footer) 0;
+      display: grid;
+      grid-template-columns: 38.2% 1fr 15.5%;
+      gap: clamp(18px, 2.4vw, 34px);
+      padding: clamp(42px, 4vw, 58px) var(--gutter) 18px clamp(42px, 4.4vw, 64px);
+    }
+
+    .copy {
+      align-self: center;
+      transform: translateY(-1.5vh);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow i {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--bone);
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(58px, 5.8vw, 106px);
+      line-height: .83;
+      letter-spacing: -.045em;
+      text-shadow: 0 0 35px rgba(239, 232, 216, .06);
+    }
+
+    .subhead {
+      margin-top: 18px;
+      color: #bba064;
+      font-size: 10px;
+      letter-spacing: .42em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      margin-top: 24px;
+      max-width: 365px;
+      min-height: 92px;
+      color: #aaa08d;
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.58;
+      transition: opacity .35s ease;
+    }
+
+    .metrics {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(239, 232, 216, .12);
+      max-width: 335px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: 1fr 15px 58px;
+      align-items: center;
+      gap: 10px;
+      color: #8b8374;
+      font-size: 8px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .metric b {
+      color: var(--bone);
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-weight: 400;
+      font-size: 15px;
+      letter-spacing: .08em;
+      text-align: right;
+    }
+
+    .metric i {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--gold-2);
+      justify-self: center;
+      box-shadow: 0 0 12px rgba(220, 193, 121, .8);
+    }
+
+    .quote {
+      margin-top: 23px;
+      padding-left: 15px;
+      border-left: 1px solid var(--gold);
+      max-width: 300px;
+      color: #897f6f;
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-style: italic;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .phase-panel {
+      align-self: center;
+      justify-self: end;
+      padding-right: 8px;
+    }
+
+    .phase-title {
+      margin-bottom: 20px;
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+    }
+
+    .phase-list { display: grid; gap: 14px; }
+
+    .phase-item {
+      display: grid;
+      grid-template-columns: 38px 1px 1fr;
+      gap: 12px;
+      align-items: center;
+      color: #5d584f;
+      cursor: pointer;
+      pointer-events: auto;
+      user-select: none;
+    }
+
+    .phase-item .num {
+      color: #d6cfbf;
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-size: 24px;
+    }
+
+    .phase-item .bar {
+      width: 1px;
+      height: 28px;
+      background: rgba(239, 232, 216, .13);
+    }
+
+    .phase-item .label {
+      white-space: nowrap;
+      font-size: 8px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .phase-item.active .num,
+    .phase-item.active .label { color: var(--gold-2); }
+
+    .phase-item.active .bar {
+      background: var(--gold-2);
+      box-shadow: 0 0 18px rgba(220, 193, 121, .65);
+    }
+
+    .bottom {
+      position: absolute;
+      left: var(--gutter);
+      right: var(--gutter);
+      bottom: 24px;
+      z-index: 16;
+      height: 76px;
+      display: grid;
+      grid-template-columns: 230px 1fr 64px 1fr 145px 155px;
+      border: 1px solid rgba(239, 232, 216, .12);
+      border-radius: 12px;
+      background: rgba(5, 5, 4, .68);
+      backdrop-filter: blur(22px);
+      overflow: hidden;
+      box-shadow: 0 18px 90px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .035);
+    }
+
+    .rail {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      border: 0;
+      border-right: 1px solid rgba(239, 232, 216, .08);
+      color: #8b8374;
+      background: transparent;
+      font-family: Inter, sans-serif;
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .rail:last-child { border-right: 0; }
+    button.rail { cursor: pointer; pointer-events: auto; transition: background .25s ease, color .25s ease; }
+    button.rail:hover { background: rgba(239, 232, 216, .055); color: var(--bone); }
+    button.rail:focus-visible, .phase-item:focus-visible { outline: 1px solid var(--gold-2); outline-offset: -3px; }
+
+    .mini { width: 124px; height: 28px; }
+    .drift strong {
+      display: block;
+      margin-top: 2px;
+      color: var(--bone);
+      font-family: Cormorant Garamond, Georgia, serif;
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .play {
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 9px solid var(--bone);
+      opacity: .8;
+    }
+
+    .key {
+      border: 1px solid rgba(239, 232, 216, .15);
+      padding: 5px 8px;
+      border-radius: 4px;
+      color: #777064;
+      font-size: 8px;
+      letter-spacing: .14em;
+    }
+
+    .orb {
+      position: relative;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      border-right: 1px solid rgba(239, 232, 216, .08);
+    }
+
+    .orb::before {
+      content: "";
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 1px solid rgba(185, 157, 87, .26);
+      background: radial-gradient(circle, rgba(185, 157, 87, .12), transparent 70%);
+      box-shadow: inset 0 0 34px rgba(185, 157, 87, .06);
+    }
+
+    .orb::after {
+      content: "∿";
+      position: absolute;
+      color: var(--gold-2);
+      font-size: 30px;
+      opacity: .82;
+    }
+
+    .mobile-phase {
+      display: none;
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 102px;
+      z-index: 17;
+      gap: 6px;
+      pointer-events: auto;
+    }
+
+    .mobile-phase button {
+      flex: 1;
+      height: 34px;
+      border: 1px solid rgba(239, 232, 216, .11);
+      border-radius: 999px;
+      background: rgba(5, 5, 4, .58);
+      color: #8b8374;
+      font-family: Inter, sans-serif;
+      font-size: 9px;
+      letter-spacing: .12em;
+    }
+
+    .mobile-phase button.active {
+      background: var(--bone);
+      color: #050505;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sweep { animation: none; }
+    }
+
+    @media (max-width: 1180px) {
+      .nav { gap: 24px; }
+      .bottom { grid-template-columns: 220px 1fr 60px 1fr 132px 132px; }
+      .rail { gap: 10px; letter-spacing: .18em; }
+    }
+
+    @media (max-width: 960px) {
+      :root { --header: 64px; --footer: 154px; }
+      body { display: block; overflow: hidden; }
+      .frame {
+        width: 100vw;
+        height: 100dvh;
+        aspect-ratio: auto;
+        border: 0;
+      }
+      .top {
+        grid-template-columns: 1fr auto;
+        padding: 0 18px;
+      }
+      .mark { width: 32px; height: 32px; flex-basis: 32px; }
+      .brand-title { font-size: 16px; letter-spacing: .15em; }
+      .brand-sub { font-size: 7px; letter-spacing: .22em; }
+      .nav { display: none; }
+      .part { font-size: 8px; gap: 10px; }
+      .star { display: none; }
+      .hero {
+        inset: var(--header) 0 154px 0;
+        grid-template-columns: 1fr;
+        padding: 24px 18px 0;
+        pointer-events: none;
+      }
+      .copy {
+        align-self: start;
+        transform: none;
+        max-width: 53vw;
+      }
+      .eyebrow { font-size: 8px; margin-bottom: 13px; gap: 10px; }
+      .eyebrow i { width: 28px; }
+      h1 { font-size: clamp(38px, 10vw, 56px); line-height: .86; }
+      .subhead { margin-top: 12px; font-size: 8px; letter-spacing: .30em; }
+      .lead { margin-top: 14px; max-width: 44vw; min-height: 64px; font-size: 13px; line-height: 1.42; color: #b0a795; }
+      .metrics { display: none; }
+      .quote { display: none; }
+      .phase-panel { display: none; }
+      .mobile-phase { display: flex; }
+      .bottom {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        height: 76px;
+        grid-template-columns: 1fr 1fr;
+      }
+      .bottom .rail:nth-child(1), .bottom .orb, .bottom .rail:nth-child(5), .bottom .rail:nth-child(6) { display: none; }
+      .rail { height: 76px; border-right: 1px solid rgba(239, 232, 216, .08); font-size: 9px; letter-spacing: .18em; }
+      .key { display: none; }
+      #stage { inset: var(--header) 0 var(--footer) 0; height: calc(100% - var(--header) - var(--footer)); }
+    }
+
+    @media (max-width: 620px) {
+      .copy { max-width: 58vw; }
+      .lead { max-width: 48vw; font-size: 12px; }
+      .mobile-phase { left: 12px; right: 12px; bottom: 100px; }
+      .mobile-phase button { height: 32px; font-size: 8px; }
+      .bottom { left: 12px; right: 12px; }
     }
   </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-  <div class="shell">
-    <aside class="panel">
-      <div class="nav">
-        <a href="/">Home</a>
-        <a href="/papers/part3.html">Read Part III</a>
+<div class="frame">
+  <canvas id="stage" role="img" aria-label="Interactive visualization of governance collapse: a closed governance cycle tightens, opens through human intercession, and preserves institutional memory."></canvas>
+  <div id="srStatus" class="sr-only" aria-live="polite"></div>
+  <div class="field"></div>
+  <div class="sweep"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <header class="top">
+    <div class="brand">
+      <div class="mark"></div>
+      <div>
+        <div class="brand-title">Takashi Sato</div>
+        <div class="brand-sub">AI Governance Research</div>
       </div>
-      <p class="kicker">Failure Legibility / Circuit Breakers / Proper Ending</p>
+    </div>
+    <nav class="nav">
+      <span>Papers</span><span class="active">Visualizers</span><span>Principles</span><span>Archive</span><span>About</span>
+    </nav>
+    <div class="part"><span>Part III⌄</span><span class="star">✶</span></div>
+  </header>
+
+  <section class="hero">
+    <aside class="copy">
+      <div class="eyebrow"><span>Part III</span><i></i><span>Visualizer</span></div>
       <h1>Resolution<br>Collapse</h1>
-      <p class="subtitle">Governance does not always fail by noise. In high-stakes bureaucracy, the terminal signal is often silence.</p>
-      <ol class="phases" aria-label="Collapse phases">
-        <li class="active" data-phase="0">00. High-resolution judgment</li>
-        <li data-phase="1">01. Semantic entropy decay</li>
-        <li data-phase="2">02. Temporal compression</li>
-        <li data-phase="3">03. Dissent exhaustion</li>
-        <li data-phase="4">04. Circuit breaker</li>
-      </ol>
-
-      <div class="readout" aria-label="Governance Drift Indicators">
-        <div class="metric"><span>Semantic Entropy</span><strong id="sed">0.83</strong><div class="meter"><i id="sedBar" style="--v:83%"></i></div></div>
-        <div class="metric"><span>Time Variance</span><strong id="tc">0.71</strong><div class="meter"><i id="tcBar" style="--v:71%"></i></div></div>
-        <div class="metric"><span>Dissent Rate</span><strong id="ed">0.42</strong><div class="meter"><i id="edBar" style="--v:42%"></i></div></div>
+      <div class="subhead">Human Intercession</div>
+      <p class="lead" id="lead">A closed governance cycle tightens as dissent disappears. The final act is not explosion. It is one human breath-line opening the loop without erasing memory.</p>
+      <div class="metrics">
+        <div class="metric"><span>Semantic Entropy</span><i></i><b id="entropy">0.770</b></div>
+        <div class="metric"><span>Time Variance</span><i></i><b id="variance">0.420</b></div>
+        <div class="metric"><span>Dissent Rate</span><i></i><b id="dissent">0.080</b></div>
+        <div class="metric"><span>Governance Resolution</span><i></i><b id="resolution">0.290</b></div>
       </div>
-
-      <div class="breaker">
-        <div class="breaker-head">
-          <strong id="modeTitle">Breaker Armed</strong>
-          <span class="badge" id="modeBadge">Monitoring</span>
-        </div>
-        <p id="modeCopy">The system watches for coupled degradation across multiple indicators. A single metric is never enough.</p>
-        <div class="actions">
-          <button id="advance">Advance Drift</button>
-          <button id="reset">Reset</button>
-          <a href="/pdf/part3.pdf">Open PDF</a>
-        </div>
-      </div>
+      <div class="quote">“The system stopped without erasing memory.”</div>
     </aside>
+    <div></div>
+    <aside class="phase-panel">
+      <div class="phase-title">Phase</div>
+      <div class="phase-list" id="phaseList"></div>
+    </aside>
+  </section>
 
-    <section class="stage" aria-label="Resolution collapse visualizer">
-      <canvas id="field"></canvas>
-      <div class="scanline" aria-hidden="true"></div>
-      <div class="status">
-        <span>Governance Resolution</span>
-        <strong id="resolution">0.83</strong>
-      </div>
-      <div class="threshold">
-        <h2 id="thresholdTitle">Resolution is still recoverable.</h2>
-        <p id="thresholdCopy">Judgment varies across cases. Dissent remains visible. The workflow still contains enough friction to distinguish routine decisions from exceptions.</p>
-      </div>
-      <div class="proper-ending" id="ending">
-        <div>
-          <h2>Proper Ending.</h2>
-          <p>The process stops without erasing memory. Logs are preserved, authority returns to the institution, and reactivation becomes a new governance decision.</p>
-          <div class="actions" style="justify-content:center"><button id="closeEnding">Continue Monitoring</button></div>
-        </div>
-      </div>
-    </section>
-  </div>
+  <div class="mobile-phase" id="mobilePhase"></div>
 
+  <footer class="bottom">
+    <div class="rail drift"><canvas class="mini" id="mini"></canvas><span>Intercession<strong id="driftValue">0.770</strong></span></div>
+    <button class="rail" id="advance"><span class="play"></span><span>Advance</span><span class="key">Space</span></button>
+    <div class="orb"></div>
+    <button class="rail" id="open"><span>✺</span><span>Intervene</span><span class="key">Enter</span></button>
+    <button class="rail" id="reset"><span>↺</span><span>Reset</span></button>
+    <button class="rail"><span>▧</span><span>Read Paper</span></button>
+  </footer>
+</div>
 <script>
-(() => {
-  const canvas = document.getElementById("field");
-  const ctx = canvas.getContext("2d");
-  const sed = document.getElementById("sed");
-  const tc = document.getElementById("tc");
-  const ed = document.getElementById("ed");
-  const res = document.getElementById("resolution");
-  const sedBar = document.getElementById("sedBar");
-  const tcBar = document.getElementById("tcBar");
-  const edBar = document.getElementById("edBar");
-  const phases = [...document.querySelectorAll(".phases li")];
-  const advance = document.getElementById("advance");
-  const reset = document.getElementById("reset");
-  const ending = document.getElementById("ending");
-  const closeEnding = document.getElementById("closeEnding");
-  const thresholdTitle = document.getElementById("thresholdTitle");
-  const thresholdCopy = document.getElementById("thresholdCopy");
-  const modeTitle = document.getElementById("modeTitle");
-  const modeBadge = document.getElementById("modeBadge");
-  const modeCopy = document.getElementById("modeCopy");
-
-  let dpr = Math.min(devicePixelRatio || 1, 2);
-  let w = 0, h = 0, phase = 0;
-  const points = [];
-  const count = 1600;
-
-  const states = [
-    {r:.83, s:.83, t:.71, e:.42, title:"Resolution is still recoverable.", badge:"Monitoring", mode:"Breaker Armed", copy:"Judgment varies across cases. Dissent remains visible. The workflow still contains enough friction to distinguish routine decisions from exceptions."},
-    {r:.66, s:.52, t:.62, e:.35, title:"Language begins to converge.", badge:"Entropy Decay", mode:"GDI Warning", copy:"Explanations become formulaic. The system remains compliant, but the informational richness of judgment is declining."},
-    {r:.47, s:.41, t:.28, e:.24, title:"Decision time loses variance.", badge:"Compression", mode:"Coupled Drift", copy:"Complex and routine cases start to move at the same speed. Judgment is being replaced by execution."},
-    {r:.25, s:.30, t:.18, e:.06, title:"Dissent approaches silence.", badge:"Threshold", mode:"Containment Required", copy:"Operators remain in the loop, but disagreement no longer changes outcomes. Soft interventions are no longer enough."},
-    {r:.09, s:.18, t:.08, e:.01, title:"Circuit breaker triggered.", badge:"Stopped", mode:"Proper Ending", copy:"AI-assisted processing is halted or isolated. The stop is not failure; it is the final expression of legitimate governance."}
-  ];
-
-  function resize(){
-    w = canvas.clientWidth; h = canvas.clientHeight;
-    canvas.width = Math.floor(w*dpr); canvas.height = Math.floor(h*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    points.length = 0;
-    for(let i=0;i<count;i++){
-      points.push({
-        x: Math.random()*w, y: Math.random()*h,
-        a: Math.random()*Math.PI*2, r: Math.random(),
-        sp: .18 + Math.random()*.75
-      });
-    }
-  }
-
-  function applyState(){
-    const st = states[phase];
-    phases.forEach((el,i)=>el.classList.toggle("active", i===phase));
-    sed.textContent = st.s.toFixed(2); tc.textContent = st.t.toFixed(2); ed.textContent = st.e.toFixed(2); res.textContent = st.r.toFixed(2);
-    sedBar.style.setProperty("--v", Math.round(st.s*100)+"%");
-    tcBar.style.setProperty("--v", Math.round(st.t*100)+"%");
-    edBar.style.setProperty("--v", Math.round(st.e*100)+"%");
-    thresholdTitle.textContent = st.title;
-    thresholdCopy.textContent = st.copy;
-    modeTitle.textContent = st.mode;
-    modeBadge.textContent = st.badge;
-    modeCopy.textContent = phase < 4
-      ? "The system watches for coupled degradation across multiple indicators. A single metric is never enough."
-      : "Breaker mode records why the process stopped, preserves institutional memory, and requires justification before reactivation.";
-    document.documentElement.style.setProperty("--scan", (18 + phase*16) + "%");
-    if(phase === 4) setTimeout(()=>ending.classList.add("show"), 650);
-  }
-
-  function draw(time){
-    const st = states[phase];
-    ctx.clearRect(0,0,w,h);
-    ctx.fillStyle = "#020203";
-    ctx.fillRect(0,0,w,h);
-
-    const cx = w*.56, cy = h*.48;
-    const collapse = 1 - st.r;
-    const radius = Math.min(w,h) * (.22 + collapse*.10);
-
-    ctx.globalCompositeOperation = "lighter";
-    for(const p of points){
-      const pull = collapse * 0.045;
-      const dx = cx - p.x, dy = cy - p.y;
-      p.a += 0.002 + collapse*.012;
-      p.x += Math.cos(p.a + p.r*8) * p.sp + dx * pull * p.r;
-      p.y += Math.sin(p.a*1.2) * p.sp*.7 + dy * pull * p.r;
-
-      const orbit = Math.sin(time*.00025 + p.r*12) * radius;
-      if(Math.random() < .012 + collapse*.025){
-        p.x += Math.cos(p.a) * orbit * .018;
-        p.y += Math.sin(p.a) * orbit * .018;
-      }
-
-      if(p.x < -40 || p.x > w+40 || p.y < -40 || p.y > h+40){
-        p.x = Math.random()*w; p.y = Math.random()*h;
-      }
-
-      const alpha = .035 + st.r*.10 + p.r*.09;
-      ctx.fillStyle = phase === 4 ? `rgba(255,112,92,${alpha})` : `rgba(245,244,235,${alpha})`;
-      ctx.fillRect(p.x,p.y, phase > 2 ? 1.4 : 1, phase > 2 ? 1.4 : 1);
-    }
-
-    ctx.globalCompositeOperation = "source-over";
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius*(1+collapse*.5), 0, Math.PI*2);
-    ctx.strokeStyle = phase === 4 ? "rgba(255,112,92,.25)" : "rgba(218,202,126,.16)";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    if(phase >= 3){
-      ctx.fillStyle = phase === 4 ? "rgba(255,112,92,.08)" : "rgba(255,255,255,.035)";
-      ctx.fillRect(cx-radius*.9, cy-radius*.9, radius*1.8, radius*1.8);
-      ctx.strokeStyle = phase === 4 ? "rgba(255,112,92,.55)" : "rgba(255,255,255,.18)";
-      ctx.strokeRect(cx-radius*.9, cy-radius*.9, radius*1.8, radius*1.8);
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  advance.addEventListener("click", () => { phase = Math.min(4, phase+1); applyState(); });
-  reset.addEventListener("click", () => { phase = 0; ending.classList.remove("show"); applyState(); });
-  closeEnding.addEventListener("click", () => ending.classList.remove("show"));
-  phases.forEach(el => el.addEventListener("click", () => { phase = Number(el.dataset.phase); ending.classList.remove("show"); applyState(); }));
-
-  addEventListener("resize", resize, {passive:true});
-  resize(); applyState(); requestAnimationFrame(draw);
-})();
+const frame=document.querySelector('.frame'),canvas=document.getElementById('stage'),ctx=canvas.getContext('2d'),mini=document.getElementById('mini'),mctx=mini.getContext('2d');
+const phaseList=document.getElementById('phaseList'),mobilePhase=document.getElementById('mobilePhase'),entropyEl=document.getElementById('entropy'),varianceEl=document.getElementById('variance'),dissentEl=document.getElementById('dissent'),resolutionEl=document.getElementById('resolution'),driftValue=document.getElementById('driftValue'),lead=document.getElementById('lead'),srStatus=document.getElementById('srStatus');
+const phases=[
+{id:'00',label:'Surface',lead:'The governance field remains plural. Judgment still has contour, hesitation, and reversible doubt.',e:.22,v:.87,d:.74,r:.91,p:.05},
+{id:'01',label:'Order',lead:'Artificial order becomes visible. The system is beautiful, legible, and already beginning to close.',e:.43,v:.68,d:.52,r:.73,p:.22},
+{id:'02',label:'Loop',lead:'The field folds into one decision-cycle. Review begins to imitate thought.',e:.68,v:.42,d:.27,r:.42,p:.46},
+{id:'03',label:'Silence',lead:'Dissent exhausts. The loop tightens while remaining perfectly readable.',e:.77,v:.42,d:.08,r:.29,p:.72},
+{id:'04',label:'Breath',lead:'The biological sign is not DNA as data. It is a human breath-line: organic, interruptive, accountable.',e:.88,v:.22,d:.018,r:.12,p:.90},
+{id:'05',label:'Memory',lead:'The system stopped without erasing memory. The open ends preserve institutional trace.',e:.31,v:.54,d:.18,r:.68,p:1}
+];
+phaseList.innerHTML=phases.map((p,i)=>`<div class="phase-item ${i===3?'active':''}" data-i="${i}" tabindex="0"><div class="num">${p.id}</div><div class="bar"></div><div class="label">${p.label}</div></div>`).join('');
+mobilePhase.innerHTML=phases.map((p,i)=>`<button class="${i===3?'active':''}" data-i="${i}" type="button">${p.id}</button>`).join('');
+const items=[...phaseList.querySelectorAll('.phase-item')], mobileItems=[...mobilePhase.querySelectorAll('button')];let W=0,H=0,DPR=1,target=3,phase=3,mouseX=0,mouseY=0,freezeUntil=0,frozenTime=0,resizeRaf=0;
+function seed(i){const x=Math.sin(i*128.313)*43758.5453;return x-Math.floor(x)}function clamp(v,a,b){return Math.max(a,Math.min(b,v))}function lerp(a,b,t){return a+(b-a)*t}function smooth(t){return t*t*(3-2*t)}
+const dust=Array.from({length:300},(_,i)=>({a:seed(i)*Math.PI*2,r:Math.sqrt(seed(i+2)),z:seed(i+4),s:.16+seed(i+8)*.62,p:seed(i+19)*Math.PI*2,g:i%29===0,n1:seed(i+88)*Math.PI*2,n2:seed(i+188)*Math.PI*2}));
+const echoes=Array.from({length:9},(_,i)=>({r:.42+seed(i)*.36,tilt:.42+seed(i+2)*.20,rot:seed(i+7)*Math.PI,s:.000012+seed(i+10)*.000032,a:.018+seed(i+11)*.030}));
+const formula=['argmax π(a|s)','GDI ≤ τ','human review ≠ ritual','Σ audit log','stop ≠ erase'].map((text,i)=>({text,a:seed(i+330)*Math.PI*2,r:.63+seed(i+340)*.18,o:.024+seed(i+350)*.022}));
+function resize(){DPR=Math.min(devicePixelRatio||1,2);const r=frame.getBoundingClientRect();W=r.width;H=r.height-parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header'))-parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--footer'));canvas.width=Math.floor(W*DPR);canvas.height=Math.floor(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);mini.width=124*DPR;mini.height=28*DPR;mctx.setTransform(DPR,0,0,DPR,0,0)}
+function setPhase(i){target=clamp(i,0,5);if(target===5){frozenTime=performance.now();freezeUntil=frozenTime+500}items.forEach((el,idx)=>el.classList.toggle('active',idx===target));mobileItems.forEach((el,idx)=>el.classList.toggle('active',idx===target));const p=phases[target];entropyEl.textContent=p.e.toFixed(3);varianceEl.textContent=p.v.toFixed(3);dissentEl.textContent=p.d.toFixed(3);resolutionEl.textContent=p.r.toFixed(3);driftValue.textContent=p.e.toFixed(3);lead.style.opacity=0;setTimeout(()=>{lead.textContent=p.lead;lead.style.opacity=1;srStatus.textContent=`${p.id} ${p.label}. ${p.lead} Semantic entropy ${p.e.toFixed(3)}. Time variance ${p.v.toFixed(3)}. Dissent rate ${p.d.toFixed(3)}. Governance resolution ${p.r.toFixed(3)}.`},150)}
+items.forEach(el=>{el.onclick=()=>setPhase(+el.dataset.i);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setPhase(+el.dataset.i)}}});
+mobileItems.forEach(el=>el.onclick=()=>setPhase(+el.dataset.i));
+document.getElementById('advance').onclick=()=>setPhase(target>=5?0:target+1);
+document.getElementById('open').onclick=()=>setPhase(5);
+document.getElementById('reset').onclick=()=>setPhase(0);
+addEventListener('keydown',e=>{
+  const n=Number(e.key);
+  if(n>=1&&n<=6){setPhase(n-1)}
+  if(e.code==='Space'){e.preventDefault();setPhase(target>=5?0:target+1)}
+  if(e.code==='Enter')setPhase(5);
+  if(e.code==='Escape')setPhase(0)
+});
+frame.addEventListener('mousemove',e=>{const r=frame.getBoundingClientRect();mouseX=(e.clientX-r.left)/r.width-.5;mouseY=(e.clientY-r.top)/r.height-.5},{passive:true});
+function currentP(){const low=Math.floor(phase),high=Math.ceil(phase),fr=phase-low;return lerp(phases[low]?.p??phases[target].p,phases[high]?.p??phases[target].p,fr)}
+function ringPoint(th,scale,p){
+  const order=smooth(clamp((p-.10)/.36,0,1));
+  const tighten=smooth(clamp((p-.20)/.55,0,1));
+  const r=scale*lerp(.47,.39,tighten);
+  const imperfection=(Math.sin(th*3)*scale*.020+Math.sin(th*7+.7)*scale*.010)*(1-order);
+  return[Math.cos(th)*(r+imperfection),Math.sin(th)*(r+imperfection)]
+}
+function background(cx,cy,scale){ctx.clearRect(0,0,W,H);ctx.fillStyle='#020202';ctx.fillRect(0,0,W,H);const g=ctx.createRadialGradient(cx,cy,0,cx,cy,scale*1.34);g.addColorStop(0,'rgba(239,232,216,.088)');g.addColorStop(.33,'rgba(185,157,87,.041)');g.addColorStop(.68,'rgba(38,49,62,.032)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+function drawEchoes(t,cx,cy,scale,p){ctx.save();ctx.translate(cx+mouseX*6,cy+mouseY*4);echoes.forEach((o,i)=>{ctx.save();ctx.rotate(o.rot+t*o.s);ctx.beginPath();for(let k=0;k<=180;k++){const a=k/180*Math.PI*2;const warp=Math.sin(a*3+t*.00018+o.rot)*scale*.011*(1-p*.58);const x=Math.cos(a)*(scale*o.r+warp)*(1.18-p*.18);const y=Math.sin(a)*(scale*o.r*o.tilt+warp*.4);if(k===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.strokeStyle=`rgba(239,232,216,${o.a*(1-p*.48)})`;ctx.lineWidth=i%3===0?1:.55;ctx.stroke();ctx.restore()});ctx.restore()}
+function drawFormula(t,cx,cy,scale,p){if(p<.16)return;const fade=1-smooth(clamp((p-.72)/.20,0,1));ctx.save();ctx.translate(cx+mouseX*5,cy+mouseY*4);ctx.font='7px Inter, monospace';ctx.textAlign='center';formula.forEach((f,i)=>{const a=f.a+t*.000022*(i%2?1:-1);const x=Math.cos(a)*scale*f.r*(1.10-p*.06);const y=Math.sin(a)*scale*f.r*.52;ctx.save();ctx.translate(x,y);ctx.rotate(a+Math.PI/2);ctx.fillStyle=`rgba(170,160,141,${f.o*fade})`;ctx.fillText(f.text,0,0);ctx.restore()});ctx.restore()}
+function drawDust(t,cx,cy,scale,p){const fold=smooth(clamp((p-.10)/.48,0,1));ctx.save();ctx.translate(cx+mouseX*8,cy+mouseY*6);dust.forEach(pt=>{const a=pt.a+t*(.000014+pt.z*.000026);const mr=scale*(.22+pt.r*.58);const mx=Math.cos(a)*mr*(1.12-p*.18),my=Math.sin(a)*mr;const [rx,ry]=ringPoint(a+pt.p*.04,scale,p);const x=lerp(mx,rx,fold*.82)+Math.sin(t*.001+pt.p)*(1-fold)*1.6;const y=lerp(my,ry,fold*.82)+Math.cos(t*.001+pt.p)*(1-fold)*1.6;ctx.beginPath();ctx.arc(x,y,pt.s*(1+p*.12),0,Math.PI*2);ctx.fillStyle=pt.g?`rgba(220,193,121,${(.04+pt.z*.16)*(1+p*.35)})`:`rgba(239,232,216,${(.035+pt.z*.12)*(1-p*.20)})`;ctx.fill()});ctx.restore()}
+function drawCoreRing(t,cx,cy,scale,p){const open=smooth(clamp((p-.82)/.18,0,1));const tighten=smooth(clamp((p-.20)/.55,0,1));ctx.save();ctx.translate(cx+mouseX*10,cy+mouseY*7);ctx.rotate(Math.sin(t*.00012)*.012*(1-open));ctx.globalCompositeOperation='lighter';const halo=ctx.createRadialGradient(0,0,0,0,0,scale*.82);halo.addColorStop(0,`rgba(220,193,121,${.025+open*.10})`);halo.addColorStop(.42,`rgba(239,232,216,${.025+tighten*.020})`);halo.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=halo;ctx.fillRect(-scale,-scale,scale*2,scale*2);const gap=open*.70;for(let pass=0;pass<4;pass++){ctx.beginPath();let moved=false;for(let k=0;k<=520;k++){const th=k/520*Math.PI*2;const inGap=open>.02&&(Math.abs(th)<gap/2||Math.abs(th-Math.PI*2)<gap/2);if(inGap){moved=false;continue}const [x,y]=ringPoint(th,scale,p);if(!moved){ctx.moveTo(x,y);moved=true}else ctx.lineTo(x,y)}ctx.strokeStyle=pass===0?`rgba(220,193,121,${.09+open*.22})`:pass===1?`rgba(239,232,216,${.26+tighten*.08})`:pass===2?`rgba(255,247,218,${.070+open*.12})`:`rgba(38,49,62,.10)`;ctx.lineWidth=pass===0?15:pass===1?2.4:pass===2?.8:5;ctx.stroke()}if(open>.02){[-1,1].forEach(sign=>{const th=sign*gap/2;const [x,y]=ringPoint(th<0?Math.PI*2+th:th,scale,p);const g=ctx.createRadialGradient(x,y,0,x,y,scale*.18);g.addColorStop(0,`rgba(255,248,218,${.50*open})`);g.addColorStop(.34,`rgba(220,193,121,${.30*open})`);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(x-scale*.20,y-scale*.20,scale*.40,scale*.40);ctx.beginPath();ctx.arc(x,y,scale*.018,0,Math.PI*2);ctx.fillStyle=`rgba(220,193,121,${.42*open})`;ctx.fill()});if(open>.86){const a=.76*open;ctx.textAlign='center';const titleSize=Math.min(30,Math.max(18,scale*.043));const subSize=Math.min(15,Math.max(11,scale*.024));ctx.font=`italic ${titleSize}px Cormorant Garamond, Georgia, serif`;ctx.fillStyle=`rgba(239,232,216,${.46*a})`;ctx.fillText('The system stopped.',0,scale*.56);ctx.font=`${subSize}px Inter, sans-serif`;ctx.fillStyle=`rgba(220,193,121,${.72*a})`;ctx.fillText('MEMORY PRESERVED',0,scale*.63);ctx.fillStyle=`rgba(170,160,141,${.48*a})`;ctx.fillText('AUTHORITY RETURNED',0,scale*.69)}}ctx.save();ctx.translate(0,scale*.56);ctx.scale(1,.17);for(let i=0;i<6;i++){ctx.beginPath();ctx.arc(0,0,scale*(.22+i*.055),0,Math.PI*2);ctx.strokeStyle=i%3===0?'rgba(220,193,121,.11)':'rgba(239,232,216,.042)';ctx.lineWidth=.7;ctx.stroke()}ctx.restore();ctx.restore()}
+function organicNoise(k,t){return Math.sin(k*5.31+t*.00073)*.52+Math.sin(k*11.7+t*.00041+1.8)*.31+Math.sin(k*23.2+t*.00019+2.4)*.17}
+function drawBreath(t,cx,cy,scale,p){const appear=smooth(clamp((p-.76)/.24,0,1));if(appear<=.01)return;ctx.save();ctx.translate(cx+mouseX*10,cy+mouseY*7);ctx.globalCompositeOperation='lighter';const isMobile=W<960;const len=scale*(isMobile?.74:.96),start=-len,end=lerp(-len,len,appear);for(let pass=0;pass<3;pass++){ctx.beginPath();for(let i=0;i<=200;i++){const k=i/200,x=lerp(start,end,k);const asym=(k-.5)*scale*.006*Math.sin(t*.00037);const breath=Math.sin(k*Math.PI*3.6+t*.00093)*scale*.009;const living=organicNoise(k,t)*scale*.0055;const y=breath+living+asym;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.strokeStyle=pass===0?`rgba(220,193,121,${.13*appear})`:pass===1?`rgba(255,247,218,${.35*appear})`:`rgba(185,157,87,${.23*appear})`;ctx.lineWidth=pass===0?8:pass===1?1.45:.72;ctx.stroke()}ctx.restore()}
+function miniDraw(t){mctx.clearRect(0,0,124,28);const g=mctx.createLinearGradient(0,0,124,0);g.addColorStop(0,'rgba(220,193,121,.05)');g.addColorStop(.5,'rgba(220,193,121,.18)');g.addColorStop(1,'rgba(220,193,121,.035)');mctx.fillStyle=g;mctx.fillRect(0,0,124,28);mctx.beginPath();for(let i=0;i<=82;i++){const x=i/82*124,y=14+Math.sin(i*.18+t*.001)*2.4+Math.cos(i*.065)*1.6;if(i===0)mctx.moveTo(x,y);else mctx.lineTo(x,y)}mctx.strokeStyle='rgba(220,193,121,.68)';mctx.lineWidth=1;mctx.stroke();mctx.strokeStyle='rgba(239,232,216,.13)';mctx.strokeRect(.5,.5,123,27)}
+function tick(t){const now=performance.now();const frozen=now<freezeUntil;if(!frozen)phase=lerp(phase,target,.065);const p=currentP();const dt=frozen?frozenTime:t;const mobile=W<960;const cx=mobile?W*.67:W*.62,cy=mobile?H*.54:H*.46,scale=Math.min(W*(mobile?.39:.255),H*(mobile?.48:.70),mobile?310:500);background(cx,cy,scale);drawEchoes(dt,cx,cy,scale,p);drawFormula(dt,cx,cy,scale,p);drawDust(dt,cx,cy,scale,p);drawCoreRing(dt,cx,cy,scale,p);drawBreath(dt,cx,cy,scale,p);miniDraw(dt);requestAnimationFrame(tick)}
+addEventListener('resize',()=>{cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(resize)});
+resize();setPhase(3);requestAnimationFrame(tick);
 </script>
-  <script src="/assets/transition.js" defer></script>
 </body>
 </html>
