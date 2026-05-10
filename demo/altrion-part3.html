@@ -2,24 +2,295 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <title>ALTRION — Part III Visualizer (Placeholder)</title>
+  <meta name="theme-color" content="#020203" />
+  <title>Resolution Collapse — Circuit Breakers</title>
+  <meta name="description" content="Interactive visualizer for Resolution Collapse, Governance Drift Indicators, Circuit Breakers, and the Proper Ending." />
+  <link rel="canonical" href="https://takashisato.me/demo/altrion-part3.html" />
+  <meta property="og:title" content="Resolution Collapse — Circuit Breakers" />
+  <meta property="og:description" content="Semantic entropy, temporal compression, dissent exhaustion, and structural containment." />
+  <meta property="og:image" content="https://takashisato.me/assets/og-part3.jpg" />
   <style>
-    html,body{margin:0;height:100%;background:#050505;color:#e6e4e0;font-family:system-ui}
-    .wrap{min-height:100%;display:grid;place-items:center;text-align:center;padding:32px}
-    a{color:#e6e4e0}
+    :root{
+      --bg:#020203;
+      --ink:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.58);
+      --dim:rgba(255,255,255,.34);
+      --line:rgba(255,255,255,.12);
+      --gold:rgba(218,202,126,.86);
+      --danger:rgba(255,112,92,.84);
+      --blue:rgba(168,196,255,.78);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --ease:cubic-bezier(.16,1,.3,1);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+      background:
+        linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:52px 52px;
+      mask-image:radial-gradient(circle at 50% 45%,black,transparent 78%);
+      opacity:.4;
+    }
+    body::after{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:3;
+      background:radial-gradient(900px 680px at 65% 45%,transparent,rgba(0,0,0,.74)),
+      linear-gradient(90deg,rgba(0,0,0,.62),transparent 38%,rgba(0,0,0,.45));
+    }
+    .shell{position:relative;z-index:4;min-height:100svh;display:grid;grid-template-columns:minmax(360px, 38vw) 1fr}
+    .panel{
+      min-height:100svh;padding:clamp(28px,4vw,56px);
+      border-right:1px solid rgba(255,255,255,.09);
+      background:linear-gradient(90deg,rgba(7,7,9,.92),rgba(7,7,9,.72) 72%,rgba(7,7,9,.22));
+      backdrop-filter:blur(10px);
+    }
+    .nav{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:clamp(42px,8vh,86px)}
+    .nav a{color:rgba(255,255,255,.62);text-decoration:none;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}
+    .kicker{color:var(--gold);font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;margin:0 0 20px}
+    h1{font-family:var(--serif);font-size:clamp(3.1rem,6vw,7rem);line-height:.86;font-weight:400;letter-spacing:-.04em;margin:0}
+    .subtitle{margin:28px 0 0;border-left:1px solid var(--gold);padding-left:18px;max-width:62ch;color:rgba(255,255,255,.68);font-family:var(--serif);font-style:italic;font-size:1rem;line-height:1.75}
+    .phases{margin:44px 0 0;padding:0;list-style:none;border-top:1px solid rgba(255,255,255,.08)}
+    .phases li{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.42);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase}
+    .phases li::before{content:"";width:7px;height:7px;border-radius:999px;border:1px solid rgba(255,255,255,.28)}
+    .phases li.active{color:#fff}
+    .phases li.active::before{background:var(--gold);box-shadow:0 0 22px var(--gold);border-color:var(--gold)}
+    .readout{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px}
+    .metric{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.025);padding:14px 12px}
+    .metric span{display:block;color:rgba(255,255,255,.36);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase}
+    .metric strong{display:block;margin-top:8px;font-family:var(--serif);font-weight:400;font-size:1.55rem}
+    .meter{height:2px;background:rgba(255,255,255,.10);margin-top:10px;overflow:hidden}
+    .meter i{display:block;height:100%;width:var(--v);background:linear-gradient(90deg,var(--gold),var(--danger));box-shadow:0 0 18px rgba(255,255,255,.22)}
+    .breaker{margin-top:40px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.025);padding:18px}
+    .breaker-head{display:flex;justify-content:space-between;gap:16px;align-items:center}
+    .breaker strong{font-family:var(--serif);font-weight:400;font-size:1.4rem}
+    .badge{padding:6px 9px;border:1px solid rgba(255,255,255,.16);border-radius:999px;color:var(--gold);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase}
+    .breaker p{margin:12px 0 0;color:rgba(255,255,255,.54);font-size:.78rem;line-height:1.65}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    button,.actions a{cursor:pointer;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.22);color:rgba(255,255,255,.78);padding:10px 12px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
+    button:hover,.actions a:hover{border-color:rgba(255,255,255,.32);color:#fff}
+    .stage{position:relative;min-height:100svh;overflow:hidden}
+    canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .status{
+      position:absolute;right:clamp(24px,4vw,64px);top:clamp(28px,5vw,70px);
+      text-align:right;z-index:5;color:rgba(255,255,255,.74)
+    }
+    .status span{display:block;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.34)}
+    .status strong{display:block;margin-top:10px;font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);font-weight:400;line-height:.8}
+    .threshold{
+      position:absolute;right:clamp(24px,4vw,64px);bottom:clamp(24px,4vw,64px);z-index:5;
+      width:min(420px,45vw);border-top:1px solid rgba(255,255,255,.16);padding-top:18px
+    }
+    .threshold h2{margin:0;font-family:var(--serif);font-size:1.4rem;font-weight:400}
+    .threshold p{margin:10px 0 0;color:rgba(255,255,255,.52);font-size:.74rem;line-height:1.65}
+    .scanline{position:absolute;left:0;right:0;top:var(--scan,50%);height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 28px rgba(218,202,126,.38);opacity:.55}
+    .proper-ending{
+      position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:40px;
+      background:radial-gradient(700px 400px at 50% 48%,rgba(255,255,255,.08),rgba(0,0,0,.92));
+      opacity:0;pointer-events:none;transition:opacity .8s var(--ease);z-index:8
+    }
+    .proper-ending.show{opacity:1;pointer-events:auto}
+    .proper-ending h2{font-family:var(--serif);font-size:clamp(3rem,8vw,7rem);font-weight:400;line-height:.92;margin:0}
+    .proper-ending p{max-width:54ch;margin:22px auto 0;color:rgba(255,255,255,.62);line-height:1.75}
+    @media(max-width:900px){
+      html,body{overflow:auto}
+      .shell{grid-template-columns:1fr}
+      .panel{min-height:auto;border-right:0;border-bottom:1px solid rgba(255,255,255,.10)}
+      .stage{min-height:80svh}
+      .threshold{position:relative;right:auto;bottom:auto;width:auto;margin:0 24px 30px}
+      .readout{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div>
-      <h1 style="margin:0 0 10px 0;font-size:18px;font-weight:600;">ALTRION — Part III Visualizer</h1>
-      <p style="margin:0;opacity:.7;">Placeholder page. Implementation pending.</p>
-      <p style="margin:14px 0 0 0;opacity:.7;">
-        <a href="/papers/part3.html">Back to Part III</a>
-      </p>
-    </div>
+<a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="panel">
+      <div class="nav">
+        <a href="/">Home</a>
+        <a href="/papers/part3.html">Read Part III</a>
+      </div>
+      <p class="kicker">Failure Legibility / Circuit Breakers / Proper Ending</p>
+      <h1>Resolution<br>Collapse</h1>
+      <p class="subtitle">Governance does not always fail by noise. In high-stakes bureaucracy, the terminal signal is often silence.</p>
+      <ol class="phases" aria-label="Collapse phases">
+        <li class="active" data-phase="0">00. High-resolution judgment</li>
+        <li data-phase="1">01. Semantic entropy decay</li>
+        <li data-phase="2">02. Temporal compression</li>
+        <li data-phase="3">03. Dissent exhaustion</li>
+        <li data-phase="4">04. Circuit breaker</li>
+      </ol>
+
+      <div class="readout" aria-label="Governance Drift Indicators">
+        <div class="metric"><span>Semantic Entropy</span><strong id="sed">0.83</strong><div class="meter"><i id="sedBar" style="--v:83%"></i></div></div>
+        <div class="metric"><span>Time Variance</span><strong id="tc">0.71</strong><div class="meter"><i id="tcBar" style="--v:71%"></i></div></div>
+        <div class="metric"><span>Dissent Rate</span><strong id="ed">0.42</strong><div class="meter"><i id="edBar" style="--v:42%"></i></div></div>
+      </div>
+
+      <div class="breaker">
+        <div class="breaker-head">
+          <strong id="modeTitle">Breaker Armed</strong>
+          <span class="badge" id="modeBadge">Monitoring</span>
+        </div>
+        <p id="modeCopy">The system watches for coupled degradation across multiple indicators. A single metric is never enough.</p>
+        <div class="actions">
+          <button id="advance">Advance Drift</button>
+          <button id="reset">Reset</button>
+          <a href="/pdf/part3.pdf">Open PDF</a>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage" aria-label="Resolution collapse visualizer">
+      <canvas id="field"></canvas>
+      <div class="scanline" aria-hidden="true"></div>
+      <div class="status">
+        <span>Governance Resolution</span>
+        <strong id="resolution">0.83</strong>
+      </div>
+      <div class="threshold">
+        <h2 id="thresholdTitle">Resolution is still recoverable.</h2>
+        <p id="thresholdCopy">Judgment varies across cases. Dissent remains visible. The workflow still contains enough friction to distinguish routine decisions from exceptions.</p>
+      </div>
+      <div class="proper-ending" id="ending">
+        <div>
+          <h2>Proper Ending.</h2>
+          <p>The process stops without erasing memory. Logs are preserved, authority returns to the institution, and reactivation becomes a new governance decision.</p>
+          <div class="actions" style="justify-content:center"><button id="closeEnding">Continue Monitoring</button></div>
+        </div>
+      </div>
+    </section>
   </div>
+
+<script>
+(() => {
+  const canvas = document.getElementById("field");
+  const ctx = canvas.getContext("2d");
+  const sed = document.getElementById("sed");
+  const tc = document.getElementById("tc");
+  const ed = document.getElementById("ed");
+  const res = document.getElementById("resolution");
+  const sedBar = document.getElementById("sedBar");
+  const tcBar = document.getElementById("tcBar");
+  const edBar = document.getElementById("edBar");
+  const phases = [...document.querySelectorAll(".phases li")];
+  const advance = document.getElementById("advance");
+  const reset = document.getElementById("reset");
+  const ending = document.getElementById("ending");
+  const closeEnding = document.getElementById("closeEnding");
+  const thresholdTitle = document.getElementById("thresholdTitle");
+  const thresholdCopy = document.getElementById("thresholdCopy");
+  const modeTitle = document.getElementById("modeTitle");
+  const modeBadge = document.getElementById("modeBadge");
+  const modeCopy = document.getElementById("modeCopy");
+
+  let dpr = Math.min(devicePixelRatio || 1, 2);
+  let w = 0, h = 0, phase = 0;
+  const points = [];
+  const count = 1600;
+
+  const states = [
+    {r:.83, s:.83, t:.71, e:.42, title:"Resolution is still recoverable.", badge:"Monitoring", mode:"Breaker Armed", copy:"Judgment varies across cases. Dissent remains visible. The workflow still contains enough friction to distinguish routine decisions from exceptions."},
+    {r:.66, s:.52, t:.62, e:.35, title:"Language begins to converge.", badge:"Entropy Decay", mode:"GDI Warning", copy:"Explanations become formulaic. The system remains compliant, but the informational richness of judgment is declining."},
+    {r:.47, s:.41, t:.28, e:.24, title:"Decision time loses variance.", badge:"Compression", mode:"Coupled Drift", copy:"Complex and routine cases start to move at the same speed. Judgment is being replaced by execution."},
+    {r:.25, s:.30, t:.18, e:.06, title:"Dissent approaches silence.", badge:"Threshold", mode:"Containment Required", copy:"Operators remain in the loop, but disagreement no longer changes outcomes. Soft interventions are no longer enough."},
+    {r:.09, s:.18, t:.08, e:.01, title:"Circuit breaker triggered.", badge:"Stopped", mode:"Proper Ending", copy:"AI-assisted processing is halted or isolated. The stop is not failure; it is the final expression of legitimate governance."}
+  ];
+
+  function resize(){
+    w = canvas.clientWidth; h = canvas.clientHeight;
+    canvas.width = Math.floor(w*dpr); canvas.height = Math.floor(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    points.length = 0;
+    for(let i=0;i<count;i++){
+      points.push({
+        x: Math.random()*w, y: Math.random()*h,
+        a: Math.random()*Math.PI*2, r: Math.random(),
+        sp: .18 + Math.random()*.75
+      });
+    }
+  }
+
+  function applyState(){
+    const st = states[phase];
+    phases.forEach((el,i)=>el.classList.toggle("active", i===phase));
+    sed.textContent = st.s.toFixed(2); tc.textContent = st.t.toFixed(2); ed.textContent = st.e.toFixed(2); res.textContent = st.r.toFixed(2);
+    sedBar.style.setProperty("--v", Math.round(st.s*100)+"%");
+    tcBar.style.setProperty("--v", Math.round(st.t*100)+"%");
+    edBar.style.setProperty("--v", Math.round(st.e*100)+"%");
+    thresholdTitle.textContent = st.title;
+    thresholdCopy.textContent = st.copy;
+    modeTitle.textContent = st.mode;
+    modeBadge.textContent = st.badge;
+    modeCopy.textContent = phase < 4
+      ? "The system watches for coupled degradation across multiple indicators. A single metric is never enough."
+      : "Breaker mode records why the process stopped, preserves institutional memory, and requires justification before reactivation.";
+    document.documentElement.style.setProperty("--scan", (18 + phase*16) + "%");
+    if(phase === 4) setTimeout(()=>ending.classList.add("show"), 650);
+  }
+
+  function draw(time){
+    const st = states[phase];
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = "#020203";
+    ctx.fillRect(0,0,w,h);
+
+    const cx = w*.56, cy = h*.48;
+    const collapse = 1 - st.r;
+    const radius = Math.min(w,h) * (.22 + collapse*.10);
+
+    ctx.globalCompositeOperation = "lighter";
+    for(const p of points){
+      const pull = collapse * 0.045;
+      const dx = cx - p.x, dy = cy - p.y;
+      p.a += 0.002 + collapse*.012;
+      p.x += Math.cos(p.a + p.r*8) * p.sp + dx * pull * p.r;
+      p.y += Math.sin(p.a*1.2) * p.sp*.7 + dy * pull * p.r;
+
+      const orbit = Math.sin(time*.00025 + p.r*12) * radius;
+      if(Math.random() < .012 + collapse*.025){
+        p.x += Math.cos(p.a) * orbit * .018;
+        p.y += Math.sin(p.a) * orbit * .018;
+      }
+
+      if(p.x < -40 || p.x > w+40 || p.y < -40 || p.y > h+40){
+        p.x = Math.random()*w; p.y = Math.random()*h;
+      }
+
+      const alpha = .035 + st.r*.10 + p.r*.09;
+      ctx.fillStyle = phase === 4 ? `rgba(255,112,92,${alpha})` : `rgba(245,244,235,${alpha})`;
+      ctx.fillRect(p.x,p.y, phase > 2 ? 1.4 : 1, phase > 2 ? 1.4 : 1);
+    }
+
+    ctx.globalCompositeOperation = "source-over";
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius*(1+collapse*.5), 0, Math.PI*2);
+    ctx.strokeStyle = phase === 4 ? "rgba(255,112,92,.25)" : "rgba(218,202,126,.16)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    if(phase >= 3){
+      ctx.fillStyle = phase === 4 ? "rgba(255,112,92,.08)" : "rgba(255,255,255,.035)";
+      ctx.fillRect(cx-radius*.9, cy-radius*.9, radius*1.8, radius*1.8);
+      ctx.strokeStyle = phase === 4 ? "rgba(255,112,92,.55)" : "rgba(255,255,255,.18)";
+      ctx.strokeRect(cx-radius*.9, cy-radius*.9, radius*1.8, radius*1.8);
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  advance.addEventListener("click", () => { phase = Math.min(4, phase+1); applyState(); });
+  reset.addEventListener("click", () => { phase = 0; ending.classList.remove("show"); applyState(); });
+  closeEnding.addEventListener("click", () => ending.classList.remove("show"));
+  phases.forEach(el => el.addEventListener("click", () => { phase = Number(el.dataset.phase); ending.classList.remove("show"); applyState(); }));
+
+  addEventListener("resize", resize, {passive:true});
+  resize(); applyState(); requestAnimationFrame(draw);
+})();
+</script>
+  <script src="/assets/transition.js" defer></script>
 </body>
 </html>

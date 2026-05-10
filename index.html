@@ -4,17 +4,61 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <title>Takashi Sato — AI Governance Archive</title>
+  <meta name="theme-color" content="#050507" />
+  <title>Takashi Sato — AI Governance / Workflow Design / Operational Risk Control</title>
+  <meta name="description" content="Independent research archive and interactive visual system on workflow-centric AI governance, human oversight, governance drift, and circuit breakers." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://takashisato.me/" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
+  <meta property="og:title" content="Takashi Sato — AI Governance Archive" />
+  <meta property="og:description" content="Independent research archive and interactive visual system on workflow-centric AI governance, human oversight, governance drift, and circuit breakers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://takashisato.me/" />
+  <meta property="og:image" content="https://takashisato.me/assets/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Takashi Sato · AI Governance Archive" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Takashi Sato — AI Governance Archive" />
+  <meta name="twitter:description" content="Independent research archive and interactive visual system on workflow-centric AI governance, human oversight, governance drift, and circuit breakers." />
+  <meta name="twitter:image" content="https://takashisato.me/assets/og.jpg" />
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/site.css" />
   <link rel="stylesheet" href="/assets/home.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://takashisato.me/#website",
+    "url": "https://takashisato.me/",
+    "name": "Takashi Sato — AI Governance Archive",
+    "description": "Independent research archive and interactive visual system on workflow-centric AI governance, human oversight, governance drift, and circuit breakers.",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Takashi Sato",
+      "url": "https://takashisato.me/",
+      "email": "mailto:i@takashisato.me",
+      "jobTitle": "Independent Researcher"
+    }
+  }
+  </script>
 </head>
 
 <body class="home home-v4">
+<a class="skip-link" href="#main">Skip to content</a>
+
 <svg id="fx" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <filter id="paperFibers" x="-30%" y="-30%" width="160%" height="160%">
     <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" stitchTiles="noStitch"/>
@@ -32,25 +76,52 @@
 </svg>
 <div class="v4-bg" aria-hidden="true"></div>
 
-  <header class="top">
+  <header class="top home-top" aria-label="Site header">
     <div class="container">
-      <a class="brand" href="/" aria-label="Takashi Sato home">
+      <a class="brand home-brand" href="/" aria-label="Takashi Sato home">
         <img src="/assets/mark.svg" alt="" />
+        <span>Takashi Sato</span>
       </a>
-      <nav class="nav">
-        <a href="/papers/">Papers</a>
+      <nav class="nav home-nav" aria-label="Primary">
+        <a href="#archive">Papers</a>
+        <a href="#demos">Demos</a>
+        <a href="/papers/">Index</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero">
       <div class="container hero-grid">
-        <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
+        <div>
+          <p class="hero-kicker">AI Governance / Workflow Design / Operational Risk Control</p>
+          <h1>Optimizing Decay,<br><em>Architecting Eternity.</em></h1>
+        </div>
 
         <div class="lede">
-          Peer-citable research archive on workflow-centric AI governance.<br>
-          Engineering friction (ALTRION), forecasting entropy-driven pre-abuse failure (resolution collapse), and building drift indicators & circuit breakers for silent breakdowns in oversight.
+          Independent research archive on workflow-centric AI governance.<br>
+          Designing friction, drift indicators, and circuit breakers for human oversight before it collapses into ritual.
+        </div>
+      </div>
+    </section>
+
+    <section class="container thesis" aria-label="Positioning">
+      <div class="thesis-grid">
+        <div class="thesis-statement">
+          <span class="section-label">Position</span>
+          <h2>Governance is not a policy layer. It is an operational architecture.</h2>
+          <p>
+            This archive studies where human judgment fails inside AI-assisted workflows:
+            not only through misuse, but through compliance decay, semantic entropy,
+            dissent exhaustion, and procedural silence.
+          </p>
+        </div>
+        <div class="thesis-metrics" aria-label="Research axes">
+          <div><span>01</span><strong>Structured Friction</strong><small>ALTRION gates for meaningful oversight</small></div>
+          <div><span>02</span><strong>Pre-Abuse Failure</strong><small>collapse before malicious exploitation</small></div>
+          <div><span>03</span><strong>Failure Legibility</strong><small>GDIs, thresholds, and circuit breakers</small></div>
         </div>
       </div>
     </section>
@@ -189,11 +260,63 @@
       </div>
     </section>
 
+
+
+    <section id="demos" class="container demo-panel" aria-label="Interactive demonstrations">
+      <div class="section-label">Interactive Demonstrations</div>
+      <div class="demo-head">
+        <h2>Conceptual systems, not decorative screens.</h2>
+        <p>
+          The demonstrations translate the papers into visual operating environments:
+          a governance collider, a bureaucracy decay field, and a circuit-breaker dashboard.
+        </p>
+      </div>
+
+      <div class="demo-grid">
+        <a class="demo-card demo-card-one" href="/demo/altrion-part1.html">
+          <span class="demo-index">Demo 01</span>
+          <strong>ALTRION — The Governance Collider</strong>
+          <small>Flow, friction, intervention probability, and auditable decision records.</small>
+        </a>
+        <a class="demo-card demo-card-two" href="/demo/altrion-part2.html">
+          <span class="demo-index">Demo 02</span>
+          <strong>Forecasting Failure — The Thermodynamics of Bureaucracy</strong>
+          <small>Four trajectories of collapse before abuse occurs.</small>
+        </a>
+        <a class="demo-card demo-card-three" href="/demo/altrion-part3.html">
+          <span class="demo-index">Demo 03</span>
+          <strong>Resolution Collapse — Circuit Breakers</strong>
+          <small>Semantic entropy, temporal compression, dissent exhaustion, and proper endings.</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="container applied-frame" aria-label="Applied frame">
+      <div class="applied-copy">
+        <span class="section-label">Applied Frame</span>
+        <h2>For organizations adopting AI, the central question is not whether humans remain in the loop. It is whether the loop still thinks.</h2>
+        <p>
+          The work is positioned for AI governance, operational risk, workflow design,
+          auditability, and institutional failure detection in AI-assisted decision systems.
+        </p>
+      </div>
+      <div class="applied-actions">
+        <a href="/papers/">Read the paper index</a>
+        <a href="/demo/">View demonstrations</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </section>
+
     <footer class="footer">
       <div class="container">
         <div class="foot-left">© <span id="y"></span> Takashi Sato</div>
         <div class="foot-right">
+          <a href="/papers/">Papers</a>
+          <a href="/demo/">Demos</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
           <a href="/colophon.html">Colophon</a>
+          <a href="/privacy.html">Privacy</a>
         </div>
       </div>
     </footer>
@@ -208,6 +331,7 @@
     })();
   </script>
 
-  <!-- redeploy 2026-05-10-1 -->
+  <!-- award-ready rebuild 2026-05-10 -->
+  <script src="/assets/transition.js" defer></script>
 </body>
 </html>
