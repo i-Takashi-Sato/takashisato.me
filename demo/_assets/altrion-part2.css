@@ -101,7 +101,7 @@ body::before{
   inset:-60px;
   pointer-events:none;
   z-index:6;
-  opacity: calc(0.03 + var(--uiNoise) * 0.16);
+  opacity: calc(.045 + var(--uiNoise) * .13);
   background:
     repeating-linear-gradient(
       180deg,
@@ -117,9 +117,10 @@ body::before{
       rgba(255,255,255,0.016) 19px,
       rgba(255,255,255,0.00) 28px
     ),
+    url('../../assets/materials/overlays/grain.webp') center/cover,
     radial-gradient(1200px 900px at 44% 28%, rgba(255,255,255,0.028), rgba(0,0,0,0) 60%),
     radial-gradient(900px 700px at 76% 82%, rgba(212,175,55,0.020), rgba(0,0,0,0) 56%);
-  filter: blur(calc(0.30px + var(--uiNoise) * 1.05px));
+  filter: blur(calc(0.20px + var(--uiNoise) * 0.85px));
   mix-blend-mode: soft-light;
   transform: translate3d(0,0,0);
 }

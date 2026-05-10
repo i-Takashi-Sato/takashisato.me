@@ -82,7 +82,8 @@
   </script>
 </head>
 
-<body>
+<body class="article-page">
+<a class="skip-link" href="#main">Skip to content</a>
   <header class="top" aria-label="Site header">
     <div class="top-inner">
       <a class="brand" href="/" aria-label="Home">
@@ -90,6 +91,7 @@
       </a>
 
       <nav class="nav" aria-label="Primary">
+        <a href="/papers/">INDEX</a>
         <a href="/papers/part1.html">PART I</a>
         <a href="/papers/part2.html">PART II</a>
         <a href="/papers/part3.html" aria-current="page">PART III</a>
@@ -97,7 +99,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <div class="article-container">
       <a href="/" class="back-link">Back to Archive</a>
 
@@ -215,5 +217,6 @@
   </footer>
 
   <script defer src="/assets/scroll.js"></script>
+  <script src="/assets/transition.js" defer></script>
 </body>
 </html>
