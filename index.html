@@ -59,22 +59,36 @@
 <body class="home home-v4">
 <a class="skip-link" href="#main">Skip to content</a>
 
+<svg id="fx" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <filter id="paperFibers" x="-30%" y="-30%" width="160%" height="160%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="9" stitchTiles="noStitch"/>
+    <feColorMatrix type="matrix" values="
+      1 0 0 0 0
+      0 1 0 0 0
+      0 0 1 0 0
+      0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+      <feFuncG type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+      <feFuncB type="gamma" amplitude="1" exponent="1.15" offset="0"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
 <div class="v4-bg" aria-hidden="true"></div>
 
-  <header class="top" aria-label="Site header">
-    <div class="top-inner">
-      <a class="brand brand-text" href="/" aria-label="Takashi Sato home">
-        <span class="brand-mark" aria-hidden="true">TS</span>
-        <span class="brand-copy"><strong>Takashi Sato</strong><small>AI Governance Archive</small></span>
+  <header class="top home-top" aria-label="Site header">
+    <div class="container">
+      <a class="brand home-brand" href="/" aria-label="Takashi Sato home">
+        <img src="/assets/mark.svg" alt="" />
+        <span>Takashi Sato</span>
       </a>
-      <nav class="nav" aria-label="Primary">
-        <a href="/" aria-current="page">Home</a>
-        <a href="/papers/">Papers</a>
-        <a href="/demo/">Visualizers</a>
+      <nav class="nav home-nav" aria-label="Primary">
+        <a href="#archive">Papers</a>
+        <a href="#demos">Demos</a>
+        <a href="/papers/">Index</a>
         <a href="/about.html">About</a>
         <a href="/contact.html">Contact</a>
       </nav>
-      <div class="header-state" aria-hidden="true"><span>Research Observatory</span><i></i></div>
     </div>
   </header>
 
@@ -89,10 +103,6 @@
         <div class="lede">
           Independent research archive on workflow-centric AI governance.<br>
           Designing friction, drift indicators, and circuit breakers for human oversight before it collapses into ritual.
-          <div class="hero-actions" aria-label="Primary actions">
-            <a href="/papers/">Read the Trilogy</a>
-            <a href="/demo/">Enter the Visualizers</a>
-          </div>
         </div>
       </div>
     </section>
@@ -314,14 +324,7 @@
 
   <script src="/assets/scroll.js" defer></script>
   <script src="/assets/home.js" defer></script>
-  <script>
-    (() => {
-      const y = document.getElementById("y");
-      if (y) y.textContent = String(new Date().getFullYear());
-    })();
-  </script>
-
-  <!-- award-ready rebuild 2026-05-10 -->
+<!-- award-ready rebuild 2026-05-10 -->
   <script src="/assets/transition.js" defer></script>
 </body>
 </html>

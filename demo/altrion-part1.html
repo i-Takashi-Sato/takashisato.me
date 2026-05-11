@@ -13,11 +13,11 @@
 </head>
 
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-  <main class="stage" id="main" aria-label="ALTRION Governance Collider visualizer">
-    <h1 class="sr-only">ALTRION Governance Collider</h1>
+<a class="skip-link" href="#stage">Skip to content</a>
+  <h1 class="sr-only">ALTRION · The Governance Collider</h1>
+  <div class="stage" id="stage" role="img" aria-label="Interactive ALTRION governance visualizer showing workflow friction, intervention probability, and auditable decision records.">
     <canvas id="dust" aria-hidden="true"></canvas>
-    <canvas id="strands" role="img" aria-label="Animated ALTRION governance field showing structured friction, intervention probability, and ritualization collapse."></canvas>
+    <canvas id="strands" aria-hidden="true"></canvas>
     <div class="cursorLight" id="cursor"></div>
 
     <div class="ui">
@@ -72,7 +72,7 @@
         <div class="log" id="uiLog"></div>
       </div>
     </div>
-  </main>
+  </div>
 
   <script defer src="/demo/_assets/altrion-part1.js"></script>
   <script src="/assets/transition.js" defer></script>

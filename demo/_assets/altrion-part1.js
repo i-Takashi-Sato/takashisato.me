@@ -33,7 +33,7 @@
   let W = 0, H = 0, DPR = 1;
 
   function resize(){
-    DPR = Math.min(window.devicePixelRatio || 1, isTouch ? 1.15 : 1.35);
+    DPR = Math.min(window.devicePixelRatio || 1, isTouch ? 1.15 : 1.45);
     W = window.innerWidth;
     H = window.innerHeight;
 
@@ -321,7 +321,7 @@
   const FIELD_RES = 42;
   let cols = 0, rows = 0, field = null;
 
-  const PARTICLES = isTouch ? 2400 : 4200;
+  const PARTICLES = isTouch ? 2600 : 5600;
   const P = {
     x: new Float32Array(PARTICLES),
     y: new Float32Array(PARTICLES),
@@ -396,9 +396,9 @@
   }
 
   // ====== Visual system A: strands (Verlet) ======
-  const STRANDS = isTouch ? 20 : 34;
-  const POINTS  = isTouch ? 32 : 42;
-  const ITER    = 3;
+  const STRANDS = isTouch ? 24 : 40;
+  const POINTS  = isTouch ? 36 : 48;
+  const ITER    = isTouch ? 2 : 3;
 
   class VPoint{
     constructor(x,y,pin){
@@ -513,20 +513,19 @@
   // ====== Main loop ======
   let frame = 0;
   let lastCaseAt = 0;
-  let lastPaintAt = 0;
-  const TARGET_FPS = isTouch ? 28 : 36;
-  const FRAME_MS = 1000 / TARGET_FPS;
+  let lastFrameAt = 0;
+  let paused = document.hidden;
 
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) lastPaintAt = 0;
-  });
+    paused = document.hidden;
+  }, { passive: true });
 
-  function loop(ts = 0){
-    if (document.hidden || (ts - lastPaintAt) < FRAME_MS) {
-      requestAnimationFrame(loop);
-      return;
-    }
-    lastPaintAt = ts;
+  function loop(now = 0){
+    requestAnimationFrame(loop);
+    if (paused) return;
+    const minFrameMs = isTouch ? 34 : 22;
+    if (now && now - lastFrameAt < minFrameMs) return;
+    lastFrameAt = now || performance.now();
     frame++;
     state.t = frame * 0.004;
 
@@ -737,7 +736,6 @@
       stepCase();
     }
 
-    requestAnimationFrame(loop);
   }
 
   // boot

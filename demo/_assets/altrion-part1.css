@@ -290,6 +290,7 @@ body.collapse .value{ color: rgba(200,190,175,.70); }
   }
 }
 
+
 .sr-only{
   position:absolute;
   width:1px;
@@ -301,13 +302,3 @@ body.collapse .value{ color: rgba(200,190,175,.70); }
   white-space:nowrap;
   border:0;
 }
-@media (prefers-reduced-motion: reduce){
-  #dust{opacity:.36}
-  #strands{opacity:.70}
-}
-
-/* Award Phase 1 performance pass */
-.cursorLight{display:none}
-.stage{cursor:default}
-#dust{opacity:.78}
-#strands{opacity:.86}

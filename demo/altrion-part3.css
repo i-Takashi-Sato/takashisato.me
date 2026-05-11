@@ -611,3 +611,43 @@ body {
   border: 0;
   box-shadow: none;
 }
+
+
+/* Performance override: keep the visual system, reduce GPU pressure. */
+.grain {
+  opacity: .010;
+}
+
+.sweep {
+  display: none;
+  animation: none;
+}
+
+.top,
+.bottom {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.field {
+  opacity: .026;
+}
+
+.vignette {
+  background:
+    radial-gradient(circle at 61.8% 48%, transparent 0 48%, rgba(0, 0, 0, .42) 80%, rgba(0, 0, 0, .94) 100%);
+}
+
+.frame {
+  transform: translateZ(0);
+}
+
+@media (max-width: 960px), (prefers-reduced-motion: reduce) {
+  .grain,
+  .field,
+  .sweep {
+    display: none !important;
+  }
+}
+
+.rail[href]{ text-decoration:none; }

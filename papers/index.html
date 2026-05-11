@@ -15,39 +15,20 @@
   <meta property="og:url" content="https://takashisato.me/papers/" />
   <meta property="og:image" content="https://takashisato.me/assets/og.jpg" />
   <link rel="stylesheet" href="/assets/site.css" />
-  <style>
-    main.archive-index{max-width:980px;padding-top:140px}
-    .index-kicker{font-family:var(--font-sans);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(214,198,118,.72)}
-    .archive-index h1{font-size:clamp(3.2rem,8vw,7.2rem);max-width:10ch;margin:24px 0 28px;line-height:.92}
-    .archive-lede{max-width:62ch;color:rgba(255,255,255,.64);font-size:1.18rem;line-height:1.78;border-left:1px solid rgba(255,255,255,.16);padding-left:22px}
-    .paper-list{display:grid;gap:18px;margin:72px 0 80px}
-    .paper-card{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:28px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.015));text-decoration:none;color:inherit}
-    .paper-card:hover{border-color:rgba(255,255,255,.22)}
-    .paper-part{font-family:var(--font-sans);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(214,198,118,.78)}
-    .paper-card h2{font-family:var(--font-serif);font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.02;margin:0 0 14px;color:#fff;font-weight:400}
-    .paper-card p{margin:0;color:rgba(255,255,255,.58);font-size:.98rem;line-height:1.72}
-    .paper-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-    .paper-actions a{border:1px solid rgba(255,255,255,.16);padding:8px 10px;color:rgba(255,255,255,.75);text-decoration:none;font-family:var(--font-sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase}
-    .paper-actions a:hover{color:#fff;border-color:rgba(255,255,255,.28)}
-    @media(max-width:760px){main.archive-index{padding-top:112px}.paper-card{grid-template-columns:1fr}.archive-lede{padding-left:16px}}
-  </style>
+  <link rel="stylesheet" href="/assets/papers-index.css" />
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
   <header class="top" aria-label="Site header">
     <div class="top-inner">
-      <a class="brand brand-text" href="/" aria-label="Takashi Sato home">
-        <span class="brand-mark" aria-hidden="true">TS</span>
-        <span class="brand-copy"><strong>Takashi Sato</strong><small>AI Governance Archive</small></span>
-      </a>
+      <a class="brand" href="/" aria-label="Home"><img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo" /></a>
       <nav class="nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/papers/" aria-current="page">Papers</a>
-        <a href="/demo/">Visualizers</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/" >HOME</a>
+        <a href="/papers/" aria-current="page">PAPERS</a>
+        <a href="/demo/">DEMOS</a>
+        <a href="/about.html">ABOUT</a>
+        <a href="/contact.html">CONTACT</a>
       </nav>
-      <div class="header-state" aria-hidden="true"><span>Research Observatory</span><i></i></div>
     </div>
   </header>
 
@@ -97,7 +78,6 @@
       </article>
     </section>
   </main>
-  <script defer src="/assets/scroll.js"></script>
   <script src="/assets/transition.js" defer></script>
 </body>
 </html>

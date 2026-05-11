@@ -1,0 +1,5 @@
+body{background:#050507 url("/assets/materials/surfaces/black-metal.webp") center/cover fixed;}
+    main{min-height:100svh;display:grid;place-items:center;text-align:center;padding:32px}
+    h1{font-size:clamp(4rem,12vw,10rem);margin:0;max-width:none;text-align:center}
+    p{max-width:46ch;color:rgba(255,255,255,.62)}
+    a{color:#fff}
