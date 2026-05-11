@@ -839,3 +839,75 @@
   }
   .home .home-brand span { display:none; }
 }
+
+
+/* =========================================================
+   AWARD FINAL BUILD — PHASE 1 HOME PERFORMANCE + CTA
+   ========================================================= */
+.home .hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+}
+.home .hero-actions a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:0 16px;
+  border:1px solid rgba(185,157,87,.34);
+  background:rgba(185,157,87,.06);
+  color:rgba(255,255,255,.86);
+  font-family:var(--sans);
+  font-size:.66rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  text-decoration:none;
+}
+.home .hero-actions a::after{
+  content:"↗";
+  margin-left:10px;
+  color:rgba(220,193,121,.78);
+}
+.home-v4 .v4-bg::before,
+.home-v4 .v4-paper{
+  filter:none!important;
+}
+.home-v4 .v4-bg::before{
+  opacity:.22;
+}
+.home-v4 .v4-card{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  transform:none!important;
+  will-change:auto!important;
+  box-shadow:0 28px 70px -42px rgba(0,0,0,.82);
+}
+.home-v4 .v4-card:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 34px 80px -46px rgba(0,0,0,.88);
+}
+.home-v4 .v4-metal,
+.home-v4 .v4-glare{
+  display:none!important;
+}
+.demo-card::after{
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px)!important;
+  background-size:36px 36px!important;
+  opacity:.28!important;
+}
+.demo-card:hover,
+.demo-card:focus-visible{
+  transform:translateY(-2px)!important;
+}
+@media(max-width:720px){
+  .home .hero{
+    padding-top:92px;
+  }
+  .home .hero-actions a{
+    width:100%;
+  }
+}
