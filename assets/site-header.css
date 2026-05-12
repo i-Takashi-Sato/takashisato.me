@@ -1,38 +1,30 @@
 /* /assets/site-header.css
    Unified site header for takashisato.me.
-   External CSS only. No inline style. No awards wording.
+   External CSS only. Quiet naming, stable structure.
 */
 
 :root {
-  --site-header-h: 84px;
-  --site-header-demo-h: 66px;
-  --site-header-bg: rgba(3, 3, 5, .72);
+  --site-header-h: 78px;
+  --site-header-demo-h: 64px;
   --site-header-ink: rgba(246, 242, 232, .92);
   --site-header-soft: rgba(246, 242, 232, .58);
-  --site-header-dim: rgba(246, 242, 232, .28);
-  --site-header-line: rgba(246, 242, 232, .105);
   --site-header-gold: #b99d57;
-  --site-header-gold-soft: rgba(185, 157, 87, .62);
   --site-header-red: #d90429;
-  --site-header-violet: rgba(96, 68, 126, .18);
+  --site-header-violet: rgba(96, 68, 126, .16);
 }
 
-/* Fixed header shell */
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 9999;
-
   height: var(--site-header-h);
   color: var(--site-header-ink);
-
   background:
-    linear-gradient(180deg, rgba(3, 3, 5, .88), rgba(3, 3, 5, .55) 72%, rgba(3, 3, 5, .22)),
+    linear-gradient(180deg, rgba(3, 3, 5, .88), rgba(3, 3, 5, .58) 72%, rgba(3, 3, 5, .24)),
     radial-gradient(circle at 12% 0%, rgba(185, 157, 87, .105), transparent 34%),
     radial-gradient(circle at 78% 0%, var(--site-header-violet), transparent 38%);
   backdrop-filter: blur(20px) saturate(128%);
   -webkit-backdrop-filter: blur(20px) saturate(128%);
-
   box-shadow:
     0 1px 0 rgba(255, 255, 255, .055),
     0 24px 80px rgba(0, 0, 0, .36);
@@ -44,14 +36,7 @@
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0, 0, 0, .72) 0%,
-      rgba(10, 10, 13, .54) 38.2%,
-      rgba(10, 8, 12, .30) 61.8%,
-      rgba(0, 0, 0, .74) 100%
-    );
+  background: linear-gradient(90deg, rgba(0, 0, 0, .74) 0%, rgba(10, 10, 13, .54) 38.2%, rgba(10, 8, 12, .30) 61.8%, rgba(0, 0, 0, .74) 100%);
 }
 
 .site-header::after {
@@ -60,62 +45,50 @@
   inset: auto 0 0 0;
   height: 1px;
   pointer-events: none;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(246, 242, 232, .10) 18%,
-      rgba(185, 157, 87, .34) 38.2%,
-      rgba(217, 4, 41, .42) 61.8%,
-      rgba(246, 242, 232, .09) 86%,
-      transparent 100%
-    );
+  background: linear-gradient(90deg, transparent 0%, rgba(246, 242, 232, .09) 18%, rgba(185, 157, 87, .32) 38.2%, rgba(217, 4, 41, .38) 61.8%, rgba(246, 242, 232, .08) 86%, transparent 100%);
 }
 
-/* Prevent normal pages from hiding under fixed header */
-body:has(.site-header:not(.site-header--demo)) {
-  padding-top: var(--site-header-h);
-}
-
-/* Inner layout */
 .site-header__inner {
   width: min(92vw, 1640px);
   height: calc(var(--site-header-h) - 1px);
   margin: 0 auto;
-
   display: grid;
   grid-template-columns: minmax(230px, .9fr) minmax(380px, 1.15fr) minmax(260px, .9fr);
   align-items: center;
   gap: clamp(18px, 2.2vw, 44px);
 }
 
-/* Brand */
 .site-header__brand {
   min-width: 0;
   display: inline-grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 16px;
-
+  gap: 14px;
   color: var(--site-header-ink);
   text-decoration: none;
 }
 
-.site-header__signature {
-  width: clamp(74px, 7vw, 104px);
+.site-header__mark {
+  width: 34px;
   height: 34px;
-  object-fit: contain;
-  object-position: left center;
-  opacity: .92;
-
-  filter:
-    drop-shadow(0 0 18px rgba(255, 255, 255, .10))
-    drop-shadow(0 12px 30px rgba(0, 0, 0, .42));
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(185, 157, 87, .34);
+  border-radius: 50%;
+  color: rgba(246, 242, 232, .84);
+  background:
+    radial-gradient(circle at 50% 34%, rgba(185, 157, 87, .12), transparent 58%),
+    rgba(0, 0, 0, .24);
+  font-family: Cormorant Garamond, Georgia, serif;
+  font-size: 12px;
+  letter-spacing: .08em;
+  line-height: 1;
+  box-shadow: inset 0 0 18px rgba(185, 157, 87, .055), 0 0 22px rgba(0, 0, 0, .35);
 }
 
 .site-header__brand-copy {
   display: grid;
-  gap: 3px;
+  gap: 4px;
   transform: translateY(1px);
 }
 
@@ -125,7 +98,7 @@ body:has(.site-header:not(.site-header--demo)) {
   line-height: 1;
   letter-spacing: .24em;
   text-transform: uppercase;
-  color: rgba(246, 242, 232, .82);
+  color: rgba(246, 242, 232, .84);
   white-space: nowrap;
 }
 
@@ -139,10 +112,12 @@ body:has(.site-header:not(.site-header--demo)) {
   white-space: nowrap;
 }
 
-/* Primary navigation */
+.site-header__signature {
+  display: none !important;
+}
+
 .site-header__nav {
   justify-self: center;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,10 +148,8 @@ body:has(.site-header:not(.site-header--demo)) {
   position: absolute;
   left: 50%;
   bottom: 2px;
-
   width: 0;
   height: 1px;
-
   transform: translateX(-50%);
   background: linear-gradient(90deg, transparent, var(--site-header-gold), transparent);
   box-shadow: 0 0 14px rgba(185, 157, 87, .55);
@@ -195,10 +168,8 @@ body:has(.site-header:not(.site-header--demo)) {
   width: 100%;
 }
 
-/* External identity links */
 .site-header__identity {
   justify-self: end;
-
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -208,7 +179,6 @@ body:has(.site-header:not(.site-header--demo)) {
 .site-header__identity::before {
   content: "FIELD LINKS";
   margin-right: 8px;
-
   color: rgba(246, 242, 232, .24);
   font-family: Inter, system-ui, sans-serif;
   font-size: 8px;
@@ -220,18 +190,12 @@ body:has(.site-header:not(.site-header--demo)) {
 .site-header__identity a {
   display: inline-grid;
   place-items: center;
-
   min-width: 34px;
   height: 28px;
   padding: 0 9px;
-
   border: 1px solid rgba(246, 242, 232, .105);
   border-radius: 999px;
-
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012)),
-    rgba(0, 0, 0, .14);
-
+  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012)), rgba(0, 0, 0, .14);
   color: rgba(246, 242, 232, .58);
   letter-spacing: .14em;
   font-size: 8px;
@@ -241,33 +205,23 @@ body:has(.site-header:not(.site-header--demo)) {
 .site-header__identity a:focus-visible {
   color: var(--site-header-ink);
   border-color: rgba(185, 157, 87, .38);
-  box-shadow:
-    inset 0 0 18px rgba(185, 157, 87, .055),
-    0 0 20px rgba(185, 157, 87, .085);
+  box-shadow: inset 0 0 18px rgba(185, 157, 87, .055), 0 0 20px rgba(185, 157, 87, .085);
 }
 
-/* Part sequence rail for paper pages */
 .site-header__sequence {
   position: absolute;
   left: 50%;
   bottom: -31px;
   transform: translateX(-50%);
-
   display: flex;
   align-items: center;
   gap: 0;
-
   height: 31px;
   padding: 0 12px;
-
   border: 1px solid rgba(246, 242, 232, .085);
   border-top: 0;
   border-radius: 0 0 999px 999px;
-
-  background:
-    linear-gradient(180deg, rgba(3, 3, 5, .72), rgba(3, 3, 5, .42)),
-    rgba(0, 0, 0, .32);
-
+  background: linear-gradient(180deg, rgba(3, 3, 5, .72), rgba(3, 3, 5, .42)), rgba(0, 0, 0, .32);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -290,42 +244,25 @@ body:has(.site-header:not(.site-header--demo)) {
   color: var(--site-header-gold);
 }
 
-/* Red observation/progress line */
-.site-header__progress {
+.site-header__progress,
+.site-header__progress.scroll-progress {
   position: absolute;
   left: 0;
   bottom: 0;
-  z-index: 2;
-
+  z-index: 5;
   width: 0%;
   height: 2px;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(217, 4, 41, 0),
-      rgba(217, 4, 41, .64) 32%,
-      rgba(185, 157, 87, .92) 61.8%,
-      rgba(217, 4, 41, .50) 86%,
-      rgba(217, 4, 41, 0)
-    );
-
-  box-shadow:
-    0 0 12px rgba(217, 4, 41, .42),
-    0 0 26px rgba(185, 157, 87, .22);
-
+  background: linear-gradient(90deg, rgba(217, 4, 41, 0), rgba(217, 4, 41, .64) 32%, rgba(185, 157, 87, .92) 61.8%, rgba(217, 4, 41, .50) 86%, rgba(217, 4, 41, 0));
+  box-shadow: 0 0 12px rgba(217, 4, 41, .42), 0 0 26px rgba(185, 157, 87, .22);
   transition: width .12s linear;
 }
 
-/* Demo pages: compact overlay header */
 .site-header--demo {
   height: var(--site-header-demo-h);
   background:
     linear-gradient(180deg, rgba(0, 0, 0, .64), rgba(0, 0, 0, .24)),
     radial-gradient(circle at 61.8% 0%, rgba(185, 157, 87, .08), transparent 42%);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, .055),
-    0 18px 60px rgba(0, 0, 0, .24);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .055), 0 18px 60px rgba(0, 0, 0, .24);
 }
 
 .site-header--demo .site-header__inner {
@@ -337,26 +274,20 @@ body:has(.site-header:not(.site-header--demo)) {
   display: none;
 }
 
-.site-header--demo .site-header__signature {
-  width: clamp(64px, 6vw, 88px);
-}
-
 .site-header--demo .site-header__progress {
   width: 100%;
   opacity: .42;
 }
 
-/* Focus */
 .site-header a:focus-visible {
   outline: 1px solid rgba(185, 157, 87, .75);
   outline-offset: 4px;
   border-radius: 999px;
 }
 
-/* Mobile */
 @media (max-width: 860px) {
   :root {
-    --site-header-h: 96px;
+    --site-header-h: 92px;
     --site-header-demo-h: 64px;
   }
 
@@ -366,7 +297,7 @@ body:has(.site-header:not(.site-header--demo)) {
 
   .site-header__inner {
     width: calc(100vw - 28px);
-    height: 58px;
+    height: 56px;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 12px;
   }
@@ -375,24 +306,22 @@ body:has(.site-header:not(.site-header--demo)) {
     display: none;
   }
 
-  .site-header__signature {
-    width: 84px;
+  .site-header__mark {
+    width: 32px;
     height: 32px;
+    font-size: 11px;
   }
 
   .site-header__nav {
     position: absolute;
     left: 14px;
     right: 14px;
-    bottom: 13px;
-
+    bottom: 11px;
     justify-content: flex-start;
     gap: 20px;
-
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0 2px 7px;
-
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -416,7 +345,7 @@ body:has(.site-header:not(.site-header--demo)) {
   }
 
   .site-header__identity a {
-    min-width: 28px;
+    min-width: 27px;
     height: 25px;
     padding: 0 7px;
     font-size: 7px;
@@ -438,19 +367,17 @@ body:has(.site-header:not(.site-header--demo)) {
   .site-header--demo .site-header__nav {
     display: none;
   }
-
-  .site-header--demo .site-header__identity a:nth-child(n + 3) {
-    display: none;
-  }
 }
 
 @media (max-width: 520px) {
-  .site-header__identity a {
-    min-width: 26px;
+  .site-header__identity {
+    gap: 5px;
   }
 
-  .site-header__identity a:nth-child(3),
-  .site-header__identity a:nth-child(4) {
-    display: none;
+  .site-header__identity a {
+    min-width: 25px;
+    height: 24px;
+    padding: 0 6px;
+    font-size: 7px;
   }
 }
