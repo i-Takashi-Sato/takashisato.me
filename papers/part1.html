@@ -5,210 +5,52 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#050507" />
-
-  <title>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems · Takashi Sato</title>
+  <title>Workflow-Centric AI Governance · Takashi Sato</title>
   <meta name="description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates." />
-  <link rel="canonical" href="https://takashisato.me/papers/part1.html" />
-
   <meta name="robots" content="index,follow,max-image-preview:large" />
-
-  <!-- IMPORTANT: Part pages use site.css only (single source of truth) -->
-  <link rel="stylesheet" href="/assets/site.css" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-
-  <meta name="citation_title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems" />
-  <meta name="citation_author" content="Takashi Sato" />
-  <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
-  <meta name="citation_publication_date" content="2025/12/12" />
-  <meta name="citation_online_date" content="2026/01/09" />
-  <meta name="citation_pdf_url" content="https://takashisato.me/pdf/part1.pdf" />
-  <meta name="citation_abstract_html_url" content="https://takashisato.me/papers/part1.html" />
-  <meta name="citation_language" content="en" />
-  <meta name="citation_author_orcid" content="https://orcid.org/0009-0003-1584-6965" />
-  <meta name="citation_keywords" content="AI governance; sociotechnical systems; accountable AI; workflow governance; auditability; ALTRION" />
-  <meta name="citation_technical_report_institution" content="SSRN" />
-  <meta name="citation_technical_report_number" content="5911063" />
-
+  <link rel="canonical" href="https://takashisato.me/papers/part1.html" />
   <meta property="og:title" content="Workflow-Centric AI Governance · Takashi Sato" />
-  <meta property="og:description" content="ALTRION: structured friction for accountable human–AI decision systems." />
+  <meta property="og:description" content="ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://takashisato.me/papers/part1.html" />
   <meta property="og:image" content="https://takashisato.me/assets/og-part1.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Workflow-Centric AI Governance (ALTRION) · Takashi Sato" />
-  <meta property="og:site_name" content="Takashi Sato · AI Governance Archive" />
-
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Workflow-Centric AI Governance · Takashi Sato" />
-  <meta name="twitter:description" content="ALTRION: structured friction for accountable human–AI decision systems." />
-  <meta name="twitter:image" content="https://takashisato.me/assets/og-part1.jpg" />
-  <meta name="twitter:site" content="@takashisato_me" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "@id": "https://takashisato.me/papers/part1.html#article",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://takashisato.me/papers/part1.html"
-    },
-    "headline": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
-    "description": "ALTRION: a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines via four governance gates.",
-    "inLanguage": "en",
-    "author": {
-      "@type": "Person",
-      "name": "Takashi Sato",
-      "url": "https://takashisato.me/"
-    },
-    "datePublished": "2025-12-12",
-    "dateModified": "2026-01-09",
-    "identifier": [
-      { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5911063" }
-    ],
-    "image": "https://takashisato.me/assets/og-part1.jpg",
-    "keywords": "AI governance, sociotechnical systems, accountable AI, workflow governance, auditability, ALTRION",
-    "encoding": {
-      "@type": "MediaObject",
-      "contentUrl": "https://takashisato.me/pdf/part1.pdf",
-      "encodingFormat": "application/pdf"
-    }
-  }
-  </script>
+  <link rel="stylesheet" href="/assets/museum.css" />
 </head>
-
-<body class="article-page">
+<body class="page-paper">
 <a class="skip-link" href="#main">Skip to content</a>
-  <header class="top" aria-label="Site header">
-    <div class="top-inner">
-      <a class="brand" href="/" aria-label="Home">
-        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo" />
-      </a>
-
-      <nav class="nav" aria-label="Primary">
-        <a href="/papers/">INDEX</a>
-        <a href="/papers/part1.html" aria-current="page">PART I</a>
-        <a href="/papers/part2.html">PART II</a>
-        <a href="/papers/part3.html">PART III</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <div class="article-container">
-      <a href="/" class="back-link">Back to Archive</a>
-
-      <header class="article-header">
-        <h1>Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems</h1>
-
-        <div class="article-meta" aria-label="Paper metadata">
-          <span>Published: 2025/12/12</span>
-          <span>SSRN: 5911063</span>
-          <span>Rev: 2026/01/09</span>
-        </div>
-      </header>
-
-      <article class="article-body">
-        <blockquote>
-          “To preserve the human, we must engineer the friction of thought.”
-          <br />
-          <span class="quote-translation">思考に摩擦を仕込むという設計。</span>
-        </blockquote>
-
-        <p class="section-label">
-          Structure: Framing → ALTRION (Four Gates) → Simulation → Implications
-        </p>
-
+<header class="museum-header" aria-label="Site header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Takashi Sato home"><span class="brand-mark">TS</span><span class="brand-text"><span class="brand-name">Takashi Sato</span><span class="brand-deck">AI Governance Observatory</span></span></a>
+    <nav class="primary-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/papers/" aria-current="page">Papers</a><a href="/demo/">Visualizers</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <nav class="utility-nav" aria-label="External links"><a href="https://x.com/takashisato_me" target="_blank" rel="me noopener">X</a><a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener">SSRN</a><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener">ORCID</a></nav>
+  </div>
+</header>
+<main id="main" class="article-shell">
+  <div class="container">
+    <section class="paper-hero">
+      <div><div class="paper-kicker">Part I / Architecture</div><h1>Workflow-Centric<br>AI Governance</h1></div>
+      <aside class="paper-meta-panel" aria-label="Paper metadata"><div class="meta-row"><span>Published</span><strong>2025/12/12</strong></div><div class="meta-row"><span>SSRN</span><strong>5911063</strong></div><div class="meta-row"><span>Revision</span><strong>2026/01/09</strong></div></aside>
+    </section>
+    <section class="abstract-grid">
+      <article class="abstract-body">
+        <blockquote class="museum-quote">“To preserve the human, we must engineer the friction of thought.”<span class="translation">思考に摩擦を仕込むという設計。</span></blockquote>
+        <p class="section-label">Structure: Framing → ALTRION → Simulation → Implications</p>
         <h2>Abstract</h2>
-
-        <p class="lead">
-          The integration of AI into high-stakes domains has revealed a critical sociotechnical gap: while model performance improves, institutional capacity to responsibly operationalize AI outputs remains fragile.
-        </p>
-
-        <p>
-          Without robust procedural safeguards, human oversight often devolves into performative ritualism rather than substantive review. To address this, we propose <strong>ALTRION</strong>, a workflow-centric governance architecture that introduces structured friction into AI-assisted decision pipelines. ALTRION formalizes four governance gates—from baseline constraints to human arbitration—that are designed to enforce cognitive engagement and preserve meaningful human agency.
-        </p>
-
-        <p>
-          We develop a probabilistic simulation to examine how ALTRION mitigates error rates under conditions of context drift. Our model suggests the existence of a regime in which institutional non-compliance stays below a critical threshold, beyond which oversight collapses. Finally, we outline a governance-oriented representation of workflow interactions to render oversight practices auditable and revisable.
-        </p>
-
+        <p class="lead">The integration of AI into high-stakes domains has revealed a critical sociotechnical gap: while model performance improves, institutional capacity to responsibly operationalize AI outputs remains fragile.</p><p class="">Without robust procedural safeguards, human oversight often devolves into performative ritualism rather than substantive review. ALTRION formalizes four governance gates designed to enforce cognitive engagement and preserve meaningful human agency.</p><p class="">The paper models how structured friction changes institutional error dynamics under context drift and identifies a threshold beyond which oversight collapses.</p>
         <h2>Why it matters</h2>
-        <ul>
-          <li>Turns “oversight” into a <strong>workflow object</strong>—auditable, revisable, and enforceable.</li>
-          <li>Introduces <strong>structured friction</strong> to prevent ritualized compliance and moral crumple zones.</li>
-          <li>Provides a governance-first architecture aligned with institutional reality.</li>
-        </ul>
-
-        <div class="actions">
-          <a class="pill" href="/pdf/part1.pdf" target="_blank" rel="noopener noreferrer">
-            Open PDF<span class="sr-only"> (opens in new tab)</span>
-          </a>
-          <a class="pill" href="/demo/altrion-part1.html" target="_blank" rel="noopener noreferrer">
-            Open Visualizer<span class="sr-only"> (opens in new tab)</span>
-          </a>
-        </div>
+        <ul class="key-list"><li>Turns oversight into a workflow object: auditable, revisable, and enforceable.</li><li>Introduces structured friction to prevent ritualized compliance and moral crumple zones.</li><li>Frames governance as operational architecture rather than policy decoration.</li></ul>
+        <div class="paper-nav-grid"><a class="paper-nav-card" href="/papers/part2.html"><span>Next</span><strong>Part II — Forecasting Failure</strong></a></div>
       </article>
-
-      <nav class="paper-nav" aria-label="Paper navigation">
-        <div class="paper-nav-inner">
-          <a href="/papers/part2.html" class="nav-link next">
-            <span class="nav-label">Next: Part II</span>
-            <span class="nav-title">The Silent Decay: Forecasting Failure</span>
-          </a>
-        </div>
-      </nav>
-
-      <div class="citation-box" aria-label="Citation">
-        <div class="citation-head">
-          <span class="citation-label">BibTeX Citation</span>
-          <button
-            class="copy"
-            type="button"
-            data-copy-target="#bibtex-part1"
-            aria-label="Copy BibTeX citation"
-          >Copy</button>
-        </div>
-
-        <pre id="bibtex-part1" class="citation-text">@misc{sato2025workflowcentric,
-  title = {Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human--AI Decision Systems},
-  author = {Sato, Takashi},
-  year = {2025},
-  note = {Preprint},
-  url = {https://takashisato.me/pdf/part1.pdf}
-}</pre>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer" aria-label="Site footer">
-    <div class="footer-inner">
-      <nav class="social-nav" aria-label="External links">
-        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
-        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
-        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
-        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
-        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
-      </nav>
-
-      <div class="footer-meta">
-        <nav class="meta-nav" aria-label="Policies and meta">
-          <a href="/privacy.html" class="meta-link">Privacy</a>
-          <a href="/colophon.html" class="meta-link">Colophon</a>
-          <a href="/.well-known/security.txt" class="meta-link">Security</a>
-        </nav>
-
-        <p class="copyright">© 2026 Takashi Sato</p>
-      </div>
-    </div>
-  </footer>
-
-  <script defer src="/assets/scroll.js"></script>
-  <script src="/assets/transition.js" defer></script>
+      <aside class="side-rail" aria-label="Paper actions">
+        <div class="rail-card"><h3>Open</h3><a href="/pdf/part1.pdf" target="_blank" rel="noopener"><span>PDF</span><span>↗</span></a><a href="/demo/altrion-part1.html"><span>Visualizer</span><span>↗</span></a><a href="/papers/"><span>Paper Index</span><span>→</span></a></div>
+        <div class="rail-card"><h3>Citation</h3><div class="meta-row"><span>SSRN</span><strong>5911063</strong></div><div class="meta-row"><span>Author</span><strong>Takashi Sato</strong></div></div>
+      </aside>
+    </section>
+  </div>
+</main>
+<footer class="footer"><div class="container footer-inner"><div>© <span data-year></span> Takashi Sato</div><div class="footer-links"><a href="/">Home</a><a href="/papers/">Papers</a><a href="/demo/">Visualizers</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div></div></footer>
+<script src="/assets/museum.js" defer></script>
+<script src="/assets/transition.js" defer></script>
 </body>
 </html>
-
