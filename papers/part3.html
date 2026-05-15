@@ -5,218 +5,52 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#050507" />
-
-  <title>Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers · Takashi Sato</title>
-  <meta name="description" content="Resolution Collapse: when oversight persists as ritual. Proposes Governance Drift Indicators and Circuit Breakers to preserve epistemic capacity and institutional memory." />
-  <link rel="canonical" href="https://takashisato.me/papers/part3.html" />
-
+  <title>Detecting Silent Governance Failure · Takashi Sato</title>
+  <meta name="description" content="Resolution Collapse, Governance Drift Indicators, Circuit Breakers, and the Proper Ending of failed oversight." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
-
-  <link rel="stylesheet" href="/assets/site.css" />
-
-  <meta name="citation_title" content="Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers" />
-  <meta name="citation_author" content="Takashi Sato" />
-  <meta name="citation_author_institution" content="Independent Researcher (Japan)" />
-  <meta name="citation_publication_date" content="2026/01/13" />
-  <meta name="citation_online_date" content="2026/01/13" />
-  <meta name="citation_pdf_url" content="https://takashisato.me/pdf/part3.pdf" />
-  <meta name="citation_abstract_html_url" content="https://takashisato.me/papers/part3.html" />
-  <meta name="citation_language" content="en" />
-  <meta name="citation_author_orcid" content="https://orcid.org/0009-0003-1584-6965" />
-  <meta name="citation_keywords" content="AI governance; sociotechnical systems; Resolution Collapse; semantic entropy; dissent exhaustion; governance drift indicators; circuit breakers" />
-  <meta name="citation_technical_report_institution" content="SSRN" />
-  <meta name="citation_technical_report_number" content="6066430" />
-
+  <link rel="canonical" href="https://takashisato.me/papers/part3.html" />
   <meta property="og:title" content="Detecting Silent Governance Failure · Takashi Sato" />
-  <meta property="og:description" content="Resolution Collapse, GDIs, and Circuit Breakers for legible failure and proper endings." />
+  <meta property="og:description" content="Resolution Collapse, Governance Drift Indicators, Circuit Breakers, and the Proper Ending of failed oversight." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://takashisato.me/papers/part3.html" />
   <meta property="og:image" content="https://takashisato.me/assets/og-part3.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Detecting Silent Governance Failure (Resolution Collapse) · Takashi Sato" />
-  <meta property="og:site_name" content="Takashi Sato · AI Governance Archive" />
-
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Detecting Silent Governance Failure · Takashi Sato" />
-  <meta name="twitter:description" content="Resolution Collapse, GDIs, and Circuit Breakers for legible failure and proper endings." />
-  <meta name="twitter:image" content="https://takashisato.me/assets/og-part3.jpg" />
-  <meta name="twitter:site" content="@takashisato_me" />
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "@id": "https://takashisato.me/papers/part3.html#article",
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": "https://takashisato.me/papers/part3.html"
-    },
-    "headline": "Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers",
-    "description": "Resolution Collapse: when oversight persists as ritual. Proposes Governance Drift Indicators and Circuit Breakers to preserve epistemic capacity and institutional memory.",
-    "inLanguage": "en",
-    "author": {
-      "@type": "Person",
-      "name": "Takashi Sato",
-      "url": "https://takashisato.me/",
-      "identifier": "https://orcid.org/0009-0003-1584-6965"
-    },
-    "isPartOf": {
-      "@type": "CreativeWorkSeries",
-      "name": "AI Governance Archive (Part I–III)",
-      "url": "https://takashisato.me/"
-    },
-    "datePublished": "2026-01-13",
-    "dateModified": "2026-01-13",
-    "identifier": [
-      { "@type": "PropertyValue", "propertyID": "SSRN", "value": "6066430" }
-    ],
-    "image": "https://takashisato.me/assets/og-part3.jpg",
-    "keywords": "AI governance, sociotechnical systems, resolution collapse, semantic entropy, dissent exhaustion, governance drift indicators, circuit breakers, institutional memory",
-    "encoding": {
-      "@type": "MediaObject",
-      "contentUrl": "https://takashisato.me/pdf/part3.pdf",
-      "encodingFormat": "application/pdf"
-    }
-  }
-  </script>
+  <link rel="stylesheet" href="/assets/museum.css" />
 </head>
-
-<body class="article-page">
+<body class="page-paper">
 <a class="skip-link" href="#main">Skip to content</a>
-  <header class="top" aria-label="Site header">
-    <div class="top-inner">
-      <a class="brand" href="/" aria-label="Home">
-        <img src="/assets/signature.jpg" alt="Takashi Sato" class="signature-logo" />
-      </a>
-
-      <nav class="nav" aria-label="Primary">
-        <a href="/papers/">INDEX</a>
-        <a href="/papers/part1.html">PART I</a>
-        <a href="/papers/part2.html">PART II</a>
-        <a href="/papers/part3.html" aria-current="page">PART III</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <div class="article-container">
-      <a href="/" class="back-link">Back to Archive</a>
-
-      <header class="article-header">
-        <h1>Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers</h1>
-
-        <div class="article-meta" aria-label="Paper metadata">
-          <span>Published: 2026/01/13</span>
-          <span>SSRN: 6066430</span>
-          <span>Rev: 2026/01/13</span>
-        </div>
-      </header>
-
-      <article class="article-body">
-        <blockquote>
-          “Silence is the scream of a failing system.”
-          <br />
-          <span class="quote-translation">沈黙とは、破綻へ向かう装置の咆哮。</span>
-        </blockquote>
-
-        <p class="section-label">
-          Structure: Resolution Collapse → Governance Drift Indicators (GDIs) → Circuit Breakers → Proper Ending
-        </p>
-
+<header class="museum-header" aria-label="Site header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Takashi Sato home"><span class="brand-mark">TS</span><span class="brand-text"><span class="brand-name">Takashi Sato</span><span class="brand-deck">AI Governance Observatory</span></span></a>
+    <nav class="primary-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/papers/" aria-current="page">Papers</a><a href="/demo/">Visualizers</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></nav>
+    <nav class="utility-nav" aria-label="External links"><a href="https://x.com/takashisato_me" target="_blank" rel="me noopener">X</a><a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener">SSRN</a><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener">ORCID</a></nav>
+  </div>
+</header>
+<main id="main" class="article-shell">
+  <div class="container">
+    <section class="paper-hero">
+      <div><div class="paper-kicker">Part III / Termination</div><h1>Detecting Silent<br>Governance Failure</h1></div>
+      <aside class="paper-meta-panel" aria-label="Paper metadata"><div class="meta-row"><span>Published</span><strong>2026/01/13</strong></div><div class="meta-row"><span>SSRN</span><strong>6066430</strong></div><div class="meta-row"><span>Revision</span><strong>2026/01/13</strong></div></aside>
+    </section>
+    <section class="abstract-grid">
+      <article class="abstract-body">
+        <blockquote class="museum-quote">“Silence is the scream of a failing system.”<span class="translation">沈黙とは、破綻へ向かう装置の咆哮。</span></blockquote>
+        <p class="section-label">Structure: Resolution Collapse → Governance Drift Indicators → Circuit Breakers → Proper Ending</p>
         <h2>Abstract</h2>
-        <p class="lead">
-          Current AI governance focuses on the noise of failure—errors, bias, and misuse. However, in high-stakes bureaucracy, the most catastrophic failures manifest as silence.
-        </p>
-
-        <p>
-          We introduce <strong>Resolution Collapse</strong>: a condition where human oversight persists as a procedural ritual, as organizational efficiency smooths away the friction required to distinguish routine cases from exceptions.
-        </p>
-
-        <p>
-          To address this, we shift the focus from error prevention to failure legibility. We propose <strong>Governance Drift Indicators (GDIs)</strong> to detect the semantic and temporal erosion of judgment before it becomes epistemically irreversible. Furthermore, we argue that when oversight collapses, "soft" interventions like retraining are insufficient. Instead, we introduce a <strong>Circuit Breaker</strong> architecture: a structural mechanism designed to halt or isolate AI-assisted processes when epistemic capacity is lost. Finally, we define the concept of a Proper Ending—a controlled termination that preserves institutional memory.
-        </p>
-
+        <p class="lead">Current AI governance often focuses on the noise of failure: errors, bias, and misuse. In high-stakes bureaucracy, the most catastrophic failures often manifest as silence.</p><p class="">Resolution Collapse describes a condition where human oversight persists as procedural ritual while the system loses the friction required to distinguish routine cases from exceptions.</p><p class="">The paper proposes Governance Drift Indicators and Circuit Breakers to detect and halt AI-assisted processes when epistemic capacity is lost, preserving institutional memory through a proper ending.</p>
         <h2>Why it matters</h2>
-        <ul>
-          <li>Makes “silence” measurable via <strong>Governance Drift Indicators</strong>.</li>
-          <li>Shifts from “fix errors” to “maintain legibility” before irreversible collapse.</li>
-          <li>Defines the endgame: <strong>circuit breakers</strong> and a Proper Ending (controlled termination).</li>
-        </ul>
-
-        <div class="actions">
-          <a class="pill" href="/pdf/part3.pdf" target="_blank" rel="noopener noreferrer">
-            Open PDF<span class="sr-only"> (opens in new tab)</span>
-          </a>
-
-          <a class="pill" href="/demo/altrion-part3.html" target="_blank" rel="noopener noreferrer">
-            Open Visualizer<span class="sr-only"> (opens in new tab)</span>
-          </a>
-        </div>
+        <ul class="key-list"><li>Makes silence measurable through Governance Drift Indicators.</li><li>Shifts the focus from fixing errors to maintaining legibility.</li><li>Defines the endgame: circuit breakers and controlled termination.</li></ul>
+        <div class="paper-nav-grid"><a class="paper-nav-card" href="/papers/part2.html"><span>Previous</span><strong>Part II — Forecasting Failure</strong></a><a class="paper-nav-card" href="/"><span>Next</span><strong>Back to Observatory</strong></a></div>
       </article>
-
-      <nav class="paper-nav" aria-label="Paper navigation">
-        <div class="paper-nav-inner">
-          <a href="/papers/part2.html" class="nav-link prev">
-            <span class="nav-label">Previous: Part II</span>
-            <span class="nav-title">The Silent Decay: Forecasting Failure</span>
-          </a>
-
-          <a href="/" class="nav-link next">
-            <span class="nav-label">Archive</span>
-            <span class="nav-title">Back to Index</span>
-          </a>
-        </div>
-      </nav>
-
-      <div class="citation-box" aria-label="Citation">
-        <div class="citation-head">
-          <span class="citation-label">BibTeX Citation</span>
-          <button
-            class="copy"
-            type="button"
-            data-copy-target="#bibtex-part3"
-            aria-label="Copy BibTeX citation"
-          >Copy</button>
-        </div>
-
-        <pre id="bibtex-part3" class="citation-text">@techreport{sato2026silentgovernancefailure,
-  title = {Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers},
-  author = {Sato, Takashi},
-  year = {2026},
-  institution = {SSRN},
-  number = {6066430},
-  type = {Working Paper},
-  url = {https://takashisato.me/pdf/part3.pdf},
-  note = {SSRN Abstract ID 6066430}
-}</pre>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer" aria-label="Site footer">
-    <div class="footer-inner">
-      <nav class="social-nav" aria-label="External links">
-        <a href="mailto:i@takashisato.me" class="social-link">Email</a>
-        <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer" class="social-link">ORCID</a>
-        <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer" class="social-link">SSRN</a>
-        <a href="https://x.com/takashisato_me" target="_blank" rel="noopener noreferrer" class="social-link">X</a>
-        <a href="https://www.instagram.com/takashisato_me/" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
-      </nav>
-
-      <div class="footer-meta">
-        <nav class="meta-nav" aria-label="Policies and meta">
-          <a href="/privacy.html" class="meta-link">Privacy</a>
-          <a href="/colophon.html" class="meta-link">Colophon</a>
-          <a href="/.well-known/security.txt" class="meta-link">Security</a>
-        </nav>
-
-        <p class="copyright">© 2026 Takashi Sato</p>
-      </div>
-    </div>
-  </footer>
-
-  <script defer src="/assets/scroll.js"></script>
-  <script src="/assets/transition.js" defer></script>
+      <aside class="side-rail" aria-label="Paper actions">
+        <div class="rail-card"><h3>Open</h3><a href="/pdf/part3.pdf" target="_blank" rel="noopener"><span>PDF</span><span>↗</span></a><a href="/demo/altrion-part3.html"><span>Visualizer</span><span>↗</span></a><a href="/papers/"><span>Paper Index</span><span>→</span></a></div>
+        <div class="rail-card"><h3>Citation</h3><div class="meta-row"><span>SSRN</span><strong>6066430</strong></div><div class="meta-row"><span>Author</span><strong>Takashi Sato</strong></div></div>
+      </aside>
+    </section>
+  </div>
+</main>
+<footer class="footer"><div class="container footer-inner"><div>© <span data-year></span> Takashi Sato</div><div class="footer-links"><a href="/">Home</a><a href="/papers/">Papers</a><a href="/demo/">Visualizers</a><a href="/about.html">About</a><a href="/contact.html">Contact</a></div></div></footer>
+<script src="/assets/museum.js" defer></script>
+<script src="/assets/transition.js" defer></script>
 </body>
 </html>
