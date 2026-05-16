@@ -103,3 +103,167 @@ main{padding-top:var(--header)}
 @media (max-width: 620px){
   :root{--pad:20px}.hero{min-height:auto; padding-top:84px}.hero h1{font-size:clamp(4.0rem,18vw,6.6rem); max-width:8ch}.hero-copy p{font-size:1rem}.museum-button{width:100%}.work-card{border-radius:24px; min-height:0}.work-main,.work-aside{padding:24px 20px}.work-title{font-size:clamp(3.1rem,16vw,5.0rem)}.work-title strong{font-size:9px}.quote-text{font-size:1.7rem}.paper-hero h1{font-size:clamp(3.2rem,15vw,5.3rem)}.museum-quote{font-size:2rem}.abstract-body{font-size:1rem}.paper-meta-panel{padding:18px}.meta-row{display:grid; gap:6px}.meta-row strong{text-align:left}.utility-nav a{min-width:30px}.primary-nav a{font-size:8px}.article-shell{padding-top:42px}.demo-card{min-height:190px}.footer-inner{display:grid}}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important; transition:none!important; animation:none!important}}
+
+/* Archive Instrument typography tuning v1
+   Keeps Cormorant Garamond, but gives it more weight, tighter optical rhythm,
+   and less soft gallery styling across the public archive pages.
+*/
+:root{
+  --bg:#050504;
+  --bg2:#0A0907;
+  --ink:#E8E1D3;
+  --muted:rgba(232,225,211,.64);
+  --dim:rgba(232,225,211,.40);
+  --hair:rgba(232,225,211,.11);
+  --hair2:rgba(232,225,211,.065);
+  --gold:#9A8161;
+  --gold2:#8D9A83;
+  --red:#9B514C;
+  --panel:rgba(17,16,13,.72);
+}
+body{
+  background:
+    radial-gradient(780px 520px at 80% 12%, rgba(154,129,97,.12), transparent 62%),
+    radial-gradient(620px 520px at 18% 76%, rgba(141,154,131,.06), transparent 64%),
+    linear-gradient(180deg,#050504 0%,#0A0907 48%,#050504 100%);
+}
+body::before{
+  background:
+    radial-gradient(ellipse at center, transparent 58%, rgba(0,0,0,.48) 100%),
+    linear-gradient(90deg, transparent 0%, rgba(255,255,255,.08) 50%, transparent 100%),
+    repeating-linear-gradient(0deg, rgba(232,225,211,.035) 0px, rgba(232,225,211,.035) 1px, transparent 1px, transparent 7px);
+  opacity:.36;
+  mask-image:none;
+}
+body::after{opacity:.18; mix-blend-mode:screen;}
+.museum-header{
+  background:linear-gradient(180deg, rgba(5,5,4,.78), rgba(5,5,4,.48) 74%, rgba(5,5,4,0));
+}
+.museum-header::after{background:linear-gradient(90deg, transparent, rgba(232,225,211,.10) 18%, rgba(154,129,97,.35) 50%, rgba(232,225,211,.10) 82%, transparent);}
+.brand-mark{
+  border-radius:0;
+  border-color:rgba(232,225,211,.18);
+  color:rgba(232,225,211,.92);
+  background:rgba(5,5,4,.34);
+  box-shadow:none;
+}
+.brand-deck,.section-label,.eyebrow,.work-meta,.paper-kicker,.quote-label{color:rgba(154,129,97,.86);}
+.primary-nav a,.utility-nav a{color:rgba(166,157,144,.72);}
+.hero::before{display:none;}
+.hero h1,
+.manifesto h2,
+.exhibition-head h2,
+.work-title,
+.axis strong,
+.demo-card strong,
+.paper-hero h1,
+.abstract-body h2,
+.museum-quote,
+.paper-nav-card strong,
+.simple-page h1,
+.quote-text{
+  font-weight:500;
+  text-rendering:geometricPrecision;
+  -webkit-font-smoothing:antialiased;
+  font-kerning:normal;
+  font-feature-settings:'kern' 1,'liga' 1;
+}
+.hero h1{
+  font-size:clamp(4rem,10.6vw,13.2rem);
+  line-height:.86;
+  letter-spacing:-.068em;
+  max-width:10.8ch;
+}
+.manifesto h2,.exhibition-head h2,.paper-hero h1,.simple-page h1{
+  letter-spacing:-.052em;
+  line-height:.92;
+}
+.work-title{
+  letter-spacing:-.058em;
+  line-height:.86;
+}
+.quote-text,.museum-quote{letter-spacing:-.03em;}
+.hero-copy p,
+.manifesto p,
+.exhibition-head p,
+.work-sub,
+.demo-card small,
+.abstract-body,
+.simple-page p{color:rgba(166,157,144,.92);}
+.museum-button{
+  border-radius:0;
+  border-color:rgba(232,225,211,.13);
+  background:linear-gradient(180deg,rgba(232,225,211,.04),rgba(232,225,211,.012));
+  box-shadow:none;
+}
+.museum-button.primary{
+  color:#E8E1D3;
+  background:rgba(141,154,131,.10);
+  border-color:rgba(141,154,131,.34);
+}
+.axis,.work-card,.demo-card,.paper-meta-panel,.rail-card,.paper-nav-card{
+  border-radius:0;
+  border-color:rgba(232,225,211,.10);
+  background:linear-gradient(180deg,rgba(232,225,211,.035),rgba(232,225,211,.012));
+  box-shadow:none;
+}
+.work-card::before{background:radial-gradient(700px 260px at var(--mx,78%) var(--my,0%), rgba(232,225,211,.10), transparent 44%), radial-gradient(420px 300px at 12% 10%, rgba(154,129,97,.08), transparent 52%);}
+.work-card::after{background:linear-gradient(180deg,rgba(232,225,211,.035),transparent 28%,rgba(0,0,0,.16));}
+.work-aside{background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.28));}
+.work-rule{background:linear-gradient(90deg,rgba(154,129,97,.42),transparent);}
+.tag{border-color:rgba(232,225,211,.10); color:rgba(166,157,144,.72);}
+.demo-card:hover{border-color:rgba(141,154,131,.36);}
+body.page-home main::before,
+body.page-papers main::before,
+body[class*="page-paper"] main::before,
+body.page-demo-index main::before,
+body.page-about main::before,
+body.page-contact main::before{
+  content:"REF: MASTER INDEX // TAKASHI SATO";
+  position:fixed;
+  left:var(--pad);
+  bottom:18px;
+  z-index:8800;
+  pointer-events:none;
+  font-family:var(--sans);
+  font-size:8px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(129,122,112,.72);
+}
+body.page-home main::after,
+body.page-papers main::after,
+body[class*="page-paper"] main::after,
+body.page-demo-index main::after,
+body.page-about main::after,
+body.page-contact main::after{
+  content:"ID: TAKASHISATO-ME";
+  position:fixed;
+  right:var(--pad);
+  bottom:18px;
+  z-index:8800;
+  pointer-events:none;
+  font-family:var(--sans);
+  font-size:8px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(129,122,112,.72);
+}
+@media (max-width:640px){
+  .hero h1{font-size:clamp(3.4rem,16vw,5.9rem); letter-spacing:-.052em; line-height:.9; max-width:9ch;}
+  .manifesto h2,.exhibition-head h2,.paper-hero h1,.simple-page h1{letter-spacing:-.04em; line-height:.96;}
+  .work-title{letter-spacing:-.044em; line-height:.9;}
+  .museum-button{border-radius:0; width:100%;}
+  body.page-home main::before,
+  body.page-papers main::before,
+  body[class*="page-paper"] main::before,
+  body.page-demo-index main::before,
+  body.page-about main::before,
+  body.page-contact main::before{left:20px; bottom:12px; max-width:46vw; overflow:hidden; white-space:nowrap;}
+  body.page-home main::after,
+  body.page-papers main::after,
+  body[class*="page-paper"] main::after,
+  body.page-demo-index main::after,
+  body.page-about main::after,
+  body.page-contact main::after{right:20px; bottom:12px; max-width:42vw; overflow:hidden; white-space:nowrap;}
+}
