@@ -3,138 +3,141 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#020202" />
-  <title>Takashi Sato — AI Governance Archive</title>
-  <meta name="description" content="A visual research archive on AI governance failure, workflow drift, semantic entropy, and the preservation of human judgment." />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#f2eee5" />
+  <title>Takashi Sato — The Proper Ending Index</title>
+  <meta name="description" content="An editorial research instrument for systems that continue after judgment has left: workflow-centric AI governance, pre-abuse failure, governance drift indicators, circuit breakers, and proper ending." />
   <link rel="canonical" href="https://takashisato.me/" />
-  <link rel="stylesheet" href="/assets/world-class-zero.css" />
+  <link rel="stylesheet" href="/assets/proper-ending-index.css" />
 </head>
-<body class="wcz">
+<body class="proper-ending-index">
 <a class="skip" href="#main">Skip to content</a>
-<div class="wcz-stage">
-  <div class="wcz-topline" aria-label="Archive state">
-    <span>AI Governance / Operational Failure</span>
-    <span><b>Archive Instrument</b></span>
-    <span>Takashi Sato / Research Surface</span>
-  </div>
-
-  <header class="wcz-header" aria-label="Site header">
-    <a class="wcz-brand" href="/" aria-label="Takashi Sato home">
-      <span class="wcz-mark">TS</span>
-      <span class="wcz-brand-copy"><span class="wcz-name">Takashi Sato</span><span class="wcz-deck">Archive Instrument</span></span>
-    </a>
-    <nav class="wcz-nav" aria-label="Primary navigation">
-      <a href="/" aria-current="page">Home</a>
-      <a href="/papers/">Papers</a>
-      <a href="/demo/">Visualizers</a>
-      <a href="/about.html">About</a>
-      <a href="/contact.html">Contact</a>
+<div class="pei-shell">
+  <aside class="pei-sidebar" aria-label="Site index">
+    <div class="pei-brand">
+      <div class="pei-mark">T—S</div>
+      <small>Takashi Sato<br />Research Lab<br />on AI Governance</small>
+    </div>
+    <div class="pei-rule" aria-hidden="true"></div>
+    <nav class="pei-nav" aria-label="Primary navigation">
+      <a href="#overview" aria-current="page" data-no="01">Overview</a>
+      <a href="/papers/" data-no="02">Papers</a>
+      <a href="#framework" data-no="03">Framework</a>
+      <a href="#failure-modes" data-no="04">Failure Modes</a>
+      <a href="#drift-indicators" data-no="05">Drift Indicators</a>
+      <a href="#circuit-breakers" data-no="06">Circuit Breakers</a>
+      <a href="/demo/" data-no="">Visualizer</a>
+      <a href="/about.html" data-no="">About</a>
     </nav>
-    <nav class="wcz-utility" aria-label="External links">
-      <a href="https://x.com/takashisato_me" target="_blank" rel="me noopener">X</a>
-      <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener">SSRN</a>
-      <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener">ORCID</a>
-    </nav>
-  </header>
+    <div class="pei-sidebar-foot">
+      <div>Research,<br />not surveillance.</div>
+      <span class="pei-dot" aria-hidden="true"></span>
+      <div>© 2025 Takashi Sato<br />All rights reserved.</div>
+    </div>
+  </aside>
 
-  <main id="main">
-    <section class="wcz-hero" aria-labelledby="wcz-title">
-      <div class="wcz-copy">
-        <p class="wcz-kicker">Research archive / Decision systems</p>
-        <h1 id="wcz-title" class="wcz-title">Archive Instrument <em>for AI Governance.</em></h1>
-        <p class="wcz-lede">A visual research surface for systems that fail before they break: workflow drift, ritualized oversight, semantic entropy, dissent exhaustion, and the preservation of human judgment under automation.</p>
-        <div class="wcz-actions" aria-label="Primary actions">
-          <a class="wcz-underline" href="/papers/"><strong>Enter the Archive</strong><span>↘</span></a>
-          <a class="wcz-underline" href="/demo/">Open Visualizers<span>↘</span></a>
-          <a class="wcz-underline" href="/about.html">Read the Frame<span>↘</span></a>
+  <div class="pei-main">
+    <header class="pei-topbar" aria-label="Top bar">
+      <a href="/">Resolution Collapse Observatory</a>
+      <div class="right"><span>Index</span><button class="pei-menu" type="button" aria-label="Menu"></button></div>
+    </header>
+
+    <main id="main">
+      <section id="overview" class="pei-hero" aria-labelledby="home-title">
+        <div class="pei-hero-copy">
+          <p class="pei-kicker">Research in AI Governance</p>
+          <h1 id="home-title" class="pei-title">Judgment does not vanish. <em>It becomes procedural.</em></h1>
+          <span class="pei-hair" aria-hidden="true"></span>
+          <p class="pei-lede">AI governance does not always fail by error or abuse. Sometimes it fails by continuing to operate after human judgment has left.</p>
+          <a class="pei-scroll" href="#drift-indicators">Scroll to explore</a>
         </div>
-      </div>
 
-      <aside class="wcz-instrument" aria-label="Signal instrument panel">
-        <a class="wcz-panel" href="/demo/" aria-label="Open visualizer index">
-          <div class="wcz-panel-head"><span>Signal View</span><span>Human judgment / drift / failure</span></div>
-          <div class="wcz-wave" aria-hidden="true">
-            <svg viewBox="0 0 920 300" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="wczWave" x1="0" x2="1">
-                  <stop offset="0" stop-color="#b9955c" stop-opacity="0.04" />
-                  <stop offset="0.38" stop-color="#b9955c" stop-opacity="0.75" />
-                  <stop offset="0.64" stop-color="#f1eadc" stop-opacity="0.26" />
-                  <stop offset="1" stop-color="#b9955c" stop-opacity="0.08" />
-                </linearGradient>
-              </defs>
-              <g>
-                <rect x="54" y="123" width="1" height="58" />
-                <rect x="146" y="92" width="1" height="122" />
-                <rect x="246" y="135" width="1" height="42" />
-                <rect x="356" y="74" width="1" height="166" />
-                <rect x="472" y="112" width="1" height="94" />
-                <rect x="610" y="84" width="1" height="138" />
-                <rect x="746" y="118" width="1" height="76" />
-                <rect x="858" y="138" width="1" height="34" />
-              </g>
-              <path class="main" d="M0 156 C76 148 104 78 170 91 C240 105 252 224 342 207 C426 191 437 78 522 94 C614 111 628 190 704 178 C790 164 812 123 920 126" />
-              <path d="M0 186 C118 170 145 126 228 137 C318 150 338 202 414 190 C504 176 535 124 626 134 C716 144 750 176 920 151" opacity=".58" />
-              <path d="M0 116 C118 137 188 151 274 136 C372 119 421 106 516 119 C642 137 706 101 920 104" opacity=".30" />
-            </svg>
+        <div id="drift-indicators" class="pei-specimen" aria-label="Governance Drift Indicators specimen">
+          <div class="specimen-head"><span>Governance Drift Indicators</span><span>Specimen / illustrative</span></div>
+          <div class="specimen-list">
+            <article class="specimen">
+              <div class="specimen-no">01</div>
+              <div class="specimen-label"><strong>Semantic Entropy Decay</strong><span>Explanations lose information and converge into template language.</span></div>
+              <div class="specimen-visual">
+                <div class="entropy-triptych">
+                  <div class="fragment"><small>Early</small>The applicant recently lost employment and the income record appears stale.</div>
+                  <div class="fragment"><small>Mid</small>Reviewed. Meets criteria.</div>
+                  <div class="fragment"><small>Late</small>Approved per procedure.</div>
+                </div>
+                <div class="entropy-meter" aria-hidden="true"></div>
+              </div>
+            </article>
+            <article class="specimen">
+              <div class="specimen-no">02</div>
+              <div class="specimen-label"><strong>Temporal Compression</strong><span>Decision time variance collapses across case complexity.</span></div>
+              <div class="specimen-visual"><div class="time-dots" data-time-dots aria-hidden="true"></div></div>
+            </article>
+            <article class="specimen">
+              <div class="specimen-no">03</div>
+              <div class="specimen-label"><strong>Exhaustion of Dissent</strong><span>Objections, overrides, and escalations disappear without evidence of improvement.</span></div>
+              <div class="specimen-visual">
+                <div class="dissent-map" aria-hidden="true">
+                  <svg viewBox="0 0 420 126" preserveAspectRatio="none">
+                    <line x1="38" y1="34" x2="96" y2="72"/><line x1="96" y1="72" x2="154" y2="42"/><line x1="154" y1="42" x2="226" y2="68"/><line x1="226" y1="68" x2="302" y2="52"/><line x1="302" y1="52" x2="376" y2="82"/>
+                    <line x1="44" y1="92" x2="112" y2="54"/><line x1="112" y1="54" x2="192" y2="88"/><line x1="192" y1="88" x2="268" y2="32"/><line x1="268" y1="32" x2="350" y2="62"/>
+                    <circle class="hot" cx="38" cy="34" r="5"/><circle cx="96" cy="72" r="4"/><circle class="hot" cx="154" cy="42" r="4"/><circle cx="226" cy="68" r="4"/><circle cx="302" cy="52" r="4"/><circle cx="376" cy="82" r="4"/>
+                    <circle cx="44" cy="92" r="4"/><circle class="hot" cx="112" cy="54" r="4"/><circle cx="192" cy="88" r="4"/><circle cx="268" cy="32" r="4"/><circle cx="350" cy="62" r="4"/>
+                  </svg>
+                </div>
+              </div>
+            </article>
           </div>
-          <div class="wcz-panel-foot"><span>Part I</span><span><b>Observable Failure</b></span><span>Part III</span></div>
+          <p class="specimen-note">These indicators do not measure ethics or intent. They measure the erosion of human contestability. <a href="/papers/part3.html">About GDIs ↘</a></p>
+        </div>
+      </section>
+
+      <section class="pei-papers" aria-labelledby="papers-title">
+        <div class="paper-list">
+          <h2 id="papers-title" class="section-label">Research Papers</h2>
+          <a class="paper-row" href="/papers/part1.html">
+            <span class="num">01</span><h2>Workflow-Centric AI Governance</h2><p>A sociotechnical architecture for accountable human–AI decision systems.</p><time>2025</time><span class="arrow">→</span>
+          </a>
+          <a class="paper-row" href="/papers/part2.html">
+            <span class="num">02</span><h2>Forecasting Failure</h2><p>Why structurally sound governance collapses before it is abused.</p><time>2025</time><span class="arrow">→</span>
+          </a>
+          <a class="paper-row" href="/papers/part3.html">
+            <span class="num">03</span><h2>Detecting Silent Governance Failure</h2><p>Semantic entropy, dissent exhaustion, GDI, and the capacity to stop.</p><time>2025</time><span class="arrow">→</span>
+          </a>
+        </div>
+        <aside class="proper-note">
+          <blockquote>The most dangerous failure is the one that leaves the workflow intact.</blockquote>
+          <cite>— T. Sato</cite>
+        </aside>
+      </section>
+
+      <section class="pei-movements" aria-label="Four movements">
+        <a id="framework" class="movement" href="/papers/part1.html">
+          <div><small>01</small><h2>Framework</h2><p>Structured friction for human agency.</p><div class="movement-visual gate-grid" aria-hidden="true"></div></div><span>Explore →</span>
         </a>
-      </aside>
-    </section>
+        <a id="failure-modes" class="movement" href="/papers/part2.html">
+          <div><small>02</small><h2>Failure Modes</h2><p>Four trajectories where governance collapses before abuse.</p><div class="movement-visual flow-lines" aria-hidden="true"></div></div><span>Explore →</span>
+        </a>
+        <a class="movement" href="/papers/part3.html">
+          <div><small>03</small><h2>Drift Indicators</h2><p>Signals that judgment is eroding silently.</p><div class="movement-visual indicator-grid" aria-hidden="true"></div></div><span>Explore →</span>
+        </a>
+        <a id="circuit-breakers" class="movement" href="/papers/part3.html#circuit-breakers">
+          <div><small>04</small><h2>Circuit Breakers</h2><p>Mechanisms for proper ending and containment.</p><div class="movement-visual breaker-ring" aria-hidden="true"></div></div><span>Explore →</span>
+        </a>
+      </section>
 
-    <div class="wcz-section-head"><span>Recent Papers</span><a href="/papers/">View all ↘</a></div>
-    <section class="wcz-papers" aria-label="Research papers">
-      <a class="wcz-paper one" href="/papers/part1.html">
-        <span class="wcz-paper-number">I</span>
-        <span class="wcz-paper-body"><span><span class="wcz-paper-meta">Architecture / Structured Friction</span><h2>Workflow-Centric AI Governance</h2><p>A sociotechnical architecture for accountable human–AI decision systems.</p></span><span class="wcz-paper-cta">Read paper <span>↘</span></span></span>
-      </a>
-      <a class="wcz-paper two" href="/papers/part2.html">
-        <span class="wcz-paper-number">II</span>
-        <span class="wcz-paper-body"><span><span class="wcz-paper-meta">Decay / Pre-abuse Failure</span><h2>Forecasting Failure</h2><p>Why structurally sound AI governance collapses before it is abused.</p></span><span class="wcz-paper-cta">Read paper <span>↘</span></span></span>
-      </a>
-      <a class="wcz-paper three" href="/papers/part3.html">
-        <span class="wcz-paper-number">III</span>
-        <span class="wcz-paper-body"><span><span class="wcz-paper-meta">Silence / Circuit Breakers</span><h2>Detecting Silent Governance Failure</h2><p>Semantic entropy, dissent exhaustion, drift indicators, and intervention points.</p></span><span class="wcz-paper-cta">Read paper <span>↘</span></span></span>
-      </a>
-    </section>
+      <section class="pei-ending" aria-label="Circuit breaker protocol">
+        <div class="ending-title"><small>Circuit Breaker Protocol</small><h2>The capacity to stop is a governance responsibility.</h2></div>
+        <div class="ending-record"><strong>Process suspended.</strong><p>Reason: meaningful judgment can no longer be verified. Reactivation requires new governance authorization.</p><a href="/papers/part3.html">Acknowledge and continue →</a></div>
+        <div class="ending-meta"><span><b>Time</b><i>2025.06.01</i></span><span><b>Status</b><i>Suspended</i></span><span><b>Scope</b><i>Policy workflow</i></span></div>
+      </section>
+    </main>
 
-    <section class="wcz-lower" aria-label="Archive layers">
-      <div class="wcz-module">
-        <h2 class="wcz-module-title">Reader Layers</h2>
-        <div class="wcz-routes">
-          <a class="wcz-route" href="/papers/part1.html"><span>01</span><strong>Workflow</strong><em>gates</em></a>
-          <a class="wcz-route" href="/papers/part2.html"><span>02</span><strong>Entropy</strong><em>decay</em></a>
-          <a class="wcz-route" href="/papers/part3.html"><span>03</span><strong>Silence</strong><em>failure</em></a>
-          <a class="wcz-route" href="/pdf/part1.pdf"><span>04</span><strong>PDF Archive</strong><em>source</em></a>
-        </div>
-      </div>
-      <div class="wcz-module">
-        <h2 class="wcz-module-title">Visualizer Preview</h2>
-        <a class="wcz-preview" href="/demo/" aria-label="Open visualizer preview"><i></i><i></i><i></i></a>
-        <div class="wcz-preview-links">
-          <a href="/demo/altrion-part1.html">Structured Friction ↘</a>
-          <a href="/demo/altrion-part2.html">Failure Thermodynamics ↘</a>
-          <a href="/demo/altrion-part3.html">Resolution Collapse ↘</a>
-        </div>
-      </div>
-      <figure class="wcz-module wcz-signature">
-        <blockquote class="wcz-quote">The slow erosion of judgment is the origin of systemic risk.</blockquote>
-        <figcaption>
-          <img class="wcz-sig" src="/assets/materials/signature-english.svg" alt="Takashi Sato signature" />
-          <div class="wcz-attribution">Takashi Sato / Archive Instrument</div>
-        </figcaption>
-      </figure>
-    </section>
-  </main>
-
-  <footer class="wcz-footer">
-    <div>© <span data-year></span> Takashi Sato / AI Governance Archive</div>
-    <div><a href="/papers/">Papers</a> / <a href="/demo/">Visualizers</a> / <a href="/about.html">About</a> / <a href="/contact.html">Contact</a></div>
-  </footer>
+    <footer class="pei-footer">
+      <div>© 2025 Takashi Sato / The Proper Ending Index</div>
+      <div><a href="/papers/">Papers</a> / <a href="/demo/">Visualizer</a> / <a href="/about.html">About</a> / <a href="/contact.html">Contact</a></div>
+    </footer>
+  </div>
 </div>
-<script src="/assets/world-class-zero.js" defer></script>
-<script src="/assets/museum.js" defer></script>
+<script src="/assets/proper-ending-index.js" defer></script>
 </body>
 </html>
