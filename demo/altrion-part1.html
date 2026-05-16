@@ -4,78 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <title>ALTRION — Integrated Demo (Phase-Modulated Spectral Truthline)</title>
-
+  <title>Structured Friction Instrument · The Proper Ending Index</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@300;400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="/demo/_assets/altrion-part1.css">
   <link rel="stylesheet" href="/demo/_assets/demo-mobile-shell.css" />
+  <link rel="stylesheet" href="/assets/proper-ending-index.css" />
+  <link rel="stylesheet" href="/assets/proper-ending-complete.css" />
 </head>
-
-<body class="demo-page demo-page--part1">
+<body class="demo-page demo-page--part1 instrument-entry">
 <a class="demo-backlink" href="/papers/part1.html" aria-label="Back to Part I paper">← Back to Part I</a>
 <a class="skip-link" href="#stage">Skip to content</a>
+<div class="instrument-plaque" aria-label="Instrument context"><small>Instrument 01 / Structured Friction</small><h1>Governance Collider</h1><p>Four gates impose friction so human arbitration remains visible before workflow pressure turns oversight into ritual.</p><nav><a href="/papers/part1.html">Paper</a><a href="/papers/">Catalogue</a><a href="/demo/">Instruments</a></nav></div>
   <h1 class="sr-only">ALTRION · The Governance Collider</h1>
   <div class="stage" id="stage" role="img" aria-label="Interactive ALTRION governance visualizer showing workflow friction, intervention probability, and auditable decision records.">
     <canvas id="dust" aria-hidden="true"></canvas>
     <canvas id="strands" aria-hidden="true"></canvas>
     <div class="cursorLight" id="cursor"></div>
-
     <div class="ui">
-      <div class="concept">
-        <div class="label">Concept</div>
-        <p class="desc">
-          ALTRION rendered as a workflow-centric “cognitive firewall”:
-          four gates impose structured friction; oversight can phase-transition
-          into ritualized collapse under fatigue and non-compliance.
-        </p>
-      </div>
-
-      <div class="pblock">
-        <div class="label">P(INT) · Intervention Probability</div>
-        <div class="value" id="uiP">0.00</div>
-        <div class="meta" id="uiMeta"></div>
-      </div>
-
-      <div class="gates">
-        <div class="wire" id="g1"><span class="wlabel">01 / CONSTRAINT</span></div>
-        <div class="wire" id="g2"><span class="wlabel">02 / VALUE TENSION</span></div>
-        <div class="wire" id="g3"><span class="wlabel">03 / TEMPORAL RELIABILITY</span></div>
-        <div class="wire" id="g4"><span class="wlabel">04 / ARBITRATION · ADR</span></div>
-      </div>
-
-      <div class="titleblock">
-        <div class="workTitle">ALTRION · The Governance Collider</div>
-      </div>
-
-      <div class="statusblock">
-        <div class="statusRow">
-          <span class="gem" id="gem"></span>
-          <span id="uiStatus">STABLE FLOW</span>
-        </div>
-      </div>
-
-      <div class="adr">
-        <div class="label">ADR · Auditable Decision Record</div>
-
-        <div class="adr-actions">
-          <button class="adr-btn" id="btnExport" type="button">EXPORT ADR JSON</button>
-          <button class="adr-btn" id="btnCopy" type="button">COPY</button>
-          <span class="adr-note" id="adrNote"></span>
-        </div>
-
-        <div class="hint">
-          Every ~1.6s a synthetic “case” arrives. If flagged, you may intervene:
-          press <b>O</b> to Override (you’ll be asked for a rationale).<br/>
-          Desktop: move mouse to change Alignment (X) + Workload baseline (Y), drag to spike workload.
-          Mobile: auto-run.
-        </div>
-        <div class="log" id="uiLog"></div>
-      </div>
+      <div class="concept"><div class="label">Concept</div><p class="desc">ALTRION rendered as a workflow-centric “cognitive firewall”: four gates impose structured friction; oversight can phase-transition into ritualized collapse under fatigue and non-compliance.</p></div>
+      <div class="pblock"><div class="label">P(INT) · Intervention Probability</div><div class="value" id="uiP">0.00</div><div class="meta" id="uiMeta"></div></div>
+      <div class="gates"><div class="wire" id="g1"><span class="wlabel">01 / CONSTRAINT</span></div><div class="wire" id="g2"><span class="wlabel">02 / VALUE TENSION</span></div><div class="wire" id="g3"><span class="wlabel">03 / TEMPORAL RELIABILITY</span></div><div class="wire" id="g4"><span class="wlabel">04 / ARBITRATION · ADR</span></div></div>
+      <div class="titleblock"><div class="workTitle">ALTRION · The Governance Collider</div></div>
+      <div class="statusblock"><div class="statusRow"><span class="gem" id="gem"></span><span id="uiStatus">STABLE FLOW</span></div></div>
+      <div class="adr"><div class="label">ADR · Auditable Decision Record</div><div class="adr-actions"><button class="adr-btn" id="btnExport" type="button">EXPORT ADR JSON</button><button class="adr-btn" id="btnCopy" type="button">COPY</button><span class="adr-note" id="adrNote"></span></div><div class="hint">Every ~1.6s a synthetic “case” arrives. If flagged, you may intervene: press <b>O</b> to Override. Desktop: move mouse to change Alignment (X) + Workload baseline (Y), drag to spike workload. Mobile: auto-run.</div><div class="log" id="uiLog"></div></div>
     </div>
   </div>
-
   <script defer src="/demo/_assets/altrion-part1.js"></script>
   <script src="/assets/transition.js" defer></script>
 </body>
