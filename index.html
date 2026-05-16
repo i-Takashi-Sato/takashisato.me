@@ -9,39 +9,21 @@
   <meta name="description" content="An editorial research instrument for systems that continue after judgment has left: workflow-centric AI governance, pre-abuse failure, governance drift indicators, circuit breakers, and proper ending." />
   <link rel="canonical" href="https://takashisato.me/" />
   <link rel="stylesheet" href="/assets/proper-ending-index.css" />
+  <link rel="stylesheet" href="/assets/proper-ending-system.css" />
 </head>
 <body class="proper-ending-index">
 <a class="skip" href="#main">Skip to content</a>
 <div class="pei-shell">
   <aside class="pei-sidebar" aria-label="Site index">
-    <div class="pei-brand">
-      <div class="pei-mark">T—S</div>
-      <small>Takashi Sato<br />Research Lab<br />on AI Governance</small>
-    </div>
+    <div class="pei-brand"><div class="pei-mark">T—S</div><small>Takashi Sato<br />Research Lab<br />on AI Governance</small></div>
     <div class="pei-rule" aria-hidden="true"></div>
     <nav class="pei-nav" aria-label="Primary navigation">
-      <a href="#overview" aria-current="page" data-no="01">Overview</a>
-      <a href="/papers/" data-no="02">Papers</a>
-      <a href="#framework" data-no="03">Framework</a>
-      <a href="#failure-modes" data-no="04">Failure Modes</a>
-      <a href="#drift-indicators" data-no="05">Drift Indicators</a>
-      <a href="#circuit-breakers" data-no="06">Circuit Breakers</a>
-      <a href="/demo/" data-no="">Visualizer</a>
-      <a href="/about.html" data-no="">About</a>
+      <a href="#overview" aria-current="page" data-no="01">Overview</a><a href="/papers/" data-no="02">Papers</a><a href="#framework" data-no="03">Framework</a><a href="#failure-modes" data-no="04">Failure Modes</a><a href="#drift-indicators" data-no="05">Drift Indicators</a><a href="#circuit-breakers" data-no="06">Circuit Breakers</a><a href="/demo/" data-no="">Instruments</a><a href="/about.html" data-no="">About</a>
     </nav>
-    <div class="pei-sidebar-foot">
-      <div>Research,<br />not surveillance.</div>
-      <span class="pei-dot" aria-hidden="true"></span>
-      <div>© 2025 Takashi Sato<br />All rights reserved.</div>
-    </div>
+    <div class="pei-sidebar-foot"><div>Research,<br />not surveillance.</div><span class="pei-dot" aria-hidden="true"></span><div>© 2025 Takashi Sato<br />All rights reserved.</div></div>
   </aside>
-
   <div class="pei-main">
-    <header class="pei-topbar" aria-label="Top bar">
-      <a href="/">Resolution Collapse Observatory</a>
-      <div class="right"><span>Index</span><button class="pei-menu" type="button" aria-label="Menu"></button></div>
-    </header>
-
+    <header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/contact.html">Contact</a><button class="pei-menu" type="button" aria-label="Toggle index" aria-expanded="false"></button></div></header>
     <main id="main">
       <section id="overview" class="pei-hero" aria-labelledby="home-title">
         <div class="pei-hero-copy">
@@ -51,93 +33,23 @@
           <p class="pei-lede">AI governance does not always fail by error or abuse. Sometimes it fails by continuing to operate after human judgment has left.</p>
           <a class="pei-scroll" href="#drift-indicators">Scroll to explore</a>
         </div>
-
-        <div id="drift-indicators" class="pei-specimen" aria-label="Governance Drift Indicators specimen">
-          <div class="specimen-head"><span>Governance Drift Indicators</span><span>Specimen / illustrative</span></div>
+        <div id="drift-indicators" class="pei-specimen" aria-label="Governance Drift Indicators specimen" data-gdi-specimen>
+          <div class="specimen-head"><span>Governance Drift Indicators</span><span>Specimen / active</span></div>
           <div class="specimen-list">
-            <article class="specimen">
-              <div class="specimen-no">01</div>
-              <div class="specimen-label"><strong>Semantic Entropy Decay</strong><span>Explanations lose information and converge into template language.</span></div>
-              <div class="specimen-visual">
-                <div class="entropy-triptych">
-                  <div class="fragment"><small>Early</small>The applicant recently lost employment and the income record appears stale.</div>
-                  <div class="fragment"><small>Mid</small>Reviewed. Meets criteria.</div>
-                  <div class="fragment"><small>Late</small>Approved per procedure.</div>
-                </div>
-                <div class="entropy-meter" aria-hidden="true"></div>
-              </div>
-            </article>
-            <article class="specimen">
-              <div class="specimen-no">02</div>
-              <div class="specimen-label"><strong>Temporal Compression</strong><span>Decision time variance collapses across case complexity.</span></div>
-              <div class="specimen-visual"><div class="time-dots" data-time-dots aria-hidden="true"></div></div>
-            </article>
-            <article class="specimen">
-              <div class="specimen-no">03</div>
-              <div class="specimen-label"><strong>Exhaustion of Dissent</strong><span>Objections, overrides, and escalations disappear without evidence of improvement.</span></div>
-              <div class="specimen-visual">
-                <div class="dissent-map" aria-hidden="true">
-                  <svg viewBox="0 0 420 126" preserveAspectRatio="none">
-                    <line x1="38" y1="34" x2="96" y2="72"/><line x1="96" y1="72" x2="154" y2="42"/><line x1="154" y1="42" x2="226" y2="68"/><line x1="226" y1="68" x2="302" y2="52"/><line x1="302" y1="52" x2="376" y2="82"/>
-                    <line x1="44" y1="92" x2="112" y2="54"/><line x1="112" y1="54" x2="192" y2="88"/><line x1="192" y1="88" x2="268" y2="32"/><line x1="268" y1="32" x2="350" y2="62"/>
-                    <circle class="hot" cx="38" cy="34" r="5"/><circle cx="96" cy="72" r="4"/><circle class="hot" cx="154" cy="42" r="4"/><circle cx="226" cy="68" r="4"/><circle cx="302" cy="52" r="4"/><circle cx="376" cy="82" r="4"/>
-                    <circle cx="44" cy="92" r="4"/><circle class="hot" cx="112" cy="54" r="4"/><circle cx="192" cy="88" r="4"/><circle cx="268" cy="32" r="4"/><circle cx="350" cy="62" r="4"/>
-                  </svg>
-                </div>
-              </div>
-            </article>
+            <article class="specimen"><div class="specimen-no">01</div><div class="specimen-label"><strong>Semantic Entropy Decay</strong><span>Explanations lose information and converge into template language.</span></div><div class="specimen-visual"><div class="entropy-triptych"><div class="fragment"><small>Early</small>The applicant recently lost employment and the income record appears stale.</div><div class="fragment"><small>Mid</small>Reviewed. Meets criteria.</div><div class="fragment"><small>Late</small>Approved per procedure.</div></div><div class="entropy-meter" aria-hidden="true"></div></div></article>
+            <article class="specimen"><div class="specimen-no">02</div><div class="specimen-label"><strong>Temporal Compression</strong><span>Decision time variance collapses across case complexity.</span></div><div class="specimen-visual"><div class="time-dots" data-time-dots aria-hidden="true"></div></div></article>
+            <article class="specimen"><div class="specimen-no">03</div><div class="specimen-label"><strong>Exhaustion of Dissent</strong><span>Objections, overrides, and escalations disappear without evidence of improvement.</span></div><div class="specimen-visual"><div class="dissent-map" aria-hidden="true"><svg viewBox="0 0 420 126" preserveAspectRatio="none"><line x1="38" y1="34" x2="96" y2="72"/><line x1="96" y1="72" x2="154" y2="42"/><line x1="154" y1="42" x2="226" y2="68"/><line x1="226" y1="68" x2="302" y2="52"/><line x1="302" y1="52" x2="376" y2="82"/><line x1="44" y1="92" x2="112" y2="54"/><line x1="112" y1="54" x2="192" y2="88"/><line x1="192" y1="88" x2="268" y2="32"/><line x1="268" y1="32" x2="350" y2="62"/><circle class="hot" cx="38" cy="34" r="5"/><circle cx="96" cy="72" r="4"/><circle class="hot" cx="154" cy="42" r="4"/><circle cx="226" cy="68" r="4"/><circle cx="302" cy="52" r="4"/><circle cx="376" cy="82" r="4"/><circle cx="44" cy="92" r="4"/><circle class="hot" cx="112" cy="54" r="4"/><circle cx="192" cy="88" r="4"/><circle cx="268" cy="32" r="4"/><circle cx="350" cy="62" r="4"/></svg></div></div></article>
           </div>
           <p class="specimen-note">These indicators do not measure ethics or intent. They measure the erosion of human contestability. <a href="/papers/part3.html">About GDIs ↘</a></p>
         </div>
       </section>
-
-      <section class="pei-papers" aria-labelledby="papers-title">
-        <div class="paper-list">
-          <h2 id="papers-title" class="section-label">Research Papers</h2>
-          <a class="paper-row" href="/papers/part1.html">
-            <span class="num">01</span><h2>Workflow-Centric AI Governance</h2><p>A sociotechnical architecture for accountable human–AI decision systems.</p><time>2025</time><span class="arrow">→</span>
-          </a>
-          <a class="paper-row" href="/papers/part2.html">
-            <span class="num">02</span><h2>Forecasting Failure</h2><p>Why structurally sound governance collapses before it is abused.</p><time>2025</time><span class="arrow">→</span>
-          </a>
-          <a class="paper-row" href="/papers/part3.html">
-            <span class="num">03</span><h2>Detecting Silent Governance Failure</h2><p>Semantic entropy, dissent exhaustion, GDI, and the capacity to stop.</p><time>2025</time><span class="arrow">→</span>
-          </a>
-        </div>
-        <aside class="proper-note">
-          <blockquote>The most dangerous failure is the one that leaves the workflow intact.</blockquote>
-          <cite>— T. Sato</cite>
-        </aside>
-      </section>
-
-      <section class="pei-movements" aria-label="Four movements">
-        <a id="framework" class="movement" href="/papers/part1.html">
-          <div><small>01</small><h2>Framework</h2><p>Structured friction for human agency.</p><div class="movement-visual gate-grid" aria-hidden="true"></div></div><span>Explore →</span>
-        </a>
-        <a id="failure-modes" class="movement" href="/papers/part2.html">
-          <div><small>02</small><h2>Failure Modes</h2><p>Four trajectories where governance collapses before abuse.</p><div class="movement-visual flow-lines" aria-hidden="true"></div></div><span>Explore →</span>
-        </a>
-        <a class="movement" href="/papers/part3.html">
-          <div><small>03</small><h2>Drift Indicators</h2><p>Signals that judgment is eroding silently.</p><div class="movement-visual indicator-grid" aria-hidden="true"></div></div><span>Explore →</span>
-        </a>
-        <a id="circuit-breakers" class="movement" href="/papers/part3.html#circuit-breakers">
-          <div><small>04</small><h2>Circuit Breakers</h2><p>Mechanisms for proper ending and containment.</p><div class="movement-visual breaker-ring" aria-hidden="true"></div></div><span>Explore →</span>
-        </a>
-      </section>
-
-      <section class="pei-ending" aria-label="Circuit breaker protocol">
-        <div class="ending-title"><small>Circuit Breaker Protocol</small><h2>The capacity to stop is a governance responsibility.</h2></div>
-        <div class="ending-record"><strong>Process suspended.</strong><p>Reason: meaningful judgment can no longer be verified. Reactivation requires new governance authorization.</p><a href="/papers/part3.html">Acknowledge and continue →</a></div>
-        <div class="ending-meta"><span><b>Time</b><i>2025.06.01</i></span><span><b>Status</b><i>Suspended</i></span><span><b>Scope</b><i>Policy workflow</i></span></div>
-      </section>
+      <section class="pei-papers" aria-labelledby="papers-title"><div class="paper-list"><h2 id="papers-title" class="section-label">Research Papers</h2><a class="paper-row" href="/papers/part1.html"><span class="num">01</span><h2>Workflow-Centric AI Governance</h2><p>A sociotechnical architecture for accountable human–AI decision systems.</p><time>Architecture</time><span class="arrow">→</span></a><a class="paper-row" href="/papers/part2.html"><span class="num">02</span><h2>Forecasting Failure</h2><p>Why structurally sound governance collapses before it is abused.</p><time>Decay</time><span class="arrow">→</span></a><a class="paper-row" href="/papers/part3.html"><span class="num">03</span><h2>Detecting Silent Governance Failure</h2><p>Semantic entropy, dissent exhaustion, GDI, and the capacity to stop.</p><time>Ending</time><span class="arrow">→</span></a></div><aside class="proper-note"><blockquote>The most dangerous failure is the one that leaves the workflow intact.</blockquote><cite>— T. Sato</cite></aside></section>
+      <section class="pei-movements" aria-label="Four movements"><a id="framework" class="movement" href="/papers/part1.html"><div><small>01</small><h2>Framework</h2><p>Structured friction for human agency.</p><div class="movement-visual gate-grid" aria-hidden="true"></div></div><span>Explore →</span></a><a id="failure-modes" class="movement" href="/papers/part2.html"><div><small>02</small><h2>Failure Modes</h2><p>Four trajectories where governance collapses before abuse.</p><div class="movement-visual flow-lines" aria-hidden="true"></div></div><span>Explore →</span></a><a class="movement" href="/papers/part3.html"><div><small>03</small><h2>Drift Indicators</h2><p>Signals that judgment is eroding silently.</p><div class="movement-visual indicator-grid" aria-hidden="true"></div></div><span>Explore →</span></a><a id="circuit-breakers" class="movement" href="/papers/part3.html#circuit-breakers"><div><small>04</small><h2>Circuit Breakers</h2><p>Mechanisms for proper ending and containment.</p><div class="movement-visual breaker-ring" aria-hidden="true"></div></div><span>Explore →</span></a></section>
+      <section class="pei-ending" aria-label="Circuit breaker protocol" data-proper-ending><div class="ending-title"><small>Circuit Breaker Protocol</small><h2>The capacity to stop is a governance responsibility.</h2></div><div class="ending-record"><strong>Process suspended.</strong><p>Reason: meaningful judgment can no longer be verified. Reactivation requires new governance authorization.</p><a href="/papers/part3.html">Acknowledge and continue →</a></div><div class="ending-meta"><span><b>Time</b><i>2025.06.01</i></span><span><b>Status</b><i>Suspended</i></span><span><b>Scope</b><i>Policy workflow</i></span></div></section>
     </main>
-
-    <footer class="pei-footer">
-      <div>© 2025 Takashi Sato / The Proper Ending Index</div>
-      <div><a href="/papers/">Papers</a> / <a href="/demo/">Visualizer</a> / <a href="/about.html">About</a> / <a href="/contact.html">Contact</a></div>
-    </footer>
+    <footer class="pei-footer"><div>© 2025 Takashi Sato / The Proper Ending Index</div><div><a href="/papers/">Papers</a> / <a href="/demo/">Instruments</a> / <a href="/about.html">About</a> / <a href="/contact.html">Contact</a></div></footer>
   </div>
 </div>
-<script src="/assets/proper-ending-index.js" defer></script>
+<script src="/assets/proper-ending-index.js" defer></script><script src="/assets/proper-ending-system.js" defer></script>
 </body>
 </html>
