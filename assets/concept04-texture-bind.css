@@ -1,0 +1,56 @@
+/* Bind provided texture material to the Concept 04 home surface. */
+
+body.c04-home::before{
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.78),transparent 16%,transparent 82%,rgba(0,0,0,.78)),
+    linear-gradient(180deg,rgba(3,3,2,.18),rgba(3,3,2,.78)),
+    url('/assets/materials/black-metal-lite.svg') !important;
+  background-size:auto, auto, cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+  opacity:.46 !important;
+  mix-blend-mode:screen !important;
+}
+
+.c04-shell,
+.c04-signal-panel,
+.c04-paper,
+.c04-preview-window,
+.c04-quote{
+  background-blend-mode:screen,normal,normal;
+}
+
+.c04-shell::before{
+  background:linear-gradient(90deg,transparent,rgba(196,161,100,.34),rgba(238,231,216,.11),transparent) !important;
+}
+
+.c04-signal-panel::before,
+.c04-paper::after,
+.c04-preview::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.c04-signal-panel{position:relative;overflow:hidden}
+.c04-signal-panel::before{
+  background:url('/assets/materials/black-metal-lite.svg') center/cover no-repeat;
+  opacity:.13;
+  mix-blend-mode:screen;
+}
+.c04-signal-panel > *{position:relative;z-index:1}
+
+.c04-paper{isolation:isolate}
+.c04-paper::after{
+  z-index:0;
+  background:url('/assets/materials/black-metal-lite.svg') center/cover no-repeat;
+  opacity:.09;
+  mix-blend-mode:screen;
+}
+.c04-paper > *{z-index:2}
+
+.c04-quote::after{
+  opacity:.92 !important;
+  filter:drop-shadow(0 0 18px rgba(196,161,100,.18)) drop-shadow(0 0 2px rgba(196,161,100,.16)) !important;
+}
