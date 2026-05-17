@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 320" preserveAspectRatio="none">
+  <defs>
+    <filter id="grain"><feTurbulence baseFrequency="0.8" numOctaves="2" seed="11"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .12"/></feComponentTransfer></filter>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f2f2ec" stop-opacity=".07"/><stop offset=".55" stop-color="#b7aa91" stop-opacity=".10"/><stop offset="1" stop-color="#f2f2ec" stop-opacity=".02"/></linearGradient>
+  </defs>
+  <rect width="1600" height="320" fill="#050607"/>
+  <rect width="1600" height="320" filter="url(#grain)"/>
+  <g fill="none" stroke="#f2f2ec" stroke-opacity=".065" stroke-width="1">
+    <path d="M80 58h1440M80 116h1440M80 174h1440M80 232h1440"/>
+    <path d="M220 42v234M560 42v234M900 42v234M1240 42v234"/>
+  </g>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" letter-spacing="3" text-transform="uppercase">
+    <text x="95" y="82" fill="#b7aa91" font-size="18">REF: PART I // FOUR-GATE GOVERNANCE ARCHITECTURE</text>
+    <text x="95" y="142" fill="#f2f2ec" fill-opacity=".42" font-size="18">GATE 01 · BASELINE CONSTRAINTS</text>
+    <text x="435" y="142" fill="#f2f2ec" fill-opacity=".28" font-size="18">GATE 02 · OPTIMIZATION BALANCE</text>
+    <text x="775" y="142" fill="#f2f2ec" fill-opacity=".30" font-size="18">GATE 03 · TEMPORAL CONTEXT</text>
+    <text x="1115" y="142" fill="#f2f2ec" fill-opacity=".38" font-size="18">GATE 04 · HUMAN ARBITRATION</text>
+    <text x="95" y="218" fill="#f2f2ec" fill-opacity=".22" font-size="15">oversight becomes a workflow object · structured friction preserves cognitive engagement · judgment remains contestable</text>
+  </g>
+  <path d="M85 268h390l28-18h420l33 18h560" stroke="url(#fade)" stroke-width="2" fill="none"/>
+</svg>
