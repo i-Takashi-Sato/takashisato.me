@@ -1,0 +1,95 @@
+/* Paper CTA Hierarchy — SSRN primary, archive/instrument secondary, no red for instruments */
+.paper-cta-links{
+  align-items:stretch!important;
+}
+
+.paper-cta-links a{
+  transition:border-color .24s var(--motion-ease),background .24s var(--motion-ease),color .24s var(--motion-ease),transform .24s var(--motion-ease),box-shadow .24s var(--motion-ease)!important;
+}
+
+.paper-cta-links a.primary,
+.paper-cta-links a.ssrn-cta{
+  background:#f2f2ec!important;
+  border-color:#f2f2ec!important;
+  color:#030506!important;
+  box-shadow:0 18px 60px rgba(242,242,236,.045)!important;
+}
+
+.paper-cta-links a.primary::before,
+.paper-cta-links a.ssrn-cta::before{
+  content:"→"!important;
+  order:20!important;
+  color:#030506!important;
+  font:600 11px/1 var(--pei-mono)!important;
+}
+
+.paper-cta-links a.sequence-link{
+  border-color:rgba(226,232,226,.18)!important;
+  color:#f2f2ec!important;
+  background:rgba(245,248,243,.018)!important;
+}
+
+.paper-cta-links a.archive-link,
+.paper-cta-links a.instrument-link{
+  border-color:rgba(226,232,226,.115)!important;
+  color:#aeb3ad!important;
+  background:transparent!important;
+}
+
+.paper-cta-links a.instrument-link,
+.paper-cta-links a[href*="/demo/"]{
+  border-color:rgba(226,232,226,.14)!important;
+  color:#c7cbc3!important;
+}
+
+.paper-cta-links a[href*="/demo/"]::after,
+.paper-actions a[href*="/demo/"]::after{
+  color:#c7cbc3!important;
+}
+
+.paper-cta-links a.archive-link::after{
+  content:"Local"!important;
+  margin-left:10px!important;
+  color:#8d948e!important;
+  font:600 9px/1 var(--pei-mono)!important;
+  letter-spacing:.12em!important;
+}
+
+.paper-cta-links a.instrument-link::after{
+  content:"Instrument"!important;
+  margin-left:10px!important;
+  color:#aeb3ad!important;
+  font:600 9px/1 var(--pei-mono)!important;
+  letter-spacing:.12em!important;
+}
+
+.paper-cta-links a:hover{
+  transform:translateY(-1px)!important;
+  border-color:#cfd3ca!important;
+  color:#f2f2ec!important;
+  background:rgba(245,248,243,.028)!important;
+}
+
+.paper-cta-links a.primary:hover,
+.paper-cta-links a.ssrn-cta:hover{
+  background:#cfd3ca!important;
+  border-color:#cfd3ca!important;
+  color:#030506!important;
+}
+
+@media(max-width:820px){
+  .paper-cta-links{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .paper-cta-links a{
+    width:100%!important;
+    min-height:46px!important;
+    justify-content:space-between!important;
+  }
+  .paper-cta-links a.archive-link,
+  .paper-cta-links a.instrument-link{
+    min-height:44px!important;
+  }
+}
