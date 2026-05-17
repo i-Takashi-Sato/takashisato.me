@@ -1,0 +1,123 @@
+/* Homepage v4 — reduce generic card feel, tighten sequence, turn extracts into manuscript slabs */
+.home-award-final .a3-hero{
+  min-height:clamp(760px,92svh,980px);
+  grid-template-columns:minmax(0,.98fr) minmax(460px,.66fr);
+}
+.home-award-final .a3-hero h1{
+  max-width:11.6ch;
+  font-size:clamp(5.05rem,6.65vw,8.95rem);
+  line-height:.855;
+}
+.home-award-final .a3-identity::before{inset:14% 9% 11%;opacity:.7}
+.home-award-final .a3-id-card{max-width:560px;transform:translateY(3vh)}
+.home-award-final .a3-thesis{max-width:43ch}
+
+.home-award-final .a3-sequence{
+  padding-top:clamp(54px,5.4vw,84px);
+  padding-bottom:clamp(56px,5.4vw,88px);
+  grid-template-columns:minmax(360px,.36fr) minmax(560px,.64fr);
+  align-items:end;
+  row-gap:34px;
+}
+.home-award-final .a3-sequence-head h2{font-size:clamp(3.9rem,4.55vw,6.35rem);line-height:.875}
+.home-award-final .a3-flow{align-self:end;margin-bottom:5px;opacity:.92}
+.home-award-final .a3-flow span{min-height:46px;padding:15px 18px}
+.home-award-final .a3-papers{margin-top:18px;background:rgba(255,255,255,.012)}
+.home-award-final .a3-paper-row{min-height:78px;grid-template-columns:80px minmax(300px,.39fr) minmax(360px,.47fr) 132px}
+
+.home-award-final .a3-extracts{
+  padding-top:clamp(60px,6vw,92px);
+  padding-bottom:clamp(70px,7vw,118px);
+}
+.home-award-final .a3-extracts-head{
+  min-height:280px;
+  align-items:center;
+  grid-template-columns:minmax(260px,.34fr) minmax(520px,.66fr);
+  margin-bottom:38px;
+}
+.home-award-final .a3-extracts-head h2{
+  max-width:11.2ch;
+  font-size:clamp(3.7rem,4.45vw,6.1rem);
+  line-height:.885;
+}
+.home-award-final .a3-plate-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+}
+.home-award-final .a3-plate{
+  min-height:355px;
+  padding:0;
+  display:grid;
+  grid-template-columns:minmax(430px,.52fr) minmax(430px,.48fr);
+  grid-template-rows:auto 1fr auto;
+  border-color:rgba(240,238,226,.145);
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.042) 0 1px,transparent 1px),
+    linear-gradient(0deg,rgba(255,255,255,.032) 0 1px,transparent 1px),
+    radial-gradient(760px 300px at 26% 36%,rgba(185,167,128,.075),transparent 68%),
+    linear-gradient(90deg,rgba(22,17,14,.82),rgba(9,10,10,.72));
+  background-size:25% 100%,100% 50%,100%,100%;
+}
+.home-award-final .a3-plate-head{
+  grid-column:1/-1;
+  padding:24px 32px 0;
+}
+.home-award-final .a3-plate blockquote{
+  grid-column:1;
+  margin:0;
+  align-self:center;
+  padding:34px 32px 34px;
+  max-width:13ch;
+  font-size:clamp(3rem,3.8vw,5.25rem);
+  line-height:.88;
+  letter-spacing:-.072em;
+}
+.home-award-final .a3-plate dl{
+  grid-column:2;
+  align-self:center;
+  margin:0 32px;
+  min-height:210px;
+  background:rgba(0,0,0,.14);
+}
+.home-award-final .a3-plate dl div{min-height:104px;padding:20px}
+.home-award-final .a3-plate-foot{
+  position:relative;
+  grid-column:1/-1;
+  left:auto;right:auto;bottom:auto;
+  padding:0 32px 25px;
+}
+.home-award-final .a3-plate.is-i{background-color:rgba(13,14,13,.88)}
+.home-award-final .a3-plate.is-ii{background-color:rgba(24,13,10,.82)}
+.home-award-final .a3-plate.is-iii{background-color:rgba(10,13,13,.86)}
+
+.home-award-final .a3-method{
+  padding-top:clamp(62px,6vw,96px);
+  padding-bottom:clamp(58px,6vw,96px);
+  grid-template-columns:minmax(360px,.39fr) minmax(620px,.61fr);
+  align-items:start;
+}
+.home-award-final .a3-method h2{font-size:clamp(3.6rem,4.7vw,6.45rem);line-height:.9;max-width:10.8ch}
+.home-award-final .a3-principle{grid-template-columns:52px minmax(260px,.38fr) minmax(320px,.62fr);padding:25px 0}
+
+.home-award-final .a3-routes{grid-template-columns:.95fr repeat(3,1fr)}
+.home-award-final .a3-route-title,.home-award-final .a3-route{min-height:230px}
+
+@media(max-width:1280px){
+  .home-award-final .a3-hero{grid-template-columns:1fr;min-height:auto}
+  .home-award-final .a3-id-card{transform:none}
+  .home-award-final .a3-sequence,.home-award-final .a3-method{grid-template-columns:1fr}
+  .home-award-final .a3-plate{grid-template-columns:1fr;min-height:0}
+  .home-award-final .a3-plate blockquote{grid-column:1;max-width:16ch}
+  .home-award-final .a3-plate dl{grid-column:1;margin:0 32px 34px}
+}
+@media(max-width:860px){
+  .home-award-final .a3-hero-copy{padding-top:46px;padding-bottom:44px}
+  .home-award-final .a3-hero h1{font-size:clamp(3.25rem,14.6vw,5.55rem);line-height:.9;max-width:10.6ch}
+  .home-award-final .a3-extracts-head{min-height:0;margin-bottom:28px}
+  .home-award-final .a3-plate-head{padding:22px 22px 0;display:grid;gap:8px}
+  .home-award-final .a3-plate blockquote{padding:30px 22px 28px;font-size:clamp(2.45rem,11.2vw,4.15rem);line-height:.9}
+  .home-award-final .a3-plate dl{margin:0 22px 26px;grid-template-columns:1fr}
+  .home-award-final .a3-plate dl div{min-height:0;padding:15px}
+  .home-award-final .a3-plate-foot{padding:0 22px 22px}
+}
