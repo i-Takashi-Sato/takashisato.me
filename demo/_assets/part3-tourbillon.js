@@ -70,15 +70,22 @@
   const bars = Array.from(readout.querySelectorAll('i'));
 
   function setVars() {
-    tourbillon.style.setProperty('--p', state.p.toFixed(4));
-    tourbillon.style.setProperty('--sed', state.sed.toFixed(4));
-    tourbillon.style.setProperty('--tc', state.tc.toFixed(4));
-    tourbillon.style.setProperty('--ed', state.ed.toFixed(4));
-    tourbillon.style.setProperty('--cb', state.cb.toFixed(4));
-    tourbillon.style.setProperty('--node-alpha', state.node.toFixed(4));
-    tourbillon.style.setProperty('--ring-alpha', state.ring.toFixed(4));
-    tourbillon.style.setProperty('--breath', state.breath.toFixed(4));
-    tourbillon.style.setProperty('--memory', state.memory.toFixed(4));
+    const vars = {
+      '--p': state.p.toFixed(4),
+      '--sed': state.sed.toFixed(4),
+      '--tc': state.tc.toFixed(4),
+      '--ed': state.ed.toFixed(4),
+      '--cb': state.cb.toFixed(4),
+      '--node-alpha': state.node.toFixed(4),
+      '--ring-alpha': state.ring.toFixed(4),
+      '--breath': state.breath.toFixed(4),
+      '--memory': state.memory.toFixed(4)
+    };
+    for (const [k, v] of Object.entries(vars)) {
+      tourbillon.style.setProperty(k, v);
+      frame.style.setProperty(k, v);
+    }
+    frame.dataset.phase = String(phase);
     const vals = [state.sed, state.tc, state.ed, state.cb];
     ['SED','TC','ED','CB'].forEach((k, i) => {
       if (readoutVals[k]) readoutVals[k].textContent = vals[i].toFixed(2);
