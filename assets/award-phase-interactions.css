@@ -1,3 +1,4 @@
+@import url('/assets/neutral-black-materials.css');
 /* Award phase interactions — phases 2–6 polish, GDI apparatus, and circuit breaker experience */
 :root{--gdi-entropy:.18;--gdi-compression:.14;--gdi-dissent:.9;--gdi-risk:.18}.proper-ending-index{--phase-line:rgba(232,235,228,.065);--phase-surface:rgba(255,255,255,.022);--phase-surface-strong:rgba(255,255,255,.04)}
 .paper-deck,.pei-hero{isolation:isolate}.paper-deck::after,.pei-hero::after{content:"";position:absolute;inset:auto 0 0 0;height:1px;background:linear-gradient(90deg,transparent,rgba(242,242,236,.18),transparent);opacity:.7;pointer-events:none}.paper-problem,.drift-lab,.paper-cta,.catalogue,.instrument-list,.contact-grid{background-image:radial-gradient(700px 420px at 88% 4%,rgba(142,149,142,.025),transparent 68%)!important}.paper-map article,.protocol,.instrument-card,.contact-link{box-shadow:inset 0 1px 0 rgba(242,242,236,.035),inset 0 -1px 0 rgba(0,0,0,.3)}
