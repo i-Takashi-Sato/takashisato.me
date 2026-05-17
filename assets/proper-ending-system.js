@@ -2,12 +2,16 @@
   if (!document.body.classList.contains('proper-ending-index')) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (!document.querySelector('link[href="/assets/mobile-paper-topbar-fix.css"]')) {
-    const mobilePaperFix = document.createElement('link');
-    mobilePaperFix.rel = 'stylesheet';
-    mobilePaperFix.href = '/assets/mobile-paper-topbar-fix.css';
-    document.head.appendChild(mobilePaperFix);
-  }
+  const loadLateStylesheet = (href) => {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  };
+
+  loadLateStylesheet('/assets/mobile-paper-topbar-fix.css');
+  loadLateStylesheet('/assets/paper-cta-hierarchy.css');
 
   const menu = document.querySelector('.pei-menu');
   if (menu) {
