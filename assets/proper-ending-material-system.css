@@ -1,4 +1,4 @@
-/* Material System v2 — controlled archive fragments, paper-specific, mobile-legible */
+/* Material System v3 — visible archive fragments, no crude endpoint fog */
 body.proper-ending-index{
   --mat-bg:#050607;
   --mat-ink:#f2f2ec;
@@ -10,44 +10,52 @@ body.proper-ending-index{
   --mat-rust:#c45c50;
 }
 
-/* Keep material off the reading surface. Use it only as an archival evidence plate. */
+/* Evidence plate: visible, text-led, paper-specific. */
 .drift-specimen{
-  min-height:clamp(220px,20vw,320px)!important;
+  min-height:clamp(230px,20vw,330px)!important;
   margin-top:clamp(22px,3vw,38px)!important;
-  border:1px solid rgba(232,235,228,.22)!important;
-  background-color:#050607!important;
+  border:1px solid rgba(232,235,228,.30)!important;
+  background-color:#070808!important;
   background-repeat:no-repeat!important;
   background-size:cover!important;
   background-position:center!important;
   box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.028),
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 28px 90px rgba(0,0,0,.32)!important;
+    inset 0 0 0 1px rgba(255,255,255,.04),
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 28px 90px rgba(0,0,0,.34)!important;
   isolation:isolate!important;
   overflow:hidden!important;
 }
 .drift-specimen::before{
-  content:""!important;
+  content:"ARCHIVE FRAGMENT"!important;
   display:block!important;
   position:absolute!important;
   inset:0!important;
-  z-index:1!important;
+  z-index:2!important;
   pointer-events:none!important;
+  padding:clamp(26px,3.8vw,54px) clamp(24px,5vw,72px)!important;
+  box-sizing:border-box!important;
+  white-space:pre-line!important;
+  font:650 clamp(13px,1.22vw,21px)/1.9 var(--pei-mono)!important;
+  letter-spacing:.22em!important;
+  text-transform:uppercase!important;
+  color:rgba(242,242,236,.70)!important;
+  text-shadow:0 0 22px rgba(242,242,236,.12)!important;
   background:
-    linear-gradient(90deg,rgba(5,6,7,.14),transparent 26%,rgba(5,6,7,.24) 100%),
-    radial-gradient(circle at 70% 48%,rgba(183,170,145,.08),transparent 36%)!important;
-  opacity:1!important;
+    linear-gradient(90deg,rgba(5,6,7,.26),rgba(5,6,7,.02) 48%,rgba(5,6,7,.34)),
+    radial-gradient(circle at 72% 46%,rgba(183,170,145,.14),transparent 34%),
+    repeating-linear-gradient(0deg,transparent 0 13px,rgba(242,242,236,.022) 14px)!important;
 }
 .drift-specimen::after{
-  content:"ARCHIVE FRAGMENT / NOT INTERFACE"!important;
+  content:"JUDGMENT → PROCEDURE → STOP"!important;
   position:absolute!important;
   left:22px!important;
   bottom:18px!important;
-  z-index:2!important;
-  font:600 10px/1 var(--pei-mono)!important;
+  z-index:3!important;
+  font:700 10px/1 var(--pei-mono)!important;
   letter-spacing:.18em!important;
   text-transform:uppercase!important;
-  color:rgba(242,242,236,.66)!important;
+  color:rgba(242,242,236,.76)!important;
 }
 body.pei-part-1 .drift-specimen,
 .pei-shell:has(a[href="/papers/part1.html"][aria-current="page"]) .drift-specimen{
@@ -61,46 +69,42 @@ body.pei-part-3 .drift-specimen,
 .pei-shell:has(a[href="/papers/part3.html"][aria-current="page"]) .drift-specimen{
   background-image:url('/assets/evidence/evidence-part3.svg')!important;
 }
+body.pei-part-1 .drift-specimen::before,
+.pei-shell:has(a[href="/papers/part1.html"][aria-current="page"]) .drift-specimen::before{
+  content:"REF: PART I  //  FOUR-GATE GOVERNANCE ARCHITECTURE\A\A GATE 01 · BASELINE CONSTRAINTS\A GATE 02 · OPTIMIZATION BALANCE\A GATE 03 · TEMPORAL CONTEXT\A GATE 04 · HUMAN ARBITRATION"!important;
+}
+body.pei-part-2 .drift-specimen::before,
+.pei-shell:has(a[href="/papers/part2.html"][aria-current="page"]) .drift-specimen::before{
+  content:"REF: PART II  //  INSTITUTIONAL DECAY\A\A COGNITIVE EXTERNALIZATION\A RESPONSIBILITY INVERSION\A ORGANIZATIONAL ENTROPY\A LEGIBILITY CAPTURE"!important;
+}
+body.pei-part-3 .drift-specimen::before,
+.pei-shell:has(a[href="/papers/part3.html"][aria-current="page"]) .drift-specimen::before{
+  content:"REF: PART III  //  GOVERNANCE DRIFT INDICATORS\A\A SED · SEMANTIC ENTROPY DECAY\A TC  · TEMPORAL COMPRESSION\A ED  · EXHAUSTION OF DISSENT\A CIRCUIT BREAKER → PROPER ENDING"!important;
+}
 
-/* Convert the former empty box into a visible archive plate even before the image is visually parsed. */
-body.pei-part-1 .drift-specimen::after{content:"ARCHIVE FRAGMENT / FOUR GATES"!important;}
-body.pei-part-2 .drift-specimen::after{content:"ARCHIVE FRAGMENT / INSTITUTIONAL DECAY"!important;}
-body.pei-part-3 .drift-specimen::after{content:"ARCHIVE FRAGMENT / GOVERNANCE DRIFT"!important;}
-
-/* End sections become contained archive plates, not decorative fog. */
+/* End sections: remove all circular fog. Keep the section quiet and typographic. */
 .paper-cta,
 .pei-ending{
   position:relative!important;
   overflow:hidden!important;
-  background:
-    linear-gradient(180deg,rgba(242,242,236,.018),rgba(242,242,236,.004)),
-    #050607!important;
+  background:#050607!important;
 }
 .paper-cta::before,
-.pei-ending::before{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  inset:0!important;
-  pointer-events:none!important;
-  opacity:.20!important;
-  background:
-    radial-gradient(circle at 18% 36%,rgba(242,242,236,.035),transparent 24%),
-    radial-gradient(circle at 84% 60%,rgba(183,170,145,.045),transparent 28%),
-    repeating-linear-gradient(0deg,transparent 0 7px,rgba(242,242,236,.014) 8px)!important;
-}
-.paper-cta > *,
-.pei-ending > *{position:relative!important;z-index:1!important;}
-
-/* Remove the crude grey circle introduced by interaction polish on mobile/endpoints. */
+.pei-ending::before,
 .pei-ending::after,
 .ending-title::before,
 .ending-title::after,
 .ending-record::before,
-.ending-record::after{
+.ending-record::after,
+.ending-meta::before,
+.ending-meta::after{
   content:none!important;
   display:none!important;
+  opacity:0!important;
+  background:none!important;
 }
+.paper-cta > *,
+.pei-ending > *{position:relative!important;z-index:1!important;}
 
 /* Signature as a small author seal only. Never over typography. */
 .pei-sidebar-foot::after{
@@ -149,7 +153,7 @@ body.pei-part-3 .drift-specimen::after{content:"ARCHIVE FRAGMENT / GOVERNANCE DR
   position:absolute!important;
   inset:0!important;
   pointer-events:none!important;
-  opacity:.14!important;
+  opacity:.12!important;
   background:
     linear-gradient(120deg,rgba(242,242,236,.028),transparent 28%,transparent 72%,rgba(183,170,145,.028)),
     repeating-linear-gradient(0deg,transparent 0 9px,rgba(242,242,236,.011) 10px)!important;
@@ -174,23 +178,26 @@ body.pei-part-3 .drift-specimen::after{content:"ARCHIVE FRAGMENT / GOVERNANCE DR
 
 @media(max-width:820px){
   .drift-specimen{
-    min-height:178px!important;
-    background-size:cover!important;
+    min-height:176px!important;
+    background-size:170% auto!important;
     background-position:center!important;
   }
-  body.pei-part-1 .drift-specimen{background-position:center!important;}
-  body.pei-part-2 .drift-specimen{background-position:center!important;}
-  body.pei-part-3 .drift-specimen{background-position:center!important;}
   .drift-specimen::before{
+    padding:22px 18px!important;
+    font-size:9px!important;
+    line-height:1.95!important;
+    letter-spacing:.18em!important;
+    color:rgba(242,242,236,.78)!important;
     background:
-      linear-gradient(180deg,rgba(5,6,7,.08),rgba(5,6,7,.18)),
-      radial-gradient(circle at 72% 46%,rgba(183,170,145,.10),transparent 40%)!important;
+      linear-gradient(90deg,rgba(5,6,7,.18),rgba(5,6,7,.02) 58%,rgba(5,6,7,.32)),
+      radial-gradient(circle at 76% 42%,rgba(183,170,145,.12),transparent 38%),
+      repeating-linear-gradient(0deg,transparent 0 11px,rgba(242,242,236,.020) 12px)!important;
   }
   .drift-specimen::after{
     left:14px!important;
     bottom:13px!important;
-    font-size:8px!important;
-    letter-spacing:.14em!important;
+    font-size:7px!important;
+    letter-spacing:.13em!important;
   }
   .paper-row::before,
   .catalogue-row::before,
@@ -198,15 +205,15 @@ body.pei-part-3 .drift-specimen::after{content:"ARCHIVE FRAGMENT / GOVERNANCE DR
   .protocol::before,
   .instrument-card::before,
   .contact-link::before{
-    opacity:.08!important;
+    opacity:.07!important;
   }
   .paper-cta::before,
-  .pei-ending::before{opacity:.12!important;}
+  .pei-ending::before{display:none!important;opacity:0!important;background:none!important;}
   .contact-grid::after,
   .about-block::after{display:none!important;}
   .pei-sidebar-foot::after{width:64px!important;height:32px!important;opacity:.13!important;}
 }
 
 @media(max-width:420px){
-  .drift-specimen{min-height:160px!important;}
+  .drift-specimen{min-height:164px!important;}
 }
