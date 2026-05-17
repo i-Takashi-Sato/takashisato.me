@@ -129,9 +129,10 @@
   border:1px solid rgba(239,232,216,.11);
   background:rgba(5,5,4,.58);
   color:#8f887b;
-  opacity:calc(var(--memory)*.92);
-  transform:translateY(calc((1 - var(--memory))*12px));
+  opacity:0;
+  transform:translateY(12px);
   pointer-events:none;
+  transition:opacity .42s ease,transform .42s ease;
 }
 .demo-page--part3 .tourbillon-ledger strong{
   display:block;
@@ -152,8 +153,8 @@
   left:50%;
   top:50%;
   z-index:8;
-  transform:translate(-2%,-44%);
-  width:260px;
+  transform:translate(-50%,-18%);
+  width:220px;
   text-align:center;
   opacity:calc(var(--memory)*.86);
   pointer-events:none;
@@ -162,24 +163,47 @@
 .demo-page--part3 .tourbillon-epitaph small{
   display:block;
   color:#efe8d8;
-  font:500 28px/.92 Cormorant Garamond,Georgia,serif;
+  font:500 24px/.92 Cormorant Garamond,Georgia,serif;
   letter-spacing:-.03em;
 }
 .demo-page--part3 .tourbillon-epitaph small{
-  margin-top:12px;
+  margin-top:10px;
   color:#9f9788;
   font:600 8px/1.6 Inter,sans-serif;
   letter-spacing:.18em;
   text-transform:uppercase;
 }
 @media(max-width:960px){
-  .demo-page--part3 .governance-tourbillon{width:min(70vw,360px);transform:translate(-2%,-40%)}
+  .demo-page--part3 .governance-tourbillon{
+    left:58%;
+    top:50%;
+    width:min(58vw,312px);
+    transform:translate(-50%,-34%);
+  }
+  .demo-page--part3 .tourbillon-breath{
+    width:38%;
+    opacity:calc(var(--breath)*.64);
+  }
   .demo-page--part3 .tourbillon-readout{display:none}
-  .demo-page--part3 .tourbillon-ledger{left:18px;right:18px;bottom:104px;width:auto;padding:12px}
-  .demo-page--part3 .tourbillon-ledger code{font-size:8px;line-height:1.55}
-  .demo-page--part3 .tourbillon-epitaph{width:200px;transform:translate(-2%,-38%)}
-  .demo-page--part3 .tourbillon-epitaph b{font-size:22px}
+  .demo-page--part3 .tourbillon-ledger{
+    left:24px;
+    right:24px;
+    bottom:188px;
+    width:auto;
+    padding:12px 12px 10px;
+    max-height:154px;
+    overflow:hidden;
+    background:rgba(5,5,4,.72);
+  }
+  .demo-page--part3 .tourbillon-ledger strong{font-size:8px;margin-bottom:8px}
+  .demo-page--part3 .tourbillon-ledger code{font-size:7.6px;line-height:1.48}
+  .demo-page--part3 .tourbillon-epitaph{
+    width:168px;
+    transform:translate(-50%,-6%);
+  }
+  .demo-page--part3 .tourbillon-epitaph b{font-size:18px}
+  .demo-page--part3 .tourbillon-epitaph small{font-size:6.8px;line-height:1.45}
 }
 @media(prefers-reduced-motion:reduce){
-  .demo-page--part3 .tourbillon-cage,.demo-page--part3 .tourbillon-nodes i{transition:none!important}
+  .demo-page--part3 .tourbillon-cage,.demo-page--part3 .tourbillon-nodes i,.demo-page--part3 .tourbillon-ledger{transition:none!important}
 }
