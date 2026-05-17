@@ -7,27 +7,76 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./altrion-part3.css" />
-  <link rel="stylesheet" href="/demo/_assets/demo-mobile-shell.css" />
   <link rel="stylesheet" href="/assets/proper-ending-index.css" />
   <link rel="stylesheet" href="/assets/proper-ending-complete.css" />
-  <link rel="stylesheet" href="/demo/_assets/demo-visualizer-fixes.css" />
-  <link rel="stylesheet" href="/demo/_assets/part3-tourbillon.css" />
+  <link rel="stylesheet" href="/demo/_assets/part3-differential-v2.css" />
 </head>
-<body class="demo-page demo-page--part3 instrument-entry">
+<body class="part3-v2 instrument-entry">
 <a class="demo-backlink" href="/papers/part3.html" aria-label="Back to Part III paper">← Back to Part III</a>
-<div class="instrument-plaque" aria-label="Instrument context"><small>Instrument 03 / Proper Ending Differential</small><h1>Resolution Collapse</h1><p>A four-channel governance instrument: GDI inputs converge into an escapement core, the circuit breaker arrests motion, and the reason is preserved.</p><nav><a href="/papers/part3.html">Paper</a><a href="/papers/">Catalogue</a><a href="/demo/">Instruments</a></nav></div>
-<div class="frame">
-  <canvas id="stage" role="img" aria-label="Interactive visualization of governance collapse: GDI channels converge, the circuit breaker arrests the escapement, and institutional memory is preserved."></canvas>
-  <div id="srStatus" class="sr-only" aria-live="polite"></div>
-  <div class="field"></div><div class="sweep"></div><div class="vignette"></div><div class="grain"></div>
-  <header class="top"><div class="brand"><div class="mark"></div><div><div class="brand-title">Takashi Sato</div><div class="brand-sub">AI Governance Research</div></div></div><nav class="nav"><span>Papers</span><span class="active">Instruments</span><span>Principles</span><span>Archive</span><span>About</span></nav><div class="part"><span>Part III⌄</span><span class="star">✶</span></div></header>
-  <section class="hero"><aside class="copy"><div class="eyebrow"><span>Part III</span><i></i><span>Instrument</span></div><h1>Resolution<br>Collapse</h1><div class="subhead">Proper Ending Differential</div><p class="lead" id="lead">Four governance drift channels feed a central escapement. When difference collapses into uniform motion, the circuit breaker arrests the mechanism without erasing memory.</p><div class="metrics"><div class="metric"><span>Semantic Entropy</span><i></i><b id="entropy">0.770</b></div><div class="metric"><span>Time Variance</span><i></i><b id="variance">0.420</b></div><div class="metric"><span>Dissent Rate</span><i></i><b id="dissent">0.080</b></div><div class="metric"><span>Governance Resolution</span><i></i><b id="resolution">0.290</b></div></div><div class="quote">“Built to move. Designed to stop.”</div></aside><div></div><aside class="phase-panel"><div class="phase-title">Phase</div><div class="phase-list" id="phaseList"></div></aside></section>
-  <div class="mobile-phase" id="mobilePhase"></div>
-  <footer class="bottom"><div class="rail drift"><canvas class="mini" id="mini"></canvas><span>Intercession<strong id="driftValue">0.770</strong></span></div><button class="rail" id="advance"><span class="play"></span><span>Advance</span><span class="key">Space</span></button><div class="orb"></div><button class="rail" id="open"><span>✺</span><span>Intervene</span><span class="key">Enter</span></button><button class="rail" id="reset"><span>↺</span><span>Reset</span></button><a class="rail" href="/papers/part3.html"><span>▧</span><span>Read Paper</span></a></footer>
+<div class="instrument-plaque" aria-label="Instrument context">
+  <small>Instrument 03 / Proper Ending Differential</small>
+  <h1>Resolution Collapse</h1>
+  <p>A four-channel governance instrument: GDI inputs converge into an escapement core, the circuit breaker arrests motion, and the reason is preserved.</p>
+  <nav><a href="/papers/part3.html">Paper</a><a href="/papers/">Catalogue</a><a href="/demo/">Instruments</a></nav>
 </div>
-<script src="./altrion-part3.js"></script>
-<script src="/demo/_assets/altrion-part3-phase-start.js" defer></script>
-<script src="/demo/_assets/part3-tourbillon.js" defer></script>
+<main class="v2-shell" aria-label="Proper Ending Differential visualizer">
+  <div id="srStatus" class="sr-only" aria-live="polite"></div>
+  <header class="v2-top">
+    <div class="brand"><div class="brand-mark"></div><div><div class="brand-title">Takashi Sato</div><div class="brand-sub">AI Governance Research</div></div></div>
+    <nav class="v2-nav" aria-label="Instrument navigation"><span>Papers</span><span class="active">Instruments</span><span>Principles</span><span>Archive</span><span>About</span></nav>
+    <div class="part-chip">Part III⌄</div>
+  </header>
+
+  <section class="v2-stage">
+    <aside class="v2-left">
+      <div class="kicker">The Ultimate Governance Instrument</div>
+      <h1>Resolution<br>Collapse</h1>
+      <div class="subtitle">Proper Ending Differential</div>
+      <p class="lead" id="leadText">The governance field remains plural. Judgment still has contour, hesitation, and reversible doubt.</p>
+      <div class="phase-sequence" id="phaseSequence" aria-label="Phase sequence"></div>
+    </aside>
+
+    <section class="v2-mechanism" aria-label="Differential escapement core">
+      <div class="mechanism-wrap">
+        <div class="mechanism-title">Escapement Core<br><span>Circuit Breaker & Intervention</span></div>
+        <canvas id="differentialCanvas" role="img" aria-label="Four governance drift channels converging into an escapement core"></canvas>
+        <div class="intervention-label"><b>Intervention Lever</b>when all thresholds are crossed</div>
+      </div>
+    </section>
+
+    <aside class="v2-right">
+      <section class="panel gdi-panel">
+        <div class="panel-title">GDI Readout</div>
+        <div class="panel-sub">Governance Dynamic Indicators</div>
+        <div class="gdi-list">
+          <div class="gdi-row" data-gdi="SED" style="--v:.22"><div class="gdi-ring"></div><div><div class="gdi-label">SED <small>Semantic Entropy Decay</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.22</div></div>
+          <div class="gdi-row" data-gdi="TC" style="--v:.18"><div class="gdi-ring"></div><div><div class="gdi-label">TC <small>Temporal Compression</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.18</div></div>
+          <div class="gdi-row" data-gdi="ED" style="--v:.16"><div class="gdi-ring"></div><div><div class="gdi-label">ED <small>Exhaustion of Dissent</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.16</div></div>
+          <div class="gdi-row" data-gdi="CB" style="--v:.04"><div class="gdi-ring"></div><div><div class="gdi-label">CB <small>Circuit Breaker Readiness</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.04</div></div>
+        </div>
+      </section>
+      <div class="mobile-gdi" id="mobileGdi" aria-label="Compact GDI readout"></div>
+      <section class="panel caseback">
+        <div><div class="panel-title">Caseback Record</div><div class="panel-sub">ADR / Proper Ending</div><ul><li>SED below threshold</li><li>Temporal variance collapsed</li><li>Dissent exhausted</li><li>Circuit Breaker activated</li><li>Authority returned</li><li>Memory preserved</li></ul></div>
+        <div class="case-disc">Proper Ending<br>Differential<br>A Governance<br>Instrument<br>Built to Move<br>Designed to Stop</div>
+      </section>
+    </aside>
+  </section>
+
+  <section class="v2-lower" aria-label="Mechanism behavior and governance flow">
+    <div class="timeline" id="phaseTimeline"></div>
+    <div class="flow"><div class="flow-title">Governance Flow</div><div class="flow-diagram"><div class="box">GDI Inputs</div><i class="arrow"></i><div class="box">Differential Processor</div><i class="arrow"></i><div class="box">Circuit Breaker</div></div></div>
+    <div class="threshold"><div class="flow-title">Threshold Coupling</div><p>Irreversible threshold is reached when all indicators are sustained beyond their limits. Motion is arrested, not destroyed.</p></div>
+  </section>
+
+  <div class="status-line" id="statusLine">00 Surface</div>
+  <footer class="v2-bottom">
+    <button id="advancePhase" type="button">▶ Advance</button>
+    <button id="intervenePhase" type="button">✺ Intervene</button>
+    <button id="resetPhase" type="button">↺ Reset</button>
+    <a href="/papers/part3.html">▧ Read Paper</a>
+  </footer>
+</main>
+<script src="/demo/_assets/part3-differential-v2.js" defer></script>
 </body>
 </html>
