@@ -1,0 +1,130 @@
+/* Homepage v5 — neutral black, fewer rules, no red/brown wash */
+.home-award-final{
+  --a3-bg:#020303;
+  --a3-ink:#f3f1e8;
+  --a3-soft:#d7d6cd;
+  --a3-muted:#9a9d97;
+  --a3-dim:#565b56;
+  --a3-line:rgba(242,241,232,.055);
+  --a3-line-2:rgba(242,241,232,.085);
+  --a3-gold:#a9a69a;
+  --a3-red:#a9a69a;
+}
+.home-award-final .pei-main{
+  background:
+    radial-gradient(780px 520px at 31% 8%,rgba(255,255,245,.035),transparent 66%),
+    radial-gradient(680px 480px at 78% 24%,rgba(210,210,200,.018),transparent 68%),
+    linear-gradient(180deg,#050606 0,#020303 58%,#010202 100%);
+}
+.home-award-final .pei-main::before{
+  opacity:.2;
+  background:
+    url('/assets/materials/black-surface.webp') center/cover no-repeat;
+}
+.home-award-final .pei-main::after{opacity:.36}
+.home-award-final .pei-topbar{border-bottom:1px solid rgba(242,241,232,.045)}
+.home-award-final .pei-sidebar{border-right:1px solid rgba(242,241,232,.055)}
+.home-award-final .pei-rule,
+.home-award-final .pei-nav a,
+.home-award-final .pei-footer,
+.home-award-final .a3-sequence,
+.home-award-final .a3-extracts,
+.home-award-final .a3-method{border-color:rgba(242,241,232,.052)}
+
+.home-award-final .a3-kicker,
+.home-award-final .a3-paper-row span,
+.home-award-final .a3-paper-row b,
+.home-award-final .a3-plate-head,
+.home-award-final .a3-route span,
+.home-award-final .a3-route em,
+.home-award-final .a3-principle span,
+.home-award-final .a3-id-head,
+.home-award-final .a3-signature span{
+  color:#a8a59a;
+}
+.home-award-final .a3-hero-copy::after{
+  background:linear-gradient(90deg,rgba(242,241,232,.28),transparent);
+  opacity:.55;
+}
+.home-award-final .a3-identity{border-left-color:rgba(242,241,232,.055)}
+.home-award-final .a3-identity::before{
+  border-color:rgba(242,241,232,.055);
+  background:
+    radial-gradient(520px 340px at 54% 40%,rgba(235,235,225,.035),transparent 72%);
+  opacity:.72;
+}
+.home-award-final .a3-ledger div,
+.home-award-final .a3-signature{
+  border-color:rgba(242,241,232,.058);
+}
+.home-award-final .a3-signature strong{color:rgba(244,241,232,.22)}
+
+.home-award-final .a3-flow{
+  border-color:rgba(242,241,232,.06);
+  background:rgba(255,255,255,.006);
+}
+.home-award-final .a3-flow span{
+  border-right-color:rgba(242,241,232,.045);
+}
+.home-award-final .a3-papers{
+  background:transparent;
+  border-top:1px solid rgba(242,241,232,.048);
+}
+.home-award-final .a3-paper-row{
+  border-bottom-color:rgba(242,241,232,.045);
+}
+.home-award-final .a3-paper-row:hover{background:rgba(255,255,255,.015)}
+
+.home-award-final .a3-extracts-head{
+  margin-bottom:34px;
+}
+.home-award-final .a3-plate{
+  border-color:rgba(242,241,232,.075);
+  box-shadow:none;
+  background:
+    radial-gradient(780px 420px at 21% 35%,rgba(235,235,225,.052),transparent 70%),
+    linear-gradient(90deg,rgba(14,15,15,.90),rgba(5,6,6,.86));
+  background-size:100%,100%;
+}
+.home-award-final .a3-plate::before{
+  opacity:.075;
+  background:url('/assets/materials/black-surface.webp') center/cover no-repeat;
+  mix-blend-mode:screen;
+}
+.home-award-final .a3-plate::after{
+  background:linear-gradient(180deg,transparent 0 68%,rgba(0,0,0,.36));
+}
+.home-award-final .a3-plate.is-i,
+.home-award-final .a3-plate.is-ii,
+.home-award-final .a3-plate.is-iii{
+  background-color:transparent;
+}
+.home-award-final .a3-plate blockquote{
+  text-shadow:none;
+}
+.home-award-final .a3-plate dl{
+  border-color:rgba(242,241,232,.055);
+  background:rgba(0,0,0,.08);
+}
+.home-award-final .a3-plate dl div{
+  border-right-color:rgba(242,241,232,.045);
+  border-bottom-color:rgba(242,241,232,.045);
+}
+.home-award-final .a3-plate dt{color:#5c615c}
+.home-award-final .a3-plate dd{color:#d6d4cb}
+
+.home-award-final .a3-principles,
+.home-award-final .a3-principle,
+.home-award-final .a3-routes,
+.home-award-final .a3-route-title,
+.home-award-final .a3-route{
+  border-color:rgba(242,241,232,.05);
+}
+.home-award-final .a3-route:nth-child(3){background:transparent}
+.home-award-final .a3-route:hover{background:rgba(255,255,255,.014)}
+
+@media(max-width:860px){
+  .home-award-final .a3-flow span{border-bottom-color:rgba(242,241,232,.045)}
+  .home-award-final .a3-route-title,
+  .home-award-final .a3-route{border-bottom-color:rgba(242,241,232,.05)}
+}
