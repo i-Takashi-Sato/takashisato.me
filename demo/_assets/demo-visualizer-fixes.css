@@ -1,0 +1,80 @@
+/* Visualizer Layout Fixes — safe pass for Part I/II/III demo issues */
+
+/* Part I: prevent ADR log from colliding with the title */
+.demo-page--part1 .adr{
+  width:min(420px, calc(100vw - (var(--pad) * 2)))!important;
+  max-height:184px!important;
+  overflow:hidden!important;
+}
+.demo-page--part1 .adr .hint{
+  max-width:390px!important;
+  font-size:9px!important;
+  line-height:1.45!important;
+  opacity:.78!important;
+}
+.demo-page--part1 .log{
+  max-height:64px!important;
+  overflow:hidden!important;
+}
+.demo-page--part1 .titleblock{
+  grid-column:2 / 4!important;
+  justify-self:center!important;
+  align-self:end!important;
+  transform:translateY(-30px)!important;
+  text-align:center!important;
+  pointer-events:none!important;
+}
+.demo-page--part1 .workTitle{
+  font-size:clamp(20px,1.65vw,26px)!important;
+  opacity:.82!important;
+  text-shadow:0 20px 80px rgba(0,0,0,.72)!important;
+}
+@media(max-width:980px){
+  .demo-page--part1 .titleblock{transform:none!important;text-align:left!important;justify-self:start!important;grid-column:1!important}
+  .demo-page--part1 .adr{width:100%!important;max-height:none!important}
+  .demo-page--part1 .log{max-height:82px!important}
+}
+
+/* Part II: keep the plaque title inside its card and shift the visual mass right */
+body.demo-page--part2{
+  --sceneShiftX:12vw!important;
+}
+.demo-page--part2 .instrument-plaque{
+  width:min(380px,calc(100vw - 36px))!important;
+  overflow:hidden!important;
+}
+.demo-page--part2 .instrument-plaque h1{
+  max-width:100%!important;
+  font-size:clamp(1.9rem,2.05vw,2.55rem)!important;
+  line-height:.88!important;
+  letter-spacing:-.035em!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+  hyphens:auto!important;
+}
+@media(max-width:1024px){
+  body.demo-page--part2{--sceneShiftX:0vw!important}
+}
+
+/* Part III: separate the Back button from the research masthead */
+.demo-page--part3 .demo-backlink{
+  z-index:120!important;
+}
+.demo-page--part3 .top{
+  padding-left:clamp(270px,20vw,340px)!important;
+}
+.demo-page--part3 .brand{
+  min-width:0!important;
+}
+.demo-page--part3 .brand-title,
+.demo-page--part3 .brand-sub{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+@media(max-width:1180px){
+  .demo-page--part3 .top{padding-left:clamp(245px,24vw,310px)!important}
+}
+@media(max-width:960px){
+  .demo-page--part3 .top{padding-left:18px!important}
+  .demo-page--part3 .brand{display:none!important}
+}
