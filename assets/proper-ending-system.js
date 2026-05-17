@@ -12,6 +12,7 @@
 
   loadLateStylesheet('/assets/mobile-paper-topbar-fix.css');
   loadLateStylesheet('/assets/paper-cta-hierarchy.css');
+  loadLateStylesheet('/assets/proper-ending-material-system.css');
 
   const menu = document.querySelector('.pei-menu');
   if (menu) {
