@@ -1,0 +1,122 @@
+/* Site Intelligence Polish — hero clarity, trilogy sequence, research-port and material response layer */
+.pei-hero .research-subtitle{
+  max-width:58ch;
+  margin:18px 0 0;
+  color:#b8bdb5;
+  font:500 clamp(.78rem,.86vw,.96rem)/1.62 var(--pei-mono);
+  letter-spacing:.055em;
+  text-transform:none;
+}
+.pei-hero .research-subtitle::before{
+  content:"";
+  display:inline-block;
+  width:34px;
+  height:1px;
+  margin:0 12px 4px 0;
+  background:linear-gradient(90deg,rgba(207,211,202,.64),transparent);
+}
+.trilogy-sequence{
+  margin-top:32px;
+  border:1px solid rgba(226,232,226,.095);
+  background:linear-gradient(180deg,rgba(245,248,243,.026),rgba(245,248,243,.008));
+  padding:18px 18px 16px;
+  display:grid;
+  gap:14px;
+}
+.trilogy-sequence .sequence-title{
+  color:#d7dbd2;
+  font:600 10px/1 var(--pei-mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.trilogy-sequence .sequence-line{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  color:#aeb3ad;
+  font:600 10px/1.2 var(--pei-mono);
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.trilogy-sequence .sequence-line span{
+  border:1px solid rgba(226,232,226,.12);
+  padding:9px 10px;
+  background:rgba(3,5,6,.36);
+}
+.trilogy-sequence .sequence-line i{
+  width:30px;
+  height:1px;
+  background:linear-gradient(90deg,rgba(207,211,202,.48),rgba(207,211,202,.08));
+}
+.trilogy-sequence .sequence-caption{
+  margin:0;
+  max-width:72ch;
+  color:#aab0aa;
+  font:400 13px/1.7 var(--pei-sans);
+}
+.contact-link em,
+.research-port-note{
+  display:block;
+  margin-top:12px;
+  color:#969d97;
+  font:500 10px/1.55 var(--pei-mono);
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  font-style:normal;
+}
+.paper-row,
+.catalogue-row,
+.movement,
+.instrument-card,
+.contact-link,
+.paper-cta-links a,
+.paper-cta-aside a,
+.pei-nav a,
+.pei-footer a,
+.pei-topbar a{
+  transition:border-color .24s var(--motion-ease),background .24s var(--motion-ease),color .24s var(--motion-ease),transform .24s var(--motion-ease),box-shadow .24s var(--motion-ease),opacity .24s var(--motion-ease)!important;
+}
+.paper-row:hover,
+.catalogue-row:hover,
+.movement:hover,
+.instrument-card:hover,
+.contact-link:hover{
+  border-color:rgba(226,232,226,.22)!important;
+  box-shadow:inset 0 1px 0 rgba(245,248,243,.055),0 20px 70px rgba(0,0,0,.16)!important;
+}
+.paper-row:hover .arrow,
+.catalogue-row:hover .go,
+.movement:hover span,
+.paper-cta-aside a:hover span{
+  transform:translateX(3px)!important;
+}
+.paper-row .arrow,
+.catalogue-row .go,
+.movement span,
+.paper-cta-aside a span{
+  display:inline-block;
+  transition:transform .24s var(--motion-ease),color .24s var(--motion-ease)!important;
+}
+.pei-topbar a:hover,
+.pei-footer a:hover,
+.pei-nav a:hover{
+  color:#f2f2ec!important;
+}
+.ending-record a{
+  color:#cfd3ca!important;
+  border-color:rgba(207,211,202,.22)!important;
+}
+.ending-record a:hover{
+  color:#f2f2ec!important;
+  border-color:rgba(242,242,236,.36)!important;
+}
+@media(max-width:700px){
+  .pei-hero .research-subtitle{font-size:.74rem;line-height:1.65;margin-top:16px}
+  .trilogy-sequence{padding:16px 14px;margin-top:24px}
+  .trilogy-sequence .sequence-line{display:grid;grid-template-columns:1fr;gap:8px}
+  .trilogy-sequence .sequence-line i{width:1px;height:18px;margin-left:12px;background:linear-gradient(180deg,rgba(207,211,202,.48),rgba(207,211,202,.08))}
+}
+@media(prefers-reduced-motion:reduce){
+  .paper-row,.catalogue-row,.movement,.instrument-card,.contact-link,.paper-cta-links a,.paper-cta-aside a,.pei-nav a,.pei-footer a,.pei-topbar a{transition:none!important}
+}
