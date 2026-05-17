@@ -1,0 +1,172 @@
+/* Material System v1 — controlled archive fragments, not decorative overlays */
+body.proper-ending-index{
+  --mat-bg:#050607;
+  --mat-ink:#f2f2ec;
+  --mat-muted:#cdd0c8;
+  --mat-dim:rgba(205,208,200,.58);
+  --mat-line:rgba(232,235,228,.105);
+  --mat-line-strong:rgba(232,235,228,.18);
+  --mat-gold:#b7aa91;
+  --mat-rust:#c45c50;
+}
+
+/* 1. Keep material off the reading surface. Add it only to selected archive objects. */
+.drift-specimen{
+  min-height:clamp(190px,18vw,285px)!important;
+  margin-top:clamp(22px,3vw,38px)!important;
+  border:1px solid var(--mat-line-strong)!important;
+  background-color:#050607!important;
+  background-repeat:no-repeat!important;
+  background-size:cover!important;
+  background-position:center!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.018),
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 28px 90px rgba(0,0,0,.28)!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+}
+.drift-specimen::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  background:
+    linear-gradient(90deg,rgba(5,6,7,.28),transparent 22%,rgba(5,6,7,.34) 100%),
+    radial-gradient(circle at 72% 48%,rgba(183,170,145,.08),transparent 32%)!important;
+  opacity:1!important;
+}
+.drift-specimen::after{
+  content:"ARCHIVE FRAGMENT / NOT INTERFACE"!important;
+  position:absolute!important;
+  left:22px!important;
+  bottom:18px!important;
+  z-index:2!important;
+  font:600 10px/1 var(--pei-mono)!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase!important;
+  color:rgba(242,242,236,.56)!important;
+}
+.pei-shell:has(a[href="/papers/part1.html"][aria-current="page"]) .drift-specimen{background-image:url('/assets/evidence/evidence-part1.svg')!important;}
+.pei-shell:has(a[href="/papers/part2.html"][aria-current="page"]) .drift-specimen{background-image:url('/assets/evidence/evidence-part2.svg')!important;}
+.pei-shell:has(a[href="/papers/part3.html"][aria-current="page"]) .drift-specimen{background-image:url('/assets/evidence/evidence-part3.svg')!important;}
+
+/* 2. Turn the end of each paper into a contained archive plate. */
+.paper-cta,
+.pei-ending{
+  position:relative!important;
+  overflow:hidden!important;
+  background:
+    linear-gradient(180deg,rgba(242,242,236,.018),rgba(242,242,236,.004)),
+    #050607!important;
+}
+.paper-cta::before,
+.pei-ending::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  opacity:.28!important;
+  background:
+    radial-gradient(circle at 18% 36%,rgba(242,242,236,.045),transparent 24%),
+    radial-gradient(circle at 84% 60%,rgba(183,170,145,.05),transparent 28%),
+    repeating-linear-gradient(0deg,transparent 0 7px,rgba(242,242,236,.018) 8px)!important;
+}
+.paper-cta > *,
+.pei-ending > *{position:relative!important;z-index:1!important;}
+
+/* 3. Signature as a small author seal only. Never over typography. */
+.pei-sidebar-foot::after{
+  content:""!important;
+  display:block!important;
+  width:82px!important;
+  height:42px!important;
+  margin-top:24px!important;
+  opacity:.16!important;
+  background:url('/assets/evidence/signature-takashi.svg') left center / contain no-repeat!important;
+  filter:grayscale(1) contrast(1.1)!important;
+}
+.contact-grid::after,
+.about-block::after{
+  content:""!important;
+  position:absolute!important;
+  right:clamp(24px,5vw,76px)!important;
+  bottom:clamp(18px,3vw,42px)!important;
+  width:min(180px,24vw)!important;
+  height:76px!important;
+  opacity:.08!important;
+  pointer-events:none!important;
+  background:url('/assets/evidence/signature-takashi.svg') right center / contain no-repeat!important;
+}
+.contact-grid,
+.about-block{position:relative!important;}
+
+/* 4. Material on catalogue cards only as edge depth. */
+.paper-row,
+.catalogue-row,
+.movement,
+.protocol,
+.instrument-card,
+.contact-link{
+  position:relative!important;
+  overflow:hidden!important;
+}
+.paper-row::before,
+.catalogue-row::before,
+.movement::before,
+.protocol::before,
+.instrument-card::before,
+.contact-link::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  opacity:.18!important;
+  background:
+    linear-gradient(120deg,rgba(242,242,236,.035),transparent 28%,transparent 72%,rgba(183,170,145,.035)),
+    repeating-linear-gradient(0deg,transparent 0 9px,rgba(242,242,236,.014) 10px)!important;
+}
+.paper-row > *,
+.catalogue-row > *,
+.movement > *,
+.protocol > *,
+.instrument-card > *,
+.contact-link > *{position:relative!important;z-index:1!important;}
+
+/* 5. Remove the failed giant watermark from the previous experiment. */
+.paper-deck-main::after,
+.pei-page-copy::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* 6. Make local PDF labels clear without pretending they are primary. */
+.archive-link{
+  font-size:0!important;
+}
+.archive-link::before{
+  content:"Open PDF"!important;
+  font-size:10px!important;
+}
+
+@media(max-width:820px){
+  .drift-specimen{
+    min-height:150px!important;
+    background-size:180% auto!important;
+  }
+  .paper-row::before,
+  .catalogue-row::before,
+  .movement::before,
+  .protocol::before,
+  .instrument-card::before,
+  .contact-link::before{
+    opacity:.10!important;
+  }
+  .contact-grid::after,
+  .about-block::after{display:none!important;}
+  .pei-sidebar-foot::after{width:64px!important;height:32px!important;opacity:.13!important;}
+}
