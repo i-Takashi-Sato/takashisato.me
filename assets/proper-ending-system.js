@@ -1,6 +1,10 @@
 (() => {
   if (!document.body.classList.contains('proper-ending-index')) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const path = window.location.pathname;
+  if (path.includes('/papers/part1')) document.body.classList.add('pei-part-1');
+  if (path.includes('/papers/part2')) document.body.classList.add('pei-part-2');
+  if (path.includes('/papers/part3')) document.body.classList.add('pei-part-3');
 
   const loadLateStylesheet = (href) => {
     if (document.querySelector(`link[href="${href}"]`)) return;
