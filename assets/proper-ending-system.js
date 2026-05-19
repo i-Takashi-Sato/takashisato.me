@@ -17,6 +17,23 @@
   loadLateStylesheet('/assets/mobile-paper-topbar-fix.css');
   loadLateStylesheet('/assets/paper-cta-hierarchy.css');
   loadLateStylesheet('/assets/proper-ending-material-system.css');
+  loadLateStylesheet('/assets/brand-signature-polish.css');
+
+  const brand = document.querySelector('.pei-brand');
+  if (brand) {
+    brand.setAttribute('role', 'link');
+    brand.setAttribute('tabindex', '0');
+    brand.setAttribute('aria-label', 'Return to Takashi Sato research index');
+    brand.addEventListener('click', () => {
+      window.location.href = '/';
+    });
+    brand.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        window.location.href = '/';
+      }
+    });
+  }
 
   const menu = document.querySelector('.pei-menu');
   if (menu) {
