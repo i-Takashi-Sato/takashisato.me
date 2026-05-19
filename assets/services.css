@@ -449,9 +449,54 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
   .svc-footer{display:grid;gap:10px}
   .svc-action{width:100%}
   .svc-sample-header{grid-template-columns:1fr}
-  .svc-sample-document{padding:20px}
+  .svc-sample-document{padding:20px;overflow:hidden}
   .svc-sample-document::after{top:auto;bottom:.05em;font-size:4rem}
-  .svc-table{display:block;overflow-x:auto;white-space:normal}
-  .svc-table th,.svc-table td{padding:12px 8px;min-width:120px}
+  .svc-table,
+  .svc-table thead,
+  .svc-table tbody,
+  .svc-table tr,
+  .svc-table th,
+  .svc-table td{
+    display:block;
+    width:100%;
+  }
+  .svc-table{overflow:visible;margin-top:22px;font-size:.95rem}
+  .svc-table thead{display:none}
+  .svc-table tr{
+    padding:16px 0;
+    border-bottom:1px solid var(--svc-line);
+  }
+  .svc-table tr:last-child{border-bottom:0}
+  .svc-table td{
+    min-width:0;
+    padding:5px 0 5px 108px;
+    border-bottom:0;
+    position:relative;
+    font-size:.95rem;
+    line-height:1.58;
+    color:var(--svc-soft);
+  }
+  .svc-table td:first-child{
+    white-space:normal;
+    color:var(--svc-ink);
+    font-size:.72rem;
+    letter-spacing:.12em;
+    margin-bottom:6px;
+  }
+  .svc-table td::before{
+    position:absolute;
+    left:0;
+    top:5px;
+    width:88px;
+    font-family:var(--svc-mono);
+    font-size:.58rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--svc-dim);
+  }
+  .svc-table td:nth-child(1)::before{content:"Phase"}
+  .svc-table td:nth-child(2)::before{content:"Check"}
+  .svc-table td:nth-child(3)::before{content:"Standard"}
+  .svc-table td:nth-child(4)::before{content:"Record"}
   .svc-note-box{grid-template-columns:1fr;gap:10px}
 }
