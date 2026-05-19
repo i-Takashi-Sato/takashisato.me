@@ -19,6 +19,7 @@
   loadLateStylesheet('/assets/proper-ending-material-system.css');
   loadLateStylesheet('/assets/brand-signature-polish.css');
   loadLateStylesheet('/assets/catalogue-read-kill.css');
+  loadLateStylesheet('/assets/mobile-scroll-fix.css');
 
   const brand = document.querySelector('.pei-brand');
   if (brand) {
