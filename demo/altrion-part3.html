@@ -3,80 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proper Ending Differential · The Proper Ending Index</title>
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#050607" />
+  <title>Part III Visualizer Retired · The Proper Ending Index</title>
+  <meta name="description" content="The former Part III browser visualizer has been retired. Part III is now treated as a paper-led terminal work, with future visual development reserved for a moving-image study." />
+  <link rel="canonical" href="https://takashisato.me/demo/altrion-part3.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/proper-ending-index.css" />
+  <link rel="stylesheet" href="/assets/proper-ending-system.css" />
   <link rel="stylesheet" href="/assets/proper-ending-complete.css" />
-  <link rel="stylesheet" href="/demo/_assets/part3-differential-v2.css" />
 </head>
-<body class="part3-v2 instrument-entry">
-<a class="demo-backlink" href="/papers/part3.html" aria-label="Back to Part III paper">← Back to Part III</a>
-<div class="instrument-plaque" aria-label="Instrument context">
-  <small>Instrument 03 / Proper Ending Differential</small>
-  <h1>Resolution Collapse</h1>
-  <p>A four-channel governance instrument: GDI inputs converge into an escapement core, the circuit breaker arrests motion, and the reason is preserved.</p>
-  <nav><a href="/papers/part3.html">Paper</a><a href="/papers/">Catalogue</a><a href="/demo/">Instruments</a></nav>
-</div>
-<main class="v2-shell" aria-label="Proper Ending Differential visualizer">
-  <div id="srStatus" class="sr-only" aria-live="polite"></div>
-  <header class="v2-top">
-    <div class="brand"><div class="brand-mark"></div><div><div class="brand-title">Takashi Sato</div><div class="brand-sub">AI Governance Research</div></div></div>
-    <nav class="v2-nav" aria-label="Instrument navigation"><span>Papers</span><span class="active">Instruments</span><span>Principles</span><span>Archive</span><span>About</span></nav>
-    <div class="part-chip">Part III⌄</div>
-  </header>
-
-  <section class="v2-stage">
-    <aside class="v2-left">
-      <div class="kicker">The Ultimate Governance Instrument</div>
-      <h1>Resolution<br>Collapse</h1>
-      <div class="subtitle">Proper Ending Differential</div>
-      <p class="lead" id="leadText">The governance field remains plural. Judgment still has contour, hesitation, and reversible doubt.</p>
-      <div class="phase-sequence" id="phaseSequence" aria-label="Phase sequence"></div>
-    </aside>
-
-    <section class="v2-mechanism" aria-label="Differential escapement core">
-      <div class="mechanism-wrap">
-        <div class="mechanism-title">Escapement Core<br><span>Circuit Breaker & Intervention</span></div>
-        <canvas id="differentialCanvas" role="img" aria-label="Four governance drift channels converging into an escapement core"></canvas>
-        <div class="intervention-label"><b>Intervention Lever</b>when all thresholds are crossed</div>
-      </div>
-    </section>
-
-    <aside class="v2-right">
-      <section class="panel gdi-panel">
-        <div class="panel-title">GDI Readout</div>
-        <div class="panel-sub">Governance Dynamic Indicators</div>
-        <div class="gdi-list">
-          <div class="gdi-row" data-gdi="SED" style="--v:.22"><div class="gdi-ring"></div><div><div class="gdi-label">SED <small>Semantic Entropy Decay</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.22</div></div>
-          <div class="gdi-row" data-gdi="TC" style="--v:.18"><div class="gdi-ring"></div><div><div class="gdi-label">TC <small>Temporal Compression</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.18</div></div>
-          <div class="gdi-row" data-gdi="ED" style="--v:.16"><div class="gdi-ring"></div><div><div class="gdi-label">ED <small>Exhaustion of Dissent</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.16</div></div>
-          <div class="gdi-row" data-gdi="CB" style="--v:.04"><div class="gdi-ring"></div><div><div class="gdi-label">CB <small>Circuit Breaker Readiness</small></div><div class="gdi-bar"></div></div><div class="gdi-value">0.04</div></div>
+<body class="proper-ending-index pei-part-3">
+<a class="skip" href="#main">Skip to content</a>
+<div class="pei-shell">
+  <aside class="pei-sidebar" aria-label="Retired instrument index">
+    <div class="pei-brand"><div class="pei-mark">T—S</div><small>Part III<br />Visualizer Retired</small></div>
+    <div class="pei-rule" aria-hidden="true"></div>
+    <nav class="pei-nav" aria-label="Primary navigation">
+      <a href="/" data-no="01">Overview</a>
+      <a href="/papers/" data-no="02">Catalogue</a>
+      <a href="/papers/part3.html" aria-current="page" data-no="03">Part III</a>
+      <a href="/pdf/part3.pdf" data-no="04">PDF</a>
+      <a href="/demo/" data-no="05">Instruments</a>
+    </nav>
+    <div class="pei-sidebar-foot"><div>Stop correctly.<br />Preserve memory.</div><span class="pei-dot" aria-hidden="true"></span><div>No browser<br />instrument.</div></div>
+  </aside>
+  <div class="pei-main">
+    <header class="pei-topbar"><a href="/papers/part3.html">Part III / Proper Ending</a><div class="right"><a href="/papers/">Papers</a><button class="pei-menu" type="button" aria-label="Toggle index" aria-expanded="false"></button></div></header>
+    <main id="main">
+      <section class="pei-page-hero" aria-labelledby="page-title">
+        <div class="pei-page-copy">
+          <p class="pei-kicker">Retired browser visualizer</p>
+          <h1 id="page-title" class="pei-page-title">Part III is no longer presented as an interactive browser instrument.</h1>
+          <p class="pei-page-lede">The former Resolution Collapse visualizer has been retired. Part III remains a paper-led terminal work: Detection, Circuit Breakers, Proper Ending, Memory Preserved, and Authority Returned.</p>
+        </div>
+        <aside class="pei-page-aside">
+          <div class="pei-fact"><span>Status</span><strong>Browser visualizer retired</strong></div>
+          <div class="pei-fact"><span>Primary object</span><strong>Part III paper and local PDF</strong></div>
+          <div class="pei-fact"><span>Future visual form</span><strong>Moving-image study, not live dashboard</strong></div>
+        </aside>
+      </section>
+      <section class="paper-problem">
+        <h2>The ending should not become dashboard theatre.</h2>
+        <div>
+          <p>Part III concerns the controlled ending of a governance process when judgment can no longer be verified. A browser visualizer risks making that ending look like a decorative mechanism rather than a terminal argument.</p>
+          <p>The visual direction should therefore be developed separately as a deliberate moving-image work: quieter, more authored, and less interactive.</p>
         </div>
       </section>
-      <div class="mobile-gdi" id="mobileGdi" aria-label="Compact GDI readout"></div>
-      <section class="panel caseback">
-        <div><div class="panel-title">Caseback Record</div><div class="panel-sub">ADR / Proper Ending</div><ul><li>SED below threshold</li><li>Temporal variance collapsed</li><li>Dissent exhausted</li><li>Circuit Breaker activated</li><li>Authority returned</li><li>Memory preserved</li></ul></div>
-        <div class="case-disc">Proper Ending<br>Differential<br>A Governance<br>Instrument<br>Built to Move<br>Designed to Stop</div>
+      <section class="paper-cta">
+        <div class="paper-cta-main">
+          <h2>Return to the terminal paper.</h2>
+          <p>Use the paper, PDF, and SSRN record as the authoritative Part III route.</p>
+          <div class="paper-cta-links">
+            <a class="primary ssrn-cta" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">Read on SSRN</a>
+            <a class="archive-link" href="/pdf/part3.pdf" target="_blank" rel="noopener">Open Local PDF</a>
+            <a class="sequence-link" href="/papers/part3.html">Back to Part III</a>
+            <a class="archive-link" href="/papers/">Paper Catalogue</a>
+          </div>
+        </div>
+        <aside class="paper-cta-aside"><a href="/papers/part1.html">Part I <span>→</span></a><a href="/papers/part2.html">Part II <span>→</span></a><a href="/">Proper Ending Index <span>→</span></a></aside>
       </section>
-    </aside>
-  </section>
-
-  <section class="v2-lower" aria-label="Mechanism behavior and governance flow">
-    <div class="timeline" id="phaseTimeline"></div>
-    <div class="flow"><div class="flow-title">Governance Flow</div><div class="flow-diagram"><div class="box">GDI Inputs</div><i class="arrow"></i><div class="box">Differential Processor</div><i class="arrow"></i><div class="box">Circuit Breaker</div></div></div>
-    <div class="threshold"><div class="flow-title">Threshold Coupling</div><p>Irreversible threshold is reached when all indicators are sustained beyond their limits. Motion is arrested, not destroyed.</p></div>
-  </section>
-
-  <div class="status-line" id="statusLine">00 Surface</div>
-  <footer class="v2-bottom">
-    <button id="advancePhase" type="button">▶ Advance</button>
-    <button id="intervenePhase" type="button">✺ Intervene</button>
-    <button id="resetPhase" type="button">↺ Reset</button>
-    <a href="/papers/part3.html">▧ Read Paper</a>
-  </footer>
-</main>
-<script src="/demo/_assets/part3-differential-v2.js" defer></script>
+    </main>
+    <footer class="pei-footer"><div>© 2025 Takashi Sato / Part III</div><div><a href="/papers/part3.html">Part III</a> / <a href="/pdf/part3.pdf">PDF</a> / <a href="/papers/">Catalogue</a></div></footer>
+  </div>
+</div>
+<script src="/assets/proper-ending-system.js" defer></script>
 </body>
 </html>
