@@ -1,40 +1,29 @@
 import * as THREE from "./vendor/three/three.module.js";
 import { OrbitControls } from "./vendor/three/OrbitControls.js";
+
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const mix = (a, b, t) => a * (1 - t) + b * t;
 
 function smoothstep(a, b, x){
-  const t = clamp01((x - a) / (b - a));
+  const t = clamp01((x - a) / Math.max(0.00001, b - a));
   return t * t * (3 - 2 * t);
 }
 
-function chooseParticleBudget(){
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const w = Math.max(1, window.innerWidth);
-  const h = Math.max(1, window.innerHeight);
-  const megapixels = (w * h * dpr * dpr) / 1_000_000;
+const isMobile = window.innerWidth <= 820;
+const isNarrow = window.innerWidth <= 430;
+const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.65 : 2);
 
-  const base = 320_000;
-  const k = 1 / Math.max(1.0, megapixels * 0.52);
-  const budget = Math.floor(base * k);
-
-  const coarse = w < 820 ? 1 : 0;
-  const cap = coarse ? 190_000 : 340_000;
-
-  return Math.max(150_000, Math.min(cap, budget));
+function particleBudget(){
+  if (isNarrow) return 68000;
+  if (isMobile) return 88000;
+  return 170000;
 }
 
-const BUDGET = chooseParticleBudget();
+const BUDGET = particleBudget();
 const COUNTS = {
-  core: Math.floor(BUDGET * 0.58),
-  halo: Math.floor(BUDGET * 0.28),
-  dust: Math.max(14_000, BUDGET - Math.floor(BUDGET * 0.86))
-};
-
-const CONFIG = {
-  radius: 16,
-  grid: 1.85,
-  gridResidueCount: Math.min(16_000, Math.floor(BUDGET * 0.075))
+  primary: Math.floor(BUDGET * 0.62),
+  veil: Math.floor(BUDGET * 0.28),
+  dust: Math.max(8000, BUDGET - Math.floor(BUDGET * 0.90))
 };
 
 let entropy = 0;
@@ -50,37 +39,39 @@ const renderer = new THREE.WebGLRenderer({
   stencil: false,
   depth: true
 });
-
+renderer.setPixelRatio(dpr);
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.55;
+renderer.toneMappingExposure = isMobile ? 1.02 : 1.12;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.domElement.style.touchAction = "none";
 document.body.appendChild(renderer.domElement);
 
-const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 240);
-
-const commonUniforms = {
-  uTime: { value: 0 },
-  uEntropy: { value: 0 },
-  uPixelRatio: { value: Math.min(window.devicePixelRatio || 1, 2) },
-  uFocus: { value: 58.0 }
-};
+const camera = new THREE.PerspectiveCamera(isMobile ? 42 : 38, window.innerWidth / window.innerHeight, 0.1, 180);
+camera.position.set(isMobile ? 0.4 : 2.0, isMobile ? 1.25 : 1.0, isMobile ? 34 : 31);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.075;
 controls.enablePan = false;
 controls.enableZoom = true;
-controls.zoomSpeed = 0.90;
+controls.zoomSpeed = 0.65;
 controls.enableRotate = true;
-controls.rotateSpeed = 0.38;
+controls.rotateSpeed = 0.22;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 0.14;
-controls.minPolarAngle = 0.92;
-controls.maxPolarAngle = 1.50;
-controls.target.set(0.0, 0.0, 0.0);
+controls.autoRotateSpeed = 0.055;
+controls.minPolarAngle = 1.02;
+controls.maxPolarAngle = 1.54;
+controls.minDistance = 24;
+controls.maxDistance = 52;
+controls.target.set(isMobile ? 0.8 : 2.2, isMobile ? 0.15 : 0.0, 0.0);
+
+const commonUniforms = {
+  uTime: { value: 0 },
+  uEntropy: { value: 0 },
+  uPixelRatio: { value: dpr },
+  uViewport: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+};
 
 const vertexShader = `
 precision highp float;
@@ -90,13 +81,15 @@ uniform float uEntropy;
 uniform float uPixelRatio;
 uniform float uSizeMul;
 uniform float uAlphaMul;
-uniform float uFocus;
+uniform vec2 uViewport;
 
-attribute vec3 aRandom;
+attribute vec3 aSeed;
+attribute float aLayer;
+attribute float aQuiet;
+
 varying vec3 vColor;
 varying float vAlpha;
-varying float vBlur;
-varying float vHeat;
+varying float vSoft;
 
 vec3 mod289(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
 vec4 mod289(vec4 x){ return x - floor(x*(1.0/289.0))*289.0; }
@@ -116,10 +109,7 @@ float snoise(vec3 v){
   vec3 x2 = x0 - i2 + C.yyy;
   vec3 x3 = x0 - D.yyy;
   i = mod289(i);
-  vec4 p = permute( permute( permute(
-    i.z + vec4(0.0, i1.z, i2.z, 1.0)) +
-    i.y + vec4(0.0, i1.y, i2.y, 1.0)) +
-    i.x + vec4(0.0, i1.x, i2.x, 1.0));
+  vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));
   float n_ = 0.142857142857;
   vec3 ns = n_ * D.wyz - D.xzx;
   vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
@@ -146,94 +136,64 @@ float snoise(vec3 v){
   return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
 }
 
-vec3 curl(vec3 p){
-  float e = 0.12;
-  vec3 dx = vec3(e,0.0,0.0);
-  vec3 dy = vec3(0.0,e,0.0);
-  vec3 dz = vec3(0.0,0.0,e);
-  float x = snoise(p + dy) - snoise(p - dy);
-  float y = snoise(p + dz) - snoise(p - dz);
-  float z = snoise(p + dx) - snoise(p - dx);
-  return vec3(x,y,z);
-}
-
-float sat(float x){ return clamp(x,0.0,1.0); }
+float sat(float x){ return clamp(x, 0.0, 1.0); }
 
 void main(){
+  float e = sat(uEntropy);
+  float e1 = smoothstep(0.08, 0.34, e);
+  float e2 = smoothstep(0.36, 0.70, e);
+  float e3 = smoothstep(0.72, 1.00, e);
+
   vec3 pos = position;
-  float t = uTime;
+  float s = aSeed.x;
+  float lane = aSeed.y;
+  float grain = aSeed.z;
 
-  float e0 = sat(uEntropy);
-  float e1 = smoothstep(0.02, 0.22, e0);
-  float e2 = smoothstep(0.25, 0.60, e0);
-  float e3 = smoothstep(0.55, 0.88, e0);
-  float e4 = smoothstep(0.85, 1.00, e0);
+  float horizontalDrift = (uTime * (0.020 + 0.030 * e) + s * 9.0);
+  float n1 = snoise(vec3(pos.x * 0.055 + horizontalDrift, pos.y * 0.075, pos.z * 0.035));
+  float n2 = snoise(vec3(pos.x * 0.032, pos.y * 0.044 + uTime * 0.045, s * 6.1));
 
-  float seed = aRandom.x;
-  float drift = aRandom.z;
+  pos.x += (n1 * 0.42 + e1 * (lane - 0.5) * 1.4) * (1.0 + e * 0.8);
+  pos.y += n2 * 0.30 - e2 * (0.7 + grain * 1.8);
+  pos.z += n1 * 0.35 + e2 * sin(pos.x * 0.08 + uTime * 0.12) * 0.40;
 
-  vec3 pN = pos * 0.16 + vec3(seed*7.1, seed*3.7, seed*5.9);
-
-  if (e1 > 0.0){
-    vec3 c = curl(pN * 2.2 + t * 0.82);
-    pos += c * (0.95 + seed*0.6) * e1 * 0.46;
-  }
-
-  if (e2 > 0.0){
-    float spike = max(0.0, sin(t * (1.6 + seed) + (pos.x*0.8 + pos.z*0.6) * 2.2));
-    spike *= e2 * (2.0 + seed*2.4);
-    vec3 dir = normalize(pos + 0.0001);
-    pos += dir * spike;
-  }
-
-  if (e3 > 0.0){
-    vec3 flow = curl(pN * 0.52 + t * 0.18);
-    pos += flow * e3 * (4.1 + seed*2.0);
-    pos.y -= e3 * (abs(drift) * 7.0 + 1.2);
-  }
-
-  if (e4 > 0.0){
-    float grid = 1.85;
-    vec3 snapped = floor(pos / grid + 0.5) * grid;
-    pos = mix(pos, snapped, e4);
-    vec3 scatter = (aRandom - 0.5) * 2.0;
-    pos += scatter * e4 * 40.0;
-  }
+  float bureaucraticCompression = smoothstep(0.42, 0.88, e);
+  pos.y = mix(pos.y, floor(pos.y / 1.05 + 0.5) * 1.05, bureaucraticCompression * 0.36);
+  pos.x = mix(pos.x, floor(pos.x / 1.85 + 0.5) * 1.85, e3 * 0.26);
 
   vec4 mv = modelViewMatrix * vec4(pos, 1.0);
   gl_Position = projectionMatrix * mv;
 
-  float dist = length(mv.xyz);
-  float dof = abs(dist - uFocus);
-  float blur = smoothstep(0.0, 12.0, dof);
-  vBlur = blur;
+  vec4 clip = projectionMatrix * mv;
+  vec2 ndc = clip.xy / max(0.0001, clip.w);
+  vec2 screen = ndc * 0.5 + 0.5;
 
-  float base = (66.0 + 30.0 * (1.0 - smoothstep(0.0, 1.0, e0))) * aRandom.y;
-  float bokeh = (1.0 + blur * 2.25);
-  gl_PointSize = base * uSizeMul * bokeh * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
+  float panelMask = smoothstep(0.48, 0.64, screen.y);
+  float lowerTextMask = 1.0 - panelMask;
+  float quietZone = mix(1.0, 0.54, lowerTextMask) * mix(1.0, 0.72, aQuiet);
 
-  vec3 cMarble = vec3(0.99, 0.99, 0.995);
-  vec3 cGold   = vec3(0.88, 0.75, 0.30);
-  vec3 cCrim   = vec3(0.66, 0.06, 0.08);
-  vec3 cVoid   = vec3(0.03, 0.03, 0.035);
+  float distanceFade = 1.0 - smoothstep(24.0, 58.0, abs(mv.z));
+  float depthSize = 1.0 / max(0.0001, -mv.z);
+  float baseSize = mix(22.0, 13.0, e) * mix(0.72, 1.10, aLayer);
+  gl_PointSize = baseSize * uSizeMul * depthSize * uPixelRatio;
 
-  vec3 col = cMarble;
-  if (e0 <= 0.4) col = mix(cMarble, cGold, e0 * 2.5);
-  else if (e0 <= 0.8) col = mix(cGold, cCrim, (e0 - 0.4) * 2.5);
-  else col = mix(cCrim, cVoid, (e0 - 0.8) * 5.0);
+  vec3 bone = vec3(0.86, 0.84, 0.79);
+  vec3 paper = vec3(0.72, 0.70, 0.66);
+  vec3 ash = vec3(0.42, 0.42, 0.40);
+  vec3 gold = vec3(0.70, 0.58, 0.26);
+  vec3 iron = vec3(0.12, 0.12, 0.13);
 
-  float heat = smoothstep(0.14, 0.58, e0) * (1.0 - smoothstep(0.62, 0.98, e0));
-  vHeat = heat;
+  vec3 col = mix(bone, paper, aLayer * 0.45);
+  col = mix(col, gold, e1 * 0.16);
+  col = mix(col, ash, e2 * 0.34);
+  col = mix(col, iron, e3 * 0.42);
 
-  float micro = snoise(pN * 2.4 + t * 0.25) * 0.09;
-  col += vec3(1.0, 0.48, 0.14) * heat * 0.46;
-  col += micro;
+  float localPulse = 0.82 + 0.18 * snoise(vec3(pos.x * 0.08, pos.y * 0.08, uTime * 0.10 + s * 4.0));
+  float heroPreserve = mix(0.72, 1.00, smoothstep(0.60, 0.94, screen.y));
 
-  vColor = col;
-
-  float focusFade = 1.0 - blur * 0.50;
-  float entropyFade = 1.0 - e4 * 0.30;
-  vAlpha = uAlphaMul * focusFade * entropyFade;
+  vColor = col * localPulse;
+  vSoft = mix(0.28, 0.58, aLayer);
+  vAlpha = uAlphaMul * quietZone * heroPreserve * (0.64 + distanceFade * 0.32) * (1.0 - e3 * 0.22);
 }
 `;
 
@@ -242,66 +202,66 @@ precision highp float;
 
 varying vec3 vColor;
 varying float vAlpha;
-varying float vBlur;
-varying float vHeat;
+varying float vSoft;
 
 void main(){
   vec2 uv = gl_PointCoord - vec2(0.5);
   float r = length(uv);
   if (r > 0.5) discard;
-
-  float hardness = 0.50 - (vBlur * 0.38);
-  float alpha = 1.0 - smoothstep(hardness, 0.5, r);
-
-  float core = 1.0 - smoothstep(0.0, 0.13, r);
-  vec3 col = vColor + core * (0.26 + vHeat * 0.30);
-
-  float edgeGlow = 1.0 - smoothstep(0.22, 0.5, r);
-  col += edgeGlow * (0.10 + vHeat * 0.14);
-
-  gl_FragColor = vec4(col, alpha * vAlpha);
+  float core = 1.0 - smoothstep(0.0, 0.18, r);
+  float edge = 1.0 - smoothstep(vSoft, 0.5, r);
+  float alpha = edge * vAlpha;
+  vec3 col = vColor + core * 0.08;
+  gl_FragColor = vec4(col, alpha);
 }
 `;
 
-function buildGeometry(count, radius, seedShift){
+function makeSedimentationGeometry(count, layer, seedOffset){
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
-  const randoms = new Float32Array(count * 3);
-
-  const scale = radius * 0.52;
+  const seeds = new Float32Array(count * 3);
+  const layers = new Float32Array(count);
+  const quiet = new Float32Array(count);
 
   for (let i = 0; i < count; i++){
-    const u = Math.random() * Math.PI * 2;
-    const v = Math.random() * Math.PI * 2;
+    const u = Math.random();
+    const v = Math.random();
+    const band = Math.random();
+    const side = Math.random() < 0.5 ? -1 : 1;
 
-    const r = (3.05 + Math.cos(5.0 * u) * 0.62 + Math.sin(5.0 * v) * 0.58) * 0.86;
+    const width = isMobile ? 22.0 : 25.0;
+    const x = (u - 0.5) * width + side * Math.pow(Math.random(), 3.4) * 2.6;
+    const sediment = Math.pow(v, 1.35);
+    const baseY = mix(isMobile ? -8.2 : -7.4, isMobile ? 6.8 : 7.2, sediment);
+    const slope = -0.16 * x + Math.sin(x * 0.34 + seedOffset * 4.0) * 0.65;
+    const ridge = Math.sin((u * 9.0 + seedOffset) * Math.PI) * (0.35 + band * 0.55);
+    const voidCut = 1.0 - Math.exp(-(x*x + (baseY + 1.0)*(baseY + 1.0)) / 38.0);
 
-    let x = r * Math.cos(u) * Math.sin(v);
-    let y = r * Math.sin(u) * Math.sin(v);
-    let z = r * Math.cos(v);
+    const y = baseY + slope + ridge * voidCut + (Math.random() - 0.5) * (1.8 + layer * 2.2);
+    const z = (Math.random() - 0.5) * (8.5 + layer * 8.0) + Math.sin(x * 0.18) * 1.1;
 
-    const twist = Math.sin(x * 0.52 + y * 0.50) * 2.10;
-    const x2 = x * Math.cos(twist) - y * Math.sin(twist);
-    const y2 = x * Math.sin(twist) + y * Math.cos(twist);
-    x = x2; y = y2;
+    positions[i * 3 + 0] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = z;
 
-    positions[i * 3 + 0] = x * scale;
-    positions[i * 3 + 1] = y * scale;
-    positions[i * 3 + 2] = z * scale;
+    seeds[i * 3 + 0] = (Math.random() + seedOffset) % 1;
+    seeds[i * 3 + 1] = Math.random();
+    seeds[i * 3 + 2] = Math.random();
+    layers[i] = layer;
 
-    const s = Math.random();
-    randoms[i * 3 + 0] = (s + seedShift) % 1.0;
-    randoms[i * 3 + 1] = 0.58 + Math.random() * 0.42;
-    randoms[i * 3 + 2] = (Math.random() - 0.5);
+    const screenQuiet = y < (isMobile ? -1.5 : -2.0) ? 1.0 : 0.0;
+    quiet[i] = screenQuiet;
   }
 
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("aRandom", new THREE.BufferAttribute(randoms, 3));
+  geometry.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 3));
+  geometry.setAttribute("aLayer", new THREE.BufferAttribute(layers, 1));
+  geometry.setAttribute("aQuiet", new THREE.BufferAttribute(quiet, 1));
   geometry.computeBoundingSphere();
   return geometry;
 }
 
-function makeLayerMaterial(sizeMul, alphaMul){
+function makeMaterial(sizeMul, alphaMul){
   return new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -309,131 +269,34 @@ function makeLayerMaterial(sizeMul, alphaMul){
       uTime: commonUniforms.uTime,
       uEntropy: commonUniforms.uEntropy,
       uPixelRatio: commonUniforms.uPixelRatio,
-      uFocus: commonUniforms.uFocus,
+      uViewport: commonUniforms.uViewport,
       uSizeMul: { value: sizeMul },
       uAlphaMul: { value: alphaMul }
     },
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending
+    blending: THREE.NormalBlending
   });
 }
 
-const geoCore = buildGeometry(COUNTS.core, CONFIG.radius, 0.13);
-const geoHalo = buildGeometry(COUNTS.halo, CONFIG.radius, 0.47);
-const geoDust = buildGeometry(COUNTS.dust, CONFIG.radius, 0.79);
+const group = new THREE.Group();
+scene.add(group);
 
-const matCore = makeLayerMaterial(1.00, 1.05);
-const matHalo = makeLayerMaterial(1.28, 0.70);
-const matDust = makeLayerMaterial(0.78, 0.42);
+const primary = new THREE.Points(makeSedimentationGeometry(COUNTS.primary, 0.20, 0.13), makeMaterial(isMobile ? 0.88 : 1.00, isMobile ? 0.44 : 0.56));
+const veil = new THREE.Points(makeSedimentationGeometry(COUNTS.veil, 0.78, 0.47), makeMaterial(isMobile ? 1.06 : 1.18, isMobile ? 0.22 : 0.30));
+const dust = new THREE.Points(makeSedimentationGeometry(COUNTS.dust, 0.55, 0.79), makeMaterial(isMobile ? 0.60 : 0.70, isMobile ? 0.16 : 0.20));
 
-const ptsCore = new THREE.Points(geoCore, matCore);
-const ptsHalo = new THREE.Points(geoHalo, matHalo);
-const ptsDust = new THREE.Points(geoDust, matDust);
+primary.frustumCulled = false;
+veil.frustumCulled = false;
+dust.frustumCulled = false;
 
-ptsCore.frustumCulled = false;
-ptsHalo.frustumCulled = false;
-ptsDust.frustumCulled = false;
+group.add(dust);
+group.add(veil);
+group.add(primary);
 
-scene.add(ptsDust);
-scene.add(ptsHalo);
-scene.add(ptsCore);
-
-const residueGeom = new THREE.BufferGeometry();
-const residuePos = new Float32Array(CONFIG.gridResidueCount * 3);
-
-{
-  const src = geoCore.attributes.position.array;
-  const n = Math.min(CONFIG.gridResidueCount, Math.floor(src.length / 3));
-  const grid = CONFIG.grid;
-
-  for (let i = 0; i < n; i++){
-    const j = (Math.floor(Math.random() * (src.length / 3))) * 3;
-
-    let x = src[j + 0];
-    let y = src[j + 1];
-    let z = src[j + 2];
-
-    x = Math.round(x / grid) * grid;
-    y = Math.round(y / grid) * grid;
-    z = Math.round(z / grid) * grid;
-
-    residuePos[i * 3 + 0] = x;
-    residuePos[i * 3 + 1] = y;
-    residuePos[i * 3 + 2] = z;
-  }
-
-  residueGeom.setAttribute("position", new THREE.BufferAttribute(residuePos, 3));
-  residueGeom.computeBoundingSphere();
-}
-
-const residueMat = new THREE.ShaderMaterial({
-  transparent: true,
-  depthWrite: false,
-  blending: THREE.AdditiveBlending,
-  uniforms: {
-    uTime: commonUniforms.uTime,
-    uEntropy: commonUniforms.uEntropy,
-    uPixelRatio: commonUniforms.uPixelRatio
-  },
-  vertexShader: `
-precision highp float;
-uniform float uTime;
-uniform float uEntropy;
-uniform float uPixelRatio;
-varying float vA;
-
-void main(){
-  vec3 pos = position;
-  float e4 = smoothstep(0.85, 1.0, uEntropy);
-
-  float trem = (sin(uTime * 0.9 + pos.x*0.08) + sin(uTime*1.3 + pos.y*0.06)) * 0.03;
-  pos += vec3(trem, -trem*0.35, trem*0.25) * (1.0 - e4) * 0.45;
-
-  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
-  gl_Position = projectionMatrix * mv;
-
-  float s = 22.0;
-  gl_PointSize = s * (1.0 / max(0.0001, -mv.z)) * uPixelRatio;
-
-  vA = e4;
-}
-`,
-  fragmentShader: `
-precision highp float;
-varying float vA;
-
-void main(){
-  vec2 uv = gl_PointCoord - vec2(0.5);
-  float r = length(uv);
-  if (r > 0.5) discard;
-
-  float a = 1.0 - smoothstep(0.18, 0.5, r);
-  vec3 c = vec3(0.99, 0.99, 1.0);
-  c += (1.0 - smoothstep(0.0, 0.12, r)) * 0.22;
-
-  gl_FragColor = vec4(c, a * vA * 0.92);
-}
-`
-});
-
-const residuePts = new THREE.Points(residueGeom, residueMat);
-residuePts.frustumCulled = false;
-scene.add(residuePts);
-
-{
-  const r = (geoCore.boundingSphere?.radius || 26.0) * 1.14;
-  const fov = (camera.fov * Math.PI) / 180.0;
-  const fit = r / Math.sin(fov * 0.50);
-
-  camera.position.set(0.0, r * 0.18, fit * 1.05);
-
-  controls.minDistance = fit * 0.72;
-  controls.maxDistance = fit * 2.35;
-
-  controls.update();
-  commonUniforms.uFocus.value = fit * 0.92;
-}
+group.rotation.z = isMobile ? -0.05 : -0.04;
+group.rotation.x = isMobile ? -0.04 : -0.02;
+group.position.set(isMobile ? 1.4 : 2.8, isMobile ? 0.50 : 0.35, 0.0);
 
 const ui = {
   slider: document.getElementById("entropy-slider"),
@@ -452,7 +315,7 @@ const ui = {
 };
 
 const phases = [
-  { t:"Formal Coherence",    d:"Rules close into a self-consistent loop. The system is “sound” on paper. Costs are deferred into procedure, waiting to be paid by operators.", s:"STATUS: NOMINAL" },
+  { t:"Formal Coherence",    d:"Rules close into a self-consistent loop. The system is sound on paper. Costs are deferred into procedure, waiting to be paid by operators.", s:"STATUS: NOMINAL" },
   { t:"Cognitive Offload",   d:"Operational pressure rises. People stop thinking in first principles and begin thinking in checklists. Judgment migrates from humans into protocol.", s:"STATUS: LOADING" },
   { t:"Liability Hardening", d:"Responsibility inverts. The system optimizes for defensibility, not truth. Interfaces sharpen into spikes: more gates, more forms, less nuance.", s:"STATUS: DEFENSIVE" },
   { t:"Operational Entropy", d:"Daily work heats the machine. Exceptions accumulate; attention fragments; coordination liquefies. The structure drips into lower-energy routines.", s:"STATUS: DEGRADING" },
@@ -473,35 +336,27 @@ function setFromClientX(clientX){
 }
 
 let dragging = false;
-
 const onPointerDown = (e) => {
   dragging = true;
   ui.wrap?.setPointerCapture?.(e.pointerId);
   setFromClientX(e.clientX);
   e.preventDefault();
 };
-
 const onPointerMove = (e) => {
   if (!dragging) return;
   setFromClientX(e.clientX);
   e.preventDefault();
 };
-
 const onPointerUp = (e) => {
   dragging = false;
   ui.wrap?.releasePointerCapture?.(e.pointerId);
   e.preventDefault();
 };
-
 ui.hit?.addEventListener("pointerdown", onPointerDown, { passive: false });
 ui.hit?.addEventListener("pointermove", onPointerMove, { passive: false });
 ui.hit?.addEventListener("pointerup", onPointerUp, { passive: false });
 ui.hit?.addEventListener("pointercancel", onPointerUp, { passive: false });
-
-ui.slider?.addEventListener("input", (e) => {
-  setEntropyUI(parseFloat(e.target.value));
-}, { passive: true });
-
+ui.slider?.addEventListener("input", (e) => setEntropyUI(parseFloat(e.target.value)), { passive: true });
 ui.items.forEach((el, i) => {
   const toPhase = () => setEntropyUI(i === 0 ? 0 : (i / 4));
   el.addEventListener("click", toPhase, { passive: true });
@@ -513,42 +368,27 @@ ui.items.forEach((el, i) => {
   }, { passive: false });
 });
 
-{
-  const panel = document.querySelector(".panel-glass");
-  const forwardWheel = (e) => {
-    renderer.domElement.dispatchEvent(new WheelEvent("wheel", {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-      deltaMode: e.deltaMode,
-      deltaX: e.deltaX,
-      deltaY: e.deltaY,
-      deltaZ: e.deltaZ,
-      clientX: e.clientX,
-      clientY: e.clientY,
-      ctrlKey: e.ctrlKey,
-      shiftKey: e.shiftKey,
-      altKey: e.altKey,
-      metaKey: e.metaKey
-    }));
-  };
-  panel?.addEventListener("wheel", forwardWheel, { passive: true });
-}
+const panel = document.querySelector(".panel-glass");
+panel?.addEventListener("wheel", (e) => {
+  renderer.domElement.dispatchEvent(new WheelEvent("wheel", {
+    bubbles: true,
+    cancelable: true,
+    composed: true,
+    deltaMode: e.deltaMode,
+    deltaX: e.deltaX,
+    deltaY: e.deltaY,
+    deltaZ: e.deltaZ,
+    clientX: e.clientX,
+    clientY: e.clientY,
+    ctrlKey: e.ctrlKey,
+    shiftKey: e.shiftKey,
+    altKey: e.altKey,
+    metaKey: e.metaKey
+  }));
+}, { passive: true });
 
 const rootStyle = document.documentElement.style;
 const clock = new THREE.Clock();
-
-function phaseImpulse(time, entropyNow){
-  const thresholds = [0.25, 0.55, 0.85];
-  let imp = 0.0;
-  for (let i = 0; i < thresholds.length; i++){
-    const x = entropyNow - thresholds[i];
-    imp += Math.exp(-Math.abs(x) * 55.0) * 0.022;
-  }
-  imp *= (0.35 + 0.65 * Math.min(1.0, entropyNow * 1.6));
-  imp *= (0.5 + 0.5 * Math.sin(time * 6.5));
-  return imp;
-}
 
 function pad3(n){
   const s = String(Math.max(0, Math.floor(n)));
@@ -556,74 +396,25 @@ function pad3(n){
   return ("000" + s).slice(-3);
 }
 
-function animate(){
-  requestAnimationFrame(animate);
-
-  const time = clock.getElapsedTime();
-
-  entropy += (targetEntropy - entropy) * 0.032;
-  entropy = clamp01(entropy);
-
-  commonUniforms.uTime.value = time;
-  commonUniforms.uEntropy.value = entropy;
-
-  {
-    const d = camera.position.distanceTo(controls.target);
-    commonUniforms.uFocus.value = mix(54.0, d, 0.72);
-  }
-
-  {
-    const base = 0.16;
-    const slow = mix(base, 0.07, smoothstep(0.35, 0.95, entropy));
-    const micro = (Math.sin(time * 0.55) + Math.sin(time * 1.11 + 1.7)) * 0.032;
-    controls.autoRotateSpeed = slow * (1.0 + micro);
-  }
-
-  renderer.toneMappingExposure = 1.55 + phaseImpulse(time, entropy);
-
-  const rotSpeed = 0.10 + entropy * 0.22;
-  ptsCore.rotation.y = time * rotSpeed * 0.28;
-  ptsCore.rotation.z = time * rotSpeed * 0.10;
-
-  ptsHalo.rotation.y = time * rotSpeed * 0.26 + 0.22;
-  ptsHalo.rotation.z = time * rotSpeed * 0.08 + 0.10;
-
-  ptsDust.rotation.y = time * rotSpeed * 0.20 + 0.44;
-  ptsDust.rotation.z = time * rotSpeed * 0.06 + 0.18;
-
-  residuePts.rotation.y = time * 0.035;
-  residuePts.rotation.z = time * 0.018;
-
+function updateUI(time){
   const idx = Math.min(Math.floor(entropy * 4.999), 4);
   if (ui.title && ui.title.innerText !== phases[idx].t){
     if (ui.num) ui.num.innerText = `PHASE 0${idx}`;
     if (ui.title) ui.title.innerText = phases[idx].t;
     if (ui.desc) ui.desc.innerText = phases[idx].d;
     if (ui.badge) ui.badge.innerText = phases[idx].s;
-
-    ui.items.forEach((el, i) => {
-      if (i === idx) el.classList.add("active");
-      else el.classList.remove("active");
-    });
+    ui.items.forEach((el, i) => el.classList.toggle("active", i === idx));
   }
 
-  const dim = smoothstep(0.30, 0.985, entropy);
-  const noise = mix(0.08, 1.00, smoothstep(0.12, 0.96, entropy));
-  const blur = mix(0.00, 1.00, smoothstep(0.60, 0.985, entropy));
-  const skew = mix(0.00, 1.00, smoothstep(0.45, 0.93, entropy));
-  const ruleBoost = mix(0.00, 1.00, smoothstep(0.18, 0.76, entropy));
-  const goldMute = mix(0.00, 1.00, smoothstep(0.62, 1.00, entropy));
-  const letter = mix(0.00, 1.00, smoothstep(0.28, 0.90, entropy));
-  const scan = mix(0.00, 1.00, smoothstep(0.66, 0.985, entropy));
-  const hudGlow = mix(0.00, 1.00, smoothstep(0.10, 0.55, entropy)) * (0.65 + 0.35 * Math.sin(time * 0.85));
-
-  const stamp = smoothstep(0.44, 0.82, entropy);
-  const stampRot = (time * (6.0 + entropy * 12.0)) * (0.35 + 0.65 * stamp);
-
-  const g0 = 1.0;
-  const g1 = smoothstep(0.18, 0.38, entropy);
-  const g2 = smoothstep(0.42, 0.64, entropy);
-  const g3 = smoothstep(0.70, 0.92, entropy);
+  const dim = smoothstep(0.32, 0.985, entropy) * 0.72;
+  const noise = mix(0.05, 0.72, smoothstep(0.16, 0.96, entropy));
+  const blur = mix(0.00, 0.68, smoothstep(0.65, 0.985, entropy));
+  const skew = mix(0.00, 0.72, smoothstep(0.48, 0.93, entropy));
+  const ruleBoost = mix(0.00, 0.74, smoothstep(0.22, 0.76, entropy));
+  const goldMute = mix(0.00, 0.76, smoothstep(0.62, 1.00, entropy));
+  const letter = mix(0.00, 0.70, smoothstep(0.30, 0.90, entropy));
+  const scan = mix(0.00, 0.58, smoothstep(0.66, 0.985, entropy));
+  const hudGlow = mix(0.00, 0.72, smoothstep(0.12, 0.55, entropy)) * (0.65 + 0.35 * Math.sin(time * 0.85));
 
   rootStyle.setProperty("--uiE", entropy.toFixed(6));
   rootStyle.setProperty("--uiDim", dim.toFixed(6));
@@ -634,47 +425,74 @@ function animate(){
   rootStyle.setProperty("--uiGoldMute", goldMute.toFixed(6));
   rootStyle.setProperty("--uiLetter", letter.toFixed(6));
   rootStyle.setProperty("--uiScan", scan.toFixed(6));
-  rootStyle.setProperty("--uiFlicker", (time * (1.0 + entropy * 6.0)).toFixed(6));
+  rootStyle.setProperty("--uiFlicker", (time * (1.0 + entropy * 4.0)).toFixed(6));
   rootStyle.setProperty("--hudGlow", hudGlow.toFixed(6));
+  rootStyle.setProperty("--stamp", smoothstep(0.44, 0.82, entropy).toFixed(6));
+  rootStyle.setProperty("--stampRot", `${(time * (4.0 + entropy * 9.0)).toFixed(3)}deg`);
+  rootStyle.setProperty("--gate0", "1.000000");
+  rootStyle.setProperty("--gate1", smoothstep(0.18, 0.38, entropy).toFixed(6));
+  rootStyle.setProperty("--gate2", smoothstep(0.42, 0.64, entropy).toFixed(6));
+  rootStyle.setProperty("--gate3", smoothstep(0.70, 0.92, entropy).toFixed(6));
 
-  rootStyle.setProperty("--stamp", stamp.toFixed(6));
-  rootStyle.setProperty("--stampRot", `${stampRot.toFixed(3)}deg`);
-
-  rootStyle.setProperty("--gate0", g0.toFixed(6));
-  rootStyle.setProperty("--gate1", g1.toFixed(6));
-  rootStyle.setProperty("--gate2", g2.toFixed(6));
-  rootStyle.setProperty("--gate3", g3.toFixed(6));
-
-  const forms = 18 + entropy * 988 + (Math.sin(time * (0.55 + entropy * 0.85)) * 8.0);
-  const exc = entropy * entropy * 540 + (Math.sin(time * 0.75 + 1.2) * 6.0);
-  const lat = 0.45 + entropy * 14.2 + (Math.sin(time * 0.33 + entropy * 1.2) * 0.25);
-  const liab = 0.08 + entropy * 0.86 + (Math.sin(time * 0.48) * 0.02);
-
+  const forms = 18 + entropy * 988 + Math.sin(time * (0.55 + entropy * 0.85)) * 8.0;
+  const exc = entropy * entropy * 540 + Math.sin(time * 0.75 + 1.2) * 6.0;
+  const lat = 0.45 + entropy * 14.2 + Math.sin(time * 0.33 + entropy * 1.2) * 0.25;
+  const liab = 0.08 + entropy * 0.86 + Math.sin(time * 0.48) * 0.02;
   if (ui.mForms) ui.mForms.innerText = pad3(forms);
   if (ui.mExc) ui.mExc.innerText = pad3(exc);
   if (ui.mLat) ui.mLat.innerText = `${Math.max(0, lat).toFixed(1)}d`;
   if (ui.mLiab) ui.mLiab.innerText = clamp01(liab).toFixed(2);
+}
 
+function animate(){
+  requestAnimationFrame(animate);
+  const time = clock.getElapsedTime();
+  entropy += (targetEntropy - entropy) * 0.034;
+  entropy = clamp01(entropy);
+
+  commonUniforms.uTime.value = time;
+  commonUniforms.uEntropy.value = entropy;
+
+  const slow = mix(0.055, 0.025, smoothstep(0.35, 0.95, entropy));
+  controls.autoRotateSpeed = slow;
+  renderer.toneMappingExposure = mix(isMobile ? 1.00 : 1.10, isMobile ? 1.06 : 1.18, smoothstep(0.20, 0.72, entropy));
+
+  group.rotation.y = Math.sin(time * 0.035) * 0.045;
+  group.rotation.z = (isMobile ? -0.05 : -0.04) + Math.sin(time * 0.027) * 0.018;
+  group.position.x = (isMobile ? 1.4 : 2.8) + Math.sin(time * 0.045) * 0.32;
+  group.position.y = (isMobile ? 0.50 : 0.35) - entropy * 0.28;
+
+  updateUI(time);
   controls.update();
   renderer.render(scene, camera);
 }
 
-window.addEventListener("resize", () => {
+function resize(){
   const w = Math.max(1, window.innerWidth);
   const h = Math.max(1, window.innerHeight);
+  commonUniforms.uViewport.value.set(w, h);
   camera.aspect = w / h;
+  camera.fov = w <= 820 ? 42 : 38;
+  camera.position.set(w <= 820 ? 0.4 : 2.0, w <= 820 ? 1.25 : 1.0, w <= 820 ? 34 : 31);
+  controls.target.set(w <= 820 ? 0.8 : 2.2, w <= 820 ? 0.15 : 0.0, 0.0);
   camera.updateProjectionMatrix();
   renderer.setSize(w, h);
-  commonUniforms.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 2);
-}, { passive: true });
+  const nextDpr = Math.min(window.devicePixelRatio || 1, w <= 820 ? 1.65 : 2);
+  renderer.setPixelRatio(nextDpr);
+  commonUniforms.uPixelRatio.value = nextDpr;
+}
+
+window.addEventListener("resize", resize, { passive: true });
+if (window.visualViewport) window.visualViewport.addEventListener("resize", resize, { passive: true });
 
 window.addEventListener("load", () => {
   setTimeout(() => {
     const l = document.getElementById("loader");
     if (!l) return;
     l.style.opacity = "0";
-    setTimeout(() => l.remove(), 1800);
-  }, 900);
+    setTimeout(() => l.remove(), 1400);
+  }, 700);
   setEntropyUI(0);
+  resize();
   animate();
 }, { passive: true });
