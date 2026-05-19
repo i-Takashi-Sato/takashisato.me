@@ -140,7 +140,7 @@ import { OrbitControls } from "./vendor/three/OrbitControls.js";
   };
 
   function addTorus(parent, radius, tube, mat, z = 0){
-    const mesh = new THREE.Mesh(new THREE.TorusGeometry(radius, tube, 12, 192), mat);
+    const mesh = new THREE.Mesh(new THREE.TorusGeometry(radius, tube, 12, 192), mat.clone());
     mesh.position.z = z;
     parent.add(mesh);
     return mesh;
@@ -173,7 +173,7 @@ import { OrbitControls } from "./vendor/three/OrbitControls.js";
   root.add(core);
   const coreOuter = addTorus(core, .86, .018, materialBank.gold, .03);
   const coreInner = addTorus(core, .52, .010, materialBank.bone, .055);
-  const coreHub = new THREE.Mesh(new THREE.SphereGeometry(.085, 28, 16), materialBank.stop);
+  const coreHub = new THREE.Mesh(new THREE.SphereGeometry(.085, 28, 16), materialBank.stop.clone());
   coreHub.position.z = .08;
   core.add(coreHub);
 
@@ -209,18 +209,19 @@ import { OrbitControls } from "./vendor/three/OrbitControls.js";
     [1.72, -1.40, "CB", "cb"]
   ];
 
-  const labelCanvas = document.createElement("canvas");
-  const labelCtx = labelCanvas.getContext("2d");
   function makeLabelTexture(text){
-    labelCanvas.width = 256;
-    labelCanvas.height = 96;
-    labelCtx.clearRect(0, 0, 256, 96);
-    labelCtx.fillStyle = "rgba(239,232,216,.86)";
-    labelCtx.font = "600 36px Inter, sans-serif";
+    const labelCanvas = document.createElement("canvas");
+    labelCanvas.width = 512;
+    labelCanvas.height = 192;
+    const labelCtx = labelCanvas.getContext("2d");
+    labelCtx.clearRect(0, 0, labelCanvas.width, labelCanvas.height);
+    labelCtx.fillStyle = "rgba(239,232,216,.88)";
+    labelCtx.font = "600 72px Inter, sans-serif";
     labelCtx.textAlign = "center";
     labelCtx.textBaseline = "middle";
-    labelCtx.fillText(text, 128, 47);
+    labelCtx.fillText(text, 256, 96);
     const texture = new THREE.CanvasTexture(labelCanvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
     texture.needsUpdate = true;
     return texture;
   }
@@ -233,7 +234,7 @@ import { OrbitControls } from "./vendor/three/OrbitControls.js";
     const ringB = addTorus(g, .28, .006, materialBank.gold, .025);
     const needle = makeLine([new THREE.Vector3(0, 0, .06), new THREE.Vector3(0, .31, .06)], lineMaterials.gold);
     g.add(needle);
-    const jewel = new THREE.Mesh(new THREE.SphereGeometry(.036, 20, 12), materialBank.gold);
+    const jewel = new THREE.Mesh(new THREE.SphereGeometry(.036, 20, 12), materialBank.gold.clone());
     jewel.position.z = .08;
     g.add(jewel);
     const spriteMaterial = new THREE.SpriteMaterial({ map: makeLabelTexture(label), transparent: true, opacity: .72, depthWrite: false });
@@ -249,16 +250,16 @@ import { OrbitControls } from "./vendor/three/OrbitControls.js";
   leverGroup.position.z = .14;
   const leverGeo = new THREE.BoxGeometry(.052, 2.38, .052);
   leverGeo.translate(0, 1.19, 0);
-  const leverArm = new THREE.Mesh(leverGeo, materialBank.stop);
+  const leverArm = new THREE.Mesh(leverGeo, materialBank.stop.clone());
   leverGroup.add(leverArm);
-  const leverCap = new THREE.Mesh(new THREE.SphereGeometry(.082, 24, 14), materialBank.stop);
+  const leverCap = new THREE.Mesh(new THREE.SphereGeometry(.082, 24, 14), materialBank.stop.clone());
   leverCap.position.y = 2.38;
   leverGroup.add(leverCap);
   root.add(leverGroup);
 
   const stops = new THREE.Group();
   [-0.78, 0.78].forEach(sign => {
-    const stop = new THREE.Mesh(new THREE.SphereGeometry(.058, 24, 14), materialBank.stop);
+    const stop = new THREE.Mesh(new THREE.SphereGeometry(.058, 24, 14), materialBank.stop.clone());
     stop.position.set(Math.cos(sign) * 2.25, Math.sin(sign) * 2.25, .12);
     stops.add(stop);
   });
