@@ -1,0 +1,87 @@
+/* Final override: remove the boxed READ CTA from paper catalogue cards. */
+
+body.proper-ending-index .catalogue .catalogue-row{
+  position:relative!important;
+  padding-right:clamp(64px,8vw,92px)!important;
+}
+
+body.proper-ending-index .catalogue .catalogue-row > .go,
+body.proper-ending-index .catalogue a.catalogue-row > span.go{
+  position:absolute!important;
+  top:clamp(20px,2.6vw,30px)!important;
+  right:clamp(16px,2.2vw,26px)!important;
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+  max-width:34px!important;
+  max-height:34px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:transparent!important;
+  font-size:0!important;
+  line-height:0!important;
+  letter-spacing:0!important;
+  text-indent:-9999px!important;
+  overflow:hidden!important;
+  opacity:.78!important;
+  transform:none!important;
+  justify-self:auto!important;
+  align-self:auto!important;
+  white-space:nowrap!important;
+}
+
+body.proper-ending-index .catalogue .catalogue-row > .go::before,
+body.proper-ending-index .catalogue a.catalogue-row > span.go::before{
+  content:"↗"!important;
+  position:absolute!important;
+  inset:0!important;
+  width:28px!important;
+  height:28px!important;
+  margin:auto!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid rgba(241,239,230,.16)!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.018)!important;
+  color:rgba(241,239,230,.62)!important;
+  font:500 13px/1 var(--pei-mono, ui-monospace, SFMono-Regular, Menlo, monospace)!important;
+  letter-spacing:0!important;
+  text-indent:0!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  transition:transform .28s cubic-bezier(.16,1,.3,1), border-color .28s cubic-bezier(.16,1,.3,1), background .28s cubic-bezier(.16,1,.3,1), color .28s cubic-bezier(.16,1,.3,1)!important;
+}
+
+body.proper-ending-index .catalogue .catalogue-row:hover > .go::before,
+body.proper-ending-index .catalogue .catalogue-row:focus-visible > .go::before{
+  transform:translate(2px,-2px)!important;
+  border-color:rgba(241,239,230,.34)!important;
+  background:rgba(255,255,255,.052)!important;
+  color:rgba(255,255,255,.86)!important;
+}
+
+body.proper-ending-index .catalogue .catalogue-row:active > .go::before{
+  transform:scale(.92)!important;
+}
+
+/* Remove the failed handwritten signature overlay while preserving brand tap behavior. */
+body.proper-ending-index .pei-brand::after{
+  content:none!important;
+  display:none!important;
+}
+
+@media(max-width:700px){
+  body.proper-ending-index .catalogue .catalogue-row{
+    padding-right:64px!important;
+  }
+  body.proper-ending-index .catalogue .catalogue-row > .go,
+  body.proper-ending-index .catalogue a.catalogue-row > span.go{
+    top:22px!important;
+    right:18px!important;
+  }
+}
