@@ -1,0 +1,89 @@
+/* Mobile scroll fix — preserve vertical swipe through tactile panels on iPhone Safari. */
+
+html,
+body,
+.pei-shell,
+.pei-main,
+main{
+  overscroll-behavior-y:auto!important;
+}
+
+body.proper-ending-index,
+body.proper-ending-index *{
+  -webkit-user-drag:none;
+}
+
+body.proper-ending-index :where(
+  .trilogy-sequence,
+  .sequence-line,
+  .a3-id-card,
+  .a3-identity,
+  .a3-route,
+  .a3-paper-row,
+  .catalogue-row,
+  .access-card,
+  .protocol,
+  .movement,
+  .instrument-card,
+  .contact-link,
+  .paper-map article,
+  .paper-cta,
+  .paper-cta-aside,
+  .drift-specimen,
+  .evidence-plate,
+  .pei-fact,
+  .proper-note
+){
+  touch-action:pan-y!important;
+}
+
+body.proper-ending-index :where(
+  .trilogy-sequence::before,
+  .trilogy-sequence::after,
+  .sequence-line::before,
+  .sequence-line::after,
+  .a3-id-card::before,
+  .a3-id-card::after,
+  .a3-identity::before,
+  .a3-identity::after,
+  .a3-route::before,
+  .a3-route::after,
+  .a3-paper-row::before,
+  .a3-paper-row::after,
+  .catalogue-row::before,
+  .catalogue-row::after,
+  .access-card::before,
+  .access-card::after,
+  .protocol::before,
+  .protocol::after,
+  .paper-map article::before,
+  .paper-map article::after,
+  .paper-cta::before,
+  .paper-cta::after,
+  .drift-specimen::before,
+  .drift-specimen::after,
+  .evidence-plate::before,
+  .evidence-plate::after
+){
+  pointer-events:none!important;
+}
+
+/* Remove remaining authorial signature image from the home identity card on mobile. */
+body.proper-ending-index .a3-signature strong,
+body.proper-ending-index .a3-signature img,
+body.proper-ending-index .a3-signature svg,
+body.proper-ending-index .sidebar-signature{
+  display:none!important;
+}
+
+body.proper-ending-index .a3-signature{
+  min-height:0!important;
+  padding-top:0!important;
+}
+
+@media(max-width:820px){
+  body.proper-ending-index :where(.a3-route,.a3-paper-row,.catalogue-row,.access-card,.protocol,.paper-map article){
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+  }
+}
