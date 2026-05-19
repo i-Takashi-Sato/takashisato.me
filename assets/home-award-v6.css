@@ -1,0 +1,191 @@
+/* Homepage v6 — mobile polish / anti-card hotfix.
+   Purpose: remove decorative hero blob, weaken card-like extract plates,
+   and keep the archive closer to a dark evidence room than a black LP. */
+
+.home-award-final{
+  --a3-line:rgba(239,242,234,.055);
+  --a3-line-2:rgba(239,242,234,.095);
+  --a3-bg:#030404;
+  --a3-panel:#030404;
+  background:#030404!important;
+}
+
+/* Kill non-evidentiary decorative surfaces in the hero. */
+.home-award-final .a3-hero::before,
+.home-award-final .a3-hero::after,
+.home-award-final .a3-hero-copy::before,
+.home-award-final .a3-id-card::before,
+.home-award-final .a3-id-card::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  opacity:0!important;
+}
+
+.home-award-final .a3-hero,
+.home-award-final .a3-hero-copy,
+.home-award-final .a3-identity{
+  background:#030404!important;
+}
+
+.home-award-final .a3-hero-copy::after{
+  width:54px!important;
+  opacity:.34!important;
+  background:linear-gradient(90deg,rgba(239,242,234,.32),transparent)!important;
+}
+
+.home-award-final .a3-identity::before{
+  content:none!important;
+  display:none!important;
+}
+
+/* Reduce LP/card behavior. Use space and type hierarchy rather than boxes. */
+.home-award-final .a3-flow,
+.home-award-final .a3-papers,
+.home-award-final .a3-paper-row,
+.home-award-final .a3-principles,
+.home-award-final .a3-principle,
+.home-award-final .a3-routes,
+.home-award-final .a3-route-title,
+.home-award-final .a3-route{
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+.home-award-final .a3-flow{
+  border-color:rgba(239,242,234,.045)!important;
+}
+.home-award-final .a3-paper-row,
+.home-award-final .a3-principle,
+.home-award-final .a3-route{
+  border-color:rgba(239,242,234,.045)!important;
+}
+.home-award-final .a3-paper-row:hover,
+.home-award-final .a3-route:hover{
+  background:transparent!important;
+}
+
+/* Evidence plates: from cards to manuscript fragments. */
+.home-award-final .a3-plate-grid{
+  gap:clamp(28px,4vw,54px) 0!important;
+}
+.home-award-final .a3-plate-grid::before{
+  opacity:.28!important;
+}
+.home-award-final .a3-plate,
+.home-award-final .a3-plate.is-i,
+.home-award-final .a3-plate.is-ii,
+.home-award-final .a3-plate.is-iii{
+  border:0!important;
+  border-top:1px solid rgba(239,242,234,.07)!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  min-height:0!important;
+}
+.home-award-final .a3-plate::before,
+.home-award-final .a3-plate::after,
+.home-award-final .a3-plate.is-iii::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  opacity:0!important;
+}
+.home-award-final .a3-plate-head{
+  border-bottom:0!important;
+  padding-left:0!important;
+  padding-right:0!important;
+  color:rgba(218,220,211,.62)!important;
+}
+.home-award-final .a3-plate blockquote{
+  padding-left:0!important;
+  padding-right:0!important;
+  max-width:18ch!important;
+}
+.home-award-final .a3-plate dl{
+  margin-left:0!important;
+  margin-right:0!important;
+  border:0!important;
+  border-top:1px solid rgba(239,242,234,.052)!important;
+  background:transparent!important;
+}
+.home-award-final .a3-plate dl div{
+  border-color:rgba(239,242,234,.048)!important;
+  background:transparent!important;
+}
+.home-award-final .a3-plate-foot{
+  padding-left:0!important;
+  padding-right:0!important;
+  color:rgba(239,242,234,.68)!important;
+}
+
+/* CTA buttons: less sales-button, more archive action. */
+.home-award-final .a3-button{
+  border-color:rgba(239,242,234,.12)!important;
+  box-shadow:none!important;
+}
+.home-award-final .a3-button:not(.primary){
+  background:transparent!important;
+}
+
+@media(max-width:900px){
+  .home-award-final .a3-hero,
+  .home-award-final .a3-hero-copy,
+  .home-award-final .a3-identity,
+  .home-award-final .a3-sequence,
+  .home-award-final .a3-extracts,
+  .home-award-final .a3-method,
+  .home-award-final .a3-routes{
+    background:#030404!important;
+  }
+
+  .home-award-final .a3-hero::before,
+  .home-award-final .a3-hero::after,
+  .home-award-final .a3-hero-copy::before,
+  .home-award-final .a3-id-card::before,
+  .home-award-final .a3-id-card::after{
+    content:none!important;
+    display:none!important;
+  }
+
+  .home-award-final .a3-hero h1{
+    font-size:clamp(2.3rem,12.1vw,3.55rem)!important;
+    line-height:.94!important;
+    letter-spacing:-.062em!important;
+  }
+
+  .home-award-final .a3-hero-lede,
+  .home-award-final .a3-copy,
+  .home-award-final .a3-thesis{
+    font-size:.94rem!important;
+    line-height:1.68!important;
+  }
+
+  .home-award-final .a3-plate,
+  .home-award-final .a3-plate.is-i,
+  .home-award-final .a3-plate.is-ii,
+  .home-award-final .a3-plate.is-iii{
+    max-width:100%!important;
+    border:0!important;
+    border-top:1px solid rgba(239,242,234,.07)!important;
+    background:transparent!important;
+  }
+
+  .home-award-final .a3-plate-head{
+    padding:14px 0 8px!important;
+  }
+  .home-award-final .a3-plate blockquote{
+    padding:16px 0 14px!important;
+    font-size:clamp(1.18rem,6.1vw,1.62rem)!important;
+    max-width:18.5ch!important;
+  }
+  .home-award-final .a3-plate dl{
+    margin:0 0 14px!important;
+    max-width:100%!important;
+  }
+  .home-award-final .a3-plate dl div{
+    padding:12px 0!important;
+  }
+  .home-award-final .a3-plate-foot{
+    padding:0 0 18px!important;
+  }
+}
