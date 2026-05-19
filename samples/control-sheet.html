@@ -14,132 +14,20 @@
   <div class="svc-shell">
     <header class="svc-topbar" aria-label="Sample header">
       <a class="svc-mark" href="/services/" aria-label="Operational Design"><strong>Operational Design</strong><span>Sapporo Investment Co., Ltd.</span></a>
-      <nav class="svc-nav" aria-label="Sample navigation">
-        <a href="/services/">Services</a>
-        <a href="/samples/">Samples</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/">Archive</a>
-      </nav>
+      <nav class="svc-nav" aria-label="Sample navigation"><a href="/services/">Services</a><a href="/samples/">Samples</a><a href="/services/contact.html">Contact</a><a href="/">Archive</a></nav>
     </header>
-
     <main>
       <section class="svc-hero" aria-labelledby="sample-title">
-        <div>
-          <p class="svc-kicker">Operational Control Sheet Sample</p>
-          <h1 id="sample-title">Control Sheet</h1>
-          <p class="svc-lede">小規模事業者向け 業務確認・管理表サンプル</p>
-          <p class="svc-thesis">売上、案件、採用、教育、KPIを、日次・週次で確認できる形式へ整理するためのサンプルです。</p>
-          <div class="svc-actions" aria-label="Primary actions">
-            <a class="svc-action" href="/contact.html">この形式を自社用に相談する <span aria-hidden="true">→</span></a>
-            <a class="svc-action" href="/samples/">Samplesへ戻る <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-
-        <aside class="svc-record" aria-label="Sample record">
-          <dl>
-            <div><dt>Category</dt><dd><strong>業務確認・管理表設計</strong><br />Operational Control Sheet Design</dd></div>
-            <div><dt>Use Case</dt><dd>小規模事業者、店舗、営業チーム、採用・教育管理、少人数チーム</dd></div>
-            <div><dt>Output</dt><dd>売上管理、案件管理、KPI記録、採用進捗、教育進捗、週次確認欄</dd></div>
-            <div><dt>Policy</dt><dd>実在企業名・実在店舗名は使用していません。編集可能ファイルは公開していません。</dd></div>
-          </dl>
-        </aside>
+        <div><p class="svc-kicker">Operational Control Sheet Sample</p><h1 id="sample-title">Control Sheet</h1><p class="svc-lede">小規模事業者向け 業務確認・管理表サンプル</p><p class="svc-thesis">売上、案件、採用、教育、KPIを、日次・週次で確認できる形式へ整理するためのサンプルです。</p><div class="svc-actions" aria-label="Primary actions"><a class="svc-action" href="/services/contact.html">この形式を自社用に相談する <span aria-hidden="true">→</span></a><a class="svc-action" href="/samples/">Samplesへ戻る <span aria-hidden="true">→</span></a></div></div>
+        <aside class="svc-record" aria-label="Sample record"><dl><div><dt>Category</dt><dd><strong>業務確認・管理表設計</strong><br />Operational Control Sheet Design</dd></div><div><dt>Use Case</dt><dd>少人数の店舗・営業チーム・管理部門で、売上、案件、採用、教育、KPIの確認が口頭や個別Excelに分散している状態を整理するための管理表です。</dd></div><div><dt>Output</dt><dd>売上管理、案件管理、KPI記録、採用進捗、教育進捗、週次確認欄</dd></div><div><dt>Policy</dt><dd>実在企業名・実在店舗名は使用していません。編集可能ファイルは公開していません。</dd></div></dl></aside>
       </section>
 
-      <section class="svc-section" aria-labelledby="document-title">
-        <div class="svc-section-head">
-          <h2 id="document-title" class="svc-section-title">Sample Preview</h2>
-          <p class="svc-section-copy">下記は公開用に簡略化した管理表サンプルです。実案件では、入力者、確認者、頻度、既存Excel、KPI定義、集計方法に合わせて項目を再設計します。</p>
-        </div>
+      <section class="svc-section" aria-labelledby="change-title"><div class="svc-section-head"><h2 id="change-title" class="svc-section-title">Before / After</h2><p class="svc-section-copy">このサンプルは、数字や進捗を入力するだけの表ではなく、未対応、保留、例外、次の確認を残すための運用記録へ変えるものです。</p></div><div class="svc-list"><article class="svc-item"><span class="svc-no">Before</span><h3>分散した確認</h3><div><p>売上、案件、採用、教育、KPIが別々のメモやExcelに分散し、誰が何を確認したのか、どの状態が止まっているのかが見えにくい状態です。</p></div></article><article class="svc-item"><span class="svc-no">After</span><h3>状態の記録</h3><div><p>領域、確認項目、入力内容、確認頻度を分けることで、未対応、保留、次アクション、確認者が残り、週次確認の基盤になります。</p></div></article></div></section>
 
-        <article class="svc-sample-document" aria-label="Operational control sheet sample">
-          <div class="svc-sample-header">
-            <h2>業務確認・管理表</h2>
-            <dl class="svc-sample-meta">
-              <div><dt>Document</dt><dd>Operational Control Sheet</dd></div>
-              <div><dt>Version</dt><dd>Sample / 0.1</dd></div>
-              <div><dt>Scope</dt><dd>Small Business Operations</dd></div>
-            </dl>
-          </div>
-
-          <table class="svc-table">
-            <thead>
-              <tr>
-                <th>領域</th>
-                <th>確認項目</th>
-                <th>入力内容</th>
-                <th>確認頻度</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-label="領域">売上</td>
-                <td data-label="確認項目">日次売上、客数、客単価</td>
-                <td data-label="入力内容">金額、件数、前日比、メモ</td>
-                <td data-label="確認頻度">日次</td>
-              </tr>
-              <tr>
-                <td data-label="領域">案件</td>
-                <td data-label="確認項目">進行中案件、未対応、保留事項</td>
-                <td data-label="入力内容">担当者、期限、状態、次アクション</td>
-                <td data-label="確認頻度">日次 / 週次</td>
-              </tr>
-              <tr>
-                <td data-label="領域">KPI</td>
-                <td data-label="確認項目">重点指標と目標差分</td>
-                <td data-label="入力内容">目標、実績、差分、理由</td>
-                <td data-label="確認頻度">週次</td>
-              </tr>
-              <tr>
-                <td data-label="領域">採用</td>
-                <td data-label="確認項目">応募、面接、選考、内定、辞退</td>
-                <td data-label="入力内容">候補者数、進捗、次回対応</td>
-                <td data-label="確認頻度">週次</td>
-              </tr>
-              <tr>
-                <td data-label="領域">教育</td>
-                <td data-label="確認項目">新人教育項目、未完了項目</td>
-                <td data-label="入力内容">対象者、確認者、完了日、課題</td>
-                <td data-label="確認頻度">週次</td>
-              </tr>
-              <tr>
-                <td data-label="領域">例外</td>
-                <td data-label="確認項目">通常運用から外れた事項</td>
-                <td data-label="入力内容">発生日、内容、理由、対応者</td>
-                <td data-label="確認頻度">発生時</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="svc-note-box">
-            <h3>Control Note</h3>
-            <p>管理表は、数字を並べるだけではなく、誰が何を確認し、どの状態を次に進めるのかを残すための運用記録です。</p>
-          </div>
-
-          <div class="svc-note-box">
-            <h3>Design Note</h3>
-            <p>実際の納品では、既存のExcelやGoogleスプレッドシートを確認し、入力欄、確認欄、集計欄、例外メモを分けて設計します。複雑な自動化より先に、日々使える記録構造を優先します。</p>
-          </div>
-        </article>
-      </section>
-
-      <section class="svc-section" aria-labelledby="next-title">
-        <div class="svc-close">
-          <h2 id="next-title">From table to control.</h2>
-          <div>
-            <p>管理表は、単なる表ではありません。進捗、数字、未対応、例外を確認し、次の判断を残すための業務基盤です。</p>
-            <p>既存の表がある場合も、使いにくい箇所を確認しながら、入力と確認の流れを整理します。</p>
-            <div class="svc-actions">
-              <a class="svc-action" href="/contact.html">この形式を自社用に相談する <span aria-hidden="true">→</span></a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section class="svc-section" aria-labelledby="document-title"><div class="svc-section-head"><h2 id="document-title" class="svc-section-title">Sample Preview</h2><p class="svc-section-copy">下記は公開用に簡略化した管理表サンプルです。実案件では、入力者、確認者、頻度、既存Excel、KPI定義、集計方法に合わせて項目を再設計します。</p></div><article class="svc-sample-document" aria-label="Operational control sheet sample"><div class="svc-sample-header"><h2>業務確認・管理表</h2><dl class="svc-sample-meta"><div><dt>Document</dt><dd>Operational Control Sheet</dd></div><div><dt>Version</dt><dd>Sample / 0.1</dd></div><div><dt>Scope</dt><dd>Small Business Operations</dd></div></dl></div><table class="svc-table"><thead><tr><th>領域</th><th>確認項目</th><th>入力内容</th><th>確認頻度</th></tr></thead><tbody><tr><td data-label="領域">売上</td><td data-label="確認項目">日次売上、客数、客単価</td><td data-label="入力内容">金額、件数、前日比、メモ</td><td data-label="確認頻度">日次</td></tr><tr><td data-label="領域">案件</td><td data-label="確認項目">進行中案件、未対応、保留事項</td><td data-label="入力内容">担当者、期限、状態、次アクション</td><td data-label="確認頻度">日次 / 週次</td></tr><tr><td data-label="領域">KPI</td><td data-label="確認項目">重点指標と目標差分</td><td data-label="入力内容">目標、実績、差分、理由</td><td data-label="確認頻度">週次</td></tr><tr><td data-label="領域">採用</td><td data-label="確認項目">応募、面接、選考、内定、辞退</td><td data-label="入力内容">候補者数、進捗、次回対応</td><td data-label="確認頻度">週次</td></tr><tr><td data-label="領域">教育</td><td data-label="確認項目">新人教育項目、未完了項目</td><td data-label="入力内容">対象者、確認者、完了日、課題</td><td data-label="確認頻度">週次</td></tr><tr><td data-label="領域">例外</td><td data-label="確認項目">通常運用から外れた事項</td><td data-label="入力内容">発生日、内容、理由、対応者</td><td data-label="確認頻度">発生時</td></tr></tbody></table><div class="svc-note-box"><h3>Control Note</h3><p>管理表は、数字を並べるだけではなく、誰が何を確認し、どの状態を次に進めるのかを残すための運用記録です。</p></div><div class="svc-note-box"><h3>Design Note</h3><p>実際の納品では、既存のExcelやGoogleスプレッドシートを確認し、入力欄、確認欄、集計欄、例外メモを分けて設計します。複雑な自動化より先に、日々使える記録構造を優先します。</p></div></article></section>
+      <section class="svc-section" aria-labelledby="next-title"><div class="svc-close"><h2 id="next-title">From table to control.</h2><div><p>管理表は、単なる表ではありません。進捗、数字、未対応、例外を確認し、次の判断を残すための業務基盤です。</p><p>既存の表がある場合も、使いにくい箇所を確認しながら、入力と確認の流れを整理します。</p><div class="svc-actions"><a class="svc-action" href="/services/contact.html">この形式を自社用に相談する <span aria-hidden="true">→</span></a></div></div></div></section>
     </main>
-
-    <footer class="svc-footer">
-      <div>© 2025 Sapporo Investment Co., Ltd. / Operational Design</div>
-      <div><a href="/services/">Services</a> / <a href="/samples/">Samples</a> / <a href="/contact.html">Contact</a> / <a href="/">Research Archive</a></div>
-    </footer>
+    <footer class="svc-footer"><div>© 2025 Sapporo Investment Co., Ltd. / Operational Design</div><div><a href="/services/">Services</a> / <a href="/samples/">Samples</a> / <a href="/services/contact.html">Contact</a> / <a href="/">Research Archive</a></div></footer>
   </div>
 </body>
 </html>
