@@ -37,7 +37,7 @@ body.service-room::before{
   mix-blend-mode:soft-light;
 }
 
-a{color:inherit;text-decoration:none}
+a{color:inherit;text-decoration:none;text-underline-offset:.22em}
 a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);outline-offset:4px}
 
 .svc-shell{width:min(100%,1480px);margin:0 auto;padding:0 clamp(20px,4vw,72px)}
@@ -47,7 +47,10 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
 .svc-mark strong{font-family:var(--svc-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--svc-ink)}
 .svc-mark span{font-family:var(--svc-mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--svc-muted)}
 .svc-nav{display:flex;align-items:center;gap:18px;font-family:var(--svc-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--svc-muted)}
+.svc-nav a{position:relative;min-height:32px;display:inline-flex;align-items:center}
+.svc-nav a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:currentColor;opacity:.18;transform:scaleX(.55);transform-origin:left;transition:opacity .2s ease,transform .2s ease}
 .svc-nav a:hover{color:var(--svc-ink)}
+.svc-nav a:hover::after{opacity:.5;transform:scaleX(1)}
 
 .svc-hero{display:grid;grid-template-columns:minmax(0,.62fr) minmax(320px,.38fr);gap:clamp(40px,7vw,120px);padding:clamp(72px,10vw,156px) 0 clamp(56px,8vw,112px);border-bottom:1px solid var(--svc-line)}
 .svc-kicker{margin:0 0 22px;font-family:var(--svc-mono);font-size:.68rem;letter-spacing:.20em;text-transform:uppercase;color:var(--svc-muted)}
@@ -55,8 +58,10 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
 .svc-hero .svc-lede{max-width:42ch;margin:34px 0 0;font-size:clamp(1.1rem,1.5vw,1.38rem);line-height:1.72;color:var(--svc-soft)}
 .svc-hero .svc-thesis{max-width:42ch;margin:36px 0 0;color:var(--svc-soft);font-size:1rem;line-height:1.9}
 .svc-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px}
-.svc-action{min-height:44px;display:inline-flex;align-items:center;justify-content:space-between;gap:22px;padding:0 16px;border:1px solid var(--svc-line-strong);font-family:var(--svc-mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--svc-ink);background:transparent}
-.svc-action:hover{border-color:rgba(239,242,234,.26)}
+.svc-action{position:relative;min-height:46px;display:inline-flex;align-items:center;justify-content:space-between;gap:22px;padding:0 16px;border:1px solid rgba(239,242,234,.18);font-family:var(--svc-mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--svc-ink);background:linear-gradient(180deg,rgba(239,242,234,.025),rgba(239,242,234,.006));box-shadow:inset 0 1px 0 rgba(239,242,234,.045)}
+.svc-action::after{content:"";position:absolute;left:16px;right:16px;bottom:7px;height:1px;background:rgba(239,242,234,.24);transform:scaleX(.16);transform-origin:left;transition:transform .2s ease,opacity .2s ease;opacity:.7}
+.svc-action:hover{border-color:rgba(239,242,234,.34)}
+.svc-action:hover::after{transform:scaleX(1);opacity:1}
 
 .svc-record{align-self:end;border-top:1px solid var(--svc-line);padding-top:22px}
 .svc-record dl{margin:0}
@@ -79,6 +84,7 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
 .svc-item p{margin:0;max-width:60ch;color:var(--svc-soft);font-size:1rem;line-height:1.9}
 .svc-item ul{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:8px;color:var(--svc-muted);font-family:var(--svc-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase}
 .svc-item li::before{content:"— ";color:var(--svc-dim)}
+.svc-item li a{text-decoration:underline;text-decoration-color:rgba(239,242,234,.28);text-decoration-thickness:1px;color:var(--svc-ink)}
 
 .svc-evidence{display:grid;grid-template-columns:minmax(0,.48fr) minmax(0,.52fr);gap:clamp(30px,6vw,88px);align-items:start}
 .svc-evidence h2{margin:0;max-width:12ch;font-family:var(--svc-serif);font-weight:400;font-size:clamp(2.8rem,5.8vw,7.4rem);line-height:.88;letter-spacing:-.066em}
@@ -113,7 +119,7 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
   .svc-nav{gap:14px;flex-wrap:wrap}
   .svc-hero,.svc-section-head,.svc-evidence,.svc-close{grid-template-columns:1fr}
   .svc-hero{padding:54px 0 44px;gap:34px}
-  .svc-hero h1{font-size:clamp(3.8rem,13vw,6rem);line-height:.92;letter-spacing:-.04em;max-width:10ch}
+  .svc-hero h1{font-size:clamp(3.8rem,13vw,6rem);line-height:.92;letter-spacing:-.04em;max-width:10ch;word-break:keep-all;overflow-wrap:normal}
   .svc-hero .svc-lede{font-size:1rem;line-height:1.7}
   .svc-record div{grid-template-columns:1fr;gap:6px;padding:15px 0}
   .svc-section{padding:48px 0}
@@ -124,7 +130,7 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
   .svc-evidence-row{grid-template-columns:1fr;gap:8px}
   .svc-close{gap:24px}
   .svc-footer{display:grid;gap:10px}
-  .svc-action{width:100%}
+  .svc-action{width:100%;min-height:46px}
   .svc-sample-header{grid-template-columns:1fr}
   .svc-sample-document{padding:20px;overflow:hidden}
   .svc-sample-document::after{top:auto;bottom:.05em;font-size:4rem}
@@ -149,11 +155,11 @@ a:focus-visible,button:focus-visible{outline:1px solid rgba(239,242,234,.72);out
 
   .svc-hero{padding:42px 0 34px;gap:24px}
   .svc-kicker{margin-bottom:16px;font-size:.6rem;letter-spacing:.18em}
-  .svc-hero h1{font-size:clamp(3.4rem,12vw,5rem);line-height:.92;letter-spacing:-.04em;max-width:10ch}
+  .svc-hero h1{font-size:clamp(2.95rem,10.5vw,4.35rem);line-height:.96;letter-spacing:-.035em;max-width:11ch;word-break:keep-all;overflow-wrap:normal}
   .svc-hero .svc-lede{margin-top:24px;font-size:.98rem;line-height:1.7}
   .svc-hero .svc-thesis{margin-top:22px;font-size:.95rem;line-height:1.82}
   .svc-actions{margin-top:28px;gap:8px}
-  .svc-action{min-height:42px;font-size:.58rem;letter-spacing:.12em;padding:0 13px}
+  .svc-action{min-height:46px;font-size:.58rem;letter-spacing:.12em;padding:0 13px}
 
   .svc-record{padding-top:16px}
   .svc-record div{padding:12px 0;gap:5px}
