@@ -111,6 +111,56 @@
   color:var(--pei-amber)!important;
 }
 
+/* White-surface kill switch for mobile/full-page capture artifacts.
+   The diagonal light wedges were rendering as opaque white surfaces on iPhone captures.
+   Keep the archive black; preserve only thin borders and dark material depth. */
+.proper-ending-index .pei-epigraph,
+.proper-ending-index .pei-epigraph.pei-epigraph--quiet{
+  background:#070808!important;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.006))!important;
+  overflow:hidden!important;
+}
+
+.proper-ending-index .pei-epigraph::before,
+.proper-ending-index .pei-epigraph::after{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  background:none!important;
+}
+
+.proper-ending-index .paper-map article,
+.proper-ending-index .protocol,
+.proper-ending-index .drift-specimen,
+.proper-ending-index .evidence-plate{
+  background:#050607!important;
+  background-color:#050607!important;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,.004))!important;
+  overflow:hidden!important;
+}
+
+.proper-ending-index .paper-map article::before,
+.proper-ending-index .paper-map article::after,
+.proper-ending-index .protocol::before,
+.proper-ending-index .protocol::after,
+.proper-ending-index .drift-specimen::before,
+.proper-ending-index .drift-specimen::after,
+.proper-ending-index .evidence-plate::before,
+.proper-ending-index .evidence-plate::after{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  background:none!important;
+  clip-path:none!important;
+  transform:none!important;
+}
+
+.proper-ending-index .paper-map article *,
+.proper-ending-index .protocol *,
+.proper-ending-index .pei-epigraph *{
+  text-shadow:none!important;
+}
+
 @media(max-width:760px){
   .pei-epigraph{
     margin:clamp(24px,7vw,44px) 22px;
@@ -140,5 +190,14 @@
     font-size:.61rem;
     line-height:1.68;
     letter-spacing:.062em;
+  }
+
+  .proper-ending-index .paper-map article,
+  .proper-ending-index .protocol,
+  .proper-ending-index .drift-specimen,
+  .proper-ending-index .evidence-plate,
+  .proper-ending-index .pei-epigraph{
+    background:#050607!important;
+    background-image:linear-gradient(180deg,rgba(255,255,255,.012),rgba(255,255,255,.003))!important;
   }
 }
