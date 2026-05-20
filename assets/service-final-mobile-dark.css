@@ -1,0 +1,132 @@
+/* Final mobile dark pass for service/sample previews.
+   Loaded after services.css and services-os.css to prevent pale cards on iPhone Chrome/Safari. */
+
+@media(max-width:900px){
+  body.service-room{
+    background:#030404!important;
+  }
+
+  body.service-room :where(
+    .svc-dashboard-grid,
+    .svc-before-after,
+    .svc-preview-grid,
+    .svc-operational-preview,
+    .svc-sample-preview,
+    .svc-os-grid,
+    .svc-module-grid
+  ){
+    background:rgba(239,242,234,.10)!important;
+    border-color:rgba(239,242,234,.10)!important;
+  }
+
+  body.service-room :where(
+    .svc-dashboard-grid > *,
+    .svc-before-after > *,
+    .svc-preview-grid > *,
+    .svc-operational-preview > *,
+    .svc-sample-preview > *,
+    .svc-os-grid > *,
+    .svc-module-grid > *,
+    .svc-os-card,
+    .svc-module,
+    .svc-before,
+    .svc-after,
+    .svc-preview-card,
+    .svc-snapshot,
+    .svc-dashboard-card,
+    .svc-sample-card,
+    .svc-terminal,
+    .svc-why-panel
+  ){
+    background:linear-gradient(180deg,rgba(239,242,234,.028),rgba(239,242,234,.006)),#070909!important;
+    color:#f4f2ea!important;
+    border-color:rgba(239,242,234,.13)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 18px 58px rgba(0,0,0,.30)!important;
+  }
+
+  body.service-room :where(
+    .svc-dashboard-grid > *::before,
+    .svc-dashboard-grid > *::after,
+    .svc-before-after > *::before,
+    .svc-before-after > *::after,
+    .svc-preview-grid > *::before,
+    .svc-preview-grid > *::after,
+    .svc-operational-preview > *::before,
+    .svc-operational-preview > *::after,
+    .svc-sample-preview > *::before,
+    .svc-sample-preview > *::after,
+    .svc-os-card::before,
+    .svc-os-card::after,
+    .svc-module::before,
+    .svc-module::after,
+    .svc-preview-card::before,
+    .svc-preview-card::after,
+    .svc-snapshot::before,
+    .svc-snapshot::after,
+    .svc-dashboard-card::before,
+    .svc-dashboard-card::after,
+    .svc-sample-card::before,
+    .svc-sample-card::after
+  ){
+    content:none!important;
+    display:none!important;
+    background:none!important;
+  }
+
+  body.service-room :where(
+    .svc-dashboard-grid > * *,
+    .svc-before-after > * *,
+    .svc-preview-grid > * *,
+    .svc-operational-preview > * *,
+    .svc-sample-preview > * *,
+    .svc-os-card *,
+    .svc-module *,
+    .svc-preview-card *,
+    .svc-snapshot *,
+    .svc-dashboard-card *,
+    .svc-sample-card *
+  ){
+    background-color:transparent!important;
+  }
+
+  body.service-room :where(
+    .svc-os-card h3,
+    .svc-module h3,
+    .svc-before h3,
+    .svc-after h3,
+    .svc-preview-card h3,
+    .svc-snapshot h3,
+    .svc-dashboard-card h3,
+    .svc-sample-card h3
+  ){
+    color:#f4f2ea!important;
+  }
+
+  body.service-room :where(
+    .svc-os-card p,
+    .svc-module p,
+    .svc-before li,
+    .svc-after li,
+    .svc-preview-card p,
+    .svc-snapshot p,
+    .svc-dashboard-card p,
+    .svc-sample-card p,
+    .svc-preview-card li,
+    .svc-snapshot li,
+    .svc-dashboard-card li,
+    .svc-sample-card li
+  ){
+    color:rgba(244,242,234,.76)!important;
+  }
+
+  body.service-room :where(.svc-mini-table,.svc-mini-table div){
+    background:rgba(0,0,0,.18)!important;
+    border-color:rgba(239,242,234,.08)!important;
+  }
+
+  body.service-room .svc-topbar{
+    background:#030404!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+}
