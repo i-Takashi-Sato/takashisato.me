@@ -16,11 +16,34 @@
 
   loadLateStylesheet('/assets/mobile-paper-topbar-fix.css');
   loadLateStylesheet('/assets/paper-cta-hierarchy.css');
-  loadLateStylesheet('/assets/proper-ending-material-system.css');
+  loadLateStylesheet('/assets/proper-ending-material-system.css?v=47');
+  loadLateStylesheet('/assets/part-dom-traces.css?v=47');
   loadLateStylesheet('/assets/brand-signature-polish.css');
   loadLateStylesheet('/assets/catalogue-read-kill.css');
   loadLateStylesheet('/assets/mobile-scroll-fix.css');
   loadLateStylesheet('/assets/home-mobile-scroll-fix.css');
+
+  const partTrace = (() => {
+    if (document.body.classList.contains('pei-part-1')) return { src: '/assets/shohakyu-jo.svg', label: '序' };
+    if (document.body.classList.contains('pei-part-2')) return { src: '/assets/shohakyu-ha.svg', label: '破' };
+    if (document.body.classList.contains('pei-part-3')) return { src: '/assets/shohakyu-kyu.svg', label: '急' };
+    return null;
+  })();
+
+  if (partTrace) {
+    const deck = document.querySelector('.paper-deck');
+    if (deck && !deck.querySelector('.shk-trace')) {
+      const img = document.createElement('img');
+      img.className = 'shk-trace';
+      img.src = partTrace.src;
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.decoding = 'async';
+      img.loading = 'eager';
+      deck.insertBefore(img, deck.firstChild);
+      document.documentElement.setAttribute('data-shk-trace', partTrace.label);
+    }
+  }
 
   const brand = document.querySelector('.pei-brand');
   if (brand) {
