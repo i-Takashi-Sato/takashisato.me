@@ -2,10 +2,32 @@
    These blocks are not decorative pull quotes. They are source-text specimens. */
 
 .pei-epigraph{
-  margin:clamp(28px,4vw,64px) clamp(22px,5vw,72px);
-  padding:clamp(22px,3vw,36px) 0;
-  border-top:1px solid var(--pei-line);
-  border-bottom:1px solid var(--pei-line);
+  position:relative;
+  isolation:isolate;
+  margin:clamp(30px,4.4vw,70px) clamp(22px,5vw,72px);
+  padding:clamp(24px,3.4vw,44px) clamp(22px,3.8vw,56px);
+  border:1px solid var(--pei-line);
+  border-radius:22px;
+  background:
+    linear-gradient(180deg,rgba(245,248,243,.026),rgba(245,248,243,.008)),
+    rgba(5,6,7,.72);
+  box-shadow:
+    inset 0 1px 0 rgba(245,248,243,.04),
+    0 24px 80px rgba(0,0,0,.18);
+  overflow:hidden;
+}
+
+.pei-epigraph::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(420px 180px at 18% 0%,rgba(242,242,236,.035),transparent 70%),
+    linear-gradient(90deg,rgba(232,235,228,.018) 0 1px,transparent 1px 100%);
+  background-size:auto,72px 100%;
+  opacity:.9;
 }
 
 .pei-epigraph blockquote,
@@ -14,41 +36,51 @@
 }
 
 .pei-epigraph--quiet{
-  margin-top:clamp(18px,3vw,40px);
-  margin-bottom:clamp(18px,3vw,40px);
-  padding-top:clamp(16px,2vw,26px);
-  padding-bottom:clamp(16px,2vw,26px);
+  margin-top:clamp(20px,3vw,44px);
+  margin-bottom:clamp(20px,3vw,44px);
+  padding-top:clamp(20px,2.4vw,32px);
+  padding-bottom:clamp(20px,2.4vw,32px);
+  border-radius:18px;
+  background:
+    linear-gradient(180deg,rgba(245,248,243,.018),rgba(245,248,243,.006)),
+    rgba(5,6,7,.54);
 }
 
 .pei-epigraph .epi-main{
   margin:0;
+  max-width:30ch;
   font-family:var(--pei-serif);
-  font-size:clamp(1.25rem,1.9vw,2.15rem);
-  line-height:1.18;
+  font-size:clamp(1.48rem,2.25vw,2.62rem);
+  line-height:1.13;
   letter-spacing:-.025em;
-  color:rgba(242,242,236,.88);
+  color:rgba(242,242,236,.93);
 }
 
 .pei-epigraph--quiet .epi-main{
-  font-size:clamp(1.05rem,1.45vw,1.55rem);
+  font-size:clamp(1.18rem,1.62vw,1.82rem);
+  max-width:34ch;
 }
 
 .pei-epigraph .epi-sub{
-  margin:.7rem 0 0;
+  max-width:44ch;
+  margin:.78rem 0 0;
   font-family:var(--pei-sans);
-  font-size:clamp(.86rem,1vw,1rem);
-  line-height:1.7;
-  color:rgba(205,208,200,.72);
+  font-size:clamp(.92rem,1.05vw,1.08rem);
+  line-height:1.62;
+  color:rgba(205,208,200,.75);
 }
 
 .pei-epigraph figcaption{
   display:block;
-  margin-top:1rem;
+  max-width:72ch;
+  margin-top:1.05rem;
+  padding-top:.95rem;
+  border-top:1px solid rgba(232,235,228,.065);
   font-family:var(--pei-mono);
-  font-size:.62rem;
-  line-height:1.65;
-  letter-spacing:.08em;
-  color:rgba(166,170,162,.58);
+  font-size:.66rem;
+  line-height:1.72;
+  letter-spacing:.075em;
+  color:rgba(166,170,162,.64);
   font-style:normal;
 }
 
@@ -56,24 +88,57 @@
   font-style:normal;
 }
 
+/* About-page blackout safety: keep Archive Position dark when capture/browser layers disagree. */
+.research-position,
+.research-position article{
+  background:#050607!important;
+  background-color:#050607!important;
+  background-image:none!important;
+  color:#f2f2ec!important;
+  border-color:var(--pei-line)!important;
+}
+
+.research-position h3{
+  color:#f2f2ec!important;
+}
+
+.research-position p{
+  color:#cdd0c8!important;
+}
+
+.research-position article span,
+.research-position .catalogue-label{
+  color:var(--pei-amber)!important;
+}
+
 @media(max-width:760px){
   .pei-epigraph{
-    margin:clamp(24px,7vw,42px) 0;
-    padding:clamp(18px,5vw,28px) 0;
+    margin:clamp(24px,7vw,44px) 22px;
+    padding:clamp(20px,6vw,30px) clamp(18px,5vw,24px);
+    border-radius:18px;
   }
   .pei-epigraph--quiet{
     margin-top:clamp(18px,6vw,34px);
     margin-bottom:clamp(18px,6vw,34px);
+    padding-top:clamp(18px,5vw,26px);
+    padding-bottom:clamp(18px,5vw,26px);
   }
   .pei-epigraph .epi-main{
-    font-size:clamp(1.12rem,5.2vw,1.72rem);
-    line-height:1.22;
+    max-width:100%;
+    font-size:clamp(1.34rem,6vw,1.96rem);
+    line-height:1.16;
   }
   .pei-epigraph--quiet .epi-main{
-    font-size:clamp(1rem,4.5vw,1.34rem);
+    font-size:clamp(1.08rem,5vw,1.42rem);
+    line-height:1.2;
+  }
+  .pei-epigraph .epi-sub{
+    font-size:clamp(.88rem,4vw,1rem);
+    line-height:1.56;
   }
   .pei-epigraph figcaption{
-    font-size:.58rem;
-    letter-spacing:.065em;
+    font-size:.61rem;
+    line-height:1.68;
+    letter-spacing:.062em;
   }
 }
