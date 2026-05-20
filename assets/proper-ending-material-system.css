@@ -1,6 +1,8 @@
-/* Material System v6 — no fake paper screenshots; use the papers' ideas as clean argument plates */
+/* Material System v7 — capture-safe black research surfaces.
+   Keep the Proper Ending Index as a dark archive, not a rasterized paper surface. */
 body.proper-ending-index{
   --mat-bg:#050607;
+  --mat-panel:#070808;
   --mat-ink:#f2f2ec;
   --mat-muted:#cdd0c8;
   --mat-dim:rgba(205,208,200,.58);
@@ -8,9 +10,118 @@ body.proper-ending-index{
   --mat-line-strong:rgba(232,235,228,.18);
   --mat-gold:#b7aa91;
   --mat-rust:#c45c50;
+  background:#050607!important;
+  background-color:#050607!important;
+  background-image:none!important;
+  color-scheme:dark!important;
 }
 
-/* Evidence plates: not decorative screenshots. These are compact argument exhibits. */
+/* Full-page capture stabilization: remove fixed fog, blend layers, and generated material wedges
+   that can rasterize as opaque white surfaces on iPhone full-page screenshots. */
+body.proper-ending-index::before,
+body.proper-ending-index::after,
+body.proper-ending-index .pei-main::after,
+body.proper-ending-index .pei-sidebar::before,
+body.proper-ending-index .pei-sidebar::after,
+body.proper-ending-index .pei-hero::before,
+body.proper-ending-index .pei-hero::after,
+body.proper-ending-index .proper-note::before,
+body.proper-ending-index .fragment::before,
+body.proper-ending-index .dissent-map::before,
+body.proper-ending-index .instrument-visual::before,
+body.proper-ending-index .paper-row::before,
+body.proper-ending-index .catalogue-row::before,
+body.proper-ending-index .movement::before,
+body.proper-ending-index .protocol::before,
+body.proper-ending-index .instrument-card::before,
+body.proper-ending-index .contact-link::before,
+body.proper-ending-index .paper-map article::before,
+body.proper-ending-index .drift-specimen::before,
+body.proper-ending-index .drift-specimen::after,
+body.proper-ending-index .paper-cta::before,
+body.proper-ending-index .pei-ending::before,
+body.proper-ending-index .pei-ending::after,
+body.proper-ending-index .ending-title::before,
+body.proper-ending-index .ending-title::after,
+body.proper-ending-index .ending-record::before,
+body.proper-ending-index .ending-record::after,
+body.proper-ending-index .ending-meta::before,
+body.proper-ending-index .ending-meta::after{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  background:none!important;
+  background-image:none!important;
+  mix-blend-mode:normal!important;
+  filter:none!important;
+  transform:none!important;
+  clip-path:none!important;
+  mask-image:none!important;
+  -webkit-mask-image:none!important;
+}
+
+/* Dark surfaces: use stable background color, thin borders, and typography instead of gradients/images. */
+body.proper-ending-index .pei-shell,
+body.proper-ending-index .pei-main,
+body.proper-ending-index main,
+body.proper-ending-index .pei-sidebar,
+body.proper-ending-index .pei-topbar,
+body.proper-ending-index .pei-hero,
+body.proper-ending-index .pei-specimen,
+body.proper-ending-index .proper-note,
+body.proper-ending-index .paper-deck,
+body.proper-ending-index .paper-deck-main,
+body.proper-ending-index .paper-deck-side,
+body.proper-ending-index .paper-ledger,
+body.proper-ending-index .paper-problem,
+body.proper-ending-index .paper-map,
+body.proper-ending-index .paper-map article,
+body.proper-ending-index .paper-cta,
+body.proper-ending-index .paper-cta-main,
+body.proper-ending-index .paper-cta-aside,
+body.proper-ending-index .drift-lab,
+body.proper-ending-index .drift-specimen,
+body.proper-ending-index .evidence-plate,
+body.proper-ending-index .about-block,
+body.proper-ending-index .protocol-grid,
+body.proper-ending-index .protocol,
+body.proper-ending-index .contact-grid,
+body.proper-ending-index .contact-link,
+body.proper-ending-index .catalogue,
+body.proper-ending-index .catalogue-row,
+body.proper-ending-index .paper-row,
+body.proper-ending-index .movement,
+body.proper-ending-index .failure-sequence,
+body.proper-ending-index .failure-step,
+body.proper-ending-index .instrument-list,
+body.proper-ending-index .instrument-card,
+body.proper-ending-index .pei-ending{
+  background:#050607!important;
+  background-color:#050607!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  mix-blend-mode:normal!important;
+  isolation:isolate!important;
+  border-color:rgba(232,235,228,.075)!important;
+}
+
+body.proper-ending-index .paper-map article,
+body.proper-ending-index .protocol,
+body.proper-ending-index .instrument-card,
+body.proper-ending-index .contact-link,
+body.proper-ending-index .catalogue-row,
+body.proper-ending-index .paper-row,
+body.proper-ending-index .movement,
+body.proper-ending-index .failure-step,
+body.proper-ending-index .drift-specimen.evidence-plate{
+  position:relative!important;
+  overflow:hidden!important;
+  background:#070808!important;
+  background-color:#070808!important;
+  border:1px solid rgba(232,235,228,.075)!important;
+}
+
+/* Evidence plates: compact argument exhibits, stabilized for capture. */
 .drift-specimen.evidence-plate{
   position:relative!important;
   display:grid!important;
@@ -19,26 +130,16 @@ body.proper-ending-index{
   min-height:clamp(250px,22vw,360px)!important;
   margin-top:clamp(24px,3vw,42px)!important;
   padding:0!important;
-  border:1px solid rgba(232,235,228,.22)!important;
-  background:
-    linear-gradient(180deg,rgba(242,242,236,.032),rgba(242,242,236,.006) 58%,rgba(0,0,0,.22)),
-    radial-gradient(circle at 16% 22%,rgba(183,170,145,.055),transparent 36%),
-    radial-gradient(circle at 86% 62%,rgba(196,92,80,.045),transparent 38%),
-    linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px),
-    linear-gradient(180deg,rgba(255,255,255,.020) 1px,transparent 1px),
-    #070808!important;
-  background-size:auto,auto,auto,25% 100%,100% 33.333%,auto!important;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.028),
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 32px 90px rgba(0,0,0,.32)!important;
-  overflow:hidden!important;
-  isolation:isolate!important;
+  color:#f2f2ec!important;
 }
 .drift-specimen.evidence-plate::before,
-.drift-specimen.evidence-plate::after{
+.drift-specimen.evidence-plate::after,
+.evidence-plate::before,
+.evidence-plate::after{
   content:none!important;
   display:none!important;
+  opacity:0!important;
+  background:none!important;
 }
 .evidence-plate::selection{background:rgba(183,170,145,.26)}
 .evidence-head,
@@ -102,9 +203,6 @@ body.proper-ending-index{
   justify-content:flex-start!important;
   color:rgba(242,242,236,.62)!important;
 }
-body.pei-part-1 .evidence-plate{--plate-accent:rgba(183,170,145,.08)}
-body.pei-part-2 .evidence-plate{--plate-accent:rgba(196,92,80,.07)}
-body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
 
 /* Kill legacy bitmap / generated-fragment experiments when evidence is not upgraded yet. */
 .drift-specimen:not(.evidence-plate){
@@ -120,33 +218,19 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
   display:none!important;
 }
 
-/* End sections: remove all circular fog. Keep the section quiet and typographic. */
+/* End sections: quiet, typographic, no circular fog. */
 .paper-cta,
 .pei-ending{
   position:relative!important;
   overflow:hidden!important;
   background:#050607!important;
 }
-.paper-cta::before,
-.pei-ending::before,
-.pei-ending::after,
-.ending-title::before,
-.ending-title::after,
-.ending-record::before,
-.ending-record::after,
-.ending-meta::before,
-.ending-meta::after{
-  content:none!important;
-  display:none!important;
-  opacity:0!important;
-  background:none!important;
-}
 .paper-cta > *,
 .pei-ending > *{position:relative!important;z-index:1!important;}
 
 /* Signature as a small author seal only. Never over typography. */
 .pei-sidebar-foot::after{
-  content:""!important;
+  content:''!important;
   display:block!important;
   width:82px!important;
   height:42px!important;
@@ -157,7 +241,7 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
 }
 .contact-grid::after,
 .about-block::after{
-  content:""!important;
+  content:''!important;
   position:absolute!important;
   right:clamp(24px,5vw,76px)!important;
   bottom:clamp(18px,3vw,42px)!important;
@@ -170,49 +254,9 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
 .contact-grid,
 .about-block{position:relative!important;}
 
-/* Material only as edge depth on catalogue cards. */
-.paper-row,
-.catalogue-row,
-.movement,
-.protocol,
-.instrument-card,
-.contact-link{
-  position:relative!important;
-  overflow:hidden!important;
-}
-.paper-row::before,
-.catalogue-row::before,
-.movement::before,
-.protocol::before,
-.instrument-card::before,
-.contact-link::before{
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  inset:0!important;
-  pointer-events:none!important;
-  opacity:.08!important;
-  background:
-    linear-gradient(120deg,rgba(242,242,236,.024),transparent 28%,transparent 72%,rgba(183,170,145,.022)),
-    repeating-linear-gradient(0deg,transparent 0 9px,rgba(242,242,236,.008) 10px)!important;
-}
-.paper-row > *,
-.catalogue-row > *,
-.movement > *,
-.protocol > *,
-.instrument-card > *,
-.contact-link > *{position:relative!important;z-index:1!important;}
-
-/* Remove the failed giant watermark from earlier experiments. */
-.paper-deck-main::after,
-.pei-page-copy::after{
-  content:none!important;
-  display:none!important;
-}
-
 /* Make local PDF labels clear without pretending they are primary. */
 .archive-link{font-size:0!important;}
-.archive-link::before{content:"Open PDF"!important;font-size:10px!important;}
+.archive-link::before{content:'Open PDF'!important;font-size:10px!important;}
 
 @media(max-width:1080px){
   .evidence-core{grid-template-columns:1fr!important;}
@@ -223,21 +267,17 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
   .pei-topbar{
     background:#050607!important;
     background-color:#050607!important;
-    box-shadow:0 14px 28px rgba(0,0,0,.42)!important;
+    box-shadow:none!important;
     overflow:hidden!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
   }
   .drift-specimen.evidence-plate{
     min-height:0!important;
     margin-top:22px!important;
     border-color:rgba(232,235,228,.20)!important;
-    background:
-      linear-gradient(180deg,rgba(242,242,236,.026),rgba(242,242,236,.004) 58%,rgba(0,0,0,.18)),
-      radial-gradient(circle at 12% 20%,rgba(183,170,145,.045),transparent 34%),
-      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
-      linear-gradient(180deg,rgba(255,255,255,.014) 1px,transparent 1px),
-      #070808!important;
-    background-size:auto,auto,50% 100%,100% 25%,auto!important;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.020),0 22px 70px rgba(0,0,0,.28)!important;
+    background:#070808!important;
+    background-image:none!important;
   }
   .evidence-head,
   .evidence-foot{
@@ -265,14 +305,6 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
   }
   .evidence-matrix span:last-child{border-bottom:0!important;}
   .evidence-matrix b{font-size:8px!important;letter-spacing:.13em!important;}
-  .paper-row::before,
-  .catalogue-row::before,
-  .movement::before,
-  .protocol::before,
-  .instrument-card::before,
-  .contact-link::before{opacity:.05!important;}
-  .paper-cta::before,
-  .pei-ending::before{display:none!important;opacity:0!important;background:none!important;}
   .contact-grid::after,
   .about-block::after{display:none!important;}
   .pei-sidebar-foot::after{width:64px!important;height:32px!important;opacity:.13!important;}
