@@ -361,10 +361,47 @@ body.service-room{
   .svc-before,
   .svc-after,
   .svc-terminal,
-  .svc-why-panel{
-    background:linear-gradient(180deg,rgba(239,242,234,.024),rgba(239,242,234,.006)),#070909!important;
+  .svc-why-panel,
+  .svc-preview-card,
+  .svc-snapshot,
+  .svc-dashboard-card,
+  .svc-sample-card,
+  .svc-before-after > *,
+  .svc-operational-preview > *,
+  .svc-preview-grid > *,
+  .svc-sample-preview > *{
+    background:linear-gradient(180deg,rgba(239,242,234,.026),rgba(239,242,234,.006)),#070909!important;
+    color:var(--svc-ink)!important;
+    border-color:rgba(239,242,234,.12)!important;
   }
 
+  .svc-preview-card *,
+  .svc-snapshot *,
+  .svc-dashboard-card *,
+  .svc-sample-card *,
+  .svc-before-after > * *,
+  .svc-operational-preview > * *,
+  .svc-preview-grid > * *,
+  .svc-sample-preview > * *{
+    color:inherit!important;
+    background-color:transparent!important;
+  }
+
+  .svc-preview-card p,
+  .svc-snapshot p,
+  .svc-dashboard-card p,
+  .svc-sample-card p,
+  .svc-preview-card li,
+  .svc-snapshot li,
+  .svc-dashboard-card li,
+  .svc-sample-card li{
+    color:var(--svc-soft)!important;
+  }
+
+  .svc-preview-card::after,
+  .svc-snapshot::after,
+  .svc-dashboard-card::after,
+  .svc-sample-card::after,
   .svc-os-card::after,
   .svc-module::after,
   .svc-terminal::after,
