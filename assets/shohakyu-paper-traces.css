@@ -1,0 +1,72 @@
+/* Sho-Ha-Kyu paper-card traces.
+   The font file is not shipped. Only three outlined SVG marks are used as faint authorial traces. */
+
+body.home-award .a3-paper-row{
+  position:relative;
+  overflow:visible!important;
+  isolation:isolate;
+}
+
+body.home-award .a3-paper-row::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  pointer-events:none;
+  width:clamp(128px,18vw,260px);
+  aspect-ratio:1/1.35;
+  right:clamp(-42px,-3.4vw,-18px);
+  top:50%;
+  transform:translateY(-50%) rotate(-4deg);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  opacity:.046;
+  filter:blur(.08px);
+  mix-blend-mode:screen;
+}
+
+body.home-award .a3-paper-row:nth-child(1)::before{
+  background-image:url('/assets/shohakyu-jo.svg');
+  top:38.2%;
+  right:clamp(-36px,-2.8vw,-14px);
+  transform:translateY(-50%) rotate(-2.5deg);
+  opacity:.044;
+}
+
+body.home-award .a3-paper-row:nth-child(2)::before{
+  background-image:url('/assets/shohakyu-ha.svg');
+  top:50%;
+  right:clamp(-56px,-4.2vw,-22px);
+  width:clamp(150px,20vw,290px);
+  transform:translateY(-50%) rotate(3.5deg);
+  opacity:.038;
+}
+
+body.home-award .a3-paper-row:nth-child(3)::before{
+  background-image:url('/assets/shohakyu-kyu.svg');
+  top:61.8%;
+  right:clamp(-44px,-3.2vw,-16px);
+  transform:translateY(-50%) rotate(-6deg);
+  opacity:.042;
+}
+
+body.home-award .a3-paper-row > *{
+  position:relative;
+  z-index:1;
+}
+
+@media(max-width:760px){
+  body.home-award .a3-paper-row::before{
+    width:clamp(96px,32vw,150px);
+    right:-28px;
+    opacity:.032;
+    filter:none;
+  }
+  body.home-award .a3-paper-row:nth-child(1)::before{top:38.2%;right:-22px;opacity:.032}
+  body.home-award .a3-paper-row:nth-child(2)::before{top:50%;right:-34px;opacity:.028;width:clamp(112px,34vw,166px)}
+  body.home-award .a3-paper-row:nth-child(3)::before{top:61.8%;right:-26px;opacity:.030}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.home-award .a3-paper-row::before{filter:none!important;}
+}
