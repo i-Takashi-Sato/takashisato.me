@@ -1,0 +1,79 @@
+/* Proper Ending Index — textual evidence / epigraph specimens.
+   These blocks are not decorative pull quotes. They are source-text specimens. */
+
+.pei-epigraph{
+  margin:clamp(28px,4vw,64px) clamp(22px,5vw,72px);
+  padding:clamp(22px,3vw,36px) 0;
+  border-top:1px solid var(--pei-line);
+  border-bottom:1px solid var(--pei-line);
+}
+
+.pei-epigraph blockquote,
+.pei-epigraph blockquote p{
+  margin:0;
+}
+
+.pei-epigraph--quiet{
+  margin-top:clamp(18px,3vw,40px);
+  margin-bottom:clamp(18px,3vw,40px);
+  padding-top:clamp(16px,2vw,26px);
+  padding-bottom:clamp(16px,2vw,26px);
+}
+
+.pei-epigraph .epi-main{
+  margin:0;
+  font-family:var(--pei-serif);
+  font-size:clamp(1.25rem,1.9vw,2.15rem);
+  line-height:1.18;
+  letter-spacing:-.025em;
+  color:rgba(242,242,236,.88);
+}
+
+.pei-epigraph--quiet .epi-main{
+  font-size:clamp(1.05rem,1.45vw,1.55rem);
+}
+
+.pei-epigraph .epi-sub{
+  margin:.7rem 0 0;
+  font-family:var(--pei-sans);
+  font-size:clamp(.86rem,1vw,1rem);
+  line-height:1.7;
+  color:rgba(205,208,200,.72);
+}
+
+.pei-epigraph figcaption{
+  display:block;
+  margin-top:1rem;
+  font-family:var(--pei-mono);
+  font-size:.62rem;
+  line-height:1.65;
+  letter-spacing:.08em;
+  color:rgba(166,170,162,.58);
+  font-style:normal;
+}
+
+.pei-epigraph figcaption cite{
+  font-style:normal;
+}
+
+@media(max-width:760px){
+  .pei-epigraph{
+    margin:clamp(24px,7vw,42px) 0;
+    padding:clamp(18px,5vw,28px) 0;
+  }
+  .pei-epigraph--quiet{
+    margin-top:clamp(18px,6vw,34px);
+    margin-bottom:clamp(18px,6vw,34px);
+  }
+  .pei-epigraph .epi-main{
+    font-size:clamp(1.12rem,5.2vw,1.72rem);
+    line-height:1.22;
+  }
+  .pei-epigraph--quiet .epi-main{
+    font-size:clamp(1rem,4.5vw,1.34rem);
+  }
+  .pei-epigraph figcaption{
+    font-size:.58rem;
+    letter-spacing:.065em;
+  }
+}
