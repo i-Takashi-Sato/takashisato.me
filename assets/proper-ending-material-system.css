@@ -210,6 +210,60 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
   display:none!important;
 }
 
+/* Part-page Sho-Ha-Kyu traces. Uses SVG masks only, so no square artwork/background can appear. */
+.paper-deck{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+}
+.paper-deck::before{
+  content:""!important;
+  position:absolute!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  width:clamp(180px,22vw,380px)!important;
+  aspect-ratio:1/1.35!important;
+  right:clamp(-96px,-5.5vw,-42px)!important;
+  top:50%!important;
+  transform:translateY(-50%) rotate(-4deg)!important;
+  background:rgba(244,242,234,.16)!important;
+  opacity:.16!important;
+  -webkit-mask-repeat:no-repeat!important;
+  mask-repeat:no-repeat!important;
+  -webkit-mask-position:center!important;
+  mask-position:center!important;
+  -webkit-mask-size:contain!important;
+  mask-size:contain!important;
+  mix-blend-mode:screen!important;
+  filter:blur(.22px)!important;
+}
+.paper-deck > *{position:relative!important;z-index:1!important;}
+body.pei-part-1 .paper-deck::before{
+  -webkit-mask-image:url('/assets/shohakyu-jo.svg')!important;
+  mask-image:url('/assets/shohakyu-jo.svg')!important;
+  top:38.2%!important;
+  right:clamp(-88px,-5vw,-38px)!important;
+  transform:translateY(-50%) rotate(-2.5deg)!important;
+  opacity:.14!important;
+}
+body.pei-part-2 .paper-deck::before{
+  -webkit-mask-image:url('/assets/shohakyu-ha.svg')!important;
+  mask-image:url('/assets/shohakyu-ha.svg')!important;
+  top:50%!important;
+  right:clamp(-112px,-6.2vw,-48px)!important;
+  width:clamp(210px,24vw,420px)!important;
+  transform:translateY(-50%) rotate(2.5deg)!important;
+  opacity:.12!important;
+}
+body.pei-part-3 .paper-deck::before{
+  -webkit-mask-image:url('/assets/shohakyu-kyu.svg')!important;
+  mask-image:url('/assets/shohakyu-kyu.svg')!important;
+  top:61.8%!important;
+  right:clamp(-92px,-5.2vw,-40px)!important;
+  transform:translateY(-50%) rotate(-5deg)!important;
+  opacity:.13!important;
+}
+
 /* Make local PDF labels clear without pretending they are primary. */
 .archive-link{font-size:0!important;}
 .archive-link::before{content:"Open PDF"!important;font-size:10px!important;}
@@ -226,6 +280,16 @@ body.pei-part-3 .evidence-plate{--plate-accent:rgba(205,208,200,.065)}
     box-shadow:0 14px 28px rgba(0,0,0,.42)!important;
     overflow:hidden!important;
   }
+  .paper-deck::before{
+    width:clamp(128px,36vw,220px)!important;
+    right:-62px!important;
+    background:rgba(244,242,234,.14)!important;
+    opacity:.10!important;
+    filter:none!important;
+  }
+  body.pei-part-1 .paper-deck::before{top:38.2%!important;right:-54px!important;opacity:.10!important;}
+  body.pei-part-2 .paper-deck::before{top:50%!important;right:-68px!important;width:clamp(142px,40vw,240px)!important;opacity:.085!important;}
+  body.pei-part-3 .paper-deck::before{top:61.8%!important;right:-58px!important;opacity:.095!important;}
   .drift-specimen.evidence-plate{
     min-height:0!important;
     margin-top:22px!important;
