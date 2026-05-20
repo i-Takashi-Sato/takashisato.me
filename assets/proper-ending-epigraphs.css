@@ -302,27 +302,28 @@
   display:grid;
   grid-template-columns:minmax(0,1fr) auto;
   gap:18px;
-  padding:17px clamp(20px,4vw,52px);
+  padding:20px clamp(22px,4vw,56px);
   border-bottom:1px solid rgba(232,235,228,.075);
-  font:600 10px/1.5 var(--pei-mono);
-  letter-spacing:.14em;
+  font:600 10px/1.65 var(--pei-mono);
+  letter-spacing:.135em;
   color:rgba(183,170,145,.84);
 }
 .gate-control-plate__head span:last-child,
 .gate-control-plate__foot span:last-child{
-  color:rgba(166,170,162,.62);
+  color:rgba(166,170,162,.56);
   text-align:right;
 }
 .gate-control-plate__foot{
   border-top:1px solid rgba(232,235,228,.075);
   border-bottom:0;
+  color:rgba(166,170,162,.66);
 }
 .gate-control-plate article{
   min-height:clamp(300px,26vw,430px)!important;
   display:grid!important;
   grid-template-rows:auto auto 1fr auto!important;
-  gap:14px!important;
-  padding:clamp(22px,3.2vw,42px)!important;
+  gap:16px!important;
+  padding:clamp(26px,3.4vw,46px)!important;
   border:0!important;
   border-right:1px solid rgba(232,235,228,.075)!important;
   background:#070808!important;
@@ -335,9 +336,9 @@
 }
 .gate-control-plate small{
   display:block!important;
-  font:600 10px/1 var(--pei-mono)!important;
-  letter-spacing:.16em!important;
-  color:rgba(183,170,145,.82)!important;
+  font:600 10px/1.25 var(--pei-mono)!important;
+  letter-spacing:.155em!important;
+  color:rgba(183,170,145,.78)!important;
 }
 .gate-control-plate h3{
   margin:0!important;
@@ -349,21 +350,21 @@
 .gate-control-plate p{
   margin:0!important;
   max-width:31ch;
-  font:400 13px/1.68 var(--pei-sans)!important;
+  font:400 13px/1.74 var(--pei-sans)!important;
   color:#cdd0c8!important;
 }
 .gate-control-plate dl{
   align-self:end;
-  margin:0;
+  margin:2px 0 0;
   display:grid;
-  border-top:1px solid rgba(232,235,228,.065);
+  border-top:1px solid rgba(232,235,228,.06);
 }
 .gate-control-plate dl div{
   display:grid;
   grid-template-columns:.42fr 1fr;
-  gap:12px;
-  padding:11px 0;
-  border-bottom:1px solid rgba(232,235,228,.05);
+  gap:14px;
+  padding:13px 0;
+  border-bottom:1px solid rgba(232,235,228,.045);
 }
 .gate-control-plate dl div:last-child{
   border-bottom:0;
@@ -371,14 +372,14 @@
 .gate-control-plate dt,
 .gate-control-plate dd{
   margin:0;
-  font:600 8px/1.55 var(--pei-mono);
-  letter-spacing:.09em;
+  font:600 8px/1.7 var(--pei-mono);
+  letter-spacing:.085em;
 }
 .gate-control-plate dt{
-  color:rgba(166,170,162,.58);
+  color:rgba(166,170,162,.48);
 }
 .gate-control-plate dd{
-  color:rgba(242,242,236,.76);
+  color:rgba(242,242,236,.72);
 }
 
 @media(max-width:980px){
@@ -484,10 +485,11 @@
   .gate-control-plate__head,
   .gate-control-plate__foot{
     grid-template-columns:1fr;
-    gap:8px;
-    padding:15px 22px;
+    gap:9px;
+    padding:17px 22px;
     font-size:8px;
-    letter-spacing:.11em;
+    line-height:1.7;
+    letter-spacing:.105em;
   }
   .gate-control-plate__head span:last-child,
   .gate-control-plate__foot span:last-child{
@@ -497,22 +499,45 @@
   .gate-control-plate article:nth-of-type(2n),
   .gate-control-plate article:nth-last-of-type(-n+2){
     min-height:0!important;
-    padding:24px 22px!important;
+    gap:17px!important;
+    padding:28px 22px 30px!important;
     border-right:0!important;
     border-bottom:1px solid rgba(232,235,228,.075)!important;
   }
   .gate-control-plate article:last-of-type{
     border-bottom:0!important;
   }
+  .gate-control-plate small{
+    font-size:8px!important;
+    line-height:1.4!important;
+    letter-spacing:.13em!important;
+    color:rgba(183,170,145,.74)!important;
+  }
   .gate-control-plate h3{
     font-size:clamp(1.5rem,7vw,2.12rem)!important;
   }
   .gate-control-plate p{
     font-size:.9rem!important;
-    line-height:1.62!important;
+    line-height:1.68!important;
+  }
+  .gate-control-plate dl{
+    margin-top:4px!important;
   }
   .gate-control-plate dl div{
     grid-template-columns:1fr;
-    gap:4px;
+    gap:5px;
+    padding:14px 0;
+  }
+  .gate-control-plate dt,
+  .gate-control-plate dd{
+    font-size:8px;
+    line-height:1.72;
+    letter-spacing:.075em;
+  }
+  .gate-control-plate dt{
+    color:rgba(166,170,162,.42);
+  }
+  .gate-control-plate dd{
+    color:rgba(242,242,236,.70);
   }
 }
