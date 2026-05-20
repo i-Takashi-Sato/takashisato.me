@@ -1,0 +1,113 @@
+/* Home mobile scroll fix — iPhone Safari gesture reliability. */
+
+@media(max-width:820px){
+  html,
+  body,
+  .pei-shell,
+  .pei-main,
+  main{
+    touch-action:pan-y!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior-y:auto!important;
+  }
+
+  body.home-award :where(
+    .a3-hero,
+    .a3-hero-copy,
+    .a3-identity,
+    .a3-id-card,
+    .a3-sequence,
+    .a3-sequence-head,
+    .a3-flow,
+    .a3-papers,
+    .a3-paper-row,
+    .a3-extracts,
+    .a3-extracts-head,
+    .a3-plate,
+    .a3-route,
+    .a3-routes,
+    .catalogue-row,
+    .access-card,
+    .protocol,
+    .paper-map article,
+    .evidence-plate,
+    .drift-specimen
+  ){
+    touch-action:pan-y!important;
+    -webkit-user-select:auto!important;
+    user-select:auto!important;
+  }
+
+  body.home-award :where(
+    .a3-id-card,
+    .a3-paper-row,
+    .a3-plate,
+    .a3-route,
+    .catalogue-row,
+    .access-card,
+    .protocol,
+    .paper-map article,
+    .evidence-plate,
+    .drift-specimen
+  ){
+    transform:none!important;
+    -webkit-transform:none!important;
+    will-change:auto!important;
+  }
+
+  body.home-award :where(
+    .a3-id-card,
+    .a3-paper-row,
+    .a3-plate,
+    .a3-route,
+    .catalogue-row,
+    .access-card,
+    .protocol,
+    .paper-map article,
+    .evidence-plate,
+    .drift-specimen
+  ):active{
+    transform:none!important;
+    -webkit-transform:none!important;
+    filter:none!important;
+  }
+
+  body.home-award :where(
+    .a3-hero::before,
+    .a3-hero::after,
+    .a3-id-card::before,
+    .a3-id-card::after,
+    .a3-sequence::before,
+    .a3-sequence::after,
+    .a3-flow::before,
+    .a3-flow::after,
+    .a3-paper-row::before,
+    .a3-paper-row::after,
+    .a3-extracts::before,
+    .a3-extracts::after,
+    .a3-plate::before,
+    .a3-plate::after,
+    .a3-route::before,
+    .a3-route::after,
+    .catalogue-row::before,
+    .catalogue-row::after,
+    .access-card::before,
+    .access-card::after,
+    .protocol::before,
+    .protocol::after
+  ){
+    pointer-events:none!important;
+    touch-action:none!important;
+  }
+
+  body.home-award a,
+  body.home-award button{
+    touch-action:manipulation!important;
+  }
+
+  body.home-award .a3-paper-row,
+  body.home-award .a3-route,
+  body.home-award .catalogue-row{
+    cursor:pointer;
+  }
+}
