@@ -1,0 +1,201 @@
+/* Part II Accident Report — capture-safe black failure timeline.
+   No pseudo-surfaces, gradients, masks, blend modes, or white document plates. */
+
+.failure-report{
+  margin:clamp(34px,5.6vw,88px) clamp(22px,5vw,76px);
+  border:1px solid rgba(232,235,228,.085);
+  background:#070808!important;
+  background-color:#070808!important;
+  background-image:none!important;
+  color:#f2f2ec;
+  overflow:hidden;
+  isolation:isolate;
+}
+.failure-report,
+.failure-report *{
+  box-shadow:none!important;
+  text-shadow:none!important;
+}
+.failure-report::before,
+.failure-report::after,
+.failure-report *::before,
+.failure-report *::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  background-image:none!important;
+  opacity:0!important;
+  transform:none!important;
+  clip-path:none!important;
+  mask-image:none!important;
+  -webkit-mask-image:none!important;
+}
+.failure-report__head,
+.failure-report__foot{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:18px;
+  padding:18px clamp(18px,3vw,38px);
+  border-bottom:1px solid rgba(232,235,228,.075);
+  font:600 10px/1.55 var(--pei-mono);
+  letter-spacing:.14em;
+  color:rgba(183,170,145,.84);
+}
+.failure-report__head span:last-child,
+.failure-report__foot span:last-child{
+  color:rgba(166,170,162,.62);
+  text-align:right;
+}
+.failure-report__intro{
+  display:grid;
+  grid-template-columns:minmax(220px,.38fr) minmax(0,.62fr);
+  gap:clamp(22px,4vw,58px);
+  padding:clamp(24px,4vw,56px) clamp(18px,3vw,38px);
+  border-bottom:1px solid rgba(232,235,228,.075);
+}
+.failure-report__intro h2{
+  margin:0;
+  max-width:11ch;
+  font:500 clamp(2.1rem,3.7vw,5rem)/.92 var(--pei-serif);
+  letter-spacing:-.055em;
+  color:#f2f2ec;
+}
+.failure-report__intro p{
+  margin:0;
+  max-width:52ch;
+  font:400 clamp(.96rem,1.15vw,1.12rem)/1.72 var(--pei-sans);
+  color:#cdd0c8;
+}
+.failure-timeline{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.failure-timeline li{
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr);
+  gap:clamp(18px,3vw,38px);
+  padding:clamp(22px,3.4vw,44px) clamp(18px,3vw,38px);
+  border-bottom:1px solid rgba(232,235,228,.07);
+  background:#070808!important;
+  background-color:#070808!important;
+  background-image:none!important;
+}
+.failure-timeline__stamp{
+  display:block;
+  font:600 10px/1.2 var(--pei-mono);
+  letter-spacing:.16em;
+  color:rgba(183,170,145,.76);
+}
+.failure-timeline h3{
+  margin:0;
+  font:500 clamp(1.72rem,2.35vw,3rem)/.98 var(--pei-serif);
+  letter-spacing:-.042em;
+  color:#f2f2ec;
+}
+.failure-timeline p{
+  margin:14px 0 0;
+  max-width:58ch;
+  font:400 14px/1.72 var(--pei-sans);
+  color:#cdd0c8;
+}
+.failure-timeline dl{
+  display:grid;
+  margin:22px 0 0;
+  border-top:1px solid rgba(232,235,228,.06);
+}
+.failure-timeline dl div{
+  display:grid;
+  grid-template-columns:108px minmax(0,1fr);
+  gap:16px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(232,235,228,.045);
+}
+.failure-timeline dl div:last-child{
+  border-bottom:0;
+}
+.failure-timeline dt,
+.failure-timeline dd{
+  margin:0;
+  font-family:var(--pei-mono)!important;
+  font-size:9px!important;
+  line-height:1.65!important;
+  letter-spacing:.08em!important;
+  text-align:left!important;
+}
+.failure-timeline dt{
+  color:rgba(166,170,162,.48);
+  font-weight:600;
+}
+.failure-timeline dd{
+  color:rgba(242,242,236,.74);
+  font-weight:600;
+}
+.failure-report__foot{
+  border-top:0;
+  border-bottom:0;
+  color:rgba(166,170,162,.64);
+}
+
+@media(max-width:760px){
+  .failure-report{
+    margin:30px 22px 46px;
+  }
+  .failure-report__head,
+  .failure-report__foot{
+    grid-template-columns:1fr;
+    gap:8px;
+    padding:15px 16px;
+    font-size:8px;
+    line-height:1.65;
+    letter-spacing:.105em;
+  }
+  .failure-report__head span:last-child,
+  .failure-report__foot span:last-child{
+    text-align:left;
+  }
+  .failure-report__intro{
+    grid-template-columns:1fr;
+    padding:24px 16px;
+  }
+  .failure-report__intro h2{
+    max-width:12ch;
+    font-size:clamp(1.82rem,9vw,2.76rem);
+  }
+  .failure-report__intro p{
+    font-size:.92rem;
+    line-height:1.68;
+  }
+  .failure-timeline li{
+    grid-template-columns:1fr;
+    gap:14px;
+    padding:24px 16px 26px;
+  }
+  .failure-timeline__stamp{
+    font-size:8px;
+    letter-spacing:.13em;
+  }
+  .failure-timeline h3{
+    font-size:clamp(1.46rem,7vw,2.12rem);
+    max-width:12ch;
+  }
+  .failure-timeline p{
+    font-size:.9rem;
+    line-height:1.68;
+  }
+  .failure-timeline dl{
+    margin-top:20px;
+  }
+  .failure-timeline dl div{
+    grid-template-columns:96px minmax(0,1fr);
+    gap:14px;
+    padding:13px 0;
+  }
+  .failure-timeline dt,
+  .failure-timeline dd{
+    font-size:8px!important;
+    line-height:1.65!important;
+    letter-spacing:.07em!important;
+    overflow-wrap:anywhere!important;
+  }
+}
