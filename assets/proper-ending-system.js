@@ -22,6 +22,7 @@
   loadLateStylesheet('/assets/mobile-scroll-fix.css');
   loadLateStylesheet('/assets/home-mobile-scroll-fix.css');
   loadLateStylesheet('/assets/mobile-capture-blackout.css');
+  loadLateStylesheet('/assets/archive-reading-density.css');
 
   const brand = document.querySelector('.pei-brand');
   if (brand) {
