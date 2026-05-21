@@ -614,4 +614,19 @@
     color:rgba(242,242,236,.72)!important;
     font-weight:600!important;
   }
+
+  html body.proper-ending-index .archive-link,
+  html body.proper-ending-index a.archive-link,
+  html body.proper-ending-index .paper-cta-links a.archive-link{
+    font-size:10px!important;
+    line-height:1!important;
+    letter-spacing:.14em!important;
+    color:rgba(242,242,236,.86)!important;
+  }
+  html body.proper-ending-index .archive-link::before,
+  html body.proper-ending-index a.archive-link::before,
+  html body.proper-ending-index .paper-cta-links a.archive-link::before{
+    content:none!important;
+    display:none!important;
+  }
 }
