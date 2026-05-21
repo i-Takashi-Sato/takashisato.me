@@ -33,6 +33,7 @@
     loadLateStylesheet('/assets/rejouice-immersive-overhaul.css?v=1');
   }
   loadLateStylesheet('/assets/archive-v77-fixes.css?v=77');
+  loadLateStylesheet('/assets/archive-v78-corrections.css?v=78');
 
   const setScrolled = () => document.body.classList.toggle('v77-scrolled', window.scrollY > 12);
   setScrolled();
