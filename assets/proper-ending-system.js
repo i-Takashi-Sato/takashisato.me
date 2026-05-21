@@ -32,15 +32,18 @@
     loadLateStylesheet('/assets/archive-balance-v8.css');
     loadLateStylesheet('/assets/rejouice-immersive-overhaul.css?v=1');
   }
+  loadLateStylesheet('/assets/archive-v77-fixes.css?v=77');
+
+  const setScrolled = () => document.body.classList.toggle('v77-scrolled', window.scrollY > 12);
+  setScrolled();
+  window.addEventListener('scroll', setScrolled, { passive: true });
 
   const brand = document.querySelector('.pei-brand');
   if (brand) {
     brand.setAttribute('role', 'link');
     brand.setAttribute('tabindex', '0');
     brand.setAttribute('aria-label', 'Return to Takashi Sato research index');
-    brand.addEventListener('click', () => {
-      window.location.href = '/';
-    });
+    brand.addEventListener('click', () => { window.location.href = '/'; });
     brand.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
@@ -55,6 +58,21 @@
       const open = document.body.classList.toggle('pei-index-open');
       menu.setAttribute('aria-expanded', String(open));
     });
+  }
+
+  if (!reduce && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('v77-motion');
+    const revealTargets = document.querySelectorAll('main > section, main > figure, .catalogue-row, .a3-paper-row, .paper-map article, .protocol, .access-card, .failure-timeline li, .failure-signal-index article, .a3-plate, .a3-route, .research-position article');
+    revealTargets.forEach((el) => el.classList.add('v77-reveal'));
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('v77-in');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    revealTargets.forEach((el) => revealObserver.observe(el));
   }
 
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
