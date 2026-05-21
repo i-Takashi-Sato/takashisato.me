@@ -9,7 +9,7 @@
 }
 
 @media(max-width:560px){
-  :root{--stage:calc(100vw - 56px);--space-section:84px}
+  :root{--stage:calc(100vw - 56px);--space-section:76px}
   body.phase-home{font-size:15px;line-height:1.68}
   body.phase-home .pei-topbar{height:58px!important;min-height:58px!important;padding:0 24px!important;gap:16px!important}
   body.phase-home .pei-topbar a{font-size:10px!important;letter-spacing:.125em!important;white-space:nowrap!important}
@@ -27,24 +27,33 @@
   .diagnostic-ledger dt{font-size:9px;letter-spacing:.14em}
   .diagnostic-ledger dd{font-size:10px;line-height:1.45;letter-spacing:.055em}
   .diagnostic-statement{margin-top:18px;font-size:14px;line-height:1.62;color:rgba(213,215,207,.72)}
-  .phase-section{padding:84px 0;border-top-color:rgba(232,235,228,.10)}
-  .phase-section__head{gap:24px;margin-bottom:42px}
-  .phase-heading{max-width:10.9ch;font-size:clamp(2.9rem,11.8vw,3.8rem);line-height:.91;letter-spacing:-.055em}
-  .phase-copy{max-width:32ch;font-size:15px;line-height:1.66;color:rgba(213,215,207,.72)}
-  .evidence-row{padding:40px 0;gap:17px;border-bottom-color:rgba(232,235,228,.11)}
-  .evidence-no{font-size:3.55rem;color:rgba(242,242,236,.15)}
-  .evidence-row h3{max-width:11.2ch;font-size:clamp(2.12rem,8.8vw,2.75rem);line-height:.96;letter-spacing:-.05em}
-  .evidence-row p{max-width:31ch;font-size:15px;line-height:1.62;color:rgba(213,215,207,.72)}
+
+  .phase-section{padding:76px 0;border-top-color:rgba(232,235,228,.10)}
+  .phase-section__head{gap:22px;margin-bottom:36px}
+  .phase-heading{max-width:11.2ch;font-size:clamp(2.7rem,10.8vw,3.45rem);line-height:.93;letter-spacing:-.052em}
+  .phase-copy{max-width:32ch;font-size:15px;line-height:1.64;color:rgba(213,215,207,.72)}
+
+  .evidence-row{padding:36px 0;gap:16px;border-bottom-color:rgba(232,235,228,.11)}
+  .evidence-no{font-size:3.35rem;color:rgba(242,242,236,.14)}
+  .evidence-row h3{max-width:11.4ch;font-size:clamp(2.02rem,8.4vw,2.6rem);line-height:.97;letter-spacing:-.048em}
+  .evidence-row p{max-width:31ch;font-size:15px;line-height:1.6;color:rgba(213,215,207,.72)}
   .evidence-state{font-size:9px;letter-spacing:.14em}
-  .extract-grid,.route-grid{border-color:rgba(232,235,228,.16);background:rgba(232,235,228,.12)}
-  .extract,.route{padding:32px 26px;min-height:auto;background:#050606}
-  .extract{gap:26px}
-  .extract h3,.route span{font-size:9px;letter-spacing:.15em;line-height:1.5}
-  .extract blockquote{max-width:11ch;font-size:clamp(1.95rem,8.2vw,2.48rem);line-height:.98;letter-spacing:-.052em}
-  .extract p,.route em{font-size:15px;line-height:1.58;color:rgba(213,215,207,.70)}
-  .route{gap:18px;padding-block:36px}
-  .route strong{font-size:clamp(2.22rem,9.2vw,2.9rem);line-height:.95;letter-spacing:-.055em}
-  .phase-footer{padding:46px 0 110px;gap:26px;font-size:10px;line-height:1.7;letter-spacing:.13em}
+
+  .extract-grid{border-color:rgba(232,235,228,.14);background:rgba(232,235,228,.10)}
+  .extract{padding:30px 24px;min-height:auto;background:#050606;gap:22px}
+  .extract h3{font-size:9px;letter-spacing:.145em;line-height:1.45}
+  .extract blockquote{max-width:11.4ch;font-size:clamp(1.72rem,7.2vw,2.18rem);line-height:1.02;letter-spacing:-.046em}
+  .extract p{font-size:14px;line-height:1.55;color:rgba(213,215,207,.68)}
+
+  /* Routes must not read as oversized boxes on mobile. They are links, so make them a compact archival list. */
+  .route-grid{display:block;border:0;background:transparent}
+  .route{min-height:0;padding:28px 0;background:transparent;border-top:1px solid rgba(232,235,228,.14);gap:12px}
+  .route:last-child{border-bottom:1px solid rgba(232,235,228,.14)}
+  .route span{font-size:9px;letter-spacing:.145em;line-height:1.45}
+  .route strong{font-size:clamp(2rem,8.4vw,2.55rem);line-height:.95;letter-spacing:-.052em}
+  .route em{font-size:14px;line-height:1.54;color:rgba(213,215,207,.68)}
+
+  .phase-footer{padding:38px 0 104px;gap:22px;font-size:9px;line-height:1.65;letter-spacing:.12em}
 }
 
 @media(max-width:380px){
@@ -53,7 +62,8 @@
   body.phase-home .pei-topbar .right{gap:15px!important}
   body.phase-home .pei-topbar a{font-size:9px!important;letter-spacing:.1em!important}
   .phase-title{font-size:3.34rem;max-width:10.4ch}
-  .phase-heading{font-size:2.76rem}
-  .evidence-row h3{font-size:2.05rem}
-  .extract blockquote{font-size:1.9rem}
+  .phase-heading{font-size:2.54rem}
+  .evidence-row h3{font-size:1.95rem}
+  .extract blockquote{font-size:1.72rem}
+  .route strong{font-size:1.92rem}
 }
