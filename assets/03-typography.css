@@ -1,0 +1,12 @@
+/* Phase 0 — Typography */
+.ts-label,.phase-kicker{font:600 10px/1.55 var(--font-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--c-accent)}
+.phase-title{max-width:11.7ch;margin:26px 0 0;font:500 clamp(5.4rem,9vw,13rem)/.8 var(--font-serif);letter-spacing:-.076em;color:var(--c-ink);text-rendering:geometricPrecision}
+.phase-lede{max-width:38ch;margin:36px 0 0;font:400 clamp(1.05rem,1.2vw,1.35rem)/1.72 var(--font-serif);color:rgba(213,215,207,.82)}
+.phase-heading{max-width:12ch;font:500 clamp(3.2rem,5.5vw,7.6rem)/.88 var(--font-serif);letter-spacing:-.06em;color:var(--c-ink);text-rendering:geometricPrecision}
+.phase-copy{max-width:65ch;font:400 15px/1.82 var(--font-sans);color:rgba(213,215,207,.76)}
+.evidence-row h3{margin:0;max-width:13ch;font:500 clamp(2rem,3vw,4rem)/.95 var(--font-serif);letter-spacing:-.05em;color:var(--c-ink)}
+.evidence-row p{max-width:36ch;color:rgba(213,215,207,.72)}
+.extract blockquote{max-width:14ch;font:500 clamp(2rem,2.6vw,3.8rem)/1 var(--font-serif);letter-spacing:-.05em;color:var(--c-ink)}
+.extract p,.route em{font-style:normal;color:rgba(213,215,207,.72)}
+.route strong{font:500 clamp(2.2rem,3vw,4rem)/.95 var(--font-serif);letter-spacing:-.05em;color:var(--c-ink)}
+@media(max-width:920px){.phase-title{font-size:clamp(4rem,16vw,6.2rem)}}
