@@ -1,0 +1,707 @@
+/* Home — Forensic Evidence Chamber
+   Single-purpose homepage art direction layer.
+   Goal: preserve the research archive, remove SaaS/card clutter, and make the entrance feel like a black forensic evidence room.
+   Scope: Home only via body.home-forensic-chamber. No WebGL, no extra libraries, no pink CTA. */
+
+body.home-forensic-chamber{
+  --fc-bg:#030404;
+  --fc-bg-2:#060707;
+  --fc-ink:#f2eee4;
+  --fc-text:#d6d1c6;
+  --fc-muted:#9f9c93;
+  --fc-faint:rgba(242,238,228,.11);
+  --fc-line:rgba(242,238,228,.13);
+  --fc-line-strong:rgba(242,238,228,.25);
+  --fc-gold:#b29d72;
+  --fc-gold-soft:rgba(178,157,114,.26);
+  --fc-silver:#aeb9b3;
+  --fc-cold:rgba(174,185,179,.16);
+  --fc-gutter:clamp(24px,5vw,108px);
+  --fc-frame:min(1600px,calc(100vw - var(--fc-gutter) * 2));
+  --fc-serif:var(--pei-serif,'Cormorant Garamond',Georgia,serif);
+  --fc-sans:var(--pei-sans,Inter,system-ui,sans-serif);
+  --fc-mono:var(--pei-mono,'Geist Mono',ui-monospace,monospace);
+  min-height:100svh;
+  background:#030404!important;
+  color:var(--fc-ink)!important;
+  overflow-x:hidden;
+}
+
+body.home-forensic-chamber::before{
+  content:""!important;
+  position:fixed!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(900px 520px at 74% 18%, rgba(178,157,114,.10), transparent 62%),
+    radial-gradient(680px 420px at 16% 72%, rgba(174,185,179,.065), transparent 65%),
+    linear-gradient(180deg, rgba(255,255,255,.018), transparent 34%, rgba(255,255,255,.012));
+  opacity:.9!important;
+}
+body.home-forensic-chamber::after{
+  content:""!important;
+  position:fixed!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    repeating-linear-gradient(90deg, rgba(242,238,228,.018) 0 1px, transparent 1px 96px),
+    repeating-linear-gradient(180deg, rgba(242,238,228,.012) 0 1px, transparent 1px 112px);
+  opacity:.22!important;
+  mask-image:linear-gradient(180deg,transparent,black 16%,black 78%,transparent);
+}
+
+body.home-forensic-chamber .skip{position:absolute;left:-999px;}
+body.home-forensic-chamber .pei-shell,
+body.home-forensic-chamber .pei-main,
+body.home-forensic-chamber main{
+  display:block!important;
+  background:transparent!important;
+  position:relative!important;
+  z-index:1!important;
+}
+body.home-forensic-chamber .pei-sidebar{
+  display:none!important;
+}
+body.home-forensic-chamber .pei-main{
+  width:100%!important;
+  max-width:none!important;
+}
+
+/* Minimal chamber navigation */
+body.home-forensic-chamber .pei-topbar{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  z-index:50!important;
+  height:76px!important;
+  min-height:76px!important;
+  padding:0 var(--fc-gutter)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  border-bottom:1px solid rgba(242,238,228,.10)!important;
+  background:linear-gradient(180deg,rgba(3,4,4,.92),rgba(3,4,4,.54))!important;
+  backdrop-filter:blur(18px) saturate(108%)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(108%)!important;
+  box-shadow:none!important;
+}
+body.home-forensic-chamber .pei-topbar a{
+  color:rgba(242,238,228,.78)!important;
+  font:700 10px/1 var(--fc-mono)!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase!important;
+  text-decoration:none!important;
+}
+body.home-forensic-chamber .pei-topbar a:hover,
+body.home-forensic-chamber .pei-topbar a:focus-visible{
+  color:var(--fc-ink)!important;
+  text-shadow:0 0 26px rgba(242,238,228,.22)!important;
+}
+body.home-forensic-chamber .pei-menu{
+  display:none!important;
+}
+body.home-forensic-chamber .pei-topbar .right{
+  display:flex!important;
+  gap:clamp(18px,2vw,34px)!important;
+  align-items:center!important;
+}
+body.home-forensic-chamber .pei-topbar .right::after{
+  content:"CHAMBER / 001";
+  color:rgba(178,157,114,.74);
+  font:700 10px/1 var(--fc-mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+/* Chamber entrance */
+body.home-forensic-chamber .a3-hero{
+  width:var(--fc-frame)!important;
+  min-height:100svh!important;
+  margin:0 auto!important;
+  padding:clamp(120px,15vh,180px) 0 clamp(72px,9vh,120px)!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1.618fr) minmax(340px,1fr)!important;
+  gap:clamp(42px,7vw,132px)!important;
+  align-items:end!important;
+  border:0!important;
+  position:relative!important;
+  isolation:isolate!important;
+}
+body.home-forensic-chamber .a3-hero::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  right:0!important;
+  top:76px!important;
+  height:1px!important;
+  background:linear-gradient(90deg,var(--fc-gold),transparent 42%,rgba(242,238,228,.12))!important;
+  opacity:.76!important;
+}
+body.home-forensic-chamber .a3-hero-copy{
+  padding:0!important;
+  display:block!important;
+  max-width:980px!important;
+}
+body.home-forensic-chamber .a3-kicker{
+  margin:0 0 clamp(22px,3vw,46px)!important;
+  color:rgba(178,157,114,.82)!important;
+  font:800 10px/1.55 var(--fc-mono)!important;
+  letter-spacing:.22em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber #home-title{
+  margin:0!important;
+  max-width:12.1ch!important;
+  color:var(--fc-ink)!important;
+  font:500 clamp(5.2rem,8.7vw,13.2rem)/.84 var(--fc-serif)!important;
+  letter-spacing:-.078em!important;
+  text-wrap:balance!important;
+}
+body.home-forensic-chamber .a3-hero-lede{
+  max-width:42ch!important;
+  margin:clamp(30px,4vw,58px) 0 0!important;
+  color:rgba(214,209,198,.78)!important;
+  font:400 clamp(1.06rem,1.25vw,1.38rem)/1.72 var(--fc-serif)!important;
+  text-wrap:pretty!important;
+}
+
+/* Evidence object replacing the old form-like ID card */
+body.home-forensic-chamber .a3-identity{
+  padding:0!important;
+  border:0!important;
+  align-self:center!important;
+}
+body.home-forensic-chamber .a3-id-card{
+  position:relative!important;
+  min-height:clamp(440px,48vh,680px)!important;
+  padding:clamp(26px,3.2vw,46px)!important;
+  display:grid!important;
+  align-content:space-between!important;
+  border:1px solid rgba(242,238,228,.16)!important;
+  border-radius:0 34px 0 34px!important;
+  background:
+    linear-gradient(135deg,rgba(242,238,228,.055),rgba(242,238,228,.012)),
+    rgba(8,9,9,.66)!important;
+  box-shadow:0 50px 160px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.055)!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+body.home-forensic-chamber .a3-id-card::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:
+    radial-gradient(360px 220px at 34% 0%, rgba(178,157,114,.13), transparent 72%),
+    linear-gradient(180deg,transparent,rgba(0,0,0,.18));
+  opacity:.86!important;
+  pointer-events:none!important;
+}
+body.home-forensic-chamber .a3-id-card::after{
+  content:"EVIDENCE / GOVERNANCE FAILURE / PROPER ENDING"!important;
+  position:absolute!important;
+  right:clamp(18px,2vw,34px)!important;
+  top:clamp(18px,2vw,34px)!important;
+  writing-mode:vertical-rl!important;
+  color:rgba(178,157,114,.54)!important;
+  font:800 9px/1 var(--fc-mono)!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-id-card > *{position:relative!important;z-index:1!important;}
+body.home-forensic-chamber .a3-id-head,
+body.home-forensic-chamber .a3-ledger,
+body.home-forensic-chamber .a3-signature,
+body.home-forensic-chamber .a3-thesis{
+  position:relative!important;
+}
+body.home-forensic-chamber .a3-id-head{
+  display:flex!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+  padding-bottom:22px!important;
+  border-bottom:1px solid rgba(242,238,228,.11)!important;
+  color:rgba(178,157,114,.82)!important;
+  font:800 10px/1.55 var(--fc-mono)!important;
+  letter-spacing:.17em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-ledger{
+  margin:clamp(34px,4vw,60px) 0!important;
+  display:grid!important;
+  gap:0!important;
+  border-top:1px solid rgba(242,238,228,.10)!important;
+}
+body.home-forensic-chamber .a3-ledger div{
+  display:grid!important;
+  grid-template-columns:.42fr 1fr!important;
+  gap:18px!important;
+  padding:14px 0!important;
+  border-bottom:1px solid rgba(242,238,228,.08)!important;
+}
+body.home-forensic-chamber .a3-ledger dt{
+  color:rgba(159,156,147,.72)!important;
+  font:800 9px/1.45 var(--fc-mono)!important;
+  letter-spacing:.16em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-ledger dd{
+  margin:0!important;
+  color:rgba(242,238,228,.82)!important;
+  font:650 11px/1.55 var(--fc-mono)!important;
+  letter-spacing:.07em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-signature strong{
+  display:block!important;
+  color:var(--fc-ink)!important;
+  font:500 clamp(2.1rem,3vw,4.2rem)/.95 var(--fc-serif)!important;
+  letter-spacing:-.055em!important;
+}
+body.home-forensic-chamber .a3-signature span{
+  display:block!important;
+  margin-top:12px!important;
+  color:rgba(178,157,114,.82)!important;
+  font:800 9px/1.55 var(--fc-mono)!important;
+  letter-spacing:.17em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-thesis{
+  max-width:34ch!important;
+  margin:30px 0 0!important;
+  color:rgba(214,209,198,.74)!important;
+  font:400 .98rem/1.72 var(--fc-sans)!important;
+}
+
+/* CTA: evidence labels, not SaaS pills */
+body.home-forensic-chamber .a3-actions{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:16px!important;
+  margin-top:clamp(34px,4vw,64px)!important;
+}
+body.home-forensic-chamber .a3-button{
+  position:relative!important;
+  min-height:54px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  padding:0 0 10px 0!important;
+  border:0!important;
+  border-bottom:1px solid rgba(242,238,228,.24)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:rgba(242,238,228,.86)!important;
+  box-shadow:none!important;
+  font:850 11px/1 var(--fc-mono)!important;
+  letter-spacing:.17em!important;
+  text-transform:uppercase!important;
+  text-decoration:none!important;
+  cursor:pointer!important;
+  transition:color .35s ease,border-color .35s ease,letter-spacing .35s ease,transform .35s ease!important;
+}
+body.home-forensic-chamber .a3-button::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  bottom:-1px!important;
+  width:100%!important;
+  height:1px!important;
+  background:var(--fc-gold)!important;
+  transform:scaleX(.18)!important;
+  transform-origin:left!important;
+  transition:transform .48s cubic-bezier(.16,1,.3,1)!important;
+}
+body.home-forensic-chamber .a3-button::after{
+  content:"↗"!important;
+  margin-left:10px!important;
+  color:var(--fc-gold)!important;
+  transform:translateY(-1px)!important;
+  transition:transform .35s ease,color .35s ease!important;
+}
+body.home-forensic-chamber .a3-button.primary{
+  color:var(--fc-ink)!important;
+  border-bottom-color:rgba(178,157,114,.46)!important;
+}
+body.home-forensic-chamber .a3-button:hover,
+body.home-forensic-chamber .a3-button:focus-visible{
+  color:#fffaf0!important;
+  border-bottom-color:rgba(178,157,114,.72)!important;
+  letter-spacing:.2em!important;
+  transform:translateY(-2px)!important;
+  outline:none!important;
+}
+body.home-forensic-chamber .a3-button:hover::before,
+body.home-forensic-chamber .a3-button:focus-visible::before{transform:scaleX(1)!important;}
+body.home-forensic-chamber .a3-button:hover::after,
+body.home-forensic-chamber .a3-button:focus-visible::after{transform:translate(5px,-5px)!important;color:#ead6a0!important;}
+
+/* Section rhythm */
+body.home-forensic-chamber :is(.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+  width:var(--fc-frame)!important;
+  margin:0 auto!important;
+  padding:clamp(92px,11vw,170px) 0!important;
+  border-top:1px solid rgba(242,238,228,.10)!important;
+  position:relative!important;
+  isolation:isolate!important;
+}
+body.home-forensic-chamber :is(.a3-sequence,.a3-extracts,.a3-method,.a3-routes)::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:-1px!important;
+  width:clamp(88px,16vw,260px)!important;
+  height:1px!important;
+  background:linear-gradient(90deg,var(--fc-gold),transparent)!important;
+  opacity:.78!important;
+}
+body.home-forensic-chamber .a3-section-title{
+  margin:0!important;
+  max-width:11.5ch!important;
+  color:var(--fc-ink)!important;
+  font:500 clamp(3.6rem,6.2vw,9rem)/.88 var(--fc-serif)!important;
+  letter-spacing:-.068em!important;
+  text-wrap:balance!important;
+}
+body.home-forensic-chamber .a3-copy{
+  max-width:52ch!important;
+  color:rgba(214,209,198,.78)!important;
+  font:400 1rem/1.78 var(--fc-sans)!important;
+  text-wrap:pretty!important;
+}
+body.home-forensic-chamber .a3-sequence-head,
+body.home-forensic-chamber .a3-extracts-head,
+body.home-forensic-chamber .a3-route-title{
+  display:grid!important;
+  grid-template-columns:minmax(280px,.382fr) minmax(420px,.618fr)!important;
+  gap:clamp(36px,6vw,120px)!important;
+  align-items:start!important;
+}
+body.home-forensic-chamber .a3-extracts-head h2,
+body.home-forensic-chamber .a3-route-title h2{grid-column:2!important;}
+
+/* Sequence as evidence shelf */
+body.home-forensic-chamber .a3-flow{
+  margin:clamp(44px,5vw,82px) 0 0!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,1fr)!important;
+  gap:1px!important;
+  border:1px solid rgba(242,238,228,.10)!important;
+  background:rgba(242,238,228,.08)!important;
+}
+body.home-forensic-chamber .a3-flow span{
+  min-height:60px!important;
+  display:grid!important;
+  place-items:center start!important;
+  padding:0 18px!important;
+  background:#050606!important;
+  color:rgba(178,157,114,.78)!important;
+  font:850 10px/1.25 var(--fc-mono)!important;
+  letter-spacing:.14em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-papers{
+  margin-top:clamp(30px,3.8vw,64px)!important;
+  display:grid!important;
+  gap:0!important;
+  border-top:1px solid rgba(242,238,228,.13)!important;
+}
+body.home-forensic-chamber .a3-paper-row{
+  position:relative!important;
+  min-height:clamp(150px,15vw,244px)!important;
+  display:grid!important;
+  grid-template-columns:82px minmax(300px,.42fr) minmax(360px,.42fr) minmax(170px,.16fr)!important;
+  gap:clamp(18px,3vw,52px)!important;
+  align-items:center!important;
+  padding:clamp(24px,3.2vw,46px) 54px clamp(24px,3.2vw,46px) 0!important;
+  border-bottom:1px solid rgba(242,238,228,.10)!important;
+  color:var(--fc-ink)!important;
+  text-decoration:none!important;
+  overflow:hidden!important;
+  cursor:pointer!important;
+  transition:background .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1),border-color .45s cubic-bezier(.16,1,.3,1)!important;
+}
+body.home-forensic-chamber .a3-paper-row::before{
+  content:""!important;
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  bottom:0!important;
+  width:1px!important;
+  background:var(--fc-gold)!important;
+  transform:scaleY(.18)!important;
+  transform-origin:top!important;
+  opacity:.7!important;
+  transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .55s ease!important;
+}
+body.home-forensic-chamber .a3-paper-row::after{
+  content:"↗"!important;
+  position:absolute!important;
+  right:18px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:34px!important;
+  height:34px!important;
+  border:1px solid rgba(242,238,228,.18)!important;
+  border-radius:999px!important;
+  display:grid!important;
+  place-items:center!important;
+  color:rgba(242,238,228,.66)!important;
+  background:rgba(242,238,228,.025)!important;
+  transition:transform .45s cubic-bezier(.16,1,.3,1),border-color .45s ease,color .45s ease!important;
+}
+body.home-forensic-chamber .a3-paper-row:hover,
+body.home-forensic-chamber .a3-paper-row:focus-visible{
+  background:linear-gradient(90deg,rgba(178,157,114,.10),rgba(242,238,228,.018) 48%,transparent)!important;
+  transform:translateX(10px)!important;
+  border-bottom-color:rgba(178,157,114,.36)!important;
+  outline:none!important;
+}
+body.home-forensic-chamber .a3-paper-row:hover::before{transform:scaleY(1)!important;opacity:1!important;}
+body.home-forensic-chamber .a3-paper-row:hover::after{transform:translate(5px,-50%)!important;border-color:rgba(178,157,114,.66)!important;color:#f3d99b!important;}
+body.home-forensic-chamber .a3-paper-row > span{
+  color:rgba(178,157,114,.78)!important;
+  font:850 10px/1 var(--fc-mono)!important;
+  letter-spacing:.16em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-paper-row strong{
+  max-width:12ch!important;
+  color:var(--fc-ink)!important;
+  font:500 clamp(2rem,3.2vw,4.8rem)/.93 var(--fc-serif)!important;
+  letter-spacing:-.055em!important;
+  text-wrap:balance!important;
+}
+body.home-forensic-chamber .a3-paper-row em{
+  max-width:34ch!important;
+  color:rgba(214,209,198,.74)!important;
+  font:400 .96rem/1.68 var(--fc-sans)!important;
+  font-style:normal!important;
+}
+body.home-forensic-chamber .a3-paper-row b{
+  color:rgba(178,157,114,.78)!important;
+  font:850 10px/1.4 var(--fc-mono)!important;
+  letter-spacing:.13em!important;
+  text-transform:uppercase!important;
+}
+
+/* Manuscript/evidence plates */
+body.home-forensic-chamber .a3-plate-grid,
+body.home-forensic-chamber .a3-principles,
+body.home-forensic-chamber .a3-routes{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:1px!important;
+  background:rgba(242,238,228,.10)!important;
+  border:1px solid rgba(242,238,228,.10)!important;
+}
+body.home-forensic-chamber .a3-plate,
+body.home-forensic-chamber .a3-principle,
+body.home-forensic-chamber .a3-route{
+  position:relative!important;
+  min-height:clamp(420px,36vw,610px)!important;
+  padding:clamp(24px,3vw,44px)!important;
+  display:grid!important;
+  align-content:space-between!important;
+  border:0!important;
+  border-radius:0!important;
+  background:linear-gradient(180deg,rgba(242,238,228,.035),rgba(242,238,228,.008)),#050606!important;
+  color:var(--fc-ink)!important;
+  text-decoration:none!important;
+  overflow:hidden!important;
+  transition:background .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s ease!important;
+}
+body.home-forensic-chamber .a3-plate::before,
+body.home-forensic-chamber .a3-principle::before,
+body.home-forensic-chamber .a3-route::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  background:radial-gradient(320px 220px at 18% 0%,rgba(178,157,114,.12),transparent 72%)!important;
+  opacity:0!important;
+  transition:opacity .55s ease!important;
+}
+body.home-forensic-chamber .a3-plate:hover,
+body.home-forensic-chamber .a3-principle:hover,
+body.home-forensic-chamber .a3-route:hover{
+  transform:translateY(-8px)!important;
+  background:linear-gradient(180deg,rgba(178,157,114,.075),rgba(242,238,228,.012)),#080909!important;
+  box-shadow:0 42px 120px rgba(0,0,0,.42)!important;
+}
+body.home-forensic-chamber .a3-plate:hover::before,
+body.home-forensic-chamber .a3-principle:hover::before,
+body.home-forensic-chamber .a3-route:hover::before{opacity:.9!important;}
+body.home-forensic-chamber .a3-plate-head{
+  color:rgba(178,157,114,.78)!important;
+  font:850 10px/1.55 var(--fc-mono)!important;
+  letter-spacing:.14em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-plate blockquote{
+  max-width:13.8ch!important;
+  margin:0!important;
+  color:var(--fc-ink)!important;
+  font:500 clamp(2rem,2.75vw,4rem)/1.02 var(--fc-serif)!important;
+  letter-spacing:-.054em!important;
+  text-wrap:balance!important;
+}
+body.home-forensic-chamber .a3-plate dl,
+body.home-forensic-chamber .a3-principle p,
+body.home-forensic-chamber .a3-route em{
+  color:rgba(214,209,198,.74)!important;
+}
+body.home-forensic-chamber .a3-plate-foot{
+  color:rgba(178,157,114,.78)!important;
+  font:850 10px/1.45 var(--fc-mono)!important;
+  letter-spacing:.14em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-principle span,
+body.home-forensic-chamber .a3-route span{
+  color:rgba(178,157,114,.78)!important;
+  font:850 10px/1 var(--fc-mono)!important;
+  letter-spacing:.16em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .a3-principle h3,
+body.home-forensic-chamber .a3-route strong{
+  color:var(--fc-ink)!important;
+  font:500 clamp(2rem,3vw,4.4rem)/.95 var(--fc-serif)!important;
+  letter-spacing:-.055em!important;
+  text-wrap:balance!important;
+}
+body.home-forensic-chamber .a3-route::after{
+  content:"↗"!important;
+  position:absolute!important;
+  right:22px!important;
+  top:22px!important;
+  color:rgba(178,157,114,.76)!important;
+}
+
+body.home-forensic-chamber .a3-method{
+  display:grid!important;
+  grid-template-columns:minmax(280px,.382fr) minmax(420px,.618fr)!important;
+  gap:clamp(36px,6vw,120px)!important;
+  align-items:start!important;
+}
+body.home-forensic-chamber .a3-routes{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+body.home-forensic-chamber .a3-route-title{
+  grid-column:1 / -1!important;
+  background:transparent!important;
+}
+body.home-forensic-chamber .pei-footer{
+  width:var(--fc-frame)!important;
+  margin:0 auto!important;
+  padding:34px 0 54px!important;
+  border-top:1px solid rgba(242,238,228,.10)!important;
+  color:rgba(159,156,147,.78)!important;
+  font:700 10px/1.6 var(--fc-mono)!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase!important;
+}
+body.home-forensic-chamber .pei-footer a{
+  color:rgba(242,238,228,.74)!important;
+  text-decoration:none!important;
+  border-bottom:1px solid rgba(178,157,114,.36)!important;
+}
+
+/* Scroll reveal: CSS-only baseline; JS can enhance later. */
+@supports (animation-timeline:view()){
+  body.home-forensic-chamber :is(.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+    animation:fc-rise both linear!important;
+    animation-timeline:view()!important;
+    animation-range:entry 0% cover 32%!important;
+  }
+  @keyframes fc-rise{from{opacity:.38;transform:translateY(46px)}to{opacity:1;transform:none}}
+}
+
+@media(max-width:1100px){
+  body.home-forensic-chamber{--fc-frame:calc(100vw - 44px);}
+  body.home-forensic-chamber .a3-hero,
+  body.home-forensic-chamber .a3-sequence-head,
+  body.home-forensic-chamber .a3-extracts-head,
+  body.home-forensic-chamber .a3-method,
+  body.home-forensic-chamber .a3-route-title{
+    grid-template-columns:1fr!important;
+  }
+  body.home-forensic-chamber .a3-extracts-head h2,
+  body.home-forensic-chamber .a3-route-title h2{grid-column:auto!important;}
+  body.home-forensic-chamber .a3-paper-row{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    padding-right:56px!important;
+    transform:none!important;
+  }
+  body.home-forensic-chamber .a3-plate-grid,
+  body.home-forensic-chamber .a3-principles,
+  body.home-forensic-chamber .a3-routes{
+    grid-template-columns:1fr!important;
+  }
+}
+
+@media(max-width:700px){
+  body.home-forensic-chamber{--fc-frame:calc(100vw - 36px);--fc-gutter:18px;}
+  body.home-forensic-chamber .pei-topbar{
+    height:62px!important;
+    min-height:62px!important;
+    padding-inline:18px!important;
+  }
+  body.home-forensic-chamber .pei-topbar .right::after{display:none!important;}
+  body.home-forensic-chamber .a3-hero{
+    min-height:auto!important;
+    padding:104px 0 68px!important;
+    gap:42px!important;
+  }
+  body.home-forensic-chamber #home-title{
+    font-size:clamp(4.1rem,16vw,6.4rem)!important;
+    line-height:.9!important;
+    max-width:10.2ch!important;
+  }
+  body.home-forensic-chamber .a3-hero-lede{
+    font-size:1.06rem!important;
+    line-height:1.68!important;
+    max-width:32ch!important;
+  }
+  body.home-forensic-chamber .a3-actions{display:grid!important;grid-template-columns:1fr!important;}
+  body.home-forensic-chamber .a3-button{width:100%!important;min-height:58px!important;}
+  body.home-forensic-chamber .a3-id-card{
+    min-height:0!important;
+    border-radius:0 24px 0 24px!important;
+  }
+  body.home-forensic-chamber .a3-ledger div{grid-template-columns:1fr!important;gap:6px!important;}
+  body.home-forensic-chamber :is(.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+    padding:72px 0!important;
+  }
+  body.home-forensic-chamber .a3-section-title{
+    font-size:clamp(3rem,12vw,4.8rem)!important;
+    line-height:.92!important;
+  }
+  body.home-forensic-chamber .a3-flow{grid-template-columns:1fr 1fr!important;}
+  body.home-forensic-chamber .a3-paper-row strong,
+  body.home-forensic-chamber .a3-plate blockquote,
+  body.home-forensic-chamber .a3-principle h3,
+  body.home-forensic-chamber .a3-route strong{
+    font-size:clamp(2.05rem,10vw,3.4rem)!important;
+  }
+  body.home-forensic-chamber .a3-plate,
+  body.home-forensic-chamber .a3-principle,
+  body.home-forensic-chamber .a3-route{
+    min-height:0!important;
+    padding:28px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.home-forensic-chamber *,
+  body.home-forensic-chamber *::before,
+  body.home-forensic-chamber *::after{
+    animation:none!important;
+    transition:none!important;
+  }
+}
