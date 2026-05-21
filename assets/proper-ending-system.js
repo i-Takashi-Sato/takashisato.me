@@ -2,6 +2,8 @@
   if (!document.body.classList.contains('proper-ending-index')) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const path = window.location.pathname;
+  const isHome = path === '/' || path.endsWith('/index.html');
+  if (isHome) document.body.classList.add('home-forensic-chamber');
   if (path.includes('/papers/part1')) document.body.classList.add('pei-part-1');
   if (path.includes('/papers/part2')) document.body.classList.add('pei-part-2');
   if (path.includes('/papers/part3')) document.body.classList.add('pei-part-3');
@@ -22,9 +24,14 @@
   loadLateStylesheet('/assets/mobile-scroll-fix.css');
   loadLateStylesheet('/assets/home-mobile-scroll-fix.css');
   loadLateStylesheet('/assets/mobile-capture-blackout.css');
-  loadLateStylesheet('/assets/archive-reading-density.css');
-  loadLateStylesheet('/assets/archive-balance-v8.css');
-  loadLateStylesheet('/assets/rejouice-immersive-overhaul.css?v=1');
+
+  if (isHome) {
+    loadLateStylesheet('/assets/home-forensic-chamber.css?v=1');
+  } else {
+    loadLateStylesheet('/assets/archive-reading-density.css');
+    loadLateStylesheet('/assets/archive-balance-v8.css');
+    loadLateStylesheet('/assets/rejouice-immersive-overhaul.css?v=1');
+  }
 
   const brand = document.querySelector('.pei-brand');
   if (brand) {
