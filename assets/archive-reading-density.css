@@ -1,0 +1,233 @@
+/* Archive Reading Density — Phase 4
+   Tightens reading rhythm without adding new decoration.
+   No images, no pseudo-surfaces, no blend modes, no WebGL. */
+
+:root{
+  --archive-mobile-gutter:18px;
+  --archive-desktop-gutter:clamp(22px,5vw,76px);
+  --archive-section-gap:clamp(34px,5vw,84px);
+  --archive-card-radius:18px;
+}
+
+body.proper-ending-index{
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Reading rhythm: keep the museum spacing, remove dead vertical air. */
+body.proper-ending-index :is(.paper-deck,.pei-page-hero,.a3-hero){
+  min-height:auto!important;
+}
+
+body.proper-ending-index :is(.paper-problem,.drift-lab,.paper-cta,.catalogue,.catalogue-access,.protocol-grid,.research-position,.about-block,.a3-sequence,.a3-extracts,.a3-method,.a3-routes,.pei-ending){
+  scroll-margin-top:88px!important;
+}
+
+body.proper-ending-index :is(.paper-problem,.drift-lab,.paper-cta,.catalogue,.catalogue-access,.protocol-grid,.research-position,.about-block,.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+  margin-top:var(--archive-section-gap)!important;
+  margin-bottom:var(--archive-section-gap)!important;
+}
+
+/* Text blocks: slightly more editorial, less dashboard-like. */
+body.proper-ending-index :is(.paper-problem p,.drift-row p,.about-block p,.a3-copy,.a3-hero-lede,.pei-page-lede,.paper-thesis,.protocol p,.research-position p,.access-card p,.catalogue-row p,.paper-cta-main p){
+  text-wrap:pretty;
+}
+
+body.proper-ending-index :is(.paper-problem p,.about-block p,.drift-row p,.paper-cta-main p){
+  max-width:66ch!important;
+}
+
+body.proper-ending-index :is(.paper-problem h2,.drift-lab h2,.paper-cta-main h2,.about-block h2,.a3-section-title){
+  text-wrap:balance;
+}
+
+/* Archive cards: consistent radius and inner density across paper and catalogue pages. */
+body.proper-ending-index :is(.paper-map article,.protocol,.access-card,.research-position article,.paper-row,.catalogue-row,.drift-specimen,.evidence-plate,.adr-evidence,.failure-report,.failure-signal-index,.pei-epigraph,.a3-id-card,.a3-plate,.a3-principle,.a3-route){
+  border-radius:var(--archive-card-radius)!important;
+}
+
+body.proper-ending-index :is(.catalogue-row,.paper-row,.a3-paper-row,.a3-route){
+  cursor:pointer!important;
+}
+
+body.proper-ending-index :is(.catalogue-row,.paper-row,.a3-paper-row,.a3-route):hover,
+body.proper-ending-index :is(.catalogue-row,.paper-row,.a3-paper-row,.a3-route):focus-visible{
+  border-color:rgba(242,242,236,.18)!important;
+}
+
+/* Metadata should read as metadata, not buttons. */
+body.proper-ending-index :is(.ledger-row,.pei-fact,.a3-ledger div,.ending-meta span){
+  border-color:rgba(232,235,228,.07)!important;
+}
+
+body.proper-ending-index :is(.ledger-row span,.pei-fact span,.a3-ledger dt,.ending-meta b){
+  color:rgba(166,170,162,.56)!important;
+}
+
+/* Home: tighten the award layout into a readable archive page. */
+body.home-award :is(.a3-hero,.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+  padding-left:var(--archive-desktop-gutter)!important;
+  padding-right:var(--archive-desktop-gutter)!important;
+}
+
+body.home-award .a3-hero{
+  padding-top:clamp(72px,9vw,140px)!important;
+  padding-bottom:clamp(46px,7vw,104px)!important;
+}
+
+body.home-award .a3-hero-copy h1{
+  max-width:13.5ch!important;
+}
+
+body.home-award .a3-hero-lede{
+  max-width:44ch!important;
+}
+
+body.home-award .a3-papers,
+body.home-award .a3-plate-grid,
+body.home-award .a3-principles,
+body.home-award .a3-routes{
+  gap:clamp(12px,1.6vw,22px)!important;
+}
+
+/* Paper pages: make first screen quicker without losing scale. */
+body.proper-ending-index :is(.paper-deck,.pei-page-hero){
+  padding-top:clamp(64px,8vw,128px)!important;
+  padding-bottom:clamp(36px,6vw,88px)!important;
+}
+
+body.proper-ending-index .paper-deck-main{
+  align-content:start!important;
+}
+
+body.proper-ending-index .paper-deck-side,
+body.proper-ending-index .pei-page-aside{
+  align-self:start!important;
+}
+
+/* Catalogue: route cards should be compact enough to scan. */
+body.proper-ending-index .catalogue-row{
+  min-height:0!important;
+}
+
+body.proper-ending-index .catalogue-row h2{
+  text-wrap:balance;
+}
+
+body.proper-ending-index .catalogue-row p{
+  max-width:62ch!important;
+}
+
+body.proper-ending-index .access-card{
+  align-items:start!important;
+}
+
+body.proper-ending-index .access-card nav{
+  align-self:stretch!important;
+}
+
+/* Mobile: reduce empty hero space and improve scan density. */
+@media(max-width:920px){
+  :root{
+    --archive-section-gap:34px;
+    --archive-card-radius:16px;
+  }
+
+  body.proper-ending-index :is(.paper-deck,.pei-page-hero,.a3-hero){
+    padding-top:64px!important;
+    padding-bottom:34px!important;
+  }
+
+  body.home-award :is(.a3-hero,.a3-sequence,.a3-extracts,.a3-method,.a3-routes),
+  body.proper-ending-index :is(.paper-problem,.drift-lab,.paper-cta,.catalogue,.catalogue-access,.protocol-grid,.research-position,.about-block,.pei-ending){
+    margin-left:var(--archive-mobile-gutter)!important;
+    margin-right:var(--archive-mobile-gutter)!important;
+  }
+
+  body.home-award :is(.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+
+  body.proper-ending-index .paper-deck,
+  body.proper-ending-index .pei-page-hero{
+    padding-left:var(--archive-mobile-gutter)!important;
+    padding-right:var(--archive-mobile-gutter)!important;
+  }
+
+  body.proper-ending-index :is(.paper-problem,.drift-lab,.paper-cta,.catalogue,.catalogue-access,.protocol-grid,.research-position,.about-block,.a3-sequence,.a3-extracts,.a3-method,.a3-routes){
+    margin-top:34px!important;
+    margin-bottom:34px!important;
+  }
+
+  body.proper-ending-index :is(.pei-page-title,.paper-deck-main .pei-page-title){
+    max-width:12.2ch!important;
+    font-size:clamp(3.46rem,13.6vw,5.55rem)!important;
+    line-height:.91!important;
+    letter-spacing:-.062em!important;
+  }
+
+  body.home-award .a3-hero-copy h1{
+    max-width:12.8ch!important;
+    font-size:clamp(3.35rem,13.4vw,5.5rem)!important;
+    line-height:.91!important;
+    letter-spacing:-.062em!important;
+  }
+
+  body.proper-ending-index :is(.paper-thesis,.pei-page-lede,.a3-hero-lede){
+    max-width:31ch!important;
+    font-size:clamp(1.05rem,5vw,1.42rem)!important;
+    line-height:1.24!important;
+  }
+
+  body.proper-ending-index :is(.paper-problem h2,.drift-lab h2,.paper-cta-main h2,.about-block h2,.a3-section-title){
+    font-size:clamp(1.75rem,8vw,2.72rem)!important;
+    line-height:.98!important;
+    letter-spacing:-.045em!important;
+    max-width:12.5ch!important;
+  }
+
+  body.proper-ending-index :is(.paper-problem p,.about-block p,.drift-row p,.paper-cta-main p,.protocol p,.research-position p,.access-card p,.catalogue-row p,.a3-copy,.a3-principle p,.a3-route em){
+    font-size:.92rem!important;
+    line-height:1.68!important;
+  }
+
+  body.proper-ending-index :is(.paper-map article,.protocol,.access-card,.research-position article,.catalogue-row,.paper-row,.drift-specimen,.evidence-plate,.a3-plate,.a3-principle,.a3-route){
+    padding-top:20px!important;
+    padding-bottom:20px!important;
+  }
+
+  body.proper-ending-index .catalogue-row{
+    padding-left:18px!important;
+    padding-right:58px!important;
+  }
+
+  body.proper-ending-index .paper-cta-aside{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+
+  body.proper-ending-index .paper-cta-aside a{
+    min-height:52px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+  }
+
+  body.proper-ending-index .pei-footer{
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+}
+
+@media(max-width:420px){
+  body.proper-ending-index :is(.pei-page-title,.paper-deck-main .pei-page-title),
+  body.home-award .a3-hero-copy h1{
+    font-size:clamp(3.05rem,14vw,4.7rem)!important;
+  }
+
+  body.proper-ending-index :is(.paper-deck,.pei-page-hero,.a3-hero){
+    padding-top:58px!important;
+  }
+}
