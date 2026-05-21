@@ -24,6 +24,7 @@
   loadLateStylesheet('/assets/mobile-capture-blackout.css');
   loadLateStylesheet('/assets/archive-reading-density.css');
   loadLateStylesheet('/assets/archive-balance-v8.css');
+  loadLateStylesheet('/assets/rejouice-immersive-overhaul.css?v=1');
 
   const brand = document.querySelector('.pei-brand');
   if (brand) {
