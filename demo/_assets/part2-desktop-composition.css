@@ -76,12 +76,12 @@
     top:0!important;
     bottom:0!important;
     right:auto!important;
-    width:clamp(320px,23vw,430px)!important;
+    width:clamp(340px,24vw,460px)!important;
     height:100vh!important;
     min-height:0!important;
     max-height:100vh!important;
     overflow:hidden!important;
-    padding:clamp(54px,7vh,88px) clamp(24px,2.6vw,42px) clamp(28px,4vh,54px)!important;
+    padding:clamp(54px,7vh,88px) clamp(22px,2.3vw,40px) clamp(28px,4vh,54px)!important;
     border-right:1px solid rgba(255,255,255,.11)!important;
     border-radius:0!important;
     background:linear-gradient(90deg,rgba(5,5,8,.86),rgba(8,8,12,.56) 68%,rgba(0,0,0,0))!important;
@@ -118,11 +118,13 @@
 
   .demo-page--part2 .panel-inner h1{
     margin:0 0 14px!important;
-    font-size:clamp(34px,3.6vw,64px)!important;
-    line-height:.90!important;
-    letter-spacing:.005em!important;
+    font-size:clamp(28px,2.55vw,40px)!important;
+    line-height:.94!important;
+    letter-spacing:-.015em!important;
     text-transform:uppercase!important;
     mix-blend-mode:normal!important;
+    max-width:100%!important;
+    overflow-wrap:normal!important;
     text-shadow:0 0 28px rgba(255,255,255,.14),0 0 80px rgba(212,175,55,.08)!important;
   }
 
@@ -217,7 +219,7 @@
   }
 
   .demo-page--part2 .panel-inner h1{
-    font-size:clamp(30px,3vw,48px)!important;
+    font-size:clamp(26px,2.3vw,34px)!important;
     margin-bottom:10px!important;
   }
 
