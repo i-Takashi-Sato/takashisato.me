@@ -113,3 +113,58 @@ body.phase-home main{overflow:hidden}
 }
 
 @media(min-width:921px){.phase-hero{min-height:calc(100svh - 64px);padding-top:clamp(92px,9vh,128px);padding-bottom:clamp(48px,5vh,72px)}.diagnostic-card{min-height:390px}.phase-actions{margin-top:38px}#sequence .phase-section__head{margin-bottom:44px}.evidence-row{grid-template-columns:90px minmax(330px,.46fr) minmax(300px,.44fr) 168px;min-height:152px;padding:30px 0}.evidence-row h3{max-width:14ch}.evidence-part{font:600 10px/1.4 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(185,167,128,.78)}#extracts{scroll-margin-top:132px;padding-top:clamp(132px,11vw,190px)}.extract,.route{box-shadow:none;filter:none}.extract:hover,.route:hover{transform:none;background:#060707}}
+
+/* Phase 0-11: desktop density correction. Keep the chamber quiet; remove accidental dead air. */
+@media(min-width:921px){
+  .phase-hero{
+    min-height:calc(100svh - 56px);
+    padding-top:clamp(76px,7.4vh,104px);
+    padding-bottom:clamp(36px,4.6vh,60px);
+  }
+  .phase-title{
+    font-size:clamp(5.6rem,6.62vw,9.86rem);
+    line-height:.812;
+    max-width:10.9ch;
+  }
+  .phase-lede{
+    margin-top:clamp(24px,2.2vw,34px);
+    font-size:16px;
+    line-height:1.64;
+  }
+  .phase-actions{
+    margin-top:30px;
+    gap:24px;
+  }
+  .diagnostic-card{
+    max-width:424px;
+    min-height:360px;
+    padding:32px 38px;
+  }
+  .diagnostic-ledger div{padding:14px 0}
+  .diagnostic-statement{margin-top:18px;font-size:14px;line-height:1.58}
+  .phase-section{
+    padding:clamp(72px,6.5vw,108px) 0;
+  }
+  #sequence{padding-top:clamp(80px,6.2vw,112px)}
+  #sequence .phase-section__head{margin-bottom:34px}
+  .evidence-row{
+    min-height:132px;
+    padding:24px 0;
+  }
+  #extracts{
+    padding-top:clamp(84px,7.4vw,128px);
+    scroll-margin-top:104px;
+  }
+  #routes{
+    padding-top:clamp(78px,6vw,112px);
+  }
+  #routes .phase-section__head{
+    margin-bottom:42px;
+  }
+  .route{min-height:198px}
+  .phase-footer{padding-top:40px}
+}
+
+@media(min-width:1600px){
+  .phase-title{font-size:clamp(6.4rem,6.55vw,10rem)}
+}
