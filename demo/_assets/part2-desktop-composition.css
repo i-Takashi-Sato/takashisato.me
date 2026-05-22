@@ -46,8 +46,8 @@
     width:100vw!important;
     height:100vh!important;
     max-width:100vw!important;
-    opacity:.96!important;
-    filter:brightness(1.18) contrast(1.08) saturate(.98)!important;
+    opacity:.98!important;
+    filter:brightness(1.30) contrast(1.14) saturate(1.02)!important;
     transform:translate3d(8vw,0,0) scale(.94)!important;
     transform-origin:54% 50%!important;
   }
