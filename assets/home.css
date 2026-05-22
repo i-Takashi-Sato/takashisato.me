@@ -111,3 +111,5 @@ body.phase-home main{overflow:hidden}
   .extract blockquote{font-size:1.72rem}
   .route strong{font-size:1.92rem}
 }
+
+@media(min-width:921px){.phase-hero{min-height:calc(100svh - 64px);padding-top:clamp(92px,9vh,128px);padding-bottom:clamp(48px,5vh,72px)}.diagnostic-card{min-height:390px}.phase-actions{margin-top:38px}#sequence .phase-section__head{margin-bottom:44px}.evidence-row{grid-template-columns:90px minmax(330px,.46fr) minmax(300px,.44fr) 168px;min-height:152px;padding:30px 0}.evidence-row h3{max-width:14ch}.evidence-part{font:600 10px/1.4 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:rgba(185,167,128,.78)}#extracts{scroll-margin-top:132px;padding-top:clamp(132px,11vw,190px)}.extract,.route{box-shadow:none;filter:none}.extract:hover,.route:hover{transform:none;background:#060707}}
