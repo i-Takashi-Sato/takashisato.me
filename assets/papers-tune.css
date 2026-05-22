@@ -108,3 +108,59 @@
   .access-cell,.access-link{padding:20px 0}
   .protocol-card{padding:24px 0}
 }
+
+/* QA 2026-05-22: iPhone landscape catalogue compression. */
+@media (orientation: landscape) and (max-height:560px) and (max-width:1024px){
+  :root{
+    --papers-ls-left:env(safe-area-inset-left,0px);
+    --papers-ls-right:env(safe-area-inset-right,0px);
+    --papers-ls-top:env(safe-area-inset-top,0px);
+    --papers-ls-bottom:env(safe-area-inset-bottom,0px);
+  }
+  body.phase-papers{
+    padding-left:var(--papers-ls-left)!important;
+    padding-right:var(--papers-ls-right)!important;
+    padding-bottom:var(--papers-ls-bottom)!important;
+    overflow-x:hidden!important;
+  }
+  body.phase-papers .pei-topbar{
+    height:52px!important;
+    min-height:52px!important;
+    padding-left:max(22px,calc(var(--papers-ls-left) + 18px))!important;
+    padding-right:max(22px,calc(var(--papers-ls-right) + 18px))!important;
+  }
+  body.phase-papers .pei-topbar a{font-size:9px!important;letter-spacing:.115em!important}
+  body.phase-papers .pei-topbar .right{gap:18px!important}
+  .papers-stage,.papers-footer{width:calc(100vw - var(--papers-ls-left) - var(--papers-ls-right) - 56px)!important}
+  .papers-hero{
+    min-height:auto!important;
+    padding-top:max(70px,calc(var(--papers-ls-top) + 58px))!important;
+    padding-bottom:max(34px,calc(var(--papers-ls-bottom) + 26px))!important;
+    grid-template-columns:minmax(0,1fr) minmax(250px,.72fr)!important;
+    gap:clamp(24px,4.5vw,42px)!important;
+    align-items:start!important;
+    border-left:0!important;
+    border-right:0!important;
+  }
+  .papers-title{max-width:13.2ch!important;margin-top:14px!important;font-size:clamp(3.05rem,7.1vw,4.8rem)!important;line-height:.86!important;letter-spacing:-.064em!important}
+  .papers-lede{max-width:44ch!important;margin-top:16px!important;font-size:13px!important;line-height:1.48!important}
+  .papers-ledger{width:100%!important;max-width:360px!important;min-height:0!important;padding:18px 20px!important;align-self:start!important;justify-self:end!important}
+  .papers-ledger div{grid-template-columns:.38fr 1fr!important;padding:8px 0!important;gap:12px!important}
+  .papers-ledger__head,.papers-ledger dt,.papers-ledger dd{font-size:8.5px!important}
+  .papers-section{padding:48px 0!important}
+  .papers-section__head{grid-template-columns:minmax(112px,.28fr) minmax(0,.72fr)!important;gap:clamp(24px,4.6vw,44px)!important;margin-bottom:24px!important}
+  .papers-heading{max-width:13.4ch!important;font-size:clamp(2.45rem,6.2vw,4rem)!important;line-height:.9!important;letter-spacing:-.054em!important}
+  .papers-copy{font-size:13px!important;line-height:1.5!important}
+  .paper-entry{grid-template-columns:70px minmax(210px,.42fr) minmax(230px,.44fr) 104px!important;min-height:86px!important;padding:18px 0!important;gap:22px!important}
+  .paper-entry h3{font-size:clamp(1.55rem,3.35vw,2.1rem)!important;line-height:.98!important}
+  .paper-entry p{font-size:12px!important;line-height:1.45!important}
+  .paper-entry__part,.paper-entry__state{font-size:8.5px!important}
+  .access-row{display:grid!important;grid-template-columns:minmax(190px,.34fr) repeat(3,minmax(120px,.22fr))!important}
+  .access-cell,.access-link{min-height:70px!important;padding:14px 16px!important}
+  .access-cell strong{font-size:clamp(1.35rem,3vw,1.9rem)!important}
+  .protocol-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .protocol-card{min-height:112px!important;padding:16px!important}
+  .protocol-card h3{font-size:clamp(1.35rem,2.7vw,1.9rem)!important;line-height:.96!important;margin-top:8px!important}
+  .protocol-card p{font-size:11.5px!important;line-height:1.42!important}
+  .papers-footer{padding:24px 0 max(34px,calc(var(--papers-ls-bottom) + 22px))!important;display:flex!important}
+}
