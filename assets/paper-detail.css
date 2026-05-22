@@ -463,6 +463,22 @@ body.phase-paper .pei-topbar .right{
   color:var(--c-ink);
 }
 
+/* Part III Chinese epigraph: keep the four characters as one deliberate inscription, not an accidental wrapped column. */
+.epigraph-panel--ending figure{
+  align-items:center;
+}
+.epigraph-panel--ending blockquote{
+  max-width:none;
+  width:max-content;
+  white-space:nowrap;
+  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif CJK JP","Noto Serif JP",serif;
+  font-size:clamp(4.8rem,7vw,8.8rem);
+  line-height:1;
+  letter-spacing:.055em;
+  font-weight:500;
+  text-orientation:mixed;
+}
+
 @media(min-width:1600px){
   .paper-stage,.paper-footer{width:min(1520px,calc(100vw - 260px))}
   .paper-title{font-size:clamp(6.2rem,6.35vw,9.8rem)}
@@ -503,6 +519,7 @@ body.phase-paper .pei-topbar .right{
   .epigraph-panel{padding:68px 0}
   .epigraph-panel figure{width:calc(100vw - 56px);grid-template-columns:1fr;gap:28px}
   .epigraph-panel blockquote{font-size:clamp(3.1rem,14vw,4.2rem)}
+  .epigraph-panel--ending blockquote{max-width:none;width:max-content;white-space:nowrap;font-size:clamp(3.25rem,14vw,4.35rem);line-height:1.05;letter-spacing:.035em}
   .gate-row{grid-template-columns:1fr;gap:14px;min-height:0;padding:36px 0;border-bottom-color:rgba(232,235,228,.11)}
   .gate-row__id,.gate-row__state{font-size:9px;letter-spacing:.14em;justify-self:start}
   .gate-row h3{max-width:11.5ch;font-size:clamp(2rem,8.4vw,2.62rem);line-height:.98;letter-spacing:-.048em}
@@ -524,4 +541,5 @@ body.phase-paper .pei-topbar .right{
   .paper-title{font-size:3.32rem}
   .paper-heading,.continue-panel h2{font-size:2.52rem}
   .gate-row h3,.continue-routes strong{font-size:1.92rem}
+  .epigraph-panel--ending blockquote{font-size:3.18rem;letter-spacing:.025em}
 }
