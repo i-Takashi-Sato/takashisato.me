@@ -1,0 +1,71 @@
+/* Part III proper-ending epigraph override.
+   Purpose: keep 「知止不殆。」 and its citation in separate layout tracks.
+   No decorative motion, no cheap hover treatment. */
+
+body.phase-part-3 .epigraph-panel--ending{
+  overflow:visible;
+}
+
+body.phase-part-3 .epigraph-panel--ending figure{
+  width:min(1180px,calc(100vw - clamp(112px,9vw,240px)));
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:max-content minmax(260px,34ch);
+  column-gap:clamp(36px,5vw,88px);
+  align-items:end;
+  justify-content:center;
+}
+
+body.phase-part-3 .epigraph-panel--ending blockquote{
+  margin:0;
+  max-width:none;
+  width:max-content;
+  white-space:nowrap;
+  font-family:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif CJK JP","Noto Serif JP",serif;
+  font-size:clamp(4.4rem,6.2vw,7.6rem);
+  line-height:.98;
+  letter-spacing:.045em;
+  font-weight:500;
+  color:var(--c-ink);
+}
+
+body.phase-part-3 .epigraph-panel--ending figcaption{
+  margin:0 0 .42em;
+  max-width:34ch;
+  align-self:end;
+  position:relative;
+  z-index:1;
+  font:400 14px/1.8 var(--font-sans);
+  color:rgba(213,215,207,.66);
+}
+
+@media(max-width:980px){
+  body.phase-part-3 .epigraph-panel--ending figure{
+    width:calc(100vw - 56px);
+    grid-template-columns:1fr;
+    row-gap:18px;
+    justify-content:start;
+  }
+
+  body.phase-part-3 .epigraph-panel--ending blockquote{
+    font-size:clamp(2.9rem,13vw,4.6rem);
+    line-height:1.05;
+    letter-spacing:.035em;
+  }
+
+  body.phase-part-3 .epigraph-panel--ending figcaption{
+    margin:0;
+    max-width:38ch;
+  }
+}
+
+@media(max-width:380px){
+  body.phase-part-3 .epigraph-panel--ending figure{
+    width:calc(100vw - 44px);
+  }
+
+  body.phase-part-3 .epigraph-panel--ending blockquote{
+    font-size:clamp(2.65rem,14vw,3.25rem);
+    letter-spacing:.025em;
+  }
+}
