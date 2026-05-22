@@ -543,3 +543,130 @@ body.phase-paper .pei-topbar .right{
   .gate-row h3,.continue-routes strong{font-size:1.92rem}
   .epigraph-panel--ending blockquote{font-size:3.18rem;letter-spacing:.025em}
 }
+
+/* QA 2026-05-22: iPhone landscape guard.
+   Reason: Safari landscape reduces real height; keep titles and ledgers out from the notch/home-indicator band. */
+@media (orientation: landscape) and (max-height: 560px) and (max-width: 1024px){
+  body.phase-paper{
+    padding-left:env(safe-area-inset-left,0px)!important;
+    padding-right:env(safe-area-inset-right,0px)!important;
+    padding-bottom:env(safe-area-inset-bottom,0px)!important;
+  }
+  body.phase-paper .pei-topbar{
+    height:52px!important;
+    min-height:52px!important;
+    padding-left:max(22px,calc(env(safe-area-inset-left,0px) + 18px))!important;
+    padding-right:max(22px,calc(env(safe-area-inset-right,0px) + 18px))!important;
+  }
+  body.phase-paper .pei-topbar a{
+    font-size:9px!important;
+    letter-spacing:.12em!important;
+  }
+  body.phase-paper .pei-topbar .right{gap:18px!important}
+  .paper-stage,
+  .paper-footer{
+    width:calc(100vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px) - 56px)!important;
+  }
+  .paper-hero{
+    min-height:auto!important;
+    padding-top:max(70px,calc(env(safe-area-inset-top,0px) + 58px))!important;
+    padding-bottom:max(34px,calc(env(safe-area-inset-bottom,0px) + 26px))!important;
+    grid-template-columns:minmax(0,1fr) minmax(250px,.72fr)!important;
+    gap:clamp(24px,4.5vw,42px)!important;
+    align-items:start!important;
+    border-left:0!important;
+    border-right:0!important;
+  }
+  .paper-title{
+    max-width:13.2ch!important;
+    margin-top:14px!important;
+    font-size:clamp(3.05rem,7.1vw,4.8rem)!important;
+    line-height:.86!important;
+    letter-spacing:-.064em!important;
+  }
+  .paper-lede{
+    max-width:44ch!important;
+    margin-top:16px!important;
+    font-size:13px!important;
+    line-height:1.48!important;
+  }
+  .paper-actions{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:12px!important;
+    max-width:560px!important;
+    margin-top:22px!important;
+  }
+  .paper-link{
+    min-height:34px!important;
+    padding:6px 0 8px!important;
+    grid-template-columns:auto 32px!important;
+    font-size:8.5px!important;
+    letter-spacing:.105em!important;
+  }
+  .paper-ledger{
+    width:100%!important;
+    max-width:360px!important;
+    padding:18px 20px!important;
+    align-self:start!important;
+  }
+  .paper-ledger__head,
+  .paper-ledger dt,
+  .paper-ledger dd{font-size:8.5px!important}
+  .paper-ledger div{grid-template-columns:.38fr 1fr!important;padding:8px 0!important;gap:12px!important}
+  .paper-ledger__statement{margin-top:12px!important;font-size:12px!important;line-height:1.5!important}
+  .paper-section{padding:48px 0!important}
+  .paper-section__head{
+    grid-template-columns:minmax(112px,.28fr) minmax(0,.72fr)!important;
+    gap:clamp(24px,4.6vw,44px)!important;
+    margin-bottom:24px!important;
+  }
+  .paper-heading,
+  .continue-panel h2{
+    max-width:13.4ch!important;
+    font-size:clamp(2.45rem,6.2vw,4rem)!important;
+    line-height:.9!important;
+    letter-spacing:-.054em!important;
+  }
+  .paper-copy,
+  .argument-body p,
+  .argument-notes span,
+  .gate-row p,
+  .record-copy p,
+  .continue-panel p{
+    font-size:13px!important;
+    line-height:1.5!important;
+  }
+  .argument-grid,
+  .continue-panel{gap:32px!important}
+  .epigraph-panel{padding:44px 0!important}
+  .epigraph-panel figure{
+    width:calc(100vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px) - 56px)!important;
+    grid-template-columns:minmax(150px,.32fr) minmax(0,.68fr)!important;
+    gap:34px!important;
+    align-items:center!important;
+  }
+  .epigraph-panel blockquote{
+    font-size:clamp(2.95rem,7vw,4.55rem)!important;
+    line-height:.86!important;
+  }
+  .epigraph-panel--ending blockquote{
+    font-size:clamp(3.05rem,7.4vw,4.8rem)!important;
+    white-space:nowrap!important;
+  }
+  .gate-row{
+    grid-template-columns:82px minmax(170px,.34fr) minmax(250px,.42fr) minmax(116px,.24fr)!important;
+    gap:22px!important;
+    min-height:86px!important;
+    padding:18px 0!important;
+  }
+  .gate-row h3{font-size:clamp(1.7rem,3.3vw,2.2rem)!important;line-height:.95!important}
+  .gate-row__id,.gate-row__state{font-size:8.5px!important}
+  .record-grid{grid-template-columns:minmax(260px,.46fr) minmax(320px,.54fr)!important}
+  .record-copy{padding:22px!important;gap:24px!important;border-bottom:0!important;border-right:1px solid rgba(232,235,228,.10)!important}
+  .record-copy h3{font-size:clamp(2.2rem,5.2vw,3.5rem)!important}
+  .record-code{min-height:260px!important;padding:22px!important;font-size:10.5px!important;line-height:1.55!important}
+  .continue-routes{display:grid!important;grid-template-columns:repeat(3,1fr)!important;border:1px solid rgba(232,235,228,.13)!important;background:rgba(232,235,228,.08)!important}
+  .continue-routes a{min-height:110px!important;padding:18px!important;border:0!important;background:#060707!important}
+  .continue-routes strong{font-size:clamp(1.6rem,3.5vw,2.2rem)!important}
+  .paper-footer{padding:24px 0 max(34px,calc(env(safe-area-inset-bottom,0px) + 22px))!important;display:flex!important}
+}
