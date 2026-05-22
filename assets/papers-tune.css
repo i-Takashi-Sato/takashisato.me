@@ -1,0 +1,110 @@
+/* Phase Papers 2 — density / hierarchy correction */
+@media(min-width:921px){
+  body.phase-papers::before{
+    opacity:.42;
+    background:
+      linear-gradient(90deg,rgba(232,235,228,.018) 0 1px,transparent 1px 100%) 50% 0 / min(1480px,calc(100vw - 180px)) 100%,
+      linear-gradient(180deg,rgba(232,235,228,.014) 0 1px,transparent 1px 100%) 50% 0 / 100% 112px;
+  }
+  .papers-hero{
+    min-height:calc(100svh - 64px);
+    padding-top:clamp(74px,7.2vh,104px);
+    padding-bottom:clamp(42px,4.8vh,68px);
+  }
+  .papers-title{
+    font-size:clamp(5.25rem,6.05vw,9rem);
+    line-height:.82;
+    max-width:10.9ch;
+  }
+  .papers-lede{
+    max-width:38ch;
+    margin-top:28px;
+    font-size:15px;
+    line-height:1.7;
+  }
+  .papers-ledger{
+    width:min(424px,100%);
+    padding:30px 36px;
+  }
+  .papers-ledger div{padding:13px 0}
+  .papers-section{
+    padding:clamp(54px,4.8vw,82px) 0;
+    scroll-margin-top:96px;
+  }
+  .papers-section__head{
+    grid-template-columns:minmax(120px,.28fr) minmax(0,.72fr);
+    gap:clamp(42px,5.2vw,88px);
+    margin-bottom:clamp(30px,3.4vw,48px);
+  }
+  .papers-heading{
+    font-size:clamp(3rem,3.75vw,5.28rem);
+    line-height:.94;
+    max-width:12.2ch;
+    letter-spacing:-.055em;
+  }
+  .papers-copy{
+    max-width:56ch;
+    margin-top:14px;
+    font-size:14px;
+    line-height:1.78;
+  }
+  .paper-entry{
+    grid-template-columns:100px minmax(300px,.44fr) minmax(310px,.44fr) 134px;
+    min-height:132px;
+    padding:24px 0;
+    gap:clamp(28px,3.4vw,52px);
+  }
+  .paper-entry h3{
+    font-size:clamp(1.9rem,2.24vw,3rem);
+    line-height:1.02;
+    max-width:15ch;
+  }
+  .paper-entry p{
+    max-width:42ch;
+    font-size:14px;
+    line-height:1.68;
+  }
+  .access-cell,
+  .access-link{
+    min-height:90px;
+    padding:22px 28px;
+  }
+  .access-cell strong{
+    font-size:clamp(1.42rem,1.7vw,2.05rem);
+    margin-top:7px;
+  }
+  .access-link em{
+    margin-top:5px;
+    font-size:12px;
+  }
+  .protocol-card{
+    min-height:196px;
+    padding:26px 28px;
+  }
+  .protocol-card h3{
+    margin-top:24px;
+    font-size:clamp(1.72rem,1.95vw,2.45rem);
+    max-width:9.5ch;
+  }
+  .protocol-card p{
+    font-size:13px;
+    line-height:1.65;
+  }
+  .papers-footer{
+    padding-top:34px;
+    padding-bottom:52px;
+  }
+}
+
+@media(min-width:1600px){
+  .papers-title{font-size:clamp(5.8rem,5.95vw,9.35rem)}
+  .papers-heading{font-size:clamp(3.25rem,3.55vw,5.45rem)}
+}
+
+@media(max-width:920px){
+  .papers-section{padding:64px 0}
+  .papers-heading{font-size:clamp(2.45rem,9.7vw,3.18rem)}
+  .paper-entry{padding:30px 0}
+  .access-cell,.access-link{padding:20px 0}
+  .protocol-card{padding:24px 0}
+}
