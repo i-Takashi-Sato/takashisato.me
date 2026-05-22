@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#050607" />
-  <title>Detecting Silent Governance Failure — 佐藤貴士 / Takashi Sato</title>
-  <meta name="description" content="佐藤貴士 / Takashi Sato によるAIガバナンス論文。Silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending." />
+  <meta name="theme-color" content="#040505" />
+  <title>Detecting Silent Governance Failure — The Proper Ending Index</title>
+  <meta name="description" content="Part III of Takashi Sato's AI governance archive: silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending." />
   <meta name="author" content="佐藤貴士 / Takashi Sato" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://takashisato.me/papers/part3.html" />
-  <meta property="og:title" content="Detecting Silent Governance Failure · 佐藤貴士 / Takashi Sato" />
+  <meta property="og:title" content="Detecting Silent Governance Failure — Takashi Sato" />
   <meta property="og:description" content="Silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending." />
   <meta property="og:type" content="article" />
   <meta property="article:author" content="佐藤貴士 / Takashi Sato" />
@@ -29,27 +29,165 @@
     "about":["AI Governance","Silent Governance Failure","Governance Drift Indicators","Resolution Collapse","Circuit Breakers","Proper Ending"]
   }
   </script>
-  <link rel="stylesheet" href="/assets/proper-ending-index.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-system.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-complete.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-material-system.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-epigraphs.css" />
+  <link rel="stylesheet" href="/assets/00-tokens.css" />
+  <link rel="stylesheet" href="/assets/01-reset.css" />
+  <link rel="stylesheet" href="/assets/02-layout.css" />
+  <link rel="stylesheet" href="/assets/03-typography.css" />
+  <link rel="stylesheet" href="/assets/04-components.css" />
+  <link rel="stylesheet" href="/assets/paper-detail.css?v=phase-part3-1" />
 </head>
-<body class="proper-ending-index pei-part-3">
+<body class="phase-paper phase-part-3" data-page="part3">
 <a class="skip" href="#main">Skip to content</a>
-<div class="pei-shell">
-  <aside class="pei-sidebar" aria-label="Paper index"><div class="pei-brand"><div class="pei-mark">T—S</div><small>Part III<br />Termination</small></div><div class="pei-rule"></div><nav class="pei-nav"><a href="/" data-no="01">Overview</a><a href="/papers/" data-no="02">Catalogue</a><a href="/papers/part1.html" data-no="03">Part I</a><a href="/papers/part2.html" data-no="04">Part II</a><a href="/papers/part3.html" aria-current="page" data-no="05">Part III</a></nav><div class="pei-sidebar-foot"><div>Measure silence.<br />Stop correctly.</div><span class="pei-dot"></span><div>SSRN 6066430</div></div></aside>
-  <div class="pei-main"><header class="pei-topbar"><a href="/papers/">Catalogue of Failure</a><div class="right"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">SSRN</a><button class="pei-menu" type="button" aria-label="Toggle index" aria-expanded="false"></button></div></header>
-    <main id="main">
-      <section class="paper-deck"><div class="paper-deck-main"><p class="pei-kicker">Part III / Termination</p><h1 class="pei-page-title">Detecting Silent Governance Failure</h1><p class="paper-thesis">Silence is the scream of a failing system.</p></div><aside class="paper-deck-side"><div class="paper-ledger"><div class="ledger-row"><span>Published</span><strong>2026/01/13</strong></div><div class="ledger-row"><span>SSRN</span><strong>6066430</strong></div><div class="ledger-row"><span>Revision</span><strong>2026/01/13</strong></div><div class="ledger-row"><span>Phase</span><strong>Termination</strong></div></div></aside></section>
-      <figure class="pei-epigraph pei-epigraph--quiet"><blockquote><p class="epi-main" lang="en">The cruellest lies are often told in silence.</p></blockquote><figcaption>Source: Robert Louis Stevenson, <cite>Virginibus Puerisque</cite>, “Truth of Intercourse”.</figcaption></figure>
-      <section class="paper-problem"><h2>The worst failure is quiet enough to look like governance.</h2><div><p>Current AI governance often focuses on the noise of failure: errors, bias, and misuse. In high-stakes bureaucracy, the most catastrophic failures often manifest as silence.</p><p>Resolution Collapse describes a condition where human oversight persists as procedural ritual while the system loses the friction required to distinguish routine cases from exceptions.</p><ul><li>Silence becomes measurable through Governance Drift Indicators.</li><li>Legibility matters more than smooth continuation.</li><li>Circuit Breakers preserve memory through controlled termination.</li></ul></div></section>
-      <section class="paper-map" aria-label="Governance Drift Indicators"><article><small>Indicator 01</small><h3>Semantic Entropy Decay.</h3><p>Human explanations lose information and collapse into template language.</p></article><article><small>Indicator 02</small><h3>Temporal Compression.</h3><p>Complex and routine cases begin to move through the process at the same speed.</p></article><article><small>Indicator 03</small><h3>Exhaustion of Dissent.</h3><p>Overrides, modifications, and escalations disappear without proof of improvement.</p></article><article><small>Endpoint</small><h3>Proper Ending.</h3><p>When judgment can no longer be verified, the responsible action is controlled suspension.</p></article></section>
-      <section class="drift-lab" data-gdi-specimen><h2>Failure legibility is the last defense before ritual becomes authority.</h2><div class="drift-row"><strong>Resolution Collapse</strong><p>Oversight remains visible as a procedure while its contestability has already disappeared.</p></div><div class="drift-row"><strong>Circuit Breaker</strong><p>The process must be stopped when its outputs can no longer be connected to meaningful human judgment.</p></div><div class="drift-specimen evidence-plate" aria-label="Part III argument plate"><div class="evidence-head"><span>Extract / Part III</span><span>Governance drift indicators</span></div><div class="evidence-core"><p class="evidence-quote">Silent failure becomes visible only when the archive measures what ordinary procedure has learned to hide.</p><div class="evidence-matrix"><span><b>SED</b>semantic entropy decay</span><span><b>TC</b>temporal compression</span><span><b>ED</b>exhaustion of dissent</span><span><b>CB</b>controlled termination</span></div></div><div class="evidence-foot">The capacity to stop is a governance responsibility.</div></div></section>
-      <section class="paper-cta"><div class="paper-cta-main"><h2>Return to the index.</h2><p>The sequence ends by reframing governance as the capacity to detect, explain, and stop a system that still appears to function.</p><div class="paper-cta-links"><a class="primary ssrn-cta" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">Read on SSRN</a><a class="sequence-link" href="/papers/part2.html">Previous: Part II</a><a class="archive-link" href="/pdf/part3.pdf" target="_blank" rel="noopener">Open Local PDF</a></div></div><aside class="paper-cta-aside"><a href="/papers/">Paper Catalogue <span>→</span></a><a href="/">Proper Ending Index <span>→</span></a></aside></section>
-      <figure class="pei-epigraph pei-epigraph--quiet"><blockquote><p class="epi-main" lang="en">To know when to stop is to avoid peril.</p><p class="epi-original" lang="zh-Hant">Original text / 知止不殆</p></blockquote><figcaption>Source: <cite>Dao De Jing</cite>, Chapter 44. Translation: mine.</figcaption></figure>
-      <section id="circuit-breakers" class="pei-ending" data-proper-ending><div class="ending-title"><small>Part III endpoint</small><h2>A system that cannot stop cannot govern.</h2></div><div class="ending-record"><strong>Process suspended.</strong><p>Meaningful judgment can no longer be verified. Reactivation requires new governance authorization.</p><a href="/">Return to Index →</a></div><div class="ending-meta"><span><b>Phase</b><i>Ending</i></span><span><b>Status</b><i>Suspended</i></span><span><b>Next</b><i>Memory</i></span></div></section>
-    </main><footer class="pei-footer"><div>© 2025 Takashi Sato / Part III</div><div><a href="/papers/">Catalogue</a> / <a href="/pdf/part3.pdf">PDF</a> / <a href="/">Index</a></div></footer>
-  </div>
-</div><script src="/assets/proper-ending-system.js" defer></script></body>
+<div class="pei-shell"><div class="pei-main">
+<header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/papers/">Papers</a><a href="/about.html">About</a></div></header>
+<main id="main">
+  <section class="paper-hero paper-stage" aria-labelledby="paper-title">
+    <div class="paper-hero__copy">
+      <p class="paper-kicker">Diagnostic Record / Part III / Ending</p>
+      <h1 id="paper-title" class="paper-title">Detecting Silent Governance Failure</h1>
+      <p class="paper-lede">A system that cannot stop cannot govern.</p>
+      <nav class="paper-actions" aria-label="Primary paper access">
+        <a class="paper-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">Read on SSRN</a>
+        <a class="paper-link" href="/pdf/part3.pdf" target="_blank" rel="noopener">Open Local PDF</a>
+        <a class="paper-link" href="/demo/altrion-part3.html" target="_blank" rel="noopener">Open Visualizer</a>
+      </nav>
+    </div>
+    <aside class="paper-ledger" aria-label="Part III diagnostic ledger">
+      <div class="paper-ledger__head"><span>Record 003</span><span>Status / Ending</span></div>
+      <dl>
+        <div><dt>Object</dt><dd>Governance after silence</dd></div>
+        <div><dt>Phase</dt><dd>Detection / circuit breaker</dd></div>
+        <div><dt>Method</dt><dd>Measure / preserve / stop</dd></div>
+        <div><dt>SSRN</dt><dd>6066430</dd></div>
+      </dl>
+      <p class="paper-ledger__statement">Part III turns the archive into a stopping instrument: not a warning display, but a decision surface for ending failed oversight correctly.</p>
+    </aside>
+  </section>
+
+  <section class="epigraph-panel" aria-label="Part III epigraph">
+    <figure>
+      <blockquote>The cruellest lies are often told in silence.</blockquote>
+      <figcaption>Robert Louis Stevenson, <cite>Virginibus Puerisque</cite>, “Truth of Intercourse”. Used here as the ethical premise for measuring silent failure.</figcaption>
+    </figure>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="part3-problem">
+    <div class="paper-section__head">
+      <p class="paper-section__kicker">Problem field</p>
+      <div>
+        <h2 id="part3-problem" class="paper-heading">The worst failure is quiet enough to look like governance.</h2>
+        <p class="paper-copy">Noise is easy to detect. Silence is harder, because silence can look like stability, consensus, or successful compliance.</p>
+      </div>
+    </div>
+    <div class="argument-grid">
+      <div class="argument-body">
+        <p>Part III treats silent governance failure as the point where oversight remains visible as a procedure while its contestability has already disappeared.</p>
+        <p>Resolution Collapse occurs when a system can still generate documents, approvals, logs, and explanations, but those artifacts no longer prove that human judgment is operating.</p>
+        <p>The response is not more decoration, more dashboards, or more confidence language. The response is a controlled ability to detect drift, preserve memory, and stop.</p>
+      </div>
+      <div class="argument-notes" aria-label="Part III detection notes">
+        <div><strong>Risk</strong><span>Failure becomes ordinary because nothing appears to demand interruption.</span></div>
+        <div><strong>Measure</strong><span>Track silence through semantic decay, temporal compression, and exhaustion of dissent.</span></div>
+        <div><strong>Boundary</strong><span>If judgment cannot be verified, continuation is not governance. It is ritual.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="gdi-title">
+    <div class="paper-section__head">
+      <p class="paper-section__kicker">Governance Drift Indicators</p>
+      <div>
+        <h2 id="gdi-title" class="paper-heading">Silent failure becomes visible only when the archive measures what procedure hides.</h2>
+        <p class="paper-copy">The indicators do not predict evil. They detect the loss of contestability inside apparently normal operation.</p>
+      </div>
+    </div>
+    <div class="gate-matrix" aria-label="Governance drift indicator matrix">
+      <article class="gate-row">
+        <span class="gate-row__id">GDI-01</span>
+        <h3>Semantic Entropy Decay.</h3>
+        <p>Explanations lose information and collapse into template language.</p>
+        <span class="gate-row__state">Meaning loss</span>
+      </article>
+      <article class="gate-row">
+        <span class="gate-row__id">GDI-02</span>
+        <h3>Temporal Compression.</h3>
+        <p>Complex and routine cases begin to move through the process at the same speed.</p>
+        <span class="gate-row__state">Time distortion</span>
+      </article>
+      <article class="gate-row">
+        <span class="gate-row__id">GDI-03</span>
+        <h3>Exhaustion of Dissent.</h3>
+        <p>Overrides, escalations, and modifications disappear without evidence that quality improved.</p>
+        <span class="gate-row__state">Contestability loss</span>
+      </article>
+      <article class="gate-row">
+        <span class="gate-row__id">CB-01</span>
+        <h3>Circuit Breaker.</h3>
+        <p>The process is suspended when outputs can no longer be tied to meaningful human judgment.</p>
+        <span class="gate-row__state">Controlled termination</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="resolution-title">
+    <div class="paper-section__head">
+      <p class="paper-section__kicker">Evidence plate</p>
+      <div>
+        <h2 id="resolution-title" class="paper-heading">The proper ending preserves memory before authority returns.</h2>
+        <p class="paper-copy">Stopping is not failure. Stopping is the governance act that prevents failed procedure from continuing to speak with institutional authority.</p>
+      </div>
+    </div>
+    <div class="record-grid" aria-label="Part III proper ending specimen">
+      <div class="record-copy">
+        <div>
+          <span class="record-label">Proper Ending Record</span>
+          <h3>Detection plus memory plus controlled suspension.</h3>
+        </div>
+        <p>The system is not merely halted. Its failure conditions are preserved so the organization cannot reactivate the same ritual under a new name.</p>
+        <div class="record-facts">
+          <span>Source <b>Part III</b></span>
+          <span>Function <b>Stopping rule</b></span>
+          <span>Failure mode <b>Authority without judgment</b></span>
+        </div>
+      </div>
+      <pre class="record-code"><code>{
+  <span class="key">"resolution_state"</span>: "collapse_detected",
+  <span class="key">"indicators"</span>: [
+    "Semantic_Entropy_Decay",
+    "Temporal_Compression",
+    "Exhaustion_of_Dissent"
+  ],
+  <span class="key">"circuit_breaker"</span>: "activated",
+  <span class="key">"memory_preserved"</span>: true,
+  <span class="key">"authority_returned_to"</span>: "human_governance",
+  <span class="key">"reactivation_requires"</span>: "new_authorization"
+}</code></pre>
+    </div>
+  </section>
+
+  <section class="epigraph-panel epigraph-panel--ending" aria-label="Proper ending epigraph">
+    <figure>
+      <blockquote>知止不殆。</blockquote>
+      <figcaption><cite>Dao De Jing</cite>, Chapter 44. Translation: to know when to stop is to avoid peril.</figcaption>
+    </figure>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="ending-title">
+    <div class="continue-panel continue-panel--final">
+      <div>
+        <p class="paper-section__kicker">Final condition</p>
+        <h2 id="ending-title">Judgment absent. Memory preserved. Authority returned.</h2>
+        <p>The sequence ends where governance becomes real again: with the capacity to refuse continuation when procedure can no longer prove judgment.</p>
+      </div>
+      <nav class="continue-routes" aria-label="Continue from Part III">
+        <a href="/papers/part2.html"><span>Previous paper</span><strong>Part II</strong><em>Return to decay.</em></a>
+        <a href="/papers/"><span>Catalogue</span><strong>Papers</strong><em>Return to the sequence.</em></a>
+        <a href="/demo/altrion-part3.html" target="_blank" rel="noopener"><span>Instrument</span><strong>Visualizer</strong><em>Open the Part III visual system.</em></a>
+      </nav>
+    </div>
+  </section>
+</main>
+<footer class="paper-footer"><div>© 2025 Takashi Sato / Part III</div><nav><a href="/papers/">Papers</a> / <a href="/">Index</a></nav></footer>
+</div></div>
+</body>
 </html>
