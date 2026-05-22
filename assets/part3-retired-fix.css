@@ -78,3 +78,37 @@ body.pei-part-3 .paper-cta-aside a{
     min-height:auto;
   }
 }
+
+/* iPhone safe-area / landscape guard */
+body.pei-part-3{
+  --n-l:env(safe-area-inset-left,0px);
+  --n-r:env(safe-area-inset-right,0px);
+  --n-t:env(safe-area-inset-top,0px);
+  --n-b:env(safe-area-inset-bottom,0px);
+  padding-left:var(--n-l);
+  padding-right:var(--n-r);
+  padding-bottom:var(--n-b);
+}
+body.pei-part-3 .pei-topbar{
+  padding-left:max(18px,calc(var(--n-l) + 14px))!important;
+  padding-right:max(18px,calc(var(--n-r) + 14px))!important;
+}
+@media(orientation:landscape) and (max-height:560px){
+  body.pei-part-3 .pei-topbar{
+    height:56px!important;
+    min-height:56px!important;
+    padding-left:max(34px,calc(var(--n-l) + 18px))!important;
+    padding-right:max(34px,calc(var(--n-r) + 18px))!important;
+  }
+  body.pei-part-3 .pei-page-hero,
+  body.pei-part-3 .paper-problem,
+  body.pei-part-3 .paper-cta,
+  body.pei-part-3 .pei-footer{
+    width:calc(100vw - var(--n-l) - var(--n-r) - 68px)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+  body.pei-part-3 .pei-page-hero{
+    padding-top:max(82px,calc(var(--n-t) + 54px))!important;
+  }
+}
