@@ -1,0 +1,237 @@
+/* Part II desktop composition override.
+   Loaded after the shared visualizer CSS. Prevents the browser instrument from behaving like a cropped poster on PC. */
+
+@media (min-width:821px){
+  html,
+  body.demo-page--part2{
+    width:100vw!important;
+    max-width:100vw!important;
+    height:100vh!important;
+    min-height:100vh!important;
+    overflow:hidden!important;
+    background:#030305!important;
+  }
+
+  @supports(height:100dvh){
+    html,
+    body.demo-page--part2{
+      height:100dvh!important;
+      min-height:100dvh!important;
+    }
+  }
+
+  body.demo-page--part2{padding:0!important;}
+
+  .demo-page--part2 .instrument-plaque{
+    display:none!important;
+  }
+
+  .demo-page--part2 .demo-backlink{
+    top:18px!important;
+    left:18px!important;
+    width:auto!important;
+    min-height:30px!important;
+    padding:8px 15px!important;
+    border-radius:999px!important;
+    font-size:10px!important;
+    letter-spacing:.16em!important;
+    z-index:100!important;
+    background:rgba(3,3,5,.72)!important;
+    -webkit-backdrop-filter:blur(12px)!important;
+    backdrop-filter:blur(12px)!important;
+  }
+
+  .demo-page--part2 canvas,
+  .demo-page--part2 body>canvas{
+    width:100vw!important;
+    height:100vh!important;
+    max-width:100vw!important;
+    opacity:.88!important;
+    filter:brightness(1.04) contrast(1.04) saturate(.96)!important;
+    transform:translate3d(8vw,0,0) scale(.94)!important;
+    transform-origin:54% 50%!important;
+  }
+
+  @supports(height:100dvh){
+    .demo-page--part2 canvas,
+    .demo-page--part2 body>canvas{height:100dvh!important;}
+  }
+
+  .demo-page--part2 #interface{
+    position:fixed!important;
+    inset:0!important;
+    display:block!important;
+    width:100vw!important;
+    height:100vh!important;
+    overflow:hidden!important;
+    pointer-events:none!important;
+    z-index:20!important;
+  }
+
+  @supports(height:100dvh){.demo-page--part2 #interface{height:100dvh!important;}}
+
+  .demo-page--part2 .panel-glass{
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    bottom:0!important;
+    right:auto!important;
+    width:clamp(320px,23vw,430px)!important;
+    height:100vh!important;
+    min-height:0!important;
+    max-height:100vh!important;
+    overflow:hidden!important;
+    padding:clamp(54px,7vh,88px) clamp(24px,2.6vw,42px) clamp(28px,4vh,54px)!important;
+    border-right:1px solid rgba(255,255,255,.11)!important;
+    border-radius:0!important;
+    background:linear-gradient(90deg,rgba(5,5,8,.86),rgba(8,8,12,.56) 68%,rgba(0,0,0,0))!important;
+    box-shadow:none!important;
+    -webkit-backdrop-filter:blur(13px) saturate(1.02)!important;
+    backdrop-filter:blur(13px) saturate(1.02)!important;
+    transform:none!important;
+    justify-content:center!important;
+    pointer-events:auto!important;
+  }
+
+  @supports(height:100dvh){.demo-page--part2 .panel-glass{height:100dvh!important;max-height:100dvh!important;}}
+
+  .demo-page--part2 .panel-inner{
+    width:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+  }
+
+  .demo-page--part2 .panel-glass::before{opacity:.34!important;}
+  .demo-page--part2 .panel-glass::after{opacity:.30!important;}
+  .demo-page--part2 .panel-inner::before,
+  .demo-page--part2 .panel-inner::after{opacity:.06!important;}
+
+  .demo-page--part2 .kicker{
+    margin:0 0 12px!important;
+    font-size:8px!important;
+    line-height:1.25!important;
+    letter-spacing:.20em!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+
+  .demo-page--part2 .panel-inner h1{
+    margin:0 0 14px!important;
+    font-size:clamp(34px,3.6vw,64px)!important;
+    line-height:.90!important;
+    letter-spacing:.005em!important;
+    text-transform:uppercase!important;
+    mix-blend-mode:normal!important;
+    text-shadow:0 0 28px rgba(255,255,255,.14),0 0 80px rgba(212,175,55,.08)!important;
+  }
+
+  .demo-page--part2 .subtitle{
+    margin:0 0 18px!important;
+    padding-left:14px!important;
+    font-size:clamp(13px,1vw,17px)!important;
+    line-height:1.42!important;
+    letter-spacing:.12em!important;
+  }
+
+  .demo-page--part2 .assertion{
+    margin:0 0 22px!important;
+    font-size:10px!important;
+    line-height:1.52!important;
+    letter-spacing:.10em!important;
+  }
+
+  .demo-page--part2 .gates{
+    display:none!important;
+  }
+
+  .demo-page--part2 .trajectory-list{
+    gap:10px!important;
+    margin:0 0 24px!important;
+  }
+
+  .demo-page--part2 .traj-item{
+    font-size:10px!important;
+    line-height:1.2!important;
+    letter-spacing:.12em!important;
+    padding-left:14px!important;
+  }
+
+  .demo-page--part2 .traj-item.active{
+    padding-left:26px!important;
+  }
+
+  .demo-page--part2 .traj-item.active::before{
+    width:22px!important;
+  }
+
+  .demo-page--part2 .phase-container{
+    margin:0!important;
+    padding-top:18px!important;
+  }
+
+  .demo-page--part2 .phase-meta{
+    margin:0 0 8px!important;
+    font-size:8px!important;
+    letter-spacing:.20em!important;
+  }
+
+  .demo-page--part2 .phase-meta .badge{
+    display:none!important;
+  }
+
+  .demo-page--part2 .phase-title{
+    margin:0 0 10px!important;
+    font-size:clamp(22px,2vw,32px)!important;
+    line-height:1.05!important;
+    letter-spacing:.035em!important;
+  }
+
+  .demo-page--part2 .phase-desc{
+    max-width:100%!important;
+    font-size:clamp(14px,1vw,17px)!important;
+    line-height:1.55!important;
+  }
+
+  .demo-page--part2 .audit,
+  .demo-page--part2 .stamp{
+    display:none!important;
+  }
+
+  .demo-page--part2 .controls{
+    margin-top:18px!important;
+    width:100%!important;
+  }
+
+  .demo-page--part2 .slider-wrap,
+  .demo-page--part2 input[type="range"]{
+    height:30px!important;
+    width:100%!important;
+  }
+}
+
+@media (min-width:821px) and (max-height:760px){
+  .demo-page--part2 .panel-glass{
+    padding-top:48px!important;
+    padding-bottom:22px!important;
+  }
+
+  .demo-page--part2 .panel-inner h1{
+    font-size:clamp(30px,3vw,48px)!important;
+    margin-bottom:10px!important;
+  }
+
+  .demo-page--part2 .subtitle,
+  .demo-page--part2 .assertion{
+    margin-bottom:12px!important;
+  }
+
+  .demo-page--part2 .trajectory-list{
+    gap:7px!important;
+    margin-bottom:14px!important;
+  }
+
+  .demo-page--part2 .phase-desc{
+    display:none!important;
+  }
+}
