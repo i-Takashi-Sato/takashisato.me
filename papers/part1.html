@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#050607" />
-  <title>Workflow-Centric AI Governance — 佐藤貴士 / Takashi Sato</title>
-  <meta name="description" content="佐藤貴士 / Takashi Sato によるAIガバナンス論文。Workflow-centric AI governance and ALTRION: a sociotechnical architecture for accountable human-AI decision systems." />
+  <meta name="theme-color" content="#040505" />
+  <title>Workflow-Centric AI Governance — The Proper Ending Index</title>
+  <meta name="description" content="Part I of Takashi Sato's AI governance archive: workflow-centric AI governance, structured friction, Four-Gate Architecture, and auditable human-AI decision records." />
   <meta name="author" content="佐藤貴士 / Takashi Sato" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://takashisato.me/papers/part1.html" />
-  <meta property="og:title" content="Workflow-Centric AI Governance · 佐藤貴士 / Takashi Sato" />
+  <meta property="og:title" content="Workflow-Centric AI Governance — Takashi Sato" />
   <meta property="og:description" content="A sociotechnical architecture for accountable human-AI decision systems." />
   <meta property="og:type" content="article" />
   <meta property="article:author" content="佐藤貴士 / Takashi Sato" />
@@ -29,35 +29,155 @@
     "about":["AI Governance","Human-AI Decision Systems","Workflow Governance","Accountable AI","ALTRION"]
   }
   </script>
-  <link rel="stylesheet" href="/assets/proper-ending-index.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-system.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-complete.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-material-system.css" />
-  <link rel="stylesheet" href="/assets/proper-ending-epigraphs.css" />
+  <link rel="stylesheet" href="/assets/00-tokens.css" />
+  <link rel="stylesheet" href="/assets/01-reset.css" />
+  <link rel="stylesheet" href="/assets/02-layout.css" />
+  <link rel="stylesheet" href="/assets/03-typography.css" />
+  <link rel="stylesheet" href="/assets/04-components.css" />
+  <link rel="stylesheet" href="/assets/paper-detail.css?v=phase-part1-1" />
 </head>
-<body class="proper-ending-index pei-part-1">
+<body class="phase-paper phase-part-1" data-page="part1">
 <a class="skip" href="#main">Skip to content</a>
-<div class="pei-shell">
-  <aside class="pei-sidebar" aria-label="Paper index"><div class="pei-brand"><div class="pei-mark">T—S</div><small>Part I<br />Architecture</small></div><div class="pei-rule"></div><nav class="pei-nav"><a href="/" data-no="01">Overview</a><a href="/papers/" data-no="02">Catalogue</a><a href="/papers/part1.html" aria-current="page" data-no="03">Part I</a><a href="/papers/part2.html" data-no="04">Part II</a><a href="/papers/part3.html" data-no="05">Part III</a></nav><div class="pei-sidebar-foot"><div>Build friction.<br />Preserve agency.</div><span class="pei-dot"></span><div>SSRN 5911063</div></div></aside>
-  <div class="pei-main"><header class="pei-topbar"><a href="/papers/">Catalogue of Failure</a><div class="right"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">SSRN</a><button class="pei-menu" type="button" aria-label="Toggle index" aria-expanded="false"></button></div></header>
-    <main id="main">
-      <section class="paper-deck"><div class="paper-deck-main"><p class="pei-kicker">Part I / Architecture</p><h1 class="pei-page-title">Workflow-Centric AI Governance</h1><p class="paper-thesis">To preserve the human, we must engineer the friction of thought.</p></div><aside class="paper-deck-side"><div class="paper-ledger"><div class="ledger-row"><span>Published</span><strong>2025/12/12</strong></div><div class="ledger-row"><span>SSRN</span><strong>5911063</strong></div><div class="ledger-row"><span>Revision</span><strong>2026/01/09</strong></div><div class="ledger-row"><span>Phase</span><strong>Architecture</strong></div></div></aside></section>
-      <figure class="pei-epigraph"><blockquote><p class="epi-main" lang="la">Nullius in verba.</p><p class="epi-sub" lang="en">Take nobody’s word for it.</p></blockquote><figcaption>Source: Royal Society motto; derived from Horace, <cite>Epistles</cite> I.1.14.</figcaption></figure>
-      <section class="paper-problem"><h2>The problem is not only model output. It is the workflow that receives it.</h2><div><p>AI integration into high-stakes domains has revealed a sociotechnical gap: model performance can improve while institutional capacity to operationalize AI outputs remains fragile.</p><p>Without procedural safeguards, human oversight can become performative ritual rather than substantive review. ALTRION responds by treating governance as an auditable decision pipeline.</p><ul><li>Oversight becomes a workflow object.</li><li>Structured friction preserves cognitive engagement.</li><li>Governance shifts from policy decoration to operational architecture.</li></ul></div></section>
-      <section class="paper-map gate-control-plate" aria-label="Four governance gates control plate"><div class="gate-control-plate__head"><span>Control Plate / Part I</span><span>Four-Gate Architecture</span></div><article data-gate="G1"><small>Gate 01 / G1</small><h3>Baseline constraints.</h3><p>Define the minimum governance conditions before optimization begins.</p><dl><div><dt>Control role</dt><dd>Entry condition</dd></div><div><dt>Trace object</dt><dd>Minimum governance state</dd></div></dl></article><article data-gate="G2"><small>Gate 02 / G2</small><h3>Optimization balance.</h3><p>Prevent efficiency from silently displacing human contestability.</p><dl><div><dt>Control role</dt><dd>Metric balance check</dd></div><div><dt>Trace object</dt><dd>Metric_Imbalance_High</dd></div></dl></article><article data-gate="G3"><small>Gate 03 / G3</small><h3>Temporal context.</h3><p>Force the system to treat time, drift, and case history as governance facts.</p><dl><div><dt>Control role</dt><dd>Freshness and drift check</dd></div><div><dt>Trace object</dt><dd>Freshness_Threshold_Breach</dd></div></dl></article><article data-gate="G4"><small>Gate 04 / G4</small><h3>Human arbitration.</h3><p>Keep the final interpretive act visible, contestable, and recorded.</p><dl><div><dt>Control role</dt><dd>Final authority return</dd></div><div><dt>Trace object</dt><dd>Override_Justified</dd></div></dl></article><div class="gate-control-plate__foot"><span>System condition: architecture before automation.</span><span>Each gate must leave a trace.</span></div></section>
-      <section class="drift-lab"><h2>ALTRION is not the ending. It is the baseline from which decay can be seen.</h2><div class="drift-row"><strong>Design target</strong><p>Introduce enough structured friction to make human judgment visible without converting oversight into bureaucratic theatre.</p></div><div class="drift-row"><strong>Failure threshold</strong><p>The paper identifies the point at which oversight collapses into procedure and prepares the ground for Part II.</p></div><div class="drift-specimen evidence-plate" aria-label="Part I argument plate"><div class="evidence-head"><span>Extract / Part I</span><span>Governance architecture</span></div><div class="evidence-core"><p class="evidence-quote">Oversight becomes a workflow object only when judgment, delay, contestability, and authority are designed into the route.</p><div class="evidence-matrix"><span><b>Gate 01</b>baseline constraints</span><span><b>Gate 02</b>optimization balance</span><span><b>Gate 03</b>temporal context</span><span><b>Gate 04</b>human arbitration</span></div></div><div class="evidence-foot">Structured friction preserves cognitive engagement.</div></div></section>
-      <section class="adr-evidence" aria-label="ALTRION ADR JSON evidence plate"><div class="adr-evidence__head"><span>Evidence Plate / Part I</span><span>ALTRION-ADR-001</span></div><div class="adr-evidence__body"><div class="adr-evidence__meta"><h2>Auditable Decision Record</h2><p>A governance trace specimen from the ALTRION architecture. The record preserves warnings, rationale, and final authority as an auditable object rather than a decorative log.</p><div class="adr-evidence__facts"><span>Source <b>Part I / Section 8</b></span><span>Type <b>Decision Record Fragment</b></span><span>Function <b>Process-level audit trace</b></span><span>Risk <b>Managerial surveillance if misused</b></span></div></div><pre class="adr-evidence__code"><code>{
-  "timestamp": "14:00",
-  "gates_passed": ["G1"],
-  "warnings_G2": ["Metric_Imbalance_High"],
-  "warnings_G3": ["Freshness_Threshold_Breach"],
-  "human_rationale": "Applicant submitted updated documentation.",
-  "final_decision": "Override_Justified",
-  "auditable": true
-}</code></pre></div><div class="adr-evidence__foot"><span><strong>Governance Trace:</strong> warnings + rationale + final decision remain inspectable after the workflow moves on.</span><span>PDF as evidence / research as exhibit.</span></div></section>
-      <section class="paper-cta"><div class="paper-cta-main"><h2>Continue to decay.</h2><p>Part II asks what happens when a structurally sound governance design is absorbed by organizational entropy and cognitive economy.</p><div class="paper-cta-links"><a class="primary ssrn-cta" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">Read on SSRN</a><a class="sequence-link" href="/papers/part2.html">Next: Part II</a><a class="archive-link" href="/pdf/part1.pdf" target="_blank" rel="noopener">Open Local PDF</a></div></div><aside class="paper-cta-aside"><a href="/papers/">Paper Catalogue <span>→</span></a><a href="/papers/part2.html">Forecasting Failure <span>→</span></a><a href="/">Proper Ending Index <span>→</span></a></aside></section>
-      <section class="pei-ending" data-proper-ending><div class="ending-title"><small>Part I endpoint</small><h2>Friction is useful only if it can survive procedure.</h2></div><div class="ending-record"><strong>Architecture complete.</strong><p>The system now has gates. The next question is whether those gates can resist ordinary institutional decay.</p><a href="/papers/part2.html">Proceed to Part II →</a></div><div class="ending-meta"><span><b>Phase</b><i>Architecture</i></span><span><b>Status</b><i>Open</i></span><span><b>Next</b><i>Decay</i></span></div></section>
-    </main><footer class="pei-footer"><div>© 2025 Takashi Sato / Part I</div><div><a href="/papers/">Catalogue</a> / <a href="/papers/part2.html">Next</a></div></footer>
-  </div>
-</div><script src="/assets/proper-ending-system.js" defer></script></body>
+<div class="pei-shell"><div class="pei-main">
+<header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/papers/">Papers</a><a href="/about.html">About</a></div></header>
+<main id="main">
+  <section class="paper-hero paper-stage" aria-labelledby="paper-title">
+    <div class="paper-hero__copy">
+      <p class="paper-kicker">Diagnostic Record / Part I / Architecture</p>
+      <h1 id="paper-title" class="paper-title">Workflow-Centric AI Governance</h1>
+      <p class="paper-lede">Governance begins where optimization is forced to leave a trace.</p>
+      <nav class="paper-actions" aria-label="Primary paper access">
+        <a class="paper-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">Read on SSRN</a>
+        <a class="paper-link" href="/pdf/part1.pdf" target="_blank" rel="noopener">Open Local PDF</a>
+        <a class="paper-link" href="/demo/altrion-part1.html" target="_blank" rel="noopener">Open Visualizer</a>
+      </nav>
+    </div>
+    <aside class="paper-ledger" aria-label="Part I diagnostic ledger">
+      <div class="paper-ledger__head"><span>Record 001</span><span>Status / Open</span></div>
+      <dl>
+        <div><dt>Object</dt><dd>Human judgment in AI workflow</dd></div>
+        <div><dt>Phase</dt><dd>Architecture before optimization</dd></div>
+        <div><dt>Method</dt><dd>Gate / friction / trace</dd></div>
+        <div><dt>SSRN</dt><dd>5911063</dd></div>
+      </dl>
+      <p class="paper-ledger__statement">Part I defines the minimum architecture required before an AI-enabled decision process can claim accountable oversight.</p>
+    </aside>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="part1-problem">
+    <div class="paper-section__head">
+      <p class="paper-section__kicker">Problem field</p>
+      <div>
+        <h2 id="part1-problem" class="paper-heading">The model is not the whole governance problem.</h2>
+        <p class="paper-copy">The workflow that receives the model output determines whether oversight remains a human act or becomes a ritual of documentation.</p>
+      </div>
+    </div>
+    <div class="argument-grid">
+      <div class="argument-body">
+        <p>AI integration into high-stakes domains can improve formal performance while weakening the institution’s ability to notice when judgment has already been displaced.</p>
+        <p>Part I treats governance as an auditable decision pipeline. The point is not to decorate AI adoption with policy language, but to design friction, delay, contestability, and final human authority into the operational route.</p>
+        <p>ALTRION is introduced here as an architectural baseline: a way to make oversight inspectable before the later papers examine how that baseline decays.</p>
+      </div>
+      <div class="argument-notes" aria-label="Part I architecture notes">
+        <div><strong>Risk</strong><span>Optimization can quietly replace deliberation while the organization still appears compliant.</span></div>
+        <div><strong>Response</strong><span>Convert oversight into a workflow object with checkpoints, warnings, rationale, and a final auditable decision record.</span></div>
+        <div><strong>Boundary</strong><span>The architecture is not a cure. It is the measuring surface from which later failure becomes visible.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="epigraph-panel" aria-label="Part I epigraph">
+    <figure>
+      <blockquote lang="la">Nullius in verba.</blockquote>
+      <figcaption>Royal Society motto, derived from Horace, <cite>Epistles</cite> I.1.14. The line is used here as an instruction for AI governance: do not accept procedural authority merely because it is documented.</figcaption>
+    </figure>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="gate-title">
+    <div class="paper-section__head">
+      <p class="paper-section__kicker">Four-Gate Architecture</p>
+      <div>
+        <h2 id="gate-title" class="paper-heading">Oversight survives only when the route is designed.</h2>
+        <p class="paper-copy">The four gates are not decorative checkpoints. Each gate names the condition that must remain inspectable before, during, and after the decision process.</p>
+      </div>
+    </div>
+    <div class="gate-matrix" aria-label="Four-Gate Architecture matrix">
+      <article class="gate-row">
+        <span class="gate-row__id">Gate 01</span>
+        <h3>Baseline constraints.</h3>
+        <p>Define the minimum governance conditions before optimization begins.</p>
+        <span class="gate-row__state">Entry condition</span>
+      </article>
+      <article class="gate-row">
+        <span class="gate-row__id">Gate 02</span>
+        <h3>Optimization balance.</h3>
+        <p>Prevent efficiency metrics from silently displacing human contestability.</p>
+        <span class="gate-row__state">Balance check</span>
+      </article>
+      <article class="gate-row">
+        <span class="gate-row__id">Gate 03</span>
+        <h3>Temporal context.</h3>
+        <p>Force the workflow to treat time, drift, and case history as governance facts.</p>
+        <span class="gate-row__state">Freshness check</span>
+      </article>
+      <article class="gate-row">
+        <span class="gate-row__id">Gate 04</span>
+        <h3>Human arbitration.</h3>
+        <p>Keep the final interpretive act visible, contestable, and recorded.</p>
+        <span class="gate-row__state">Authority return</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="adr-title">
+    <div class="paper-section__head">
+      <p class="paper-section__kicker">Evidence plate</p>
+      <div>
+        <h2 id="adr-title" class="paper-heading">The trace matters after the workflow moves on.</h2>
+        <p class="paper-copy">The Auditable Decision Record preserves warnings, rationale, and the final decision as an inspectable object rather than a decorative log.</p>
+      </div>
+    </div>
+    <div class="record-grid" aria-label="Auditable Decision Record specimen">
+      <div class="record-copy">
+        <div>
+          <span class="record-label">ALTRION-ADR-001</span>
+          <h3>Warnings plus rationale plus final authority.</h3>
+        </div>
+        <p>The record is useful only if it survives the moment of decision. It must remain readable after the organization has moved on.</p>
+        <div class="record-facts">
+          <span>Source <b>Part I / Section 8</b></span>
+          <span>Function <b>Process-level audit trace</b></span>
+          <span>Failure mode <b>Decorative compliance</b></span>
+        </div>
+      </div>
+      <pre class="record-code"><code>{
+  <span class="key">"timestamp"</span>: "14:00",
+  <span class="key">"gates_passed"</span>: ["G1"],
+  <span class="key">"warnings_G2"</span>: ["Metric_Imbalance_High"],
+  <span class="key">"warnings_G3"</span>: ["Freshness_Threshold_Breach"],
+  <span class="key">"human_rationale"</span>: "Applicant submitted updated documentation.",
+  <span class="key">"final_decision"</span>: "Override_Justified",
+  <span class="key">"auditable"</span>: true
+}</code></pre>
+    </div>
+  </section>
+
+  <section class="paper-section paper-stage" aria-labelledby="continue-title">
+    <div class="continue-panel">
+      <div>
+        <p class="paper-section__kicker">Next condition</p>
+        <h2 id="continue-title">Architecture complete. Decay begins.</h2>
+        <p>Part II asks what happens when a structurally sound governance design is absorbed by organizational entropy and cognitive economy.</p>
+      </div>
+      <nav class="continue-routes" aria-label="Continue from Part I">
+        <a href="/papers/part2.html"><span>Next paper</span><strong>Part II</strong><em>Forecasting Failure.</em></a>
+        <a href="/papers/"><span>Catalogue</span><strong>Papers</strong><em>Return to the sequence.</em></a>
+        <a href="/demo/altrion-part1.html" target="_blank" rel="noopener"><span>Instrument</span><strong>Visualizer</strong><em>Open the Part I visual system.</em></a>
+      </nav>
+    </div>
+  </section>
+</main>
+<footer class="paper-footer"><div>© 2025 Takashi Sato / Part I</div><nav><a href="/papers/">Papers</a> / <a href="/papers/part2.html">Part II</a></nav></footer>
+</div></div>
+</body>
 </html>
