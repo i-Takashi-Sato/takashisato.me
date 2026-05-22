@@ -1,0 +1,133 @@
+/* Part I visualizer final mobile pass.
+   Loaded last: protects the ADR controls from iPhone browser chrome, trims mobile HUD depth,
+   and keeps desktop composition unchanged. */
+:root{
+  --p1f-left: env(safe-area-inset-left, 0px);
+  --p1f-right: env(safe-area-inset-right, 0px);
+  --p1f-top: env(safe-area-inset-top, 0px);
+  --p1f-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (orientation:portrait) and (max-width:820px){
+  .demo-page--part1 .stage,
+  .demo-page--part1 #dust,
+  .demo-page--part1 #strands{
+    touch-action:none!important;
+  }
+
+  .demo-page--part1 #dust,
+  .demo-page--part1 #strands{
+    transform:translate3d(0,-7vh,0) scale(1.03)!important;
+    transform-origin:50% 40%!important;
+  }
+
+  .demo-page--part1 .demo-backlink{
+    top:max(10px,calc(var(--p1f-top) + 8px))!important;
+  }
+
+  .demo-page--part1 .pblock{
+    top:max(72px,calc(var(--p1f-top) + 66px))!important;
+    right:max(14px,calc(var(--p1f-right) + 14px))!important;
+    width:min(176px,41vw)!important;
+  }
+
+  .demo-page--part1 .value{
+    font-size:clamp(40px,14vw,60px)!important;
+  }
+
+  .demo-page--part1 .meta{
+    max-width:176px!important;
+    font-size:7.8px!important;
+    line-height:1.30!important;
+  }
+
+  .demo-page--part1 .titleblock{
+    bottom:max(314px,calc(var(--p1f-bottom) + 300px))!important;
+    left:max(18px,calc(var(--p1f-left) + 18px))!important;
+    right:max(18px,calc(var(--p1f-right) + 18px))!important;
+  }
+
+  .demo-page--part1 .workTitle{
+    max-width:74vw!important;
+    font-size:clamp(24px,6.8vw,32px)!important;
+    opacity:.66!important;
+  }
+
+  .demo-page--part1 .statusblock{
+    bottom:max(264px,calc(var(--p1f-bottom) + 250px))!important;
+    right:max(18px,calc(var(--p1f-right) + 18px))!important;
+  }
+
+  .demo-page--part1 .adr{
+    bottom:max(82px,calc(var(--p1f-bottom) + 76px))!important;
+    left:max(18px,calc(var(--p1f-left) + 18px))!important;
+    right:max(18px,calc(var(--p1f-right) + 18px))!important;
+    max-height:158px!important;
+    padding:14px 16px!important;
+    border-radius:24px!important;
+  }
+
+  .demo-page--part1 .adr .label{
+    margin-bottom:7px!important;
+  }
+
+  .demo-page--part1 .adr-actions{
+    gap:8px!important;
+    margin-bottom:7px!important;
+    flex-wrap:nowrap!important;
+  }
+
+  .demo-page--part1 .adr-btn{
+    min-height:34px!important;
+    padding:8px 12px!important;
+  }
+
+  .demo-page--part1 .log{
+    max-height:58px!important;
+    overflow:hidden!important;
+  }
+}
+
+@media (orientation:portrait) and (max-width:390px){
+  .demo-page--part1 .titleblock{
+    bottom:max(294px,calc(var(--p1f-bottom) + 280px))!important;
+  }
+
+  .demo-page--part1 .statusblock{
+    bottom:max(246px,calc(var(--p1f-bottom) + 232px))!important;
+  }
+
+  .demo-page--part1 .adr{
+    bottom:max(76px,calc(var(--p1f-bottom) + 70px))!important;
+    max-height:150px!important;
+    padding:13px 14px!important;
+  }
+
+  .demo-page--part1 .workTitle{
+    font-size:clamp(22px,6.5vw,29px)!important;
+  }
+}
+
+@media (orientation:landscape) and (max-height:560px) and (max-width:1024px){
+  .demo-page--part1 .stage,
+  .demo-page--part1 #dust,
+  .demo-page--part1 #strands{
+    touch-action:none!important;
+  }
+
+  .demo-page--part1 .demo-backlink{
+    top:max(10px,calc(var(--p1f-top) + 8px))!important;
+    left:max(16px,calc(var(--p1f-left) + 14px))!important;
+  }
+
+  .demo-page--part1 .concept{
+    left:max(34px,calc(var(--p1f-left) + 28px))!important;
+    max-width:min(270px,32vw)!important;
+  }
+
+  .demo-page--part1 .adr{
+    left:max(34px,calc(var(--p1f-left) + 28px))!important;
+    bottom:max(18px,calc(var(--p1f-bottom) + 14px))!important;
+    max-width:min(340px,34vw)!important;
+  }
+}
