@@ -1,0 +1,27 @@
+@media (orientation:portrait) and (max-width:820px){
+  html,
+  body.demo-page--part1,
+  body.demo-page--part1 .stage,
+  body.demo-page--part1 .ui,
+  body.demo-page--part1 .adr,
+  body.demo-page--part1 .adr *{
+    -webkit-user-select:none!important;
+    user-select:none!important;
+    -webkit-touch-callout:none!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+
+  body.demo-page--part1 #dust,
+  body.demo-page--part1 #strands{
+    transform:translate3d(2vw,-8vh,0) scale(1.08)!important;
+    transform-origin:50% 42%!important;
+  }
+
+  body.demo-page--part1 #dust{
+    opacity:.88!important;
+  }
+
+  body.demo-page--part1 #strands{
+    opacity:.92!important;
+  }
+}
