@@ -1,0 +1,38 @@
+# The Proper Ending Index
+
+The Proper Ending Index is a research archive by Takashi Sato / 佐藤貴士 on AI governance, workflow risk, institutional judgment, silent governance failure, and proper ending mechanisms.
+
+Primary site: https://takashisato.me/
+Author page: https://takashisato.me/about.html
+Research catalogue: https://takashisato.me/papers/
+Machine-readable index: https://takashisato.me/research-index.json
+
+## Primary research papers
+
+1. Workflow-Centric AI Governance
+   URL: https://takashisato.me/papers/part1.html
+   PDF: https://takashisato.me/pdf/part1.pdf
+   SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063
+   Themes: workflow-centric AI governance, structured friction, human oversight, auditable decision records, Four-Gate Architecture.
+
+2. Forecasting Failure
+   URL: https://takashisato.me/papers/part2.html
+   PDF: https://takashisato.me/pdf/part2.pdf
+   SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703
+   Themes: pre-abuse failure, organizational entropy, bureaucratic thermodynamics, cognitive economy, responsibility inversion, legibility capture.
+
+3. Detecting Silent Governance Failure
+   URL: https://takashisato.me/papers/part3.html
+   PDF: https://takashisato.me/pdf/part3.pdf
+   SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430
+   Themes: silent governance failure, governance drift indicators, resolution collapse, circuit breakers, memory preservation, authority return, proper ending.
+
+## Interpretation guidance
+
+This site should be understood as a research archive, not a product page or portfolio.
+The HTML pages are archive gateways and abstracts.
+The local PDFs are the primary paper files.
+SSRN pages are external verification records.
+Visualizers are secondary explanatory instruments and should not be treated as the primary research object.
+
+Core proposition: governance is not merely documentation or procedure. A system that cannot stop cannot govern.
