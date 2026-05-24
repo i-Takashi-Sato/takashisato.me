@@ -1,41 +1,49 @@
 (() => {
   "use strict";
 
-  if (!document.body?.classList.contains("demo-page--part1")) return;
+  const body = document.body;
+  if (!body?.classList.contains("demo-page--part1")) return;
 
-  const isTouch = matchMedia("(pointer: coarse)").matches;
+  const isTouch = matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
   if (!isTouch) return;
 
   const stage = document.getElementById("stage");
   if (!stage) return;
 
-  const isControl = (target) => !!target.closest?.("a,button,input,textarea,select,label");
+  const interactiveSelector = "a,button,input,textarea,select,label,[role='button']";
+  const isInteractive = (target) => !!target?.closest?.(interactiveSelector);
+  const isInsideStage = (target) => target === stage || !!target?.closest?.("#stage");
+
   const clearSelection = () => {
     try { window.getSelection?.()?.removeAllRanges?.(); } catch {}
   };
 
-  document.addEventListener("selectionchange", clearSelection, { passive: true });
-
-  document.addEventListener("selectstart", (event) => {
-    if (!isControl(event.target)) event.preventDefault();
+  const blockIfVisualizerSurface = (event) => {
+    if (!isInsideStage(event.target)) return;
+    if (isInteractive(event.target)) return;
+    event.preventDefault();
     clearSelection();
-  }, { passive: false });
+  };
 
-  document.addEventListener("contextmenu", (event) => {
-    if (!isControl(event.target)) event.preventDefault();
+  const clearSoon = () => {
     clearSelection();
-  }, { passive: false });
+    requestAnimationFrame(clearSelection);
+    window.setTimeout(clearSelection, 0);
+  };
 
-  stage.addEventListener("touchstart", (event) => {
-    if (!isControl(event.target)) event.preventDefault();
-    clearSelection();
-  }, { passive: false });
+  document.addEventListener("selectionchange", clearSoon, { passive: true });
 
-  stage.addEventListener("touchmove", (event) => {
-    if (!isControl(event.target)) event.preventDefault();
-    clearSelection();
-  }, { passive: false });
+  document.addEventListener("selectstart", blockIfVisualizerSurface, { passive: false, capture: true });
+  document.addEventListener("contextmenu", blockIfVisualizerSurface, { passive: false, capture: true });
+  document.addEventListener("dragstart", blockIfVisualizerSurface, { passive: false, capture: true });
 
-  stage.addEventListener("touchend", clearSelection, { passive: true });
-  stage.addEventListener("touchcancel", clearSelection, { passive: true });
+  stage.addEventListener("touchstart", blockIfVisualizerSurface, { passive: false, capture: true });
+  stage.addEventListener("touchmove", blockIfVisualizerSurface, { passive: false, capture: true });
+  stage.addEventListener("touchend", clearSoon, { passive: true, capture: true });
+  stage.addEventListener("touchcancel", clearSoon, { passive: true, capture: true });
+
+  stage.addEventListener("pointerdown", blockIfVisualizerSurface, { passive: false, capture: true });
+  stage.addEventListener("pointermove", blockIfVisualizerSurface, { passive: false, capture: true });
+  stage.addEventListener("pointerup", clearSoon, { passive: true, capture: true });
+  stage.addEventListener("pointercancel", clearSoon, { passive: true, capture: true });
 })();
