@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+<title id="title">The Proper Ending Index</title>
+<desc id="desc">OG image for Takashi Sato AI Governance Research Archive.</desc>
+<defs><radialGradient id="g" cx="72%" cy="32%" r="68%"><stop offset="0" stop-color="#9f8654" stop-opacity=".42"/><stop offset=".42" stop-color="#1a1b17" stop-opacity=".34"/><stop offset="1" stop-color="#030404"/></radialGradient><linearGradient id="line" x1="0" x2="1"><stop offset="0" stop-color="#d9c38a" stop-opacity=".08"/><stop offset=".5" stop-color="#d9c38a" stop-opacity=".58"/><stop offset="1" stop-color="#d9c38a" stop-opacity=".08"/></linearGradient><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .10"/></feComponentTransfer></filter></defs>
+<rect width="1200" height="630" fill="url(#g)"/><rect width="1200" height="630" filter="url(#noise)" opacity=".55"/><rect x="56" y="52" width="1088" height="526" rx="28" fill="none" stroke="#d9c38a" stroke-opacity=".22"/><path d="M96 486H1104" stroke="url(#line)" stroke-width="1"/><path d="M820 120c106 40 178 112 214 216M1006 150c-126 70-214 170-260 300" fill="none" stroke="#d9c38a" stroke-opacity=".16" stroke-width="1"/>
+<text x="94" y="124" fill="#d9c38a" font-family="Inter, Arial, sans-serif" font-size="18" letter-spacing="5">TAKASHI SATO / AI GOVERNANCE</text>
+<text x="94" y="240" fill="#f3ead6" font-family="Georgia, 'Times New Roman', serif" font-size="72" letter-spacing="-1">The Proper</text>
+<text x="94" y="318" fill="#f3ead6" font-family="Georgia, 'Times New Roman', serif" font-size="72" letter-spacing="-1">Ending Index</text>
+<text x="98" y="384" fill="#d7d0c1" font-family="Inter, Arial, sans-serif" font-size="25">A research archive for systems that look governed</text>
+<text x="98" y="420" fill="#d7d0c1" font-family="Inter, Arial, sans-serif" font-size="25">after judgment has left.</text>
+<text x="94" y="536" fill="#b9aa7b" font-family="Inter, Arial, sans-serif" font-size="17" letter-spacing="3">WORKFLOW RISK / SILENT FAILURE / PROPER ENDING</text>
+</svg>
