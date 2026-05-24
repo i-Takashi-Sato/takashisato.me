@@ -1,5 +1,11 @@
 /* Part I mobile/landscape touch hardening.
-   Prevent browser text-selection/callout overlays while preserving button taps. */
+   Scope: visualizer only. Do not apply this to paper/article pages. */
+
+html:has(body.demo-page--part1),
+body.demo-page--part1{
+  overscroll-behavior:none;
+}
+
 body.demo-page--part1,
 body.demo-page--part1 *{
   -webkit-user-select:none!important;
@@ -13,12 +19,21 @@ body.demo-page--part1 img,
 body.demo-page--part1 svg{
   -webkit-user-drag:none!important;
   user-drag:none!important;
+  pointer-events:auto;
 }
 
 body.demo-page--part1 .stage,
 body.demo-page--part1 #dust,
 body.demo-page--part1 #strands,
-body.demo-page--part1 .ui{
+body.demo-page--part1 .cursorLight,
+body.demo-page--part1 .ui,
+body.demo-page--part1 .concept,
+body.demo-page--part1 .pblock,
+body.demo-page--part1 .gates,
+body.demo-page--part1 .titleblock,
+body.demo-page--part1 .statusblock,
+body.demo-page--part1 .adr,
+body.demo-page--part1 .log{
   touch-action:none!important;
   overscroll-behavior:none!important;
 }
@@ -26,6 +41,9 @@ body.demo-page--part1 .ui{
 body.demo-page--part1 a,
 body.demo-page--part1 button,
 body.demo-page--part1 .adr-btn{
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
   touch-action:manipulation!important;
 }
 
