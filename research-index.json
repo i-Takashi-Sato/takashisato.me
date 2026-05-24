@@ -1,0 +1,56 @@
+{
+  "@context": "https://schema.org",
+  "@type": "DataCatalog",
+  "name": "The Proper Ending Index",
+  "description": "A research archive by Takashi Sato on AI governance, workflow-centric oversight, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, and proper ending mechanisms.",
+  "url": "https://takashisato.me/",
+  "creator": {
+    "@type": "Person",
+    "name": "佐藤貴士",
+    "alternateName": ["Takashi Sato", "Sato Takashi", "佐藤 貴士"],
+    "url": "https://takashisato.me/about.html",
+    "email": "mailto:i@takashisato.me",
+    "sameAs": [
+      "https://x.com/takashisato_me",
+      "https://orcid.org/0009-0003-1584-6965",
+      "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
+    ]
+  },
+  "keywords": [
+    "AI governance",
+    "workflow-centric AI governance",
+    "silent governance failure",
+    "pre-abuse failure",
+    "governance drift indicators",
+    "circuit breakers",
+    "proper ending",
+    "human judgment",
+    "institutional failure"
+  ],
+  "dataset": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Workflow-Centric AI Governance",
+      "url": "https://takashisato.me/papers/part1.html",
+      "encoding": "https://takashisato.me/pdf/part1.pdf",
+      "sameAs": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063",
+      "about": ["structured friction", "human oversight", "auditable decision records"]
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Forecasting Failure",
+      "url": "https://takashisato.me/papers/part2.html",
+      "encoding": "https://takashisato.me/pdf/part2.pdf",
+      "sameAs": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703",
+      "about": ["pre-abuse failure", "organizational entropy", "bureaucratic thermodynamics"]
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Detecting Silent Governance Failure",
+      "url": "https://takashisato.me/papers/part3.html",
+      "encoding": "https://takashisato.me/pdf/part3.pdf",
+      "sameAs": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430",
+      "about": ["silent governance failure", "governance drift indicators", "resolution collapse", "proper ending"]
+    }
+  ]
+}
