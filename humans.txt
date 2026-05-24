@@ -1,0 +1,19 @@
+/* TEAM */
+Author: Takashi Sato / 佐藤貴士
+Site: https://takashisato.me/
+Contact: i@takashisato.me
+X: https://x.com/takashisato_me
+ORCID: https://orcid.org/0009-0003-1584-6965
+SSRN: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672
+
+/* SITE */
+Name: The Proper Ending Index
+Purpose: AI governance research archive
+Focus: workflow-centric AI governance, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, proper ending mechanisms
+Language: English / Japanese author identity
+Canonical URL: https://takashisato.me/
+
+/* PRINCIPLE */
+Research, not spectacle.
+Judgment, not ritual.
+A system that cannot stop cannot govern.
