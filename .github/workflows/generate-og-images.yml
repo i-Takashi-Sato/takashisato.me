@@ -26,6 +26,17 @@ jobs:
           python-version: '3.11'
       - name: Install image dependencies
         run: python -m pip install --upgrade pillow pymupdf
+      - name: Patch generator meta cleanup
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tools/generate_v16_og.py')
+          s = p.read_text(encoding='utf-8')
+          old = "html = re.sub(r'<meta name=\"twitter:card\" content=\"[^\"]*\"\\s*/>', '<meta name=\"twitter:card\" content=\"summary_large_image\" />', html)"
+          new = "html = re.sub(r'\\n\\s*<meta name=\"twitter:card\"[^>]*>\\s*', '\\n', html)"
+          s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
+          PY
       - name: Generate images and update meta tags
         run: python tools/generate_v16_og.py
       - name: Commit generated OG assets
