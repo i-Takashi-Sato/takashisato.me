@@ -24,7 +24,7 @@ jobs:
           set -euo pipefail
 
           echo "Checking that retired Part III demo is not publicly linked..."
-          if grep -RIn --include='*.html' --include='*.xml' --include='*.yml' --include='*.css' 'demo/altrion-part3.html' . \
+          if grep -RIn --include='*.html' --include='*.xml' --include='*.css' 'demo/altrion-part3.html' . \
              | grep -v './demo/altrion-part3.html' \
              | grep -v './.git/' ; then
             echo "Unexpected public reference to demo/altrion-part3.html found." >&2
@@ -32,7 +32,7 @@ jobs:
           fi
 
           echo "Checking that non-public contact route is not linked..."
-          if grep -RIn --include='*.html' --include='*.xml' --include='*.yml' --include='*.css' 'contact.html' . \
+          if grep -RIn --include='*.html' --include='*.xml' --include='*.css' 'contact.html' . \
              | grep -v './.git/' ; then
             echo "Unexpected contact.html reference found." >&2
             exit 1
