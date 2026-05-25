@@ -267,11 +267,11 @@ def about():
     d.line((268,252,346,252,455,306,536,278), fill=IVORY+(225,), width=3)
     d.arc((430,198,590,325), 108, 292, fill=IVORY+(210,), width=3)
     d.text((86, 323), "Takashi Sato", font=SANS_XS, fill=(218,208,188,92))
-    tracking(d, (80, 96), "ABOUT / THE SCRIBE", SANS_M, (207,174,102,220), 2.7)
+    track(d, (80, 96), "ABOUT / THE SCRIBE", SANS_M, (207,174,102,220), 2.7)
     d.line((82, 360, 418, 360), fill=(207,174,102,150), width=1)
     d.text((82, 388), "Not a portrait of authority,", font=SANS, fill=STONE)
     d.text((82, 416), "but the trace of judgment.", font=SANS, fill=STONE)
-    tracking(d, (80, 536), "SIGNATURE / PDF TRACE / AUTHORIAL WITNESS", SANS_XS, (172,135,77,190), 1.9)
+    track(d, (80, 536), "SIGNATURE / PDF TRACE / AUTHORIAL WITNESS", SANS_XS, (172,135,77,190), 1.9)
     save(im, "about")
 
 
