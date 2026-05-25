@@ -26,6 +26,8 @@ jobs:
           python-version: '3.11'
       - name: Install image dependencies
         run: python -m pip install --upgrade pillow pymupdf
+      - name: Apply small compatibility fix
+        run: sed -i 's/tracking(/track(/g' tools/generate_v16_og.py
       - name: Generate images and update meta tags
         run: python tools/generate_v16_og.py
       - name: Commit generated OG assets
