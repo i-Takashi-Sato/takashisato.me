@@ -1,0 +1,101 @@
+name: Demo Metadata QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/demo-meta-qa.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize-demo-meta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Normalize demo metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          pages = {
+              'demo/index.html': {
+                  'title': 'Instruments — The Proper Ending Index',
+                  'description': 'Failure instruments for AI governance: structured friction, pre-abuse collapse, and proper ending.',
+                  'url': 'https://takashisato.me/demo/',
+                  'image': 'https://takashisato.me/assets/og/papers.jpg',
+                  'type': 'website',
+              },
+              'demo/altrion-part1.html': {
+                  'title': 'Structured Friction Instrument — The Proper Ending Index',
+                  'description': 'Interactive Part I instrument for workflow-centric AI governance, structured friction, intervention probability, and auditable decision records.',
+                  'url': 'https://takashisato.me/demo/altrion-part1.html',
+                  'image': 'https://takashisato.me/assets/og/part1.jpg',
+                  'type': 'website',
+              },
+              'demo/altrion-part2.html': {
+                  'title': 'Pre-abuse Collapse Instrument — The Proper Ending Index',
+                  'description': 'Interactive Part II instrument for pre-abuse failure, organizational entropy, cognitive offload, liability hardening, and legibility capture.',
+                  'url': 'https://takashisato.me/demo/altrion-part2.html',
+                  'image': 'https://takashisato.me/assets/og/part2.jpg',
+                  'type': 'website',
+              },
+              'demo/altrion-part3.html': {
+                  'title': 'Part III Instrument Retired — The Proper Ending Index',
+                  'description': 'The former Part III browser visualizer has been retired while the Proper Ending Mechanism is redesigned around detection, circuit breaking, memory preservation, and authority returned.',
+                  'url': 'https://takashisato.me/demo/altrion-part3.html',
+                  'image': 'https://takashisato.me/assets/og/part3.jpg',
+                  'type': 'website',
+              },
+          }
+
+          def normalize(path, meta):
+              p = Path(path)
+              html = p.read_text(encoding='utf-8')
+              # title + description
+              html = re.sub(r'<title>.*?</title>', f'<title>{meta["title"]}</title>', html, count=1, flags=re.S)
+              if '<meta name="description"' in html:
+                  html = re.sub(r'<meta name="description" content="[^"]*"\s*/>', f'<meta name="description" content="{meta["description"]}" />', html, count=1)
+              else:
+                  html = html.replace('</title>', '</title>\n  <meta name="description" content="' + meta['description'] + '" />', 1)
+
+              # remove old generated social/canonical tags
+              html = re.sub(r'\n\s*<link rel="canonical"[^>]*>\s*', '\n', html)
+              html = re.sub(r'\n\s*<meta property="og:[^"]+"[^>]*>\s*', '\n', html)
+              html = re.sub(r'\n\s*<meta name="twitter:[^"]+"[^>]*>\s*', '\n', html)
+              html = re.sub(r'\n{3,}', '\n\n', html)
+
+              tags = f'''  <link rel="canonical" href="{meta['url']}" />
+  <meta property="og:type" content="{meta['type']}" />
+  <meta property="og:title" content="{meta['title']}" />
+  <meta property="og:description" content="{meta['description']}" />
+  <meta property="og:url" content="{meta['url']}" />
+  <meta property="og:image" content="{meta['image']}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{meta['title']}" />
+  <meta name="twitter:description" content="{meta['description']}" />
+  <meta name="twitter:image" content="{meta['image']}" />'''
+              insert_after = re.search(r'<meta name="description"[^>]*>\s*', html)
+              if insert_after:
+                  i = insert_after.end()
+                  html = html[:i] + '\n' + tags + html[i:]
+              else:
+                  html = html.replace('</head>', tags + '\n</head>', 1)
+              p.write_text(html, encoding='utf-8')
+
+          for path, meta in pages.items():
+              normalize(path, meta)
+          PY
+      - name: Commit demo metadata cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add demo/index.html demo/altrion-part1.html demo/altrion-part2.html demo/altrion-part3.html
+          git commit -m "Normalize demo metadata for SFO QA" || echo "No changes to commit"
+          git push
