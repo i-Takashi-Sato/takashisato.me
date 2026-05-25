@@ -56,7 +56,6 @@ jobs:
               p = Path(file)
               html = p.read_text(encoding='utf-8')
               url = f'https://takashisato.me/assets/og/{name}.jpg'
-              # Remove all generated image/card tags, including malformed concatenations.
               html = re.sub(r'\s*<meta property="og:image"[^>]*>\s*', '\n', html)
               html = re.sub(r'\s*<meta property="og:image:width"[^>]*>\s*', '\n', html)
               html = re.sub(r'\s*<meta property="og:image:height"[^>]*>\s*', '\n', html)
@@ -76,6 +75,128 @@ jobs:
                   html = re.sub(r'(\n\s*<meta property="og:url"[^>]*>\s*)', r'\1\n' + tags + '\n', html, count=1)
               else:
                   html = html.replace('</head>', tags + '\n</head>')
+              p.write_text(html, encoding='utf-8')
+          PY
+      - name: Normalize JSON-LD structured data
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import re
+
+          PERSON = {
+              "@type": "Person",
+              "@id": "https://takashisato.me/about.html#takashi-sato",
+              "name": "佐藤貴士",
+              "alternateName": ["Takashi Sato", "Sato Takashi", "佐藤 貴士"],
+              "url": "https://takashisato.me/about.html",
+              "email": "mailto:i@takashisato.me",
+              "jobTitle": "Independent researcher",
+              "knowsAbout": [
+                  "AI Governance",
+                  "Workflow-centric AI Governance",
+                  "Silent Governance Failure",
+                  "Governance Drift Indicators",
+                  "Circuit Breakers",
+                  "Proper Ending",
+                  "Human-AI Decision Systems"
+              ],
+              "sameAs": [
+                  "https://x.com/takashisato_me",
+                  "https://orcid.org/0009-0003-1584-6965",
+                  "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
+              ]
+          }
+
+          series = {"@type": "CreativeWorkSeries", "name": "The Proper Ending Index", "url": "https://takashisato.me/papers/"}
+          pages = {
+              "index.html": {
+                  "@context": "https://schema.org",
+                  "@graph": [
+                      PERSON,
+                      {
+                          "@type": "WebSite",
+                          "@id": "https://takashisato.me/#website",
+                          "name": "The Proper Ending Index",
+                          "url": "https://takashisato.me/",
+                          "description": "A research archive on AI governance, workflow failure, silent governance failure, and proper ending mechanisms.",
+                          "author": {"@id": "https://takashisato.me/about.html#takashi-sato"},
+                          "publisher": {"@id": "https://takashisato.me/about.html#takashi-sato"},
+                          "inLanguage": ["en", "ja"]
+                      }
+                  ]
+              },
+              "papers/index.html": {
+                  "@context": "https://schema.org",
+                  "@type": "CollectionPage",
+                  "name": "AI Governance Papers — The Proper Ending Index",
+                  "description": "A diagnostic catalogue of Takashi Sato's AI governance papers: architecture, decay, detection, and proper ending.",
+                  "url": "https://takashisato.me/papers/",
+                  "image": "https://takashisato.me/assets/og/papers.jpg",
+                  "author": {"@id": "https://takashisato.me/about.html#takashi-sato"},
+                  "isPartOf": {"@id": "https://takashisato.me/#website"},
+                  "hasPart": [
+                      {"@type": "ScholarlyArticle", "name": "Workflow-Centric AI Governance", "url": "https://takashisato.me/papers/part1.html"},
+                      {"@type": "ScholarlyArticle", "name": "Forecasting Failure", "url": "https://takashisato.me/papers/part2.html"},
+                      {"@type": "ScholarlyArticle", "name": "Detecting Silent Governance Failure", "url": "https://takashisato.me/papers/part3.html"}
+                  ]
+              },
+              "papers/part1.html": {
+                  "@context": "https://schema.org",
+                  "@type": "ScholarlyArticle",
+                  "headline": "Workflow-Centric AI Governance",
+                  "name": "Workflow-Centric AI Governance",
+                  "description": "A sociotechnical architecture for accountable human-AI decision systems.",
+                  "url": "https://takashisato.me/papers/part1.html",
+                  "image": "https://takashisato.me/assets/og/part1.jpg",
+                  "author": {"@id": "https://takashisato.me/about.html#takashi-sato"},
+                  "isPartOf": series,
+                  "encoding": {"@type": "MediaObject", "contentUrl": "https://takashisato.me/pdf/part1.pdf", "encodingFormat": "application/pdf"},
+                  "about": ["AI Governance", "Workflow Governance", "Human-AI Decision Systems", "Four-Gate Architecture", "ALTRION"]
+              },
+              "papers/part2.html": {
+                  "@context": "https://schema.org",
+                  "@type": "ScholarlyArticle",
+                  "headline": "Forecasting Failure",
+                  "name": "Forecasting Failure",
+                  "description": "Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse.",
+                  "url": "https://takashisato.me/papers/part2.html",
+                  "image": "https://takashisato.me/assets/og/part2.jpg",
+                  "author": {"@id": "https://takashisato.me/about.html#takashi-sato"},
+                  "isPartOf": series,
+                  "encoding": {"@type": "MediaObject", "contentUrl": "https://takashisato.me/pdf/part2.pdf", "encodingFormat": "application/pdf"},
+                  "about": ["AI Governance", "Pre-abuse Failure", "Organizational Entropy", "Cognitive Economy", "Governance Collapse"]
+              },
+              "papers/part3.html": {
+                  "@context": "https://schema.org",
+                  "@type": "ScholarlyArticle",
+                  "headline": "Detecting Silent Governance Failure",
+                  "name": "Detecting Silent Governance Failure",
+                  "description": "Silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending.",
+                  "url": "https://takashisato.me/papers/part3.html",
+                  "image": "https://takashisato.me/assets/og/part3.jpg",
+                  "author": {"@id": "https://takashisato.me/about.html#takashi-sato"},
+                  "isPartOf": series,
+                  "encoding": {"@type": "MediaObject", "contentUrl": "https://takashisato.me/pdf/part3.pdf", "encodingFormat": "application/pdf"},
+                  "about": ["AI Governance", "Silent Governance Failure", "Governance Drift Indicators", "Resolution Collapse", "Circuit Breakers", "Proper Ending"]
+              },
+              "about.html": {
+                  "@context": "https://schema.org",
+                  **PERSON,
+                  "image": "https://takashisato.me/assets/og/about.jpg"
+              }
+          }
+
+          pattern = re.compile(r'<script type="application/ld\+json">.*?</script>', re.S)
+          for file, data in pages.items():
+              p = Path(file)
+              html = p.read_text(encoding='utf-8')
+              payload = json.dumps(data, ensure_ascii=False, indent=2)
+              block = '  <script type="application/ld+json">\n' + payload + '\n  </script>'
+              if pattern.search(html):
+                  html = pattern.sub(block, html, count=1)
+              else:
+                  html = html.replace('</head>', block + '\n</head>')
               p.write_text(html, encoding='utf-8')
           PY
       - name: Commit generated OG assets
