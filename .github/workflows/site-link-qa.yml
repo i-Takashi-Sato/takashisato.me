@@ -1,0 +1,83 @@
+name: Site Link QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.html'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - '.github/workflows/site-link-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  link-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check retired and non-public routes
+        run: |
+          set -euo pipefail
+
+          echo "Checking that retired Part III demo is not publicly linked..."
+          if grep -RIn --include='*.html' --include='*.xml' --include='*.yml' --include='*.css' 'demo/altrion-part3.html' . \
+             | grep -v './demo/altrion-part3.html' \
+             | grep -v './.git/' ; then
+            echo "Unexpected public reference to demo/altrion-part3.html found." >&2
+            exit 1
+          fi
+
+          echo "Checking that non-public contact route is not linked..."
+          if grep -RIn --include='*.html' --include='*.xml' --include='*.yml' --include='*.css' 'contact.html' . \
+             | grep -v './.git/' ; then
+            echo "Unexpected contact.html reference found." >&2
+            exit 1
+          fi
+
+          echo "Checking sitemap does not include retired demo..."
+          if grep -n 'demo/altrion-part3.html' sitemap.xml; then
+            echo "Retired Part III demo still appears in sitemap." >&2
+            exit 1
+          fi
+
+      - name: Check core local links exist
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.parse import urlparse
+          import re
+
+          root = Path('.')
+          pages = [p for p in root.rglob('*.html') if '.git' not in p.parts]
+          missing = []
+          ignored_prefixes = ('http://', 'https://', 'mailto:', 'tel:', '#', 'javascript:')
+
+          for page in pages:
+              html = page.read_text(encoding='utf-8', errors='ignore')
+              for attr, link in re.findall(r'\b(href|src)=["\']([^"\']+)["\']', html):
+                  if not link or link.startswith(ignored_prefixes):
+                      continue
+                  parsed = urlparse(link)
+                  path = parsed.path
+                  if not path or path.startswith(('data:', 'blob:')):
+                      continue
+                  if path.startswith('/'):
+                      target = root / path.lstrip('/')
+                  else:
+                      target = (page.parent / path).resolve().relative_to(root.resolve())
+                      target = root / target
+                  if path.endswith('/'):
+                      target = target / 'index.html'
+                  if not target.exists():
+                      missing.append(f'{page}: {attr}="{link}" -> {target}')
+
+          if missing:
+              print('\n'.join(missing))
+              raise SystemExit(1)
+          print(f'Checked {len(pages)} HTML files. No missing local href/src targets found.')
+          PY
