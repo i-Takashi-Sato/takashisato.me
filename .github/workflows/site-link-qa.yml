@@ -23,9 +23,11 @@ jobs:
         run: |
           set -euo pipefail
 
+          echo "Checking that retired Part III demo file does not exist..."
+          test ! -e demo/altrion-part3.html
+
           echo "Checking that retired Part III demo is not publicly linked..."
           if grep -RIn --include='*.html' --include='*.xml' --include='*.css' 'demo/altrion-part3.html' . \
-             | grep -v './demo/altrion-part3.html' \
              | grep -v './.git/' ; then
             echo "Unexpected public reference to demo/altrion-part3.html found." >&2
             exit 1
@@ -43,6 +45,39 @@ jobs:
             echo "Retired Part III demo still appears in sitemap." >&2
             exit 1
           fi
+
+      - name: Check public route contract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
+          urls = re.findall(r'<loc>(.*?)</loc>', sitemap)
+          expected = [
+              'https://takashisato.me/',
+              'https://takashisato.me/papers/',
+              'https://takashisato.me/papers/part1.html',
+              'https://takashisato.me/papers/part2.html',
+              'https://takashisato.me/papers/part3.html',
+              'https://takashisato.me/about.html',
+              'https://takashisato.me/pdf/part1.pdf',
+              'https://takashisato.me/pdf/part2.pdf',
+              'https://takashisato.me/pdf/part3.pdf',
+              'https://takashisato.me/demo/',
+              'https://takashisato.me/demo/altrion-part1.html',
+              'https://takashisato.me/demo/altrion-part2.html',
+          ]
+          if urls != expected:
+              print('Sitemap public route contract mismatch.')
+              print('Actual:')
+              print('\n'.join(urls))
+              print('Expected:')
+              print('\n'.join(expected))
+              raise SystemExit(1)
+          print('Public route contract OK: 9 HTML routes + 3 PDFs.')
+          PY
 
       - name: Check core local links exist
         run: |
