@@ -1,0 +1,38 @@
+name: Generate V16 OG images
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - update-og-images
+    paths:
+      - 'tools/generate_v16_og.py'
+      - '.github/workflows/generate-og-images.yml'
+      - 'pdf/part1.pdf'
+      - 'pdf/part2.pdf'
+      - 'pdf/part3.pdf'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: update-og-images
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install image dependencies
+        run: python -m pip install --upgrade pillow pymupdf
+      - name: Generate images and update meta tags
+        run: python tools/generate_v16_og.py
+      - name: Commit generated OG assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/og/*.jpg index.html papers/index.html papers/part1.html papers/part2.html papers/part3.html about.html
+          git commit -m "Generate V16 final OG images" || echo "No changes to commit"
+          git push
