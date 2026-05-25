@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - main
       - update-og-images
     paths:
       - 'tools/generate_v16_og.py'
@@ -20,8 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: update-og-images
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
