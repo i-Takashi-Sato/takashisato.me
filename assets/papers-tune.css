@@ -101,12 +101,135 @@
   .papers-heading{font-size:clamp(3.25rem,3.55vw,5.45rem)}
 }
 
+/* Phase Papers 3 — museum plaque treatment for the three-paper sequence. */
+body.phase-papers{
+  --plaque-ease:cubic-bezier(.16,1,.3,1);
+  --plaque-gold:212 180 109;
+  --plaque-cold:130 185 178;
+  --plaque-oxide:188 91 82;
+}
+body.phase-papers .paper-index{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:1px!important;
+  padding:1px!important;
+  border:1px solid rgba(242,242,236,.09)!important;
+  background:
+    linear-gradient(90deg,rgba(242,242,236,.08),rgba(242,242,236,.025)),
+    #050606!important;
+}
+body.phase-papers .paper-entry{
+  --plaque-rgb:var(--plaque-gold);
+  --plaque-rest:.042;
+  --plaque-air:.13;
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  align-content:space-between!important;
+  min-height:clamp(460px,40vw,640px)!important;
+  padding:clamp(30px,3.4vw,54px)!important;
+  gap:22px!important;
+  border:0!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:
+    radial-gradient(circle at 78% 12%,rgba(var(--plaque-rgb),var(--plaque-rest)),transparent 34%),
+    linear-gradient(180deg,rgba(242,242,236,.035),rgba(242,242,236,.006)),
+    #060707!important;
+  transition:background .78s var(--plaque-ease),filter .78s var(--plaque-ease),transform .78s var(--plaque-ease)!important;
+}
+body.phase-papers .paper-entry:nth-child(1){--plaque-rgb:var(--plaque-gold);--plaque-rest:.052;--plaque-air:.18}
+body.phase-papers .paper-entry:nth-child(2){--plaque-rgb:var(--plaque-cold);--plaque-rest:.045;--plaque-air:.155}
+body.phase-papers .paper-entry:nth-child(3){--plaque-rgb:var(--plaque-oxide);--plaque-rest:.032;--plaque-air:.092}
+body.phase-papers .paper-entry::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.58;
+  background:
+    linear-gradient(90deg,rgba(var(--plaque-rgb),.34) 0 1px,transparent 1px 100%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 8px),
+    radial-gradient(circle at 20% 82%,rgba(var(--plaque-rgb),.085),transparent 40%);
+  mix-blend-mode:screen;
+  transition:opacity .78s var(--plaque-ease),filter .78s var(--plaque-ease)!important;
+}
+body.phase-papers .paper-entry::after{
+  content:'OPEN CONTEXT';
+  position:absolute;
+  right:clamp(24px,2.4vw,42px);
+  bottom:clamp(24px,2.4vw,40px);
+  font:600 9px/1 var(--font-mono);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(var(--plaque-rgb),.72);
+  opacity:.54;
+  transition:opacity .78s var(--plaque-ease),transform .78s var(--plaque-ease),color .78s var(--plaque-ease)!important;
+}
+body.phase-papers .paper-entry:hover,
+body.phase-papers .paper-entry:focus-visible{
+  transform:none!important;
+  filter:brightness(1.06) saturate(1.04)!important;
+  background:
+    radial-gradient(circle at 78% 12%,rgba(var(--plaque-rgb),var(--plaque-air)),transparent 36%),
+    linear-gradient(180deg,rgba(242,242,236,.052),rgba(242,242,236,.008)),
+    #060707!important;
+  outline:none!important;
+}
+body.phase-papers .paper-entry:hover::before,
+body.phase-papers .paper-entry:focus-visible::before{opacity:.9;filter:contrast(1.08)}
+body.phase-papers .paper-entry:hover::after,
+body.phase-papers .paper-entry:focus-visible::after{opacity:.92;transform:translateX(3px)}
+body.phase-papers .paper-entry:nth-child(3):hover,
+body.phase-papers .paper-entry:nth-child(3):focus-visible{filter:brightness(.98) saturate(.94)!important}
+body.phase-papers .paper-entry:nth-child(3)::after{content:'TERMINUS CONTEXT';opacity:.44;color:rgba(var(--plaque-rgb),.62)}
+body.phase-papers .paper-entry__part{
+  font:600 10px/1.35 var(--font-mono)!important;
+  letter-spacing:.18em!important;
+  color:rgba(var(--plaque-rgb),.82)!important;
+}
+body.phase-papers .paper-entry h3{
+  margin-top:auto!important;
+  max-width:10.8ch!important;
+  font-family:var(--font-serif)!important;
+  font-size:clamp(2.85rem,3.9vw,5.75rem)!important;
+  line-height:.84!important;
+  letter-spacing:-.055em!important;
+  color:rgba(249,246,235,.94)!important;
+}
+body.phase-papers .paper-entry p{
+  max-width:31ch!important;
+  font-size:13px!important;
+  line-height:1.72!important;
+  color:rgba(213,215,207,.70)!important;
+}
+body.phase-papers .paper-entry__state{
+  width:max-content!important;
+  margin-top:clamp(28px,4vw,70px)!important;
+  padding-top:14px!important;
+  border-top:1px solid rgba(var(--plaque-rgb),.36)!important;
+  color:rgba(var(--plaque-rgb),.76)!important;
+  font:600 10px/1 var(--font-mono)!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase!important;
+}
+body.phase-papers .access-link--primary{
+  background:linear-gradient(180deg,rgba(212,180,109,.075),rgba(242,242,236,.012)),#070808!important;
+  border-color:rgba(212,180,109,.20)!important;
+}
+body.phase-papers .access-link--primary span::after{content:' ↗';opacity:.72;color:rgba(212,180,109,.86)}
+
 @media(max-width:920px){
   .papers-section{padding:64px 0}
   .papers-heading{font-size:clamp(2.45rem,9.7vw,3.18rem)}
   .paper-entry{padding:30px 0}
   .access-cell,.access-link{padding:20px 0}
   .protocol-card{padding:24px 0}
+  body.phase-papers .paper-index{grid-template-columns:1fr!important;gap:1px!important}
+  body.phase-papers .paper-entry{min-height:360px!important;padding:30px 26px!important}
+  body.phase-papers .paper-entry h3{font-size:clamp(2.35rem,11vw,3.5rem)!important;max-width:11.4ch!important}
+  body.phase-papers .paper-entry::after{position:static;margin-top:26px;transform:none!important}
 }
 
 /* QA 2026-05-22: iPhone landscape catalogue compression. */
