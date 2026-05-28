@@ -1,5 +1,28 @@
 /* Phase 0 — Diagnostic Evidence Chamber tokens */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap');
+@property --air-pressure {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --edge-pressure {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --grain-pressure {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --scroll-pressure {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+@view-transition {
+  navigation: auto;
+}
 :root{
   color-scheme:dark;
   --c-bg:#040505;
@@ -32,4 +55,17 @@
   --space-section:clamp(88px,9vw,160px);
   --ease:cubic-bezier(.16,1,.3,1);
   --ease-diagnostic:cubic-bezier(.22,1,.36,1);
+}
+::view-transition-old(root),
+::view-transition-new(root){
+  animation-duration:.72s;
+  animation-timing-function:var(--ease);
+}
+::view-transition-old(root){animation-name:pei-chamber-out}
+::view-transition-new(root){animation-name:pei-chamber-in}
+@keyframes pei-chamber-out{to{opacity:.18;filter:brightness(.72) saturate(.78)}}
+@keyframes pei-chamber-in{from{opacity:.18;filter:brightness(.72) saturate(.78)}}
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-old(root),
+  ::view-transition-new(root){animation-duration:.01ms!important}
 }
