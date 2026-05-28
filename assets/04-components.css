@@ -1,3 +1,5 @@
+@import url('/assets/design-priority.css?v=design-priority-1');
+
 /* Phase 0 — Components */
 .editorial-link{display:inline-grid;grid-template-columns:auto 56px;gap:18px;align-items:end;min-height:54px;padding:10px 0 12px;border-bottom:1px solid rgba(232,235,228,.24);font:600 10px/1.25 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(242,242,236,.86);text-decoration:none;transition:color .18s ease,border-color .18s ease}
 .editorial-link::after{content:'';height:1px;background:rgba(232,235,228,.42);transform:scaleX(.35);transform-origin:right;transition:transform .18s ease,background .18s ease}
