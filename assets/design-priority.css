@@ -1,0 +1,58 @@
+/* Design priority layer: external research records lead; archive pages contextualize. */
+html body.phase-home .evidence-row:nth-child(1)::after{content:'RECORD I'!important}
+html body.phase-home .evidence-row:nth-child(2)::after{content:'DEPOSITION II'!important}
+html body.phase-home .evidence-row:nth-child(3)::after{content:'TERMINUS III'!important}
+html body.phase-home .editorial-link::after{content:''!important;width:44px!important;height:1px!important;border:0!important;border-radius:0!important;background:rgba(212,180,109,.58)!important;align-self:end!important;margin-bottom:3px!important}
+
+html body.phase-papers .access-link--primary{
+  position:relative!important;
+  background:linear-gradient(180deg,rgba(212,180,109,.13),rgba(242,242,236,.015)),radial-gradient(circle at 84% 18%,rgba(212,180,109,.16),transparent 38%),#070808!important;
+  border-color:rgba(212,180,109,.34)!important;
+  color:rgba(255,250,238,.96)!important;
+}
+html body.phase-papers .access-link--primary::after{
+  content:'RESEARCH RECORD ↗'!important;
+  position:absolute!important;
+  right:24px!important;
+  bottom:20px!important;
+  font:600 8.5px/1 var(--font-mono)!important;
+  letter-spacing:.16em!important;
+  color:rgba(212,180,109,.82)!important;
+  opacity:.84!important;
+}
+html body.phase-papers .access-link[href^='/pdf/']{opacity:.68!important}
+html body.phase-papers .access-link[href^='/pdf/'] span::after{content:''!important}
+html body.phase-papers .access-link[href^='/pdf/'] em::after{content:' / preserved'!important;opacity:.72!important}
+html body.phase-papers .access-link[href^='/papers/']{opacity:.86!important}
+
+html body.phase-paper .paper-actions .paper-link[href*='ssrn.com']{
+  position:relative!important;
+  border-color:rgba(212,180,109,.42)!important;
+  color:rgba(255,250,238,.96)!important;
+  background:linear-gradient(180deg,rgba(212,180,109,.105),rgba(242,242,236,.012))!important;
+  padding:13px 14px 14px!important;
+}
+html body.phase-paper .paper-actions .paper-link[href*='ssrn.com']::after{
+  content:'↗'!important;
+  height:auto!important;
+  background:transparent!important;
+  color:rgba(212,180,109,.86)!important;
+  transform:none!important;
+  justify-self:end!important;
+  align-self:end!important;
+}
+html body.phase-paper .paper-actions .paper-link[href^='/pdf/']{
+  opacity:.70!important;
+  border-color:rgba(232,235,228,.16)!important;
+}
+html body.phase-paper .paper-actions .paper-link[href^='/pdf/']::after{
+  content:'LOCAL'!important;
+  height:auto!important;
+  background:transparent!important;
+  font-size:8px!important;
+  letter-spacing:.16em!important;
+  color:rgba(150,155,148,.76)!important;
+  transform:none!important;
+}
+html body.phase-paper .paper-actions .paper-link[href^='/demo/']{border-color:rgba(130,185,178,.30)!important}
+html body.phase-paper .paper-actions .paper-link[href^='/demo/']::after{content:'↗'!important;color:rgba(130,185,178,.76)!important}
