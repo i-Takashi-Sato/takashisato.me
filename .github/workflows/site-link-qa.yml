@@ -130,6 +130,46 @@ jobs:
           print('Public route contract OK: 9 HTML routes + 3 PDFs.')
           PY
 
+      - name: Check metadata contract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          pages = [
+              'index.html',
+              'papers/index.html',
+              'papers/part1.html',
+              'papers/part2.html',
+              'papers/part3.html',
+              'about.html',
+              'demo/index.html',
+              'demo/altrion-part1.html',
+              'demo/altrion-part2.html',
+          ]
+          required = [
+              r'<title>.+?</title>',
+              r'<meta\s+name="description"\s+content="[^"]+"\s*/?>',
+              r'<link\s+rel="canonical"\s+href="https://takashisato\.me/[^"]*"\s*/?>',
+              r'<meta\s+property="og:title"\s+content="[^"]+"\s*/?>',
+              r'<meta\s+property="og:description"\s+content="[^"]+"\s*/?>',
+              r'<meta\s+property="og:image"\s+content="https://takashisato\.me/assets/og/[^"]+"\s*/?>',
+              r'<meta\s+name="twitter:card"\s+content="summary_large_image"\s*/?>',
+              r'<meta\s+name="twitter:image"\s+content="https://takashisato\.me/assets/og/[^"]+"\s*/?>',
+          ]
+          misses = []
+          for page in pages:
+              html = Path(page).read_text(encoding='utf-8', errors='ignore')
+              for pattern in required:
+                  if not re.search(pattern, html, flags=re.I|re.S):
+                      misses.append(f'{page}: missing {pattern}')
+          if misses:
+              print('\n'.join(misses))
+              raise SystemExit(1)
+          print('Metadata contract OK for research archive pages.')
+          PY
+
       - name: Check core local links exist
         run: |
           set -euo pipefail
