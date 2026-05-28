@@ -40,11 +40,62 @@ jobs:
             exit 1
           fi
 
-          echo "Checking sitemap does not include retired demo..."
-          if grep -n 'demo/altrion-part3.html' sitemap.xml; then
-            echo "Retired Part III demo still appears in sitemap." >&2
+          echo "Checking that non-public business route names are not linked..."
+          if grep -RIn --include='*.html' --include='*.xml' --include='*.css' -E '/services/|/samples/' . \
+             | grep -v './.git/' ; then
+            echo "Unexpected services/samples route reference found." >&2
             exit 1
           fi
+
+          echo "Checking sitemap does not include retired or non-public routes..."
+          if grep -nE 'demo/altrion-part3.html|services|samples|contact\.html' sitemap.xml; then
+            echo "Retired/non-public route still appears in sitemap." >&2
+            exit 1
+          fi
+
+      - name: Check business trace vocabulary is absent
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          forbidden = [
+              'サッポロ',
+              'Sapporo',
+              'Sapporo Investment',
+              'サッポロインベストメント',
+              '業務設計室',
+              'Operational Design',
+              'Services',
+              'Samples',
+              'Contact',
+              '見積',
+              '料金',
+              '業務手順書',
+              'SOP設計',
+              '業務確認',
+              '管理表設計',
+              '採用・教育・評価文書',
+              '代表取締役',
+              'Provider',
+              'Supervision',
+              '相談',
+              '制作物',
+          ]
+          suffixes = {'.html', '.xml', '.css', '.json', '.js'}
+          hits = []
+          for path in Path('.').rglob('*'):
+              if '.git' in path.parts or not path.is_file() or path.suffix not in suffixes:
+                  continue
+              text = path.read_text(encoding='utf-8', errors='ignore')
+              for term in forbidden:
+                  if term in text:
+                      hits.append(f'{path}: {term}')
+          if hits:
+              print('\n'.join(hits))
+              raise SystemExit(1)
+          print('Business trace vocabulary absent from public assets.')
+          PY
 
       - name: Check public route contract
         run: |
