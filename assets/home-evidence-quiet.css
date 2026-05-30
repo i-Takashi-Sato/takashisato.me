@@ -1,0 +1,43 @@
+/* Home Evidence Quiet Pass — specimen shelf refinement */
+body.phase-home .evidence-list{
+  border-top-color:rgba(242,242,236,.14);
+  background:linear-gradient(90deg,rgba(242,242,236,.038),rgba(242,242,236,.010)),#050606;
+}
+
+body.phase-home .evidence-row{
+  --row-air:.062;
+  border-bottom-color:rgba(242,242,236,.088);
+  background:radial-gradient(circle at 18% 50%,rgba(var(--row-rgb),var(--row-air)),transparent 38%),linear-gradient(90deg,rgba(var(--row-rgb),.026),transparent var(--phi-b)),#060707;
+}
+body.phase-home .evidence-row:nth-child(1){--row-air:.084}
+body.phase-home .evidence-row:nth-child(2){--row-air:.070}
+body.phase-home .evidence-row:nth-child(3){--row-air:.060}
+
+body.phase-home .evidence-row::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(var(--row-rgb),.30) 0 1px,transparent 1px 100%),linear-gradient(180deg,transparent 0 47%,rgba(242,242,236,.028) 47% 47.4%,transparent 47.4% 100%);
+  opacity:.38;
+  mix-blend-mode:screen;
+}
+
+body.phase-home .evidence-row::after{
+  color:rgba(var(--row-rgb),.80);
+  opacity:.82;
+}
+
+body.phase-home .evidence-row:hover,
+body.phase-home .evidence-row:focus-visible{
+  border-bottom-color:rgba(var(--row-rgb),.25);
+  background:radial-gradient(circle at 18% 50%,rgba(var(--row-rgb),.108),transparent 40%),linear-gradient(90deg,rgba(var(--row-rgb),.052),transparent var(--phi-b)),#070808;
+  filter:brightness(1.025) saturate(1.01);
+}
+
+body.phase-home .evidence-row:hover::after,
+body.phase-home .evidence-row:focus-visible::after{
+  opacity:.96;
+  letter-spacing:.198em;
+  color:rgba(var(--row-rgb),.94);
+}
