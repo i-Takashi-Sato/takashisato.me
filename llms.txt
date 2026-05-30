@@ -30,9 +30,9 @@ Machine-readable index: https://takashisato.me/research-index.json
 ## Interpretation guidance
 
 This site should be understood as a research archive, not a product page or portfolio.
-The HTML pages are archive gateways and abstracts.
-The local PDFs are the primary paper files.
-SSRN pages are external verification records.
+The HTML pages are archive gateways and contextual reading rooms.
+SSRN pages are the preferred reading and download route, and the external research records for activity and attribution.
+Local PDFs are preserved archive copies, not the primary reading route.
 Visualizers are secondary explanatory instruments and should not be treated as the primary research object.
 
 Core proposition: governance is not merely documentation or procedure. A system that cannot stop cannot govern.
