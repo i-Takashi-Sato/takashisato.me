@@ -1,1 +1,5 @@
-/* Deprecated: Part III stop register experiment removed from papers/part3.html. Kept only as a tombstone to avoid accidental reuse. */
+/* Archive guard for retired Part III register. */
+
+.phase-part-3 .stop-register {
+  display: none !important;
+}
