@@ -1,7 +1,38 @@
 import * as THREE from "./vendor/three/three.module.js";
 import { OrbitControls } from "./vendor/three/OrbitControls.js";
 
-if (window.__part2WebGLAvailable !== false) {
+const showStaticFallback = () => {
+  document.body.classList.add("webgl-fallback");
+  const loader = document.getElementById("loader");
+  const note = document.getElementById("webgl-fallback");
+  loader?.remove();
+  if (note) note.hidden = false;
+  document.querySelectorAll(".traj-item, #entropy-slider").forEach((control) => {
+    control.setAttribute("aria-disabled", "true");
+    control.disabled = true;
+  });
+};
+
+let webglAvailable = false;
+try {
+  const probe = document.createElement("canvas");
+  const context =
+    probe.getContext("webgl2", { failIfMajorPerformanceCaveat: true }) ||
+    probe.getContext("webgl", { failIfMajorPerformanceCaveat: true });
+  webglAvailable = Boolean(context);
+  context?.getExtension("WEBGL_lose_context")?.loseContext();
+} catch {
+  webglAvailable = false;
+}
+
+window.setTimeout(() => {
+  if (document.getElementById("loader")) showStaticFallback();
+}, 6000);
+
+if (!webglAvailable) {
+  showStaticFallback();
+} else {
+try {
 
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const mix = (a, b, t) => a * (1 - t) + b * t;
@@ -682,4 +713,8 @@ window.addEventListener("load", () => {
   animate();
 }, { passive: true });
 
+} catch (error) {
+  showStaticFallback();
+  console.warn("Part II visualizer entered static research mode.", error);
+}
 }
