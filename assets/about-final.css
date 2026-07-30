@@ -28,3 +28,49 @@ h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:clam
 .about-note{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:center;border-bottom:1px solid var(--hair);padding:34px 0}.about-note p{max-width:720px;margin:0;color:var(--muted);line-height:1.72;font-size:15px}.about-footer{display:flex;justify-content:space-between;gap:20px;padding-top:24px;color:var(--dim);font:10px/1.5 Space Mono,monospace;letter-spacing:.12em;text-transform:uppercase}.about-footer a{color:var(--muted)}
 @media(max-width:920px){.about-shell{width:min(calc(100% - 28px),var(--max));padding-top:18px}.about-topbar{height:auto;padding-bottom:18px;align-items:flex-start;gap:16px}.about-topbar nav{gap:12px;flex-wrap:wrap}.about-hero{grid-template-columns:1fr;padding-top:48px}.actions{grid-template-columns:1fr}.button{width:100%}.artifact{min-height:320px}.thesis{grid-template-columns:1fr}.about-note{grid-template-columns:1fr}.about-footer{flex-direction:column}h1{font-size:clamp(54px,15vw,82px)}}
 @media(max-width:620px){.artifact-meta{grid-template-columns:1fr}}
+
+/* Keep iPhone full-page captures and print output on the dark archive canvas.
+   WebKit can otherwise flatten transparent sections onto a light page surface. */
+@media(max-width:920px), print{
+  html,
+  body,
+  .about-shell,
+  main{
+    background:#050505!important;
+    background-color:#050505!important;
+    background-image:none!important;
+    color-scheme:dark!important;
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;
+  }
+  body::before{
+    content:none!important;
+    display:none!important;
+    background:none!important;
+  }
+  .about-topbar,
+  .about-hero,
+  .hero-copy,
+  .thesis,
+  .about-note,
+  .about-footer{
+    background:#050505!important;
+    background-color:#050505!important;
+    background-image:none!important;
+  }
+  .artifact{
+    background:#080807!important;
+    background-color:#080807!important;
+    background-image:none!important;
+  }
+  .artifact::before,
+  .artifact::after{
+    content:none!important;
+    display:none!important;
+    background:none!important;
+  }
+  .thesis article{
+    background:#060707!important;
+    background-color:#060707!important;
+  }
+}
