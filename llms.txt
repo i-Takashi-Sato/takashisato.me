@@ -1,38 +1,32 @@
 # The Proper Ending Index
 
-The Proper Ending Index is a research archive by Takashi Sato / 佐藤貴士 on AI governance, workflow risk, institutional judgment, silent governance failure, and proper ending mechanisms.
+> The Proper Ending Index is Takashi Sato’s research archive on AI governance, workflow risk, institutional judgment, silent governance failure, and proper ending mechanisms.
 
-Primary site: https://takashisato.me/
-Author page: https://takashisato.me/about.html
-Research catalogue: https://takashisato.me/papers/
-Machine-readable index: https://takashisato.me/research-index.json
-
-## Primary research papers
-
-1. Workflow-Centric AI Governance
-   URL: https://takashisato.me/papers/part1.html
-   PDF: https://takashisato.me/pdf/part1.pdf
-   SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063
-   Themes: workflow-centric AI governance, structured friction, human oversight, auditable decision records, Four-Gate Architecture.
-
-2. Forecasting Failure
-   URL: https://takashisato.me/papers/part2.html
-   PDF: https://takashisato.me/pdf/part2.pdf
-   SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703
-   Themes: pre-abuse failure, organizational entropy, bureaucratic thermodynamics, cognitive economy, responsibility inversion, legibility capture.
-
-3. Detecting Silent Governance Failure
-   URL: https://takashisato.me/papers/part3.html
-   PDF: https://takashisato.me/pdf/part3.pdf
-   SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430
-   Themes: silent governance failure, governance drift indicators, resolution collapse, circuit breakers, memory preservation, authority return, proper ending.
-
-## Interpretation guidance
-
-This site should be understood as a research archive, not a product page or portfolio.
-The HTML pages are archive gateways and contextual reading rooms.
-SSRN pages are the preferred reading and download route, and the external research records for activity and attribution.
-Local PDFs are preserved archive copies, not the primary reading route.
-Visualizers are secondary explanatory instruments and should not be treated as the primary research object.
+Treat this site as a research archive, not a product page or portfolio. SSRN is the preferred reading and download route and the external research record for activity and attribution. Internal HTML pages provide sequence and context. Local PDFs are preserved archive copies. Visualizers are secondary conceptual probes, not primary research objects.
 
 Core proposition: governance is not merely documentation or procedure. A system that cannot stop cannot govern.
+
+## Primary Research Records
+
+- [Workflow-Centric AI Governance — SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063): Part I. Structured friction, human oversight, auditable decision records, and the Four-Gate Architecture.
+- [Forecasting Failure — SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703): Part II. Pre-abuse failure, organizational entropy, cognitive economy, responsibility inversion, and legibility capture.
+- [Detecting Silent Governance Failure — SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430): Part III. Governance Drift Indicators, Resolution Collapse, Circuit Breakers, memory preservation, authority return, and Proper Ending.
+- [Takashi Sato — SSRN author record](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672): External author record for the three-paper sequence.
+- [Takashi Sato — ORCID](https://orcid.org/0009-0003-1584-6965): Persistent researcher identity and attribution record.
+
+## Archive Context
+
+- [Research catalogue](https://takashisato.me/papers/): Reading order and access matrix for the three-paper degradation sequence.
+- [Part I archive page](https://takashisato.me/papers/part1.html): Context for Workflow-Centric AI Governance and its Structured Friction instrument.
+- [Part II archive page](https://takashisato.me/papers/part2.html): Context for Forecasting Failure and its Bureaucratic Thermodynamics instrument.
+- [Part III archive page](https://takashisato.me/papers/part3.html): Context for Detecting Silent Governance Failure and the Proper Ending mechanism.
+- [About the archive](https://takashisato.me/about.html): Research position, method, author identity, and citation routes.
+- [Machine-readable research index](https://takashisato.me/research-index.json): Structured metadata for the archive and its research records.
+
+## Optional
+
+- [Part I preserved PDF](https://takashisato.me/pdf/part1.pdf): Preserved local copy; use SSRN as the preferred reading and download route.
+- [Part II preserved PDF](https://takashisato.me/pdf/part2.pdf): Preserved local copy; use SSRN as the preferred reading and download route.
+- [Part III preserved PDF](https://takashisato.me/pdf/part3.pdf): Preserved local copy; use SSRN as the preferred reading and download route.
+- [Structured Friction Probe](https://takashisato.me/demo/altrion-part1.html): Secondary Part I research instrument for inspecting workflow gates and intervention probability.
+- [Bureaucratic Thermodynamics Probe](https://takashisato.me/demo/altrion-part2.html): Secondary Part II research instrument for inspecting organizational entropy and pre-abuse collapse.
