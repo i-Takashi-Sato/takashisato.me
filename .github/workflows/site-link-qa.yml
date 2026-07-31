@@ -237,6 +237,11 @@ jobs:
                   )
                   assert values == [value], f'{html_path}: invalid {name}: {values}'
 
+              visible_record = f'Research Record 00{part}'
+              assert html.count(visible_record) == 1, f'{html_path}: missing visible research record'
+              assert html.count(f'href="https://doi.org/{record["doi"]}"') == 1, f'{html_path}: invalid visible DOI link'
+              assert html.count('href="https://orcid.org/0009-0003-1584-6965"') == 1, f'{html_path}: invalid visible ORCID link'
+
               match = re.search(
                   r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
                   html,
