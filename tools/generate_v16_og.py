@@ -279,18 +279,18 @@ def ensure_meta(path: str, image_name: str) -> None:
     p = ROOT / path
     html = p.read_text(encoding="utf-8")
     url = f"https://takashisato.me/assets/og/{image_name}.jpg"
-    tags = f'''  <meta property="og:image" content="{url}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta name="twitter:card" content="summary_large_image" />\n  <meta name="twitter:image" content="{url}" />'''
-    html = re.sub(r'\n\s*<meta property="og:image"[^>]*>\s*', '\n', html)
-    html = re.sub(r'\n\s*<meta property="og:image:width"[^>]*>\s*', '\n', html)
-    html = re.sub(r'\n\s*<meta property="og:image:height"[^>]*>\s*', '\n', html)
-    html = re.sub(r'\n\s*<meta name="twitter:image"[^>]*>\s*', '\n', html)
-    html = re.sub(r'\n\s*<meta name="twitter:card"[^>]*>\s*', '\n', html)
-    if 'property="og:site_name"' in html:
-        html = re.sub(r'(\n\s*<meta property="og:site_name"[^>]*>\s*)', r'\1\n' + tags, html, count=1)
-    elif 'property="og:url"' in html:
-        html = re.sub(r'(\n\s*<meta property="og:url"[^>]*>\s*)', r'\1\n' + tags, html, count=1)
-    else:
-        html = html.replace('</head>', tags + '\n</head>')
+    replacements = {
+        r'<meta property="og:image"[^>]*>': f'<meta property="og:image" content="{url}" />',
+        r'<meta property="og:image:width"[^>]*>': '<meta property="og:image:width" content="1200" />',
+        r'<meta property="og:image:height"[^>]*>': '<meta property="og:image:height" content="630" />',
+        r'<meta name="twitter:card"[^>]*>': '<meta name="twitter:card" content="summary_large_image" />',
+        r'<meta name="twitter:image"[^>]*>': f'<meta name="twitter:image" content="{url}" />',
+    }
+    for pattern, replacement in replacements.items():
+        count = len(re.findall(pattern, html))
+        if count != 1:
+            raise RuntimeError(f"{path}: expected one metadata tag for {pattern}, found {count}")
+        html = re.sub(pattern, replacement, html, count=1)
     p.write_text(html, encoding="utf-8")
 
 
