@@ -1,9 +1,12 @@
 {
   "@context": "https://schema.org",
-  "@type": "DataCatalog",
+  "@type": "CreativeWorkSeries",
+  "@id": "https://takashisato.me/research-index.json#series",
   "name": "The Proper Ending Index",
+  "alternateName": "AI Governance Research Archive",
   "description": "A research archive by Takashi Sato on AI governance, workflow-centric oversight, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, and proper ending mechanisms.",
   "url": "https://takashisato.me/",
+  "inLanguage": "en",
   "creator": {
     "@type": "Person",
     "name": "佐藤貴士",
@@ -27,30 +30,89 @@
     "human judgment",
     "institutional failure"
   ],
-  "dataset": [
+  "hasPart": [
     {
       "@type": "ScholarlyArticle",
-      "name": "Workflow-Centric AI Governance",
+      "@id": "https://takashisato.me/papers/part1.html#article",
+      "position": 1,
+      "name": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
       "url": "https://takashisato.me/papers/part1.html",
-      "encoding": "https://takashisato.me/pdf/part1.pdf",
-      "sameAs": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063",
-      "about": ["structured friction", "human oversight", "auditable decision records"]
+      "datePublished": "2025-12-12",
+      "dateModified": "2026-01-13",
+      "inLanguage": "en",
+      "author": { "@id": "https://takashisato.me/about.html#takashi-sato" },
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.2139/ssrn.5911063", "url": "https://doi.org/10.2139/ssrn.5911063" },
+        { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5911063", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" }
+      ],
+      "sameAs": [
+        "https://doi.org/10.2139/ssrn.5911063",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063"
+      ],
+      "encoding": {
+        "@type": "MediaObject",
+        "@id": "https://takashisato.me/pdf/part1.pdf#preserved-copy",
+        "contentUrl": "https://takashisato.me/pdf/part1.pdf",
+        "encodingFormat": "application/pdf",
+        "contentSize": "461659 bytes",
+        "sha256": "3ffd72736e85fc93e7f4ad7174cb7408a4df426e639c40e59af73682295b442d"
+      },
+      "keywords": ["structured friction", "human oversight", "auditable decision records"]
     },
     {
       "@type": "ScholarlyArticle",
-      "name": "Forecasting Failure",
+      "@id": "https://takashisato.me/papers/part2.html#article",
+      "position": 2,
+      "name": "Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
       "url": "https://takashisato.me/papers/part2.html",
-      "encoding": "https://takashisato.me/pdf/part2.pdf",
-      "sameAs": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703",
-      "about": ["pre-abuse failure", "organizational entropy", "bureaucratic thermodynamics"]
+      "datePublished": "2025-12-13",
+      "dateModified": "2026-01-13",
+      "inLanguage": "en",
+      "author": { "@id": "https://takashisato.me/about.html#takashi-sato" },
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.2139/ssrn.5913703", "url": "https://doi.org/10.2139/ssrn.5913703" },
+        { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5913703", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" }
+      ],
+      "sameAs": [
+        "https://doi.org/10.2139/ssrn.5913703",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703"
+      ],
+      "encoding": {
+        "@type": "MediaObject",
+        "@id": "https://takashisato.me/pdf/part2.pdf#preserved-copy",
+        "contentUrl": "https://takashisato.me/pdf/part2.pdf",
+        "encodingFormat": "application/pdf",
+        "contentSize": "226064 bytes",
+        "sha256": "17c71a438d7ab4fc3d65d527a59ed5672d82b511fd0af1dd0b8b2d2728ea48d8"
+      },
+      "keywords": ["pre-abuse failure", "organizational entropy", "bureaucratic thermodynamics"]
     },
     {
       "@type": "ScholarlyArticle",
-      "name": "Detecting Silent Governance Failure",
+      "@id": "https://takashisato.me/papers/part3.html#article",
+      "position": 3,
+      "name": "Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers",
       "url": "https://takashisato.me/papers/part3.html",
-      "encoding": "https://takashisato.me/pdf/part3.pdf",
-      "sameAs": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430",
-      "about": ["silent governance failure", "governance drift indicators", "resolution collapse", "proper ending"]
+      "datePublished": "2026",
+      "inLanguage": "en",
+      "author": { "@id": "https://takashisato.me/about.html#takashi-sato" },
+      "identifier": [
+        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.2139/ssrn.6066430", "url": "https://doi.org/10.2139/ssrn.6066430" },
+        { "@type": "PropertyValue", "propertyID": "SSRN", "value": "6066430", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" }
+      ],
+      "sameAs": [
+        "https://doi.org/10.2139/ssrn.6066430",
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430"
+      ],
+      "encoding": {
+        "@type": "MediaObject",
+        "@id": "https://takashisato.me/pdf/part3.pdf#preserved-copy",
+        "contentUrl": "https://takashisato.me/pdf/part3.pdf",
+        "encodingFormat": "application/pdf",
+        "contentSize": "336367 bytes",
+        "sha256": "7cd0b6cbe64eb2c72ad5ddb731d4d598adb92592d7580f3572d1cb9ab0d52d04"
+      },
+      "keywords": ["silent governance failure", "governance drift indicators", "resolution collapse", "proper ending"]
     }
   ]
 }
