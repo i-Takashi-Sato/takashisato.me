@@ -28,6 +28,9 @@ jobs:
           echo "Checking that retired Part III demo file does not exist..."
           test ! -e demo/altrion-part3.html
 
+          echo "Checking that obsolete duplicate JSON-LD files do not exist..."
+          test ! -e assets/ld
+
           echo "Checking that retired Part III demo is not publicly linked..."
           if grep -RIn --include='*.html' --include='*.xml' --include='*.css' 'demo/altrion-part3.html' . \
              | grep -v './.git/' ; then
