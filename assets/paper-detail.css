@@ -184,6 +184,18 @@ body.phase-paper .pei-topbar .right{
   text-transform:uppercase;
   color:rgba(242,242,236,.8);
 }
+.paper-ledger dd a{
+  color:inherit;
+  overflow-wrap:anywhere;
+  text-decoration-color:rgba(232,235,228,.28);
+  text-decoration-thickness:1px;
+  text-underline-offset:.24em;
+}
+.paper-ledger dd a:hover,
+.paper-ledger dd a:focus-visible{
+  color:var(--c-ink);
+  text-decoration-color:rgba(242,242,236,.72);
+}
 .paper-ledger__statement{
   margin-top:26px;
   font:400 14px/1.75 var(--font-sans);
