@@ -284,7 +284,7 @@ def ensure_meta(path: str, image_name: str) -> None:
     html = re.sub(r'\n\s*<meta property="og:image:width"[^>]*>\s*', '\n', html)
     html = re.sub(r'\n\s*<meta property="og:image:height"[^>]*>\s*', '\n', html)
     html = re.sub(r'\n\s*<meta name="twitter:image"[^>]*>\s*', '\n', html)
-    html = re.sub(r'<meta name="twitter:card" content="[^"]*"\s*/>', '<meta name="twitter:card" content="summary_large_image" />', html)
+    html = re.sub(r'\n\s*<meta name="twitter:card"[^>]*>\s*', '\n', html)
     if 'property="og:site_name"' in html:
         html = re.sub(r'(\n\s*<meta property="og:site_name"[^>]*>\s*)', r'\1\n' + tags, html, count=1)
     elif 'property="og:url"' in html:
