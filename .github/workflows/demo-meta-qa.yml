@@ -6,21 +6,24 @@ on:
     branches:
       - main
     paths:
+      - 'demo/index.html'
+      - 'demo/altrion-part1.html'
+      - 'demo/altrion-part2.html'
       - '.github/workflows/demo-meta-qa.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  normalize-demo-meta:
+  check-demo-meta:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Normalize demo metadata
+      - name: Check demo metadata
         run: |
+          set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-          import re
 
           pages = {
               'demo/index.html': {
@@ -28,65 +31,47 @@ jobs:
                   'description': 'Two browser instruments for AI governance: structured friction and pre-abuse collapse. Part III remains a paper route.',
                   'url': 'https://takashisato.me/demo/',
                   'image': 'https://takashisato.me/assets/og/papers.jpg',
-                  'type': 'website',
               },
               'demo/altrion-part1.html': {
                   'title': 'Structured Friction Instrument — The Proper Ending Index',
                   'description': 'Interactive Part I instrument for workflow-centric AI governance, structured friction, intervention probability, and auditable decision records.',
                   'url': 'https://takashisato.me/demo/altrion-part1.html',
                   'image': 'https://takashisato.me/assets/og/part1.jpg',
-                  'type': 'website',
               },
               'demo/altrion-part2.html': {
                   'title': 'Pre-abuse Collapse Instrument — The Proper Ending Index',
                   'description': 'Interactive Part II instrument for pre-abuse failure, organizational entropy, cognitive offload, liability hardening, and legibility capture.',
                   'url': 'https://takashisato.me/demo/altrion-part2.html',
                   'image': 'https://takashisato.me/assets/og/part2.jpg',
-                  'type': 'website',
               },
           }
 
-          def normalize(path, meta):
-              p = Path(path)
-              html = p.read_text(encoding='utf-8')
-              html = re.sub(r'<title>.*?</title>', f'<title>{meta["title"]}</title>', html, count=1, flags=re.S)
-              if '<meta name="description"' in html:
-                  html = re.sub(r'<meta name="description" content="[^"]*"\s*/>', f'<meta name="description" content="{meta["description"]}" />', html, count=1)
-              else:
-                  html = html.replace('</title>', '</title>\n  <meta name="description" content="' + meta['description'] + '" />', 1)
-
-              html = re.sub(r'\n\s*<link rel="canonical"[^>]*>\s*', '\n', html)
-              html = re.sub(r'\n\s*<meta property="og:[^"]+"[^>]*>\s*', '\n', html)
-              html = re.sub(r'\n\s*<meta name="twitter:[^"]+"[^>]*>\s*', '\n', html)
-              html = re.sub(r'\n{3,}', '\n\n', html)
-
-              tags = f'''  <link rel="canonical" href="{meta['url']}" />
-  <meta property="og:type" content="{meta['type']}" />
-  <meta property="og:title" content="{meta['title']}" />
-  <meta property="og:description" content="{meta['description']}" />
-  <meta property="og:url" content="{meta['url']}" />
-  <meta property="og:image" content="{meta['image']}" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{meta['title']}" />
-  <meta name="twitter:description" content="{meta['description']}" />
-  <meta name="twitter:image" content="{meta['image']}" />'''
-              insert_after = re.search(r'<meta name="description"[^>]*>\s*', html)
-              if insert_after:
-                  i = insert_after.end()
-                  html = html[:i] + '\n' + tags + html[i:]
-              else:
-                  html = html.replace('</head>', tags + '\n</head>', 1)
-              p.write_text(html, encoding='utf-8')
-
+          failures = []
           for path, meta in pages.items():
-              normalize(path, meta)
+              html = Path(path).read_text(encoding='utf-8')
+              expected = [
+                  f'<title>{meta["title"]}</title>',
+                  f'<meta name="description" content="{meta["description"]}" />',
+                  f'<link rel="canonical" href="{meta["url"]}" />',
+                  '<meta property="og:type" content="website" />',
+                  f'<meta property="og:title" content="{meta["title"]}" />',
+                  f'<meta property="og:description" content="{meta["description"]}" />',
+                  f'<meta property="og:url" content="{meta["url"]}" />',
+                  f'<meta property="og:image" content="{meta["image"]}" />',
+                  '<meta property="og:image:width" content="1200" />',
+                  '<meta property="og:image:height" content="630" />',
+                  '<meta name="twitter:card" content="summary_large_image" />',
+                  f'<meta name="twitter:title" content="{meta["title"]}" />',
+                  f'<meta name="twitter:description" content="{meta["description"]}" />',
+                  f'<meta name="twitter:image" content="{meta["image"]}" />',
+              ]
+              for tag in expected:
+                  count = html.count(tag)
+                  if count != 1:
+                      failures.append(f'{path}: expected one `{tag}`, found {count}')
+
+          if failures:
+              print('\n'.join(failures))
+              raise SystemExit(1)
+          print('Demo metadata contract OK for 3 instrument routes.')
           PY
-      - name: Commit demo metadata cleanup
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add demo/index.html demo/altrion-part1.html demo/altrion-part2.html
-          git commit -m "Normalize demo metadata for SFO QA" || echo "No changes to commit"
-          git push
