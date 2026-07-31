@@ -185,14 +185,6 @@ html body.proper-ending-index .pei-epigraph .epi-original{
   color:rgba(176,160,111,.78)!important;
 }
 
-/* Hide retired / weak instrument routes until rebuilt. */
-html body.proper-ending-index a[href="/demo/altrion-part2.html"],
-html body.proper-ending-index a[href="/demo/altrion-part3.html"],
-html body.proper-ending-index a[href*="altrion-part2.html"],
-html body.proper-ending-index a[href*="altrion-part3.html"]{
-  display:none!important;
-}
-
 /* Mobile repair: no giant sidebar slab, no ghosted header, one compact topbar. */
 @media(max-width:920px){
   body.proper-ending-index .pei-brand{

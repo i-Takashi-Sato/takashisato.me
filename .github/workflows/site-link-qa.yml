@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - '**/*.html'
+      - 'research-index.json'
+      - 'pdf/*.pdf'
       - 'sitemap.xml'
       - 'robots.txt'
       - '.github/workflows/site-link-qa.yml'
@@ -85,7 +87,13 @@ jobs:
           suffixes = {'.html', '.xml', '.css', '.json', '.js'}
           hits = []
           for path in Path('.').rglob('*'):
-              if '.git' in path.parts or not path.is_file() or path.suffix not in suffixes:
+              if (
+                  '.git' in path.parts
+                  or 'vendor' in path.parts
+                  or path.name == 'privacy.html'
+                  or not path.is_file()
+                  or path.suffix not in suffixes
+              ):
                   continue
               text = path.read_text(encoding='utf-8', errors='ignore')
               for term in forbidden:
@@ -168,6 +176,97 @@ jobs:
               print('\n'.join(misses))
               raise SystemExit(1)
           print('Metadata contract OK for research archive pages.')
+          PY
+
+      - name: Check research record integrity
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+          import json
+          import re
+
+          expected = [
+              {
+                  'part': 1,
+                  'title': 'Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems',
+                  'year': '2025',
+                  'doi': '10.2139/ssrn.5911063',
+                  'ssrn': '5911063',
+              },
+              {
+                  'part': 2,
+                  'title': 'Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused',
+                  'year': '2025',
+                  'doi': '10.2139/ssrn.5913703',
+                  'ssrn': '5913703',
+              },
+              {
+                  'part': 3,
+                  'title': 'Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers',
+                  'year': '2026',
+                  'doi': '10.2139/ssrn.6066430',
+                  'ssrn': '6066430',
+              },
+          ]
+
+          index = json.loads(Path('research-index.json').read_text(encoding='utf-8'))
+          assert index['@type'] == 'CreativeWorkSeries'
+          assert index['@id'] == 'https://takashisato.me/research-index.json#series'
+          assert 'dataset' not in index
+          assert len(index['hasPart']) == 3
+
+          for record, item in zip(expected, index['hasPart']):
+              part = record['part']
+              html_path = Path(f'papers/part{part}.html')
+              pdf_path = Path(f'pdf/part{part}.pdf')
+              html = html_path.read_text(encoding='utf-8')
+
+              tag_expectations = {
+                  'citation_title': record['title'],
+                  'citation_author': 'Takashi Sato',
+                  'citation_publication_date': record['year'],
+                  'citation_doi': record['doi'],
+              }
+              for name, value in tag_expectations.items():
+                  values = re.findall(
+                      rf'<meta\s+name="{name}"\s+content="([^"]*)"\s*/?>',
+                      html,
+                      flags=re.I,
+                  )
+                  assert values == [value], f'{html_path}: invalid {name}: {values}'
+
+              match = re.search(
+                  r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
+                  html,
+                  flags=re.S,
+              )
+              assert match, f'{html_path}: missing JSON-LD'
+              article = json.loads(match.group(1))
+
+              assert item['position'] == part
+              assert article['@id'] == item['@id']
+              assert article['name'] == item['name'] == record['title']
+              assert article['inLanguage'] == item['inLanguage'] == 'en'
+              assert article['isPartOf']['@id'] == index['@id']
+
+              article_ids = {entry['propertyID']: entry for entry in article['identifier']}
+              item_ids = {entry['propertyID']: entry for entry in item['identifier']}
+              for identifiers in (article_ids, item_ids):
+                  assert identifiers['DOI']['value'] == record['doi']
+                  assert identifiers['SSRN']['value'] == record['ssrn']
+
+              pdf_bytes = pdf_path.read_bytes()
+              size = f'{len(pdf_bytes)} bytes'
+              digest = sha256(pdf_bytes).hexdigest()
+              for encoding in (article['encoding'], item['encoding']):
+                  assert encoding['contentUrl'] == f'https://takashisato.me/pdf/part{part}.pdf'
+                  assert encoding['encodingFormat'] == 'application/pdf'
+                  assert encoding['contentSize'] == size
+                  assert encoding['sha256'] == digest
+
+          print('Research record integrity OK: 3 papers, 3 PDFs, identifiers and hashes aligned.')
           PY
 
       - name: Check core local links exist
