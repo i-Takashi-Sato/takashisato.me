@@ -8,6 +8,7 @@ on:
       - og-v16-final-polish-fresh
     paths:
       - 'tools/generate_v16_og.py'
+      - 'tools/og-requirements.txt'
       - '.github/workflows/generate-og-images.yml'
       - 'pdf/part1.pdf'
       - 'pdf/part2.pdf'
@@ -25,7 +26,9 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install image dependencies
-        run: python -m pip install --upgrade pillow pymupdf
+        run: |
+          python -m pip install --requirement tools/og-requirements.txt
+          python -m pip check
       - name: Generate images and update meta tags
         run: python tools/generate_v16_og.py
       - name: Commit generated OG assets
