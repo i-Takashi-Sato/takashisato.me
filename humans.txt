@@ -2,7 +2,6 @@
 Author: Takashi Sato / 佐藤貴士
 Site: https://takashisato.me/
 Contact: i@takashisato.me
-X: https://x.com/takashisato_me
 ORCID: https://orcid.org/0009-0003-1584-6965
 SSRN: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672
 

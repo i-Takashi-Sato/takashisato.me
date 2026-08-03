@@ -9,12 +9,29 @@
   "inLanguage": "en",
   "creator": {
     "@type": "Person",
+    "@id": "https://takashisato.me/about.html#takashi-sato",
     "name": "佐藤貴士",
     "alternateName": ["Takashi Sato", "Sato Takashi", "佐藤 貴士"],
+    "givenName": "貴士",
+    "familyName": "佐藤",
+    "description": "佐藤貴士 / Takashi Sato is an independent researcher publishing The Proper Ending Index, an AI governance research archive.",
     "url": "https://takashisato.me/about.html",
     "email": "mailto:i@takashisato.me",
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "ORCID",
+        "value": "0009-0003-1584-6965",
+        "url": "https://orcid.org/0009-0003-1584-6965"
+      },
+      {
+        "@type": "PropertyValue",
+        "propertyID": "SSRN Author ID",
+        "value": "9540672",
+        "url": "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
+      }
+    ],
     "sameAs": [
-      "https://x.com/takashisato_me",
       "https://orcid.org/0009-0003-1584-6965",
       "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
     ]

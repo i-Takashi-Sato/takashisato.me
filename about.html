@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#050607" />
-  <title>Takashi Sato — AI Governance Research Archive</title>
-  <meta name="description" content="About Takashi Sato and The Proper Ending Index, a research archive on AI governance, workflow risk, silent failure, governance drift indicators, and institutional judgment." />
+  <title>佐藤貴士 / Takashi Sato — AI Governance Research Archive</title>
+  <meta name="description" content="About 佐藤貴士 / Takashi Sato and The Proper Ending Index, an independent AI governance research archive on workflow risk, silent governance failure, governance drift indicators, and institutional judgment." />
   <meta name="author" content="佐藤貴士 / Takashi Sato" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://takashisato.me/about.html" />
+  <link rel="author" href="https://takashisato.me/about.html" />
+  <link rel="me" href="https://orcid.org/0009-0003-1584-6965" />
+  <link rel="me" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672" />
   <meta property="og:type" content="profile" />
-  <meta property="og:title" content="Takashi Sato — AI Governance Research Archive" />
+  <meta property="og:title" content="佐藤貴士 / Takashi Sato — AI Governance Research Archive" />
   <meta property="og:description" content="A research archive on AI governance, workflow risk, silent failure, governance drift indicators, and proper ending mechanisms." />
   <meta property="og:url" content="https://takashisato.me/about.html" />
   <meta property="og:site_name" content="The Proper Ending Index" />
@@ -19,22 +22,57 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Takashi Sato — AI Governance Research Archive" />
+  <meta name="twitter:title" content="佐藤貴士 / Takashi Sato — AI Governance Research Archive" />
   <meta name="twitter:description" content="A research archive on AI governance, workflow risk, silent failure, governance drift indicators, and proper ending mechanisms." />
   <meta name="twitter:image" content="https://takashisato.me/assets/og/about.jpg" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": "https://takashisato.me/about.html#takashi-sato",
-  "name": "佐藤貴士",
-  "alternateName": ["Takashi Sato", "Sato Takashi", "佐藤 貴士"],
-  "url": "https://takashisato.me/about.html",
-  "email": "mailto:i@takashisato.me",
-  "jobTitle": "Independent researcher",
-  "knowsAbout": ["AI Governance", "Workflow-centric AI Governance", "Silent Governance Failure", "Governance Drift Indicators", "Circuit Breakers", "Proper Ending", "Human-AI Decision Systems"],
-  "sameAs": ["https://x.com/takashisato_me", "https://orcid.org/0009-0003-1584-6965", "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"],
-  "image": "https://takashisato.me/assets/og/about.jpg"
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": "https://takashisato.me/about.html#profile-page",
+      "name": "佐藤貴士 / Takashi Sato — AI Governance Research Archive",
+      "url": "https://takashisato.me/about.html",
+      "isPartOf": {
+        "@id": "https://takashisato.me/#website"
+      },
+      "mainEntity": {
+        "@id": "https://takashisato.me/about.html#takashi-sato"
+      },
+      "inLanguage": ["en", "ja"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://takashisato.me/about.html#takashi-sato",
+      "name": "佐藤貴士",
+      "alternateName": ["Takashi Sato", "Sato Takashi", "佐藤 貴士"],
+      "givenName": "貴士",
+      "familyName": "佐藤",
+      "description": "佐藤貴士 / Takashi Sato is an independent researcher publishing The Proper Ending Index, an AI governance research archive.",
+      "url": "https://takashisato.me/about.html",
+      "email": "mailto:i@takashisato.me",
+      "jobTitle": "Independent researcher",
+      "mainEntityOfPage": "https://takashisato.me/about.html",
+      "identifier": [
+        {
+          "@type": "PropertyValue",
+          "propertyID": "ORCID",
+          "value": "0009-0003-1584-6965",
+          "url": "https://orcid.org/0009-0003-1584-6965"
+        },
+        {
+          "@type": "PropertyValue",
+          "propertyID": "SSRN Author ID",
+          "value": "9540672",
+          "url": "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
+        }
+      ],
+      "knowsAbout": ["AI Governance", "Workflow-centric AI Governance", "Silent Governance Failure", "Governance Drift Indicators", "Circuit Breakers", "Proper Ending", "Human-AI Decision Systems"],
+      "sameAs": ["https://orcid.org/0009-0003-1584-6965", "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"],
+      "image": "https://takashisato.me/assets/og/about.jpg"
+    }
+  ]
 }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +90,7 @@
   <main id="main">
     <section class="about-hero">
       <div class="hero-copy">
-        <p class="kicker">Author record</p>
+        <p class="kicker">Author record / 佐藤貴士</p>
         <h1>Takashi Sato</h1>
         <p class="lead">AI governance research focused on workflow failure, institutional drift, silent degradation, and the conditions under which human judgment is preserved or lost.</p>
         <div class="actions"><a class="button primary" href="/papers/">Open Catalogue</a><a class="button" href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="noopener noreferrer">SSRN ↗</a><a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer">ORCID ↗</a></div>
@@ -79,5 +117,6 @@
   </main>
   <footer class="about-footer"><span>© 2025 佐藤貴士 / Takashi Sato</span><span><a href="/">Home</a> / <a href="/papers/">Papers</a></span></footer>
 </div>
+<script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
 </body>
 </html>
