@@ -11,6 +11,8 @@ on:
       - 'pdf/*.pdf'
       - 'sitemap.xml'
       - 'robots.txt'
+      - 'humans.txt'
+      - 'llms.txt'
       - 'assets/site-analytics.js'
       - '.github/workflows/site-link-qa.yml'
 
@@ -139,6 +141,11 @@ jobs:
               print('Expected:')
               print('\n'.join(expected))
               raise SystemExit(1)
+          for block in re.findall(r'<url>\s*(.*?)\s*</url>', sitemap, flags=re.S):
+              loc = re.search(r'<loc>(.*?)</loc>', block).group(1)
+              lastmod = re.search(r'<lastmod>(.*?)</lastmod>', block).group(1)
+              if not loc.endswith('.pdf'):
+                  assert lastmod == '2026-08-03', f'{loc}: expected 2026-08-03 lastmod, got {lastmod}'
           print('Public route contract OK: 9 HTML routes + 3 PDFs.')
           PY
 
@@ -251,6 +258,22 @@ jobs:
           privacy = Path('privacy.html').read_text(encoding='utf-8')
           assert 'does not set cookies or transmit data by itself' in privacy
           assert 'identifying individual visitors' in privacy
+
+          llms = Path('llms.txt').read_text(encoding='utf-8')
+          assert '佐藤貴士 / Takashi Sato' in llms
+          assert 'https://takashisato.me/about.html' in llms
+          assert 'https://orcid.org/0009-0003-1584-6965' in llms
+          assert 'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672' in llms
+          assert 'consulting' not in llms.lower()
+          assert 'services' not in llms.lower()
+          assert 'independent AI governance research archive' in llms
+          assert 'x.com' not in llms.lower()
+          assert 'instagram' not in llms.lower()
+
+          robots = Path('robots.txt').read_text(encoding='utf-8')
+          humans = Path('humans.txt').read_text(encoding='utf-8')
+          assert 'https://takashisato.me/llms.txt' in robots
+          assert 'https://takashisato.me/llms.txt' in humans
 
           print('Identity and measurement contract OK.')
           PY
