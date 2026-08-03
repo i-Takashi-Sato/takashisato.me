@@ -11,6 +11,7 @@ on:
       - 'pdf/*.pdf'
       - 'sitemap.xml'
       - 'robots.txt'
+      - 'assets/site-analytics.js'
       - '.github/workflows/site-link-qa.yml'
 
 permissions:
@@ -179,6 +180,79 @@ jobs:
               print('\n'.join(misses))
               raise SystemExit(1)
           print('Metadata contract OK for research archive pages.')
+          PY
+
+      - name: Check identity and measurement contract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          import re
+
+          expected_same_as = {
+              'https://orcid.org/0009-0003-1584-6965',
+              'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672',
+          }
+
+          def graph_nodes(page):
+              html = Path(page).read_text(encoding='utf-8')
+              match = re.search(
+                  r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
+                  html,
+                  flags=re.S,
+              )
+              assert match, f'{page}: missing JSON-LD'
+              data = json.loads(match.group(1))
+              return data.get('@graph', [data]), html
+
+          for page in ('index.html', 'about.html'):
+              nodes, html = graph_nodes(page)
+              person = next((node for node in nodes if node.get('@type') == 'Person'), None)
+              assert person, f'{page}: missing Person node'
+              assert person['@id'] == 'https://takashisato.me/about.html#takashi-sato'
+              assert person['name'] == '佐藤貴士'
+              assert {'Takashi Sato', 'Sato Takashi', '佐藤 貴士'} <= set(person['alternateName'])
+              assert person['givenName'] == '貴士'
+              assert person['familyName'] == '佐藤'
+              assert set(person['sameAs']) == expected_same_as
+              identifiers = {item['propertyID']: item for item in person['identifier']}
+              assert identifiers['ORCID']['value'] == '0009-0003-1584-6965'
+              assert identifiers['SSRN Author ID']['value'] == '9540672'
+              for href in expected_same_as:
+                  assert f'rel="me" href="{href}"' in html, f'{page}: missing rel=me {href}'
+
+          nodes, _ = graph_nodes('about.html')
+          assert any(node.get('@type') == 'ProfilePage' for node in nodes), 'about.html: missing ProfilePage node'
+          assert 'google-site-verification' in Path('index.html').read_text(encoding='utf-8')
+
+          research = json.loads(Path('research-index.json').read_text(encoding='utf-8'))
+          creator = research['creator']
+          assert creator['@id'] == 'https://takashisato.me/about.html#takashi-sato'
+          assert set(creator['sameAs']) == expected_same_as
+
+          script_ref = '/assets/site-analytics.js?v=entity-analytics-1'
+          html_pages = [p for p in Path('.').rglob('*.html') if '.git' not in p.parts]
+          missing = []
+          for page in html_pages:
+              html = page.read_text(encoding='utf-8', errors='ignore')
+              if script_ref not in html:
+                  missing.append(str(page))
+          assert not missing, 'missing local measurement adapter: ' + ', '.join(missing)
+
+          adapter = Path('assets/site-analytics.js').read_text(encoding='utf-8')
+          assert 'page_view' in adapter
+          assert 'link_open' in adapter
+          assert 'googletagmanager.com' not in adapter
+          assert 'google-analytics.com' not in adapter
+          assert 'plausible.io' not in adapter
+          assert not re.search(r'G-[A-Z0-9]{6,}', adapter), 'hard-coded GA4 id found'
+
+          privacy = Path('privacy.html').read_text(encoding='utf-8')
+          assert 'does not set cookies or transmit data by itself' in privacy
+          assert 'identifying individual visitors' in privacy
+
+          print('Identity and measurement contract OK.')
           PY
 
       - name: Check research record integrity
