@@ -11,6 +11,7 @@ Purpose: AI governance research archive
 Focus: workflow-centric AI governance, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, proper ending mechanisms
 Language: English / Japanese author identity
 Canonical URL: https://takashisato.me/
+AI-readable orientation: https://takashisato.me/llms.txt
 
 /* PRINCIPLE */
 Research, not spectacle.
