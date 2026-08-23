@@ -26,6 +26,12 @@ html body[data-page="papers"] .page-hero::after,
   display: none !important;
 }
 
+/* Decorative transforms may never enlarge the document's scrollable width. */
+body[data-page="home"] .hero,
+body[data-page="about"] .author-hero {
+  overflow: clip;
+}
+
 /* Remove the generic script-word trope from the home thesis. */
 body[data-page="home"] .hero h1 em {
   margin: 0;
@@ -241,12 +247,8 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
   .probe-route small { grid-column: 1; }
 }
 
-/* Optical corrections for the 320px class only. */
-@media (max-width: 22rem) {
-  body[data-page="home"] .hero h1 {
-    max-width: 100%;
-    font-size: clamp(3.65rem, 19vw, 4.5rem);
-  }
+/* Keep the real signature inside the author exhibition plane on narrow phones. */
+@media (max-width: 26rem) {
   body[data-page="about"] .author-name h1 {
     overflow: clip;
   }
@@ -256,6 +258,14 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
   }
   body[data-page="about"] .author-links::after {
     display: none;
+  }
+}
+
+/* Optical correction for the 320px class only. */
+@media (max-width: 22rem) {
+  body[data-page="home"] .hero h1 {
+    max-width: 100%;
+    font-size: clamp(3.65rem, 19vw, 4.5rem);
   }
 }
 
