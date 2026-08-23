@@ -1,9 +1,3 @@
 {
-  "extends": ["html-validate:recommended"],
-  "rules": {
-    "long-title": "off",
-    "no-inline-style": "off",
-    "require-sri": "off",
-    "wcag/h30": "off"
-  }
+  "extends": ["html-validate:recommended"]
 }
