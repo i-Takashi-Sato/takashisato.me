@@ -171,6 +171,7 @@ body[data-tone^="part-"] .content > section.is-current > .eyebrow {
 
 /* Part I typed-gate conceptual probe: isolated, semantic and reversible. */
 .gate-probe {
+  display: none;
   margin: clamp(2.2rem, 5vw, 4.5rem) 0;
   padding: clamp(1.25rem, 3vw, 2rem);
   border: 1px solid var(--line-strong);
@@ -178,6 +179,7 @@ body[data-tone^="part-"] .content > section.is-current > .eyebrow {
     linear-gradient(135deg, rgba(183,154,99,.055), transparent 45%),
     rgba(8,8,8,.64);
 }
+html.js .gate-probe { display: block; }
 .gate-probe-head {
   display: grid;
   grid-template-columns: minmax(0,1fr) minmax(12rem,.42fr);
@@ -189,9 +191,11 @@ body[data-tone^="part-"] .content > section.is-current > .eyebrow {
 .gate-probe-head p { margin: 0; color: var(--ink-soft); font-size: .88rem; }
 .gate-probe-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .75rem; }
 .probe-gate { min-width: 0; margin: 0; padding: 1rem; border: 1px solid var(--line); }
-.probe-gate legend { padding: 0 .35rem; color: var(--ink); font-size: .72rem; font-weight: 690; letter-spacing: .08em; text-transform: uppercase; }
+.probe-gate legend,
+.probe-flags legend { padding: 0 .35rem; color: var(--ink); font-size: .72rem; font-weight: 690; letter-spacing: .08em; text-transform: uppercase; }
 .probe-states { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .4rem; }
 .probe-states button,
+.probe-flag-grid button,
 .probe-reset {
   min-height: 2.55rem;
   border: 1px solid var(--line-strong);
@@ -204,8 +208,17 @@ body[data-tone^="part-"] .content > section.is-current > .eyebrow {
   transition: background .2s ease, color .2s ease, border-color .2s ease;
 }
 .probe-states button:hover,
-.probe-states button:focus-visible { border-color: var(--signal-soft); color: var(--ink); }
-.probe-states button[aria-pressed="true"] { border-color: var(--signal-soft); background: var(--signal-wash); color: var(--signal-pale); }
+.probe-states button:focus-visible,
+.probe-flag-grid button:hover,
+.probe-flag-grid button:focus-visible { border-color: var(--signal-soft); color: var(--ink); }
+.probe-states button[aria-pressed="true"],
+.probe-flag-grid button[aria-pressed="true"] { border-color: var(--signal-soft); background: var(--signal-wash); color: var(--signal-pale); }
+.probe-flags { min-width: 0; margin: .85rem 0 0; padding: 1rem; border: 1px solid var(--line); }
+.probe-flags > p { margin: 0 0 .8rem; color: var(--ink-soft); font-size: .78rem; }
+.probe-flag-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .4rem; }
+.probe-flag-grid button { min-width: 0; padding: .72rem; display: grid; gap: .3rem; text-align: left; }
+.probe-flag-grid button span { color: var(--ink-soft); font-family: var(--sans); font-size: .66rem; letter-spacing: 0; line-height: 1.25; }
+.probe-flag-grid button b { color: inherit; font-size: .58rem; letter-spacing: .06em; }
 .probe-route { margin-top: .85rem; padding: 1rem; border: 1px solid var(--line-strong); display: grid; grid-template-columns: minmax(8rem,.25fr) minmax(0,1fr); gap: .35rem 1rem; align-items: baseline; background: rgba(0,0,0,.2); }
 .probe-route span { color: var(--signal-soft); font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .probe-route strong { font-family: var(--display); font-size: clamp(1.5rem, 2vw, 2.1rem); font-weight: 380; letter-spacing: -.025em; }
@@ -243,6 +256,7 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
   body[data-page="papers"] .sequence::before { left: .18rem; }
   .gate-probe-head { grid-template-columns: 1fr; }
   .gate-probe-grid { grid-template-columns: 1fr; }
+  .probe-flag-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .probe-route { grid-template-columns: 1fr; }
   .probe-route small { grid-column: 1; }
 }
@@ -267,6 +281,7 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
     max-width: 100%;
     font-size: clamp(3.65rem, 19vw, 4.5rem);
   }
+  .probe-flag-grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {
@@ -276,6 +291,6 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
 
 @media print {
   .gate-probe { break-inside: avoid; background: transparent; }
-  .probe-states button, .probe-reset { display: none; }
+  .probe-states button, .probe-flag-grid button, .probe-reset { display: none; }
   .site-footer::after { display: none; }
 }
