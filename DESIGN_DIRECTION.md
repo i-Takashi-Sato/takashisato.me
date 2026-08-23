@@ -71,6 +71,11 @@ not a competing publication source. Earlier ALTRION visualizers remain at their
 old URLs only as `noindex` retirement notices and must not be linked as current
 research instruments.
 
+The author record is English-primary. Visible Japanese exists only to connect
+`佐藤貴士` with `Takashi Sato`, the independent-researcher role, and Sapporo;
+structured data and metadata carry the wider entity graph. Do not restore a
+second, keyword-stacked Japanese biography that merely repeats the English page.
+
 Do not introduce decorative quotations, invented case files, fictional JSON,
 award claims, unverified performance claims, or language that makes a bounded
 finite check sound like field validation. Do not add services, samples,

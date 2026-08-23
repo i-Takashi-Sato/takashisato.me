@@ -15,7 +15,7 @@ AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.2.1"
+ASSET_VERSION = "6.2.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -910,41 +910,52 @@ def about_page() -> str:
     body = dedent(
         f"""
         <main id="main">
-          <header class="page-hero shell">
+          <header class="author-hero shell">
             {breadcrumbs([("Index", "/"), ("Author", None)])}
-            <p class="eyebrow" data-reveal>Author record · 佐藤貴士</p>
-            <h1 data-reveal>Researching the point where oversight becomes governable—and where it must end.</h1>
+            <div class="author-hero-grid">
+              <div class="author-name" data-reveal>
+                <p class="eyebrow">Author record · 佐藤貴士</p>
+                <h1><span>Takashi</span><span>Sato</span></h1>
+              </div>
+              <div class="author-thesis" data-reveal>
+                <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
+                <p class="author-identity" lang="ja">佐藤貴士 — 札幌を拠点とする独立研究者。</p>
+              </div>
+            </div>
           </header>
-          <div class="section">
-            <div class="shell profile-grid">
-              <aside class="profile-aside" data-reveal>
-                <p class="label">Takashi Sato</p>
-                <p>Independent Researcher<br>Sapporo, Hokkaido, Japan</p>
-                <div class="hero-actions">
-                  <a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID ↗</a>
-                  <a class="button" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">SSRN ↗</a>
-                </div>
+          <div class="section author-section">
+            <div class="shell author-layout">
+              <aside class="author-rail" data-reveal>
+                <h2 class="label">At a glance</h2>
+                <dl class="author-facts">
+                  <div><dt>Role</dt><dd>Independent researcher</dd></div>
+                  <div><dt>Base</dt><dd>Sapporo, Japan</dd></div>
+                  <div><dt>Series</dt><dd>The Proper Ending Index</dd></div>
+                </dl>
+                <nav class="author-links" aria-label="External author records">
+                  <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer"><span>ORCID</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer"><span>SSRN</span><span aria-hidden="true">↗</span></a>
+                  <a href="{SCHOLAR_URL}" target="_blank" rel="me noopener noreferrer"><span>Google Scholar</span><span aria-hidden="true">↗</span></a>
+                </nav>
               </aside>
-              <div class="content profile-copy" data-reveal>
-                <section>
-                  <h2 class="sr-only">Research focus</h2>
-                  <p class="lead">Takashi Sato is an independent researcher focused on AI governance, human oversight, workflow governance, governing capacity, Proper Ending, and Authority Return.</p>
-                  <p>The current working-paper trilogy asks how consequential human-AI decisions should be routed, how an institution can remain procedurally intact while losing its practical capacity to govern, and how a failing workflow can be contained and retired without abandoning service, evidence, remedy, or decision responsibility.</p>
+              <div class="author-copy">
+                <section data-reveal>
+                  <p class="eyebrow">01 · Research position</p>
+                  <h2>Oversight is a capacity, not a presence.</h2>
+                  <p class="lead">A person can be present in a workflow and still be unable to govern it.</p>
+                  <p>My work treats evidence, time, authority, review capacity, fallback readiness, and remedy as institutional conditions—not interface labels.</p>
+                  <p>The current trilogy follows that problem at three levels: the decision contract, the institution’s governing capacity, and the exit through which authority is returned.</p>
                 </section>
-                <section>
-                  <p class="eyebrow">日本語</p>
-                  <h2 class="jp" lang="ja">佐藤貴士について</h2>
-                  <p class="jp" lang="ja">佐藤貴士（Takashi Sato）は、札幌を拠点とする独立研究者です。AIガバナンス、人間による監督、ワークフロー・ガバナンス、統治能力、Proper Ending、Authority Returnを研究しています。</p>
-                  <p class="jp" lang="ja">現在の研究では、人間が形式上「ループ内」にいることと、証拠・時間・権限・審査能力・代替手段を備えた実効的な監督とを区別しています。また、制度が手続を維持しながら判断能力を失う過程と、問題のあるAI支援ワークフローを説明責任ある形で終結させる条件を検討しています。</p>
-                </section>
-                <section>
-                  <p class="eyebrow">Research practice</p>
+                <section data-reveal>
+                  <p class="eyebrow">02 · Research practice</p>
                   <h2>Formalize the claim. Publish the boundary.</h2>
-                  <p>The papers combine typed protocols, finite-state exploration, mutation testing, synthetic stress tests, and theory-directed public-record traceability. Each method is reported with an explicit limit: executable consistency is not legal sufficiency, synthetic performance is not field validity, and a purposive official-record corpus is not representative evidence.</p>
+                  <p>The papers combine typed protocols, finite-state exploration, mutation testing, synthetic stress tests, and theory-directed public-record traceability.</p>
+                  <p>Each method carries an explicit limit: executable consistency is not legal sufficiency, synthetic performance is not field validity, and a purposive official-record corpus is not representative evidence.</p>
                 </section>
-                <section>
-                  <p class="eyebrow">Public identifiers</p>
-                  <h2>One author record across research systems.</h2>
+                <section data-reveal>
+                  <p class="eyebrow">03 · Public record</p>
+                  <h2>One author. One verifiable record.</h2>
+                  <p>SSRN carries the primary paper records. This archive preserves versioned copies and connects them to a single public author identity.</p>
                   <dl class="record-list">
                     <div class="record-row"><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">0009-0003-1584-6965</a></dd></div>
                     <div class="record-row"><dt>SSRN Author ID</dt><dd><a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">9540672</a></dd></div>
@@ -961,7 +972,7 @@ def about_page() -> str:
     return shell_page(
         head_html=head(
             title="Takashi Sato · Independent Researcher",
-            description="Author record for Takashi Sato (佐藤貴士), an independent researcher in Sapporo working on AI governance, governing capacity, Proper Ending, and Authority Return.",
+            description="Author record for Takashi Sato (佐藤貴士), an independent researcher in Sapporo studying accountable human-AI decisions, governing capacity, and institutional exit.",
             path="/about.html",
             image="/assets/og/about.jpg",
             schema=schema,
