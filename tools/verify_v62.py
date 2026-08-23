@@ -20,6 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
+ASSET_VERSION = "6.2.1"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -72,8 +73,15 @@ class AuditParser(HTMLParser):
         self.id_list: list[str] = []
         self.hrefs: list[tuple[str, dict[str, str]]] = []
         self.json_ld: list[str] = []
+        self.inline_executable_scripts: list[int] = []
+        self.section_without_heading: list[int] = []
+        self.article_without_heading: list[int] = []
         self._script_type = ""
+        self._script_src = ""
+        self._script_line = 0
+        self._in_script = False
         self._script_text: list[str] = []
+        self._sectioning_stack: list[list[str | int | bool]] = []
         self.h1_count = 0
         self.title_text: list[str] = []
         self._in_title = False
@@ -88,30 +96,59 @@ class AuditParser(HTMLParser):
             self.hrefs.append((data["href"], data))
         if tag == "h1":
             self.h1_count += 1
+        if tag in {"section", "article"}:
+            self._sectioning_stack.append([tag, self.getpos()[0], False])
+        elif re.fullmatch(r"h[1-6]", tag) and self._sectioning_stack:
+            self._sectioning_stack[-1][2] = True
         if tag == "title":
             self._in_title = True
         if tag == "script":
             self._script_type = data.get("type", "")
+            self._script_src = data.get("src", "")
+            self._script_line = self.getpos()[0]
+            self._in_script = True
             self._script_text = []
 
     def handle_endtag(self, tag: str) -> None:
         if tag == "title":
             self._in_title = False
-        if tag == "script" and self._script_type == "application/ld+json":
-            self.json_ld.append("".join(self._script_text))
         if tag == "script":
+            script_text = "".join(self._script_text)
+            if self._script_type.casefold() == "application/ld+json":
+                self.json_ld.append(script_text)
+            elif not self._script_src and script_text.strip():
+                self.inline_executable_scripts.append(self._script_line)
             self._script_type = ""
+            self._script_src = ""
+            self._script_line = 0
+            self._in_script = False
             self._script_text = []
+        if tag in {"section", "article"} and self._sectioning_stack:
+            sectioning_tag, line, has_heading = self._sectioning_stack.pop()
+            if sectioning_tag == tag and not has_heading:
+                target = self.section_without_heading if tag == "section" else self.article_without_heading
+                target.append(int(line))
 
     def handle_data(self, data: str) -> None:
         if self._in_title:
             self.title_text.append(data)
-        if self._script_type == "application/ld+json":
+        if self._in_script:
             self._script_text.append(data)
 
 
 def fail(errors: list[str], message: str) -> None:
     errors.append(message)
+
+
+def relative_luminance(color: str) -> float:
+    channels = [int(color[index:index + 2], 16) / 255 for index in (1, 3, 5)]
+    linear = [value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels]
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+
+
+def contrast_ratio(first: str, second: str) -> float:
+    lighter, darker = sorted((relative_luminance(first), relative_luminance(second)), reverse=True)
+    return (lighter + 0.05) / (darker + 0.05)
 
 
 def local_target(href: str, source: Path) -> tuple[Path | None, str]:
@@ -161,13 +198,32 @@ def audit_html(errors: list[str]) -> None:
         inline_styles = [attrs.get("style", "") for _, attrs in parser.tags if attrs.get("style")]
         if inline_styles:
             fail(errors, f"{rel}: inline style attributes are not allowed")
-        if not any(tag == "link" and attrs.get("href", "").startswith("/assets/archive-v62.css") for tag, attrs in parser.tags):
-            fail(errors, f"{rel}: missing archive stylesheet")
+        if parser.inline_executable_scripts:
+            fail(errors, f"{rel}: executable inline script conflicts with production CSP at lines {parser.inline_executable_scripts}")
+        if parser.section_without_heading:
+            fail(errors, f"{rel}: section elements lack headings at lines {parser.section_without_heading}")
+        if parser.article_without_heading:
+            fail(errors, f"{rel}: article elements lack headings at lines {parser.article_without_heading}")
+        for tag, attrs in parser.tags:
+            if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
+                fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
+
+        expected_stylesheet = f"/assets/archive-v62.css?v={ASSET_VERSION}"
+        expected_enhancement = f"/assets/archive-v62.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if len(styles) != 1:
-            fail(errors, f"{rel}: expected one stylesheet, found {styles}")
-        if not any(tag == "script" and attrs.get("src", "").startswith("/assets/archive-v62.js") for tag, attrs in parser.tags):
-            fail(errors, f"{rel}: missing enhancement script")
+        if styles != [expected_stylesheet]:
+            fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
+        enhancement_scripts = [
+            attrs
+            for tag, attrs in parser.tags
+            if tag == "script" and attrs.get("src", "").startswith("/assets/archive-v62.js")
+        ]
+        if [attrs.get("src") for attrs in enhancement_scripts] != [expected_enhancement]:
+            fail(errors, f"{rel}: enhancement script contract mismatch: {enhancement_scripts}")
+        elif any("defer" in attrs or "async" in attrs for attrs in enhancement_scripts):
+            fail(errors, f"{rel}: enhancement script must execute in head before body parsing")
+        if expected_enhancement not in text.partition("</head>")[0]:
+            fail(errors, f"{rel}: enhancement script is not loaded from head")
 
         identity_links = {
             attrs.get("href", "")
@@ -336,6 +392,22 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, f"archive stylesheet exceeds 50 KB: {len(css.encode())}")
     if len(js.encode()) > 5_000:
         fail(errors, f"enhancement script exceeds 5 KB: {len(js.encode())}")
+
+    paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
+    if not paper_match:
+        fail(errors, "archive stylesheet is missing the paper color token")
+    else:
+        paper = paper_match.group(1)
+        text_colors = set(re.findall(r"--(?:ink|ink-soft|ink-faint|accent-ink):\s*(#[0-9a-fA-F]{6})", css))
+        for color in sorted(text_colors):
+            ratio = contrast_ratio(color, paper)
+            if ratio < 4.5:
+                fail(errors, f"text color {color} has insufficient contrast on {paper}: {ratio:.2f}:1")
+        accent_colors = set(re.findall(r"--accent:\s*(#[0-9a-fA-F]{6})", css))
+        for color in sorted(accent_colors):
+            ratio = contrast_ratio(color, "#ffffff")
+            if ratio < 4.5:
+                fail(errors, f"white text has insufficient contrast on accent {color}: {ratio:.2f}:1")
 
     for name in ["home", "papers", "about", *PAPERS]:
         path = ROOT / f"assets/og/{name}.jpg"
