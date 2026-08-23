@@ -1,0 +1,53 @@
+name: Visual Smoke
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: visual-smoke-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Install Playwright
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.62.0
+          python -m playwright install --with-deps chromium
+
+      - name: Serve archive
+        run: |
+          python -m http.server 4173 --bind 127.0.0.1 > /tmp/archive-http.log 2>&1 &
+          echo $! > /tmp/archive-http.pid
+          for i in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/archive-http.log
+          exit 1
+
+      - name: Check 30 viewport/page combinations and no-JS fallbacks
+        run: python tools/visual_smoke.py
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-smoke-screenshots
+          path: artifacts/visual-smoke
+          if-no-files-found: ignore
+          retention-days: 14
