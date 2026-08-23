@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.10.4"
+ASSET_VERSION = "6.11.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -208,10 +208,16 @@ def audit_html(errors: list[str]) -> None:
             if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
                 fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
 
-        expected_stylesheet = f"/assets/archive-v62.css?v={ASSET_VERSION}"
+        expected_styles = [
+            f"/assets/archive-v62.css?v={ASSET_VERSION}",
+            "/assets/archive-v66.css?v=6.7.0",
+            "/styles/archive-v68.css?v=6.8.0",
+            f"/styles/archive-v611.css?v={ASSET_VERSION}",
+        ]
         expected_enhancement = f"/assets/archive-v62.js?v={ASSET_VERSION}"
+        expected_refinement = f"/scripts/archive-v611.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if styles != [expected_stylesheet]:
+        if styles != expected_styles:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
         enhancement_scripts = [
             attrs
@@ -222,8 +228,18 @@ def audit_html(errors: list[str]) -> None:
             fail(errors, f"{rel}: enhancement script contract mismatch: {enhancement_scripts}")
         elif any("defer" in attrs or "async" in attrs for attrs in enhancement_scripts):
             fail(errors, f"{rel}: enhancement script must execute in head before body parsing")
-        if expected_enhancement not in text.partition("</head>")[0]:
-            fail(errors, f"{rel}: enhancement script is not loaded from head")
+        refinement_scripts = [
+            attrs
+            for tag, attrs in parser.tags
+            if tag == "script" and attrs.get("src", "").startswith("/scripts/archive-v611.js")
+        ]
+        if [attrs.get("src") for attrs in refinement_scripts] != [expected_refinement]:
+            fail(errors, f"{rel}: refinement script contract mismatch: {refinement_scripts}")
+        elif any("defer" not in attrs for attrs in refinement_scripts):
+            fail(errors, f"{rel}: refinement script must be deferred")
+        head_text = text.partition("</head>")[0]
+        if expected_enhancement not in head_text or expected_refinement not in head_text:
+            fail(errors, f"{rel}: runtime scripts are not loaded from head")
 
         identity_links = {
             attrs.get("href", "")

@@ -15,7 +15,7 @@ AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.10.4"
+ASSET_VERSION = "6.11.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -282,7 +282,11 @@ def head(
           {paper_meta}
           {schema_html}
           <link rel="stylesheet" href="/assets/archive-v62.css?v={ASSET_VERSION}">
+          <link rel="stylesheet" href="/assets/archive-v66.css?v=6.7.0" data-v66>
+          <link rel="stylesheet" href="/styles/archive-v68.css?v=6.8.0" data-v68>
+          <link rel="stylesheet" href="/styles/archive-v611.css?v={ASSET_VERSION}" data-v611>
           <script src="/assets/archive-v62.js?v={ASSET_VERSION}"></script>
+          <script src="/scripts/archive-v611.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
     ).strip()
@@ -615,6 +619,51 @@ def part1_content() -> str:
             </div>
             <div class="model-head model-head-spaced"><h3>Stage 2 · signed institutional disposition</h3><span>authorized review only</span></div>
             <div class="disposition-grid" role="list" aria-label="Signed dispositions"><span role="listitem">RELEASE</span><span role="listitem">MODIFIED ACTION</span><span role="listitem">FINAL STOP</span><span role="listitem">AUTHORIZED DEFER</span><span role="listitem">FALLBACK</span></div>
+          </div>
+          <div class="gate-probe" data-gate-probe>
+            <div class="gate-probe-head">
+              <div>
+                <p class="eyebrow">Conceptual probe · Stage 1</p>
+                <h3>Change the three gate states. Observe only the typed route.</h3>
+              </div>
+              <p>This probe illustrates the paper’s routing semantics. It is not a decision engine, policy rule, legal test, or execution authorization.</p>
+            </div>
+            <div class="gate-probe-grid">
+              <fieldset class="probe-gate" data-gate="g1">
+                <legend>Gate 1 · admissibility</legend>
+                <div class="probe-states">
+                  <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+                  <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+                  <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+                  <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+                </div>
+              </fieldset>
+              <fieldset class="probe-gate" data-gate="g2">
+                <legend>Gate 2 · value / conflict</legend>
+                <div class="probe-states">
+                  <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+                  <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+                  <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+                  <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+                </div>
+              </fieldset>
+              <fieldset class="probe-gate" data-gate="g3">
+                <legend>Gate 3 · temporal validity</legend>
+                <div class="probe-states">
+                  <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+                  <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+                  <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+                  <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+                </div>
+              </fieldset>
+            </div>
+            <div class="probe-route" aria-live="polite">
+              <span>Current route</span>
+              <strong data-route>EVIDENCE HOLD</strong>
+              <small data-route-note>UNKNOWN cannot silently become PASS; unresolved input keeps the case out of execution eligibility.</small>
+            </div>
+            <button type="button" class="probe-reset" data-probe-reset>RESET TO UNKNOWN</button>
+            <p class="caveat">The probe deliberately stops at a typed Stage-1 route. Signed institutional disposition and execution remain separate contracts.</p>
           </div>
           <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>
           <p>Review authority and review capacity are distinct inputs. Fallback authorization and operational readiness are distinct inputs. If either member of a pair is absent, that route is unavailable.</p>

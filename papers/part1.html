@@ -49,8 +49,12 @@
 <meta property="article:modified_time" content="2026-08-23">
 <meta property="article:author" content="https://takashisato.me/about.html">
           <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://takashisato.me/about.html#takashi-sato","name":"Takashi Sato","givenName":"Takashi","familyName":"Sato","alternateName":["佐藤貴士","佐藤 貴士","Sato Takashi"],"jobTitle":"Independent Researcher","url":"https://takashisato.me/about.html","workLocation":{"@type":"Place","name":"Sapporo, Hokkaido, Japan","address":{"@type":"PostalAddress","addressLocality":"Sapporo","addressRegion":"Hokkaido","addressCountry":"JP"}},"identifier":[{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0003-1584-6965"},{"@type":"PropertyValue","propertyID":"SSRN Author ID","value":"9540672"}],"sameAs":["https://orcid.org/0009-0003-1584-6965","https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672","https://scholar.google.com/citations?user=tN4zV68AAAAJ"],"knowsAbout":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"ScholarlyArticle","@id":"https://takashisato.me/papers/part1.html#article","headline":"Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions","name":"Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions","description":"A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.","abstract":"A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.","author":{"@id":"https://takashisato.me/about.html#takashi-sato"},"datePublished":"2026-01-09","dateModified":"2026-08-23","version":"6.2","inLanguage":"en-US","isAccessibleForFree":true,"pageStart":1,"pageEnd":18,"pagination":"1-18","isPartOf":{"@id":"https://takashisato.me/papers/#trilogy"},"url":"https://takashisato.me/papers/part1.html","mainEntityOfPage":"https://takashisato.me/papers/part1.html","image":"https://takashisato.me/assets/og/part1.jpg","sameAs":["https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063","https://doi.org/10.2139/ssrn.5911063"],"identifier":[{"@type":"PropertyValue","propertyID":"DOI","value":"10.2139/ssrn.5911063"},{"@type":"PropertyValue","propertyID":"SSRN","value":"5911063"}],"encoding":{"@type":"MediaObject","contentUrl":"https://takashisato.me/pdf/part1.pdf","encodingFormat":"application/pdf","contentSize":"514075 bytes","sha256":"edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8","uploadDate":"2026-08-23"},"keywords":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Index","item":"https://takashisato.me/"},{"@type":"ListItem","position":2,"name":"Papers","item":"https://takashisato.me/papers/"},{"@type":"ListItem","position":3,"name":"Part I","item":"https://takashisato.me/papers/part1.html"}]}]}</script>
-          <link rel="stylesheet" href="/assets/archive-v62.css?v=6.10.4">
-          <script src="/assets/archive-v62.js?v=6.10.4"></script>
+          <link rel="stylesheet" href="/assets/archive-v62.css?v=6.11.0">
+          <link rel="stylesheet" href="/assets/archive-v66.css?v=6.7.0" data-v66>
+          <link rel="stylesheet" href="/styles/archive-v68.css?v=6.8.0" data-v68>
+          <link rel="stylesheet" href="/styles/archive-v611.css?v=6.11.0" data-v611>
+          <script src="/assets/archive-v62.js?v=6.11.0"></script>
+          <script src="/scripts/archive-v611.js?v=6.11.0" defer></script>
         </head>
 <body data-tone="part-1" data-page="part1">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -120,6 +124,51 @@
     </div>
     <div class="model-head model-head-spaced"><h3>Stage 2 · signed institutional disposition</h3><span>authorized review only</span></div>
     <div class="disposition-grid" role="list" aria-label="Signed dispositions"><span role="listitem">RELEASE</span><span role="listitem">MODIFIED ACTION</span><span role="listitem">FINAL STOP</span><span role="listitem">AUTHORIZED DEFER</span><span role="listitem">FALLBACK</span></div>
+  </div>
+  <div class="gate-probe" data-gate-probe>
+    <div class="gate-probe-head">
+      <div>
+        <p class="eyebrow">Conceptual probe · Stage 1</p>
+        <h3>Change the three gate states. Observe only the typed route.</h3>
+      </div>
+      <p>This probe illustrates the paper’s routing semantics. It is not a decision engine, policy rule, legal test, or execution authorization.</p>
+    </div>
+    <div class="gate-probe-grid">
+      <fieldset class="probe-gate" data-gate="g1">
+        <legend>Gate 1 · admissibility</legend>
+        <div class="probe-states">
+          <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+          <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+          <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+          <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+        </div>
+      </fieldset>
+      <fieldset class="probe-gate" data-gate="g2">
+        <legend>Gate 2 · value / conflict</legend>
+        <div class="probe-states">
+          <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+          <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+          <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+          <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+        </div>
+      </fieldset>
+      <fieldset class="probe-gate" data-gate="g3">
+        <legend>Gate 3 · temporal validity</legend>
+        <div class="probe-states">
+          <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+          <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+          <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+          <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+        </div>
+      </fieldset>
+    </div>
+    <div class="probe-route" aria-live="polite">
+      <span>Current route</span>
+      <strong data-route>EVIDENCE HOLD</strong>
+      <small data-route-note>UNKNOWN cannot silently become PASS; unresolved input keeps the case out of execution eligibility.</small>
+    </div>
+    <button type="button" class="probe-reset" data-probe-reset>RESET TO UNKNOWN</button>
+    <p class="caveat">The probe deliberately stops at a typed Stage-1 route. Signed institutional disposition and execution remain separate contracts.</p>
   </div>
   <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>
   <p>Review authority and review capacity are distinct inputs. Fallback authorization and operational readiness are distinct inputs. If either member of a pair is absent, that route is unavailable.</p>
