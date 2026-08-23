@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.3.0"
+ASSET_VERSION = "6.4.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -365,8 +365,13 @@ def audit_assets(errors: list[str]) -> None:
         "archive-v62.css",
         "archive-v62.js",
         "site-analytics.js",
-        "fonts/InstrumentSans-Variable.woff2",
-        "fonts/InstrumentSans-OFL.txt",
+        "fonts/InterVariable.woff2",
+        "fonts/Inter-OFL.txt",
+        "fonts/Newsreader-Variable.woff2",
+        "fonts/Newsreader-OFL.txt",
+        "materials/grain.jpg",
+        "materials/paper.jpg",
+        "materials/black-metal.jpg",
         "og/home.jpg",
         "og/papers.jpg",
         "og/about.jpg",
@@ -399,28 +404,49 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, f"archive stylesheet exceeds 50 KB: {len(css.encode())}")
     if len(js.encode()) > 5_000:
         fail(errors, f"enhancement script exceeds 5 KB: {len(js.encode())}")
-    font_path = ROOT / "assets/fonts/InstrumentSans-Variable.woff2"
-    if not font_path.read_bytes().startswith(b"wOF2"):
-        fail(errors, "Instrument Sans webfont is not a valid WOFF2 payload")
-    if font_path.stat().st_size > 100_000:
-        fail(errors, f"Instrument Sans webfont exceeds 100 KB: {font_path.stat().st_size}")
-    license_text = (ROOT / "assets/fonts/InstrumentSans-OFL.txt").read_text(encoding="utf-8")
-    if "SIL OPEN FONT LICENSE Version 1.1" not in license_text:
-        fail(errors, "Instrument Sans license record is missing or invalid")
-    if "@font-face" not in css or "InstrumentSans-Variable.woff2" not in css:
-        fail(errors, "archive stylesheet does not declare the self-hosted variable font")
+    fonts = {
+        "Inter": (ROOT / "assets/fonts/InterVariable.woff2", 100_000),
+        "Newsreader": (ROOT / "assets/fonts/Newsreader-Variable.woff2", 150_000),
+    }
+    for family, (font_path, size_limit) in fonts.items():
+        if not font_path.read_bytes().startswith(b"wOF2"):
+            fail(errors, f"{family} webfont is not a valid WOFF2 payload")
+        if font_path.stat().st_size > size_limit:
+            fail(errors, f"{family} webfont exceeds {size_limit // 1000} KB: {font_path.stat().st_size}")
+        license_path = ROOT / f"assets/fonts/{family}-OFL.txt"
+        license_text = license_path.read_text(encoding="utf-8")
+        if "SIL OPEN FONT LICENSE Version 1.1" not in license_text:
+            fail(errors, f"{family} license record is missing or invalid")
+        if font_path.name not in css:
+            fail(errors, f"archive stylesheet does not declare {family}")
+    if "InstrumentSans" in css or "font-stretch" in css or '"wdth"' in css:
+        fail(errors, "superseded compressed Instrument Sans typography returned")
+
+    material_total = 0
+    for name in ["grain", "paper", "black-metal"]:
+        path = ROOT / f"assets/materials/{name}.jpg"
+        material_total += path.stat().st_size
+        with Image.open(path) as image:
+            if image.format != "JPEG":
+                fail(errors, f"{path.relative_to(ROOT)}: expected JPEG, found {image.format}")
+            if image.width < 1500 or image.height < 850:
+                fail(errors, f"{path.relative_to(ROOT)}: material resolution is too small: {image.size}")
+        if f"materials/{name}.jpg" not in css:
+            fail(errors, f"archive stylesheet does not use {name}.jpg")
+    if material_total > 350_000:
+        fail(errors, f"material texture payload exceeds 350 KB: {material_total}")
 
     paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
     if not paper_match:
         fail(errors, "archive stylesheet is missing the paper color token")
     else:
         paper = paper_match.group(1)
-        text_colors = set(re.findall(r"--(?:ink|ink-soft|ink-faint|accent-ink):\s*(#[0-9a-fA-F]{6})", css))
+        text_colors = set(re.findall(r"--(?:ink|ink-soft|ink-faint|signal-soft):\s*(#[0-9a-fA-F]{6})", css))
         for color in sorted(text_colors):
             ratio = contrast_ratio(color, paper)
             if ratio < 4.5:
                 fail(errors, f"text color {color} has insufficient contrast on {paper}: {ratio:.2f}:1")
-        accent_colors = set(re.findall(r"--accent:\s*(#[0-9a-fA-F]{6})", css))
+        accent_colors = set(re.findall(r"--signal:\s*(#[0-9a-fA-F]{6})", css))
         for color in sorted(accent_colors):
             ratio = contrast_ratio(color, "#ffffff")
             if ratio < 4.5:

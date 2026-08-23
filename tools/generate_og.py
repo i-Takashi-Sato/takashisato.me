@@ -3,24 +3,26 @@
 
 from __future__ import annotations
 
-import hashlib
-import random
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFont, ImageOps
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "og"
 W, H = 1200, 630
-PAPER = (5, 5, 5)
-INK = (240, 240, 236)
-SOFT = (164, 163, 156)
-LINE = (55, 55, 55)
-SIGNAL = (255, 91, 58)
-SIGNAL_DARK = (166, 59, 40)
+PAPER = (8, 8, 8)
+INK = (242, 240, 233)
+SOFT = (180, 177, 170)
+LINE = (57, 56, 54)
+SIGNAL = (230, 117, 92)
+SIGNAL_DARK = (109, 42, 30)
 
-INSTRUMENT = ROOT / "tools" / "fonts" / "InstrumentSans-Variable.ttf"
+INTER = ROOT / "assets" / "fonts" / "InterVariable.woff2"
+NEWSREADER = ROOT / "assets" / "fonts" / "Newsreader-Variable.woff2"
+GRAIN = ROOT / "assets" / "materials" / "grain.jpg"
+PAPER_TEXTURE = ROOT / "assets" / "materials" / "paper.jpg"
+METAL_TEXTURE = ROOT / "assets" / "materials" / "black-metal.jpg"
 MONO = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
 CARDS = {
@@ -76,9 +78,15 @@ CARDS = {
 }
 
 
-def instrument(size: int, width: int = 100, weight: int = 400) -> ImageFont.FreeTypeFont:
-    face = ImageFont.truetype(str(INSTRUMENT), size=size)
-    face.set_variation_by_axes([width, weight])
+def inter(size: int, weight: int = 400, optical: int = 24) -> ImageFont.FreeTypeFont:
+    face = ImageFont.truetype(str(INTER), size=size)
+    face.set_variation_by_axes([optical, weight])
+    return face
+
+
+def newsreader(size: int, weight: int = 350, optical: int = 72) -> ImageFont.FreeTypeFont:
+    face = ImageFont.truetype(str(NEWSREADER), size=size)
+    face.set_variation_by_axes([weight, optical])
     return face
 
 
@@ -104,15 +112,15 @@ def wrap(draw: ImageDraw.ImageDraw, text: str, face: ImageFont.FreeTypeFont, wid
 
 
 def render(name: str, data: dict) -> Image.Image:
-    image = Image.new("RGB", (W, H), PAPER)
-    draw = ImageDraw.Draw(image)
-    rng = random.Random(int(hashlib.sha256(name.encode()).hexdigest()[:8], 16))
-    accent = data["accent"]
+    source = METAL_TEXTURE if name in {"home", "about"} else PAPER_TEXTURE
+    texture = ImageOps.fit(Image.open(source).convert("RGB"), (W, H), method=Image.Resampling.LANCZOS)
+    texture = ImageEnhance.Contrast(texture).enhance(1.18)
+    image = Image.blend(Image.new("RGB", (W, H), PAPER), texture, .28)
 
-    for _ in range(3400):
-        x, y = rng.randrange(W), rng.randrange(H)
-        value = rng.choice((0, 2, 3, 5))
-        draw.point((x, y), fill=(value, value, value))
+    grain = ImageOps.fit(Image.open(GRAIN).convert("RGB"), (W, H), method=Image.Resampling.LANCZOS)
+    grain = ImageEnhance.Brightness(grain).enhance(.46)
+    image = Image.blend(image, ImageChops.screen(image, grain), .11)
+    accent = data["accent"]
 
     glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     glow_draw = ImageDraw.Draw(glow)
@@ -123,29 +131,29 @@ def render(name: str, data: dict) -> Image.Image:
 
     draw.line((54, 78, 1146, 78), fill=LINE, width=1)
     draw.line((54, 548, 1146, 548), fill=LINE, width=1)
-    draw.text((54, 41), data["label"], font=instrument(15, 88, 620), fill=accent)
+    draw.text((54, 41), data["label"], font=inter(14, 640, 20), fill=accent)
 
-    mark_face = instrument(162 if len(data["mark"]) < 4 else 86, 75, 620)
+    mark_face = newsreader(170 if len(data["mark"]) < 4 else 92, 300, 72)
     mark_box = draw.textbbox((0, 0), data["mark"], font=mark_face)
     mark_width = mark_box[2] - mark_box[0]
     draw.text((1146 - mark_width, 105), data["mark"], font=mark_face, fill=SIGNAL_DARK)
 
     if name == "about":
-        title_size = 108
+        title_size = 114
     elif name.startswith("part"):
         title_size = data.get("title_size", 70)
     else:
         title_size = 88
-    title_face = instrument(title_size, 76, 610)
+    title_face = newsreader(title_size, 340, 72)
     y = 126
     title_width = 840 if name == "home" else (900 if name.startswith("part") else 1010)
-    line_step = round(title_size * .88)
-    title = data["title"].upper() if name == "about" else data["title"]
+    line_step = round(title_size * .82)
+    title = data["title"]
     for line in wrap(draw, title, title_face, title_width):
         draw.text((54, y), line, font=title_face, fill=INK)
         y += line_step
 
-    subtitle_face = instrument(22, 92, 430)
+    subtitle_face = inter(21, 430, 20)
     subtitle_y = max(y + 26, 390)
     for line in wrap(draw, data["subtitle"], subtitle_face, 770)[:3]:
         draw.text((57, subtitle_y), line, font=subtitle_face, fill=SOFT)
@@ -154,7 +162,7 @@ def render(name: str, data: dict) -> Image.Image:
     draw.rectangle((54, 576, 66, 588), fill=accent)
     draw.text((83, 574), data["record"], font=mono(12), fill=SOFT)
     brand = "THE PROPER ENDING INDEX"
-    brand_face = instrument(13, 86, 610)
+    brand_face = inter(12, 630, 18)
     brand_box = draw.textbbox((0, 0), brand, font=brand_face)
     draw.text((1146 - (brand_box[2] - brand_box[0]), 574), brand, font=brand_face, fill=INK)
     return image
