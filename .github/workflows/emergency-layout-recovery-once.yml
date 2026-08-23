@@ -1,0 +1,72 @@
+name: Emergency Layout Recovery Once
+
+on:
+  push:
+    branches:
+      - fix/emergency-layout-recovery-v6104
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Disable membrane and cache-bust recovery runtime
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          # 1) Final CSS layer: suppress retired stage marks only. No membrane/layout mutation.
+          Path('styles/archive-v610.css').write_text(r'''/* Emergency recovery layer — v6.10.4
+   Preserve the archive layout. Suppress only retired Jo/Ha/Kyu artifacts. */
+
+html body[data-tone^="part-"] .paper-hero::after,
+html body[data-tone^="part-"] .site-nav a[href="/papers/"]::after,
+html body[data-page="home"] .sequence-row > div::after,
+html body[data-page="papers"] .sequence-row > div::after,
+html body[data-page="home"] .hero::before,
+html body[data-page="papers"] .page-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+.research-fluid,
+.research-filter-defs,
+.research-membrane {
+  display: none !important;
+}
+''', encoding='utf-8')
+
+          # 2) Liquid runtime becomes an explicit no-op. It must not touch production layout.
+          Path('scripts/research-fluid.js').write_text('(()=>{"use strict";})();\n', encoding='utf-8')
+
+          # 3) Outer runtime still loads the cleanup CSS, but never mounts the liquid script.
+          p = Path('assets/archive-v62.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('/styles/archive-v610.css?v=6.10.3', '/styles/archive-v610.css?v=6.10.4')
+          s = s.replace('/styles/archive-v610.css?v=6.10.2', '/styles/archive-v610.css?v=6.10.4')
+          s = re.sub(r'\n?if\(!d\.querySelector\("script\[data-liquid\]"\)\)\{[^\n]*\}', '', s)
+          p.write_text(s, encoding='utf-8')
+
+          # 4) Cache-bust every generated page and synchronize the verifier.
+          for name in ('tools/build_site.py', 'tools/verify_v62.py'):
+              p = Path(name)
+              s = p.read_text(encoding='utf-8')
+              s = re.sub(r'ASSET_VERSION = "[^"]+"', 'ASSET_VERSION = "6.10.4"', s, count=1)
+              p.write_text(s, encoding='utf-8')
+          PY
+          python tools/build_site.py
+      - name: Remove one-shot workflow
+        run: rm .github/workflows/emergency-layout-recovery-once.yml
+      - name: Commit emergency recovery
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Emergency: disable liquid membrane and restore archive layout"
+          git push origin HEAD:fix/emergency-layout-recovery-v6104
