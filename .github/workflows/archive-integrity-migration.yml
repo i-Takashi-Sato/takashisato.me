@@ -8,10 +8,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: archive-integrity-migration
-  cancel-in-progress: true
-
 jobs:
   migrate-and-verify:
     if: github.actor != 'github-actions[bot]'
