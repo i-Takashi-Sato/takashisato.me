@@ -50,6 +50,4 @@ jobs:
       - name: Check Python and JavaScript syntax
         run: |
           python -m compileall -q tools
-          node --check assets/archive-v62.js
-          node --check scripts/archive-v611.js
-          node --check assets/site-analytics.js
+          node --check assets/site.js
