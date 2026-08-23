@@ -1,0 +1,9 @@
+(()=>{"use strict";
+const d=document;
+function initGateProbe(){const root=d.querySelector("[data-gate-probe]");if(!root)return;const groups=[...root.querySelectorAll("[data-gate]")],route=root.querySelector("[data-route]"),note=root.querySelector("[data-route-note]");
+const read=()=>groups.map(g=>g.querySelector('button[aria-pressed="true"]')?.dataset.state||"UNKNOWN");
+const render=()=>{const states=read();let label="EVIDENCE HOLD",text="UNKNOWN cannot silently become PASS; unresolved input keeps the case out of execution eligibility.";if(states.includes("BLOCK")){label="BLOCK · PRELIMINARY STATUS";text="A Stage-1 BLOCK is not a final denial. It is a typed routing status; signed institutional disposition remains separate."}else if(states.includes("UNKNOWN")){label="EVIDENCE HOLD"}else if(states.includes("REVIEW")){label="AUTHORIZED REVIEW";text="Review is a route, not an execution event. Authority and practical review capacity remain distinct conditions."}else if(states.every(s=>s==="PASS")){label="EXECUTION ELIGIBLE";text="All-PASS creates eligibility only. A separate, versioned execution contract still governs the actual act."}route.textContent=label;note.textContent=text;root.dataset.route=label.toLowerCase().replace(/[^a-z]+/g,"-")};
+root.addEventListener("click",e=>{const b=e.target.closest("button[data-state]");if(!b||!root.contains(b))return;const group=b.closest("[data-gate]");group.querySelectorAll("button[data-state]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()});
+root.querySelector("[data-probe-reset]")?.addEventListener("click",()=>{groups.forEach(g=>g.querySelectorAll("button[data-state]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.state==="UNKNOWN"))));render()});render()}
+function init(){initGateProbe()}
+d.readyState==="loading"?d.addEventListener("DOMContentLoaded",init,{once:true}):init();})();
