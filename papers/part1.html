@@ -1,243 +1,204 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#040505" />
-  <title>Workflow-Centric AI Governance — The Proper Ending Index</title>
-  <meta name="description" content="Part I of Takashi Sato's AI governance archive: workflow-centric AI governance, structured friction, Four-Gate Architecture, and auditable human-AI decision records." />
-  <meta name="author" content="佐藤貴士 / Takashi Sato" />
-  <meta name="citation_title" content="Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems" />
-  <meta name="citation_author" content="Takashi Sato" />
-  <meta name="citation_publication_date" content="2025" />
-  <meta name="citation_doi" content="10.2139/ssrn.5911063" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://takashisato.me/papers/part1.html" />
-  <meta property="og:title" content="Workflow-Centric AI Governance — Takashi Sato" />
-  <meta property="og:description" content="A sociotechnical architecture for accountable human-AI decision systems." />
-  <meta property="og:type" content="article" />
-  <meta property="article:author" content="佐藤貴士 / Takashi Sato" />
-  <meta property="og:url" content="https://takashisato.me/papers/part1.html" />
-  <meta property="og:site_name" content="The Proper Ending Index" />
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+          <meta name="color-scheme" content="light">
+          <meta name="theme-color" content="#f2efe8">
+          <title>Workflow-Centric AI Governance · Part I · Takashi Sato</title>
+          <meta name="description" content="A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.">
+          <meta name="author" content="Takashi Sato">
+          <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <meta property="og:image" content="https://takashisato.me/assets/og/part1.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Workflow-Centric AI Governance — Takashi Sato" />
-  <meta name="twitter:description" content="A sociotechnical architecture for accountable human-AI decision systems." />
-  <meta name="twitter:image" content="https://takashisato.me/assets/og/part1.jpg" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ScholarlyArticle",
-  "@id": "https://takashisato.me/papers/part1.html#article",
-  "headline": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
-  "name": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
-  "description": "A sociotechnical architecture for accountable human-AI decision systems.",
-  "url": "https://takashisato.me/papers/part1.html",
-  "image": "https://takashisato.me/assets/og/part1.jpg",
-  "datePublished": "2025-12-12",
-  "dateModified": "2026-01-13",
-  "inLanguage": "en",
-  "author": {
-    "@id": "https://takashisato.me/about.html#takashi-sato"
-  },
-  "identifier": [
-    {
-      "@type": "PropertyValue",
-      "propertyID": "DOI",
-      "value": "10.2139/ssrn.5911063",
-      "url": "https://doi.org/10.2139/ssrn.5911063"
-    },
-    {
-      "@type": "PropertyValue",
-      "propertyID": "SSRN",
-      "value": "5911063",
-      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063"
-    }
-  ],
-  "sameAs": [
-    "https://doi.org/10.2139/ssrn.5911063",
-    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063"
-  ],
-  "isPartOf": {
-    "@id": "https://takashisato.me/research-index.json#series",
-    "@type": "CreativeWorkSeries",
-    "name": "The Proper Ending Index",
-    "url": "https://takashisato.me/papers/"
-  },
-  "encoding": {
-    "@type": "MediaObject",
-    "@id": "https://takashisato.me/pdf/part1.pdf#preserved-copy",
-    "contentUrl": "https://takashisato.me/pdf/part1.pdf",
-    "encodingFormat": "application/pdf",
-    "contentSize": "461659 bytes",
-    "sha256": "3ffd72736e85fc93e7f4ad7174cb7408a4df426e639c40e59af73682295b442d"
-  },
-  "keywords": [
-    "AI Governance",
-    "Workflow Governance",
-    "Human-AI Decision Systems",
-    "Four-Gate Architecture",
-    "ALTRION"
-  ]
-}
-  </script>
-  <link rel="stylesheet" href="/assets/00-tokens.css" />
-  <link rel="stylesheet" href="/assets/01-reset.css" />
-  <link rel="stylesheet" href="/assets/02-layout.css" />
-  <link rel="stylesheet" href="/assets/03-typography.css" />
-  <link rel="stylesheet" href="/assets/04-components.css" />
-  <link rel="stylesheet" href="/assets/paper-detail.css?v=research-record-p1-2" />
-  <link rel="stylesheet" href="/assets/iphone-landscape-guard.css?v=qa-safe-1" />
-</head>
-<body class="phase-paper phase-part-1" data-page="part1">
-<a class="skip" href="#main">Skip to content</a>
-<div class="pei-shell"><div class="pei-main">
-<header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/papers/">Papers</a><a href="/about.html">About</a></div></header>
+          <link rel="canonical" href="https://takashisato.me/papers/part1.html">
+          <link rel="author" href="/about.html">
+          <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
+          <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
+          <link rel="me" href="https://scholar.google.com/citations?user=tN4zV68AAAAJ">
+          <link rel="manifest" href="/site.webmanifest">
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+          <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+          <link rel="alternate icon" href="/favicon.ico">
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+          <meta property="og:type" content="article">
+          <meta property="og:locale" content="en_US">
+          <meta property="og:site_name" content="The Proper Ending Index">
+          <meta property="og:title" content="Workflow-Centric AI Governance · Part I · Takashi Sato">
+          <meta property="og:description" content="A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.">
+          <meta property="og:url" content="https://takashisato.me/papers/part1.html">
+          <meta property="og:image" content="https://takashisato.me/assets/og/part1.jpg">
+          <meta property="og:image:type" content="image/jpeg">
+          <meta property="og:image:width" content="1200">
+          <meta property="og:image:height" content="630">
+          <meta property="og:image:alt" content="The Proper Ending Index — Workflow-Centric AI Governance · Part I · Takashi Sato">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="Workflow-Centric AI Governance · Part I · Takashi Sato">
+          <meta name="twitter:description" content="A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.">
+          <meta name="twitter:image" content="https://takashisato.me/assets/og/part1.jpg">
+          <meta name="twitter:image:alt" content="The Proper Ending Index — Workflow-Centric AI Governance · Part I · Takashi Sato">
+          <meta name="citation_title" content="Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions">
+<meta name="citation_author" content="Takashi Sato">
+<meta name="citation_publication_date" content="2026/08/23">
+<meta name="citation_doi" content="10.2139/ssrn.5911063">
+<meta name="citation_language" content="en">
+<link rel="alternate" type="application/pdf" title="Preserved PDF · v6.2" href="https://takashisato.me/pdf/part1.pdf">
+<meta property="article:published_time" content="2026-01-09">
+<meta property="article:modified_time" content="2026-08-23">
+<meta property="article:author" content="https://takashisato.me/about.html">
+          <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://takashisato.me/about.html#takashi-sato","name":"Takashi Sato","givenName":"Takashi","familyName":"Sato","alternateName":["佐藤貴士","佐藤 貴士","Sato Takashi"],"jobTitle":"Independent Researcher","url":"https://takashisato.me/about.html","workLocation":{"@type":"Place","name":"Sapporo, Hokkaido, Japan","address":{"@type":"PostalAddress","addressLocality":"Sapporo","addressRegion":"Hokkaido","addressCountry":"JP"}},"identifier":[{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0003-1584-6965"},{"@type":"PropertyValue","propertyID":"SSRN Author ID","value":"9540672"}],"sameAs":["https://orcid.org/0009-0003-1584-6965","https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672","https://scholar.google.com/citations?user=tN4zV68AAAAJ"],"knowsAbout":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"ScholarlyArticle","@id":"https://takashisato.me/papers/part1.html#article","headline":"Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions","name":"Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions","description":"A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.","abstract":"A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.","author":{"@id":"https://takashisato.me/about.html#takashi-sato"},"datePublished":"2026-01-09","dateModified":"2026-08-23","version":"6.2","inLanguage":"en-US","isAccessibleForFree":true,"pageStart":1,"pageEnd":18,"pagination":"1-18","isPartOf":{"@id":"https://takashisato.me/papers/#trilogy"},"url":"https://takashisato.me/papers/part1.html","mainEntityOfPage":"https://takashisato.me/papers/part1.html","image":"https://takashisato.me/assets/og/part1.jpg","sameAs":["https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063","https://doi.org/10.2139/ssrn.5911063"],"identifier":[{"@type":"PropertyValue","propertyID":"DOI","value":"10.2139/ssrn.5911063"},{"@type":"PropertyValue","propertyID":"SSRN","value":"5911063"}],"encoding":{"@type":"MediaObject","contentUrl":"https://takashisato.me/pdf/part1.pdf","encodingFormat":"application/pdf","contentSize":"514075 bytes","sha256":"edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8","uploadDate":"2026-08-23"},"keywords":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Index","item":"https://takashisato.me/"},{"@type":"ListItem","position":2,"name":"Papers","item":"https://takashisato.me/papers/"},{"@type":"ListItem","position":3,"name":"Part I","item":"https://takashisato.me/papers/part1.html"}]}]}</script>
+          <link rel="stylesheet" href="/assets/archive-v62.css?v=6.2.0">
+          <script>document.documentElement.classList.add('js');window.__archiveRevealFallback=window.setTimeout(function(){document.documentElement.classList.remove('js')},3000)</script>
+        </head>
+<body data-tone="part-1" data-page="part1">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="The Proper Ending Index — home">
+      <img class="brand-mark" src="/favicon.svg" width="29" height="29" alt="">
+      <span>The Proper Ending Index</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="/">Index</a>
+      <a href="/papers/" aria-current="page">Papers</a>
+      <a href="/about.html">Author</a>
+    </nav>
+  </div>
+  <div class="scroll-meter" aria-hidden="true"></div>
+</header>
 <main id="main">
-  <section class="paper-hero paper-stage" aria-labelledby="paper-title">
-    <div class="paper-hero__copy">
-      <p class="paper-kicker">Diagnostic Record / Part I / Architecture</p>
-      <h1 id="paper-title" class="paper-title">Workflow-Centric AI Governance</h1>
-      <p class="paper-lede">Governance begins where optimization is forced to leave a trace.</p>
-      <nav class="paper-actions" aria-label="Primary paper access">
-        <a class="paper-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">Read on SSRN</a>
-        <a class="paper-link" href="/pdf/part1.pdf" target="_blank" rel="noopener">Preserved PDF</a>
-        <a class="paper-link" href="/demo/altrion-part1.html" target="_blank" rel="noopener">Open Visualizer</a>
-      </nav>
-    </div>
-    <aside class="paper-ledger" aria-label="Part I research record">
-      <div class="paper-ledger__head"><span>Research Record 001</span><span>Status / Open</span></div>
-      <dl>
-        <div><dt>Object</dt><dd>Human judgment in AI workflow</dd></div>
-        <div><dt>Phase</dt><dd>Architecture before optimization</dd></div>
-        <div><dt>Method</dt><dd>Gate / friction / trace</dd></div>
-        <div><dt>SSRN</dt><dd>5911063</dd></div>
-        <div><dt>DOI</dt><dd><a href="https://doi.org/10.2139/ssrn.5911063" target="_blank" rel="noopener noreferrer">10.2139/ssrn.5911063 ↗</a></dd></div>
-        <div><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer">0009-0003-1584-6965 ↗</a></dd></div>
-      </dl>
-      <p class="paper-ledger__statement">Part I defines the minimum architecture required before an AI-enabled decision process can claim accountable oversight.</p>
-    </aside>
-  </section>
+          <header class="paper-hero shell" data-roman="I">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Index</a></li><li><a href="/papers/">Papers</a></li><li><span aria-current="page">Part I</span></li></ol></nav>
+            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part I</p>
+            <h1 data-reveal>Workflow-Centric AI Governance</h1>
+            <p class="paper-subtitle" data-reveal>A Typed Gate Contract for Accountable Human-AI Decisions</p>
+            <div class="paper-meta" data-reveal>
+              <span>Takashi Sato</span>
+              <span>Working paper · v6.2</span>
+              <span>23 August 2026</span>
+              <span>18 pages</span>
+              <span>SSRN 5911063</span>
+            </div>
+            <div class="paper-actions" data-reveal>
+              <a class="button primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
+              <a class="button" href="/pdf/part1.pdf">Preserved PDF · v6.2</a>
+              <a class="button" href="https://doi.org/10.2139/ssrn.5911063" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
+            </div>
+          </header>
 
-  <section class="paper-section paper-stage" aria-labelledby="part1-problem">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Problem field</p>
+          <section class="section">
+            <div class="shell paper-layout">
+              <aside class="toc" aria-label="On this page">
+                <p class="label">On this page</p>
+                <ol><li><a href="#overview">Question</a></li><li><a href="#contract">Contract</a></li><li><a href="#verification">Verification</a></li><li><a href="#boundary">Boundary</a></li></ol>
+              </aside>
+              <article class="content" data-reveal>
+                <section id="overview">
+  <p class="eyebrow">Research question</p>
+  <h2>Can oversight be specified as a case contract?</h2>
+  <p class="lead">A person may be formally “in the loop” while lacking admissible evidence, time, authority, review capacity, or a usable fallback. Part I makes those conditions explicit and typed.</p>
+  <p>The paper shifts the unit of governance from the model alone to the institutional workflow that defines evidence, routes exceptions, allocates authority, and turns a recommendation into action. Its contribution is deliberately narrow: a falsifiable state-and-authority grammar for case routing.</p>
+  <div class="fact-grid">
+    <article class="fact"><code>DOMAIN CONTRACT</code><h3>Define before deployment</h3><p>Decision scope, evidence, authority, execution, capacity, fallback, record, and remedy are versioned objects—not assumptions left to an interface.</p></article>
+    <article class="fact"><code>TYPE DISCIPLINE</code><h3>Keep unlike conditions unlike</h3><p>Missing evidence, unavailable capacity, nominal authority, and fallback readiness do not silently collapse into approval or denial.</p></article>
+  </div>
+</section>
+
+<section id="contract">
+  <p class="eyebrow">The contract</p>
+  <h2>Three diagnostics. Two stages. No silent action.</h2>
+  <div class="model" aria-label="Two-stage typed gate contract">
+    <div class="model-head"><h3>Stage 1 · total routing semantics</h3><span>routing status ≠ execution event</span></div>
+    <div class="gate-flow">
+      <div class="gate"><span class="meta-label">Gate 1</span><b>Hard constraints &amp; admissibility</b><small>Scope, prohibitions, and minimum evidentiary preconditions.</small><div class="state-line"><i>PASS</i><i>REVIEW</i><i>BLOCK</i><i>UNKNOWN</i></div></div>
+      <div class="gate"><span class="meta-label">Gate 2</span><b>Value, impact &amp; conflict</b><small>Proportionality, material tension, and rights-sensitive tradeoffs.</small><div class="state-line"><i>PASS</i><i>REVIEW</i><i>BLOCK</i><i>UNKNOWN</i></div></div>
+      <div class="gate"><span class="meta-label">Gate 3</span><b>Temporal validity &amp; reliability</b><small>Evidence, policy, system version, and assumptions remain current.</small><div class="state-line"><i>PASS</i><i>REVIEW</i><i>BLOCK</i><i>UNKNOWN</i></div></div>
+      <div class="route-box"><span class="meta-label">Route</span><b>Typed status only</b><small>Execution eligible · Evidence hold · Authorized review · Fallback · Unresolved</small></div>
+    </div>
+    <div class="model-head model-head-spaced"><h3>Stage 2 · signed institutional disposition</h3><span>authorized review only</span></div>
+    <div class="disposition-grid" aria-label="Signed dispositions"><span>RELEASE</span><span>MODIFIED ACTION</span><span>FINAL STOP</span><span>AUTHORIZED DEFER</span><span>FALLBACK</span></div>
+  </div>
+  <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>
+  <p>Review authority and review capacity are distinct inputs. Fallback authorization and operational readiness are distinct inputs. If either member of a pair is absent, that route is unavailable.</p>
+</section>
+
+<section id="verification">
+  <p class="eyebrow">Finite-domain verification</p>
+  <h2>Complete over the declared truth tables.</h2>
+  <div class="verification" aria-label="Verification results">
+    <div><strong>1,024</strong><span>Stage-1 configurations enumerated</span></div>
+    <div><strong>1,248</strong><span>applicable Stage-2 configurations enumerated</span></div>
+    <div><strong>9 / 9</strong><span>isolated guard mutations produced a counterexample</span></div>
+  </div>
+  <p class="caveat"><strong>Result:</strong> the authored functions produced zero invariant violations. “Exhaustive” means complete over the declared finite abstraction; it is not proof that the invariants are complete, comparison with external ground truth, or evidence of legal or field effectiveness.</p>
+  <div class="fact-grid">
+    <article class="fact"><code>CROSS-STAGE TEST</code><h3>Defer is not evidence hold</h3><p>A dedicated mutation catches any collapse of signed DEFER back into the Stage-1 EVIDENCE HOLD label.</p></article>
+    <article class="fact"><code>PUBLIC RECORDS</code><h3>Traceability, not validation</h3><p>Fifteen author-coded units from three official investigations trace evidence, reasons, review access, authority, proportionality, feedback, and remedy.</p></article>
+  </div>
+</section>
+
+<section id="boundary">
+  <p class="eyebrow">Claim boundary</p>
+  <h2>What Part I does not establish.</h2>
+  <ul>
+    <li>That three gates are optimal or the risk decomposition is exhaustive.</li>
+    <li>That the routing priority is legally sufficient in any jurisdiction.</li>
+    <li>That signatures, identity proofing, cryptography, coercion, or legal authority are solved by a Boolean input.</li>
+    <li>That the architecture improves outcomes, can be resourced in practice, or is suitable where lawful fallback and effective authority cannot be established.</li>
+  </ul>
+</section>
+                <section id="citation">
+                  <p class="eyebrow">Citation &amp; preservation</p>
+                  <h2>Cite the versioned record.</h2>
+                  <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
+                  <div class="citation">Sato, Takashi. “Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions.” Working Paper, version 6.2, 23 August 2026. https://doi.org/10.2139/ssrn.5911063.</div>
+                  <dl class="record-list">
+                    <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/10.2139/ssrn.5911063" target="_blank" rel="noopener noreferrer">10.2139/ssrn.5911063</a></dd></div>
+                    <div class="record-row"><dt>SSRN</dt><dd><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">Abstract ID 5911063</a></dd></div>
+                    <div class="record-row"><dt>Preserved file</dt><dd><a href="/pdf/part1.pdf">/pdf/part1.pdf</a> · 514,075 bytes</dd></div>
+                    <div class="record-row"><dt>SHA-256</dt><dd><code>edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8</code></dd></div>
+                  </dl>
+                </section>
+              </article>
+            </div>
+          </section>
+          <section class="section compact"><div class="shell"><nav class="series-nav" aria-label="Paper trilogy"><a href="/papers/part1.html" aria-current="page"><small>PART I · ROUTE THE CASE</small><strong>Workflow-Centric AI Governance</strong></a><a href="/papers/part2.html"><small>PART II · DIAGNOSE THE INSTITUTION</small><strong>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions</strong></a><a href="/papers/part3.html"><small>PART III · END AND RETURN AUTHORITY</small><strong>From Governance Drift to Accountable Exit</strong></a></nav></div></section>
+        </main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
       <div>
-        <h2 id="part1-problem" class="paper-heading">The model is not the whole governance problem.</h2>
-        <p class="paper-copy">The workflow that receives the model output determines whether oversight remains a human act or becomes a ritual of documentation.</p>
+        <p class="eyebrow">The Proper Ending Index</p>
+        <p class="footer-thesis">An independent research archive on decision routing, governing capacity, and accountable exit in AI-assisted institutions.</p>
       </div>
-    </div>
-    <div class="argument-grid">
-      <div class="argument-body">
-        <p>AI integration into high-stakes domains can improve formal performance while weakening the institution’s ability to notice when judgment has already been displaced.</p>
-        <p>Part I treats governance as an auditable decision pipeline. The point is not to decorate AI adoption with policy language, but to design friction, delay, contestability, and final human authority into the operational route.</p>
-        <p>ALTRION is introduced here as an architectural baseline: a way to make oversight inspectable before the later papers examine how that baseline decays.</p>
-      </div>
-      <div class="argument-notes" role="group" aria-label="Part I architecture notes">
-        <div><strong>Risk</strong><span>Optimization can quietly replace deliberation while the organization still appears compliant.</span></div>
-        <div><strong>Response</strong><span>Convert oversight into a workflow object with checkpoints, warnings, rationale, and a final auditable decision record.</span></div>
-        <div><strong>Boundary</strong><span>The architecture is not a cure. It is the measuring surface from which later failure becomes visible.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="epigraph-panel" aria-label="Part I epigraph">
-    <figure>
-      <blockquote lang="la">Nullius in verba.</blockquote>
-      <figcaption>Royal Society motto, derived from Horace, <cite>Epistles</cite> I.1.14. The line is used here as an instruction for AI governance: do not accept procedural authority merely because it is documented.</figcaption>
-    </figure>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="gate-title">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Four-Gate Architecture</p>
-      <div>
-        <h2 id="gate-title" class="paper-heading">Oversight survives only when the route is designed.</h2>
-        <p class="paper-copy">The four gates are not decorative checkpoints. Each gate names the condition that must remain inspectable before, during, and after the decision process.</p>
-      </div>
-    </div>
-    <div class="gate-matrix" role="group" aria-label="Four-Gate Architecture matrix">
-      <article class="gate-row">
-        <span class="gate-row__id">Gate 01</span>
-        <h3>Baseline constraints.</h3>
-        <p>Define the minimum governance conditions before optimization begins.</p>
-        <span class="gate-row__state">Entry condition</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">Gate 02</span>
-        <h3>Optimization balance.</h3>
-        <p>Prevent efficiency metrics from silently displacing human contestability.</p>
-        <span class="gate-row__state">Balance check</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">Gate 03</span>
-        <h3>Temporal context.</h3>
-        <p>Force the workflow to treat time, drift, and case history as governance facts.</p>
-        <span class="gate-row__state">Freshness check</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">Gate 04</span>
-        <h3>Human arbitration.</h3>
-        <p>Keep the final interpretive act visible, contestable, and recorded.</p>
-        <span class="gate-row__state">Authority return</span>
-      </article>
-    </div>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="adr-title">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Evidence plate</p>
-      <div>
-        <h2 id="adr-title" class="paper-heading">The trace matters after the workflow moves on.</h2>
-        <p class="paper-copy">The Auditable Decision Record preserves warnings, rationale, and the final decision as an inspectable object rather than a decorative log.</p>
-      </div>
-    </div>
-    <div class="record-grid" role="group" aria-label="Auditable Decision Record specimen">
-      <div class="record-copy">
+      <div class="footer-links">
         <div>
-          <span class="record-label">ALTRION-ADR-001</span>
-          <h3>Warnings plus rationale plus final authority.</h3>
+          <p class="label">Research</p>
+          <a href="/papers/">Paper trilogy</a>
+          <a href="/research-index.json">Machine-readable index</a>
+          <a href="/llms.txt">LLM orientation</a>
         </div>
-        <p>The record is useful only if it survives the moment of decision. It must remain readable after the organization has moved on.</p>
-        <div class="record-facts">
-          <span>Source <b>Part I / Section 8</b></span>
-          <span>Function <b>Process-level audit trace</b></span>
-          <span>Failure mode <b>Decorative compliance</b></span>
+        <div>
+          <p class="label">Identity</p>
+          <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID ↗</a>
+          <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">SSRN ↗</a>
+          <a href="https://scholar.google.com/citations?user=tN4zV68AAAAJ" target="_blank" rel="me noopener noreferrer">Google Scholar ↗</a>
+        </div>
+        <div>
+          <p class="label">Site</p>
+          <a href="/about.html">Author record</a>
+          <a href="/colophon.html">Colophon</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/security.html">Security</a>
         </div>
       </div>
-      <pre class="record-code"><code>{
-  <span class="key">"timestamp"</span>: "14:00",
-  <span class="key">"gates_passed"</span>: ["G1"],
-  <span class="key">"warnings_G2"</span>: ["Metric_Imbalance_High"],
-  <span class="key">"warnings_G3"</span>: ["Freshness_Threshold_Breach"],
-  <span class="key">"human_rationale"</span>: "Applicant submitted updated documentation.",
-  <span class="key">"final_decision"</span>: "Override_Justified",
-  <span class="key">"auditable"</span>: true
-}</code></pre>
     </div>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="continue-title">
-    <div class="continue-panel">
-      <div>
-        <p class="paper-section__kicker">Next condition</p>
-        <h2 id="continue-title">Architecture complete. Decay begins.</h2>
-        <p>Part II asks what happens when a structurally sound governance design is absorbed by organizational entropy and cognitive economy.</p>
-      </div>
-      <nav class="continue-routes" aria-label="Continue from Part I">
-        <a href="/papers/part2.html"><span>Next paper</span><strong>Part II</strong><em>Forecasting Failure.</em></a>
-        <a href="/papers/"><span>Catalogue</span><strong>Papers</strong><em>Return to the sequence.</em></a>
-        <a href="/demo/altrion-part1.html" target="_blank" rel="noopener"><span>Instrument</span><strong>Visualizer</strong><em>Open the Part I visual system.</em></a>
-      </nav>
+    <div class="footer-bottom">
+      <span>© 2026 Takashi Sato</span>
+      <span>Independent research · Sapporo, Japan</span>
     </div>
-  </section>
-</main>
-<footer class="paper-footer"><div>© 2025 Takashi Sato / Part I</div><nav aria-label="Part I footer navigation"><a href="/papers/">Papers</a> / <a href="/papers/part2.html">Part II</a></nav></footer>
-</div></div>
+  </div>
+</footer>
+<script src="/assets/archive-v62.js?v=6.2.0" defer></script>
 <script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
 </body>
 </html>

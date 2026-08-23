@@ -1,253 +1,222 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#040505" />
-  <title>Detecting Silent Governance Failure — The Proper Ending Index</title>
-  <meta name="description" content="Part III of Takashi Sato's AI governance archive: silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending." />
-  <meta name="author" content="佐藤貴士 / Takashi Sato" />
-  <meta name="citation_title" content="Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers" />
-  <meta name="citation_author" content="Takashi Sato" />
-  <meta name="citation_publication_date" content="2026" />
-  <meta name="citation_doi" content="10.2139/ssrn.6066430" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://takashisato.me/papers/part3.html" />
-  <meta property="og:title" content="Detecting Silent Governance Failure — Takashi Sato" />
-  <meta property="og:description" content="Silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending." />
-  <meta property="og:type" content="article" />
-  <meta property="article:author" content="佐藤貴士 / Takashi Sato" />
-  <meta property="og:url" content="https://takashisato.me/papers/part3.html" />
-  <meta property="og:site_name" content="The Proper Ending Index" />
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+          <meta name="color-scheme" content="light">
+          <meta name="theme-color" content="#f2efe8">
+          <title>From Governance Drift to Accountable Exit · Part III · Takashi Sato</title>
+          <meta name="description" content="A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.">
+          <meta name="author" content="Takashi Sato">
+          <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <meta property="og:image" content="https://takashisato.me/assets/og/part3.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Detecting Silent Governance Failure — Takashi Sato" />
-  <meta name="twitter:description" content="Silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending." />
-  <meta name="twitter:image" content="https://takashisato.me/assets/og/part3.jpg" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ScholarlyArticle",
-  "@id": "https://takashisato.me/papers/part3.html#article",
-  "headline": "Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers",
-  "name": "Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers",
-  "description": "Silent governance failure, governance drift indicators, resolution collapse, circuit breakers, and proper ending.",
-  "url": "https://takashisato.me/papers/part3.html",
-  "image": "https://takashisato.me/assets/og/part3.jpg",
-  "datePublished": "2026",
-  "inLanguage": "en",
-  "author": {
-    "@id": "https://takashisato.me/about.html#takashi-sato"
-  },
-  "identifier": [
-    {
-      "@type": "PropertyValue",
-      "propertyID": "DOI",
-      "value": "10.2139/ssrn.6066430",
-      "url": "https://doi.org/10.2139/ssrn.6066430"
-    },
-    {
-      "@type": "PropertyValue",
-      "propertyID": "SSRN",
-      "value": "6066430",
-      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430"
-    }
-  ],
-  "sameAs": [
-    "https://doi.org/10.2139/ssrn.6066430",
-    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430"
-  ],
-  "isPartOf": {
-    "@id": "https://takashisato.me/research-index.json#series",
-    "@type": "CreativeWorkSeries",
-    "name": "The Proper Ending Index",
-    "url": "https://takashisato.me/papers/"
-  },
-  "encoding": {
-    "@type": "MediaObject",
-    "@id": "https://takashisato.me/pdf/part3.pdf#preserved-copy",
-    "contentUrl": "https://takashisato.me/pdf/part3.pdf",
-    "encodingFormat": "application/pdf",
-    "contentSize": "336367 bytes",
-    "sha256": "7cd0b6cbe64eb2c72ad5ddb731d4d598adb92592d7580f3572d1cb9ab0d52d04"
-  },
-  "keywords": [
-    "AI Governance",
-    "Silent Governance Failure",
-    "Governance Drift Indicators",
-    "Resolution Collapse",
-    "Circuit Breakers",
-    "Proper Ending"
-  ]
-}
-  </script>
-  <link rel="stylesheet" href="/assets/00-tokens.css" />
-  <link rel="stylesheet" href="/assets/01-reset.css" />
-  <link rel="stylesheet" href="/assets/02-layout.css" />
-  <link rel="stylesheet" href="/assets/03-typography.css" />
-  <link rel="stylesheet" href="/assets/04-components.css" />
-  <link rel="stylesheet" href="/assets/paper-detail.css?v=research-record-p3-3" />
-  <link rel="stylesheet" href="/assets/part3-ending-epigraph.css?v=phase-part3-3" />
-  <link rel="stylesheet" href="/assets/iphone-landscape-guard.css?v=qa-safe-1" />
-</head>
-<body class="phase-paper phase-part-3" data-page="part3">
-<a class="skip" href="#main">Skip to content</a>
-<div class="pei-shell"><div class="pei-main">
-<header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/papers/">Papers</a><a href="/about.html">About</a></div></header>
+          <link rel="canonical" href="https://takashisato.me/papers/part3.html">
+          <link rel="author" href="/about.html">
+          <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
+          <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
+          <link rel="me" href="https://scholar.google.com/citations?user=tN4zV68AAAAJ">
+          <link rel="manifest" href="/site.webmanifest">
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+          <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+          <link rel="alternate icon" href="/favicon.ico">
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+          <meta property="og:type" content="article">
+          <meta property="og:locale" content="en_US">
+          <meta property="og:site_name" content="The Proper Ending Index">
+          <meta property="og:title" content="From Governance Drift to Accountable Exit · Part III · Takashi Sato">
+          <meta property="og:description" content="A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.">
+          <meta property="og:url" content="https://takashisato.me/papers/part3.html">
+          <meta property="og:image" content="https://takashisato.me/assets/og/part3.jpg">
+          <meta property="og:image:type" content="image/jpeg">
+          <meta property="og:image:width" content="1200">
+          <meta property="og:image:height" content="630">
+          <meta property="og:image:alt" content="The Proper Ending Index — From Governance Drift to Accountable Exit · Part III · Takashi Sato">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="From Governance Drift to Accountable Exit · Part III · Takashi Sato">
+          <meta name="twitter:description" content="A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.">
+          <meta name="twitter:image" content="https://takashisato.me/assets/og/part3.jpg">
+          <meta name="twitter:image:alt" content="The Proper Ending Index — From Governance Drift to Accountable Exit · Part III · Takashi Sato">
+          <meta name="citation_title" content="From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions">
+<meta name="citation_author" content="Takashi Sato">
+<meta name="citation_publication_date" content="2026/08/23">
+<meta name="citation_doi" content="10.2139/ssrn.6066430">
+<meta name="citation_language" content="en">
+<link rel="alternate" type="application/pdf" title="Preserved PDF · v6.2" href="https://takashisato.me/pdf/part3.pdf">
+<meta property="article:published_time" content="2026-02-10">
+<meta property="article:modified_time" content="2026-08-23">
+<meta property="article:author" content="https://takashisato.me/about.html">
+          <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://takashisato.me/about.html#takashi-sato","name":"Takashi Sato","givenName":"Takashi","familyName":"Sato","alternateName":["佐藤貴士","佐藤 貴士","Sato Takashi"],"jobTitle":"Independent Researcher","url":"https://takashisato.me/about.html","workLocation":{"@type":"Place","name":"Sapporo, Hokkaido, Japan","address":{"@type":"PostalAddress","addressLocality":"Sapporo","addressRegion":"Hokkaido","addressCountry":"JP"}},"identifier":[{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0003-1584-6965"},{"@type":"PropertyValue","propertyID":"SSRN Author ID","value":"9540672"}],"sameAs":["https://orcid.org/0009-0003-1584-6965","https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672","https://scholar.google.com/citations?user=tN4zV68AAAAJ"],"knowsAbout":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"ScholarlyArticle","@id":"https://takashisato.me/papers/part3.html#article","headline":"From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions","name":"From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions","description":"A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.","abstract":"A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.","author":{"@id":"https://takashisato.me/about.html#takashi-sato"},"datePublished":"2026-02-10","dateModified":"2026-08-23","version":"6.2","inLanguage":"en-US","isAccessibleForFree":true,"pageStart":1,"pageEnd":39,"pagination":"1-39","isPartOf":{"@id":"https://takashisato.me/papers/#trilogy"},"url":"https://takashisato.me/papers/part3.html","mainEntityOfPage":"https://takashisato.me/papers/part3.html","image":"https://takashisato.me/assets/og/part3.jpg","sameAs":["https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430","https://doi.org/10.2139/ssrn.6066430"],"identifier":[{"@type":"PropertyValue","propertyID":"DOI","value":"10.2139/ssrn.6066430"},{"@type":"PropertyValue","propertyID":"SSRN","value":"6066430"}],"encoding":{"@type":"MediaObject","contentUrl":"https://takashisato.me/pdf/part3.pdf","encodingFormat":"application/pdf","contentSize":"1032918 bytes","sha256":"7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72","uploadDate":"2026-08-23"},"keywords":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Index","item":"https://takashisato.me/"},{"@type":"ListItem","position":2,"name":"Papers","item":"https://takashisato.me/papers/"},{"@type":"ListItem","position":3,"name":"Part III","item":"https://takashisato.me/papers/part3.html"}]}]}</script>
+          <link rel="stylesheet" href="/assets/archive-v62.css?v=6.2.0">
+          <script>document.documentElement.classList.add('js');window.__archiveRevealFallback=window.setTimeout(function(){document.documentElement.classList.remove('js')},3000)</script>
+        </head>
+<body data-tone="part-3" data-page="part3">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="The Proper Ending Index — home">
+      <img class="brand-mark" src="/favicon.svg" width="29" height="29" alt="">
+      <span>The Proper Ending Index</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="/">Index</a>
+      <a href="/papers/" aria-current="page">Papers</a>
+      <a href="/about.html">Author</a>
+    </nav>
+  </div>
+  <div class="scroll-meter" aria-hidden="true"></div>
+</header>
 <main id="main">
-  <section class="paper-hero paper-stage" aria-labelledby="paper-title">
-    <div class="paper-hero__copy">
-      <p class="paper-kicker">Diagnostic Record / Part III / Ending</p>
-      <h1 id="paper-title" class="paper-title">Detecting Silent Governance Failure</h1>
-      <p class="paper-lede">A system that cannot stop cannot govern.</p>
-      <nav class="paper-actions" aria-label="Primary paper access">
-        <a class="paper-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">Read on SSRN</a>
-        <a class="paper-link" href="/pdf/part3.pdf" target="_blank" rel="noopener">Preserved PDF</a>
-      </nav>
-    </div>
-    <aside class="paper-ledger" aria-label="Part III research record">
-      <div class="paper-ledger__head"><span>Research Record 003</span><span>Status / Ending</span></div>
-      <dl>
-        <div><dt>Object</dt><dd>Governance after silence</dd></div>
-        <div><dt>Phase</dt><dd>Detection / circuit breaker</dd></div>
-        <div><dt>Method</dt><dd>Measure / preserve / stop</dd></div>
-        <div><dt>SSRN</dt><dd>6066430</dd></div>
-        <div><dt>DOI</dt><dd><a href="https://doi.org/10.2139/ssrn.6066430" target="_blank" rel="noopener noreferrer">10.2139/ssrn.6066430 ↗</a></dd></div>
-        <div><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer">0009-0003-1584-6965 ↗</a></dd></div>
-      </dl>
-      <p class="paper-ledger__statement">Part III turns the archive into a stopping instrument: not a warning display, but a decision surface for ending failed oversight correctly.</p>
-    </aside>
-  </section>
+          <header class="paper-hero shell" data-roman="III">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Index</a></li><li><a href="/papers/">Papers</a></li><li><span aria-current="page">Part III</span></li></ol></nav>
+            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part III</p>
+            <h1 data-reveal>From Governance Drift to Accountable Exit</h1>
+            <p class="paper-subtitle" data-reveal>Proper Ending and Authority Return in AI-Assisted Institutions</p>
+            <div class="paper-meta" data-reveal>
+              <span>Takashi Sato</span>
+              <span>Working paper · v6.2</span>
+              <span>23 August 2026</span>
+              <span>39 pages</span>
+              <span>SSRN 6066430</span>
+            </div>
+            <div class="paper-actions" data-reveal>
+              <a class="button primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
+              <a class="button" href="/pdf/part3.pdf">Preserved PDF · v6.2</a>
+              <a class="button" href="https://doi.org/10.2139/ssrn.6066430" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
+            </div>
+          </header>
 
-  <section class="epigraph-panel" aria-label="Part III epigraph">
-    <figure>
-      <blockquote>The cruellest lies are often told in silence.</blockquote>
-      <figcaption>Robert Louis Stevenson, <cite>Virginibus Puerisque</cite>, “Truth of Intercourse”. Used here as the ethical premise for measuring silent failure.</figcaption>
-    </figure>
-  </section>
+          <section class="section">
+            <div class="shell paper-layout">
+              <aside class="toc" aria-label="On this page">
+                <p class="label">On this page</p>
+                <ol><li><a href="#overview">Question</a></li><li><a href="#proper-ending">Proper Ending</a></li><li><a href="#authority-return">Authority Return</a></li><li><a href="#verification">Verification</a></li><li><a href="#measurement">Measurement</a></li><li><a href="#boundary">Boundary</a></li></ol>
+              </aside>
+              <article class="content" data-reveal>
+                <section id="overview">
+  <p class="eyebrow">Research question</p>
+  <h2>How should a failing workflow end?</h2>
+  <p class="lead">Detection is not governance. An accountable exit is incomplete if service collapses, evidence disappears, affected people lose remedy, or unresolved decisions have no accountable owner.</p>
+  <p>Part III connects investigation, a reversible Circuit Breaker, Resolution Collapse, Proper Ending, and Authority Return. Its stronger contribution is institutional structure: containment and retirement are authorized acts, indicators do not make those decisions, and closure cannot erase unresolved obligations.</p>
+  <div class="fact-grid">
+    <article class="fact"><code>CIRCUIT BREAKER</code><h3>Reversible containment</h3><p>A bounded response for a workflow that may be corrected, narrowed, replaced, or otherwise recovered under an independent authorization record.</p></article>
+    <article class="fact"><code>PROPER ENDING</code><h3>Accountable retirement</h3><p>A dependency-constrained transition that preserves continuity, evidence, notice, remedy, post-exit responsibility, assurance, and closure.</p></article>
+  </div>
+</section>
 
-  <section class="paper-section paper-stage" aria-labelledby="part3-problem">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Problem field</p>
+<section id="proper-ending">
+  <p class="eyebrow">Proper Ending</p>
+  <h2>Nine evidence-producing functions—not a shutdown button.</h2>
+  <div class="model">
+    <div class="model-head"><h3>Dependency-constrained institutional transition</h3><span>parallel work where prerequisites permit</span></div>
+    <ol class="protocol">
+      <li><b>Authorize</b><span>Record the lawful decision maker, scope, effective time, and review path.</span></li>
+      <li><b>Contain</b><span>Use tested fallback or a separately authorized emergency safe-stop.</span></li>
+      <li><b>Preserve</b><span>Freeze versions, logs, decisions, notices, and investigative evidence lawfully.</span></li>
+      <li><b>Notify</b><span>Give accurate, accessible notice appropriate to rights and risks.</span></li>
+      <li><b>Remedy</b><span>Identify affected decisions, open review and relief, correct records, and prioritize severe cases.</span></li>
+      <li><b>Transfer</b><span>Assign the continuing function to an accepting successor—or residual duties to a named custodian.</span></li>
+      <li><b>Decommission</b><span>Revoke integrations and credentials, dispose safely, and verify shadow use has ceased.</span></li>
+      <li><b>Assure</b><span>Independently confirm continuity, remedy progress, security, and absence of unauthorized restart.</span></li>
+      <li><b>Learn &amp; close</b><span>Publish a proportionate account, assign follow-up owners, and record closure after the assurance cutoff.</span></li>
+    </ol>
+    <p class="protocol-note">Containment history enables preservation, notice, and remedy in parallel. Preservation and branch-specific responsibility must converge before decommissioning; assurance precedes final closure. No affected case or remedy obligation may be left without an accountable owner.</p>
+  </div>
+  <p>Urgent protective remedy may begin before individual notice where lawful and necessary, but the exception and later notice must be recorded. Transfer may accept incomplete remedy obligations; it must not falsely certify that every remedy is complete.</p>
+</section>
+
+<section id="authority-return">
+  <p class="eyebrow">Authority Return</p>
+  <h2>Ending software does not restore the capacity it displaced.</h2>
+  <p class="lead">Authority Return identifies power embedded in data definitions, rankings, defaults, access controls, and queue architecture, then reconstitutes or reassigns the practical capacity to decide, explain, correct, and resource the function.</p>
+  <div class="fact-grid">
+    <article class="fact"><code>CONTINUING FUNCTION</code><h3>Accepting successor</h3><p>The successor must be able to exercise judgment, operate without a defeating undisclosed dependency, and accept records, resources, queues, cases, and remedy obligations.</p></article>
+    <article class="fact"><code>ABOLISHED FUNCTION</code><h3>Residual custodian</h3><p>A named custodian or remedy authority accepts records, unresolved cases, appeals, compensation pathways, incomplete remedies, and residual liabilities.</p></article>
+    <article class="fact"><code>CAPACITY</code><h3>People, budget, tools</h3><p>Formal title is insufficient. Competence, protected time, staffing, budget, interpretive knowledge, and operational access must move.</p></article>
+    <article class="fact"><code>STANDING</code><h3>Affected-party challenge</h3><p>The destination and terms of return remain normative and legal questions subject to appropriate participation, review, and appeal.</p></article>
+  </div>
+</section>
+
+<section id="verification">
+  <p class="eyebrow">Finite-state safety verification</p>
+  <h2>The guard model is executable—and bounded.</h2>
+  <div class="verification" aria-label="Finite-state verification results">
+    <div><strong>8,564</strong><span>reachable states under exhaustive breadth-first exploration</span></div>
+    <div><strong>36,096</strong><span>enabled transitions explored</span></div>
+    <div><strong>30</strong><span>mutation-adequate guards with a minimal counterexample when weakened</span></div>
+  </div>
+  <p class="caveat"><strong>Result:</strong> no authored-invariant violation in the unmutated model. This is executable consistency testing of a selected abstraction—not certification, semantic validation, or proof that a real institution records facts honestly or performs remedy effectively.</p>
+</section>
+
+<section id="measurement">
+  <p class="eyebrow">Measurement boundary</p>
+  <h2>Indicators route investigation. They do not authorize action.</h2>
+  <p>The Governance Drift Indicator layer asks whether rationales add held-out information, review time remains responsive to legitimate complexity, and corrective voice is supplied and acted upon. It is subordinate to the authorization protocol and is not a prerequisite for Proper Ending.</p>
+  <p>Aggregate monitoring misses 92 of 100 constructed localized-collapse streams in the frozen benchmark. The added fixed subgroup rule recovers 97 of 100, and the union 98 of 100—but the subgroup definition matches the synthetic generator’s declared failure boundary. Those are internal implementation results, not field sensitivity, specificity, discovery, or a validated real-world threshold.</p>
+</section>
+
+<section id="boundary">
+  <p class="eyebrow">Claim boundary</p>
+  <h2>What Part III does not verify.</h2>
+  <ul>
+    <li>That the synthetic indicators have prospective lead time, open-world validity, or an operationally justified threshold.</li>
+    <li>That retirement bases are lawful, notice intelligible, remedy accessible, staffing sufficient, or successor and custodian roles legitimate in substance.</li>
+    <li>Repeated incidents, contested facts, parallel authorities, partial-population rollback, real calendar time, and jurisdictional conflict.</li>
+    <li>That “independence” is more than a label unless organizational separation, conflicts, evidence access, competence, power, reasons, and review routes are actually established.</li>
+  </ul>
+</section>
+                <section id="citation">
+                  <p class="eyebrow">Citation &amp; preservation</p>
+                  <h2>Cite the versioned record.</h2>
+                  <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
+                  <div class="citation">Sato, Takashi. “From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions.” Working Paper, version 6.2, 23 August 2026. https://doi.org/10.2139/ssrn.6066430.</div>
+                  <dl class="record-list">
+                    <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/10.2139/ssrn.6066430" target="_blank" rel="noopener noreferrer">10.2139/ssrn.6066430</a></dd></div>
+                    <div class="record-row"><dt>SSRN</dt><dd><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">Abstract ID 6066430</a></dd></div>
+                    <div class="record-row"><dt>Preserved file</dt><dd><a href="/pdf/part3.pdf">/pdf/part3.pdf</a> · 1,032,918 bytes</dd></div>
+                    <div class="record-row"><dt>SHA-256</dt><dd><code>7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72</code></dd></div>
+                  </dl>
+                </section>
+              </article>
+            </div>
+          </section>
+          <section class="section compact"><div class="shell"><nav class="series-nav" aria-label="Paper trilogy"><a href="/papers/part1.html"><small>PART I · ROUTE THE CASE</small><strong>Workflow-Centric AI Governance</strong></a><a href="/papers/part2.html"><small>PART II · DIAGNOSE THE INSTITUTION</small><strong>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions</strong></a><a href="/papers/part3.html" aria-current="page"><small>PART III · END AND RETURN AUTHORITY</small><strong>From Governance Drift to Accountable Exit</strong></a></nav></div></section>
+        </main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
       <div>
-        <h2 id="part3-problem" class="paper-heading">The worst failure is quiet enough to look like governance.</h2>
-        <p class="paper-copy">Noise is easy to detect. Silence is harder, because silence can look like stability, consensus, or successful compliance.</p>
+        <p class="eyebrow">The Proper Ending Index</p>
+        <p class="footer-thesis">An independent research archive on decision routing, governing capacity, and accountable exit in AI-assisted institutions.</p>
       </div>
-    </div>
-    <div class="argument-grid">
-      <div class="argument-body">
-        <p>Part III treats silent governance failure as the point where oversight remains visible as a procedure while its contestability has already disappeared.</p>
-        <p>Resolution Collapse occurs when a system can still generate documents, approvals, logs, and explanations, but those artifacts no longer prove that human judgment is operating.</p>
-        <p>The response is not more decoration, more dashboards, or more confidence language. The response is a controlled ability to detect drift, preserve memory, and stop.</p>
-      </div>
-      <div class="argument-notes" role="group" aria-label="Part III detection notes">
-        <div><strong>Risk</strong><span>Failure becomes ordinary because nothing appears to demand interruption.</span></div>
-        <div><strong>Measure</strong><span>Track silence through semantic decay, temporal compression, and exhaustion of dissent.</span></div>
-        <div><strong>Boundary</strong><span>If judgment cannot be verified, continuation is not governance. It is ritual.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="gdi-title">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Governance Drift Indicators</p>
-      <div>
-        <h2 id="gdi-title" class="paper-heading">Silent failure becomes visible only when the archive measures what procedure hides.</h2>
-        <p class="paper-copy">The indicators do not predict evil. They detect the loss of contestability inside apparently normal operation.</p>
-      </div>
-    </div>
-    <div class="gate-matrix" role="group" aria-label="Governance drift indicator matrix">
-      <article class="gate-row">
-        <span class="gate-row__id">GDI-01</span>
-        <h3>Semantic Entropy Decay.</h3>
-        <p>Explanations lose information and collapse into template language.</p>
-        <span class="gate-row__state">Meaning loss</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">GDI-02</span>
-        <h3>Temporal Compression.</h3>
-        <p>Complex and routine cases begin to move through the process at the same speed.</p>
-        <span class="gate-row__state">Time distortion</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">GDI-03</span>
-        <h3>Exhaustion of Dissent.</h3>
-        <p>Overrides, escalations, and modifications disappear without evidence that quality improved.</p>
-        <span class="gate-row__state">Contestability loss</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">CB-01</span>
-        <h3>Circuit Breaker.</h3>
-        <p>The process is suspended when outputs can no longer be tied to meaningful human judgment.</p>
-        <span class="gate-row__state">Controlled termination</span>
-      </article>
-    </div>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="resolution-title">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Evidence plate</p>
-      <div>
-        <h2 id="resolution-title" class="paper-heading">The proper ending preserves memory before authority returns.</h2>
-        <p class="paper-copy">Stopping is not failure. Stopping is the governance act that prevents failed procedure from continuing to speak with institutional authority.</p>
-      </div>
-    </div>
-    <div class="record-grid" role="group" aria-label="Part III proper ending specimen">
-      <div class="record-copy">
+      <div class="footer-links">
         <div>
-          <span class="record-label">Proper Ending Record</span>
-          <h3>Detection plus memory plus controlled suspension.</h3>
+          <p class="label">Research</p>
+          <a href="/papers/">Paper trilogy</a>
+          <a href="/research-index.json">Machine-readable index</a>
+          <a href="/llms.txt">LLM orientation</a>
         </div>
-        <p>The system is not merely halted. Its failure conditions are preserved so the organization cannot reactivate the same ritual under a new name.</p>
-        <div class="record-facts">
-          <span>Source <b>Part III</b></span>
-          <span>Function <b>Stopping rule</b></span>
-          <span>Failure mode <b>Authority without judgment</b></span>
+        <div>
+          <p class="label">Identity</p>
+          <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID ↗</a>
+          <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">SSRN ↗</a>
+          <a href="https://scholar.google.com/citations?user=tN4zV68AAAAJ" target="_blank" rel="me noopener noreferrer">Google Scholar ↗</a>
+        </div>
+        <div>
+          <p class="label">Site</p>
+          <a href="/about.html">Author record</a>
+          <a href="/colophon.html">Colophon</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/security.html">Security</a>
         </div>
       </div>
-      <pre class="record-code"><code>{
-  <span class="key">"resolution_state"</span>: "collapse_detected",
-  <span class="key">"indicators"</span>: [
-    "Semantic_Entropy_Decay",
-    "Temporal_Compression",
-    "Exhaustion_of_Dissent"
-  ],
-  <span class="key">"circuit_breaker"</span>: "activated",
-  <span class="key">"memory_preserved"</span>: true,
-  <span class="key">"authority_returned_to"</span>: "human_governance",
-  <span class="key">"reactivation_requires"</span>: "new_authorization"
-}</code></pre>
     </div>
-  </section>
-
-  <section class="epigraph-panel epigraph-panel--ending" aria-label="Proper ending epigraph">
-    <figure>
-      <blockquote>知止不殆。</blockquote>
-      <figcaption><cite>Dao De Jing</cite>, Chapter 44. Translation: to know when to stop is to avoid peril.</figcaption>
-    </figure>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="ending-title">
-    <div class="continue-panel continue-panel--final">
-      <div>
-        <p class="paper-section__kicker">Final condition</p>
-        <h2 id="ending-title">Judgment absent. Memory preserved. Authority returned.</h2>
-        <p>The sequence ends where governance becomes real again: with the capacity to refuse continuation when procedure can no longer prove judgment.</p>
-      </div>
-      <nav class="continue-routes" aria-label="Continue from Part III">
-        <a href="/papers/part2.html"><span>Previous paper</span><strong>Part II</strong><em>Return to decay.</em></a>
-        <a href="/pdf/part3.pdf" target="_blank" rel="noopener"><span>PDF</span><strong>Preserved PDF</strong><em>Open the preserved paper file.</em></a>
-        <a href="/papers/"><span>Catalogue</span><strong>Papers</strong><em>Return to the sequence.</em></a>
-      </nav>
+    <div class="footer-bottom">
+      <span>© 2026 Takashi Sato</span>
+      <span>Independent research · Sapporo, Japan</span>
     </div>
-  </section>
-</main>
-<footer class="paper-footer"><div>© 2025 Takashi Sato / Part III</div><nav aria-label="Part III footer navigation"><a href="/papers/">Papers</a> / <a href="/">Index</a></nav></footer>
-</div></div>
+  </div>
+</footer>
+<script src="/assets/archive-v62.js?v=6.2.0" defer></script>
 <script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
 </body>
 </html>

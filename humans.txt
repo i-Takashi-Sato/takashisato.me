@@ -1,19 +1,16 @@
-/* TEAM */
-Author: Takashi Sato / 佐藤貴士
-Site: https://takashisato.me/
-Contact: i@takashisato.me
-ORCID: https://orcid.org/0009-0003-1584-6965
-SSRN: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672
+/* AUTHOR */
+Takashi Sato / 佐藤貴士
+Independent Researcher
+Sapporo, Hokkaido, Japan
+ORCID: 0009-0003-1584-6965
 
 /* SITE */
-Name: The Proper Ending Index
-Purpose: AI governance research archive
-Focus: workflow-centric AI governance, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, proper ending mechanisms
-Language: English / Japanese author identity
-Canonical URL: https://takashisato.me/
-AI-readable orientation: https://takashisato.me/llms.txt
+The Proper Ending Index
+Static HTML, CSS, and progressive JavaScript
+No external font or framework runtime
+Current research version: 6.2
+Last update: 2026-08-23
 
-/* PRINCIPLE */
-Research, not spectacle.
-Judgment, not ritual.
-A system that cannot stop cannot govern.
+/* ORIENTATION */
+https://takashisato.me/llms.txt
+https://takashisato.me/research-index.json

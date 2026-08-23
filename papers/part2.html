@@ -1,241 +1,213 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#040505" />
-  <title>Forecasting Failure — The Proper Ending Index</title>
-  <meta name="description" content="Part II of Takashi Sato's AI governance archive: pre-abuse failure, organizational entropy, cognitive economy, responsibility inversion, and legibility capture." />
-  <meta name="author" content="佐藤貴士 / Takashi Sato" />
-  <meta name="citation_title" content="Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused" />
-  <meta name="citation_author" content="Takashi Sato" />
-  <meta name="citation_publication_date" content="2025" />
-  <meta name="citation_doi" content="10.2139/ssrn.5913703" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://takashisato.me/papers/part2.html" />
-  <meta property="og:title" content="Forecasting Failure — Takashi Sato" />
-  <meta property="og:description" content="Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse." />
-  <meta property="og:type" content="article" />
-  <meta property="article:author" content="佐藤貴士 / Takashi Sato" />
-  <meta property="og:url" content="https://takashisato.me/papers/part2.html" />
-  <meta property="og:site_name" content="The Proper Ending Index" />
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+          <meta name="color-scheme" content="light">
+          <meta name="theme-color" content="#f2efe8">
+          <title>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions · Part II · Takashi Sato</title>
+          <meta name="description" content="A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.">
+          <meta name="author" content="Takashi Sato">
+          <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <meta property="og:image" content="https://takashisato.me/assets/og/part2.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Forecasting Failure — Takashi Sato" />
-  <meta name="twitter:description" content="Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse." />
-  <meta name="twitter:image" content="https://takashisato.me/assets/og/part2.jpg" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ScholarlyArticle",
-  "@id": "https://takashisato.me/papers/part2.html#article",
-  "headline": "Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
-  "name": "Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
-  "description": "Pre-abuse failure: governance collapse driven by organizational entropy and cognitive economy, not adversarial misuse.",
-  "url": "https://takashisato.me/papers/part2.html",
-  "image": "https://takashisato.me/assets/og/part2.jpg",
-  "datePublished": "2025-12-13",
-  "dateModified": "2026-01-13",
-  "inLanguage": "en",
-  "author": {
-    "@id": "https://takashisato.me/about.html#takashi-sato"
-  },
-  "identifier": [
-    {
-      "@type": "PropertyValue",
-      "propertyID": "DOI",
-      "value": "10.2139/ssrn.5913703",
-      "url": "https://doi.org/10.2139/ssrn.5913703"
-    },
-    {
-      "@type": "PropertyValue",
-      "propertyID": "SSRN",
-      "value": "5913703",
-      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703"
-    }
-  ],
-  "sameAs": [
-    "https://doi.org/10.2139/ssrn.5913703",
-    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703"
-  ],
-  "isPartOf": {
-    "@id": "https://takashisato.me/research-index.json#series",
-    "@type": "CreativeWorkSeries",
-    "name": "The Proper Ending Index",
-    "url": "https://takashisato.me/papers/"
-  },
-  "encoding": {
-    "@type": "MediaObject",
-    "@id": "https://takashisato.me/pdf/part2.pdf#preserved-copy",
-    "contentUrl": "https://takashisato.me/pdf/part2.pdf",
-    "encodingFormat": "application/pdf",
-    "contentSize": "226064 bytes",
-    "sha256": "17c71a438d7ab4fc3d65d527a59ed5672d82b511fd0af1dd0b8b2d2728ea48d8"
-  },
-  "keywords": [
-    "AI Governance",
-    "Pre-abuse Failure",
-    "Organizational Entropy",
-    "Cognitive Economy",
-    "Governance Collapse"
-  ]
-}
-  </script>
-  <link rel="stylesheet" href="/assets/00-tokens.css" />
-  <link rel="stylesheet" href="/assets/01-reset.css" />
-  <link rel="stylesheet" href="/assets/02-layout.css" />
-  <link rel="stylesheet" href="/assets/03-typography.css" />
-  <link rel="stylesheet" href="/assets/04-components.css" />
-  <link rel="stylesheet" href="/assets/paper-detail.css?v=research-record-p2-2" />
-</head>
-<body class="phase-paper phase-part-2" data-page="part2">
-<a class="skip" href="#main">Skip to content</a>
-<div class="pei-shell"><div class="pei-main">
-<header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/papers/">Papers</a><a href="/about.html">About</a></div></header>
+          <link rel="canonical" href="https://takashisato.me/papers/part2.html">
+          <link rel="author" href="/about.html">
+          <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
+          <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
+          <link rel="me" href="https://scholar.google.com/citations?user=tN4zV68AAAAJ">
+          <link rel="manifest" href="/site.webmanifest">
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+          <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+          <link rel="alternate icon" href="/favicon.ico">
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+          <meta property="og:type" content="article">
+          <meta property="og:locale" content="en_US">
+          <meta property="og:site_name" content="The Proper Ending Index">
+          <meta property="og:title" content="Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions · Part II · Takashi Sato">
+          <meta property="og:description" content="A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.">
+          <meta property="og:url" content="https://takashisato.me/papers/part2.html">
+          <meta property="og:image" content="https://takashisato.me/assets/og/part2.jpg">
+          <meta property="og:image:type" content="image/jpeg">
+          <meta property="og:image:width" content="1200">
+          <meta property="og:image:height" content="630">
+          <meta property="og:image:alt" content="The Proper Ending Index — Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions · Part II · Takashi Sato">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions · Part II · Takashi Sato">
+          <meta name="twitter:description" content="A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.">
+          <meta name="twitter:image" content="https://takashisato.me/assets/og/part2.jpg">
+          <meta name="twitter:image:alt" content="The Proper Ending Index — Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions · Part II · Takashi Sato">
+          <meta name="citation_title" content="Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype">
+<meta name="citation_author" content="Takashi Sato">
+<meta name="citation_publication_date" content="2026/08/23">
+<meta name="citation_doi" content="10.2139/ssrn.5913703">
+<meta name="citation_language" content="en">
+<link rel="alternate" type="application/pdf" title="Preserved PDF · v6.2" href="https://takashisato.me/pdf/part2.pdf">
+<meta property="article:published_time" content="2026-01-12">
+<meta property="article:modified_time" content="2026-08-23">
+<meta property="article:author" content="https://takashisato.me/about.html">
+          <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://takashisato.me/about.html#takashi-sato","name":"Takashi Sato","givenName":"Takashi","familyName":"Sato","alternateName":["佐藤貴士","佐藤 貴士","Sato Takashi"],"jobTitle":"Independent Researcher","url":"https://takashisato.me/about.html","workLocation":{"@type":"Place","name":"Sapporo, Hokkaido, Japan","address":{"@type":"PostalAddress","addressLocality":"Sapporo","addressRegion":"Hokkaido","addressCountry":"JP"}},"identifier":[{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0003-1584-6965"},{"@type":"PropertyValue","propertyID":"SSRN Author ID","value":"9540672"}],"sameAs":["https://orcid.org/0009-0003-1584-6965","https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672","https://scholar.google.com/citations?user=tN4zV68AAAAJ"],"knowsAbout":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"ScholarlyArticle","@id":"https://takashisato.me/papers/part2.html#article","headline":"Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype","name":"Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype","description":"A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.","abstract":"A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.","author":{"@id":"https://takashisato.me/about.html#takashi-sato"},"datePublished":"2026-01-12","dateModified":"2026-08-23","version":"6.2","inLanguage":"en-US","isAccessibleForFree":true,"pageStart":1,"pageEnd":20,"pagination":"1-20","isPartOf":{"@id":"https://takashisato.me/papers/#trilogy"},"url":"https://takashisato.me/papers/part2.html","mainEntityOfPage":"https://takashisato.me/papers/part2.html","image":"https://takashisato.me/assets/og/part2.jpg","sameAs":["https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703","https://doi.org/10.2139/ssrn.5913703"],"identifier":[{"@type":"PropertyValue","propertyID":"DOI","value":"10.2139/ssrn.5913703"},{"@type":"PropertyValue","propertyID":"SSRN","value":"5913703"}],"encoding":{"@type":"MediaObject","contentUrl":"https://takashisato.me/pdf/part2.pdf","encodingFormat":"application/pdf","contentSize":"562947 bytes","sha256":"6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88","uploadDate":"2026-08-23"},"keywords":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Index","item":"https://takashisato.me/"},{"@type":"ListItem","position":2,"name":"Papers","item":"https://takashisato.me/papers/"},{"@type":"ListItem","position":3,"name":"Part II","item":"https://takashisato.me/papers/part2.html"}]}]}</script>
+          <link rel="stylesheet" href="/assets/archive-v62.css?v=6.2.0">
+          <script>document.documentElement.classList.add('js');window.__archiveRevealFallback=window.setTimeout(function(){document.documentElement.classList.remove('js')},3000)</script>
+        </head>
+<body data-tone="part-2" data-page="part2">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="The Proper Ending Index — home">
+      <img class="brand-mark" src="/favicon.svg" width="29" height="29" alt="">
+      <span>The Proper Ending Index</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="/">Index</a>
+      <a href="/papers/" aria-current="page">Papers</a>
+      <a href="/about.html">Author</a>
+    </nav>
+  </div>
+  <div class="scroll-meter" aria-hidden="true"></div>
+</header>
 <main id="main">
-  <section class="paper-hero paper-stage" aria-labelledby="paper-title">
-    <div class="paper-hero__copy">
-      <p class="paper-kicker">Diagnostic Record / Part II / Decay</p>
-      <h1 id="paper-title" class="paper-title">Forecasting Failure</h1>
-      <p class="paper-lede">Governance fails before it is abused.</p>
-      <nav class="paper-actions" aria-label="Primary paper access">
-        <a class="paper-link" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" target="_blank" rel="noopener noreferrer">Read on SSRN</a>
-        <a class="paper-link" href="/pdf/part2.pdf" target="_blank" rel="noopener">Preserved PDF</a>
-        <a class="paper-link" href="/demo/altrion-part2.html" target="_blank" rel="noopener">Open Visualizer</a>
-      </nav>
-    </div>
-    <aside class="paper-ledger" aria-label="Part II research record">
-      <div class="paper-ledger__head"><span>Research Record 002</span><span>Status / Decay</span></div>
-      <dl>
-        <div><dt>Object</dt><dd>Good-faith procedure under pressure</dd></div>
-        <div><dt>Phase</dt><dd>Entropy before abuse</dd></div>
-        <div><dt>Method</dt><dd>Forecast / diagnose / resist</dd></div>
-        <div><dt>SSRN</dt><dd>5913703</dd></div>
-        <div><dt>DOI</dt><dd><a href="https://doi.org/10.2139/ssrn.5913703" target="_blank" rel="noopener noreferrer">10.2139/ssrn.5913703 ↗</a></dd></div>
-        <div><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="noopener noreferrer">0009-0003-1584-6965 ↗</a></dd></div>
-      </dl>
-      <p class="paper-ledger__statement">Part II examines how governance architecture decays when organizations optimize for cognitive economy, liability coverage, and administrative legibility.</p>
-    </aside>
-  </section>
+          <header class="paper-hero shell" data-roman="II">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Index</a></li><li><a href="/papers/">Papers</a></li><li><span aria-current="page">Part II</span></li></ol></nav>
+            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part II</p>
+            <h1 data-reveal>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions</h1>
+            <p class="paper-subtitle" data-reveal>A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype</p>
+            <div class="paper-meta" data-reveal>
+              <span>Takashi Sato</span>
+              <span>Working paper · v6.2</span>
+              <span>23 August 2026</span>
+              <span>20 pages</span>
+              <span>SSRN 5913703</span>
+            </div>
+            <div class="paper-actions" data-reveal>
+              <a class="button primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
+              <a class="button" href="/pdf/part2.pdf">Preserved PDF · v6.2</a>
+              <a class="button" href="https://doi.org/10.2139/ssrn.5913703" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
+            </div>
+          </header>
 
-  <section class="paper-section paper-stage" aria-labelledby="part2-problem">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Problem field</p>
+          <section class="section">
+            <div class="shell paper-layout">
+              <aside class="toc" aria-label="On this page">
+                <p class="label">On this page</p>
+                <ol><li><a href="#overview">Question</a></li><li><a href="#state-model">State model</a></li><li><a href="#mechanisms">Mechanisms</a></li><li><a href="#propositions">Propositions</a></li><li><a href="#boundary">Boundary</a></li></ol>
+              </aside>
+              <article class="content" data-reveal>
+                <section id="overview">
+  <p class="eyebrow">Research question</p>
+  <h2>Can procedure remain visible after governing capacity has declined?</h2>
+  <p class="lead">Part II models a joint institutional state in which observable process remains stable or improves while independent judgment, practical actionability, and a predeclared protected function materially deteriorate.</p>
+  <p>The primary construct is <strong>PMGCL</strong>: Procedural Maintenance with Governing-Capacity Loss. It is descriptive and does not assign an ordinary or malicious cause. <strong>PAC</strong>—Pre-Abuse Collapse—is only a provisional etiological subtype and requires an additional identified causal boundary.</p>
+</section>
+
+<section id="state-model">
+  <p class="eyebrow">Descriptive state model</p>
+  <h2>Four objects must remain separate.</h2>
+  <div class="model">
+    <div class="model-head"><h3>Declared workflow · protected function · population · interval I</h3><span>formative, non-interchangeable elements</span></div>
+    <div class="construct-grid">
+      <div class="construct"><strong>P</strong><b>Procedural fidelity</b><span>Visible steps, approvals, documentation, and service-level completion.</span></div>
+      <div class="construct"><strong>J</strong><b>Judgment contribution</b><span>Case-level evidence or reasoning beyond the AI output and template.</span></div>
+      <div class="construct"><strong>G</strong><b>Governing capacity</b><span>Practical ability to alter, resource, escalate, remedy, or stop.</span></div>
+      <div class="construct"><strong>N</strong><b>Protected function</b><span>An independently measured, predeclared outcome—not model accuracy by default.</span></div>
+    </div>
+    <div class="formula">PMGCL(I) = 1 iff F<sub>P</sub>(I) ∧ D<sub>J</sub>(I) ∧ D<sub>G</sub>(I) ∧ I<sub>N</sub>(I)<br>PAC(I) = 1 iff PMGCL(I) = 1 ∧ S<sub>NA</sub>(I) = IDENTIFIED</div>
+  </div>
+  <p>If judgment and capacity are credibly declining but protected-function impairment is not yet demonstrated, the correct state is <strong>incipient governing-capacity-loss risk</strong>. If all four descriptive conjuncts are established but the causal condition is unidentified, the correct state is <strong>realized PMGCL with etiology unresolved</strong>—not PAC.</p>
+</section>
+
+<section id="mechanisms">
+  <p class="eyebrow">Four candidate mechanisms</p>
+  <h2>Pathways to loss, not a closed taxonomy.</h2>
+  <div class="fact-grid">
+    <article class="fact"><code>01</code><h3>Cognitive externalization</h3><p>Reviewers increasingly treat the model output as both the starting and ending representation of the case, displacing complementary scrutiny.</p></article>
+    <article class="fact"><code>02</code><h3>Legibility capture</h3><p>Actors optimize countable completion, agreement, or documentation artifacts while the protected function deteriorates.</p></article>
+    <article class="fact"><code>03</code><h3>Responsibility inversion</h3><p>Formal accountability concentrates on the reviewer who bears the cost of deviation but lacks power over the system.</p></article>
+    <article class="fact"><code>04</code><h3>Voice attenuation</h3><p>Unremedied or punished concerns reduce the future supply of dissent and deprive the institution of corrective information.</p></article>
+  </div>
+  <p class="caveat">The set is provisional and theory-directed. Deskilling, vendor lock-in, update opacity, dependency, resource withdrawal, or other mechanisms should be added or preferred when they improve identification.</p>
+</section>
+
+<section id="propositions">
+  <p class="eyebrow">Falsifiability</p>
+  <h2>Five derived propositions—and what would count against them.</h2>
+  <div class="table-wrap">
+    <table class="research-table">
+      <caption class="sr-only">Five Part II propositions, target contrasts, and evidence against</caption>
+      <thead><tr><th>Proposition</th><th>Target contrast</th><th>Evidence against</th></tr></thead>
+      <tbody>
+        <tr><th>P1 · Capacity-strain decoupling</th><td>Change in independent judgment relative to procedural completion after exogenous throughput pressure.</td><td>Judgment remains stable or the decline is explained by case mix, model improvement, or learning.</td></tr>
+        <tr><th>P2 · Target conversion</th><td>Visible artifact and its conditional relation to evidence or the protected outcome after a completion target.</td><td>Both procedure and protected function improve without hidden burden displacement.</td></tr>
+        <tr><th>P3 · Voice-efficacy feedback</th><td>Effect of prior remedy efficacy on later risk-adjusted dissent.</td><td>No temporal association, or the relation is explained by fewer opportunities to dissent.</td></tr>
+        <tr><th>P4 · Coupled-trace discrimination</th><td>Held-out gain from joint rationale, time, and voice traces.</td><td>Single raw metrics perform equally well, or the coupled signal fails under benign efficiency.</td></tr>
+        <tr><th>P5 · Comparative state validity</th><td>Calibrated, decision-relevant gain over continuous components and established baselines.</td><td>The gain vanishes under leakage controls or a simpler model chooses the same intervention.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="boundary">
+  <p class="eyebrow">Claim boundary</p>
+  <h2>Classification is not a detector or an accusation.</h2>
+  <ul>
+    <li>The framework does not establish that any real institution satisfies PMGCL or PAC.</li>
+    <li>A verbal absence of malice, a directed acyclic graph alone, or retrospective conditioning on “no documented malice” cannot establish the PAC subtype.</li>
+    <li>The shared fifteen-unit official-record corpus supports theory-directed traceability, not frequency, necessity, sufficiency, prediction, or independent triangulation.</li>
+    <li>Thresholds, measurement validity, site transportability, causal identification, and intervention utility remain empirical questions.</li>
+  </ul>
+</section>
+                <section id="citation">
+                  <p class="eyebrow">Citation &amp; preservation</p>
+                  <h2>Cite the versioned record.</h2>
+                  <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
+                  <div class="citation">Sato, Takashi. “Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype.” Working Paper, version 6.2, 23 August 2026. https://doi.org/10.2139/ssrn.5913703.</div>
+                  <dl class="record-list">
+                    <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/10.2139/ssrn.5913703" target="_blank" rel="noopener noreferrer">10.2139/ssrn.5913703</a></dd></div>
+                    <div class="record-row"><dt>SSRN</dt><dd><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" target="_blank" rel="noopener noreferrer">Abstract ID 5913703</a></dd></div>
+                    <div class="record-row"><dt>Preserved file</dt><dd><a href="/pdf/part2.pdf">/pdf/part2.pdf</a> · 562,947 bytes</dd></div>
+                    <div class="record-row"><dt>SHA-256</dt><dd><code>6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88</code></dd></div>
+                  </dl>
+                </section>
+              </article>
+            </div>
+          </section>
+          <section class="section compact"><div class="shell"><nav class="series-nav" aria-label="Paper trilogy"><a href="/papers/part1.html"><small>PART I · ROUTE THE CASE</small><strong>Workflow-Centric AI Governance</strong></a><a href="/papers/part2.html" aria-current="page"><small>PART II · DIAGNOSE THE INSTITUTION</small><strong>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions</strong></a><a href="/papers/part3.html"><small>PART III · END AND RETURN AUTHORITY</small><strong>From Governance Drift to Accountable Exit</strong></a></nav></div></section>
+        </main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
       <div>
-        <h2 id="part2-problem" class="paper-heading">The dangerous failure is not always abuse. Sometimes it is ordinary operation.</h2>
-        <p class="paper-copy">Pre-abuse failure names the moment when a system becomes brittle before any malicious use appears.</p>
+        <p class="eyebrow">The Proper Ending Index</p>
+        <p class="footer-thesis">An independent research archive on decision routing, governing capacity, and accountable exit in AI-assisted institutions.</p>
       </div>
-    </div>
-    <div class="argument-grid">
-      <div class="argument-body">
-        <p>Organizations do not need bad actors to erode oversight. They need time pressure, ambiguous responsibility, fatigue, incentives for smooth reporting, and a process that rewards administrative completion.</p>
-        <p>Part II treats governance decay as a thermodynamic problem: the system tends toward lower-effort, lower-friction states unless counter-pressure is deliberately maintained.</p>
-        <p>The result is not dramatic collapse. It is the gradual normalization of cognitive offload, liability hardening, and legibility capture.</p>
-      </div>
-      <div class="argument-notes" role="group" aria-label="Part II decay notes">
-        <div><strong>Risk</strong><span>Procedure absorbs judgment while preserving the appearance of responsible review.</span></div>
-        <div><strong>Mechanism</strong><span>Cognitive economy converts complex evaluation into administratively convenient resolution.</span></div>
-        <div><strong>Warning</strong><span>The workflow can become safer to follow than to question.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="epigraph-panel" aria-label="Part II epigraph">
-    <figure>
-      <blockquote>Man muß nicht alles für wahr halten, man muß es nur für notwendig halten.</blockquote>
-      <figcaption>Franz Kafka, <cite>Der Process</cite>. The line is used here as a diagnostic warning: bureaucratic necessity can replace truth without announcing itself as falsehood.</figcaption>
-    </figure>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="entropy-title">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Failure trajectory</p>
-      <div>
-        <h2 id="entropy-title" class="paper-heading">The pre-abuse path is a sequence of cheaper substitutions.</h2>
-        <p class="paper-copy">Each phase replaces difficult judgment with a form that is easier to process, defend, or measure.</p>
-      </div>
-    </div>
-    <div class="gate-matrix" role="group" aria-label="Part II failure trajectory matrix">
-      <article class="gate-row">
-        <span class="gate-row__id">Phase 01</span>
-        <h3>Cognitive offload.</h3>
-        <p>Human judgment is transferred to the system because the system is easier to trust than to re-evaluate.</p>
-        <span class="gate-row__state">Effort reduction</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">Phase 02</span>
-        <h3>Liability hardening.</h3>
-        <p>The process becomes safer to defend than to understand.</p>
-        <span class="gate-row__state">Responsibility inversion</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">Phase 03</span>
-        <h3>Operational entropy.</h3>
-        <p>Edge cases, fatigue, and exception handling are absorbed into routine administrative flow.</p>
-        <span class="gate-row__state">Friction decay</span>
-      </article>
-      <article class="gate-row">
-        <span class="gate-row__id">Phase 04</span>
-        <h3>Legibility capture.</h3>
-        <p>The record becomes more important than the judgment it was supposed to preserve.</p>
-        <span class="gate-row__state">Measurement capture</span>
-      </article>
-    </div>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="record-title">
-    <div class="paper-section__head">
-      <p class="paper-section__kicker">Evidence plate</p>
-      <div>
-        <h2 id="record-title" class="paper-heading">Decay becomes visible when the record starts defending the process.</h2>
-        <p class="paper-copy">The warning sign is not absence of documentation. It is documentation that can no longer prove meaningful contestability.</p>
-      </div>
-    </div>
-    <div class="record-grid" role="group" aria-label="Part II decay specimen">
-      <div class="record-copy">
+      <div class="footer-links">
         <div>
-          <span class="record-label">PRE-ABUSE-TRACE-002</span>
-          <h3>Procedure complete. Judgment uncertain.</h3>
+          <p class="label">Research</p>
+          <a href="/papers/">Paper trilogy</a>
+          <a href="/research-index.json">Machine-readable index</a>
+          <a href="/llms.txt">LLM orientation</a>
         </div>
-        <p>The institution can say the process was followed. It can no longer show that the process remained capable of serious interruption.</p>
-        <div class="record-facts">
-          <span>Source <b>Part II</b></span>
-          <span>Function <b>Decay forecast</b></span>
-          <span>Failure mode <b>Legible collapse</b></span>
+        <div>
+          <p class="label">Identity</p>
+          <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID ↗</a>
+          <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">SSRN ↗</a>
+          <a href="https://scholar.google.com/citations?user=tN4zV68AAAAJ" target="_blank" rel="me noopener noreferrer">Google Scholar ↗</a>
+        </div>
+        <div>
+          <p class="label">Site</p>
+          <a href="/about.html">Author record</a>
+          <a href="/colophon.html">Colophon</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/security.html">Security</a>
         </div>
       </div>
-      <pre class="record-code"><code>{
-  <span class="key">"formal_compliance"</span>: true,
-  <span class="key">"human_review_present"</span>: true,
-  <span class="key">"contestability"</span>: "degraded",
-  <span class="key">"exceptions"</span>: "absorbed_into_routine",
-  <span class="key">"liability_index"</span>: 0.82,
-  <span class="key">"risk"</span>: "pre_abuse_failure"
-}</code></pre>
     </div>
-  </section>
-
-  <section class="paper-section paper-stage" aria-labelledby="continue-title">
-    <div class="continue-panel">
-      <div>
-        <p class="paper-section__kicker">Next condition</p>
-        <h2 id="continue-title">Decay complete. Silence begins.</h2>
-        <p>Part III asks how to detect failure when the system still appears procedurally normal.</p>
-      </div>
-      <nav class="continue-routes" aria-label="Continue from Part II">
-        <a href="/papers/part3.html"><span>Next paper</span><strong>Part III</strong><em>Detect silent failure.</em></a>
-        <a href="/papers/part1.html"><span>Previous paper</span><strong>Part I</strong><em>Return to architecture.</em></a>
-        <a href="/demo/altrion-part2.html" target="_blank" rel="noopener"><span>Instrument</span><strong>Visualizer</strong><em>Open the Part II visual system.</em></a>
-      </nav>
+    <div class="footer-bottom">
+      <span>© 2026 Takashi Sato</span>
+      <span>Independent research · Sapporo, Japan</span>
     </div>
-  </section>
-</main>
-<footer class="paper-footer"><div>© 2025 Takashi Sato / Part II</div><nav aria-label="Part II footer navigation"><a href="/papers/">Papers</a> / <a href="/papers/part3.html">Part III</a></nav></footer>
-</div></div>
+  </div>
+</footer>
+<script src="/assets/archive-v62.js?v=6.2.0" defer></script>
 <script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
 </body>
 </html>

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://takashisato.me/sitemap.xml
-# AI-readable archive orientation: https://takashisato.me/llms.txt
+# Archive orientation: https://takashisato.me/llms.txt

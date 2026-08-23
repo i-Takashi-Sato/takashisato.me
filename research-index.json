@@ -1,135 +1,320 @@
 {
   "@context": "https://schema.org",
   "@type": "CreativeWorkSeries",
-  "@id": "https://takashisato.me/research-index.json#series",
-  "name": "The Proper Ending Index",
-  "alternateName": "AI Governance Research Archive",
-  "description": "A research archive by Takashi Sato on AI governance, workflow-centric oversight, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, and proper ending mechanisms.",
-  "url": "https://takashisato.me/",
-  "inLanguage": "en",
+  "@id": "https://takashisato.me/papers/#trilogy",
+  "name": "Workflow-Centric AI Governance Trilogy",
+  "alternateName": "The Proper Ending Index research trilogy",
+  "url": "https://takashisato.me/papers/",
+  "mainEntityOfPage": "https://takashisato.me/research-index.json",
+  "description": "Independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
+  "dateModified": "2026-08-23",
+  "version": "6.2",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
   "creator": {
     "@type": "Person",
     "@id": "https://takashisato.me/about.html#takashi-sato",
-    "name": "佐藤貴士",
-    "alternateName": ["Takashi Sato", "Sato Takashi", "佐藤 貴士"],
-    "givenName": "貴士",
-    "familyName": "佐藤",
-    "description": "佐藤貴士 / Takashi Sato is an independent researcher publishing The Proper Ending Index, an AI governance research archive.",
+    "name": "Takashi Sato",
+    "givenName": "Takashi",
+    "familyName": "Sato",
+    "alternateName": [
+      "佐藤貴士",
+      "佐藤 貴士",
+      "Sato Takashi"
+    ],
+    "jobTitle": "Independent Researcher",
     "url": "https://takashisato.me/about.html",
-    "email": "mailto:i@takashisato.me",
+    "workLocation": {
+      "@type": "Place",
+      "name": "Sapporo, Hokkaido, Japan",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sapporo",
+        "addressRegion": "Hokkaido",
+        "addressCountry": "JP"
+      }
+    },
     "identifier": [
       {
         "@type": "PropertyValue",
         "propertyID": "ORCID",
-        "value": "0009-0003-1584-6965",
-        "url": "https://orcid.org/0009-0003-1584-6965"
+        "value": "0009-0003-1584-6965"
       },
       {
         "@type": "PropertyValue",
         "propertyID": "SSRN Author ID",
-        "value": "9540672",
-        "url": "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
+        "value": "9540672"
       }
     ],
     "sameAs": [
       "https://orcid.org/0009-0003-1584-6965",
-      "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672"
+      "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+      "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
+    ],
+    "knowsAbout": [
+      "AI governance",
+      "human oversight",
+      "workflow governance",
+      "governing capacity",
+      "Proper Ending",
+      "Authority Return"
     ]
   },
-  "keywords": [
-    "AI governance",
-    "workflow-centric AI governance",
-    "silent governance failure",
-    "pre-abuse failure",
-    "governance drift indicators",
-    "circuit breakers",
-    "proper ending",
-    "human judgment",
-    "institutional failure"
-  ],
   "hasPart": [
     {
       "@type": "ScholarlyArticle",
       "@id": "https://takashisato.me/papers/part1.html#article",
-      "position": 1,
-      "name": "Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems",
+      "headline": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions",
+      "name": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions",
+      "description": "A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.",
+      "abstract": "A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.",
+      "author": {
+        "@id": "https://takashisato.me/about.html#takashi-sato"
+      },
+      "datePublished": "2026-01-09",
+      "dateModified": "2026-08-23",
+      "version": "6.2",
+      "inLanguage": "en-US",
+      "isAccessibleForFree": true,
+      "pageStart": 1,
+      "pageEnd": 18,
+      "pagination": "1-18",
+      "isPartOf": {
+        "@id": "https://takashisato.me/papers/#trilogy"
+      },
       "url": "https://takashisato.me/papers/part1.html",
-      "datePublished": "2025-12-12",
-      "dateModified": "2026-01-13",
-      "inLanguage": "en",
-      "author": { "@id": "https://takashisato.me/about.html#takashi-sato" },
-      "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.2139/ssrn.5911063", "url": "https://doi.org/10.2139/ssrn.5911063" },
-        { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5911063", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" }
-      ],
+      "mainEntityOfPage": "https://takashisato.me/papers/part1.html",
+      "image": "https://takashisato.me/assets/og/part1.jpg",
       "sameAs": [
-        "https://doi.org/10.2139/ssrn.5911063",
-        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063"
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063",
+        "https://doi.org/10.2139/ssrn.5911063"
+      ],
+      "identifier": [
+        {
+          "@type": "PropertyValue",
+          "propertyID": "DOI",
+          "value": "10.2139/ssrn.5911063"
+        },
+        {
+          "@type": "PropertyValue",
+          "propertyID": "SSRN",
+          "value": "5911063"
+        }
       ],
       "encoding": {
         "@type": "MediaObject",
-        "@id": "https://takashisato.me/pdf/part1.pdf#preserved-copy",
         "contentUrl": "https://takashisato.me/pdf/part1.pdf",
         "encodingFormat": "application/pdf",
-        "contentSize": "461659 bytes",
-        "sha256": "3ffd72736e85fc93e7f4ad7174cb7408a4df426e639c40e59af73682295b442d"
+        "contentSize": "514075 bytes",
+        "sha256": "edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8",
+        "uploadDate": "2026-08-23"
       },
-      "keywords": ["structured friction", "human oversight", "auditable decision records"]
+      "keywords": [
+        "AI governance",
+        "human oversight",
+        "workflow governance",
+        "governing capacity",
+        "Proper Ending",
+        "Authority Return"
+      ],
+      "position": 1,
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Research function",
+          "value": "Route the case"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Research question",
+          "value": "What may happen next?"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "SSRN abstract ID",
+          "value": "5911063"
+        }
+      ]
     },
     {
       "@type": "ScholarlyArticle",
       "@id": "https://takashisato.me/papers/part2.html#article",
-      "position": 2,
-      "name": "Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused",
+      "headline": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
+      "name": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
+      "description": "A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.",
+      "abstract": "A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.",
+      "author": {
+        "@id": "https://takashisato.me/about.html#takashi-sato"
+      },
+      "datePublished": "2026-01-12",
+      "dateModified": "2026-08-23",
+      "version": "6.2",
+      "inLanguage": "en-US",
+      "isAccessibleForFree": true,
+      "pageStart": 1,
+      "pageEnd": 20,
+      "pagination": "1-20",
+      "isPartOf": {
+        "@id": "https://takashisato.me/papers/#trilogy"
+      },
       "url": "https://takashisato.me/papers/part2.html",
-      "datePublished": "2025-12-13",
-      "dateModified": "2026-01-13",
-      "inLanguage": "en",
-      "author": { "@id": "https://takashisato.me/about.html#takashi-sato" },
-      "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.2139/ssrn.5913703", "url": "https://doi.org/10.2139/ssrn.5913703" },
-        { "@type": "PropertyValue", "propertyID": "SSRN", "value": "5913703", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" }
-      ],
+      "mainEntityOfPage": "https://takashisato.me/papers/part2.html",
+      "image": "https://takashisato.me/assets/og/part2.jpg",
       "sameAs": [
-        "https://doi.org/10.2139/ssrn.5913703",
-        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703"
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703",
+        "https://doi.org/10.2139/ssrn.5913703"
+      ],
+      "identifier": [
+        {
+          "@type": "PropertyValue",
+          "propertyID": "DOI",
+          "value": "10.2139/ssrn.5913703"
+        },
+        {
+          "@type": "PropertyValue",
+          "propertyID": "SSRN",
+          "value": "5913703"
+        }
       ],
       "encoding": {
         "@type": "MediaObject",
-        "@id": "https://takashisato.me/pdf/part2.pdf#preserved-copy",
         "contentUrl": "https://takashisato.me/pdf/part2.pdf",
         "encodingFormat": "application/pdf",
-        "contentSize": "226064 bytes",
-        "sha256": "17c71a438d7ab4fc3d65d527a59ed5672d82b511fd0af1dd0b8b2d2728ea48d8"
+        "contentSize": "562947 bytes",
+        "sha256": "6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88",
+        "uploadDate": "2026-08-23"
       },
-      "keywords": ["pre-abuse failure", "organizational entropy", "bureaucratic thermodynamics"]
+      "keywords": [
+        "AI governance",
+        "human oversight",
+        "workflow governance",
+        "governing capacity",
+        "Proper Ending",
+        "Authority Return"
+      ],
+      "position": 2,
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Research function",
+          "value": "Diagnose the institution"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Research question",
+          "value": "Can it still govern?"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "SSRN abstract ID",
+          "value": "5913703"
+        }
+      ]
     },
     {
       "@type": "ScholarlyArticle",
       "@id": "https://takashisato.me/papers/part3.html#article",
-      "position": 3,
-      "name": "Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers",
+      "headline": "From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions",
+      "name": "From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions",
+      "description": "A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.",
+      "abstract": "A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.",
+      "author": {
+        "@id": "https://takashisato.me/about.html#takashi-sato"
+      },
+      "datePublished": "2026-02-10",
+      "dateModified": "2026-08-23",
+      "version": "6.2",
+      "inLanguage": "en-US",
+      "isAccessibleForFree": true,
+      "pageStart": 1,
+      "pageEnd": 39,
+      "pagination": "1-39",
+      "isPartOf": {
+        "@id": "https://takashisato.me/papers/#trilogy"
+      },
       "url": "https://takashisato.me/papers/part3.html",
-      "datePublished": "2026",
-      "inLanguage": "en",
-      "author": { "@id": "https://takashisato.me/about.html#takashi-sato" },
-      "identifier": [
-        { "@type": "PropertyValue", "propertyID": "DOI", "value": "10.2139/ssrn.6066430", "url": "https://doi.org/10.2139/ssrn.6066430" },
-        { "@type": "PropertyValue", "propertyID": "SSRN", "value": "6066430", "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" }
-      ],
+      "mainEntityOfPage": "https://takashisato.me/papers/part3.html",
+      "image": "https://takashisato.me/assets/og/part3.jpg",
       "sameAs": [
-        "https://doi.org/10.2139/ssrn.6066430",
-        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430"
+        "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430",
+        "https://doi.org/10.2139/ssrn.6066430"
+      ],
+      "identifier": [
+        {
+          "@type": "PropertyValue",
+          "propertyID": "DOI",
+          "value": "10.2139/ssrn.6066430"
+        },
+        {
+          "@type": "PropertyValue",
+          "propertyID": "SSRN",
+          "value": "6066430"
+        }
       ],
       "encoding": {
         "@type": "MediaObject",
-        "@id": "https://takashisato.me/pdf/part3.pdf#preserved-copy",
         "contentUrl": "https://takashisato.me/pdf/part3.pdf",
         "encodingFormat": "application/pdf",
-        "contentSize": "336367 bytes",
-        "sha256": "7cd0b6cbe64eb2c72ad5ddb731d4d598adb92592d7580f3572d1cb9ab0d52d04"
+        "contentSize": "1032918 bytes",
+        "sha256": "7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72",
+        "uploadDate": "2026-08-23"
       },
-      "keywords": ["silent governance failure", "governance drift indicators", "resolution collapse", "proper ending"]
+      "keywords": [
+        "AI governance",
+        "human oversight",
+        "workflow governance",
+        "governing capacity",
+        "Proper Ending",
+        "Authority Return"
+      ],
+      "position": 3,
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Research function",
+          "value": "End and return authority"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Research question",
+          "value": "How does it end accountably?"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "SSRN abstract ID",
+          "value": "6066430"
+        }
+      ]
+    }
+  ],
+  "about": [
+    "AI governance",
+    "human oversight",
+    "workflow governance",
+    "governing capacity",
+    "Proper Ending",
+    "Authority Return"
+  ],
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Status",
+      "value": "Working papers"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Current version",
+      "value": "6.2"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Claim discipline",
+      "value": "Formal and synthetic results are bounded to their declared abstractions; public-record coding supports traceability rather than field validation."
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Legacy prototype status",
+      "value": "Superseded; excluded from current research routes because the prototypes do not implement version 6.2."
     }
   ]
 }

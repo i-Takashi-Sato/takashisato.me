@@ -1,4 +1,5 @@
 Contact: mailto:i@takashisato.me
-Expires: 2026-12-31T00:00:00.000Z
+Expires: 2027-08-23T00:00:00.000Z
 Preferred-Languages: en, ja
 Canonical: https://takashisato.me/.well-known/security.txt
+Policy: https://takashisato.me/security.html
