@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#f2efe8">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#050505">
   <title>Colophon · The Proper Ending Index</title>
   <meta name="description" content="Design, technology, and preservation notes for The Proper Ending Index.">
   <meta name="author" content="Takashi Sato">
@@ -20,6 +20,7 @@
   <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
   <link rel="alternate icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="The Proper Ending Index">
@@ -38,8 +39,8 @@
   <meta name="twitter:image:alt" content="The Proper Ending Index — Colophon · The Proper Ending Index">
 
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://takashisato.me/colophon.html#page","url":"https://takashisato.me/colophon.html","name":"Colophon","description":"Design, technology, and preservation notes for The Proper Ending Index.","dateModified":"2026-08-23","author":{"@id":"https://takashisato.me/about.html#takashi-sato"}},{"@type":"Person","@id":"https://takashisato.me/about.html#takashi-sato","name":"Takashi Sato","givenName":"Takashi","familyName":"Sato","alternateName":["佐藤貴士","佐藤 貴士","Sato Takashi"],"jobTitle":"Independent Researcher","url":"https://takashisato.me/about.html","workLocation":{"@type":"Place","name":"Sapporo, Hokkaido, Japan","address":{"@type":"PostalAddress","addressLocality":"Sapporo","addressRegion":"Hokkaido","addressCountry":"JP"}},"identifier":[{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0003-1584-6965"},{"@type":"PropertyValue","propertyID":"SSRN Author ID","value":"9540672"}],"sameAs":["https://orcid.org/0009-0003-1584-6965","https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672","https://scholar.google.com/citations?user=tN4zV68AAAAJ"],"knowsAbout":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Index","item":"https://takashisato.me/"},{"@type":"ListItem","position":2,"name":"Colophon","item":"https://takashisato.me/colophon.html"}]}]}</script>
-  <link rel="stylesheet" href="/assets/archive-v62.css?v=6.2.2">
-  <script src="/assets/archive-v62.js?v=6.2.2"></script>
+  <link rel="stylesheet" href="/assets/archive-v62.css?v=6.3.0">
+  <script src="/assets/archive-v62.js?v=6.3.0"></script>
 </head>
 <body data-tone="neutral" data-page="colophon">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -62,14 +63,15 @@
           <p class="eyebrow">The Proper Ending Index</p>
           <h1>Colophon</h1>
           <div class="content"><section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
-<section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, external font request, client-side router, account system, or third-party UI package.</p></section>
-<section><h2>Typography &amp; material</h2><p>The system uses native serif, sans-serif, and monospace stacks. Color and geometry distinguish the trilogy without creating three incompatible microsites. Functional diagrams are built from semantic HTML and CSS so their content remains selectable, responsive, and printable.</p></section>
+<section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
+<section><h2>Typography &amp; material</h2><p>The interface self-hosts one variable grotesk, Instrument Sans, under the SIL Open Font License. Width and weight axes create hierarchy without loading a family of static files. A near-black field, fine rules, and one signal color distinguish structure without turning the papers into incompatible microsites. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
 <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system. No research content depends on animation or pointer input.</p></section>
 <section><h2>Preservation</h2><p>SSRN remains the primary external research record. Versioned local PDFs are preserved with file size and SHA-256 recorded on each paper page and in <a href="/research-index.json">research-index.json</a>.</p></section>
 <section><h2>Build</h2><p>The site is generated by a dependency-free Python script and checked by a repository validator in continuous integration. Last rebuilt for the v6.2 papers on 23 August 2026.</p></section></div>
         </main>
 <footer class="site-footer">
   <div class="shell">
+    <a class="footer-wordmark" href="/" aria-label="The Proper Ending Index — home">Proper Ending</a>
     <div class="footer-grid">
       <div>
         <p class="eyebrow">The Proper Ending Index</p>

@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.2.2"
+ASSET_VERSION = "6.3.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -338,7 +338,7 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"commercial or services trace present in current archive: {term}")
 
     about = (ROOT / "about.html").read_text(encoding="utf-8")
-    for identity in ["佐藤貴士", "札幌を拠点とする独立研究者", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:
+    for identity in ["佐藤貴士　札幌", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:
         if identity not in about:
             fail(errors, f"about.html: identity element missing: {identity}")
     for stale_copy in ["佐藤貴士について", "現在の研究では、人間が形式上", "AIガバナンス、人間による監督、ワークフロー・ガバナンス"]:
@@ -346,6 +346,8 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"about.html: verbose Japanese profile copy returned: {stale_copy}")
     if "mailto:" in about or ">Contact<" in about:
         fail(errors, "about.html: direct contact route must remain outside the author record")
+    if about.count('lang="ja"') != 1 or about.count("佐藤貴士　札幌") != 1:
+        fail(errors, "about.html: visible Japanese identity must be exactly one instance of 佐藤貴士　札幌")
 
     home = (ROOT / "index.html").read_text(encoding="utf-8")
     if GOOGLE_SITE_VERIFICATION not in home:
@@ -363,6 +365,8 @@ def audit_assets(errors: list[str]) -> None:
         "archive-v62.css",
         "archive-v62.js",
         "site-analytics.js",
+        "fonts/InstrumentSans-Variable.woff2",
+        "fonts/InstrumentSans-OFL.txt",
         "og/home.jpg",
         "og/papers.jpg",
         "og/about.jpg",
@@ -395,6 +399,16 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, f"archive stylesheet exceeds 50 KB: {len(css.encode())}")
     if len(js.encode()) > 5_000:
         fail(errors, f"enhancement script exceeds 5 KB: {len(js.encode())}")
+    font_path = ROOT / "assets/fonts/InstrumentSans-Variable.woff2"
+    if not font_path.read_bytes().startswith(b"wOF2"):
+        fail(errors, "Instrument Sans webfont is not a valid WOFF2 payload")
+    if font_path.stat().st_size > 100_000:
+        fail(errors, f"Instrument Sans webfont exceeds 100 KB: {font_path.stat().st_size}")
+    license_text = (ROOT / "assets/fonts/InstrumentSans-OFL.txt").read_text(encoding="utf-8")
+    if "SIL OPEN FONT LICENSE Version 1.1" not in license_text:
+        fail(errors, "Instrument Sans license record is missing or invalid")
+    if "@font-face" not in css or "InstrumentSans-Variable.woff2" not in css:
+        fail(errors, "archive stylesheet does not declare the self-hosted variable font")
 
     paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
     if not paper_match:

@@ -35,21 +35,22 @@ single degradation score, universal lifecycle, or commercial methodology.
 
 ## Visual System
 
-The site is one archive with one grid, one typographic system, and one quiet
-material vocabulary. It should feel authored and exact without imitating a
-luxury brand or research dashboard.
+The site is one archive with one twelve-column grid, one variable grotesk, and
+one signal color. It should combine the scale confidence of a cultural studio
+with the restraint and precision of a serious research record.
 
-- Use a warm mineral-paper field, dark ink, fine rules, and restrained accents.
-- Let hierarchy, spacing, evidence, and language create distinction before
-  decoration does.
-- Use native serif type for propositions and titles, native sans-serif type for
-  interface text, and monospace only for identifiers and executable states.
-- Keep titles readable; no page should be dominated by typography at the cost
-  of the abstract, boundary, citation, or navigation.
-- Distinguish the three papers through measured accent shifts and their actual
-  formal structures—not unrelated art references.
-- Build diagrams from semantic HTML and CSS whenever possible so their text is
-  selectable, responsive, printable, and available without JavaScript.
+- Use a near-black field, gray-white type, full-width hairlines, and one
+  vermilion signal. Black must have enough tonal depth to separate structure
+  without card shadows or gloss.
+- Self-host Instrument Sans as the only branded family. Use its width and
+  weight axes to create extreme scale contrast without falling back to an
+  old-luxury serif aesthetic.
+- Let full-width display type establish the spatial rhythm, then return quickly
+  to measured reading widths and explicit evidence boundaries.
+- Distinguish the three papers through numbering, hierarchy, and their actual
+  formal structures—not three decorative palettes or unrelated art references.
+- Build diagrams from semantic HTML and CSS so their text remains selectable,
+  responsive, printable, and available without JavaScript.
 
 Part III may carry the greatest visual gravity, but it must not become a dark
 microsite detached from the archive. Its motion language is convergence:
@@ -71,10 +72,9 @@ not a competing publication source. Earlier ALTRION visualizers remain at their
 old URLs only as `noindex` retirement notices and must not be linked as current
 research instruments.
 
-The author record is English-primary. Visible Japanese exists only to connect
-`佐藤貴士` with `Takashi Sato`, the independent-researcher role, and Sapporo;
-structured data and metadata carry the wider entity graph. Do not restore a
-second, keyword-stacked Japanese biography that merely repeats the English page.
+The author record is English-primary. Its complete visible Japanese identity is
+exactly `佐藤貴士　札幌`; structured data and metadata carry the wider entity
+graph. Do not restore a second, keyword-stacked Japanese biography.
 
 Do not introduce decorative quotations, invented case files, fictional JSON,
 award claims, unverified performance claims, or language that makes a bounded
@@ -86,9 +86,10 @@ investment, lead-generation, or contact-conversion flows.
 The archive is complete before JavaScript runs. Enhancement may add only
 orientation and pacing:
 
-- restrained reveal transitions;
+- restrained mask-and-compression reveal transitions;
 - a reading-progress line;
-- current-page and focus states; and
+- current-page and focus states;
+- progressive cross-document view transitions; and
 - optional first-party analytics that fails closed.
 
 No research content may depend on scroll choreography, canvas, WebGL, pointer
@@ -100,8 +101,9 @@ scientific authority.
 
 - Pre-rendered static HTML suitable for GitHub Pages.
 - One shared stylesheet and small dependency-free enhancement scripts.
-- No external fonts, framework runtime, third-party UI kit, tracking pixel, or
-  build-time network dependency.
+- One self-hosted variable font under the SIL Open Font License; no remote font
+  call, framework runtime, third-party UI kit, tracking pixel, or build-time
+  network dependency.
 - Stable URLs, canonical links, semantic landmarks, visible breadcrumbs,
   keyboard focus, skip links, adequate targets, and print styles.
 - Stable Person, CreativeWorkSeries, ScholarlyArticle, BreadcrumbList, and
