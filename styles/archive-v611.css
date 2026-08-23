@@ -241,11 +241,21 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
   .probe-route small { grid-column: 1; }
 }
 
-/* Optical correction for the 320px class: keep the home thesis inside the shell. */
+/* Optical corrections for the 320px class only. */
 @media (max-width: 22rem) {
   body[data-page="home"] .hero h1 {
     max-width: 100%;
     font-size: clamp(3.65rem, 19vw, 4.5rem);
+  }
+  body[data-page="about"] .author-name h1 {
+    overflow: clip;
+  }
+  body[data-page="about"] .author-name h1::after {
+    inset: 3% 0 0;
+    transform: none;
+  }
+  body[data-page="about"] .author-links::after {
+    display: none;
   }
 }
 
