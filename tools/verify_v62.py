@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.2.1"
+ASSET_VERSION = "6.2.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -338,9 +338,12 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"commercial or services trace present in current archive: {term}")
 
     about = (ROOT / "about.html").read_text(encoding="utf-8")
-    for identity in ["佐藤貴士", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:
+    for identity in ["佐藤貴士", "札幌を拠点とする独立研究者", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:
         if identity not in about:
             fail(errors, f"about.html: identity element missing: {identity}")
+    for stale_copy in ["佐藤貴士について", "現在の研究では、人間が形式上", "AIガバナンス、人間による監督、ワークフロー・ガバナンス"]:
+        if stale_copy in about:
+            fail(errors, f"about.html: verbose Japanese profile copy returned: {stale_copy}")
     if "mailto:" in about or ">Contact<" in about:
         fail(errors, "about.html: direct contact route must remain outside the author record")
 
