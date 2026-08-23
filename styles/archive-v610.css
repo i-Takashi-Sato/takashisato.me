@@ -1,0 +1,230 @@
+/* The Proper Ending Index — v6.10 corrective spatial layer.
+   Stage marks are deliberately removed. The research membrane must be visibly present,
+   legible as a paper-under-glass field, and progressive-only. */
+
+/* Remove every visible Jo/Ha/Kyu trace from hero, rows and nav. */
+html body[data-tone^="part-"] .paper-hero::after,
+html body[data-tone^="part-"] .site-nav a[href="/papers/"]::after,
+html body[data-page="home"] .sequence-row > div::after,
+html body[data-page="papers"] .sequence-row > div::after,
+html body[data-page="home"] .hero::before,
+html body[data-page="papers"] .page-hero::after {
+  content: none;
+  display: none;
+}
+
+/* The old fixed WebGL field is superseded by an in-surface membrane. */
+.research-fluid { display: none; }
+
+.has-research-membrane {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --membrane-a: #b9b3a7;
+  --membrane-b: #425c95;
+  --membrane-c: #986b43;
+  --membrane-paper: rgba(224, 220, 208, .16);
+  --lx: 72%;
+  --ly: 48%;
+  --vx: 0px;
+  --vy: 0px;
+  --fluid-v: 0;
+}
+body[data-tone="part-1"] .has-research-membrane {
+  --membrane-a: #b79b63;
+  --membrane-b: #294895;
+  --membrane-c: #7e5837;
+  --membrane-paper: rgba(218, 207, 181, .17);
+}
+body[data-tone="part-2"] .has-research-membrane {
+  --membrane-a: #aab7c0;
+  --membrane-b: #506d7d;
+  --membrane-c: #d4d9dc;
+  --membrane-paper: rgba(208, 216, 219, .15);
+}
+body[data-tone="part-3"] .has-research-membrane {
+  --membrane-a: #9c5148;
+  --membrane-b: #5d2522;
+  --membrane-c: #a77b51;
+  --membrane-paper: rgba(215, 196, 181, .15);
+}
+body[data-page="home"] .has-research-membrane,
+body[data-page="papers"] .has-research-membrane {
+  --membrane-a: #b7bac0;
+  --membrane-b: #36518a;
+  --membrane-c: #9d6845;
+  --membrane-paper: rgba(221, 218, 210, .14);
+}
+
+.has-research-membrane > :not(.research-membrane) {
+  position: relative;
+  z-index: 2;
+}
+
+.research-membrane {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .96;
+}
+
+.research-paper {
+  position: absolute;
+  right: clamp(1.5rem, 5.5vw, 7rem);
+  top: 50%;
+  width: clamp(23rem, 34vw, 35rem);
+  min-height: clamp(29rem, 45vw, 43rem);
+  padding: clamp(2.2rem, 3vw, 3.5rem);
+  border: 1px solid color-mix(in srgb, var(--membrane-a) 28%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent 18%),
+    linear-gradient(145deg, var(--membrane-paper), rgba(8,8,9,.06) 62%, rgba(8,8,9,.16)),
+    url('/assets/materials/paper.jpg') center / cover no-repeat;
+  color: rgba(25,25,26,.72);
+  box-shadow:
+    0 2rem 8rem rgba(0,0,0,.45),
+    inset 0 0 0 1px rgba(255,255,255,.025);
+  opacity: .26;
+  filter: grayscale(.38) contrast(.92) brightness(.88);
+  transform: translate3d(0,-50%,0) rotate(-5deg) perspective(900px) rotateY(-8deg);
+  transform-origin: 55% 50%;
+}
+
+.research-paper-kicker {
+  margin: 0 0 2rem;
+  color: rgba(24,24,25,.68);
+  font-family: var(--mono);
+  font-size: .58rem;
+  font-weight: 650;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.research-paper-title {
+  max-width: 15ch;
+  margin: 0 0 1.2rem;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 3.4vw, 4rem);
+  font-weight: 360;
+  letter-spacing: -.045em;
+  line-height: .94;
+}
+.research-paper-meta {
+  margin-bottom: 2.1rem;
+  color: rgba(27,27,29,.58);
+  font-family: var(--mono);
+  font-size: .55rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.research-paper-lines { display: grid; gap: .53rem; }
+.research-paper-lines i {
+  display: block;
+  height: 1px;
+  background: rgba(28,28,29,.24);
+  transform-origin: left center;
+}
+.research-paper-lines i:nth-child(3n+1) { transform: scaleX(.91); }
+.research-paper-lines i:nth-child(3n+2) { transform: scaleX(.74); }
+.research-paper-lines i:nth-child(3n) { transform: scaleX(.83); }
+
+.research-refraction {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  opacity: .9;
+  -webkit-mask-image:
+    radial-gradient(ellipse 20rem 15rem at var(--lx) var(--ly), #000 0 34%, rgba(0,0,0,.92) 46%, rgba(0,0,0,.42) 67%, transparent 79%);
+  mask-image:
+    radial-gradient(ellipse 20rem 15rem at var(--lx) var(--ly), #000 0 34%, rgba(0,0,0,.92) 46%, rgba(0,0,0,.42) 67%, transparent 79%);
+  filter: saturate(1.16) contrast(1.12);
+}
+.research-refraction::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 17rem 11rem at var(--lx) var(--ly), color-mix(in srgb, var(--membrane-c) 30%, transparent), transparent 60%),
+    radial-gradient(ellipse 24rem 18rem at calc(var(--lx) - 4%) calc(var(--ly) - 5%), color-mix(in srgb, var(--membrane-a) 22%, transparent), transparent 64%);
+  mix-blend-mode: screen;
+  opacity: calc(.34 + var(--fluid-v) * .36);
+  filter: blur(7px);
+}
+.research-refraction .research-paper {
+  opacity: .82;
+  filter: grayscale(.08) contrast(1.12) brightness(1.06);
+  transform:
+    translate3d(calc(var(--vx) * -1), calc(-50% + var(--vy) * -1), 0)
+    rotate(-4.2deg)
+    skewX(calc(var(--fluid-v) * -1.8deg))
+    scale(calc(1.018 + var(--fluid-v) * .025));
+  box-shadow:
+    0 2rem 9rem rgba(0,0,0,.5),
+    0 0 3.4rem color-mix(in srgb, var(--membrane-b) 16%, transparent),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.research-caustic {
+  position: absolute;
+  z-index: 2;
+  inset: -10%;
+  background:
+    radial-gradient(ellipse 9rem 3.6rem at var(--lx) var(--ly), rgba(255,255,255,.24), transparent 56%),
+    radial-gradient(ellipse 18rem 8rem at calc(var(--lx) + 5%) calc(var(--ly) - 4%), color-mix(in srgb, var(--membrane-b) 26%, transparent), transparent 65%),
+    repeating-radial-gradient(ellipse 23rem 15rem at var(--lx) var(--ly), transparent 0 17%, rgba(255,255,255,.035) 18%, transparent 20% 28%);
+  mix-blend-mode: screen;
+  opacity: calc(.18 + var(--fluid-v) * .56);
+  filter: blur(calc(9px - var(--fluid-v) * 4px));
+  transform: translate3d(calc(var(--vx) * .45), calc(var(--vy) * .45), 0) rotate(calc(var(--fluid-v) * 2.4deg));
+  transition: opacity .32s ease;
+}
+
+.has-research-membrane.is-fluid-active .research-paper { opacity: .32; }
+.has-research-membrane.is-fluid-active .research-refraction { opacity: 1; }
+
+/* On Home/Papers the paper is integrated into the active research row rather than fixed in the viewport. */
+body[data-page="home"] .sequence-row .research-paper,
+body[data-page="papers"] .sequence-row .research-paper {
+  right: clamp(.4rem, 3vw, 2.8rem);
+  width: clamp(15rem, 27vw, 27rem);
+  min-height: 88%;
+  padding: clamp(1.3rem, 2vw, 2rem);
+  opacity: .12;
+  transform: translate3d(0,-50%,0) rotate(-3deg) scale(.96);
+}
+body[data-page="home"] .sequence-row .research-paper-title,
+body[data-page="papers"] .sequence-row .research-paper-title {
+  font-size: clamp(1.5rem, 2.1vw, 2.6rem);
+}
+body[data-page="home"] .sequence-row .research-refraction .research-paper,
+body[data-page="papers"] .sequence-row .research-refraction .research-paper {
+  opacity: .58;
+  transform: translate3d(calc(var(--vx) * -1),calc(-50% + var(--vy) * -1),0) rotate(-2deg) scale(.985);
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .has-research-membrane:hover .research-paper { opacity: .3; }
+  body[data-page="home"] .sequence-row:hover .research-paper,
+  body[data-page="papers"] .sequence-row:hover .research-paper { opacity: .18; }
+}
+
+@media (max-width: 62rem) {
+  .research-paper { right: -7rem; width: 29rem; opacity: .16; }
+  .research-refraction { opacity: .62; }
+}
+
+@media (max-width: 42rem), (hover:none), (pointer:coarse) {
+  .research-membrane { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .research-refraction,
+  .research-caustic { display: none; }
+  .research-paper { opacity: .12; transform: translate3d(0,-50%,0) rotate(-4deg); }
+}
+
+@media (forced-colors: active), print {
+  .research-membrane { display: none; }
+}
