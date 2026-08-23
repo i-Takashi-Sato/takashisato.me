@@ -36,15 +36,16 @@ single degradation score, universal lifecycle, or commercial methodology.
 ## Visual System
 
 The site is one archive with one twelve-column grid, an editorial serif paired
-with a neutral screen grotesk, and one signal color. It should combine the
+with a neutral screen grotesk, a scarce formal script, and one signal color. It should combine the
 scale confidence of a cultural studio with the restraint and precision of a
 serious research record.
 
 - Use a near-black field, gray-white type, full-width hairlines, and one
-  vermilion signal. Black must have enough tonal depth to separate structure
+  electric-ultramarine signal. Black must have enough tonal depth to separate structure
   without card shadows or gloss.
-- Self-host Newsreader for display and Inter for interface, data, and reading
-  text. Keep both at their natural proportions; hierarchy comes from optical
+- Self-host Newsreader for editorial display, Inter for interface, data, and
+  reading text, and Mea Culpa only for the author signature, one thesis accent,
+  the footer wordmark, and pointer labels. Keep all at their natural proportions; hierarchy comes from optical
   size, weight, space, and composition rather than artificial compression.
 - Use the supplied grain, paper, and brushed-metal images as distinct material
   roles. Grain is an optical film, paper belongs to research surfaces, and
@@ -87,25 +88,27 @@ investment, lead-generation, or contact-conversion flows.
 
 ## Interaction
 
-The archive is complete before JavaScript runs. Enhancement may add only
-orientation and pacing:
+The archive is complete before JavaScript runs. Enhancement may add orientation,
+physical response, and pacing:
 
 - restrained opacity-and-translation reveal transitions;
 - a reading-progress line;
-- current-page and focus states;
-- progressive cross-document view transitions; and
+- current-page and keyboard focus states;
+- a fine-pointer-only difference cursor with short calligraphic labels;
+- magnetic controls and position-aware surface light;
+- progressive scroll-linked material drift and cross-document view transitions; and
 - optional first-party analytics that fails closed.
 
-No research content may depend on scroll choreography, canvas, WebGL, pointer
-input, audio, autoplay, or a client-side router. Respect reduced-motion and
-forced-colors preferences. Motion should confirm structure, never simulate
-scientific authority.
+No research content may depend on these enhancements, canvas, WebGL, pointer
+input, audio, autoplay, or a client-side router. Touch and keyboard retain every
+action. Respect reduced-motion and forced-colors preferences. Motion should
+confirm structure, never simulate scientific authority.
 
 ## Technical Baseline
 
 - Pre-rendered static HTML suitable for GitHub Pages.
 - One shared stylesheet and small dependency-free enhancement scripts.
-- One self-hosted variable font under the SIL Open Font License; no remote font
+- Three self-hosted OFL type families; no remote font
   call, framework runtime, third-party UI kit, tracking pixel, or build-time
   network dependency.
 - Stable URLs, canonical links, semantic landmarks, visible breadcrumbs,

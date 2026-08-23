@@ -15,7 +15,7 @@ AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.4.0"
+ASSET_VERSION = "6.5.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -262,6 +262,7 @@ def head(
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
           <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
+          <link rel="preload" href="/assets/fonts/MeaCulpa.woff2" as="font" type="font/woff2" crossorigin>
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
@@ -416,7 +417,7 @@ def home_page() -> str:
             <div class="hero-grid">
               <div data-reveal>
                 <p class="eyebrow">Workflow-Centric AI Governance Trilogy · v6.2</p>
-                <h1 id="hero-title"><span>A role alone</span><span>is not governance.</span></h1>
+                <h1 id="hero-title"><span>A role alone</span><span>is <em>not</em> governance.</span></h1>
               </div>
               <div class="hero-aside" data-reveal>
                 <p class="hero-statement">Accountability lives in the sequence.</p>
@@ -919,7 +920,7 @@ def about_page() -> str:
             <div class="author-hero-grid">
               <div class="author-name" data-reveal>
                 <p class="eyebrow">Author record · 001</p>
-                <h1 aria-label="Takashi Sato"><span>Takashi</span><span>Sato</span></h1>
+                <h1 aria-label="Takashi Sato"><span>Takashi Sato</span></h1>
               </div>
               <div class="author-thesis" data-reveal>
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
@@ -1182,8 +1183,9 @@ def main() -> None:
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
                 <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
-                <section><h2>Typography &amp; material</h2><p>The interface pairs Newsreader for editorial display with Inter for navigation, data, and long-form screen text. Both variable families are self-hosted under the SIL Open Font License and retain their natural proportions. Three supplied monochrome surfaces have distinct roles: grain as a quiet optical layer, paper around the research records, and brushed metal at institutional boundaries. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
-                <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system. No research content depends on animation or pointer input.</p></section>
+                <section><h2>Typography &amp; material</h2><p>The interface pairs Newsreader for editorial display, Inter for navigation and long-form screen text, and Mea Culpa as a deliberately scarce calligraphic signature. All three families are self-hosted under the SIL Open Font License. Three supplied monochrome surfaces have distinct roles: grain as a quiet optical layer, paper around the research records, and brushed metal at institutional boundaries. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
+                <section><h2>Interaction</h2><p>Fine-pointer devices receive a difference-blended cursor, magnetic controls, pointer-position lighting, scroll-linked material drift, and cross-document view transitions. Touch, keyboard, and reduced-motion users retain the complete archive without those effects; no research content or action depends on animation or pointer input.</p></section>
+                <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system.</p></section>
                 <section><h2>Preservation</h2><p>SSRN remains the primary external research record. Versioned local PDFs are preserved with file size and SHA-256 recorded on each paper page and in <a href="/research-index.json">research-index.json</a>.</p></section>
                 <section><h2>Build</h2><p>The site is generated by a dependency-free Python script and checked by a repository validator in continuous integration. Last rebuilt for the v6.2 papers on 23 August 2026.</p></section>
                 """
@@ -1262,7 +1264,7 @@ def main() -> None:
             /* SITE */
             The Proper Ending Index
             Static HTML, CSS, and progressive JavaScript
-            One self-hosted variable font; no framework runtime
+            Three self-hosted type families; no framework runtime
             Current research version: 6.2
             Last update: 2026-08-23
 

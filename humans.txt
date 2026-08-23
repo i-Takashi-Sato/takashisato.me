@@ -7,7 +7,7 @@ ORCID: 0009-0003-1584-6965
 /* SITE */
 The Proper Ending Index
 Static HTML, CSS, and progressive JavaScript
-One self-hosted variable font; no framework runtime
+Three self-hosted type families; no framework runtime
 Current research version: 6.2
 Last update: 2026-08-23
 
