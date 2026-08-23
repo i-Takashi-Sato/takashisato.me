@@ -612,7 +612,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
   .protocol li:nth-child(n) { grid-column: auto; }
   .record-row { grid-template-columns: 1fr; gap: .35rem; }
   .author-hero-grid { display: block; }
-  .author-name h1 { max-width: none; font-size: clamp(5.2rem, 23vw, 8.2rem); line-height: .8; transform: rotate(-2deg) translateX(-.04em); }
+  .author-name h1 { max-width: none; font-size: clamp(4rem, 19vw, 8.2rem); line-height: .8; transform: rotate(-2deg) translateX(-.04em); }
   .author-thesis { margin-top: 4rem; }
   .author-identity { font-size: .7rem; letter-spacing: .045em; }
   .author-rail { display: block; }
@@ -621,7 +621,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
   .series-nav a { min-height: 8.5rem; border-right: 0; border-bottom: 1px solid var(--line); }
   .footer-links { grid-template-columns: repeat(2, 1fr); }
   .footer-bottom { flex-direction: column; }
-  .footer-wordmark { max-width: none; font-size: 22vw; line-height: .74; transform: translateX(-.03em); }
+  .footer-wordmark { max-width: none; font-size: 17vw; line-height: .74; transform: translateX(-.03em); }
 }
 
 @media (prefers-reduced-motion: reduce) {
