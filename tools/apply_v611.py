@@ -22,7 +22,6 @@ def main() -> None:
     build = ROOT / "tools" / "build_site.py"
     verify = ROOT / "tools" / "verify_v62.py"
     runtime = ROOT / "assets" / "archive-v62.js"
-    qa = ROOT / ".github" / "workflows" / "site-link-qa.yml"
 
     replace_once(build, 'ASSET_VERSION = "6.10.4"', 'ASSET_VERSION = "6.11.0"')
     replace_once(verify, 'ASSET_VERSION = "6.10.4"', 'ASSET_VERSION = "6.11.0"')
@@ -145,12 +144,6 @@ def main() -> None:
     ]:
         runtime_text = runtime_text.replace(obsolete, "")
     runtime.write_text(runtime_text, encoding="utf-8")
-
-    replace_once(
-        qa,
-        '          node --check assets/archive-v62.js\n          node --check assets/site-analytics.js',
-        '          node --check assets/archive-v62.js\n          node --check scripts/archive-v611.js\n          node --check assets/site-analytics.js',
-    )
 
 
 if __name__ == "__main__":
