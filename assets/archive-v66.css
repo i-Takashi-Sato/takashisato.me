@@ -1,0 +1,405 @@
+/*
+ * The Proper Ending Index — v6.6 interaction layer
+ * Jo / Ha / Kyu stage marks use Aoyagi Kouzan Font T by Kouzan Aoyagi.
+ * The upstream font is public domain / unrestricted for commercial use.
+ * Source: https://opentype.jp/aoyagikouzanfontt
+ * Webfont mirror: https://leafscape.be/fonts/10.html
+ *
+ * This layer is decorative/progressive only: research content remains complete
+ * without it, and all motion is disabled under prefers-reduced-motion.
+ */
+
+@font-face {
+  font-family: "Aoyagi Kouzan T";
+  src: local("青柳衡山フォントT"), local("AoyagiKouzanFontT"),
+       url("https://cdn.leafscape.be/AoyagiKouzanT/aoyanagiT_web.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+5E8F, U+7834, U+6025;
+}
+
+:root {
+  --aoyagi: "Aoyagi Kouzan T", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --motion-enter: 760ms;
+  --motion-engage: 360ms;
+  --motion-release: 540ms;
+  --motion-settle: 920ms;
+  --ease-enter: cubic-bezier(.16, .78, .18, 1);
+  --ease-engage: cubic-bezier(.2, .82, .2, 1);
+  --ease-release: cubic-bezier(.22, .68, .22, 1);
+  --ease-settle: cubic-bezier(.12, .72, .16, 1);
+  --ending: 0;
+  --home-scroll: 0;
+}
+
+/* ---------- Jo / Ha / Kyu: the archive's stage notation ---------- */
+.paper-hero {
+  --stage-x: 0px;
+  --stage-y: 0px;
+  --stage-r: 0deg;
+  --stage-s: 1;
+  --stage-opacity: .105;
+}
+
+.paper-hero::after {
+  right: clamp(1rem, 5.5vw, 6.5rem);
+  bottom: clamp(-2rem, -2vw, -.5rem);
+  color: rgba(57, 92, 255, .86);
+  font-family: var(--aoyagi);
+  font-size: clamp(16rem, 31vw, 31rem);
+  font-weight: 400;
+  line-height: .78;
+  opacity: var(--stage-opacity);
+  text-shadow: 0 0 2.8rem rgba(57, 92, 255, .12);
+  transform: translate3d(var(--stage-x), var(--stage-y), 0) rotate(var(--stage-r)) scale(var(--stage-s));
+  transform-origin: 62% 62%;
+  transition: opacity var(--motion-release) ease, filter var(--motion-release) ease;
+  will-change: transform, opacity;
+}
+
+body[data-tone="part-1"] .paper-hero::after {
+  content: "序";
+  --stage-r: -4.5deg;
+  --stage-s: .98;
+  --stage-opacity: .105;
+  filter: contrast(1.03);
+}
+
+body[data-tone="part-2"] .paper-hero::after {
+  content: "破";
+  --stage-r: 2.2deg;
+  --stage-s: 1.055;
+  --stage-opacity: .095;
+  filter: contrast(1.16) saturate(.88);
+  text-shadow: .035em .012em 0 rgba(57, 92, 255, .035), -.022em -.018em 0 rgba(199, 208, 255, .02);
+}
+
+body[data-tone="part-3"] .paper-hero::after {
+  content: "急";
+  --stage-r: -1.4deg;
+  --stage-s: 1.02;
+  --stage-opacity: .115;
+  filter: contrast(1.1);
+  transform-origin: 68% 78%;
+}
+
+/* Subtle orientation in the global header. */
+body[data-tone^="part-"] .site-nav a[href="/papers/"]::after {
+  margin-left: .48rem;
+  color: var(--signal-soft);
+  font-family: var(--aoyagi);
+  font-size: .9rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+  opacity: .66;
+  transform: translateY(-.02em);
+}
+body[data-tone="part-1"] .site-nav a[href="/papers/"]::after { content: "序"; }
+body[data-tone="part-2"] .site-nav a[href="/papers/"]::after { content: "破"; }
+body[data-tone="part-3"] .site-nav a[href="/papers/"]::after { content: "急"; }
+
+/* ---------- Home signature scene ---------- */
+body[data-page="home"] .hero::before {
+  content: "序\A破\A急";
+  position: absolute;
+  z-index: -1;
+  right: max(var(--gutter), 2vw);
+  top: 50%;
+  color: var(--signal-soft);
+  font-family: var(--aoyagi);
+  font-size: clamp(6.5rem, 12vw, 12.5rem);
+  font-weight: 400;
+  line-height: .72;
+  white-space: pre;
+  opacity: calc(.035 + var(--home-scroll) * .055);
+  filter: blur(.05px) saturate(.8);
+  transform: translate3d(calc(var(--home-scroll) * -1.25rem), calc(-50% + var(--home-scroll) * 1.6rem), 0) rotate(-3deg);
+  transform-origin: center;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+body[data-page="home"] .sequence-row > div,
+body[data-page="papers"] .sequence-row > div {
+  position: relative;
+  isolation: isolate;
+}
+
+body[data-page="home"] .sequence-row > div::after,
+body[data-page="papers"] .sequence-row > div::after {
+  position: absolute;
+  z-index: -1;
+  right: clamp(0rem, 3vw, 3rem);
+  top: 50%;
+  color: var(--signal-soft);
+  font-family: var(--aoyagi);
+  font-size: clamp(6rem, 11vw, 11rem);
+  font-weight: 400;
+  line-height: .8;
+  opacity: .028;
+  transform: translate3d(0, -50%, 0) rotate(-3deg) scale(.94);
+  transition: opacity var(--motion-engage) ease, transform var(--motion-release) var(--ease-release), filter var(--motion-release) ease;
+  pointer-events: none;
+}
+body[data-page="home"] .sequence-row:nth-child(1) > div::after,
+body[data-page="papers"] .sequence-row:nth-child(1) > div::after { content: "序"; }
+body[data-page="home"] .sequence-row:nth-child(2) > div::after,
+body[data-page="papers"] .sequence-row:nth-child(2) > div::after { content: "破"; transform: translate3d(.5rem, -50%, 0) rotate(2deg) scale(1); }
+body[data-page="home"] .sequence-row:nth-child(3) > div::after,
+body[data-page="papers"] .sequence-row:nth-child(3) > div::after { content: "急"; transform: translate3d(.2rem, -50%, 0) rotate(-1deg) scale(.98); }
+
+body[data-page="papers"] .page-hero::after {
+  content: "序  破  急";
+  position: absolute;
+  z-index: -1;
+  right: var(--gutter);
+  bottom: -.04em;
+  color: var(--signal-soft);
+  font-family: var(--aoyagi);
+  font-size: clamp(7rem, 14vw, 14rem);
+  line-height: .72;
+  letter-spacing: .08em;
+  opacity: .032;
+  transform: rotate(-2deg);
+  pointer-events: none;
+}
+
+/* ---------- Reading instrument ---------- */
+.toc a {
+  position: relative;
+  transition: color var(--motion-engage) ease, padding-left var(--motion-engage) var(--ease-engage), opacity var(--motion-engage) ease;
+}
+.toc a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--signal-soft);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: width var(--motion-engage) var(--ease-engage), opacity var(--motion-engage) ease;
+}
+.toc a[aria-current="location"] {
+  padding-left: 1.1rem;
+  color: var(--ink);
+}
+.toc a[aria-current="location"]::before { width: .72rem; opacity: 1; }
+
+.content > section {
+  position: relative;
+  transition: opacity var(--motion-release) ease;
+}
+.content > section::before {
+  content: "";
+  position: absolute;
+  left: clamp(-2.1rem, -3vw, -1.1rem);
+  top: .35rem;
+  width: 1px;
+  height: 0;
+  background: linear-gradient(var(--signal-soft), transparent);
+  opacity: 0;
+  transition: height var(--motion-settle) var(--ease-settle), opacity var(--motion-engage) ease;
+}
+.content > section.is-current::before { height: min(8rem, 35%); opacity: .58; }
+
+/* Paper-specific motion language: structure / fracture / closure. */
+body[data-tone="part-1"] .content > section.is-current h2 {
+  text-shadow: 0 0 2.5rem rgba(57, 92, 255, .035);
+}
+body[data-tone="part-2"] .content > section.is-current h2 {
+  transform: translateX(.04em);
+  text-shadow: -.025em 0 rgba(57, 92, 255, .03), .025em 0 rgba(242, 240, 233, .018);
+}
+body[data-tone="part-3"] .content > section.is-current h2 {
+  letter-spacing: -.05em;
+  transform: translateX(-.015em);
+}
+
+/* ---------- Relational hover ---------- */
+.sequence-row,
+.metric,
+.fact,
+.series-nav a,
+.author-links a,
+.paper-actions,
+.hero-actions {
+  --rel: 0;
+}
+
+.sequence-row.is-related,
+.metric.is-related,
+.fact.is-related,
+.series-nav a.is-related,
+.author-links a.is-related {
+  --rel: 1;
+}
+
+@supports selector(:has(*)) {
+  .paper-actions:has(.button:hover) .button:not(:hover),
+  .hero-actions:has(.button:hover) .button:not(:hover) {
+    opacity: .46;
+  }
+  .paper-hero:has(.button:hover)::after { opacity: calc(var(--stage-opacity) + .028); }
+  body[data-page="papers"] .sequence-row:has(.button:hover) > div::after,
+  body[data-page="home"] .sequence-row:hover > div::after {
+    opacity: .085;
+    filter: saturate(1.12);
+    transform: translate3d(-.25rem, -50%, 0) rotate(-1deg) scale(1.025);
+  }
+}
+
+/* ---------- Pointer field / proximity / magnetic controls ---------- */
+.cursor-orbit {
+  --cursor-v: 0;
+  --cursor-r: 0deg;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.04), 0 0 calc(.25rem + var(--cursor-v) * 1.2rem) rgba(57,92,255,.08);
+  transform-origin: center;
+}
+.cursor-orbit::before,
+.cursor-orbit::after {
+  content: "";
+  position: absolute;
+  inset: .34rem;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 50%;
+  opacity: .42;
+  transform: rotate(var(--cursor-r));
+  transition: inset var(--motion-engage) var(--ease-engage), opacity var(--motion-engage) ease;
+}
+.cursor-orbit::after {
+  inset: -.22rem auto auto 50%;
+  width: 1px;
+  height: .55rem;
+  border: 0;
+  border-radius: 0;
+  background: currentColor;
+  opacity: .55;
+  transform-origin: 50% 1.9rem;
+}
+.cursor-orbit.is-near::before { inset: .12rem; opacity: .68; }
+.cursor-orbit.is-active::before { inset: .55rem; opacity: .3; }
+
+.button {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --prox: 0;
+}
+.button::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  background: radial-gradient(9rem circle at var(--pointer-x) var(--pointer-y), rgba(199,208,255,.19), transparent 65%);
+  opacity: var(--prox);
+  transition: opacity var(--motion-engage) ease;
+  pointer-events: none;
+}
+.button.is-near {
+  border-color: rgba(131, 152, 255, calc(.28 + var(--prox) * .48));
+}
+
+/* Part I progresses; Part II splits; Part III closes. */
+body[data-tone="part-1"] .button::before { transform-origin: 0 50%; }
+body[data-tone="part-2"] .button::before { transform-origin: 100% 50%; }
+body[data-tone="part-3"] .button::before { transform-origin: 50% 50%; transform: scaleX(0) scaleY(.12); }
+body[data-tone="part-3"] .button:hover::before { transform: scaleX(1) scaleY(1); }
+
+/* ---------- Proper Ending: the footer is an actual settling state ---------- */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: radial-gradient(70% 80% at 50% 10%, rgba(57,92,255,.055), transparent 58%), rgba(0,0,0,calc(var(--ending) * .18));
+  opacity: calc(.35 + var(--ending) * .65);
+  pointer-events: none;
+}
+.site-footer > .shell { position: relative; z-index: 1; }
+.footer-wordmark {
+  transform: translate3d(0, calc((1 - var(--ending)) * .55rem), 0) scale(calc(.985 + var(--ending) * .015));
+  transform-origin: 0 50%;
+  opacity: calc(.86 + var(--ending) * .14);
+  transition: color var(--motion-engage) ease;
+}
+.site-footer .footer-grid,
+.site-footer .footer-bottom {
+  opacity: calc(.78 + var(--ending) * .22);
+}
+html.is-ending .cursor-orbit { opacity: .38 !important; }
+html.is-ending .cursor-dot { opacity: .7 !important; }
+html.is-ending .site-footer .footer-wordmark { color: var(--ink); }
+
+/* ---------- Optical refinements ---------- */
+.paper-hero h1,
+.page-hero h1,
+.section-head h2,
+.content h2,
+.sequence-title {
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+}
+.paper-hero h1 { text-wrap: pretty; }
+.paper-subtitle { text-wrap: pretty; }
+.paper-meta { font-variant-numeric: tabular-nums; }
+
+/* ---------- Fine pointer only ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .paper-hero:hover::after { opacity: calc(var(--stage-opacity) + .02); }
+  .sequence-row:hover > div::after { opacity: .075; }
+  body[data-tone="part-2"] .paper-hero:hover::after { filter: contrast(1.22) saturate(.92); }
+  body[data-tone="part-3"] .paper-hero:hover::after { filter: contrast(1.15); }
+}
+
+/* ---------- Mobile / touch ---------- */
+@media (max-width: 62rem) {
+  body[data-page="home"] .hero::before { right: var(--gutter); opacity: .035; }
+  body[data-page="papers"] .page-hero::after { right: var(--gutter); opacity: .025; }
+  .paper-hero::after { right: clamp(-1.5rem, -2vw, 0rem); font-size: clamp(13rem, 42vw, 24rem); opacity: calc(var(--stage-opacity) * .74); }
+  .content > section::before { display: none; }
+}
+
+@media (max-width: 44rem) {
+  body[data-page="home"] .hero::before { font-size: 26vw; right: .5rem; opacity: .022; }
+  body[data-page="papers"] .page-hero::after { font-size: 20vw; bottom: 1rem; }
+  .paper-hero::after { right: -1.35rem; bottom: .05em; font-size: clamp(11rem, 58vw, 19rem); opacity: calc(var(--stage-opacity) * .58); }
+  body[data-tone^="part-"] .site-nav a[href="/papers/"]::after { display: none; }
+  body[data-page="home"] .sequence-row > div::after,
+  body[data-page="papers"] .sequence-row > div::after { font-size: 30vw; right: 0; opacity: .02; }
+}
+
+/* ---------- Safety fallbacks ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root { --home-scroll: 0 !important; --ending: 1 !important; }
+  .paper-hero::after,
+  body[data-page="home"] .hero::before,
+  body[data-page="home"] .sequence-row > div::after,
+  body[data-page="papers"] .sequence-row > div::after,
+  .footer-wordmark,
+  .content > section,
+  .content > section::before { transform: none !important; transition: none !important; animation: none !important; }
+  .cursor-orbit::before,
+  .cursor-orbit::after { display: none; }
+}
+
+@media (forced-colors: active) {
+  .paper-hero::after,
+  body[data-page="home"] .hero::before,
+  body[data-page="papers"] .page-hero::after,
+  body[data-page="home"] .sequence-row > div::after,
+  body[data-page="papers"] .sequence-row > div::after,
+  .site-footer::before { display: none !important; }
+  .toc a[aria-current="location"] { padding-left: 0; text-decoration: underline; }
+  .toc a::before { display: none; }
+}
+
+@media print {
+  .paper-hero::after,
+  body[data-page="home"] .hero::before,
+  body[data-page="papers"] .page-hero::after,
+  body[data-page="home"] .sequence-row > div::after,
+  body[data-page="papers"] .sequence-row > div::after { display: none !important; }
+}
