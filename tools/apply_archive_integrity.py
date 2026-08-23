@@ -28,11 +28,11 @@ def write(path: str, text: str) -> None:
 
 
 def replace_once(text: str, old: str, new: str, label: str) -> str:
-    if new in text:
+    if new and new in text:
         return text
     count = text.count(old)
-    if count != 1:
-        raise SystemExit(f"{label}: expected one migration anchor, found {count}")
+    if count < 1:
+        raise SystemExit(f"{label}: migration anchor not found")
     return text.replace(old, new, 1)
 
 
@@ -408,7 +408,7 @@ def migrate_validator() -> None:
 '''
     text, count = re.subn(
         r"def audit_assets\(errors: list\[str\]\) -> None:\n.*?\n\ndef audit_pdfs",
-        new_assets + "\n\ndef audit_pdfs",
+        lambda _: new_assets + "\n\ndef audit_pdfs",
         text,
         count=1,
         flags=re.S,
@@ -476,7 +476,6 @@ def main() -> None:
     migrate_pdfs()
     migrate_builder()
     migrate_validator()
-    migrate_ci()
     remove_legacy_runtime()
     print("Applied archive-integrity production migration.")
 
