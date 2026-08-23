@@ -241,6 +241,14 @@ html.is-ending body[data-page="part3"] .site-footer .footer-wordmark { color: #e
   .probe-route small { grid-column: 1; }
 }
 
+/* Optical correction for the 320px class: keep the home thesis inside the shell. */
+@media (max-width: 22rem) {
+  body[data-page="home"] .hero h1 {
+    max-width: 100%;
+    font-size: clamp(3.65rem, 19vw, 4.5rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {
   .gate-probe *, .site-footer::after { transition: none !important; }
   html.is-ending body[data-page="part3"] .cursor-orbit { display: none !important; }
