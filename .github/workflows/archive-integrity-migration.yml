@@ -45,6 +45,11 @@ jobs:
           path = Path('tools/apply_archive_integrity.py')
           text = path.read_text(encoding='utf-8')
           text = text.replace(
+              '    if new in text:\n        return text',
+              '    if new and new in text:\n        return text',
+              1,
+          )
+          text = text.replace(
               '    if count != 1:\n        raise SystemExit(f"{label}: expected one migration anchor, found {count}")',
               '    if count < 1:\n        raise SystemExit(f"{label}: migration anchor not found")',
               1,
