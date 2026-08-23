@@ -49,6 +49,11 @@ jobs:
               '    if count < 1:\n        raise SystemExit(f"{label}: migration anchor not found")',
               1,
           )
+          text = text.replace(
+              '        new_assets + "\\n\\ndef audit_pdfs",\n        text,',
+              '        lambda _: new_assets + "\\n\\ndef audit_pdfs",\n        text,',
+              1,
+          )
           path.write_text(text, encoding='utf-8')
           PY
           python -m py_compile tools/apply_archive_integrity.py
