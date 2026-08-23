@@ -1,0 +1,54 @@
+name: Cache Hotfix Once
+
+on:
+  push:
+    branches:
+      - fix/asset-cache-v6101
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rewrite archive asset version everywhere
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          old = '6.5.1'
+          new = '6.10.2'
+          changed = []
+          for path in Path('.').rglob('*.html'):
+              text = path.read_text(encoding='utf-8')
+              updated = text.replace(f'/assets/archive-v62.js?v={old}', f'/assets/archive-v62.js?v={new}')
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed.append(str(path))
+
+          build = Path('tools/build_site.py')
+          text = build.read_text(encoding='utf-8')
+          updated = text.replace('ASSET_VERSION = "6.5.1"', 'ASSET_VERSION = "6.10.2"')
+          if updated != text:
+              build.write_text(updated, encoding='utf-8')
+              changed.append(str(build))
+
+          print('updated:', *changed, sep='\n- ')
+          PY
+      - name: Remove one-shot workflow
+        run: rm .github/workflows/cache-hotfix-once.yml
+      - name: Commit rewritten outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Synchronize archive runtime cache key [cache-hotfix]"
+          git push origin HEAD:fix/asset-cache-v6101
