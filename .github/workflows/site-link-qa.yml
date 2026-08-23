@@ -1,413 +1,54 @@
-name: Site Link QA
+name: Archive QA
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches:
       - main
-    paths:
-      - '**/*.html'
-      - 'research-index.json'
-      - 'pdf/*.pdf'
-      - 'sitemap.xml'
-      - 'robots.txt'
-      - 'humans.txt'
-      - 'llms.txt'
-      - 'assets/site-analytics.js'
-      - '.github/workflows/site-link-qa.yml'
 
 permissions:
   contents: read
 
+concurrency:
+  group: archive-qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  link-qa:
-    runs-on: ubuntu-latest
+  archive-qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - name: Check retired and non-public routes
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
+
+      - name: Install pinned verification dependencies
         run: |
-          set -euo pipefail
+          python -m pip install --requirement tools/requirements.txt
+          python -m pip check
 
-          echo "Checking that retired Part III demo file does not exist..."
-          test ! -e demo/altrion-part3.html
-
-          echo "Checking that obsolete duplicate JSON-LD files do not exist..."
-          test ! -e assets/ld
-
-          echo "Checking that retired Part III demo is not publicly linked..."
-          if grep -RIn --include='*.html' --include='*.xml' --include='*.css' 'demo/altrion-part3.html' . \
-             | grep -v './.git/' ; then
-            echo "Unexpected public reference to demo/altrion-part3.html found." >&2
-            exit 1
-          fi
-
-          echo "Checking that non-public contact route is not linked..."
-          if grep -RIn --include='*.html' --include='*.xml' --include='*.css' 'contact.html' . \
-             | grep -v './.git/' ; then
-            echo "Unexpected contact.html reference found." >&2
-            exit 1
-          fi
-
-          echo "Checking that non-public business route names are not linked..."
-          if grep -RIn --include='*.html' --include='*.xml' --include='*.css' -E '/services/|/samples/' . \
-             | grep -v './.git/' ; then
-            echo "Unexpected services/samples route reference found." >&2
-            exit 1
-          fi
-
-          echo "Checking sitemap does not include retired or non-public routes..."
-          if grep -nE 'demo/altrion-part3.html|services|samples|contact\.html' sitemap.xml; then
-            echo "Retired/non-public route still appears in sitemap." >&2
-            exit 1
-          fi
-
-      - name: Check business trace vocabulary is absent
+      - name: Rebuild deterministic archive outputs
         run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
+          python tools/build_site.py
+          python tools/generate_og.py
 
-          forbidden = [
-              'サッポロ',
-              'Sapporo',
-              'Sapporo Investment',
-              'サッポロインベストメント',
-              '業務設計室',
-              'Operational Design',
-              'Services',
-              'Samples',
-              'Contact',
-              '見積',
-              '料金',
-              '業務手順書',
-              'SOP設計',
-              '業務確認',
-              '管理表設計',
-              '採用・教育・評価文書',
-              '代表取締役',
-              'Provider',
-              'Supervision',
-              '相談',
-              '制作物',
-          ]
-          suffixes = {'.html', '.xml', '.css', '.json', '.js'}
-          hits = []
-          for path in Path('.').rglob('*'):
-              if (
-                  '.git' in path.parts
-                  or 'vendor' in path.parts
-                  or path.name == 'privacy.html'
-                  or not path.is_file()
-                  or path.suffix not in suffixes
-              ):
-                  continue
-              text = path.read_text(encoding='utf-8', errors='ignore')
-              for term in forbidden:
-                  if term in text:
-                      hits.append(f'{path}: {term}')
-          if hits:
-              print('\n'.join(hits))
-              raise SystemExit(1)
-          print('Business trace vocabulary absent from public assets.')
-          PY
+      - name: Require committed generated output
+        run: git diff --exit-code
 
-      - name: Check public route contract
+      - name: Verify archive, metadata, PDFs, and assets
+        run: python tools/verify_v62.py
+
+      - name: Check Python and JavaScript syntax
         run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import re
-
-          sitemap = Path('sitemap.xml').read_text(encoding='utf-8')
-          urls = re.findall(r'<loc>(.*?)</loc>', sitemap)
-          expected = [
-              'https://takashisato.me/',
-              'https://takashisato.me/papers/',
-              'https://takashisato.me/papers/part1.html',
-              'https://takashisato.me/papers/part2.html',
-              'https://takashisato.me/papers/part3.html',
-              'https://takashisato.me/about.html',
-              'https://takashisato.me/pdf/part1.pdf',
-              'https://takashisato.me/pdf/part2.pdf',
-              'https://takashisato.me/pdf/part3.pdf',
-              'https://takashisato.me/demo/',
-              'https://takashisato.me/demo/altrion-part1.html',
-              'https://takashisato.me/demo/altrion-part2.html',
-          ]
-          if urls != expected:
-              print('Sitemap public route contract mismatch.')
-              print('Actual:')
-              print('\n'.join(urls))
-              print('Expected:')
-              print('\n'.join(expected))
-              raise SystemExit(1)
-          for block in re.findall(r'<url>\s*(.*?)\s*</url>', sitemap, flags=re.S):
-              loc = re.search(r'<loc>(.*?)</loc>', block).group(1)
-              lastmod = re.search(r'<lastmod>(.*?)</lastmod>', block).group(1)
-              if not loc.endswith('.pdf'):
-                  assert lastmod == '2026-08-03', f'{loc}: expected 2026-08-03 lastmod, got {lastmod}'
-          print('Public route contract OK: 9 HTML routes + 3 PDFs.')
-          PY
-
-      - name: Check metadata contract
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import re
-
-          pages = [
-              'index.html',
-              'papers/index.html',
-              'papers/part1.html',
-              'papers/part2.html',
-              'papers/part3.html',
-              'about.html',
-              'demo/index.html',
-              'demo/altrion-part1.html',
-              'demo/altrion-part2.html',
-          ]
-          required = [
-              r'<title>.+?</title>',
-              r'<meta\s+name="description"\s+content="[^"]+"\s*/?>',
-              r'<link\s+rel="canonical"\s+href="https://takashisato\.me/[^"]*"\s*/?>',
-              r'<meta\s+property="og:title"\s+content="[^"]+"\s*/?>',
-              r'<meta\s+property="og:description"\s+content="[^"]+"\s*/?>',
-              r'<meta\s+property="og:image"\s+content="https://takashisato\.me/assets/og/[^"]+"\s*/?>',
-              r'<meta\s+name="twitter:card"\s+content="summary_large_image"\s*/?>',
-              r'<meta\s+name="twitter:image"\s+content="https://takashisato\.me/assets/og/[^"]+"\s*/?>',
-          ]
-          misses = []
-          for page in pages:
-              html = Path(page).read_text(encoding='utf-8', errors='ignore')
-              for pattern in required:
-                  if not re.search(pattern, html, flags=re.I|re.S):
-                      misses.append(f'{page}: missing {pattern}')
-          if misses:
-              print('\n'.join(misses))
-              raise SystemExit(1)
-          print('Metadata contract OK for research archive pages.')
-          PY
-
-      - name: Check identity and measurement contract
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          import json
-          import re
-
-          expected_same_as = {
-              'https://orcid.org/0009-0003-1584-6965',
-              'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672',
-          }
-
-          def graph_nodes(page):
-              html = Path(page).read_text(encoding='utf-8')
-              match = re.search(
-                  r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
-                  html,
-                  flags=re.S,
-              )
-              assert match, f'{page}: missing JSON-LD'
-              data = json.loads(match.group(1))
-              return data.get('@graph', [data]), html
-
-          for page in ('index.html', 'about.html'):
-              nodes, html = graph_nodes(page)
-              person = next((node for node in nodes if node.get('@type') == 'Person'), None)
-              assert person, f'{page}: missing Person node'
-              assert person['@id'] == 'https://takashisato.me/about.html#takashi-sato'
-              assert person['name'] == '佐藤貴士'
-              assert {'Takashi Sato', 'Sato Takashi', '佐藤 貴士'} <= set(person['alternateName'])
-              assert person['givenName'] == '貴士'
-              assert person['familyName'] == '佐藤'
-              assert set(person['sameAs']) == expected_same_as
-              identifiers = {item['propertyID']: item for item in person['identifier']}
-              assert identifiers['ORCID']['value'] == '0009-0003-1584-6965'
-              assert identifiers['SSRN Author ID']['value'] == '9540672'
-              for href in expected_same_as:
-                  assert f'rel="me" href="{href}"' in html, f'{page}: missing rel=me {href}'
-
-          nodes, _ = graph_nodes('about.html')
-          assert any(node.get('@type') == 'ProfilePage' for node in nodes), 'about.html: missing ProfilePage node'
-          assert 'google-site-verification' in Path('index.html').read_text(encoding='utf-8')
-
-          research = json.loads(Path('research-index.json').read_text(encoding='utf-8'))
-          creator = research['creator']
-          assert creator['@id'] == 'https://takashisato.me/about.html#takashi-sato'
-          assert set(creator['sameAs']) == expected_same_as
-
-          script_ref = '/assets/site-analytics.js?v=entity-analytics-1'
-          html_pages = [p for p in Path('.').rglob('*.html') if '.git' not in p.parts]
-          missing = []
-          for page in html_pages:
-              html = page.read_text(encoding='utf-8', errors='ignore')
-              if script_ref not in html:
-                  missing.append(str(page))
-          assert not missing, 'missing local measurement adapter: ' + ', '.join(missing)
-
-          adapter = Path('assets/site-analytics.js').read_text(encoding='utf-8')
-          assert 'page_view' in adapter
-          assert 'link_open' in adapter
-          assert 'googletagmanager.com' not in adapter
-          assert 'google-analytics.com' not in adapter
-          assert 'plausible.io' not in adapter
-          assert not re.search(r'G-[A-Z0-9]{6,}', adapter), 'hard-coded GA4 id found'
-
-          privacy = Path('privacy.html').read_text(encoding='utf-8')
-          assert 'does not set cookies or transmit data by itself' in privacy
-          assert 'identifying individual visitors' in privacy
-
-          llms = Path('llms.txt').read_text(encoding='utf-8')
-          assert '佐藤貴士 / Takashi Sato' in llms
-          assert 'https://takashisato.me/about.html' in llms
-          assert 'https://orcid.org/0009-0003-1584-6965' in llms
-          assert 'https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672' in llms
-          assert 'consulting' not in llms.lower()
-          assert 'services' not in llms.lower()
-          assert 'independent AI governance research archive' in llms
-          assert 'x.com' not in llms.lower()
-          assert 'instagram' not in llms.lower()
-
-          robots = Path('robots.txt').read_text(encoding='utf-8')
-          humans = Path('humans.txt').read_text(encoding='utf-8')
-          assert 'https://takashisato.me/llms.txt' in robots
-          assert 'https://takashisato.me/llms.txt' in humans
-
-          print('Identity and measurement contract OK.')
-          PY
-
-      - name: Check research record integrity
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from hashlib import sha256
-          from pathlib import Path
-          import json
-          import re
-
-          expected = [
-              {
-                  'part': 1,
-                  'title': 'Workflow-Centric AI Governance: A Sociotechnical Architecture for Accountable Human–AI Decision Systems',
-                  'year': '2025',
-                  'doi': '10.2139/ssrn.5911063',
-                  'ssrn': '5911063',
-              },
-              {
-                  'part': 2,
-                  'title': 'Forecasting Failure: Why Structurally Sound AI Governance Collapses Before It Is Abused',
-                  'year': '2025',
-                  'doi': '10.2139/ssrn.5913703',
-                  'ssrn': '5913703',
-              },
-              {
-                  'part': 3,
-                  'title': 'Detecting Silent Governance Failure: Semantic Entropy, Dissent Exhaustion, and Circuit Breakers',
-                  'year': '2026',
-                  'doi': '10.2139/ssrn.6066430',
-                  'ssrn': '6066430',
-              },
-          ]
-
-          index = json.loads(Path('research-index.json').read_text(encoding='utf-8'))
-          assert index['@type'] == 'CreativeWorkSeries'
-          assert index['@id'] == 'https://takashisato.me/research-index.json#series'
-          assert 'dataset' not in index
-          assert len(index['hasPart']) == 3
-
-          for record, item in zip(expected, index['hasPart']):
-              part = record['part']
-              html_path = Path(f'papers/part{part}.html')
-              pdf_path = Path(f'pdf/part{part}.pdf')
-              html = html_path.read_text(encoding='utf-8')
-
-              tag_expectations = {
-                  'citation_title': record['title'],
-                  'citation_author': 'Takashi Sato',
-                  'citation_publication_date': record['year'],
-                  'citation_doi': record['doi'],
-              }
-              for name, value in tag_expectations.items():
-                  values = re.findall(
-                      rf'<meta\s+name="{name}"\s+content="([^"]*)"\s*/?>',
-                      html,
-                      flags=re.I,
-                  )
-                  assert values == [value], f'{html_path}: invalid {name}: {values}'
-
-              visible_record = f'Research Record 00{part}'
-              assert html.count(visible_record) == 1, f'{html_path}: missing visible research record'
-              assert html.count(f'href="https://doi.org/{record["doi"]}"') == 1, f'{html_path}: invalid visible DOI link'
-              assert html.count('href="https://orcid.org/0009-0003-1584-6965"') == 1, f'{html_path}: invalid visible ORCID link'
-
-              match = re.search(
-                  r'<script type="application/ld\+json">\s*(.*?)\s*</script>',
-                  html,
-                  flags=re.S,
-              )
-              assert match, f'{html_path}: missing JSON-LD'
-              article = json.loads(match.group(1))
-
-              assert item['position'] == part
-              assert article['@id'] == item['@id']
-              assert article['name'] == item['name'] == record['title']
-              assert article['inLanguage'] == item['inLanguage'] == 'en'
-              assert article['isPartOf']['@id'] == index['@id']
-
-              article_ids = {entry['propertyID']: entry for entry in article['identifier']}
-              item_ids = {entry['propertyID']: entry for entry in item['identifier']}
-              for identifiers in (article_ids, item_ids):
-                  assert identifiers['DOI']['value'] == record['doi']
-                  assert identifiers['SSRN']['value'] == record['ssrn']
-
-              pdf_bytes = pdf_path.read_bytes()
-              size = f'{len(pdf_bytes)} bytes'
-              digest = sha256(pdf_bytes).hexdigest()
-              for encoding in (article['encoding'], item['encoding']):
-                  assert encoding['contentUrl'] == f'https://takashisato.me/pdf/part{part}.pdf'
-                  assert encoding['encodingFormat'] == 'application/pdf'
-                  assert encoding['contentSize'] == size
-                  assert encoding['sha256'] == digest
-
-          print('Research record integrity OK: 3 papers, 3 PDFs, identifiers and hashes aligned.')
-          PY
-
-      - name: Check core local links exist
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-          from urllib.parse import urlparse
-          import re
-
-          root = Path('.')
-          pages = [p for p in root.rglob('*.html') if '.git' not in p.parts]
-          missing = []
-          ignored_prefixes = ('http://', 'https://', 'mailto:', 'tel:', '#', 'javascript:')
-
-          for page in pages:
-              html = page.read_text(encoding='utf-8', errors='ignore')
-              for attr, link in re.findall(r'\b(href|src)=["\']([^"\']+)["\']', html):
-                  if not link or link.startswith(ignored_prefixes):
-                      continue
-                  parsed = urlparse(link)
-                  path = parsed.path
-                  if not path or path.startswith(('data:', 'blob:')):
-                      continue
-                  if path.startswith('/'):
-                      target = root / path.lstrip('/')
-                  else:
-                      target = (page.parent / path).resolve().relative_to(root.resolve())
-                      target = root / target
-                  if path.endswith('/'):
-                      target = target / 'index.html'
-                  if not target.exists():
-                      missing.append(f'{page}: {attr}="{link}" -> {target}')
-
-          if missing:
-              print('\n'.join(missing))
-              raise SystemExit(1)
-          print(f'Checked {len(pages)} HTML files. No missing local href/src targets found.')
-          PY
+          python -m compileall -q tools
+          node --check assets/archive-v62.js
+          node --check assets/site-analytics.js

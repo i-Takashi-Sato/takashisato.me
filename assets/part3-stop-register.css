@@ -1,5 +1,0 @@
-/* Archive guard for retired Part III register. */
-
-.phase-part-3 .stop-register {
-  display: none !important;
-}

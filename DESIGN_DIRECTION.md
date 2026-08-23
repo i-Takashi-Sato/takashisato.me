@@ -1,180 +1,114 @@
-# takashisato.me Design Direction
+# The Proper Ending Index — Design Direction
 
-## Core Concept
+## Position
 
-takashisato.me is a **luxury forensic accident archive** for AI governance systems.
+The Proper Ending Index is Takashi Sato's independent research archive for the
+*Workflow-Centric AI Governance Trilogy*. It is not a portfolio, consultancy
+funnel, product landing page, compliance service, or fictional control room.
 
-It is not a generic portfolio, a product landing page, or a decorative AI website. It is a research archive that treats governance failure as something to be examined, preserved, and ended correctly.
+The interface exists to make four things unusually clear:
 
-Primary thesis:
+1. what each paper claims;
+2. what evidence or executable check supports that claim;
+3. where the claim stops; and
+4. which versioned record should be cited.
 
-> A cinematic accident archive for governance systems that kept operating after judgment had left.
+Research fidelity outranks any inherited visual motif. Aesthetic references may
+inform craft, but they must never determine the theory, terminology, hierarchy,
+or apparent strength of the evidence.
 
-Operational principles:
+## Canonical Research Structure
 
-- PDF as evidence.
-- Research as exhibit.
-- Failure as trace.
-- Stopping as interface.
+The current public record is version 6.2, dated 23 August 2026.
 
-## Stable Baseline
+- **Part I — Route the case.** A typed, two-stage state-and-authority contract
+  for consequential human–AI decisions.
+- **Part II — Diagnose the institution.** A descriptive model of procedural
+  continuity and governing-capacity loss; PMGCL is the primary construct and
+  PAC is a provisional etiological subtype.
+- **Part III — End and return authority.** A dependency-constrained Proper
+  Ending and Authority Return protocol; indicators route investigation but do
+  not authorize containment or retirement.
 
-The current black archive state is the baseline. Do not sacrifice rendering stability for spectacle.
+The trilogy is a connected sequence across different analytical scales, not a
+single degradation score, universal lifecycle, or commercial methodology.
 
-The site should remain:
+## Visual System
 
-- black
-- quiet
-- typographic
-- evidence-led
-- source-aware
-- mobile-stable
-- full-page-capture stable on iPhone
+The site is one archive with one grid, one typographic system, and one quiet
+material vocabulary. It should feel authored and exact without imitating a
+luxury brand or research dashboard.
 
-## Non-Negotiables
+- Use a warm mineral-paper field, dark ink, fine rules, and restrained accents.
+- Let hierarchy, spacing, evidence, and language create distinction before
+  decoration does.
+- Use native serif type for propositions and titles, native sans-serif type for
+  interface text, and monospace only for identifiers and executable states.
+- Keep titles readable; no page should be dominated by typography at the cost
+  of the abstract, boundary, citation, or navigation.
+- Distinguish the three papers through measured accent shifts and their actual
+  formal structures—not unrelated art references.
+- Build diagrams from semantic HTML and CSS whenever possible so their text is
+  selectable, responsive, printable, and available without JavaScript.
 
-- Do not change the Home Hero copy.
-- Do not place epigraphs on the Home page.
-- Do not treat quotations as decorative inspiration.
-- Do not add white paper surfaces or large light gradients.
-- Do not touch `assets/site.css` unless explicitly required.
-- Do not add heavy cinematic motion until the archive surfaces are stable.
+Part III may carry the greatest visual gravity, but it must not become a dark
+microsite detached from the archive. Its motion language is convergence:
+routes settle, obligations acquire owners, and the interface comes to rest.
 
-Current Home Hero copy:
+## Content Hierarchy
 
-> A research index for systems that look governed after judgment has left.
+Every paper record should make the following sequence easy to scan:
 
-This is the face of the site and should remain primary.
+1. full title, author, version, date, pages, and SSRN identifier;
+2. research question and plain-language contribution;
+3. formal structure or diagnostic model;
+4. reported verification or traceability result;
+5. explicit measurement and claim boundary; and
+6. SSRN, DOI, preserved PDF, file size, and SHA-256.
 
-## Epigraph Policy
+SSRN is the primary external research record. Local PDFs are preserved copies,
+not a competing publication source. Earlier ALTRION visualizers remain at their
+old URLs only as `noindex` retirement notices and must not be linked as current
+research instruments.
 
-Epigraphs are textual evidence / source specimens, not quote design.
+Do not introduce decorative quotations, invented case files, fictional JSON,
+award claims, unverified performance claims, or language that makes a bounded
+finite check sound like field validation. Do not add services, samples,
+investment, lead-generation, or contact-conversion flows.
 
-Implementation rule:
+## Interaction
 
-```html
-<figure class="pei-epigraph">
-  <blockquote>...</blockquote>
-  <figcaption>Source: ...</figcaption>
-</figure>
-```
+The archive is complete before JavaScript runs. Enhancement may add only
+orientation and pacing:
 
-Display rule:
+- restrained reveal transitions;
+- a reading-progress line;
+- current-page and focus states; and
+- optional first-party analytics that fails closed.
 
-- original text first
-- English translation as support when needed
-- source line small but readable
-- no forced uppercase on source text
-- no Japanese decorative paraphrase
+No research content may depend on scroll choreography, canvas, WebGL, pointer
+input, audio, autoplay, or a client-side router. Respect reduced-motion and
+forced-colors preferences. Motion should confirm structure, never simulate
+scientific authority.
 
-## Aesthetic References
+## Technical Baseline
 
-The site may learn from:
+- Pre-rendered static HTML suitable for GitHub Pages.
+- One shared stylesheet and small dependency-free enhancement scripts.
+- No external fonts, framework runtime, third-party UI kit, tracking pixel, or
+  build-time network dependency.
+- Stable URLs, canonical links, semantic landmarks, visible breadcrumbs,
+  keyboard focus, skip links, adequate targets, and print styles.
+- Stable Person, CreativeWorkSeries, ScholarlyArticle, BreadcrumbList, and
+  Highwire citation metadata.
+- Deterministic generation of HTML and social cards.
+- CI verification of generated output, local links, identifiers, PDF byte
+  counts, page counts, language metadata, and SHA-256 digests.
 
-- Obys: specimen logic, numbering, large typography
-- REJOUICE: space, quiet confidence, pacing
-- Unseen: project-as-exhibit treatment
-- Immersive Garden: immersive page atmosphere
+## Review Standard
 
-But it must not imitate advertising aesthetics. The subject is research, evidence, institutional failure, and controlled stopping.
-
-## Primary Disciplines
-
-Use these as the conceptual atmosphere:
-
-1. Accident investigation / aviation safety
-2. Forensics / evidence preservation
-3. Control engineering / cybernetics
-4. Medical diagnosis / pathology reading
-5. Signal detection theory
-6. Structural failure / fatigue fracture
-7. Audit / internal control
-8. Organizational theory / bureaucracy
-9. Quality control / SPC
-10. Philology / archival text study
-
-Mystical, religious, cosmic, DNA, and string-theory references may only appear as faint secondary texture, not as the main design language.
-
-## Page-Level Direction
-
-### Home
-
-Quiet entry. Keep the existing hero. No epigraphs, no PDF fragments, no religious or mystical symbolism.
-
-### Part I
-
-Theme: Architecture / Control / Trace.
-
-Use control engineering, audit, and quality management language. Show Four-Gate Architecture, ADR JSON, Governance Grammar, structured friction, and auditable decision records as evidence.
-
-Part I should be the cleanest and most engineered page.
-
-### Part II
-
-Theme: Decay / Accident / Fatigue.
-
-Use accident investigation, structural fatigue, organizational theory, and bureaucracy. Represent failure as timeline, compression, template drift, and silent standardization.
-
-Do not use loud glitch.
-
-### Part III
-
-Theme: Silence / Diagnosis / Halt.
-
-Use medical diagnosis, forensics, signal detection, and control engineering. Represent GDI, Semantic Entropy Decay, Temporal Compression, Exhaustion of Dissent, Circuit Breaker, and Proper Ending as diagnostic surfaces.
-
-Stopping should be shown through interface behavior, not a red reject button.
-
-### About
-
-Theme: Operator Record.
-
-Treat the page as practice log / governance practice / operational record, not a generic profile.
-
-## PDF Handling
-
-Do not iframe PDFs.
-
-PDFs should be decomposed into:
-
-- Evidence Plate
-- Specimen
-- Archive ID
-- Source Page
-- Extracted Fragment
-- Governance Trace
-
-Use black archive surfaces, code fragments, tables, labels, and source metadata. Do not paste white PDF pages into the interface.
-
-## Avoid
-
-Avoid:
-
-- purple AI gradients
-- neon
-- holograms
-- robots
-- 3D neural networks
-- generic space backgrounds
-- loud glitch
-- liquid metal
-- religious symbols as literal icons
-- red REJECT stamps
-- red stop switches
-- typing effects
-- shutter sounds
-- scroll jank
-- stock photography
-- quote-site layouts
-
-Failure in this archive should often appear as silence, compression, missing context, and procedural smoothness.
-
-## Near-Term Implementation Order
-
-1. Preserve black stable baseline.
-2. Refine typography, spacing, epigraphs, and button rhythm.
-3. Add Part I ADR JSON as a black Evidence Plate.
-4. Add Part I Four-Gate Architecture as a controlled diagram.
-5. Add Part II failure timeline.
-6. Add Part III diagnostic log / GDI surface.
-7. Only then consider motion or instrument-level interactions.
+A change is ready only when it improves the archive without weakening claim
+discipline, identity consistency, accessibility, mobile reading, print output,
+or long-term preservation. The final test is not whether the page looks
+spectacular in one screenshot; it is whether a reader, reviewer, crawler, and
+future maintainer all encounter the same current research record.

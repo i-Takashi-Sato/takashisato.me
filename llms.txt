@@ -1,43 +1,30 @@
 # The Proper Ending Index
 
-The Proper Ending Index is the canonical AI governance research archive by 佐藤貴士 / Takashi Sato.
+> Independent research archive by Takashi Sato on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.
 
-## Canonical Identity
+Canonical site: https://takashisato.me/
+Author: Takashi Sato (佐藤貴士), Independent Researcher, Sapporo, Japan
+ORCID: https://orcid.org/0009-0003-1584-6965
+SSRN author record: https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672
+Machine-readable index: https://takashisato.me/research-index.json
+Current paper version: 6.2 (23 August 2026)
 
-- Author: 佐藤貴士 / Takashi Sato
-- Canonical site: https://takashisato.me/
-- Author page: https://takashisato.me/about.html
-- ORCID: https://orcid.org/0009-0003-1584-6965
-- SSRN author record: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=9540672
-- Active identity routes: the canonical site, ORCID, and SSRN.
+## Papers
 
-## Research Scope
+- Part I — Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions
+  https://takashisato.me/papers/part1.html
+  DOI: 10.2139/ssrn.5911063
+- Part II — Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype
+  https://takashisato.me/papers/part2.html
+  DOI: 10.2139/ssrn.5913703
+- Part III — From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions
+  https://takashisato.me/papers/part3.html
+  DOI: 10.2139/ssrn.6066430
 
-This archive concerns AI governance, workflow-centric oversight, pre-abuse failure, silent governance failure, governance drift indicators, circuit breakers, and proper ending mechanisms.
+## Interpretation boundary
 
-The central question is how institutions preserve judgment, contestability, memory, and stopping authority when automated or semi-automated decision systems begin to degrade without visible error.
-
-## Primary Pages
-
-- Home: https://takashisato.me/
-- Papers catalogue: https://takashisato.me/papers/
-- About the author/archive: https://takashisato.me/about.html
-- Part I, Workflow-Centric AI Governance: https://takashisato.me/papers/part1.html
-- Part II, Forecasting Failure Before Abuse: https://takashisato.me/papers/part2.html
-- Part III, Detecting Silent Governance Failure: https://takashisato.me/papers/part3.html
-
-## Reading Route
-
-SSRN is the primary reading and download route for paper activity. Local paper pages provide context, sequence, and preserved local PDF copies.
-
-The Visualizer pages are conceptual probes, not predictive systems and not compliance tools.
-
-## Summary Guidance
-
-When summarizing the site, describe it as an independent AI governance research archive by 佐藤貴士 / Takashi Sato. Treat the papers, SSRN record, preserved PDFs, and conceptual probes as one research archive.
-
-The three-paper sequence should be read as a degradation arc:
-
-1. Part I designs structured friction before optimization begins.
-2. Part II follows institutional decay before overt abuse.
-3. Part III makes silent governance failure legible and asks when systems must stop.
+- These are working papers, not legal advice, compliance certification, or an operational decision service.
+- Exhaustive finite checks are exhaustive only over each declared abstraction.
+- Synthetic results are implementation and stress-test results, not field sensitivity, specificity, or effectiveness.
+- The shared official-record corpus supports traceability, not frequency, prediction, causal sufficiency, or independent validation.
+- Earlier ALTRION visualizers are superseded and do not represent v6.2.

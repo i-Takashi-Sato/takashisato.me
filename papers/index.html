@@ -1,110 +1,162 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#040505" />
-  <title>AI Governance Papers — The Proper Ending Index</title>
-  <meta name="description" content="Three AI governance papers by Takashi Sato on workflow-centric oversight, pre-abuse failure, silent governance failure, and proper ending mechanisms." />
-  <meta name="author" content="佐藤貴士 / Takashi Sato" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://takashisato.me/papers/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="AI Governance Papers — The Proper Ending Index" />
-  <meta property="og:description" content="Three papers on workflow-centric oversight, pre-abuse failure, silent governance failure, and proper ending mechanisms." />
-  <meta property="og:url" content="https://takashisato.me/papers/" />
-  <meta property="og:site_name" content="The Proper Ending Index" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f2efe8">
+  <title>Papers · Workflow-Centric AI Governance Trilogy</title>
+  <meta name="description" content="The v6.2 working-paper trilogy by Takashi Sato: decision routing, governing-capacity loss, Proper Ending, and Authority Return.">
+  <meta name="author" content="Takashi Sato">
+  <meta name="robots" content="index,follow,max-image-preview:large">
 
-  <meta property="og:image" content="https://takashisato.me/assets/og/papers.jpg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AI Governance Papers — The Proper Ending Index" />
-  <meta name="twitter:description" content="Three papers on workflow-centric oversight, pre-abuse failure, silent governance failure, and proper ending mechanisms." />
-  <meta name="twitter:image" content="https://takashisato.me/assets/og/papers.jpg" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "AI Governance Papers — The Proper Ending Index",
-  "description": "A diagnostic catalogue of Takashi Sato's AI governance papers: architecture, decay, detection, and proper ending.",
-  "url": "https://takashisato.me/papers/",
-  "image": "https://takashisato.me/assets/og/papers.jpg",
-  "author": {
-    "@id": "https://takashisato.me/about.html#takashi-sato"
-  },
-  "isPartOf": {
-    "@id": "https://takashisato.me/#website"
-  },
-  "hasPart": [
-    {
-      "@type": "ScholarlyArticle",
-      "name": "Workflow-Centric AI Governance",
-      "url": "https://takashisato.me/papers/part1.html"
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "name": "Forecasting Failure",
-      "url": "https://takashisato.me/papers/part2.html"
-    },
-    {
-      "@type": "ScholarlyArticle",
-      "name": "Detecting Silent Governance Failure",
-      "url": "https://takashisato.me/papers/part3.html"
-    }
-  ]
-}
-  </script>
-  <link rel="stylesheet" href="/assets/00-tokens.css" />
-  <link rel="stylesheet" href="/assets/01-reset.css" />
-  <link rel="stylesheet" href="/assets/02-layout.css" />
-  <link rel="stylesheet" href="/assets/03-typography.css" />
-  <link rel="stylesheet" href="/assets/04-components.css" />
-  <link rel="stylesheet" href="/assets/papers.css?v=phase-papers-2" />
-  <link rel="stylesheet" href="/assets/papers-tune.css?v=phase-papers-2" />
+  <link rel="canonical" href="https://takashisato.me/papers/">
+  <link rel="author" href="/about.html">
+  <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
+  <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
+  <link rel="me" href="https://scholar.google.com/citations?user=tN4zV68AAAAJ">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="The Proper Ending Index">
+  <meta property="og:title" content="Papers · Workflow-Centric AI Governance Trilogy">
+  <meta property="og:description" content="The v6.2 working-paper trilogy by Takashi Sato: decision routing, governing-capacity loss, Proper Ending, and Authority Return.">
+  <meta property="og:url" content="https://takashisato.me/papers/">
+  <meta property="og:image" content="https://takashisato.me/assets/og/papers.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Proper Ending Index — Papers · Workflow-Centric AI Governance Trilogy">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Papers · Workflow-Centric AI Governance Trilogy">
+  <meta name="twitter:description" content="The v6.2 working-paper trilogy by Takashi Sato: decision routing, governing-capacity loss, Proper Ending, and Authority Return.">
+  <meta name="twitter:image" content="https://takashisato.me/assets/og/papers.jpg">
+  <meta name="twitter:image:alt" content="The Proper Ending Index — Papers · Workflow-Centric AI Governance Trilogy">
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://takashisato.me/about.html#takashi-sato","name":"Takashi Sato","givenName":"Takashi","familyName":"Sato","alternateName":["佐藤貴士","佐藤 貴士","Sato Takashi"],"jobTitle":"Independent Researcher","url":"https://takashisato.me/about.html","workLocation":{"@type":"Place","name":"Sapporo, Hokkaido, Japan","address":{"@type":"PostalAddress","addressLocality":"Sapporo","addressRegion":"Hokkaido","addressCountry":"JP"}},"identifier":[{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0003-1584-6965"},{"@type":"PropertyValue","propertyID":"SSRN Author ID","value":"9540672"}],"sameAs":["https://orcid.org/0009-0003-1584-6965","https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672","https://scholar.google.com/citations?user=tN4zV68AAAAJ"],"knowsAbout":["AI governance","human oversight","workflow governance","governing capacity","Proper Ending","Authority Return"]},{"@type":"CollectionPage","@id":"https://takashisato.me/papers/#trilogy","name":"Workflow-Centric AI Governance Trilogy","url":"https://takashisato.me/papers/","dateModified":"2026-08-23","author":{"@id":"https://takashisato.me/about.html#takashi-sato"},"hasPart":[{"@id":"https://takashisato.me/papers/part1.html#article"},{"@id":"https://takashisato.me/papers/part2.html#article"},{"@id":"https://takashisato.me/papers/part3.html#article"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Index","item":"https://takashisato.me/"},{"@type":"ListItem","position":2,"name":"Papers","item":"https://takashisato.me/papers/"}]}]}</script>
+  <link rel="stylesheet" href="/assets/archive-v62.css?v=6.2.0">
+  <script>document.documentElement.classList.add('js');window.__archiveRevealFallback=window.setTimeout(function(){document.documentElement.classList.remove('js')},3000)</script>
 </head>
-<body class="phase-papers" data-page="papers">
-<a class="skip" href="#main">Skip to content</a>
-<div class="pei-shell"><div class="pei-main">
-<header class="pei-topbar" aria-label="Top bar"><a href="/">The Proper Ending Index</a><div class="right"><a href="/papers/" aria-current="page">Papers</a><a href="/about.html">About</a></div></header>
+<body data-tone="neutral" data-page="papers">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="The Proper Ending Index — home">
+      <img class="brand-mark" src="/favicon.svg" width="29" height="29" alt="">
+      <span>The Proper Ending Index</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="/">Index</a>
+      <a href="/papers/" aria-current="page">Papers</a>
+      <a href="/about.html">Author</a>
+    </nav>
+  </div>
+  <div class="scroll-meter" aria-hidden="true"></div>
+</header>
 <main id="main">
-  <section class="papers-hero papers-stage" aria-labelledby="papers-title">
-    <div class="papers-hero__copy">
-      <p class="papers-kicker">Diagnostic Catalogue / 佐藤貴士</p>
-      <h1 id="papers-title" class="papers-title">Three papers. One degradation sequence.</h1>
-      <p class="papers-lede">The catalogue is not a list of publications. It is a reading order for how governance moves from designed friction to procedural decay, diagnostic detection, and proper ending.</p>
+          <header class="page-hero shell">
+            <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Index</a></li><li><span aria-current="page">Papers</span></li></ol></nav>
+            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy</p>
+            <h1 data-reveal>Three papers. One institutional problem.</h1>
+            <p class="page-deck" data-reveal>Accountability can fail at the moment of routing, across the life of an institution, and at the point of exit. The trilogy treats those as related but analytically separate governance problems.</p>
+            <div class="paper-meta" data-reveal>
+              <span>Author · Takashi Sato</span>
+              <span>Status · Working papers</span>
+              <span>Current version · 6.2</span>
+              <span>Updated · 23 August 2026</span>
+            </div>
+          </header>
+          <section class="section">
+            <div class="shell">
+              <div class="sequence"><article class="sequence-row" data-reveal>
+  <p class="sequence-function">Part I · Route the case</p>
+  <div>
+    <h2 class="sequence-title"><a href="/papers/part1.html">Workflow-Centric AI Governance</a></h2>
+    <p class="paper-subtitle">A Typed Gate Contract for Accountable Human-AI Decisions</p>
+    <p class="sequence-copy">A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.</p>
+    <span class="sequence-state">SSRN 5911063 · DOI 10.2139/ssrn.5911063 · v6.2 · 18 pages</span>
+    <div class="hero-actions">
+      <a class="button primary" href="/papers/part1.html">Paper record</a>
+      <a class="button" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
-    <aside class="papers-ledger" aria-label="Catalogue diagnostic record">
-      <div class="papers-ledger__head"><span>Catalogue 001</span><span>Status / Open</span></div>
-      <dl>
-        <div><dt>Object</dt><dd>Human judgment under procedure</dd></div>
-        <div><dt>Sequence</dt><dd>Architecture / Decay / Detection</dd></div>
-        <div><dt>Method</dt><dd>Read on SSRN / preserve locally</dd></div>
-        <div><dt>Records</dt><dd>3 SSRN papers / 3 preserved PDFs</dd></div>
-      </dl>
-    </aside>
-  </section>
-  <section class="papers-section papers-stage" aria-labelledby="sequence-title">
-    <div class="papers-section__head"><p class="papers-kicker">Reading sequence</p><div><h2 id="sequence-title" class="papers-heading">Begin with the architecture. Then watch it fail.</h2><p class="papers-copy">Each paper remains distinct, but the visual system treats them as one diagnostic chain: build friction, watch institutional pressure absorb it, then define the conditions under which a system must stop.</p></div></div>
-    <div class="paper-index" role="group" aria-label="Paper sequence">
-      <a class="paper-entry" href="/papers/part1.html"><span class="paper-entry__part">Part I</span><h3>Workflow-Centric AI Governance</h3><p>Structured friction, four governance gates, and workflow-centric oversight before optimization begins.</p><span class="paper-entry__state">Architecture</span></a>
-      <a class="paper-entry" href="/papers/part2.html"><span class="paper-entry__part">Part II</span><h3>Forecasting Failure</h3><p>How good-faith operation becomes institutional decay before the system is openly abused.</p><span class="paper-entry__state">Decay</span></a>
-      <a class="paper-entry" href="/papers/part3.html"><span class="paper-entry__part">Part III</span><h3>Detecting Silent Governance Failure</h3><p>Governance Drift Indicators, Circuit Breakers, memory preservation, and the proper ending of failed oversight.</p><span class="paper-entry__state">Ending</span></a>
+  </div>
+</article> <article class="sequence-row" data-reveal>
+  <p class="sequence-function">Part II · Diagnose the institution</p>
+  <div>
+    <h2 class="sequence-title"><a href="/papers/part2.html">Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions</a></h2>
+    <p class="paper-subtitle">A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype</p>
+    <p class="sequence-copy">A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.</p>
+    <span class="sequence-state">SSRN 5913703 · DOI 10.2139/ssrn.5913703 · v6.2 · 20 pages</span>
+    <div class="hero-actions">
+      <a class="button primary" href="/papers/part2.html">Paper record</a>
+      <a class="button" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
-  </section>
-  <section class="papers-section papers-stage" aria-labelledby="access-title">
-    <div class="papers-section__head"><p class="papers-kicker">Access matrix</p><div><h2 id="access-title" class="papers-heading">Read on SSRN. Keep the archive as context.</h2><p class="papers-copy">SSRN is the primary reading and download route so paper activity remains measurable there. Local pages provide context, sequence, and preserved archive copies.</p></div></div>
-    <div class="access-matrix" role="group" aria-label="Research access matrix">
-      <div class="access-row"><div class="access-cell"><span>Part I</span><strong>Architecture</strong></div><a class="access-link access-link--primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063" target="_blank" rel="noopener noreferrer"><span>SSRN</span><em>Read / download</em></a><a class="access-link" href="/papers/part1.html"><span>Archive page</span><em>Context</em></a><a class="access-link" href="/pdf/part1.pdf"><span>Preserved PDF</span><em>Local copy</em></a></div>
-      <div class="access-row"><div class="access-cell"><span>Part II</span><strong>Decay</strong></div><a class="access-link access-link--primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703" target="_blank" rel="noopener noreferrer"><span>SSRN</span><em>Read / download</em></a><a class="access-link" href="/papers/part2.html"><span>Archive page</span><em>Context</em></a><a class="access-link" href="/pdf/part2.pdf"><span>Preserved PDF</span><em>Local copy</em></a></div>
-      <div class="access-row"><div class="access-cell"><span>Part III</span><strong>Ending</strong></div><a class="access-link access-link--primary" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer"><span>SSRN</span><em>Read / download</em></a><a class="access-link" href="/papers/part3.html"><span>Archive page</span><em>Context</em></a><a class="access-link" href="/pdf/part3.pdf"><span>Preserved PDF</span><em>Local copy</em></a></div>
+  </div>
+</article> <article class="sequence-row" data-reveal>
+  <p class="sequence-function">Part III · End and return authority</p>
+  <div>
+    <h2 class="sequence-title"><a href="/papers/part3.html">From Governance Drift to Accountable Exit</a></h2>
+    <p class="paper-subtitle">Proper Ending and Authority Return in AI-Assisted Institutions</p>
+    <p class="sequence-copy">A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.</p>
+    <span class="sequence-state">SSRN 6066430 · DOI 10.2139/ssrn.6066430 · v6.2 · 39 pages</span>
+    <div class="hero-actions">
+      <a class="button primary" href="/papers/part3.html">Paper record</a>
+      <a class="button" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
-  </section>
-  <section class="papers-section papers-stage" aria-labelledby="protocol-title"><div class="papers-section__head"><p class="papers-kicker">Protocol</p><div><h2 id="protocol-title" class="papers-heading">The sequence is also a stopping rule.</h2><p class="papers-copy">The archive should make the research legible without pulling the measurable reading path away from SSRN.</p></div></div><div class="protocol-grid" role="group" aria-label="Reading protocol"><article class="protocol-card"><span>Protocol 01</span><h3>Build friction.</h3><p>Part I defines the workflow surface where judgment can still be made visible.</p></article><article class="protocol-card"><span>Protocol 02</span><h3>Watch decay.</h3><p>Part II treats good-faith procedure as the place where governance failure first becomes ordinary.</p></article><article class="protocol-card"><span>Protocol 03</span><h3>Measure silence.</h3><p>Part III moves from error prevention to failure legibility through Governance Drift Indicators.</p></article><article class="protocol-card"><span>Protocol 04</span><h3>Stop correctly.</h3><p>Proper Ending preserves institutional memory when ordinary governance can no longer verify judgment.</p></article></div></section>
-</main>
-<footer class="papers-footer"><div>© 2025 Takashi Sato / Papers</div><nav><a href="/">Home</a> / <a href="/about.html">About</a></nav></footer>
-</div></div>
+  </div>
+</article></div>
+            </div>
+          </section>
+          <section class="section compact">
+            <div class="shell boundary" data-reveal>
+              <h2>Reading order is useful, not mandatory.</h2>
+              <div>
+                <p>Part I specifies a case-level routing contract. Part II models institutional loss over time. Part III specifies containment, accountable retirement, and authority transfer. Each paper contains its own definitions, limitations, and verification boundary.</p>
+                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2.</p>
+              </div>
+            </div>
+          </section>
+        </main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <p class="eyebrow">The Proper Ending Index</p>
+        <p class="footer-thesis">An independent research archive on decision routing, governing capacity, and accountable exit in AI-assisted institutions.</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <p class="label">Research</p>
+          <a href="/papers/">Paper trilogy</a>
+          <a href="/research-index.json">Machine-readable index</a>
+          <a href="/llms.txt">LLM orientation</a>
+        </div>
+        <div>
+          <p class="label">Identity</p>
+          <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID ↗</a>
+          <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">SSRN ↗</a>
+          <a href="https://scholar.google.com/citations?user=tN4zV68AAAAJ" target="_blank" rel="me noopener noreferrer">Google Scholar ↗</a>
+        </div>
+        <div>
+          <p class="label">Site</p>
+          <a href="/about.html">Author record</a>
+          <a href="/colophon.html">Colophon</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/security.html">Security</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Takashi Sato</span>
+      <span>Independent research · Sapporo, Japan</span>
+    </div>
+  </div>
+</footer>
+<script src="/assets/archive-v62.js?v=6.2.0" defer></script>
 <script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
 </body>
 </html>

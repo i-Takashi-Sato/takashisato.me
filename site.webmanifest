@@ -1,6 +1,14 @@
 {
-  "name": "Takashi Sato",
-  "short_name": "Takashi",
+  "name": "The Proper Ending Index",
+  "short_name": "Proper Ending",
+  "description": "Takashi Sato's independent AI governance research archive.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "lang": "en",
+  "background_color": "#f2efe8",
+  "theme_color": "#f2efe8",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -12,8 +20,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#050507",
-  "background_color": "#050507",
-  "display": "standalone"
+  ]
 }

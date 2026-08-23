@@ -1,45 +1,41 @@
-# takashisato.me
+# The Proper Ending Index
 
-Independent research archive on workflow-centric AI governance, pre-abuse failure, resolution collapse, governance drift indicators, and circuit breakers.
+Static research archive for Takashi Sato's *Workflow-Centric AI Governance Trilogy*.
 
-## Structure
+## Current research record
 
-- `/` — award-ready archive landing page
-- `/about.html` — author and archive rationale
-- `/contact.html` — inquiry page
-- `/papers/` — paper index
-- `/papers/part1.html` — Workflow-Centric AI Governance
-- `/papers/part2.html` — Forecasting Failure
-- `/papers/part3.html` — Detecting Silent Governance Failure
-- `/demo/` — interactive demonstration index
-- `/demo/altrion-part1.html` — ALTRION Governance Collider
-- `/demo/altrion-part2.html` — Forecasting Failure Visualizer
-- `/demo/altrion-part3.html` — Resolution Collapse / Circuit Breakers Visualizer
-- `/pdf/` — PDF versions
-- `/sitemap.xml` and `/robots.txt` — search indexing
+All three preserved papers are version 6.2, dated 23 August 2026.
 
-## Positioning
+| Part | Paper | SSRN | DOI |
+|---|---|---:|---|
+| I | *Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions* | 5911063 | 10.2139/ssrn.5911063 |
+| II | *Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype* | 5913703 | 10.2139/ssrn.5913703 |
+| III | *From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions* | 6066430 | 10.2139/ssrn.6066430 |
 
-AI Governance / Workflow Design / Operational Risk Control.
+SSRN is the primary external research record. `pdf/` contains preserved v6.2 copies whose file sizes and SHA-256 digests are published in `research-index.json` and on each paper page.
 
-The site is designed as a long-term credibility asset: a research archive, visual system, and public reference point for human oversight and AI-assisted institutional failure.
+## Architecture
 
+- pre-rendered static HTML for GitHub Pages;
+- one shared stylesheet and one progressive-enhancement script;
+- no framework runtime, external fonts, client-side routing, account system, or third-party UI package;
+- semantic HTML/CSS research diagrams that remain selectable, responsive, printable, and reduced-motion safe;
+- stable author-entity JSON-LD, `CreativeWorkSeries`, `ScholarlyArticle`, and visible/structured breadcrumbs;
+- Highwire citation metadata on each paper record while SSRN remains the primary external record;
+- machine-readable orientation in `research-index.json` and `llms.txt`.
 
-## Award-readiness notes
+## Build and verify
 
-- Heavy surface textures are converted to WebP and referenced from CSS.
-- `/about.html` and `/contact.html` complete the reader journey.
-- `/404.html`, `/sitemap.xml`, and `/robots.txt` support public launch hygiene.
-- The design system uses reduced-motion fallbacks and focus-visible states.
+```bash
+python tools/build_site.py
+python tools/generate_og.py
+python tools/verify_v62.py
+```
 
+The build script has no dependencies. OG generation and PDF verification use the pinned packages in `tools/requirements.txt`. Repository QA regenerates the static pages, checks the committed output, validates identifiers and local links, verifies PDF byte counts and SHA-256 digests, and rejects legacy runtime assets.
 
-## Final polish notes
+## Claim discipline
 
-This build removes unused heavy texture assets, adds motion-safe page transitions,
-keeps reduced-motion users out of animation, and exposes a skip-link across pages.
+This archive does not present the papers as legal advice, compliance certification, operational decision software, or field validation. Exhaustive checks are bounded to declared abstractions; synthetic results are not open-world performance; the shared official-record corpus supports traceability rather than frequency, prediction, or causal sufficiency.
 
-Before award submission:
-- Test all pages on iPhone and Android.
-- Run Lighthouse for Performance, Accessibility, Best Practices, and SEO.
-- Confirm HTTPS enforcement in GitHub Pages.
-- Verify all paper, demo, PDF, About, Contact, privacy, security, and 404 routes.
+Earlier ALTRION prototypes are superseded because they do not implement version 6.2. Their public URLs now return a clear retirement notice and are excluded from the sitemap.
