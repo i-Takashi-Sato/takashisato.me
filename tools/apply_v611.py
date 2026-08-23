@@ -88,6 +88,56 @@ def main() -> None:
           <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>'''
     replace_once(build, gate_anchor, gate_markup)
 
+    verify_old = '''        expected_stylesheet = f"/assets/archive-v62.css?v={ASSET_VERSION}"
+        expected_enhancement = f"/assets/archive-v62.js?v={ASSET_VERSION}"
+        styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
+        if styles != [expected_stylesheet]:
+            fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
+        enhancement_scripts = [
+            attrs
+            for tag, attrs in parser.tags
+            if tag == "script" and attrs.get("src", "").startswith("/assets/archive-v62.js")
+        ]
+        if [attrs.get("src") for attrs in enhancement_scripts] != [expected_enhancement]:
+            fail(errors, f"{rel}: enhancement script contract mismatch: {enhancement_scripts}")
+        elif any("defer" in attrs or "async" in attrs for attrs in enhancement_scripts):
+            fail(errors, f"{rel}: enhancement script must execute in head before body parsing")
+        if expected_enhancement not in text.partition("</head>")[0]:
+            fail(errors, f"{rel}: enhancement script is not loaded from head")'''
+    verify_new = '''        expected_styles = [
+            f"/assets/archive-v62.css?v={ASSET_VERSION}",
+            "/assets/archive-v66.css?v=6.7.0",
+            "/styles/archive-v68.css?v=6.8.0",
+            f"/styles/archive-v611.css?v={ASSET_VERSION}",
+        ]
+        expected_enhancement = f"/assets/archive-v62.js?v={ASSET_VERSION}"
+        expected_refinement = f"/scripts/archive-v611.js?v={ASSET_VERSION}"
+        styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
+        if styles != expected_styles:
+            fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
+        enhancement_scripts = [
+            attrs
+            for tag, attrs in parser.tags
+            if tag == "script" and attrs.get("src", "").startswith("/assets/archive-v62.js")
+        ]
+        if [attrs.get("src") for attrs in enhancement_scripts] != [expected_enhancement]:
+            fail(errors, f"{rel}: enhancement script contract mismatch: {enhancement_scripts}")
+        elif any("defer" in attrs or "async" in attrs for attrs in enhancement_scripts):
+            fail(errors, f"{rel}: enhancement script must execute in head before body parsing")
+        refinement_scripts = [
+            attrs
+            for tag, attrs in parser.tags
+            if tag == "script" and attrs.get("src", "").startswith("/scripts/archive-v611.js")
+        ]
+        if [attrs.get("src") for attrs in refinement_scripts] != [expected_refinement]:
+            fail(errors, f"{rel}: refinement script contract mismatch: {refinement_scripts}")
+        elif any("defer" not in attrs for attrs in refinement_scripts):
+            fail(errors, f"{rel}: refinement script must be deferred")
+        head_text = text.partition("</head>")[0]
+        if expected_enhancement not in head_text or expected_refinement not in head_text:
+            fail(errors, f"{rel}: runtime scripts are not loaded from head")'''
+    replace_once(verify, verify_old, verify_new)
+
     runtime_text = runtime.read_text(encoding="utf-8")
     for obsolete in [
         'if(!d.querySelector("link[data-v610]")){let l=d.createElement("link");l.rel="stylesheet";l.href="/styles/archive-v610.css?v=6.10.4";l.dataset.v610="";d.head.append(l)}\n',
