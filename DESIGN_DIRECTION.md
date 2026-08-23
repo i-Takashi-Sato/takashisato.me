@@ -35,17 +35,21 @@ single degradation score, universal lifecycle, or commercial methodology.
 
 ## Visual System
 
-The site is one archive with one twelve-column grid, one variable grotesk, and
-one signal color. It should combine the scale confidence of a cultural studio
-with the restraint and precision of a serious research record.
+The site is one archive with one twelve-column grid, an editorial serif paired
+with a neutral screen grotesk, and one signal color. It should combine the
+scale confidence of a cultural studio with the restraint and precision of a
+serious research record.
 
 - Use a near-black field, gray-white type, full-width hairlines, and one
   vermilion signal. Black must have enough tonal depth to separate structure
   without card shadows or gloss.
-- Self-host Instrument Sans as the only branded family. Use its width and
-  weight axes to create extreme scale contrast without falling back to an
-  old-luxury serif aesthetic.
-- Let full-width display type establish the spatial rhythm, then return quickly
+- Self-host Newsreader for display and Inter for interface, data, and reading
+  text. Keep both at their natural proportions; hierarchy comes from optical
+  size, weight, space, and composition rather than artificial compression.
+- Use the supplied grain, paper, and brushed-metal images as distinct material
+  roles. Grain is an optical film, paper belongs to research surfaces, and
+  metal marks records and boundaries. Never stack them as decoration.
+- Let editorial display type establish the spatial rhythm, then return quickly
   to measured reading widths and explicit evidence boundaries.
 - Distinguish the three papers through numbering, hierarchy, and their actual
   formal structures—not three decorative palettes or unrelated art references.
@@ -86,7 +90,7 @@ investment, lead-generation, or contact-conversion flows.
 The archive is complete before JavaScript runs. Enhancement may add only
 orientation and pacing:
 
-- restrained mask-and-compression reveal transitions;
+- restrained opacity-and-translation reveal transitions;
 - a reading-progress line;
 - current-page and focus states;
 - progressive cross-document view transitions; and
