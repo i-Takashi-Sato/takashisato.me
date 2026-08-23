@@ -47,15 +47,34 @@ serious research record.
   reading text, and Mea Culpa only for the author signature, one thesis accent,
   the footer wordmark, and pointer labels. Keep all at their natural proportions; hierarchy comes from optical
   size, weight, space, and composition rather than artificial compression.
+- Use the public-domain Aoyagi Kouzan brush form only for the three stage marks
+  `序 / 破 / 急`. It is a symbolic background layer, never reading text, evidence,
+  navigation copy, or an accessibility dependency.
 - Use the supplied grain, paper, and brushed-metal images as distinct material
   roles. Grain is an optical film, paper belongs to research surfaces, and
   metal marks records and boundaries. Never stack them as decoration.
 - Let editorial display type establish the spatial rhythm, then return quickly
   to measured reading widths and explicit evidence boundaries.
-- Distinguish the three papers through numbering, hierarchy, and their actual
-  formal structures—not three decorative palettes or unrelated art references.
+- Distinguish the three papers through hierarchy, formal structure, and the
+  `序 / 破 / 急` stage notation—not three decorative palettes or unrelated art references.
 - Build diagrams from semantic HTML and CSS so their text remains selectable,
   responsive, printable, and available without JavaScript.
+
+### Jo / Ha / Kyu stage notation
+
+The former decorative Roman numerals are replaced by Japanese stage marks:
+
+- **Part I — 序.** Upright, spacious, quiet, and measured. Motion introduces and
+  aligns; it should feel architectural rather than theatrical.
+- **Part II — 破.** Slightly displaced and optically less stable. Motion may split,
+  lag, or decouple, but must remain legible and controlled.
+- **Part III — 急.** Tighter and more convergent. Motion moves toward closure,
+  authority return, and rest rather than toward spectacle.
+
+The marks sit behind the hero as low-opacity ultramarine ink. They may react to
+fine-pointer proximity and scroll by only a few pixels. They never compete with
+the paper title, never become a button, and disappear from print, forced-colors,
+and reduced-motion compositions where needed.
 
 Part III may carry the greatest visual gravity, but it must not become a dark
 microsite detached from the archive. Its motion language is convergence:
@@ -92,24 +111,53 @@ The archive is complete before JavaScript runs. Enhancement may add orientation,
 physical response, and pacing:
 
 - restrained opacity-and-translation reveal transitions;
-- a reading-progress line;
+- a reading-progress line and section-aware table of contents;
 - current-page and keyboard focus states;
 - a fine-pointer-only difference cursor with short calligraphic labels;
-- magnetic controls and position-aware surface light;
-- progressive scroll-linked material drift and cross-document view transitions; and
+- velocity-aware cursor response without cursor trails;
+- proximity-aware magnetic controls and position-aware surface light;
+- relational hover in which associated metadata, stage marks, and neighboring
+  controls respond as one system;
+- progressive scroll-linked material drift and cross-document view transitions;
+- a footer settling state in which motion and visual energy reduce as the page
+  reaches `Proper Ending`; and
 - optional first-party analytics that fails closed.
+
+The interaction grammar is **enter → approach → engage → release → settle**.
+Effects should share easing and timing families rather than behaving like an
+assortment of unrelated demos.
 
 No research content may depend on these enhancements, canvas, WebGL, pointer
 input, audio, autoplay, or a client-side router. Touch and keyboard retain every
 action. Respect reduced-motion and forced-colors preferences. Motion should
 confirm structure, never simulate scientific authority.
 
+### Overuse boundary
+
+Do not add an effect merely because the platform supports it. Specifically:
+
+- no scroll-jacking, smooth-scroll replacement, cursor trails, particle fields,
+  autoplay media, gratuitous WebGL, or continuous full-screen shader work;
+- no hover transformation that moves a target far enough to impede acquisition;
+- no more than one dominant response per interaction plus one subtle related
+  response in the surrounding context;
+- no effect that hides SSRN, DOI, preserved PDF, navigation, focus, or claim
+  boundaries;
+- no motion that survives `prefers-reduced-motion`; and
+- no decorative dependency that blocks first paint or reading.
+
+The desired impression is not “many effects.” It is that the archive behaves as
+one governed physical system.
+
 ## Technical Baseline
 
 - Pre-rendered static HTML suitable for GitHub Pages.
 - One shared stylesheet and small dependency-free enhancement scripts.
-- Three self-hosted OFL type families; no remote font
-  call, framework runtime, third-party UI kit, tracking pixel, or build-time
+- Newsreader, Inter, and Mea Culpa remain self-hosted. The public-domain Aoyagi
+  webfont is restricted to three decorative stage glyphs and is optional at
+  runtime; if it is unavailable, a local Japanese Mincho fallback preserves the
+  layout without changing research content.
+- No framework runtime, third-party UI kit, tracking pixel, or build-time
   network dependency.
 - Stable URLs, canonical links, semantic landmarks, visible breadcrumbs,
   keyboard focus, skip links, adequate targets, and print styles.
@@ -118,6 +166,9 @@ confirm structure, never simulate scientific authority.
 - Deterministic generation of HTML and social cards.
 - CI verification of generated output, local links, identifiers, PDF byte
   counts, page counts, language metadata, and SHA-256 digests.
+- Fine-pointer effects should stay transform/opacity-first, avoid forced layout
+  loops, and preserve responsive input performance; touch receives a composed
+  static state rather than an imitation of desktop hover.
 
 ## Review Standard
 
