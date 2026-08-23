@@ -1,9 +1,6 @@
 name: Archive Integrity Migration
 
 on:
-  push:
-    branches:
-      - feat/world-class-final-v611
   pull_request:
     branches:
       - main
