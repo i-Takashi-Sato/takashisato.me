@@ -15,7 +15,7 @@ AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.2.2"
+ASSET_VERSION = "6.3.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -243,8 +243,8 @@ def head(
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-          <meta name="color-scheme" content="light">
-          <meta name="theme-color" content="#f2efe8">
+          <meta name="color-scheme" content="dark">
+          <meta name="theme-color" content="#050505">
           <title>{safe_title}</title>
           <meta name="description" content="{safe_description}">
           <meta name="author" content="Takashi Sato">
@@ -260,6 +260,7 @@ def head(
           <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+          <link rel="preload" href="/assets/fonts/InstrumentSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
@@ -315,6 +316,7 @@ def footer() -> str:
         f"""
         <footer class="site-footer">
           <div class="shell">
+            <a class="footer-wordmark" href="/" aria-label="The Proper Ending Index — home">Proper Ending</a>
             <div class="footer-grid">
               <div>
                 <p class="eyebrow">The Proper Ending Index</p>
@@ -413,9 +415,10 @@ def home_page() -> str:
             <div class="hero-grid">
               <div data-reveal>
                 <p class="eyebrow">Workflow-Centric AI Governance Trilogy · v6.2</p>
-                <h1 id="hero-title">A role alone is not governance. Accountability lives in the sequence.</h1>
+                <h1 id="hero-title"><span>A role alone</span><span>is not governance.</span></h1>
               </div>
               <div class="hero-aside" data-reveal>
+                <p class="hero-statement">Accountability lives in the sequence.</p>
                 <p>Three working papers trace one institutional problem across three scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
                 <div class="hero-actions">
                   <a class="button primary" href="/papers/">Read the trilogy <span class="arrow" aria-hidden="true">↗</span></a>
@@ -914,12 +917,12 @@ def about_page() -> str:
             {breadcrumbs([("Index", "/"), ("Author", None)])}
             <div class="author-hero-grid">
               <div class="author-name" data-reveal>
-                <p class="eyebrow">Author record · 佐藤貴士</p>
-                <h1><span>Takashi</span><span>Sato</span></h1>
+                <p class="eyebrow">Author record · 001</p>
+                <h1 aria-label="Takashi Sato"><span>Takashi</span><span>Sato</span></h1>
               </div>
               <div class="author-thesis" data-reveal>
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
-                <p class="author-identity" lang="ja">佐藤貴士 — 札幌を拠点とする独立研究者。</p>
+                <p class="author-identity" lang="ja">佐藤貴士　札幌</p>
               </div>
             </div>
           </header>
@@ -1177,8 +1180,8 @@ def main() -> None:
             content=dedent(
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
-                <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, external font request, client-side router, account system, or third-party UI package.</p></section>
-                <section><h2>Typography &amp; material</h2><p>The system uses native serif, sans-serif, and monospace stacks. Color and geometry distinguish the trilogy without creating three incompatible microsites. Functional diagrams are built from semantic HTML and CSS so their content remains selectable, responsive, and printable.</p></section>
+                <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
+                <section><h2>Typography &amp; material</h2><p>The interface self-hosts one variable grotesk, Instrument Sans, under the SIL Open Font License. Width and weight axes create hierarchy without loading a family of static files. A near-black field, fine rules, and one signal color distinguish structure without turning the papers into incompatible microsites. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
                 <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system. No research content depends on animation or pointer input.</p></section>
                 <section><h2>Preservation</h2><p>SSRN remains the primary external research record. Versioned local PDFs are preserved with file size and SHA-256 recorded on each paper page and in <a href="/research-index.json">research-index.json</a>.</p></section>
                 <section><h2>Build</h2><p>The site is generated by a dependency-free Python script and checked by a repository validator in continuous integration. Last rebuilt for the v6.2 papers on 23 August 2026.</p></section>
@@ -1258,7 +1261,7 @@ def main() -> None:
             /* SITE */
             The Proper Ending Index
             Static HTML, CSS, and progressive JavaScript
-            No external font or framework runtime
+            One self-hosted variable font; no framework runtime
             Current research version: 6.2
             Last update: 2026-08-23
 
@@ -1281,8 +1284,8 @@ def main() -> None:
                 "scope": "/",
                 "display": "standalone",
                 "lang": "en",
-                "background_color": "#f2efe8",
-                "theme_color": "#f2efe8",
+                "background_color": "#050505",
+                "theme_color": "#050505",
                 "icons": [
                     {"src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"},
                     {"src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png"},

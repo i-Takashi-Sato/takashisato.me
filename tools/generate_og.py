@@ -13,15 +13,14 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "og"
 W, H = 1200, 630
-PAPER = (242, 239, 232)
-INK = (23, 23, 21)
-SOFT = (91, 87, 80)
-LINE = (204, 198, 187)
+PAPER = (5, 5, 5)
+INK = (240, 240, 236)
+SOFT = (164, 163, 156)
+LINE = (55, 55, 55)
+SIGNAL = (255, 91, 58)
+SIGNAL_DARK = (166, 59, 40)
 
-SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-SERIF_ITALIC = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-SANS_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+INSTRUMENT = ROOT / "tools" / "fonts" / "InstrumentSans-Variable.ttf"
 MONO = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
 CARDS = {
@@ -30,7 +29,7 @@ CARDS = {
         "title": "A role alone is not governance.",
         "subtitle": "Accountability lives in the sequence.",
         "mark": "INDEX",
-        "accent": (159, 67, 42),
+        "accent": SIGNAL,
         "record": "DECISION ROUTING · GOVERNING CAPACITY · ACCOUNTABLE EXIT",
     },
     "papers": {
@@ -38,7 +37,7 @@ CARDS = {
         "title": "Three papers.",
         "subtitle": "One institutional problem.",
         "mark": "I—III",
-        "accent": (159, 67, 42),
+        "accent": SIGNAL,
         "record": "TAKASHI SATO · WORKING PAPERS · 23 AUGUST 2026",
     },
     "about": {
@@ -46,7 +45,7 @@ CARDS = {
         "title": "Takashi Sato",
         "subtitle": "Independent researcher · Sapporo, Japan",
         "mark": "TS",
-        "accent": (159, 67, 42),
+        "accent": SIGNAL,
         "record": "AI GOVERNANCE · PROPER ENDING · AUTHORITY RETURN",
     },
     "part1": {
@@ -54,7 +53,7 @@ CARDS = {
         "title": "Workflow-Centric\nAI Governance",
         "subtitle": "A Typed Gate Contract for Accountable Human-AI Decisions",
         "mark": "I",
-        "accent": (154, 77, 40),
+        "accent": SIGNAL,
         "record": "SSRN 5911063 · DOI 10.2139/SSRN.5911063 · v6.2",
     },
     "part2": {
@@ -62,7 +61,7 @@ CARDS = {
         "title": "Governing-\nCapacity Loss",
         "subtitle": "A Descriptive State Model with a Provisional Etiological Subtype",
         "mark": "II",
-        "accent": (54, 91, 105),
+        "accent": SIGNAL,
         "record": "SSRN 5913703 · DOI 10.2139/SSRN.5913703 · v6.2",
     },
     "part3": {
@@ -70,15 +69,21 @@ CARDS = {
         "title": "From Governance Drift\nto Accountable Exit",
         "subtitle": "Proper Ending and Authority Return in AI-Assisted Institutions",
         "mark": "III",
-        "accent": (122, 65, 59),
+        "accent": SIGNAL,
         "record": "SSRN 6066430 · DOI 10.2139/SSRN.6066430 · v6.2",
         "title_size": 56,
     },
 }
 
 
-def font(path: str, size: int) -> ImageFont.FreeTypeFont:
-    return ImageFont.truetype(path, size=size)
+def instrument(size: int, width: int = 100, weight: int = 400) -> ImageFont.FreeTypeFont:
+    face = ImageFont.truetype(str(INSTRUMENT), size=size)
+    face.set_variation_by_axes([width, weight])
+    return face
+
+
+def mono(size: int) -> ImageFont.FreeTypeFont:
+    return ImageFont.truetype(MONO, size=size)
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, face: ImageFont.FreeTypeFont, width: int) -> list[str]:
@@ -104,45 +109,63 @@ def render(name: str, data: dict) -> Image.Image:
     rng = random.Random(int(hashlib.sha256(name.encode()).hexdigest()[:8], 16))
     accent = data["accent"]
 
-    for _ in range(4600):
+    for _ in range(3400):
         x, y = rng.randrange(W), rng.randrange(H)
-        value = rng.choice((-7, -5, 4, 6))
-        base = PAPER[0] + value
-        draw.point((x, y), fill=(base, base - 3, base - 8))
+        value = rng.choice((0, 2, 3, 5))
+        draw.point((x, y), fill=(value, value, value))
 
-    draw.ellipse((815, -245, 1325, 265), fill=tuple(round(PAPER[i] * .89 + accent[i] * .11) for i in range(3)))
-    draw.line((72, 74, 1128, 74), fill=LINE, width=1)
-    draw.line((72, 548, 1128, 548), fill=LINE, width=1)
-    draw.line((850, 74, 850, 548), fill=LINE, width=1)
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    glow_draw = ImageDraw.Draw(glow)
+    for radius, alpha in [(360, 7), (280, 9), (200, 11), (120, 14)]:
+        glow_draw.ellipse((W - 110 - radius, -170 - radius, W - 110 + radius, -170 + radius), fill=(*accent, alpha))
+    image = Image.alpha_composite(image.convert("RGBA"), glow).convert("RGB")
+    draw = ImageDraw.Draw(image)
 
-    draw.text((72, 38), data["label"], font=font(SANS_BOLD, 15), fill=accent, spacing=4)
-    draw.text((887, 105), data["mark"], font=font(SERIF_ITALIC, 126 if len(data["mark"]) < 4 else 74), fill=accent)
-    draw.text((889, 330), "THE PROPER\nENDING INDEX", font=font(SANS_BOLD, 18), fill=INK, spacing=8)
-    draw.text((889, 432), "TAKASHI SATO\nSAPPORO · JAPAN", font=font(MONO, 12), fill=SOFT, spacing=7)
+    draw.line((54, 78, 1146, 78), fill=LINE, width=1)
+    draw.line((54, 548, 1146, 548), fill=LINE, width=1)
+    draw.text((54, 41), data["label"], font=instrument(15, 88, 620), fill=accent)
 
-    title_face = font(SERIF, data.get("title_size", 63 if name.startswith("part") else 70))
-    y = 122
-    for line in wrap(draw, data["title"], title_face, 710):
-        draw.text((72, y), line, font=title_face, fill=INK)
-        y += 76 if name.startswith("part") else 83
+    mark_face = instrument(162 if len(data["mark"]) < 4 else 86, 75, 620)
+    mark_box = draw.textbbox((0, 0), data["mark"], font=mark_face)
+    mark_width = mark_box[2] - mark_box[0]
+    draw.text((1146 - mark_width, 105), data["mark"], font=mark_face, fill=SIGNAL_DARK)
 
-    subtitle_face = font(SANS, 22)
-    y += 14
-    for line in wrap(draw, data["subtitle"], subtitle_face, 700)[:3]:
-        draw.text((75, y), line, font=subtitle_face, fill=SOFT)
-        y += 32
+    if name == "about":
+        title_size = 108
+    elif name.startswith("part"):
+        title_size = data.get("title_size", 70)
+    else:
+        title_size = 88
+    title_face = instrument(title_size, 76, 610)
+    y = 126
+    title_width = 840 if name == "home" else (900 if name.startswith("part") else 1010)
+    line_step = round(title_size * .88)
+    title = data["title"].upper() if name == "about" else data["title"]
+    for line in wrap(draw, title, title_face, title_width):
+        draw.text((54, y), line, font=title_face, fill=INK)
+        y += line_step
 
-    draw.rectangle((72, 573, 84, 585), fill=accent)
-    draw.text((100, 570), data["record"], font=font(MONO, 13), fill=SOFT)
+    subtitle_face = instrument(22, 92, 430)
+    subtitle_y = max(y + 26, 390)
+    for line in wrap(draw, data["subtitle"], subtitle_face, 770)[:3]:
+        draw.text((57, subtitle_y), line, font=subtitle_face, fill=SOFT)
+        subtitle_y += 31
+
+    draw.rectangle((54, 576, 66, 588), fill=accent)
+    draw.text((83, 574), data["record"], font=mono(12), fill=SOFT)
+    brand = "THE PROPER ENDING INDEX"
+    brand_face = instrument(13, 86, 610)
+    brand_box = draw.textbbox((0, 0), brand, font=brand_face)
+    draw.text((1146 - (brand_box[2] - brand_box[0]), 574), brand, font=brand_face, fill=INK)
     return image
 
 
 def render_icon(size: int, inverse: bool = False) -> Image.Image:
     scale = 4
     canvas = size * scale
-    background = PAPER if inverse else INK
-    foreground = INK if inverse else PAPER
-    accent = (159, 67, 42)
+    background = INK if inverse else PAPER
+    foreground = PAPER if inverse else INK
+    accent = SIGNAL
     image = Image.new("RGB", (canvas, canvas), background)
     draw = ImageDraw.Draw(image)
     inset_outer = round(canvas * .18)

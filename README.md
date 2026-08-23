@@ -18,7 +18,7 @@ SSRN is the primary external research record. `pdf/` contains preserved v6.2 cop
 
 - pre-rendered static HTML for GitHub Pages;
 - one shared stylesheet and one progressive-enhancement script;
-- no framework runtime, external fonts, client-side routing, account system, or third-party UI package;
+- one self-hosted Instrument Sans variable font; no framework runtime, remote font request, client-side routing, account system, or third-party UI package;
 - semantic HTML/CSS research diagrams that remain selectable, responsive, printable, and reduced-motion safe;
 - stable author-entity JSON-LD, `CreativeWorkSeries`, `ScholarlyArticle`, and visible/structured breadcrumbs;
 - Highwire citation metadata on each paper record while SSRN remains the primary external record;
