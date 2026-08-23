@@ -4,13 +4,17 @@ on:
   push:
     branches:
       - feat/world-class-final-v611
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: v611-builder-${{ github.ref }}
+  group: v611-builder-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
