@@ -364,6 +364,7 @@ def audit_assets(errors: list[str]) -> None:
     expected_assets = {
         "archive-v62.css",
         "archive-v62.js",
+        "archive-v66.css",
         "site-analytics.js",
         "fonts/InterVariable.woff2",
         "fonts/Inter-OFL.txt",
@@ -394,19 +395,27 @@ def audit_assets(errors: list[str]) -> None:
         )
 
     css = (ROOT / "assets/archive-v62.css").read_text(encoding="utf-8")
+    progressive_css = (ROOT / "assets/archive-v66.css").read_text(encoding="utf-8")
     js = (ROOT / "assets/archive-v62.js").read_text(encoding="utf-8")
     if "!important" in css:
         fail(errors, "archive stylesheet must not use !important")
     if css.count("{") != css.count("}"):
         fail(errors, "archive stylesheet has unbalanced braces")
+    if progressive_css.count("{") != progressive_css.count("}"):
+        fail(errors, "progressive stylesheet has unbalanced braces")
     for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "cursor-orbit", "animation-timeline"]:
         if token not in css:
             fail(errors, f"archive stylesheet missing {token}")
-    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor"]:
+    for token in ["序", "破", "急", "Aoyagi Kouzan T", "prefers-reduced-motion", "forced-colors", "@media print"]:
+        if token not in progressive_css:
+            fail(errors, f"progressive stylesheet missing {token}")
+    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor", "archive-v66.css"]:
         if token not in js:
             fail(errors, f"enhancement script missing {token}")
     if len(css.encode()) > 50_000:
         fail(errors, f"archive stylesheet exceeds 50 KB: {len(css.encode())}")
+    if len(progressive_css.encode()) > 25_000:
+        fail(errors, f"progressive stylesheet exceeds 25 KB: {len(progressive_css.encode())}")
     if len(js.encode()) > 7_000:
         fail(errors, f"enhancement script exceeds 7 KB: {len(js.encode())}")
     fonts = {
@@ -428,7 +437,7 @@ def audit_assets(errors: list[str]) -> None:
     if "InstrumentSans" in css or "font-stretch" in css or '"wdth"' in css:
         fail(errors, "superseded compressed Instrument Sans typography returned")
     for stale_color in ["#ac402d", "#e6755c", "rgba(172, 64, 45", "rgba(230, 117, 92"]:
-        if stale_color in css:
+        if stale_color in css or stale_color in progressive_css:
             fail(errors, f"superseded vermilion signal returned: {stale_color}")
 
     material_total = 0
