@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.4.0"
+ASSET_VERSION = "6.5.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -369,6 +369,8 @@ def audit_assets(errors: list[str]) -> None:
         "fonts/Inter-OFL.txt",
         "fonts/Newsreader-Variable.woff2",
         "fonts/Newsreader-OFL.txt",
+        "fonts/MeaCulpa.woff2",
+        "fonts/MeaCulpa-OFL.txt",
         "materials/grain.jpg",
         "materials/paper.jpg",
         "materials/black-metal.jpg",
@@ -397,16 +399,20 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, "archive stylesheet must not use !important")
     if css.count("{") != css.count("}"):
         fail(errors, "archive stylesheet has unbalanced braces")
-    for token in [":focus-visible", "prefers-reduced-motion", "@media print"]:
+    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "cursor-orbit", "animation-timeline"]:
         if token not in css:
             fail(errors, f"archive stylesheet missing {token}")
+    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor"]:
+        if token not in js:
+            fail(errors, f"enhancement script missing {token}")
     if len(css.encode()) > 50_000:
         fail(errors, f"archive stylesheet exceeds 50 KB: {len(css.encode())}")
-    if len(js.encode()) > 5_000:
-        fail(errors, f"enhancement script exceeds 5 KB: {len(js.encode())}")
+    if len(js.encode()) > 7_000:
+        fail(errors, f"enhancement script exceeds 7 KB: {len(js.encode())}")
     fonts = {
         "Inter": (ROOT / "assets/fonts/InterVariable.woff2", 100_000),
         "Newsreader": (ROOT / "assets/fonts/Newsreader-Variable.woff2", 150_000),
+        "MeaCulpa": (ROOT / "assets/fonts/MeaCulpa.woff2", 50_000),
     }
     for family, (font_path, size_limit) in fonts.items():
         if not font_path.read_bytes().startswith(b"wOF2"):
@@ -421,6 +427,9 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"archive stylesheet does not declare {family}")
     if "InstrumentSans" in css or "font-stretch" in css or '"wdth"' in css:
         fail(errors, "superseded compressed Instrument Sans typography returned")
+    for stale_color in ["#ac402d", "#e6755c", "rgba(172, 64, 45", "rgba(230, 117, 92"]:
+        if stale_color in css:
+            fail(errors, f"superseded vermilion signal returned: {stale_color}")
 
     material_total = 0
     for name in ["grain", "paper", "black-metal"]:

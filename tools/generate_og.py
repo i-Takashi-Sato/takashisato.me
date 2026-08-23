@@ -15,11 +15,12 @@ PAPER = (8, 8, 8)
 INK = (242, 240, 233)
 SOFT = (180, 177, 170)
 LINE = (57, 56, 54)
-SIGNAL = (230, 117, 92)
-SIGNAL_DARK = (109, 42, 30)
+SIGNAL = (57, 92, 255)
+SIGNAL_DARK = (19, 30, 94)
 
 INTER = ROOT / "assets" / "fonts" / "InterVariable.woff2"
 NEWSREADER = ROOT / "assets" / "fonts" / "Newsreader-Variable.woff2"
+MEA_CULPA = ROOT / "assets" / "fonts" / "MeaCulpa.woff2"
 GRAIN = ROOT / "assets" / "materials" / "grain.jpg"
 PAPER_TEXTURE = ROOT / "assets" / "materials" / "paper.jpg"
 METAL_TEXTURE = ROOT / "assets" / "materials" / "black-metal.jpg"
@@ -90,6 +91,10 @@ def newsreader(size: int, weight: int = 350, optical: int = 72) -> ImageFont.Fre
     return face
 
 
+def script(size: int) -> ImageFont.FreeTypeFont:
+    return ImageFont.truetype(str(MEA_CULPA), size=size)
+
+
 def mono(size: int) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(MONO, size=size)
 
@@ -139,12 +144,12 @@ def render(name: str, data: dict) -> Image.Image:
     draw.text((1146 - mark_width, 105), data["mark"], font=mark_face, fill=SIGNAL_DARK)
 
     if name == "about":
-        title_size = 114
+        title_size = 152
     elif name.startswith("part"):
         title_size = data.get("title_size", 70)
     else:
         title_size = 88
-    title_face = newsreader(title_size, 340, 72)
+    title_face = script(title_size) if name == "about" else newsreader(title_size, 340, 72)
     y = 126
     title_width = 840 if name == "home" else (900 if name.startswith("part") else 1010)
     line_step = round(title_size * .82)
