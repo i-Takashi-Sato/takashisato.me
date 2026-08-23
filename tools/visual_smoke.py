@@ -95,8 +95,13 @@ def run_context(
         for name, path in pages.items():
             page.goto(BASE + path, wait_until="networkidle" if js else "domcontentloaded")
             page.locator("main").wait_for(state="visible")
+            # Measure the actual runtime before manipulating reveal state.
             errors.extend(layout_errors(page, name, width, suffix))
             if js:
+                # A full-page screenshot does not scroll each section through the
+                # IntersectionObserver. Reveal after measurement so the artifact is
+                # useful for editorial review without weakening the structural test.
+                page.evaluate("document.querySelectorAll('[data-reveal]').forEach(x => x.classList.add('is-visible'))")
                 out = OUT / f"{name}-{vp_name}.png"
                 out.parent.mkdir(parents=True, exist_ok=True)
                 page.screenshot(path=str(out), full_page=True)
