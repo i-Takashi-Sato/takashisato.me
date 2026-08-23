@@ -15,6 +15,7 @@ AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-23"
 VERSION = "6.2"
+ASSET_VERSION = "6.2.1"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -277,8 +278,8 @@ def head(
           <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
           {paper_meta}
           {schema_html}
-          <link rel="stylesheet" href="/assets/archive-v62.css?v=6.2.0">
-          <script>document.documentElement.classList.add('js');window.__archiveRevealFallback=window.setTimeout(function(){{document.documentElement.classList.remove('js')}},3000)</script>
+          <link rel="stylesheet" href="/assets/archive-v62.css?v={ASSET_VERSION}">
+          <script src="/assets/archive-v62.js?v={ASSET_VERSION}"></script>
         </head>
         """
     ).strip()
@@ -347,7 +348,6 @@ def footer() -> str:
             </div>
           </div>
         </footer>
-        <script src="/assets/archive-v62.js?v=6.2.0" defer></script>
         <script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
         """
     ).strip()
@@ -440,11 +440,12 @@ def home_page() -> str:
 
           <section class="section compact">
             <div class="shell">
-              <div class="metric-grid" data-reveal aria-label="Series at a glance">
-                <div class="metric"><strong>1,024</strong><span>Stage-1 configurations enumerated in Part I</span></div>
-                <div class="metric"><strong>1,248</strong><span>applicable Stage-2 configurations in Part I</span></div>
-                <div class="metric"><strong>5</strong><span>rejectable propositions in Part II</span></div>
-                <div class="metric"><strong>8,564</strong><span>reachable states explored in Part III</span></div>
+              <h2 class="sr-only">Series at a glance</h2>
+              <div class="metric-grid" data-reveal role="list" aria-label="Series at a glance">
+                <div class="metric" role="listitem"><strong>1,024</strong><span>Stage-1 configurations enumerated in Part I</span></div>
+                <div class="metric" role="listitem"><strong>1,248</strong><span>applicable Stage-2 configurations in Part I</span></div>
+                <div class="metric" role="listitem"><strong>5</strong><span>rejectable propositions in Part II</span></div>
+                <div class="metric" role="listitem"><strong>8,564</strong><span>reachable states explored in Part III</span></div>
               </div>
             </div>
           </section>
@@ -462,16 +463,19 @@ def home_page() -> str:
           </section>
 
           <section class="section compact">
-            <div class="shell profile-grid" data-reveal>
-              <div class="profile-aside">
-                <p class="label">Author</p>
-                <p>Independent research<br>Sapporo, Japan</p>
-              </div>
-              <div class="profile-copy">
-                <p class="lead">Takashi Sato studies how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
-                <div class="hero-actions">
-                  <a class="button" href="/about.html">About the author</a>
-                  <a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID <span class="arrow" aria-hidden="true">↗</span></a>
+            <div class="shell">
+              <h2 class="sr-only">About the author</h2>
+              <div class="profile-grid" data-reveal>
+                <div class="profile-aside">
+                  <p class="label">Author</p>
+                  <p>Independent research<br>Sapporo, Japan</p>
+                </div>
+                <div class="profile-copy">
+                  <p class="lead">Takashi Sato studies how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
+                  <div class="hero-actions">
+                    <a class="button" href="/about.html">About the author</a>
+                    <a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID <span class="arrow" aria-hidden="true">↗</span></a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -549,6 +553,7 @@ def papers_index_page() -> str:
           </header>
           <section class="section">
             <div class="shell">
+              <h2 class="sr-only">Paper records</h2>
               <div class="sequence">{' '.join(records)}</div>
             </div>
           </section>
@@ -595,7 +600,7 @@ def part1_content() -> str:
         <section id="contract">
           <p class="eyebrow">The contract</p>
           <h2>Three diagnostics. Two stages. No silent action.</h2>
-          <div class="model" aria-label="Two-stage typed gate contract">
+          <div class="model">
             <div class="model-head"><h3>Stage 1 · total routing semantics</h3><span>routing status ≠ execution event</span></div>
             <div class="gate-flow">
               <div class="gate"><span class="meta-label">Gate 1</span><b>Hard constraints &amp; admissibility</b><small>Scope, prohibitions, and minimum evidentiary preconditions.</small><div class="state-line"><i>PASS</i><i>REVIEW</i><i>BLOCK</i><i>UNKNOWN</i></div></div>
@@ -604,7 +609,7 @@ def part1_content() -> str:
               <div class="route-box"><span class="meta-label">Route</span><b>Typed status only</b><small>Execution eligible · Evidence hold · Authorized review · Fallback · Unresolved</small></div>
             </div>
             <div class="model-head model-head-spaced"><h3>Stage 2 · signed institutional disposition</h3><span>authorized review only</span></div>
-            <div class="disposition-grid" aria-label="Signed dispositions"><span>RELEASE</span><span>MODIFIED ACTION</span><span>FINAL STOP</span><span>AUTHORIZED DEFER</span><span>FALLBACK</span></div>
+            <div class="disposition-grid" role="list" aria-label="Signed dispositions"><span role="listitem">RELEASE</span><span role="listitem">MODIFIED ACTION</span><span role="listitem">FINAL STOP</span><span role="listitem">AUTHORIZED DEFER</span><span role="listitem">FALLBACK</span></div>
           </div>
           <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>
           <p>Review authority and review capacity are distinct inputs. Fallback authorization and operational readiness are distinct inputs. If either member of a pair is absent, that route is unavailable.</p>
@@ -613,10 +618,10 @@ def part1_content() -> str:
         <section id="verification">
           <p class="eyebrow">Finite-domain verification</p>
           <h2>Complete over the declared truth tables.</h2>
-          <div class="verification" aria-label="Verification results">
-            <div><strong>1,024</strong><span>Stage-1 configurations enumerated</span></div>
-            <div><strong>1,248</strong><span>applicable Stage-2 configurations enumerated</span></div>
-            <div><strong>9 / 9</strong><span>isolated guard mutations produced a counterexample</span></div>
+          <div class="verification" role="list" aria-label="Verification results">
+            <div role="listitem"><strong>1,024</strong><span>Stage-1 configurations enumerated</span></div>
+            <div role="listitem"><strong>1,248</strong><span>applicable Stage-2 configurations enumerated</span></div>
+            <div role="listitem"><strong>9 / 9</strong><span>isolated guard mutations produced a counterexample</span></div>
           </div>
           <p class="caveat"><strong>Result:</strong> the authored functions produced zero invariant violations. “Exhaustive” means complete over the declared finite abstraction; it is not proof that the invariants are complete, comparison with external ground truth, or evidence of legal or field effectiveness.</p>
           <div class="fact-grid">
@@ -759,10 +764,10 @@ def part3_content() -> str:
         <section id="verification">
           <p class="eyebrow">Finite-state safety verification</p>
           <h2>The guard model is executable—and bounded.</h2>
-          <div class="verification" aria-label="Finite-state verification results">
-            <div><strong>8,564</strong><span>reachable states under exhaustive breadth-first exploration</span></div>
-            <div><strong>36,096</strong><span>enabled transitions explored</span></div>
-            <div><strong>30</strong><span>mutation-adequate guards with a minimal counterexample when weakened</span></div>
+          <div class="verification" role="list" aria-label="Finite-state verification results">
+            <div role="listitem"><strong>8,564</strong><span>reachable states under exhaustive breadth-first exploration</span></div>
+            <div role="listitem"><strong>36,096</strong><span>enabled transitions explored</span></div>
+            <div role="listitem"><strong>30</strong><span>mutation-adequate guards with a minimal counterexample when weakened</span></div>
           </div>
           <p class="caveat"><strong>Result:</strong> no authored-invariant violation in the unmutated model. This is executable consistency testing of a selected abstraction—not certification, semantic validation, or proof that a real institution records facts honestly or performs remedy effectively.</p>
         </section>
@@ -832,13 +837,14 @@ def paper_page(paper: dict) -> str:
             </div>
           </header>
 
-          <section class="section">
+          <div class="section">
             <div class="shell paper-layout">
               <aside class="toc" aria-label="On this page">
                 <p class="label">On this page</p>
                 <ol>{toc_items}</ol>
               </aside>
               <article class="content" data-reveal>
+                <h2 class="sr-only">Part {paper['roman']} analysis</h2>
                 {content}
                 <section id="citation">
                   <p class="eyebrow">Citation &amp; preservation</p>
@@ -854,8 +860,8 @@ def paper_page(paper: dict) -> str:
                 </section>
               </article>
             </div>
-          </section>
-          <section class="section compact"><div class="shell">{series_navigation(paper['part'])}</div></section>
+          </div>
+          <div class="section compact"><div class="shell">{series_navigation(paper['part'])}</div></div>
         </main>
         """
     ).strip()
@@ -909,7 +915,7 @@ def about_page() -> str:
             <p class="eyebrow" data-reveal>Author record · 佐藤貴士</p>
             <h1 data-reveal>Researching the point where oversight becomes governable—and where it must end.</h1>
           </header>
-          <section class="section">
+          <div class="section">
             <div class="shell profile-grid">
               <aside class="profile-aside" data-reveal>
                 <p class="label">Takashi Sato</p>
@@ -921,6 +927,7 @@ def about_page() -> str:
               </aside>
               <div class="content profile-copy" data-reveal>
                 <section>
+                  <h2 class="sr-only">Research focus</h2>
                   <p class="lead">Takashi Sato is an independent researcher focused on AI governance, human oversight, workflow governance, governing capacity, Proper Ending, and Authority Return.</p>
                   <p>The current working-paper trilogy asks how consequential human-AI decisions should be routed, how an institution can remain procedurally intact while losing its practical capacity to govern, and how a failing workflow can be contained and retired without abandoning service, evidence, remedy, or decision responsibility.</p>
                 </section>
@@ -947,7 +954,7 @@ def about_page() -> str:
                 </section>
               </div>
             </div>
-          </section>
+          </div>
         </main>
         """
     ).strip()
@@ -1127,7 +1134,7 @@ def main() -> None:
             description="Privacy information for The Proper Ending Index.",
             content=dedent(
                 """
-                <section><p class="lead">This is a static research archive. It provides no user accounts, advertising, profiling, or first-party cookies.</p></section>
+                <section><h2 class="sr-only">Overview</h2><p class="lead">This is a static research archive. It provides no user accounts, advertising, profiling, or first-party cookies.</p></section>
                 <section><h2>Measurement</h2><p>A small local adapter emits aggregate page and link events inside the browser. It does not transmit data by itself. If a compatible external analytics property is configured, it is intended for aggregate archive measurement rather than identifying visitors or building advertising profiles.</p></section>
                 <section><h2>Hosting logs</h2><p>The hosting and network providers may process standard operational logs such as IP address, user agent, requested path, and timestamp for delivery, abuse prevention, and security.</p></section>
                 <section><h2>External records</h2><p>Links to SSRN, DOI, ORCID, and Google Scholar lead to services governed by their own privacy policies.</p></section>
@@ -1144,7 +1151,7 @@ def main() -> None:
             description="Security contact and disclosure information for The Proper Ending Index.",
             content=dedent(
                 """
-                <section><p class="lead">If you believe you have found a security issue affecting this archive, please report it privately.</p><div class="hero-actions"><a class="button primary" href="mailto:i@takashisato.me">i@takashisato.me</a><a class="button" href="/.well-known/security.txt">security.txt</a></div></section>
+                <section><h2 class="sr-only">Overview</h2><p class="lead">If you believe you have found a security issue affecting this archive, please report it privately.</p><div class="hero-actions"><a class="button primary" href="mailto:i@takashisato.me">i@takashisato.me</a><a class="button" href="/.well-known/security.txt">security.txt</a></div></section>
                 <section><h2>Scope</h2><p>The site is a static GitHub Pages archive with no login, application database, server-side form, or payment surface. Reports should include the affected URL, reproducible steps, impact, and any safe proof of concept.</p></section>
                 """
             ).strip(),
@@ -1158,7 +1165,7 @@ def main() -> None:
             description="Design, technology, and preservation notes for The Proper Ending Index.",
             content=dedent(
                 """
-                <section><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
+                <section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
                 <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, external font request, client-side router, account system, or third-party UI package.</p></section>
                 <section><h2>Typography &amp; material</h2><p>The system uses native serif, sans-serif, and monospace stacks. Color and geometry distinguish the trilogy without creating three incompatible microsites. Functional diagrams are built from semantic HTML and CSS so their content remains selectable, responsive, and printable.</p></section>
                 <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system. No research content depends on animation or pointer input.</p></section>
@@ -1175,7 +1182,7 @@ def main() -> None:
             title="Record not found",
             description="The requested record is not part of The Proper Ending Index.",
             robots="noindex,follow",
-            content='<section><p class="lead">This path does not resolve to a current archive record.</p><div class="hero-actions"><a class="button primary" href="/">Open the index</a><a class="button" href="/papers/">Browse papers</a></div></section>',
+            content='<section><h2 class="sr-only">Overview</h2><p class="lead">This path does not resolve to a current archive record.</p><div class="hero-actions"><a class="button primary" href="/">Open the index</a><a class="button" href="/papers/">Browse papers</a></div></section>',
         ),
     )
 
