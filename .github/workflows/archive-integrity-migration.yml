@@ -59,6 +59,7 @@ jobs:
               '        lambda _: new_assets + "\\n\\ndef audit_pdfs",\n        text,',
               1,
           )
+          text = text.replace('    migrate_ci()\n', '', 1)
           path.write_text(text, encoding='utf-8')
           PY
           python -m py_compile tools/apply_archive_integrity.py
