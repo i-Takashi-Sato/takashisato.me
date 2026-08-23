@@ -50,6 +50,7 @@ jobs:
           node --check assets/archive-v62.js
           node --check scripts/archive-v611.js
           node --check assets/site-analytics.js
+          find tools -type d -name __pycache__ -prune -exec rm -rf {} +
 
       - name: Commit generated v6.11 archive
         run: |
