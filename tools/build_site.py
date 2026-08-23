@@ -239,7 +239,7 @@ def head(
         ).strip()
     return dedent(
         f"""
-        <!doctype html>
+        <!DOCTYPE html>
         <html lang="en">
         <head>
           <meta charset="utf-8">
@@ -738,13 +738,13 @@ def part2_content() -> str:
           <div class="table-wrap">
             <table class="research-table">
               <caption class="sr-only">Five Part II propositions, target contrasts, and evidence against</caption>
-              <thead><tr><th>Proposition</th><th>Target contrast</th><th>Evidence against</th></tr></thead>
+              <thead><tr><th scope="col">Proposition</th><th scope="col">Target contrast</th><th scope="col">Evidence against</th></tr></thead>
               <tbody>
-                <tr><th>P1 · Capacity-strain decoupling</th><td>Change in independent judgment relative to procedural completion after exogenous throughput pressure.</td><td>Judgment remains stable or the decline is explained by case mix, model improvement, or learning.</td></tr>
-                <tr><th>P2 · Target conversion</th><td>Visible artifact and its conditional relation to evidence or the protected outcome after a completion target.</td><td>Both procedure and protected function improve without hidden burden displacement.</td></tr>
-                <tr><th>P3 · Voice-efficacy feedback</th><td>Effect of prior remedy efficacy on later risk-adjusted dissent.</td><td>No temporal association, or the relation is explained by fewer opportunities to dissent.</td></tr>
-                <tr><th>P4 · Coupled-trace discrimination</th><td>Held-out gain from joint rationale, time, and voice traces.</td><td>Single raw metrics perform equally well, or the coupled signal fails under benign efficiency.</td></tr>
-                <tr><th>P5 · Comparative state validity</th><td>Calibrated, decision-relevant gain over continuous components and established baselines.</td><td>The gain vanishes under leakage controls or a simpler model chooses the same intervention.</td></tr>
+                <tr><th scope="row">P1 · Capacity-strain decoupling</th><td>Change in independent judgment relative to procedural completion after exogenous throughput pressure.</td><td>Judgment remains stable or the decline is explained by case mix, model improvement, or learning.</td></tr>
+                <tr><th scope="row">P2 · Target conversion</th><td>Visible artifact and its conditional relation to evidence or the protected outcome after a completion target.</td><td>Both procedure and protected function improve without hidden burden displacement.</td></tr>
+                <tr><th scope="row">P3 · Voice-efficacy feedback</th><td>Effect of prior remedy efficacy on later risk-adjusted dissent.</td><td>No temporal association, or the relation is explained by fewer opportunities to dissent.</td></tr>
+                <tr><th scope="row">P4 · Coupled-trace discrimination</th><td>Held-out gain from joint rationale, time, and voice traces.</td><td>Single raw metrics perform equally well, or the coupled signal fails under benign efficiency.</td></tr>
+                <tr><th scope="row">P5 · Comparative state validity</th><td>Calibrated, decision-relevant gain over continuous components and established baselines.</td><td>The gain vanishes under leakage controls or a simpler model chooses the same intervention.</td></tr>
               </tbody>
             </table>
           </div>
@@ -965,7 +965,7 @@ def about_page() -> str:
             <div class="author-hero-grid">
               <div class="author-name" data-reveal>
                 <p class="eyebrow">Author record · 001</p>
-                <h1 aria-label="Takashi Sato"><span>Takashi Sato</span></h1>
+                <h1><span>Takashi Sato</span></h1>
               </div>
               <div class="author-thesis" data-reveal>
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
