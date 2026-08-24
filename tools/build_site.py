@@ -13,10 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
-UPDATED = "2026-08-24"
+UPDATED = "2026-08-25"
 PAPER_REVISION_DATE = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.12.2"
+ASSET_VERSION = "6.13.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -399,7 +399,7 @@ def home_page() -> str:
         dedent(
             f"""
             <a class="sequence-row" href="/papers/{p['slug']}.html" data-reveal>
-              <p class="sequence-function">{p['function']}</p>
+              <p class="sequence-function">Part {p['roman']} · {p['function']}</p>
               <div>
                 <h3 class="sequence-title">{p['title']}</h3>
                 <p class="sequence-copy">{p['question']} {p['description']}</p>
@@ -417,10 +417,15 @@ def home_page() -> str:
             <div class="hero-grid">
               <div data-reveal>
                 <p class="eyebrow">Workflow-Centric AI Governance Trilogy · v6.2</p>
-                <h1 id="hero-title"><span>A role alone</span><span>is <em>not</em> governance.</span></h1>
+                <h1 id="hero-title"><span>A role alone</span><span class="hero-turn">is <em>not</em></span><span class="hero-governance">governance.</span></h1>
               </div>
               <div class="hero-aside" data-reveal>
                 <p class="hero-statement">Accountability lives in the sequence.</p>
+                <ol class="hero-transition" aria-label="Research sequence">
+                  <li><b>01</b><span>Case</span></li>
+                  <li><b>02</b><span>Institution</span></li>
+                  <li><b>03</b><span>Exit</span></li>
+                </ol>
                 <p>Three working papers trace one institutional problem across three scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
                 <div class="hero-actions">
                   <a class="button primary" href="/papers/">Read the trilogy <span class="arrow" aria-hidden="true">↗</span></a>
@@ -735,7 +740,7 @@ def part2_content() -> str:
         <section id="propositions">
           <p class="eyebrow">Falsifiability</p>
           <h2>Five derived propositions—and what would count against them.</h2>
-          <div class="table-wrap">
+          <div class="table-wrap" role="region" aria-label="Scrollable research table" tabindex="0">
             <table class="research-table">
               <caption class="sr-only">Five Part II propositions, target contrasts, and evidence against</caption>
               <thead><tr><th scope="col">Proposition</th><th scope="col">Target contrast</th><th scope="col">Evidence against</th></tr></thead>
