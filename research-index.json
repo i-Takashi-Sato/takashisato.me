@@ -7,7 +7,7 @@
   "url": "https://takashisato.me/papers/",
   "mainEntityOfPage": "https://takashisato.me/research-index.json",
   "description": "Independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-08-24",
   "version": "6.2",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
@@ -103,7 +103,7 @@
       ],
       "encoding": {
         "@type": "MediaObject",
-        "contentUrl": "https://takashisato.me/pdf/part1.pdf",
+        "contentUrl": "https://takashisato.me/pdf/v6.2/part1.pdf",
         "encodingFormat": "application/pdf",
         "contentSize": "514075 bytes",
         "sha256": "edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8",
@@ -178,7 +178,7 @@
       ],
       "encoding": {
         "@type": "MediaObject",
-        "contentUrl": "https://takashisato.me/pdf/part2.pdf",
+        "contentUrl": "https://takashisato.me/pdf/v6.2/part2.pdf",
         "encodingFormat": "application/pdf",
         "contentSize": "562947 bytes",
         "sha256": "6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88",
@@ -253,7 +253,7 @@
       ],
       "encoding": {
         "@type": "MediaObject",
-        "contentUrl": "https://takashisato.me/pdf/part3.pdf",
+        "contentUrl": "https://takashisato.me/pdf/v6.2/part3.pdf",
         "encodingFormat": "application/pdf",
         "contentSize": "1032918 bytes",
         "sha256": "7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72",

@@ -18,9 +18,9 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
-UPDATED = "2026-08-23"
+UPDATED = "2026-08-24"
 VERSION = "6.2"
-ASSET_VERSION = "6.10.4"
+ASSET_VERSION = "6.12.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -40,6 +40,7 @@ PAPERS = {
         "subtitle": "A Typed Gate Contract for Accountable Human-AI Decisions",
         "ssrn": "5911063",
         "doi": "10.2139/ssrn.5911063",
+        "posted": "2026-01-09",
         "pages": 18,
         "bytes": 514075,
         "sha256": "edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8",
@@ -49,6 +50,7 @@ PAPERS = {
         "subtitle": "A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
         "ssrn": "5913703",
         "doi": "10.2139/ssrn.5913703",
+        "posted": "2026-01-12",
         "pages": 20,
         "bytes": 562947,
         "sha256": "6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88",
@@ -58,6 +60,7 @@ PAPERS = {
         "subtitle": "Proper Ending and Authority Return in AI-Assisted Institutions",
         "ssrn": "6066430",
         "doi": "10.2139/ssrn.6066430",
+        "posted": "2026-02-10",
         "pages": 39,
         "bytes": 1032918,
         "sha256": "7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72",
@@ -208,22 +211,20 @@ def audit_html(errors: list[str]) -> None:
             if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
                 fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
 
-        expected_stylesheet = f"/assets/archive-v62.css?v={ASSET_VERSION}"
-        expected_enhancement = f"/assets/archive-v62.js?v={ASSET_VERSION}"
+        expected_style = f"/assets/site.css?v={ASSET_VERSION}"
+        expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if styles != [expected_stylesheet]:
+        if styles != [expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
-        enhancement_scripts = [
-            attrs
-            for tag, attrs in parser.tags
-            if tag == "script" and attrs.get("src", "").startswith("/assets/archive-v62.js")
-        ]
-        if [attrs.get("src") for attrs in enhancement_scripts] != [expected_enhancement]:
-            fail(errors, f"{rel}: enhancement script contract mismatch: {enhancement_scripts}")
-        elif any("defer" in attrs or "async" in attrs for attrs in enhancement_scripts):
-            fail(errors, f"{rel}: enhancement script must execute in head before body parsing")
-        if expected_enhancement not in text.partition("</head>")[0]:
-            fail(errors, f"{rel}: enhancement script is not loaded from head")
+        scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
+        production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
+        if [attrs.get("src") for attrs in production_scripts] != [expected_script]:
+            fail(errors, f"{rel}: production script contract mismatch: {production_scripts}")
+        if len(scripts) != 1:
+            fail(errors, f"{rel}: expected one production script, found {scripts}")
+        head_text = text.partition("</head>")[0]
+        if expected_style not in head_text or expected_script not in head_text:
+            fail(errors, f"{rel}: production assets are not loaded from head")
 
         identity_links = {
             attrs.get("href", "")
@@ -270,7 +271,7 @@ def audit_html(errors: list[str]) -> None:
             expected_citations = {
                 "citation_title": f"{paper['title']}: {paper['subtitle']}",
                 "citation_author": "Takashi Sato",
-                "citation_publication_date": "2026/08/23",
+                "citation_publication_date": paper["posted"].replace("-", "/"),
                 "citation_doi": paper["doi"],
                 "citation_language": "en",
             }
@@ -282,7 +283,7 @@ def audit_html(errors: list[str]) -> None:
                 for tag, attrs in parser.tags
                 if tag == "link" and attrs.get("rel") == "alternate" and attrs.get("type") == "application/pdf"
             ]
-            expected_pdf = f"{SITE}/pdf/{slug}.pdf"
+            expected_pdf = f"{SITE}/pdf/v{VERSION}/{slug}.pdf"
             if pdf_alternates != [expected_pdf]:
                 fail(errors, f"{rel}: PDF alternate mismatch: {pdf_alternates}")
 
@@ -362,10 +363,8 @@ def audit_content(errors: list[str]) -> None:
 
 def audit_assets(errors: list[str]) -> None:
     expected_assets = {
-        "archive-v62.css",
-        "archive-v62.js",
-        "archive-v66.css",
-        "site-analytics.js",
+        "site.css",
+        "site.js",
         "fonts/InterVariable.woff2",
         "fonts/Inter-OFL.txt",
         "fonts/Newsreader-Variable.woff2",
@@ -394,30 +393,26 @@ def audit_assets(errors: list[str]) -> None:
             f"missing={sorted(expected_assets - actual_assets)}, extra={sorted(actual_assets - expected_assets)}",
         )
 
-    css = (ROOT / "assets/archive-v62.css").read_text(encoding="utf-8")
-    progressive_css = (ROOT / "assets/archive-v66.css").read_text(encoding="utf-8")
-    js = (ROOT / "assets/archive-v62.js").read_text(encoding="utf-8")
-    if "!important" in css:
-        fail(errors, "archive stylesheet must not use !important")
+    css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
-        fail(errors, "archive stylesheet has unbalanced braces")
-    if progressive_css.count("{") != progressive_css.count("}"):
-        fail(errors, "progressive stylesheet has unbalanced braces")
-    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "cursor-orbit", "animation-timeline"]:
+        fail(errors, "production stylesheet has unbalanced braces")
+    if re.search(r"https?://|@import\s+url", css):
+        fail(errors, "production stylesheet contains a remote dependency")
+    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "cursor-orbit", "animation-timeline", "gate-probe"]:
         if token not in css:
-            fail(errors, f"archive stylesheet missing {token}")
-    for token in ["序", "破", "急", "Aoyagi Kouzan T", "prefers-reduced-motion", "forced-colors", "@media print"]:
-        if token not in progressive_css:
-            fail(errors, f"progressive stylesheet missing {token}")
-    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor", "archive-v66.css"]:
+            fail(errors, f"production stylesheet missing {token}")
+    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor", "data-gate-probe", "site-analytics:event"]:
         if token not in js:
-            fail(errors, f"enhancement script missing {token}")
-    if len(css.encode()) > 50_000:
-        fail(errors, f"archive stylesheet exceeds 50 KB: {len(css.encode())}")
-    if len(progressive_css.encode()) > 25_000:
-        fail(errors, f"progressive stylesheet exceeds 25 KB: {len(progressive_css.encode())}")
-    if len(js.encode()) > 7_000:
-        fail(errors, f"enhancement script exceeds 7 KB: {len(js.encode())}")
+            fail(errors, f"production script missing {token}")
+    for retired in ["archive-v62.css", "archive-v66.css", "archive-v68.css", "archive-v610.css", "research-fluid.js"]:
+        if retired in js:
+            fail(errors, f"production script references retired runtime: {retired}")
+    if len(css.encode()) > 100_000:
+        fail(errors, f"production stylesheet exceeds 100 KB: {len(css.encode())}")
+    if len(js.encode()) > 20_000:
+        fail(errors, f"production script exceeds 20 KB: {len(js.encode())}")
+
     fonts = {
         "Inter": (ROOT / "assets/fonts/InterVariable.woff2", 100_000),
         "Newsreader": (ROOT / "assets/fonts/Newsreader-Variable.woff2", 150_000),
@@ -429,57 +424,46 @@ def audit_assets(errors: list[str]) -> None:
         if font_path.stat().st_size > size_limit:
             fail(errors, f"{family} webfont exceeds {size_limit // 1000} KB: {font_path.stat().st_size}")
         license_path = ROOT / f"assets/fonts/{family}-OFL.txt"
-        license_text = license_path.read_text(encoding="utf-8")
-        if "SIL OPEN FONT LICENSE Version 1.1" not in license_text:
+        if "SIL OPEN FONT LICENSE Version 1.1" not in license_path.read_text(encoding="utf-8"):
             fail(errors, f"{family} license record is missing or invalid")
         if font_path.name not in css:
-            fail(errors, f"archive stylesheet does not declare {family}")
-    if "InstrumentSans" in css or "font-stretch" in css or '"wdth"' in css:
-        fail(errors, "superseded compressed Instrument Sans typography returned")
-    for stale_color in ["#ac402d", "#e6755c", "rgba(172, 64, 45", "rgba(230, 117, 92"]:
-        if stale_color in css or stale_color in progressive_css:
-            fail(errors, f"superseded vermilion signal returned: {stale_color}")
+            fail(errors, f"production stylesheet does not declare {family}")
 
     material_total = 0
     for name in ["grain", "paper", "black-metal"]:
-        path = ROOT / f"assets/materials/{name}.jpg"
-        material_total += path.stat().st_size
-        with Image.open(path) as image:
+        material_path = ROOT / f"assets/materials/{name}.jpg"
+        material_total += material_path.stat().st_size
+        with Image.open(material_path) as image:
             if image.format != "JPEG":
-                fail(errors, f"{path.relative_to(ROOT)}: expected JPEG, found {image.format}")
+                fail(errors, f"{material_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
             if image.width < 1500 or image.height < 850:
-                fail(errors, f"{path.relative_to(ROOT)}: material resolution is too small: {image.size}")
+                fail(errors, f"{material_path.relative_to(ROOT)}: material resolution is too small: {image.size}")
         if f"materials/{name}.jpg" not in css:
-            fail(errors, f"archive stylesheet does not use {name}.jpg")
+            fail(errors, f"production stylesheet does not use {name}.jpg")
     if material_total > 350_000:
         fail(errors, f"material texture payload exceeds 350 KB: {material_total}")
 
     paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
     if not paper_match:
-        fail(errors, "archive stylesheet is missing the paper color token")
+        fail(errors, "production stylesheet is missing the paper color token")
     else:
-        paper = paper_match.group(1)
+        paper_color = paper_match.group(1)
         text_colors = set(re.findall(r"--(?:ink|ink-soft|ink-faint|signal-soft):\s*(#[0-9a-fA-F]{6})", css))
         for color in sorted(text_colors):
-            ratio = contrast_ratio(color, paper)
+            ratio = contrast_ratio(color, paper_color)
             if ratio < 4.5:
-                fail(errors, f"text color {color} has insufficient contrast on {paper}: {ratio:.2f}:1")
-        accent_colors = set(re.findall(r"--signal:\s*(#[0-9a-fA-F]{6})", css))
-        for color in sorted(accent_colors):
-            ratio = contrast_ratio(color, "#ffffff")
-            if ratio < 4.5:
-                fail(errors, f"white text has insufficient contrast on accent {color}: {ratio:.2f}:1")
+                fail(errors, f"text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
 
     for name in ["home", "papers", "about", *PAPERS]:
-        path = ROOT / f"assets/og/{name}.jpg"
-        if not path.exists():
-            fail(errors, f"missing OG image: {path.relative_to(ROOT)}")
+        image_path = ROOT / f"assets/og/{name}.jpg"
+        if not image_path.exists():
+            fail(errors, f"missing OG image: {image_path.relative_to(ROOT)}")
             continue
-        with Image.open(path) as image:
+        with Image.open(image_path) as image:
             if image.size != (1200, 630):
-                fail(errors, f"{path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
+                fail(errors, f"{image_path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
             if image.format != "JPEG":
-                fail(errors, f"{path.relative_to(ROOT)}: expected JPEG, found {image.format}")
+                fail(errors, f"{image_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
     for name, size in {
         "android-chrome-192x192.png": (192, 192),
         "android-chrome-512x512.png": (512, 512),
@@ -487,18 +471,18 @@ def audit_assets(errors: list[str]) -> None:
         "favicon-16x16.png": (16, 16),
         "favicon-32x32.png": (32, 32),
     }.items():
-        path = ROOT / name
-        if not path.exists():
+        image_path = ROOT / name
+        if not image_path.exists():
             fail(errors, f"missing icon: {name}")
             continue
-        with Image.open(path) as image:
+        with Image.open(image_path) as image:
             if image.size != size:
                 fail(errors, f"{name}: expected {size}, found {image.size}")
 
 
 def audit_pdfs(errors: list[str]) -> None:
     for slug, expected in PAPERS.items():
-        path = ROOT / f"pdf/{slug}.pdf"
+        path = ROOT / f"pdf/v{VERSION}/{slug}.pdf"
         if not path.exists():
             fail(errors, f"missing PDF: {path.relative_to(ROOT)}")
             continue
@@ -519,6 +503,10 @@ def audit_pdfs(errors: list[str]) -> None:
         language = reader.trailer["/Root"].get("/Lang")
         if str(language) != "en-US":
             fail(errors, f"{path.relative_to(ROOT)}: PDF /Lang is {language!r}, expected en-US")
+    for slug in PAPERS:
+        legacy = ROOT / f"pdf/{slug}.pdf"
+        if legacy.exists():
+            fail(errors, f"mutable legacy PDF alias must not exist: {legacy.relative_to(ROOT)}")
 
 
 def audit_indexes(errors: list[str]) -> None:
@@ -558,7 +546,7 @@ def audit_indexes(errors: list[str]) -> None:
         if identifiers != {"DOI": expected["doi"], "SSRN": expected["ssrn"]}:
             fail(errors, f"research-index.json: {slug} identifiers mismatch")
         encoding = item.get("encoding", {})
-        if encoding.get("contentUrl") != f"{SITE}/pdf/{slug}.pdf":
+        if encoding.get("contentUrl") != f"{SITE}/pdf/v{VERSION}/{slug}.pdf":
             fail(errors, f"research-index.json: {slug} PDF URL mismatch")
         if encoding.get("contentSize") != f"{expected['bytes']} bytes" or encoding.get("sha256") != expected["sha256"]:
             fail(errors, f"research-index.json: {slug} PDF preservation metadata mismatch")

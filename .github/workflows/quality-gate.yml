@@ -1,0 +1,71 @@
+name: Web Quality Gate
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Install pinned quality tooling
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.62.0
+          npm install --no-save --ignore-scripts axe-core@4.13.0 @lhci/cli@0.15.1 html-validate@11.8.0
+          python --version
+          node --version
+          google-chrome --version
+
+      - name: Validate HTML documents
+        run: |
+          npx --no-install html-validate \
+            index.html about.html colophon.html privacy.html security.html 404.html \
+            papers/index.html papers/part1.html papers/part2.html papers/part3.html \
+            demo/index.html demo/altrion-part1.html demo/altrion-part2.html
+
+      - name: Serve archive
+        run: |
+          python -m http.server 4173 --bind 127.0.0.1 > /tmp/archive-quality-http.log 2>&1 &
+          echo $! > /tmp/archive-quality-http.pid
+          for i in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/archive-quality-http.log
+          exit 1
+
+      - name: Run axe WCAG audit
+        run: python tools/accessibility_smoke.py
+
+      - name: Run Lighthouse CI budgets
+        run: npx --no-install lhci autorun --config=.lighthouserc.json
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lighthouse-reports
+          path: artifacts/lighthouse
+          if-no-files-found: ignore
+          retention-days: 14

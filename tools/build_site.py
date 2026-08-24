@@ -13,9 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
-UPDATED = "2026-08-23"
+UPDATED = "2026-08-24"
+PAPER_REVISION_DATE = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.10.4"
+ASSET_VERSION = "6.12.0"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -131,7 +132,7 @@ def article_schema(paper: dict) -> dict:
         "abstract": paper["description"],
         "author": {"@id": AUTHOR_ID},
         "datePublished": paper["posted"],
-        "dateModified": UPDATED,
+        "dateModified": PAPER_REVISION_DATE,
         "version": VERSION,
         "inLanguage": "en-US",
         "isAccessibleForFree": True,
@@ -149,11 +150,11 @@ def article_schema(paper: dict) -> dict:
         ],
         "encoding": {
             "@type": "MediaObject",
-            "contentUrl": f"{SITE}/pdf/{paper['slug']}.pdf",
+            "contentUrl": f"{SITE}/pdf/v{VERSION}/{paper['slug']}.pdf",
             "encodingFormat": "application/pdf",
             "contentSize": f"{paper['bytes']} bytes",
             "sha256": paper["sha256"],
-            "uploadDate": UPDATED,
+            "uploadDate": PAPER_REVISION_DATE,
         },
         "keywords": [
             "AI governance",
@@ -227,18 +228,18 @@ def head(
             f"""
             <meta name="citation_title" content="{full_title}">
             <meta name="citation_author" content="Takashi Sato">
-            <meta name="citation_publication_date" content="2026/08/23">
+            <meta name="citation_publication_date" content="{paper['posted'].replace('-', '/')}">
             <meta name="citation_doi" content="{paper['doi']}">
             <meta name="citation_language" content="en">
-            <link rel="alternate" type="application/pdf" title="Preserved PDF · v{VERSION}" href="{SITE}/pdf/{paper['slug']}.pdf">
+            <link rel="alternate" type="application/pdf" title="Preserved PDF · v{VERSION}" href="{SITE}/pdf/v{VERSION}/{paper['slug']}.pdf">
             <meta property="article:published_time" content="{paper['posted']}">
-            <meta property="article:modified_time" content="{UPDATED}">
+            <meta property="article:modified_time" content="{PAPER_REVISION_DATE}">
             <meta property="article:author" content="{SITE}/about.html">
             """
         ).strip()
     return dedent(
         f"""
-        <!doctype html>
+        <!DOCTYPE html>
         <html lang="en">
         <head>
           <meta charset="utf-8">
@@ -281,8 +282,8 @@ def head(
           <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
           {paper_meta}
           {schema_html}
-          <link rel="stylesheet" href="/assets/archive-v62.css?v={ASSET_VERSION}">
-          <script src="/assets/archive-v62.js?v={ASSET_VERSION}"></script>
+          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
+          <script src="/assets/site.js?v={ASSET_VERSION}"></script>
         </head>
         """
     ).strip()
@@ -352,7 +353,6 @@ def footer() -> str:
             </div>
           </div>
         </footer>
-        <script src="/assets/site-analytics.js?v=entity-analytics-1" defer></script>
         """
     ).strip()
 
@@ -616,6 +616,51 @@ def part1_content() -> str:
             <div class="model-head model-head-spaced"><h3>Stage 2 · signed institutional disposition</h3><span>authorized review only</span></div>
             <div class="disposition-grid" role="list" aria-label="Signed dispositions"><span role="listitem">RELEASE</span><span role="listitem">MODIFIED ACTION</span><span role="listitem">FINAL STOP</span><span role="listitem">AUTHORIZED DEFER</span><span role="listitem">FALLBACK</span></div>
           </div>
+          <div class="gate-probe" data-gate-probe>
+            <div class="gate-probe-head">
+              <div>
+                <p class="eyebrow">Conceptual probe · Stage 1</p>
+                <h3>Change the three gate states. Observe only the typed route.</h3>
+              </div>
+              <p>This probe illustrates the paper’s routing semantics. It is not a decision engine, policy rule, legal test, or execution authorization.</p>
+            </div>
+            <div class="gate-probe-grid">
+              <fieldset class="probe-gate" data-gate="g1">
+                <legend>Gate 1 · admissibility</legend>
+                <div class="probe-states">
+                  <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+                  <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+                  <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+                  <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+                </div>
+              </fieldset>
+              <fieldset class="probe-gate" data-gate="g2">
+                <legend>Gate 2 · value / conflict</legend>
+                <div class="probe-states">
+                  <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+                  <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+                  <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+                  <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+                </div>
+              </fieldset>
+              <fieldset class="probe-gate" data-gate="g3">
+                <legend>Gate 3 · temporal validity</legend>
+                <div class="probe-states">
+                  <button type="button" data-state="PASS" aria-pressed="false">PASS</button>
+                  <button type="button" data-state="REVIEW" aria-pressed="false">REVIEW</button>
+                  <button type="button" data-state="BLOCK" aria-pressed="false">BLOCK</button>
+                  <button type="button" data-state="UNKNOWN" aria-pressed="true">UNKNOWN</button>
+                </div>
+              </fieldset>
+            </div>
+            <div class="probe-route" aria-live="polite">
+              <span>Current route</span>
+              <strong data-route>EVIDENCE HOLD</strong>
+              <small data-route-note>UNKNOWN cannot silently become PASS; unresolved input keeps the case out of execution eligibility.</small>
+            </div>
+            <button type="button" class="probe-reset" data-probe-reset>RESET TO UNKNOWN</button>
+            <p class="caveat">The probe deliberately stops at a typed Stage-1 route. Signed institutional disposition and execution remain separate contracts.</p>
+          </div>
           <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>
           <p>Review authority and review capacity are distinct inputs. Fallback authorization and operational readiness are distinct inputs. If either member of a pair is absent, that route is unavailable.</p>
         </section>
@@ -656,7 +701,7 @@ def part2_content() -> str:
           <p class="eyebrow">Research question</p>
           <h2>Can procedure remain visible after governing capacity has declined?</h2>
           <p class="lead">Part II models a joint institutional state in which observable process remains stable or improves while independent judgment, practical actionability, and a predeclared protected function materially deteriorate.</p>
-          <p>The primary construct is <strong>PMGCL</strong>: Procedural Maintenance with Governing-Capacity Loss. It is descriptive and does not assign an ordinary or malicious cause. <strong>PAC</strong>—Pre-Abuse Collapse—is only a provisional etiological subtype and requires an additional identified causal boundary.</p>
+          <p>The primary construct is <strong>PMGCL</strong>: Procedurally Masked Governing-Capacity Loss. It is descriptive and does not assign an ordinary or malicious cause. <strong>PAC</strong>—Pre-Abuse Collapse—is only a provisional etiological subtype and requires an additional identified causal boundary.</p>
         </section>
 
         <section id="state-model">
@@ -693,13 +738,13 @@ def part2_content() -> str:
           <div class="table-wrap">
             <table class="research-table">
               <caption class="sr-only">Five Part II propositions, target contrasts, and evidence against</caption>
-              <thead><tr><th>Proposition</th><th>Target contrast</th><th>Evidence against</th></tr></thead>
+              <thead><tr><th scope="col">Proposition</th><th scope="col">Target contrast</th><th scope="col">Evidence against</th></tr></thead>
               <tbody>
-                <tr><th>P1 · Capacity-strain decoupling</th><td>Change in independent judgment relative to procedural completion after exogenous throughput pressure.</td><td>Judgment remains stable or the decline is explained by case mix, model improvement, or learning.</td></tr>
-                <tr><th>P2 · Target conversion</th><td>Visible artifact and its conditional relation to evidence or the protected outcome after a completion target.</td><td>Both procedure and protected function improve without hidden burden displacement.</td></tr>
-                <tr><th>P3 · Voice-efficacy feedback</th><td>Effect of prior remedy efficacy on later risk-adjusted dissent.</td><td>No temporal association, or the relation is explained by fewer opportunities to dissent.</td></tr>
-                <tr><th>P4 · Coupled-trace discrimination</th><td>Held-out gain from joint rationale, time, and voice traces.</td><td>Single raw metrics perform equally well, or the coupled signal fails under benign efficiency.</td></tr>
-                <tr><th>P5 · Comparative state validity</th><td>Calibrated, decision-relevant gain over continuous components and established baselines.</td><td>The gain vanishes under leakage controls or a simpler model chooses the same intervention.</td></tr>
+                <tr><th scope="row">P1 · Capacity-strain decoupling</th><td>Change in independent judgment relative to procedural completion after exogenous throughput pressure.</td><td>Judgment remains stable or the decline is explained by case mix, model improvement, or learning.</td></tr>
+                <tr><th scope="row">P2 · Target conversion</th><td>Visible artifact and its conditional relation to evidence or the protected outcome after a completion target.</td><td>Both procedure and protected function improve without hidden burden displacement.</td></tr>
+                <tr><th scope="row">P3 · Voice-efficacy feedback</th><td>Effect of prior remedy efficacy on later risk-adjusted dissent.</td><td>No temporal association, or the relation is explained by fewer opportunities to dissent.</td></tr>
+                <tr><th scope="row">P4 · Coupled-trace discrimination</th><td>Held-out gain from joint rationale, time, and voice traces.</td><td>Single raw metrics perform equally well, or the coupled signal fails under benign efficiency.</td></tr>
+                <tr><th scope="row">P5 · Comparative state validity</th><td>Calibrated, decision-relevant gain over continuous components and established baselines.</td><td>The gain vanishes under leakage controls or a simpler model chooses the same intervention.</td></tr>
               </tbody>
             </table>
           </div>
@@ -837,7 +882,7 @@ def paper_page(paper: dict) -> str:
             </div>
             <div class="paper-actions" data-reveal>
               <a class="button primary" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
-              <a class="button" href="/pdf/{paper['slug']}.pdf">Preserved PDF · v6.2</a>
+              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf">Preserved PDF · v6.2</a>
               <a class="button" href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
             </div>
           </header>
@@ -859,7 +904,7 @@ def paper_page(paper: dict) -> str:
                   <dl class="record-list">
                     <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">{paper['doi']}</a></dd></div>
                     <div class="record-row"><dt>SSRN</dt><dd><a href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">Abstract ID {paper['ssrn']}</a></dd></div>
-                    <div class="record-row"><dt>Preserved file</dt><dd><a href="/pdf/{paper['slug']}.pdf">/pdf/{paper['slug']}.pdf</a> · {paper['bytes']:,} bytes</dd></div>
+                    <div class="record-row"><dt>Preserved file</dt><dd><a href="/pdf/v{VERSION}/{paper['slug']}.pdf">/pdf/v{VERSION}/{paper['slug']}.pdf</a> · {paper['bytes']:,} bytes</dd></div>
                     <div class="record-row"><dt>SHA-256</dt><dd><code>{paper['sha256']}</code></dd></div>
                   </dl>
                 </section>
@@ -920,7 +965,7 @@ def about_page() -> str:
             <div class="author-hero-grid">
               <div class="author-name" data-reveal>
                 <p class="eyebrow">Author record · 001</p>
-                <h1 aria-label="Takashi Sato"><span>Takashi Sato</span></h1>
+                <h1><span>Takashi Sato</span></h1>
               </div>
               <div class="author-thesis" data-reveal>
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
@@ -1182,12 +1227,12 @@ def main() -> None:
             content=dedent(
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
-                <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet, one progressive-enhancement script, and a small analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
-                <section><h2>Typography &amp; material</h2><p>The interface pairs Newsreader for editorial display, Inter for navigation and long-form screen text, and Mea Culpa as a deliberately scarce calligraphic signature. All three families are self-hosted under the SIL Open Font License. Three supplied monochrome surfaces have distinct roles: grain as a quiet optical layer, paper around the research records, and brushed metal at institutional boundaries. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
+                <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet and one self-contained progressive-enhancement script, including the small local analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
+                <section><h2>Typography &amp; material</h2><p>The interface pairs Newsreader for editorial display, Inter for navigation and long-form screen text, and Mea Culpa for deliberately scarce calligraphic interaction labels. The author record uses supplied handwritten signature geometry. All three font families are self-hosted under the SIL Open Font License. Three supplied monochrome surfaces have distinct roles: grain as a quiet optical layer, paper around the research records, and brushed metal at institutional boundaries. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
                 <section><h2>Interaction</h2><p>Fine-pointer devices receive a difference-blended cursor, magnetic controls, pointer-position lighting, scroll-linked material drift, and cross-document view transitions. Touch, keyboard, and reduced-motion users retain the complete archive without those effects; no research content or action depends on animation or pointer input.</p></section>
                 <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system.</p></section>
                 <section><h2>Preservation</h2><p>SSRN remains the primary external research record. Versioned local PDFs are preserved with file size and SHA-256 recorded on each paper page and in <a href="/research-index.json">research-index.json</a>.</p></section>
-                <section><h2>Build</h2><p>The site is generated by a dependency-free Python script and checked by a repository validator in continuous integration. Last rebuilt for the v6.2 papers on 23 August 2026.</p></section>
+                <section><h2>Build</h2><p>The site is generated by a dependency-free Python script and checked by a repository validator in continuous integration. Last rebuilt for the v6.2 papers on 24 August 2026.</p></section>
                 """
             ).strip(),
         ),
@@ -1266,7 +1311,7 @@ def main() -> None:
             Static HTML, CSS, and progressive JavaScript
             Three self-hosted type families; no framework runtime
             Current research version: 6.2
-            Last update: 2026-08-23
+            Last update: 2026-08-24
 
             /* ORIENTATION */
             https://takashisato.me/llms.txt
