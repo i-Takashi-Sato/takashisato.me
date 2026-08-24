@@ -1,0 +1,74 @@
+name: Remove Retired Stage Marks Once
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  hotfix:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+          persist-credentials: true
+
+      - name: Remove stage marks and bump cache contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          css_path = Path('assets/site.css')
+          css = css_path.read_text(encoding='utf-8')
+          for mark in ('序', '破', '急'):
+              css = css.replace(f'content:"{mark}"', 'content:none')
+          css = css.replace('/* Jo / Ha / Kyu — not labels, but residual brush movement. */\n', '')
+          css = css.replace('/* v6.8 visual correction: real signature + deliberately illegible Jo/Ha/Kyu. */', '/* v6.8 visual correction: real signature. */')
+          css = css.replace('  --sousho:"Kouzan Sousho","Yu Mincho","Hiragino Mincho ProN",serif;\n', '')
+          css = css.replace('  --sousho-v68: "KouzanBrushFontSousyo", "Kouzan Sousho", "Yu Mincho", "Hiragino Mincho ProN", serif;\n', '')
+          guard = '''\n/* Permanent regression guard: retired stage-mark pseudo-elements must never render. */\nbody[data-page="home"] .sequence-row > div::after,\nbody[data-page="papers"] .sequence-row > div::after {\n  content: none !important;\n  display: none !important;\n}\n'''
+          if 'Permanent regression guard: retired stage-mark' not in css:
+              css += guard
+          if any(mark in css for mark in ('序', '破', '急')):
+              raise SystemExit('retired stage mark still present in production CSS')
+          css_path.write_text(css, encoding='utf-8')
+
+          for path in (Path('tools/build_site.py'), Path('tools/verify_v62.py')):
+              text = path.read_text(encoding='utf-8')
+              if 'ASSET_VERSION = "6.12.0"' not in text:
+                  raise SystemExit(f'asset version anchor missing in {path}')
+              path.write_text(text.replace('ASSET_VERSION = "6.12.0"', 'ASSET_VERSION = "6.12.1"', 1), encoding='utf-8')
+
+          verify_path = Path('tools/verify_v62.py')
+          verify = verify_path.read_text(encoding='utf-8')
+          anchor = 'def audit_content(errors: list[str]) -> None:\n    core = "\\n".join((ROOT / rel).read_text(encoding="utf-8") for rel in CORE_HTML)\n'
+          addition = anchor + '    production_css = (ROOT / "assets/site.css").read_text(encoding="utf-8")\n    for retired_mark in ("序", "破", "急", "Jo / Ha / Kyu"):\n        if retired_mark in production_css:\n            fail(errors, f"retired stage mark present in production CSS: {retired_mark}")\n'
+          if 'retired stage mark present in production CSS' not in verify:
+              if anchor not in verify:
+                  raise SystemExit('verify audit_content anchor missing')
+              verify = verify.replace(anchor, addition, 1)
+              verify_path.write_text(verify, encoding='utf-8')
+          PY
+
+      - name: Rebuild and verify
+        run: |
+          python -m pip install --disable-pip-version-check -r tools/requirements.txt
+          python tools/build_site.py
+          python tools/verify_v62.py
+          node --check assets/site.js
+          ! grep -q '[序破急]' assets/site.css
+
+      - name: Remove one-shot workflow and publish hotfix
+        run: |
+          rm .github/workflows/remove-stage-marks-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Remove retired stage marks and prevent regression'
+          git push origin HEAD:main
