@@ -1,0 +1,55 @@
+name: Force Pages Redeploy v6.12.2
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  redeploy:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Install verification dependencies
+        run: |
+          python -m pip install --requirement tools/requirements.txt
+          python -m pip check
+
+      - name: Bump asset version and rebuild
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for name in ('tools/build_site.py', 'tools/verify_v62.py'):
+              p = Path(name)
+              s = p.read_text(encoding='utf-8')
+              if 'ASSET_VERSION = "6.12.1"' not in s:
+                  raise SystemExit(f'expected 6.12.1 in {name}')
+              p.write_text(s.replace('ASSET_VERSION = "6.12.1"', 'ASSET_VERSION = "6.12.2"', 1), encoding='utf-8')
+          PY
+          python tools/build_site.py
+          python tools/generate_og.py
+          python tools/verify_v62.py
+          node --check assets/site.js
+
+      - name: Commit redeploy and remove one-shot workflow
+        run: |
+          git rm .github/workflows/redeploy-v6122-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Force v6.12.2 Pages redeploy after stage-mark purge'
+          git push origin HEAD:main
