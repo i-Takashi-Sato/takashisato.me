@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-24"
 VERSION = "6.2"
-ASSET_VERSION = "6.12.0"
+ASSET_VERSION = "6.12.1"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -307,6 +307,10 @@ def audit_html(errors: list[str]) -> None:
 
 def audit_content(errors: list[str]) -> None:
     core = "\n".join((ROOT / rel).read_text(encoding="utf-8") for rel in CORE_HTML)
+    production_css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    for retired_mark in ("序", "破", "急", "Jo / Ha / Kyu"):
+        if retired_mark in production_css:
+            fail(errors, f"retired stage mark present in production CSS: {retired_mark}")
     stale = ["Four-Gate", "Forecasting Failure", "Detecting Silent Governance Failure", "A Sociotechnical Architecture"]
     for term in stale:
         if term.casefold() in core.casefold():
