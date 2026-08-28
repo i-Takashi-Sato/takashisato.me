@@ -16,7 +16,7 @@ SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-25"
 PAPER_REVISION_DATE = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.13.0"
+ASSET_VERSION = "6.13.1"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -281,7 +281,10 @@ def head(
           <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
           {paper_meta}
           {schema_html}
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
+          <link rel="stylesheet" href="/assets/critical.css?v={ASSET_VERSION}">
+          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
+          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
+          <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
