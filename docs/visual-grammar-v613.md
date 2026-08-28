@@ -27,3 +27,8 @@ This release treats the site as a research pavilion, not a generic dark creative
 Do not reintroduce 序・破・急, liquid or membrane effects, generic WebGL spectacle, glassmorphism, SaaS CTA styling, service/commercial routes, or a decorative Part III visualizer.
 
 Any future visual change should survive static screenshot review, reduced-motion mode, keyboard navigation, mobile layouts, and the archive QA contract before merge.
+
+
+## QA contract
+
+The visual system is accepted only when the generated archive passes the repository Archive QA, 30-viewport Visual Smoke suite, accessibility checks, and Lighthouse performance budgets. Structural correctness is not a substitute for visual verification.
