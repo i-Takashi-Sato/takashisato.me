@@ -215,7 +215,7 @@ def audit_html(errors: list[str]) -> None:
         expected_style = f"/assets/site.css?v={ASSET_VERSION}"
         expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if not styles or styles[0] != expected_critical or styles.count(expected_style) != 2 or len(styles) != 3:
+        if len(styles) != 3 or styles[0] != expected_style or styles[1] != expected_critical or styles[2] != expected_style:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
         scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
         production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
