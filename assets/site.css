@@ -1568,3 +1568,66 @@ body[data-page="about"] .author-name h1::after {
   .paper-hero::after { color: CanvasText; -webkit-text-stroke: 0; opacity: .08; }
 }
 
+
+
+/* v6.13.1 — Raster-free material finish. */
+/* Materiality is generated from state rules, light and hairlines—not wallpaper textures. */
+body::before {
+  background:
+    repeating-linear-gradient(180deg, rgba(255,255,255,.026) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 7px);
+  mix-blend-mode: soft-light;
+  opacity: .15;
+}
+.hero::after,
+.page-hero::before,
+.author-hero::before,
+.paper-hero::before {
+  background:
+    radial-gradient(84% 120% at 96% 18%, var(--signal-wash), transparent 62%),
+    linear-gradient(90deg, rgba(8,8,8,.96) 0%, rgba(8,8,8,.46) 54%, rgba(8,8,8,.91) 100%);
+  opacity: .58;
+}
+.metric-grid,
+.paper-meta {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.022), transparent 42%),
+    rgba(8,8,8,.78);
+}
+.boundary {
+  background:
+    linear-gradient(112deg, rgba(255,255,255,.026), transparent 38%),
+    rgba(10,10,11,.88);
+}
+.model {
+  background:
+    linear-gradient(rgba(10,10,10,.82), rgba(10,10,10,.91)),
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: auto, 2rem 2rem, 2rem 2rem;
+}
+.citation {
+  background:
+    linear-gradient(100deg, rgba(255,255,255,.022), transparent 58%),
+    rgba(8,8,8,.88);
+}
+.notice {
+  background:
+    linear-gradient(110deg, rgba(255,255,255,.026), transparent 52%),
+    rgba(8,8,8,.88);
+}
+.site-footer {
+  background:
+    radial-gradient(80% 90% at 50% 0, var(--signal-wash), transparent 68%),
+    linear-gradient(180deg, #080808, #050505);
+}
+body[data-page="about"] .author-links {
+  overflow: clip;
+}
+@media (max-width:44rem) {
+  body[data-page="about"] .author-links::before {
+    left: 0;
+    right: 0;
+    transform: translateY(-50%) rotate(-1.5deg);
+  }
+}
