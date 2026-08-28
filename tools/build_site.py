@@ -263,7 +263,6 @@ def head(
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
           <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
-          <link rel="preload" href="/assets/fonts/MeaCulpa.woff2" as="font" type="font/woff2" crossorigin>
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
@@ -283,7 +282,7 @@ def head(
           {paper_meta}
           {schema_html}
           <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
-          <script src="/assets/site.js?v={ASSET_VERSION}"></script>
+          <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
     ).strip()
