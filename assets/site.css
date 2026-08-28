@@ -1631,3 +1631,18 @@ body[data-page="about"] .author-links {
     transform: translateY(-50%) rotate(-1.5deg);
   }
 }
+
+
+/* v6.13.2 — Critical hero paint. */
+/* Above-the-fold research identity must paint immediately; motion begins below the fold. */
+.js .hero [data-reveal],
+.js .page-hero [data-reveal],
+.js .paper-hero [data-reveal],
+.js .author-hero [data-reveal],
+.js .page-hero[data-reveal],
+.js .paper-hero[data-reveal],
+.js .author-hero[data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
