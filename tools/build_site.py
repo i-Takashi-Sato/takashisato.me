@@ -281,9 +281,9 @@ def head(
           <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
           {paper_meta}
           {schema_html}
-          <link rel="stylesheet" href="/assets/critical.css?v={ASSET_VERSION}">
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
           <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
+          <link rel="stylesheet" href="/assets/critical.css?v={ASSET_VERSION}">
           <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
