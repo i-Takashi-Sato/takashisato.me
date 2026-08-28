@@ -32,3 +32,8 @@ Any future visual change should survive static screenshot review, reduced-motion
 ## QA contract
 
 The visual system is accepted only when the generated archive passes the repository Archive QA, 30-viewport Visual Smoke suite, accessibility checks, and Lighthouse performance budgets. Structural correctness is not a substitute for visual verification.
+
+
+### Critical delivery
+
+The first viewport is delivered by a dedicated critical stylesheet. The complete archive stylesheet is fetched early but activated after the load event; no-JavaScript clients receive the complete stylesheet through the noscript fallback. Critical delivery must not change the visual grammar or weaken the 2.5-second LCP budget.
