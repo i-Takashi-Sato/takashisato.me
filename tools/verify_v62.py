@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-25"
 VERSION = "6.2"
-ASSET_VERSION = "6.13.0"
+ASSET_VERSION = "6.13.1"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -211,10 +211,11 @@ def audit_html(errors: list[str]) -> None:
             if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
                 fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
 
+        expected_critical = f"/assets/critical.css?v={ASSET_VERSION}"
         expected_style = f"/assets/site.css?v={ASSET_VERSION}"
         expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if styles != [expected_style]:
+        if not styles or styles[0] != expected_critical or styles.count(expected_style) != 2 or len(styles) != 3:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
         scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
         production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
@@ -367,6 +368,7 @@ def audit_content(errors: list[str]) -> None:
 
 def audit_assets(errors: list[str]) -> None:
     expected_assets = {
+        "critical.css",
         "site.css",
         "site.js",
         "fonts/InterVariable.woff2",
@@ -398,6 +400,7 @@ def audit_assets(errors: list[str]) -> None:
         )
 
     css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8")
     js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
         fail(errors, "production stylesheet has unbalanced braces")
@@ -414,6 +417,13 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"production script references retired runtime: {retired}")
     if len(css.encode()) > 100_000:
         fail(errors, f"production stylesheet exceeds 100 KB: {len(css.encode())}")
+    if len(critical_css.encode()) > 25_000:
+        fail(errors, f"critical stylesheet exceeds 25 KB: {len(critical_css.encode())}")
+    if re.search(r"https?://|@import\s+url", critical_css):
+        fail(errors, "critical stylesheet contains a remote dependency")
+    for token in ["site-header", "page-hero", "paper-hero", "author-hero", "hero-transition"]:
+        if token not in critical_css:
+            fail(errors, f"critical stylesheet missing {token}")
     if len(js.encode()) > 20_000:
         fail(errors, f"production script exceeds 20 KB: {len(js.encode())}")
 
@@ -442,8 +452,8 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{material_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
             if image.width < 1500 or image.height < 850:
                 fail(errors, f"{material_path.relative_to(ROOT)}: material resolution is too small: {image.size}")
-        if f"materials/{name}.jpg" not in css:
-            fail(errors, f"production stylesheet does not use {name}.jpg")
+        if f"materials/{name}.jpg" in css:
+            fail(errors, f"production stylesheet still references retired material texture {name}.jpg")
     if material_total > 350_000:
         fail(errors, f"material texture payload exceeds 350 KB: {material_total}")
 
