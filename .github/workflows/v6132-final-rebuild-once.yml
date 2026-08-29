@@ -1,0 +1,40 @@
+name: One-shot v6.13.2 final rebuild
+
+on:
+  push:
+    branches:
+      - design/editorial-refinement-v613
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: design/editorial-refinement-v613
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13'
+      - run: python -m pip install --requirement tools/requirements.txt
+      - name: Rebuild and verify
+        run: |
+          python tools/build_site.py
+          python tools/generate_og.py
+          python tools/verify_v62.py
+          python -m compileall -q tools
+          node --check assets/site.js
+          ! grep -R --line-number -E 'content:[[:space:]]*"(序|破|急)"|Jo / Ha / Kyu' assets/site.css assets/critical.css
+      - name: Commit output
+        run: |
+          rm -f .github/workflows/v6132-final-rebuild-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Rebuild final v6.13.2 archive'
+          git push origin HEAD:design/editorial-refinement-v613
