@@ -16,7 +16,7 @@ SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 UPDATED = "2026-08-25"
 PAPER_REVISION_DATE = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.13.1"
+ASSET_VERSION = "6.13.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -209,7 +209,7 @@ def head(
     safe_title = escape(title, quote=True)
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
-    schema_html = ""
+    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8").strip()\n    schema_html = ""
     if schema:
         schema_html = (
             '<script type="application/ld+json">'
@@ -283,7 +283,7 @@ def head(
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
           <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
-          <link rel="stylesheet" href="/assets/critical.css?v={ASSET_VERSION}">
+          <style data-critical>{critical_css}</style>
           <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
