@@ -37,3 +37,5 @@ The visual system is accepted only when the generated archive passes the reposit
 ### Critical delivery
 
 The first viewport is delivered by a dedicated critical stylesheet. The complete archive stylesheet is fetched early but activated after the load event; no-JavaScript clients receive the complete stylesheet through the noscript fallback. Critical delivery must not change the visual grammar or weaken the 2.5-second LCP budget.
+
+Final publication QA trigger: v6.13.1 critical cascade build.
