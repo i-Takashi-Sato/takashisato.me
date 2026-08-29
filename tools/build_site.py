@@ -209,7 +209,8 @@ def head(
     safe_title = escape(title, quote=True)
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
-    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8").strip()\n    schema_html = ""
+    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8").strip()
+    schema_html = ""
     if schema:
         schema_html = (
             '<script type="application/ld+json">'
