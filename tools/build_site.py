@@ -13,10 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
-UPDATED = "2026-08-24"
+UPDATED = "2026-08-25"
 PAPER_REVISION_DATE = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.12.2"
+ASSET_VERSION = "6.13.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -209,6 +209,7 @@ def head(
     safe_title = escape(title, quote=True)
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
+    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8").strip()
     schema_html = ""
     if schema:
         schema_html = (
@@ -263,7 +264,6 @@ def head(
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
           <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
-          <link rel="preload" href="/assets/fonts/MeaCulpa.woff2" as="font" type="font/woff2" crossorigin>
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
@@ -282,8 +282,11 @@ def head(
           <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
           {paper_meta}
           {schema_html}
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
-          <script src="/assets/site.js?v={ASSET_VERSION}"></script>
+          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
+          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
+          <style data-critical>{critical_css}</style>
+          <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
+          <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
     ).strip()
@@ -399,7 +402,7 @@ def home_page() -> str:
         dedent(
             f"""
             <a class="sequence-row" href="/papers/{p['slug']}.html" data-reveal>
-              <p class="sequence-function">{p['function']}</p>
+              <p class="sequence-function">Part {p['roman']} · {p['function']}</p>
               <div>
                 <h3 class="sequence-title">{p['title']}</h3>
                 <p class="sequence-copy">{p['question']} {p['description']}</p>
@@ -417,10 +420,15 @@ def home_page() -> str:
             <div class="hero-grid">
               <div data-reveal>
                 <p class="eyebrow">Workflow-Centric AI Governance Trilogy · v6.2</p>
-                <h1 id="hero-title"><span>A role alone</span><span>is <em>not</em> governance.</span></h1>
+                <h1 id="hero-title"><span>A role alone</span><span class="hero-turn">is <em>not</em></span><span class="hero-governance">governance.</span></h1>
               </div>
               <div class="hero-aside" data-reveal>
                 <p class="hero-statement">Accountability lives in the sequence.</p>
+                <ol class="hero-transition" aria-label="Research sequence">
+                  <li><b>01</b><span>Case</span></li>
+                  <li><b>02</b><span>Institution</span></li>
+                  <li><b>03</b><span>Exit</span></li>
+                </ol>
                 <p>Three working papers trace one institutional problem across three scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
                 <div class="hero-actions">
                   <a class="button primary" href="/papers/">Read the trilogy <span class="arrow" aria-hidden="true">↗</span></a>
@@ -735,7 +743,7 @@ def part2_content() -> str:
         <section id="propositions">
           <p class="eyebrow">Falsifiability</p>
           <h2>Five derived propositions—and what would count against them.</h2>
-          <div class="table-wrap">
+          <div class="table-wrap" role="region" aria-label="Scrollable research table" tabindex="0">
             <table class="research-table">
               <caption class="sr-only">Five Part II propositions, target contrasts, and evidence against</caption>
               <thead><tr><th scope="col">Proposition</th><th scope="col">Target contrast</th><th scope="col">Evidence against</th></tr></thead>
@@ -1227,7 +1235,7 @@ def main() -> None:
             content=dedent(
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
-                <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The interface uses one shared stylesheet and one self-contained progressive-enhancement script, including the small local analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
+                <section><h2>Architecture</h2><p>Every public page is pre-rendered static HTML. The first viewport uses a small inline critical style generated from the repository source, followed by one shared deferred stylesheet and one self-contained progressive-enhancement script, including the small local analytics adapter. There is no framework runtime, remote font request, client-side router, account system, or third-party UI package.</p></section>
                 <section><h2>Typography &amp; material</h2><p>The interface pairs Newsreader for editorial display, Inter for navigation and long-form screen text, and Mea Culpa for deliberately scarce calligraphic interaction labels. The author record uses supplied handwritten signature geometry. All three font families are self-hosted under the SIL Open Font License. Three supplied monochrome surfaces have distinct roles: grain as a quiet optical layer, paper around the research records, and brushed metal at institutional boundaries. Functional diagrams remain semantic HTML and CSS so their content is selectable, responsive, and printable.</p></section>
                 <section><h2>Interaction</h2><p>Fine-pointer devices receive a difference-blended cursor, magnetic controls, pointer-position lighting, scroll-linked material drift, and cross-document view transitions. Touch, keyboard, and reduced-motion users retain the complete archive without those effects; no research content or action depends on animation or pointer input.</p></section>
                 <section><h2>Accessibility</h2><p>Landmarks, heading order, skip links, keyboard-visible focus, 44-pixel navigation targets, reduced-motion behavior, high-contrast text, and print styles are part of the base system.</p></section>

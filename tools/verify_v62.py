@@ -18,9 +18,9 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
-UPDATED = "2026-08-24"
+UPDATED = "2026-08-25"
 VERSION = "6.2"
-ASSET_VERSION = "6.12.2"
+ASSET_VERSION = "6.13.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -214,8 +214,10 @@ def audit_html(errors: list[str]) -> None:
         expected_style = f"/assets/site.css?v={ASSET_VERSION}"
         expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if styles != [expected_style]:
+        if len(styles) != 2 or styles != [expected_style, expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
+        if "<style data-critical>" not in text or "critical first-viewport stylesheet" not in text:
+            fail(errors, f"{rel}: inline critical stylesheet is missing")
         scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
         production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
         if [attrs.get("src") for attrs in production_scripts] != [expected_script]:
@@ -223,7 +225,7 @@ def audit_html(errors: list[str]) -> None:
         if len(scripts) != 1:
             fail(errors, f"{rel}: expected one production script, found {scripts}")
         head_text = text.partition("</head>")[0]
-        if expected_style not in head_text or expected_script not in head_text:
+        if expected_style not in head_text or expected_script not in head_text or "<style data-critical>" not in head_text:
             fail(errors, f"{rel}: production assets are not loaded from head")
 
         identity_links = {
@@ -367,6 +369,7 @@ def audit_content(errors: list[str]) -> None:
 
 def audit_assets(errors: list[str]) -> None:
     expected_assets = {
+        "critical.css",
         "site.css",
         "site.js",
         "fonts/InterVariable.woff2",
@@ -398,6 +401,7 @@ def audit_assets(errors: list[str]) -> None:
         )
 
     css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8")
     js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
         fail(errors, "production stylesheet has unbalanced braces")
@@ -414,6 +418,13 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"production script references retired runtime: {retired}")
     if len(css.encode()) > 100_000:
         fail(errors, f"production stylesheet exceeds 100 KB: {len(css.encode())}")
+    if len(critical_css.encode()) > 25_000:
+        fail(errors, f"critical stylesheet exceeds 25 KB: {len(critical_css.encode())}")
+    if re.search(r"https?://|@import\s+url", critical_css):
+        fail(errors, "critical stylesheet contains a remote dependency")
+    for token in ["site-header", "page-hero", "paper-hero", "author-hero", "hero-transition"]:
+        if token not in critical_css:
+            fail(errors, f"critical stylesheet missing {token}")
     if len(js.encode()) > 20_000:
         fail(errors, f"production script exceeds 20 KB: {len(js.encode())}")
 
@@ -442,8 +453,8 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{material_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
             if image.width < 1500 or image.height < 850:
                 fail(errors, f"{material_path.relative_to(ROOT)}: material resolution is too small: {image.size}")
-        if f"materials/{name}.jpg" not in css:
-            fail(errors, f"production stylesheet does not use {name}.jpg")
+        if f"materials/{name}.jpg" in css:
+            fail(errors, f"production stylesheet still references retired material texture {name}.jpg")
     if material_total > 350_000:
         fail(errors, f"material texture payload exceeds 350 KB: {material_total}")
 

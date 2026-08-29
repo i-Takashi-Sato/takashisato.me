@@ -1,49 +1,290 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#080808">
-  <title>Part II prototype superseded · The Proper Ending Index</title>
-  <meta name="description" content="This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification.">
-  <meta name="author" content="Takashi Sato">
-  <meta name="robots" content="noindex,follow,noarchive">
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+          <meta name="color-scheme" content="dark">
+          <meta name="theme-color" content="#080808">
+          <title>Part II prototype superseded · The Proper Ending Index</title>
+          <meta name="description" content="This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification.">
+          <meta name="author" content="Takashi Sato">
+          <meta name="robots" content="noindex,follow,noarchive">
 
-  <link rel="canonical" href="https://takashisato.me/papers/part2.html">
-  <link rel="author" href="/about.html">
-  <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
-  <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
-  <link rel="me" href="https://scholar.google.com/citations?user=tN4zV68AAAAJ">
-  <link rel="manifest" href="/site.webmanifest">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
-  <link rel="alternate icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/MeaCulpa.woff2" as="font" type="font/woff2" crossorigin>
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:site_name" content="The Proper Ending Index">
-  <meta property="og:title" content="Part II prototype superseded · The Proper Ending Index">
-  <meta property="og:description" content="This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification.">
-  <meta property="og:url" content="https://takashisato.me/papers/part2.html">
-  <meta property="og:image" content="https://takashisato.me/assets/og/papers.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The Proper Ending Index — Part II prototype superseded · The Proper Ending Index">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Part II prototype superseded · The Proper Ending Index">
-  <meta name="twitter:description" content="This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification.">
-  <meta name="twitter:image" content="https://takashisato.me/assets/og/papers.jpg">
-  <meta name="twitter:image:alt" content="The Proper Ending Index — Part II prototype superseded · The Proper Ending Index">
+          <link rel="canonical" href="https://takashisato.me/papers/part2.html">
+          <link rel="author" href="/about.html">
+          <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
+          <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
+          <link rel="me" href="https://scholar.google.com/citations?user=tN4zV68AAAAJ">
+          <link rel="manifest" href="/site.webmanifest">
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+          <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+          <link rel="alternate icon" href="/favicon.ico">
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+          <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
+          <meta property="og:type" content="website">
+          <meta property="og:locale" content="en_US">
+          <meta property="og:site_name" content="The Proper Ending Index">
+          <meta property="og:title" content="Part II prototype superseded · The Proper Ending Index">
+          <meta property="og:description" content="This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification.">
+          <meta property="og:url" content="https://takashisato.me/papers/part2.html">
+          <meta property="og:image" content="https://takashisato.me/assets/og/papers.jpg">
+          <meta property="og:image:type" content="image/jpeg">
+          <meta property="og:image:width" content="1200">
+          <meta property="og:image:height" content="630">
+          <meta property="og:image:alt" content="The Proper Ending Index — Part II prototype superseded · The Proper Ending Index">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="Part II prototype superseded · The Proper Ending Index">
+          <meta name="twitter:description" content="This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification.">
+          <meta name="twitter:image" content="https://takashisato.me/assets/og/papers.jpg">
+          <meta name="twitter:image:alt" content="The Proper Ending Index — Part II prototype superseded · The Proper Ending Index">
 
 
-  <link rel="stylesheet" href="/assets/site.css?v=6.12.2">
-  <script src="/assets/site.js?v=6.12.2"></script>
-</head>
+          <link rel="preload" href="/assets/site.css?v=6.13.2" as="style">
+          <link rel="stylesheet" href="/assets/site.css?v=6.13.2" media="print" data-full-style>
+          <style data-critical>/* The Proper Ending Index — critical first-viewport stylesheet v6.13.1 */
+
+@font-face{
+  font-family:"Inter Variable";
+  src:url("/assets/fonts/InterVariable.woff2") format("woff2-variations");
+  font-style:normal;font-weight:100 900;font-display:optional;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+@font-face{
+  font-family:"Newsreader Variable";
+  src:url("/assets/fonts/Newsreader-Variable.woff2") format("woff2-variations");
+  font-style:normal;font-weight:200 800;font-display:optional;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
+}
+
+:root{
+  --paper:#080808;--paper-raised:#101011;--paper-deep:#171719;
+  --ink:#f2f0e9;--ink-soft:#b4b1aa;--ink-faint:#918e87;
+  --line:rgba(242,240,233,.12);--line-strong:rgba(242,240,233,.27);
+  --signal:#395cff;--signal-soft:#8398ff;--signal-pale:#c7d0ff;
+  --signal-wash:rgba(57,92,255,.14);--signal-glow:rgba(57,92,255,.24);
+  --bronze:#b79a63;--bronze-soft:#d7bf8c;--ice:#a8c6d2;--oxide:#873b34;--copper:#cf8169;
+  --route-case:#d4ba82;--route-institution:#aec8d2;--route-exit:#d28470;
+  --archive-rule:rgba(242,240,233,.155);--archive-rule-soft:rgba(242,240,233,.075);
+  --max:96rem;--reading:43rem;--gutter:clamp(1.15rem,4vw,4rem);
+  --sans:"Inter Variable","Helvetica Neue",Arial,sans-serif;
+  --display:"Newsreader Variable",Iowan Old Style,Baskerville,Georgia,serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --ease:cubic-bezier(.22,.78,.18,1);color-scheme:dark
+}
+*{box-sizing:border-box}
+html{background:var(--paper);scroll-behavior:smooth;text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{
+  position:relative;margin:0;min-width:20rem;overflow-x:hidden;
+  background:
+    radial-gradient(58rem 38rem at 8% 24%,rgba(183,154,99,.065),transparent 70%),
+    radial-gradient(70rem 42rem at 92% -8rem,rgba(57,92,255,.095),transparent 68%),
+    radial-gradient(52rem 38rem at 86% 76%,rgba(135,59,52,.05),transparent 72%),
+    linear-gradient(180deg,#080808 0%,#090909 62%,#070707 100%);
+  color:var(--ink);font-family:var(--sans);
+  font-size:clamp(1rem,.15vw + .96rem,1.07rem);line-height:1.64;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
+}
+body::before{
+  content:"";position:fixed;z-index:90;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 4px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 7px);
+  mix-blend-mode:soft-light;opacity:.15
+}
+::selection{background:var(--signal);color:#fff}
+a{color:inherit;text-decoration-thickness:.07em;text-underline-offset:.2em}
+img,svg{display:block;max-width:100%}
+h1,h2,h3,p{overflow-wrap:break-word}
+:focus-visible{outline:.17rem solid var(--signal-soft);outline-offset:.24rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.site-header{
+  position:sticky;z-index:40;top:0;border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top);background:rgba(7,7,8,.965)
+}
+.header-inner,.shell{
+  width:min(100%,var(--max));margin-inline:auto;
+  padding-left:max(var(--gutter),env(safe-area-inset-left));
+  padding-right:max(var(--gutter),env(safe-area-inset-right))
+}
+.header-inner{min-height:4.15rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.brand{
+  min-height:2.75rem;display:inline-flex;align-items:center;gap:.72rem;
+  font-size:.67rem;font-weight:610;letter-spacing:.155em;line-height:1.15;
+  text-decoration:none;text-transform:uppercase
+}
+.brand-mark{width:1.22rem;height:1.22rem;opacity:.88}
+.brand span:last-child{max-width:13rem}
+.site-nav{display:flex;align-items:center;gap:clamp(.1rem,2vw,1.25rem)}
+.site-nav a{
+  position:relative;min-height:2.75rem;padding:.7rem .72rem;display:inline-flex;align-items:center;
+  color:var(--ink-soft);font-size:.69rem;font-weight:570;letter-spacing:.105em;text-decoration:none;text-transform:uppercase
+}
+.site-nav a[aria-current="page"]{color:var(--ink)}
+.site-nav a[aria-current="page"]::before{
+  content:"";position:absolute;left:.14rem;top:50%;width:.28rem;height:.28rem;
+  background:var(--signal-soft);transform:translateY(-50%) rotate(45deg)
+}
+.scroll-meter{position:absolute;right:0;bottom:-1px;left:0;height:1px;overflow:hidden;pointer-events:none}
+.scroll-meter::before{content:"";display:block;width:calc(var(--scroll,0)*100%);height:100%;background:var(--signal-soft)}
+
+main{min-height:70vh}
+.eyebrow,.label,.meta-label{margin:0;color:var(--signal-soft);font-size:.66rem;font-weight:650;letter-spacing:.17em;line-height:1.4;text-transform:uppercase}
+.breadcrumbs{margin-bottom:clamp(1.5rem,3vw,2.4rem)}
+.breadcrumbs ol{margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.35rem .6rem;list-style:none}
+.breadcrumbs li{display:inline-flex;align-items:center;gap:.6rem;color:var(--ink-faint);font-family:var(--mono);font-size:.61rem;letter-spacing:.06em;text-transform:uppercase}
+.breadcrumbs li+li::before{content:"/";color:var(--line-strong)}
+.breadcrumbs a{color:var(--ink-soft);text-decoration:none}
+
+.hero{
+  position:relative;min-height:calc(100svh - 4.15rem);
+  padding-block:clamp(5rem,12vh,8.5rem) clamp(4rem,8vh,6rem);
+  display:grid;align-items:end;isolation:isolate;overflow:clip
+}
+.hero::after,.page-hero::before,.author-hero::before,.paper-hero::before{
+  content:"";position:absolute;z-index:-1;inset:0;
+  background:
+    radial-gradient(84% 120% at 96% 18%,var(--signal-wash),transparent 62%),
+    linear-gradient(90deg,rgba(8,8,8,.96) 0%,rgba(8,8,8,.46) 54%,rgba(8,8,8,.91) 100%);
+  opacity:.58;mask-image:linear-gradient(180deg,transparent 0,#000 17%,#000 82%,transparent 100%)
+}
+.hero-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(.75rem,1.8vw,1.8rem);align-items:end}
+.hero-grid>div:first-child{grid-column:1/9}
+.hero h1,.page-hero h1,.paper-hero h1,.sequence-title{
+  font-family:var(--display);font-optical-sizing:auto;font-synthesis:none;
+  margin:1rem 0 0;font-weight:320;letter-spacing:-.055em;line-height:.82;text-wrap:balance
+}
+.hero h1{max-width:10.7ch;font-size:clamp(4.8rem,9.8vw,10.7rem);line-height:.77;letter-spacing:-.062em}
+.hero h1 span{display:block}
+.hero h1 .hero-turn{margin:.04em 0 -.02em clamp(1.8rem,5vw,6.2rem);font-size:.68em;letter-spacing:-.045em;line-height:.9}
+.hero h1 .hero-governance{margin-top:-.02em}
+.hero h1 em{
+  display:inline-block;margin:0;border-bottom:1px solid color-mix(in srgb,var(--signal-soft) 62%,transparent);
+  color:var(--ink-soft);font-family:var(--display);font-size:1em;font-style:italic;font-weight:315;
+  letter-spacing:-.035em;line-height:inherit;text-shadow:none;transform:none
+}
+.hero-aside{
+  grid-column:9/-1;max-width:29rem;margin-top:clamp(3.5rem,8vh,6.5rem);
+  padding-top:1rem;border-top:1px solid var(--archive-rule)
+}
+.hero-aside p{margin:0;color:var(--ink-soft);font-size:clamp(.98rem,.45vw + .9rem,1.12rem)}
+.hero-aside .hero-statement{margin-bottom:1.6rem;color:var(--ink);font-family:var(--display);font-size:clamp(1.5rem,1.65vw,2rem);font-weight:380;letter-spacing:-.025em;line-height:1.12}
+.hero-transition{margin:1.45rem 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--archive-rule);list-style:none}
+.hero-transition li{position:relative;padding:.68rem .55rem 0 0;display:grid;gap:.08rem}
+.hero-transition li::before{content:"";position:absolute;top:-.24rem;left:0;width:.4rem;height:.4rem;border:1px solid currentColor;background:var(--paper);transform:rotate(45deg)}
+.hero-transition li:nth-child(1){color:var(--route-case)}.hero-transition li:nth-child(2){color:var(--route-institution)}.hero-transition li:nth-child(3){color:var(--route-exit)}
+.hero-transition b{font-family:var(--mono);font-size:.52rem;font-weight:650;letter-spacing:.08em}
+.hero-transition span{color:var(--ink-soft);font-size:.59rem;font-weight:650;letter-spacing:.115em;text-transform:uppercase}
+.hero-actions{margin-top:1.8rem;display:flex;flex-wrap:wrap;gap:.55rem}
+.button{
+  min-height:2.72rem;padding:.58rem .15rem .54rem 0;border:0;border-bottom:1px solid var(--line-strong);
+  display:inline-flex;align-items:center;justify-content:flex-start;gap:.55rem;background:transparent;
+  color:var(--ink);font-size:.7rem;font-weight:630;letter-spacing:.105em;line-height:1.2;text-decoration:none;text-transform:uppercase
+}
+.button.primary{border-color:color-mix(in srgb,var(--signal-soft) 68%,var(--line-strong));color:var(--signal-pale)}
+.button .arrow{font-size:1.15em;line-height:0}
+
+body[data-page="home"] .hero::before{
+  content:"";position:absolute;z-index:-1;top:clamp(5rem,10vh,8rem);right:max(var(--gutter),env(safe-area-inset-right));
+  bottom:clamp(3rem,7vh,5rem);width:min(34vw,31rem);border-top:1px solid var(--archive-rule-soft);border-bottom:1px solid var(--archive-rule-soft);
+  background:
+    linear-gradient(90deg,transparent 0 9%,var(--archive-rule) 9% calc(9% + 1px),transparent calc(9% + 1px) 50%,var(--archive-rule) 50% calc(50% + 1px),transparent calc(50% + 1px) 91%,var(--archive-rule) 91% calc(91% + 1px),transparent calc(91% + 1px) 100%),
+    linear-gradient(180deg,transparent 0 62%,var(--archive-rule) 62% calc(62% + 1px),transparent calc(62% + 1px));
+  opacity:.52;mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 88%,transparent 100%);pointer-events:none
+}
+
+.page-hero,.paper-hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding-block:clamp(5.5rem,12vw,10rem) clamp(3.5rem,8vw,7rem)
+}
+.page-hero h1{max-width:13ch;font-size:clamp(4.6rem,8.7vw,9.3rem)}
+.page-deck{max-width:50rem;margin:1.7rem 0 0;color:var(--ink-soft);font-size:clamp(1.08rem,.65vw + .96rem,1.36rem)}
+.paper-hero h1{max-width:18ch;font-size:clamp(3.7rem,6.4vw,7.1rem)}
+.paper-subtitle{max-width:55rem;margin:1.65rem 0 0;color:var(--ink-soft);font-size:clamp(1.08rem,1.2vw,1.46rem);font-weight:390;letter-spacing:-.015em;line-height:1.36}
+.paper-meta{
+  margin-top:clamp(2.6rem,5vw,4.6rem);padding:1rem;border:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:.7rem 2rem;
+  background:linear-gradient(90deg,rgba(255,255,255,.022),transparent 42%),rgba(8,8,8,.78);
+  color:var(--ink-soft);font-family:var(--mono);font-size:.66rem;letter-spacing:.025em
+}
+.paper-actions{margin-top:1.7rem;display:flex;flex-wrap:wrap;gap:.6rem}
+.paper-hero::after{
+  content:attr(data-roman);position:absolute;z-index:-1;right:var(--gutter);bottom:-.16em;
+  color:transparent;-webkit-text-stroke:1px color-mix(in srgb,var(--signal-soft) 46%,transparent);
+  opacity:.72;font-family:var(--display);font-size:clamp(13rem,33vw,33rem);font-weight:250;line-height:.7;pointer-events:none;
+  transform:translate3d(var(--stage-x,0),var(--stage-y,0),0);transform-origin:100% 60%
+}
+
+body[data-tone="part-1"]{
+  --signal:#896832;--signal-soft:#d1b77d;--signal-pale:#ead9b2;--signal-wash:rgba(183,154,99,.12);--signal-glow:rgba(183,154,99,.16);
+  background:radial-gradient(68rem 42rem at 88% 4%,rgba(183,154,99,.105),transparent 67%),#080808
+}
+body[data-tone="part-2"]{
+  --signal:#3e6574;--signal-soft:#a8c6d2;--signal-pale:#d3e1e6;--signal-wash:rgba(145,162,170,.105);--signal-glow:rgba(168,198,210,.14);
+  background:radial-gradient(70rem 44rem at 88% 8%,rgba(145,162,170,.10),transparent 68%),#080909
+}
+body[data-tone="part-3"]{
+  --signal:#7f3630;--signal-soft:#d1816d;--signal-pale:#e9b3a5;--signal-wash:rgba(135,59,52,.12);--signal-glow:rgba(207,129,105,.15);
+  background:radial-gradient(66rem 42rem at 88% 7%,rgba(135,59,52,.11),transparent 66%),#080808
+}
+body[data-tone="part-1"] .paper-hero::after{-webkit-text-stroke-color:color-mix(in srgb,var(--bronze-soft) 56%,transparent)}
+body[data-tone="part-2"] .paper-hero::after{-webkit-text-stroke-color:color-mix(in srgb,var(--ice) 52%,transparent);filter:blur(.22px);transform:translate3d(var(--stage-x,0),var(--stage-y,0),0) scaleX(.965)}
+body[data-tone="part-3"] .paper-hero::after{-webkit-text-stroke-color:color-mix(in srgb,var(--copper) 54%,transparent);transform:translate3d(var(--stage-x,0),var(--stage-y,0),0) scaleX(.86)}
+
+.author-hero{
+  position:relative;isolation:isolate;min-height:calc(100svh - 4.15rem);
+  padding-block:clamp(3.8rem,8vw,6.8rem) clamp(3rem,7vw,5.5rem);
+  display:flex;flex-direction:column;justify-content:space-between;overflow:clip
+}
+.author-hero .breadcrumbs{align-self:stretch}
+.author-hero-grid{margin-top:clamp(3rem,7vw,6rem);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(1rem,2.5vw,2.5rem);align-items:end}
+.author-name{grid-column:1/-1;overflow:clip}
+.author-name h1{
+  width:min(100%,68rem);height:clamp(8.5rem,20vw,17rem);margin:clamp(1rem,3vh,2.5rem) 0 0;
+  color:transparent;font:0/1 var(--display);overflow:clip;contain:paint
+}
+.author-name h1 span{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.author-name h1::after{
+  content:"TAKASHI SATO";display:flex;align-items:center;height:100%;color:var(--ink);
+  font-family:var(--display);font-size:clamp(4.8rem,10vw,9rem);font-weight:300;letter-spacing:-.055em;line-height:.8
+}
+.author-thesis{grid-column:8/-1;margin-top:clamp(1rem,3vh,2.5rem);padding-top:1.15rem;border-top:1px solid var(--line-strong)}
+.author-thesis>p:first-child{max-width:29rem;margin:0;font-family:var(--display);font-size:clamp(1.45rem,1.75vw,2rem);font-weight:350;letter-spacing:-.025em;line-height:1.28}
+.author-identity{margin:clamp(2rem,4vw,3.5rem) 0 0;padding-top:1rem;border-top:1px solid var(--line);color:var(--ink-soft);font-family:"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;font-size:.74rem;font-weight:500;letter-spacing:.11em}
+
+.js .hero [data-reveal],.js .page-hero [data-reveal],.js .paper-hero [data-reveal],.js .author-hero [data-reveal],
+.js .page-hero[data-reveal],.js .paper-hero[data-reveal],.js .author-hero[data-reveal]{opacity:1;transform:none}
+
+@media(max-width:68rem){
+  .hero-grid>div:first-child{grid-column:1/10}.hero-aside{grid-column:8/-1}.author-thesis{grid-column:7/-1}
+}
+@media(max-width:62rem){
+  .hero-grid{grid-template-columns:1fr}.hero{min-height:auto}.hero-grid>div:first-child,.hero-aside{grid-column:auto}.hero-aside{max-width:42rem}
+  .author-hero{min-height:auto}.author-thesis{grid-column:5/-1;margin-top:3rem}
+  body[data-page="home"] .hero::before{width:42vw;opacity:.34}
+  body[data-page="home"] .hero h1 .hero-turn{margin-left:clamp(.8rem,3vw,2rem)}
+}
+@media(max-width:44rem){
+  .header-inner{min-height:4rem}.brand span:last-child{display:none}.site-nav{gap:0}
+  .site-nav a{padding-inline:.46rem;font-size:.65rem;letter-spacing:.055em}
+  body[data-page="home"] .hero{min-height:auto;padding-block:5rem 4rem}
+  body[data-page="home"] .hero::before{top:3.4rem;right:1rem;bottom:2rem;width:38vw;opacity:.22}
+  body[data-page="home"] .hero h1{max-width:9.5ch;font-size:clamp(4rem,18vw,6.1rem);line-height:.8}
+  body[data-page="home"] .hero h1 .hero-turn{margin-left:.42rem;font-size:.72em}
+  .hero-transition{margin-top:1.2rem}.hero-transition span{font-size:.53rem;letter-spacing:.08em}
+  .page-hero h1{font-size:clamp(4rem,20vw,6.8rem)}.paper-hero h1{font-size:clamp(3.25rem,16vw,5.5rem)}
+  .author-hero-grid{display:block}.author-name h1{height:clamp(6rem,31vw,10.5rem)}
+  .author-name h1::after{font-size:clamp(3.6rem,16vw,6rem)}
+  .author-thesis{margin-top:4rem}.author-identity{font-size:.7rem;letter-spacing:.045em}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}.paper-hero::after{transform:none!important;filter:none!important}
+}
+@media(forced-colors:active){body::before{display:none}.paper-hero::after{color:CanvasText;-webkit-text-stroke:0;opacity:.08}}</style>
+          <noscript><link rel="stylesheet" href="/assets/site.css?v=6.13.2"></noscript>
+          <script src="/assets/site.js?v=6.13.2" defer></script>
+        </head>
 <body data-tone="neutral" data-page="superseded">
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">

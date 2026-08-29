@@ -1,6 +1,8 @@
 /* The Proper Ending Index — production progressive enhancement. */
 (()=>{"use strict";
 const d=document,r=d.documentElement,C=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));r.classList.add("js");
+function enableFullStyle(){d.querySelectorAll("link[data-full-style]").forEach(x=>{x.media="all";x.removeAttribute("data-full-style")})}
+if(d.readyState==="complete")requestAnimationFrame(enableFullStyle);else addEventListener("load",()=>requestAnimationFrame(enableFullStyle),{once:true});
 const fallback=setTimeout(()=>r.classList.remove("js"),3000);
 function reading(){let s=[...d.querySelectorAll(".content>section[id]")],a=[...d.querySelectorAll('.toc a[href^="#"]')];if(!s.length||!a.length||!window.IntersectionObserver)return;let m=new Map(a.map(x=>[x.hash.slice(1),x])),set=x=>{s.forEach(y=>y.classList.toggle("is-current",y===x));a.forEach(y=>y.removeAttribute("aria-current"));m.get(x.id)?.setAttribute("aria-current","location")},o=new IntersectionObserver(e=>{let v=e.filter(x=>x.isIntersecting).sort((x,y)=>Math.abs(x.boundingClientRect.top)-Math.abs(y.boundingClientRect.top));v[0]&&set(v[0].target)},{rootMargin:"-18% 0px -66% 0px",threshold:[0,.08,.2]});s.forEach(x=>o.observe(x));set(s[0])}
 function label(a){let h=a.getAttribute("href")||"",t=(a.textContent||"").toLowerCase();if(a.dataset.cursor)return a.dataset.cursor;return h.includes(".pdf")?"PDF":h.includes("ssrn.com")?"SSRN":h.includes("doi.org")?"DOI":h.includes("orcid.org")?"ORCID":h.includes("scholar.google")?"Scholar":h.startsWith("mailto:")?"Mail":t.includes("author")?"Author":t.includes("paper")||t.includes("trilogy")?"Read":a.target==="_blank"?"Open":"View"}
