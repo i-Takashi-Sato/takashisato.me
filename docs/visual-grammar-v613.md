@@ -41,3 +41,8 @@ The first viewport is delivered by a dedicated critical stylesheet. The complete
 Final publication QA trigger: v6.13.1 critical cascade build.
 
 Final publication QA trigger: v6.13.2 inline-critical build.
+
+
+### Lighthouse interpretation
+
+The CI keeps Lighthouse's simulated mobile performance score at 0.90 or higher as a merge gate. The 2.5-second simulated LCP target remains a warning because the local static-server simulation is not field Core Web Vitals data. Field LCP must be evaluated from production measurements such as Search Console / CrUX when sufficient traffic exists. CLS and TBT remain hard CI budgets.
