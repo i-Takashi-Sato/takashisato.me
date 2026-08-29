@@ -20,7 +20,7 @@ SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 UPDATED = "2026-08-25"
 VERSION = "6.2"
-ASSET_VERSION = "6.13.1"
+ASSET_VERSION = "6.13.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
@@ -211,12 +211,13 @@ def audit_html(errors: list[str]) -> None:
             if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
                 fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
 
-        expected_critical = f"/assets/critical.css?v={ASSET_VERSION}"
         expected_style = f"/assets/site.css?v={ASSET_VERSION}"
         expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if len(styles) != 3 or styles[0] != expected_style or styles[1] != expected_critical or styles[2] != expected_style:
+        if len(styles) != 2 or styles != [expected_style, expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
+        if "<style data-critical>" not in text or "critical first-viewport stylesheet" not in text:
+            fail(errors, f"{rel}: inline critical stylesheet is missing")
         scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
         production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
         if [attrs.get("src") for attrs in production_scripts] != [expected_script]:
@@ -224,7 +225,7 @@ def audit_html(errors: list[str]) -> None:
         if len(scripts) != 1:
             fail(errors, f"{rel}: expected one production script, found {scripts}")
         head_text = text.partition("</head>")[0]
-        if expected_style not in head_text or expected_script not in head_text:
+        if expected_style not in head_text or expected_script not in head_text or "<style data-critical>" not in head_text:
             fail(errors, f"{rel}: production assets are not loaded from head")
 
         identity_links = {
