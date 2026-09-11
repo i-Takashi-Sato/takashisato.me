@@ -1568,6 +1568,87 @@ body[data-page="about"] .author-name h1::after {
   .paper-hero::after { color: CanvasText; -webkit-text-stroke: 0; opacity: .08; }
 }
 
+/* v6.14 — authored identity and bilingual discovery layer. */
+.site-nav .language-switch {
+  min-width: 3.45rem;
+  margin-left: .2rem;
+  padding-inline: .72rem;
+  border-left: 1px solid var(--line-strong);
+  color: var(--signal-pale);
+  font-size: .82rem;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+.site-nav .language-switch:hover { color: var(--ink); }
+
+body[data-page="home"] .hero-signature {
+  width: clamp(11rem, 16vw, 17rem);
+  height: clamp(3.7rem, 5vw, 5.6rem);
+  margin-bottom: .35rem;
+  background: linear-gradient(100deg, var(--ink) 5%, var(--signal-pale) 66%, var(--route-case) 100%);
+  -webkit-mask: var(--signature-mask) left center / contain no-repeat;
+  mask: var(--signature-mask) left center / contain no-repeat;
+  opacity: .88;
+  transform: rotate(-1.2deg);
+  transform-origin: left center;
+}
+.hero-author {
+  margin: 0 0 1.15rem;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.15vw, 1.28rem);
+  letter-spacing: .055em;
+  line-height: 1.2;
+}
+.hero-author span:first-child { color: var(--ink); font-weight: 500; }
+.hero-author span:nth-child(2) { color: var(--signal-soft); }
+.japanese-bridge {
+  display: grid;
+  grid-template-columns: minmax(10rem, .34fr) minmax(0, 1fr);
+  gap: clamp(2rem, 8vw, 8rem);
+  padding-block: clamp(2rem, 4vw, 3.5rem);
+  border-top: 1px solid var(--archive-rule);
+  border-bottom: 1px solid var(--archive-rule-soft);
+  background: linear-gradient(105deg, rgba(212,186,130,.08), transparent 48%);
+}
+.japanese-bridge h2 { max-width: 18ch; margin: 0; font-size: clamp(2.4rem, 4.2vw, 4.5rem); line-height: .96; }
+.japanese-bridge p:not(.label) { max-width: 44rem; margin: 1.25rem 0 0; color: var(--ink-soft); }
+.japanese-bridge .button { margin-top: 1.35rem; }
+.ja-page-hero h1 { max-width: 12ch; font-size: clamp(4rem, 8vw, 8.4rem); line-height: .92; }
+.ja-page-hero .page-deck { max-width: 44rem; }
+.ja-records { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
+.ja-record { min-width: 0; padding: clamp(1.6rem, 3vw, 2.8rem) clamp(1rem, 2vw, 2rem) clamp(2rem, 4vw, 3.5rem) 0; border-bottom: 1px solid var(--line); }
+.ja-record + .ja-record { padding-left: clamp(1rem, 2vw, 2rem); border-left: 1px solid var(--line); }
+.ja-record:nth-child(1) { --row-accent: var(--route-case); }
+.ja-record:nth-child(2) { --row-accent: var(--route-institution); }
+.ja-record:nth-child(3) { --row-accent: var(--route-exit); }
+.ja-record .sequence-function { color: var(--row-accent); }
+.ja-record h2 { max-width: 13ch; margin: .9rem 0 0; font-family: var(--display); font-size: clamp(1.75rem, 2.4vw, 2.7rem); font-weight: 360; letter-spacing: -.04em; line-height: .98; }
+.ja-record h2 a { text-decoration: none; }
+.ja-record h2 a:hover { color: var(--row-accent); }
+.ja-record-title { min-height: 3.1em; margin: 1rem 0 0; color: var(--ink-faint); font-size: .85rem; line-height: 1.45; }
+.ja-record > p:not(.sequence-function):not(.ja-record-title) { margin: 1.25rem 0 0; color: var(--ink-soft); font-size: .98rem; line-height: 1.7; }
+.ja-record .button { margin-top: 1.5rem; }
+body[data-page="ja-home"] .site-header { border-bottom-color: rgba(212,186,130,.26); }
+body[data-page="ja-home"] .scroll-meter::before { background: var(--route-case); }
+
+@media (max-width: 48rem) {
+  .japanese-bridge { grid-template-columns: 1fr; gap: 1.1rem; }
+  .ja-records { grid-template-columns: 1fr; }
+  .ja-record + .ja-record { padding-left: 0; border-left: 0; }
+  .ja-record-title { min-height: 0; }
+}
+
+@media (max-width: 30rem) {
+  .site-nav .language-switch { min-width: 2.8rem; padding-inline: .45rem; }
+  body[data-page="home"] .hero-signature { width: 11rem; height: 3.6rem; }
+  .hero-author { font-size: .96rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="home"] .hero-signature { transform: none; }
+}
+
 
 
 /* v6.13.1 — Raster-free material finish. */

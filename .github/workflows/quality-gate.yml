@@ -40,7 +40,7 @@ jobs:
       - name: Validate HTML documents
         run: |
           npx --no-install html-validate \
-            index.html about.html colophon.html privacy.html security.html 404.html \
+            index.html about.html colophon.html privacy.html security.html 404.html ja/index.html \
             papers/index.html papers/part1.html papers/part2.html papers/part3.html \
             demo/index.html demo/altrion-part1.html demo/altrion-part2.html
 
