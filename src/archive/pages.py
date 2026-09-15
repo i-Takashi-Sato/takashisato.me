@@ -190,7 +190,7 @@ def papers_index_page() -> str:
             ).strip()
         )
     map_nodes = "\n".join(
-        f'<div class="research-map-node" data-part="{p["part"]}"><span>0{p["part"]}</span><b>{p["function"]}</b><small>{p["question"]}</small></div>'
+        f'<a class="research-map-node" href="/papers/{p["slug"]}.html" data-part="{p["part"]}"><span class="map-index">0{p["part"]}</span><span class="map-glyph" aria-hidden="true"><i></i><i></i><i></i></span><b>{p["function"]}</b><small>{p["question"]}</small></a>'
         for p in PAPERS
     )
     body = dedent(
@@ -268,6 +268,7 @@ def paper_page(paper: dict) -> str:
         f"""
         <main id="main">
           <header class="paper-hero shell" data-roman="{paper['roman']}">
+            <div class="paper-apparatus" aria-hidden="true"><span class="apparatus-label">{paper['function']}</span><i></i><i></i><i></i><i></i></div>
             {breadcrumbs([("Index", "/"), ("Papers", "/papers/"), (f"Part {paper['roman']}", None)])}
             <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part {paper['roman']}</p>
             <h1 data-reveal>{paper['title']}</h1>
