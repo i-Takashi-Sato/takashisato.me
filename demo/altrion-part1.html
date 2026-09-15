@@ -11,6 +11,8 @@
           <meta name="robots" content="noindex,follow,noarchive">
 
           <link rel="canonical" href="https://takashisato.me/papers/part1.html">
+          <link rel="alternate" hreflang="en" href="https://takashisato.me/papers/part1.html">
+          <link rel="alternate" hreflang="x-default" href="https://takashisato.me/papers/part1.html">
           <link rel="author" href="/about.html">
           <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
           <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
@@ -40,8 +42,8 @@
           <meta name="twitter:image:alt" content="The Proper Ending Index — Part I prototype superseded · The Proper Ending Index">
 
 
-          <link rel="preload" href="/assets/site.css?v=6.13.2" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v=6.13.2" media="print" data-full-style>
+          <link rel="preload" href="/assets/site.css?v=6.14.0" as="style">
+          <link rel="stylesheet" href="/assets/site.css?v=6.14.0" media="print" data-full-style>
           <style data-critical>/* The Proper Ending Index — critical first-viewport stylesheet v6.13.1 */
 
 @font-face{
@@ -281,9 +283,29 @@ body[data-tone="part-3"] .paper-hero::after{-webkit-text-stroke-color:color-mix(
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}.paper-hero::after{transform:none!important;filter:none!important}
 }
-@media(forced-colors:active){body::before{display:none}.paper-hero::after{color:CanvasText;-webkit-text-stroke:0;opacity:.08}}</style>
-          <noscript><link rel="stylesheet" href="/assets/site.css?v=6.13.2"></noscript>
-          <script src="/assets/site.js?v=6.13.2" defer></script>
+@media(forced-colors:active){body::before{display:none}.paper-hero::after{color:CanvasText;-webkit-text-stroke:0;opacity:.08}}
+
+
+/* v6.14 critical identity. */
+body[data-page="home"] .hero .eyebrow {
+  display:flex;align-items:center;gap:.72rem;
+  color:color-mix(in srgb,var(--signal-pale) 78%,var(--ink-soft));
+}
+body[data-page="home"] .hero .eyebrow::before {
+  content:"";width:2.6rem;height:1px;background:var(--signal-soft);opacity:.72;
+}
+body[data-tone="part-1"] .paper-hero {
+  background-image:linear-gradient(90deg,transparent 0 72%,rgba(215,191,140,.055) 72% calc(72% + 1px),transparent calc(72% + 1px));
+}
+body[data-tone="part-2"] .paper-hero {
+  background-image:repeating-linear-gradient(180deg,rgba(168,198,210,.022) 0 1px,transparent 1px 3.8rem);
+}
+body[data-tone="part-3"] .paper-hero {
+  background-image:radial-gradient(circle at 82% 58%,transparent 0 8.7rem,rgba(207,129,105,.065) 8.76rem 8.82rem,transparent 8.9rem);
+}
+@media(max-width:44rem){body[data-page="home"] .hero .eyebrow::before{width:1.4rem;flex:0 0 auto}}</style>
+          <noscript><link rel="stylesheet" href="/assets/site.css?v=6.14.0"></noscript>
+          <script src="/assets/site.js?v=6.14.0" defer></script>
         </head>
 <body data-tone="neutral" data-page="superseded">
 <a class="skip-link" href="#main">Skip to content</a>

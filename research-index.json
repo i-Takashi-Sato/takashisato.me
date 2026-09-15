@@ -7,7 +7,7 @@
   "url": "https://takashisato.me/papers/",
   "mainEntityOfPage": "https://takashisato.me/research-index.json",
   "description": "Independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-09-16",
   "version": "6.2",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
@@ -56,6 +56,8 @@
       "human oversight",
       "workflow governance",
       "governing capacity",
+      "Procedurally Masked Governing-Capacity Loss",
+      "accountable exit",
       "Proper Ending",
       "Authority Return"
     ]
