@@ -34,8 +34,26 @@ jobs:
 
           replace_once(
               'tools/build_assets.py',
+              'from pathlib import Path',
+              'from pathlib import Path\nimport re',
+          )
+
+          replace_once(
+              'tools/build_assets.py',
               '    ROOT / "src/styles/pavilion.css",\n    ROOT / "src/styles/performance.css",',
               '    ROOT / "src/styles/pavilion.css",\n    ROOT / "src/styles/instruments.css",\n    ROOT / "src/styles/performance.css",',
+          )
+
+          replace_once(
+              'tools/build_assets.py',
+              'def join_sources(paths: tuple[Path, ...]) -> str:\n    return "\\n\\n".join(path.read_text(encoding="utf-8").rstrip() for path in paths) + "\\n"',
+              'def join_sources(paths: tuple[Path, ...]) -> str:\n    return "\\n\\n".join(path.read_text(encoding="utf-8").rstrip() for path in paths) + "\\n"\n\ndef minify_css(css: str) -> str:\n    """Deterministically compact generated CSS while preserving readable source files."""\n    css = re.sub(r"/\\*.*?\\*/", "", css, flags=re.S)\n    css = re.sub(r"\\s+", " ", css)\n    css = re.sub(r"\\s*([{}:;,])\\s*", r"\\1", css)\n    css = css.replace(";} ", "} ").replace(";}", "}")\n    return css.strip() + "\\n"',
+          )
+
+          replace_once(
+              'tools/build_assets.py',
+              '(ROOT / "assets/site.css").write_text(join_sources(STYLE_SOURCES), encoding="utf-8")',
+              '(ROOT / "assets/site.css").write_text(minify_css(join_sources(STYLE_SOURCES)), encoding="utf-8")',
           )
 
           replace_once(
@@ -63,6 +81,12 @@ jobs:
           )
 
           replace_once(
+              'docs/architecture.md',
+              'Source CSS/JS → build_assets.py → runtime CSS/JS',
+              'Source CSS/JS → build_assets.py → compact deterministic runtime CSS/JS',
+          )
+
+          replace_once(
               'README.md',
               'src/styles/         base, pavilion, and critical source styles',
               'src/styles/         base, pavilion, research instruments, performance, critical styles',
@@ -73,6 +97,7 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check -r tools/requirements.txt
           python tools/build_site.py
+          wc -c assets/site.css
           python tools/verify_v62.py
           python -m py_compile src/archive/*.py tools/*.py
 
