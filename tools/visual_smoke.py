@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Layout-focused visual smoke test for the public archive.
 
-Catches catastrophic regressions (horizontal overflow, collapsed titles/rows/content)
-and emits screenshots for manual review. It deliberately does not bless pixels: the
-archive remains editorially reviewed, while CI blocks structural breakage.
+Catches catastrophic regressions (horizontal overflow, collapsed titles/rows/content),
+checks the paper-specific semantic-motion contract, and emits screenshots for manual
+review. It deliberately does not bless pixels: the archive remains editorially reviewed,
+while CI blocks structural breakage.
 """
 from __future__ import annotations
 
@@ -82,6 +83,52 @@ def layout_errors(page, name: str, width: int, suffix: str) -> list[str]:
     return errors
 
 
+def semantic_motion_errors(page, name: str, width: int) -> list[str]:
+    """Assert that paper motion describes the research state rather than decoration."""
+    if name not in {"part1", "part2", "part3"} or width < 768:
+        return []
+
+    apparatus = page.locator('.paper-apparatus')
+    if apparatus.count() != 1:
+        return [f"{name}@{width}/js: missing paper apparatus"]
+
+    page.evaluate("scrollTo(0,0)")
+    page.wait_for_timeout(50)
+    before = apparatus.evaluate("el => getComputedStyle(el).transform")
+    page.evaluate("scrollTo(0, Math.round(innerHeight * 0.55))")
+    page.wait_for_timeout(120)
+    after = apparatus.evaluate("el => getComputedStyle(el).transform")
+    page.evaluate("scrollTo(0,0)")
+    page.wait_for_timeout(50)
+
+    if name == "part1" and after != before:
+        return [f"{name}@{width}/js: measurement datum moved ({before} -> {after})"]
+    if name in {"part2", "part3"} and (after == before or after == "none"):
+        return [f"{name}@{width}/js: semantic mechanism did not move ({before} -> {after})"]
+    return []
+
+
+def reduced_motion_errors(browser, errors: list[str]) -> None:
+    """Reduced-motion users keep the complete research image without scroll motion."""
+    context = browser.new_context(
+        viewport={"width": 1440, "height": 900},
+        reduced_motion="reduce",
+    )
+    page = context.new_page()
+    for name in ("part2", "part3"):
+        page.goto(BASE + PAGES[name], wait_until="networkidle")
+        apparatus = page.locator('.paper-apparatus')
+        page.evaluate("scrollTo(0,0)")
+        page.wait_for_timeout(40)
+        before = apparatus.evaluate("el => getComputedStyle(el).transform")
+        page.evaluate("scrollTo(0, Math.round(innerHeight * 0.55))")
+        page.wait_for_timeout(100)
+        after = apparatus.evaluate("el => getComputedStyle(el).transform")
+        if after != before:
+            errors.append(f"{name}@1440/reduced-motion: apparatus moved ({before} -> {after})")
+    context.close()
+
+
 def run_context(
     browser,
     *,
@@ -100,6 +147,7 @@ def run_context(
             # Measure the actual runtime before manipulating reveal state.
             errors.extend(layout_errors(page, name, width, suffix))
             if js:
+                errors.extend(semantic_motion_errors(page, name, width))
                 # A full-page screenshot does not scroll each section through the
                 # IntersectionObserver. Reveal after measurement so the artifact is
                 # useful for editorial review without weakening the structural test.
@@ -126,13 +174,17 @@ def main() -> None:
             pages={"home": "/", "papers": "/papers/", "part1": "/papers/part1.html", "part3": "/papers/part3.html"},
             errors=errors,
         )
+        reduced_motion_errors(browser, errors)
         browser.close()
     if errors:
         print(f"Visual smoke found {len(errors)} structural regression(s):")
         for error in errors:
             print(f"- {error}")
         raise SystemExit(1)
-    print(f"Visual smoke passed: {len(PAGES) * len(VIEWPORTS)} JS views + representative no-JS views")
+    print(
+        f"Visual smoke passed: {len(PAGES) * len(VIEWPORTS)} JS views + "
+        "representative no-JS views + semantic/reduced-motion contracts"
+    )
 
 
 if __name__ == "__main__":
