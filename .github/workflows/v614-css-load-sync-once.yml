@@ -30,16 +30,32 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          path = Path('src/archive/layout.py')
-          text = path.read_text(encoding='utf-8')
+
+          layout = Path('src/archive/layout.py')
+          text = layout.read_text(encoding='utf-8')
           old_link = '<link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>'
           new_link = '<link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">'
           old_noscript = '<noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>'
           if old_link not in text:
               raise SystemExit('deferred stylesheet link not found')
-          text = text.replace(old_link, new_link, 1)
-          text = text.replace(old_noscript, '', 1)
-          path.write_text(text, encoding='utf-8')
+          text = text.replace(old_link, new_link, 1).replace(old_noscript, '', 1)
+          layout.write_text(text, encoding='utf-8')
+
+          verifier = Path('tools/verify_v62.py')
+          text = verifier.read_text(encoding='utf-8')
+          old = 'if len(styles) != 2 or styles != [expected_style, expected_style]:'
+          new = 'if styles != [expected_style]:'
+          if old not in text:
+              raise SystemExit('stylesheet verifier contract not found')
+          verifier.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          core = Path('src/scripts/core.js')
+          text = core.read_text(encoding='utf-8')
+          start = text.find('  function enableFullStyle() {')
+          end = text.find('  // If initialization fails', start)
+          if start == -1 or end == -1:
+              raise SystemExit('legacy delayed-style bootstrap not found')
+          core.write_text(text[:start] + text[end:], encoding='utf-8')
           PY
           python tools/build_site.py
           python tools/generate_og.py
