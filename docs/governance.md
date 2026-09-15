@@ -17,6 +17,11 @@ Visual changes require Archive QA, Web Quality Gate, and Visual Smoke. Generated
 must be deterministic. A passing structural test is not evidence of visual quality; the
 screenshot artifact is part of release review.
 
+A build commit produced by GitHub Actions may synchronize generated assets, but it does
+not substitute for release checks. After any bot-authored synchronization commit, a
+user-authored repository commit must retrigger the three release gates so that the final
+head being merged is the head that was actually tested.
+
 ## Proper Ending for the site itself
 
 The archive is not improved by perpetual redesign. Once a release passes its research,
