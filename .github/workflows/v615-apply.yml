@@ -1,0 +1,86 @@
+name: Apply v6.15 research pavilion
+
+on:
+  push:
+    branches:
+      - v6.15-research-pavilion
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out design branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: v6.15-research-pavilion
+          fetch-depth: 0
+
+      - name: Apply source integration
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              if old not in text:
+                  raise SystemExit(f'Expected source fragment not found in {path}: {old[:80]!r}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          replace_once(
+              'tools/build_assets.py',
+              '    ROOT / "src/styles/pavilion.css",\n    ROOT / "src/styles/performance.css",',
+              '    ROOT / "src/styles/pavilion.css",\n    ROOT / "src/styles/instruments.css",\n    ROOT / "src/styles/performance.css",',
+          )
+
+          replace_once(
+              'src/archive/model.py',
+              'ASSET_VERSION = "6.14.0"',
+              'ASSET_VERSION = "6.15.0"',
+          )
+
+          replace_once(
+              'src/archive/pages.py',
+              '''    map_nodes = "\\n".join(\n        f'<div class="research-map-node" data-part="{p["part"]}"><span>0{p["part"]}</span><b>{p["function"]}</b><small>{p["question"]}</small></div>'\n        for p in PAPERS\n    )''',
+              '''    map_nodes = "\\n".join(\n        f'<a class="research-map-node" href="/papers/{p["slug"]}.html" data-part="{p["part"]}"><span class="map-index">0{p["part"]}</span><span class="map-glyph" aria-hidden="true"><i></i><i></i><i></i></span><b>{p["function"]}</b><small>{p["question"]}</small></a>'\n        for p in PAPERS\n    )''',
+          )
+
+          replace_once(
+              'src/archive/pages.py',
+              '''          <header class="paper-hero shell" data-roman="{paper['roman']}">\n            {breadcrumbs([("Index", "/"), ("Papers", "/papers/"), (f"Part {paper['roman']}", None)])}''',
+              '''          <header class="paper-hero shell" data-roman="{paper['roman']}">\n            <div class="paper-apparatus" aria-hidden="true"><span class="apparatus-label">{paper['function']}</span><i></i><i></i><i></i><i></i></div>\n            {breadcrumbs([("Index", "/"), ("Papers", "/papers/"), (f"Part {paper['roman']}", None)])}''',
+          )
+
+          replace_once(
+              'docs/architecture.md',
+              'Source styling is separated by responsibility: `base.css` holds the durable document\nsystem, `pavilion.css` holds the research-specific visual grammar, `performance.css`',
+              'Source styling is separated by responsibility: `base.css` holds the durable document\nsystem, `pavilion.css` holds the archive-wide visual grammar, `instruments.css` turns the\nresearch semantics into part-specific spatial and interaction mechanisms, `performance.css`',
+          )
+
+          replace_once(
+              'README.md',
+              'src/styles/         base, pavilion, and critical source styles',
+              'src/styles/         base, pavilion, research instruments, performance, critical styles',
+          )
+          PY
+
+      - name: Rebuild deterministic production output
+        run: |
+          python tools/build_site.py
+          python tools/verify_v62.py
+          python -m py_compile src/archive/*.py tools/*.py
+
+      - name: Commit design pass
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/v615-apply.yml
+          git add README.md docs/architecture.md tools/build_assets.py src/archive/model.py src/archive/pages.py src/styles/instruments.css assets/site.css assets/site.js assets/critical.css index.html about.html papers/index.html papers/part1.html papers/part2.html papers/part3.html privacy.html security.html colophon.html 404.html demo/index.html demo/altrion-part1.html demo/altrion-part2.html research-index.json sitemap.xml robots.txt llms.txt humans.txt site.webmanifest .well-known/security.txt
+          git commit -m "v6.15: deepen research pavilion visual grammar"
+          git push origin HEAD:v6.15-research-pavilion
