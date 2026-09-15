@@ -16,12 +16,20 @@ from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE = "https://takashisato.me"
-AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
-UPDATED = "2026-08-25"
-VERSION = "6.2"
-ASSET_VERSION = "6.13.2"
-GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.archive.model import (
+    ASSET_VERSION,
+    AUTHOR_ID,
+    GOOGLE_SITE_VERIFICATION,
+    PAPERS_BY_SLUG as PAPERS,
+    SERIES_ID,
+    SITE,
+    UPDATED,
+    VERSION,
+)
+
 CORE_HTML = [
     "index.html",
     "papers/index.html",
@@ -34,39 +42,6 @@ CORE_HTML = [
     "colophon.html",
 ]
 ALL_HTML = CORE_HTML + ["404.html", "demo/index.html", "demo/altrion-part1.html", "demo/altrion-part2.html"]
-PAPERS = {
-    "part1": {
-        "title": "Workflow-Centric AI Governance",
-        "subtitle": "A Typed Gate Contract for Accountable Human-AI Decisions",
-        "ssrn": "5911063",
-        "doi": "10.2139/ssrn.5911063",
-        "posted": "2026-01-09",
-        "pages": 18,
-        "bytes": 514075,
-        "sha256": "edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8",
-    },
-    "part2": {
-        "title": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions",
-        "subtitle": "A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
-        "ssrn": "5913703",
-        "doi": "10.2139/ssrn.5913703",
-        "posted": "2026-01-12",
-        "pages": 20,
-        "bytes": 562947,
-        "sha256": "6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88",
-    },
-    "part3": {
-        "title": "From Governance Drift to Accountable Exit",
-        "subtitle": "Proper Ending and Authority Return in AI-Assisted Institutions",
-        "ssrn": "6066430",
-        "doi": "10.2139/ssrn.6066430",
-        "posted": "2026-02-10",
-        "pages": 39,
-        "bytes": 1032918,
-        "sha256": "7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72",
-    },
-}
-
 
 class AuditParser(HTMLParser):
     def __init__(self) -> None:
@@ -214,7 +189,7 @@ def audit_html(errors: list[str]) -> None:
         expected_style = f"/assets/site.css?v={ASSET_VERSION}"
         expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if len(styles) != 2 or styles != [expected_style, expected_style]:
+        if styles != [expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
         if "<style data-critical>" not in text or "critical first-viewport stylesheet" not in text:
             fail(errors, f"{rel}: inline critical stylesheet is missing")
@@ -361,6 +336,10 @@ def audit_content(errors: list[str]) -> None:
     home = (ROOT / "index.html").read_text(encoding="utf-8")
     if GOOGLE_SITE_VERIFICATION not in home:
         fail(errors, "index.html: Search Console ownership verification is missing")
+    if "AI Governance Research Archive" not in home:
+        fail(errors, "index.html: visible field classification is missing")
+    if '"@type":"CreativeWorkSeries"' not in home or SERIES_ID not in home:
+        fail(errors, "index.html: canonical research-series entity is missing")
 
     for slug, paper in PAPERS.items():
         text = (ROOT / f"papers/{slug}.html").read_text(encoding="utf-8")
@@ -380,9 +359,6 @@ def audit_assets(errors: list[str]) -> None:
         "fonts/Newsreader-OFL.txt",
         "fonts/MeaCulpa.woff2",
         "fonts/MeaCulpa-OFL.txt",
-        "materials/grain.jpg",
-        "materials/paper.jpg",
-        "materials/black-metal.jpg",
         "og/home.jpg",
         "og/papers.jpg",
         "og/about.jpg",
@@ -445,20 +421,6 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"{family} license record is missing or invalid")
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
-
-    material_total = 0
-    for name in ["grain", "paper", "black-metal"]:
-        material_path = ROOT / f"assets/materials/{name}.jpg"
-        material_total += material_path.stat().st_size
-        with Image.open(material_path) as image:
-            if image.format != "JPEG":
-                fail(errors, f"{material_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
-            if image.width < 1500 or image.height < 850:
-                fail(errors, f"{material_path.relative_to(ROOT)}: material resolution is too small: {image.size}")
-        if f"materials/{name}.jpg" in css:
-            fail(errors, f"production stylesheet still references retired material texture {name}.jpg")
-    if material_total > 350_000:
-        fail(errors, f"material texture payload exceeds 350 KB: {material_total}")
 
     paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
     if not paper_match:
@@ -531,7 +493,7 @@ def audit_indexes(errors: list[str]) -> None:
     manifest = json.loads((ROOT / "site.webmanifest").read_text(encoding="utf-8"))
     if index.get("@context") != "https://schema.org" or index.get("@type") != "CreativeWorkSeries":
         fail(errors, "research-index.json: expected a Schema.org CreativeWorkSeries")
-    if index.get("@id") != f"{SITE}/papers/#trilogy":
+    if index.get("@id") != SERIES_ID:
         fail(errors, "research-index.json: series identifier mismatch")
     if index.get("dateModified") != UPDATED or index.get("version") != VERSION:
         fail(errors, "research-index.json: stale version or update date")
