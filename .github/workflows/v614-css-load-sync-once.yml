@@ -32,16 +32,14 @@ jobs:
           from pathlib import Path
           path = Path('src/archive/layout.py')
           text = path.read_text(encoding='utf-8')
-          old = '''          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
-          <style data-critical>{critical_css}</style>
-          <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>'''
-          new = '''          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
-          <style data-critical>{critical_css}</style>'''
-          if old not in text:
-              raise SystemExit('stylesheet contract not found')
-          path.write_text(text.replace(old, new), encoding='utf-8')
+          old_link = '<link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>'
+          new_link = '<link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">'
+          old_noscript = '<noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>'
+          if old_link not in text:
+              raise SystemExit('deferred stylesheet link not found')
+          text = text.replace(old_link, new_link, 1)
+          text = text.replace(old_noscript, '', 1)
+          path.write_text(text, encoding='utf-8')
           PY
           python tools/build_site.py
           python tools/generate_og.py
