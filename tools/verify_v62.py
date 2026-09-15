@@ -18,13 +18,12 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
-UPDATED = "2026-09-11"
+UPDATED = "2026-08-25"
 VERSION = "6.2"
-ASSET_VERSION = "6.14.0"
+ASSET_VERSION = "6.13.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 CORE_HTML = [
     "index.html",
-    "ja/index.html",
     "papers/index.html",
     "papers/part1.html",
     "papers/part2.html",
@@ -354,7 +353,7 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"about.html: verbose Japanese profile copy returned: {stale_copy}")
     if "mailto:" in about or ">Contact<" in about:
         fail(errors, "about.html: direct contact route must remain outside the author record")
-    if about.count('class="author-identity" lang="ja"') != 1 or about.count("佐藤貴士　札幌") != 1:
+    if about.count('lang="ja"') != 1 or about.count("佐藤貴士　札幌") != 1:
         fail(errors, "about.html: visible Japanese identity must be exactly one instance of 佐藤貴士　札幌")
 
     home = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -581,7 +580,6 @@ def audit_indexes(errors: list[str]) -> None:
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     expected_urls = [
         f"{SITE}/",
-        f"{SITE}/ja/",
         f"{SITE}/papers/",
         f"{SITE}/papers/part1.html",
         f"{SITE}/papers/part2.html",

@@ -15,7 +15,6 @@ BASE = os.environ.get("VISUAL_BASE_URL", "http://127.0.0.1:4173")
 OUT = Path(os.environ.get("VISUAL_OUT", "artifacts/visual-smoke"))
 PAGES = {
     "home": "/",
-    "ja": "/ja/",
     "papers": "/papers/",
     "about": "/about.html",
     "part1": "/papers/part1.html",
@@ -122,7 +121,7 @@ def main() -> None:
             js=False,
             suffix="nojs",
             viewports={"390": VIEWPORTS["390"], "1440": VIEWPORTS["1440"]},
-            pages={"home": "/", "ja": "/ja/", "papers": "/papers/", "part1": "/papers/part1.html", "part3": "/papers/part3.html"},
+            pages={"home": "/", "papers": "/papers/", "part1": "/papers/part1.html", "part3": "/papers/part3.html"},
             errors=errors,
         )
         browser.close()

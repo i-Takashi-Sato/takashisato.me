@@ -3,14 +3,11 @@
   "@type": "CreativeWorkSeries",
   "@id": "https://takashisato.me/papers/#trilogy",
   "name": "Workflow-Centric AI Governance Trilogy",
-  "alternateName": [
-    "The Proper Ending Index research trilogy",
-    "佐藤貴士のAIガバナンス研究三部作"
-  ],
+  "alternateName": "The Proper Ending Index research trilogy",
   "url": "https://takashisato.me/papers/",
   "mainEntityOfPage": "https://takashisato.me/research-index.json",
   "description": "Independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
-  "dateModified": "2026-09-11",
+  "dateModified": "2026-08-25",
   "version": "6.2",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
@@ -26,11 +23,6 @@
       "Sato Takashi"
     ],
     "jobTitle": "Independent Researcher",
-    "description": "佐藤貴士（Takashi Sato）のAIガバナンス研究。人間による監督、統治能力、責任ある終了と権限返還を扱う独立研究者。",
-    "knowsLanguage": [
-      "en",
-      "ja"
-    ],
     "url": "https://takashisato.me/about.html",
     "workLocation": {
       "@type": "Place",
