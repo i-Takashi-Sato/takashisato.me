@@ -24,6 +24,22 @@ One archive, three analytical states:
 The three papers are connected but must not be represented as one degradation score or
 universal lifecycle.
 
+## Research-instrument rule
+
+The part identity must survive without a color legend. A reader should be able to infer
+the analytical state from geometry and behavior alone:
+
+- Part I uses thresholds, datums, rulers, gates, orthogonal construction, and explicit
+  passage points.
+- Part II preserves the outer procedural frame while traces inside it separate, weaken,
+  drift, or become discontinuous.
+- Part III uses containment rings, breaker gaps, dependency spines, convergence, and
+  decreasing spatial and kinetic energy as authority is returned.
+
+A visual element is justified only when it communicates route, state, evidence,
+capacity, containment, authority, return, or closure. If removing an effect leaves the
+research meaning unchanged, the effect is decoration and should usually be removed.
+
 ## Typography and material
 
 Newsreader carries editorial display; Inter carries interface, data, and reading text;

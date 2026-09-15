@@ -24,7 +24,7 @@ Authoring source is separated from generated runtime output:
 
 ```text
 src/archive/        canonical research model + page renderers
-src/styles/         base, pavilion, and critical source styles
+src/styles/         base, pavilion, research instruments, performance, critical styles
 src/scripts/        progressive-enhancement modules
 tools/build_site.py build orchestration
 tools/build_assets.py deterministic CSS/JS compilation

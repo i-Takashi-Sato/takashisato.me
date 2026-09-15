@@ -12,7 +12,8 @@ SSRN identifiers, publication dates, page counts, preserved-file sizes, and SHA-
 hashes must not be independently re-entered in renderers or QA.
 
 Source styling is separated by responsibility: `base.css` holds the durable document
-system, `pavilion.css` holds the research-specific visual grammar, `performance.css`
+system, `pavilion.css` holds the archive-wide visual grammar, `instruments.css` turns the
+research semantics into part-specific spatial and interaction mechanisms, `performance.css`
 keeps first-viewport research content paintable without JavaScript reveal delay, and
 `critical.css` supplies the minimal inline first-paint contract. Production still ships
 one shared stylesheet plus the critical inline layer. The shared stylesheet participates
