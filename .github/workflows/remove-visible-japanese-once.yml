@@ -32,6 +32,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+
           p = Path('tools/build_site.py')
           s = p.read_text(encoding='utf-8')
           bad = '                <p class="author-identity" lang="ja">佐藤貴士　札幌</p>\n'
@@ -44,6 +45,20 @@ jobs:
               raise SystemExit('author facts anchor not found')
           s = s.replace(old, new, 1)
           p.write_text(s, encoding='utf-8')
+
+          v = Path('tools/verify_v62.py')
+          q = v.read_text(encoding='utf-8')
+          old_identity = '''    for identity in ["佐藤貴士　札幌", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:\n        if identity not in about:\n            fail(errors, f"about.html: identity element missing: {identity}")'''
+          new_identity = '''    for identity in ["佐藤貴士", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:\n        if identity not in about:\n            fail(errors, f"about.html: identity element missing: {identity}")'''
+          if old_identity not in q:
+              raise SystemExit('verifier identity anchor not found')
+          q = q.replace(old_identity, new_identity, 1)
+          old_visible = '''    if about.count('lang="ja"') != 1 or about.count("佐藤貴士　札幌") != 1:\n        fail(errors, "about.html: visible Japanese identity must be exactly one instance of 佐藤貴士　札幌")'''
+          new_visible = '''    if about.count('<dd lang="ja">佐藤貴士</dd>') != 1:\n        fail(errors, "about.html: native-name identity fact must be exactly one instance")\n    if "佐藤貴士　札幌" in about:\n        fail(errors, "about.html: awkward Japanese SEO phrase returned to the visible author record")'''
+          if old_visible not in q:
+              raise SystemExit('verifier visible-Japanese anchor not found')
+          q = q.replace(old_visible, new_visible, 1)
+          v.write_text(q, encoding='utf-8')
           PY
 
       - name: Rebuild and verify
@@ -55,7 +70,7 @@ jobs:
           test ! -e ja/index.html
           ! grep -R --line-number -E '日本語インデックス|日本語で読む|AIガバナンスを、|佐藤貴士　札幌' index.html about.html papers tools/build_site.py
           grep -n 'Native name' about.html
-          grep -n '佐藤貴士' about.html
+          grep -n '<dd lang="ja">佐藤貴士</dd>' about.html
 
       - name: Commit rebuilt output
         run: |
