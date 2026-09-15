@@ -204,8 +204,32 @@
 
   function initScrollState(reduceMotion) {
     const homeHero = doc.querySelector('body[data-page="home"] .hero');
+    const paperHero = doc.querySelector('.paper-hero');
+    const apparatus = paperHero?.querySelector('.paper-apparatus');
+    const paperTone = doc.body?.dataset?.tone || '';
     const footer = doc.querySelector('.site-footer');
     let scheduled = false;
+
+    function updatePaperMechanism() {
+      if (!paperHero || !apparatus || reduceMotion || !matchMedia('(min-width:44.01rem)').matches) {
+        apparatus?.style.removeProperty('transform');
+        return;
+      }
+
+      const travel = Math.max(paperHero.offsetHeight * 0.82, innerHeight * 0.72);
+      const progress = clamp(scrollY / travel);
+
+      // Part I remains fixed: its visual logic is measurement against a stable datum.
+      if (paperTone === 'part-2') {
+        // Procedural continuity remains in place while the internal capacity trace drifts.
+        apparatus.style.transform = `translate3d(${(progress * 10).toFixed(2)}px,${(progress * 6).toFixed(2)}px,0)`;
+      } else if (paperTone === 'part-3') {
+        // Accountable exit contracts rather than expands: motion spends energy and closes.
+        apparatus.style.transform = `scale(${(1 - progress * 0.12).toFixed(4)})`;
+      } else {
+        apparatus.style.removeProperty('transform');
+      }
+    }
 
     function update() {
       const maximum = root.scrollHeight - innerHeight;
@@ -214,6 +238,7 @@
         const progress = clamp(scrollY / Math.max(homeHero.offsetHeight * 1.15, innerHeight));
         root.style.setProperty('--home-scroll', progress.toFixed(4));
       }
+      updatePaperMechanism();
       if (footer) {
         const ending = clamp(1 - footer.getBoundingClientRect().top / innerHeight);
         root.style.setProperty('--ending', ending.toFixed(4));
