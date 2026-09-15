@@ -977,7 +977,6 @@ def about_page() -> str:
               </div>
               <div class="author-thesis" data-reveal>
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
-                <p class="author-identity" lang="ja">佐藤貴士　札幌</p>
               </div>
             </div>
           </header>
@@ -987,6 +986,7 @@ def about_page() -> str:
                 <h2 class="label">At a glance</h2>
                 <dl class="author-facts">
                   <div><dt>Role</dt><dd>Independent researcher</dd></div>
+                  <div><dt>Native name</dt><dd lang="ja">佐藤貴士</dd></div>
                   <div><dt>Base</dt><dd>Sapporo, Japan</dd></div>
                   <div><dt>Series</dt><dd>The Proper Ending Index</dd></div>
                 </dl>
