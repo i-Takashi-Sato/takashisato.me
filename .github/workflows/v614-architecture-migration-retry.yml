@@ -36,6 +36,7 @@ jobs:
         run: |
           python tools/fix_v614_migration.py
           python tools/migrate_v614_architecture.py
+          printf '\n\nif __name__ == "__main__":\n    main()\n' >> tools/build_site.py
 
       - name: Build archive and social records
         run: |
