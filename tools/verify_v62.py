@@ -189,7 +189,7 @@ def audit_html(errors: list[str]) -> None:
         expected_style = f"/assets/site.css?v={ASSET_VERSION}"
         expected_script = f"/assets/site.js?v={ASSET_VERSION}"
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
-        if len(styles) != 2 or styles != [expected_style, expected_style]:
+        if styles != [expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
         if "<style data-critical>" not in text or "critical first-viewport stylesheet" not in text:
             fail(errors, f"{rel}: inline critical stylesheet is missing")

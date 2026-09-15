@@ -12,19 +12,6 @@
 
   root.classList.add('js');
 
-  function enableFullStyle() {
-    doc.querySelectorAll('link[data-full-style]').forEach((link) => {
-      link.media = 'all';
-      link.removeAttribute('data-full-style');
-    });
-  }
-
-  if (doc.readyState === 'complete') {
-    requestAnimationFrame(enableFullStyle);
-  } else {
-    addEventListener('load', () => requestAnimationFrame(enableFullStyle), { once: true });
-  }
-
   // If initialization fails, return to the complete no-JavaScript presentation.
   const initializationFallback = setTimeout(() => root.classList.remove('js'), 3000);
 

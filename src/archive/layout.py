@@ -110,9 +110,9 @@ def head(
           {paper_meta}
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
+          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
           <style data-critical>{critical_css}</style>
-          <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
+          
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
