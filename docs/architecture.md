@@ -11,6 +11,12 @@ Research metadata has one canonical source: `src/archive/model.py`. Paper titles
 SSRN identifiers, publication dates, page counts, preserved-file sizes, and SHA-256
 hashes must not be independently re-entered in renderers or QA.
 
+Source styling is separated by responsibility: `base.css` holds the durable document
+system, `pavilion.css` holds the research-specific visual grammar, `performance.css`
+keeps first-viewport research content paintable without JavaScript reveal delay, and
+`critical.css` supplies the minimal inline first-paint contract. Production still ships
+one shared stylesheet plus the critical inline layer.
+
 ## Dependency direction
 
 ```text
