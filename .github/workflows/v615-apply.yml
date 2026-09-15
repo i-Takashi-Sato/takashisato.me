@@ -81,12 +81,6 @@ jobs:
           )
 
           replace_once(
-              'docs/architecture.md',
-              'Source CSS/JS → build_assets.py → runtime CSS/JS',
-              'Source CSS/JS → build_assets.py → compact deterministic runtime CSS/JS',
-          )
-
-          replace_once(
               'README.md',
               'src/styles/         base, pavilion, and critical source styles',
               'src/styles/         base, pavilion, research instruments, performance, critical styles',
