@@ -15,7 +15,9 @@ Source styling is separated by responsibility: `base.css` holds the durable docu
 system, `pavilion.css` holds the research-specific visual grammar, `performance.css`
 keeps first-viewport research content paintable without JavaScript reveal delay, and
 `critical.css` supplies the minimal inline first-paint contract. Production still ships
-one shared stylesheet plus the critical inline layer.
+one shared stylesheet plus the critical inline layer. The shared stylesheet participates
+in the initial render directly; it is not held behind a JavaScript or `window.load`
+style swap, so the archive does not trade a fast first paint for a delayed LCP restyle.
 
 ## Dependency direction
 
@@ -32,7 +34,7 @@ Verification imports the model but independently inspects generated artifacts.
 ## Runtime contract
 
 - pre-rendered semantic HTML;
-- one deferred shared CSS file;
+- one shared CSS file active during initial render;
 - one progressive-enhancement JS file;
 - inline critical first-viewport CSS;
 - self-hosted fonts;
