@@ -13,10 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://takashisato.me"
 AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
 SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
-UPDATED = "2026-09-11"
+UPDATED = "2026-08-25"
 PAPER_REVISION_DATE = "2026-08-23"
 VERSION = "6.2"
-ASSET_VERSION = "6.14.0"
+ASSET_VERSION = "6.13.2"
 GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 AUTHOR = {
     "@type": "Person",
@@ -26,8 +26,6 @@ AUTHOR = {
     "familyName": "Sato",
     "alternateName": ["佐藤貴士", "佐藤 貴士", "Sato Takashi"],
     "jobTitle": "Independent Researcher",
-    "description": "佐藤貴士（Takashi Sato）のAIガバナンス研究。人間による監督、統治能力、責任ある終了と権限返還を扱う独立研究者。",
-    "knowsLanguage": ["en", "ja"],
     "url": f"{SITE}/about.html",
     "workLocation": {
         "@type": "Place",
@@ -206,8 +204,6 @@ def head(
     og_type: str = "website",
     paper: dict | None = None,
     site_verification: bool = False,
-    html_lang: str = "en",
-    og_locale: str = "en_US",
 ) -> str:
     canonical = f"{SITE}{path}"
     safe_title = escape(title, quote=True)
@@ -242,27 +238,10 @@ def head(
             <meta property="article:author" content="{SITE}/about.html">
             """
         ).strip()
-    alternate_html = ""
-    if path == "/":
-        alternate_html = dedent(
-            f"""
-            <link rel="alternate" hreflang="en" href="{SITE}/">
-            <link rel="alternate" hreflang="ja" href="{SITE}/ja/">
-            <link rel="alternate" hreflang="x-default" href="{SITE}/">
-            """
-        ).strip()
-    elif path == "/ja/":
-        alternate_html = dedent(
-            f"""
-            <link rel="alternate" hreflang="en" href="{SITE}/">
-            <link rel="alternate" hreflang="ja" href="{SITE}/ja/">
-            <link rel="alternate" hreflang="x-default" href="{SITE}/">
-            """
-        ).strip()
     return dedent(
         f"""
         <!DOCTYPE html>
-        <html lang="{html_lang}">
+        <html lang="en">
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -274,7 +253,6 @@ def head(
           <meta name="robots" content="{robots}">
           {verification_html}
           <link rel="canonical" href="{safe_canonical}">
-          {alternate_html}
           <link rel="author" href="/about.html">
           <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
           <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
@@ -287,7 +265,7 @@ def head(
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
           <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
           <meta property="og:type" content="{og_type}">
-          <meta property="og:locale" content="{og_locale}">
+          <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
           <meta property="og:title" content="{safe_title}">
           <meta property="og:description" content="{safe_description}">
@@ -305,7 +283,7 @@ def head(
           {paper_meta}
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
+          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" media="print" data-full-style>
           <style data-critical>{critical_css}</style>
           <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
@@ -314,15 +292,9 @@ def head(
     ).strip()
 
 
-def header(active: str = "", language: str = "en") -> str:
+def header(active: str = "") -> str:
     def current(name: str) -> str:
         return ' aria-current="page"' if active == name else ""
-
-    language_switch = (
-        '<a class="language-switch" href="/" lang="en" hreflang="en">EN</a>'
-        if language == "ja"
-        else '<a class="language-switch" href="/ja/" lang="ja" hreflang="ja">日本語</a>'
-    )
 
     return dedent(
         f"""
@@ -337,7 +309,6 @@ def header(active: str = "", language: str = "en") -> str:
               <a href="/"{current('index')}>Index</a>
               <a href="/papers/"{current('papers')}>Papers</a>
               <a href="/about.html"{current('about')}>Author</a>
-              {language_switch}
             </nav>
           </div>
           <div class="scroll-meter" aria-hidden="true"></div>
@@ -389,8 +360,8 @@ def footer() -> str:
     ).strip()
 
 
-def shell_page(*, head_html: str, body: str, active: str = "", tone: str = "neutral", page: str = "", language: str = "en") -> str:
-    return f"{head_html}\n<body data-tone=\"{tone}\" data-page=\"{page}\">\n{header(active, language)}\n{body}\n{footer()}\n</body>\n</html>\n"
+def shell_page(*, head_html: str, body: str, active: str = "", tone: str = "neutral", page: str = "") -> str:
+    return f"{head_html}\n<body data-tone=\"{tone}\" data-page=\"{page}\">\n{header(active)}\n{body}\n{footer()}\n</body>\n</html>\n"
 
 
 def write(path: str, content: str) -> None:
@@ -412,7 +383,6 @@ def home_page() -> str:
                 "@id": f"{SITE}/#website",
                 "url": f"{SITE}/",
                 "name": "The Proper Ending Index",
-                "alternateName": "佐藤貴士のAIガバナンス研究アーカイブ",
                 "description": "Takashi Sato's independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
                 "inLanguage": ["en-US", "ja-JP"],
                 "author": {"@id": AUTHOR_ID},
@@ -449,8 +419,6 @@ def home_page() -> str:
           <section class="hero shell" aria-labelledby="hero-title">
             <div class="hero-grid">
               <div data-reveal>
-                <div class="hero-signature" aria-hidden="true"></div>
-                <p class="hero-author"><span lang="ja">佐藤貴士</span><span aria-hidden="true"> / </span><span>Takashi Sato</span></p>
                 <p class="eyebrow">Workflow-Centric AI Governance Trilogy · v6.2</p>
                 <h1 id="hero-title"><span>A role alone</span><span class="hero-turn">is <em>not</em></span><span class="hero-governance">governance.</span></h1>
               </div>
@@ -491,19 +459,6 @@ def home_page() -> str:
                 <div class="metric" role="listitem"><strong>1,248</strong><span>applicable Stage-2 configurations in Part I</span></div>
                 <div class="metric" role="listitem"><strong>5</strong><span>rejectable propositions in Part II</span></div>
                 <div class="metric" role="listitem"><strong>8,564</strong><span>reachable states explored in Part III</span></div>
-              </div>
-            </div>
-          </section>
-
-          <section class="section section-japanese" aria-labelledby="japanese-index-title">
-            <div class="shell">
-              <div class="japanese-bridge" data-reveal>
-                <p class="label" lang="ja">日本語で読む</p>
-                <div>
-                  <h2 id="japanese-index-title" lang="ja">佐藤貴士のAIガバナンス研究</h2>
-                  <p lang="ja">人間による監督が実質的に機能する条件、組織の統治能力が失われる過程、そしてAI支援ワークフローを責任ある形で終え権限を戻す方法を、3本のワーキングペーパーで検討しています。</p>
-                  <a class="button" href="/ja/" lang="ja">日本語インデックスを開く <span class="arrow" aria-hidden="true">↗</span></a>
-                </div>
               </div>
             </div>
           </section>
@@ -553,104 +508,6 @@ def home_page() -> str:
         body=body,
         active="index",
         page="home",
-    )
-
-
-def japanese_home_page() -> str:
-    schema = {
-        "@context": "https://schema.org",
-        "@graph": [
-            AUTHOR,
-            {
-                "@type": "WebPage",
-                "@id": f"{SITE}/ja/#page",
-                "url": f"{SITE}/ja/",
-                "name": "佐藤貴士｜AIガバナンス研究アーカイブ",
-                "description": "佐藤貴士（Takashi Sato）のAIガバナンス研究。人間による監督、統治能力、責任ある終了と権限返還を扱う3本のワーキングペーパー。",
-                "inLanguage": "ja-JP",
-                "isPartOf": {"@id": f"{SITE}/#website"},
-                "about": {"@id": AUTHOR_ID},
-                "dateModified": UPDATED,
-            },
-            breadcrumb_schema([("ホーム", "/"), ("日本語インデックス", "/ja/")]),
-        ],
-    }
-    records = "\n".join(
-        dedent(
-            f"""
-            <article class="ja-record" data-reveal>
-              <p class="sequence-function">Part {p['roman']} · {p['function']}</p>
-              <h2><a href="/papers/{p['slug']}.html">{p['title']}</a></h2>
-              <p class="ja-record-title" lang="en">{p['subtitle']}</p>
-              <p>{[
-                  '意思決定を、証拠・権限・レビュー能力・代替経路の条件に分けて、適切な経路へ送るための型付きゲート契約。',
-                  '手続が続いて見える一方で、独立した判断や実際に統治する能力が失われる状態を記述するモデル。',
-                  '失敗したAI支援ワークフローを封じ込め、記録・救済・責任を残したまま終了し、権限を戻すためのプロトコル。',
-              ][p['part'] - 1]}</p>
-              <a class="button" href="/papers/{p['slug']}.html">研究記録を読む <span class="arrow" aria-hidden="true">↗</span></a>
-            </article>
-            """
-        ).strip()
-        for p in PAPERS
-    )
-    body = dedent(
-        f"""
-        <main id="main">
-          <header class="page-hero shell ja-page-hero">
-            {breadcrumbs([("ホーム", "/"), ("日本語インデックス", None)])}
-            <p class="eyebrow" data-reveal>Independent Research Archive · 佐藤貴士 / Takashi Sato</p>
-            <h1 data-reveal>AIガバナンスを、<br>終わりまで設計する。</h1>
-            <p class="page-deck" data-reveal>このサイトは、札幌を拠点に活動する独立研究者・佐藤貴士の研究アーカイブです。人間による監督を「人が画面にいること」ではなく、判断を実際に行える制度的能力として扱います。</p>
-            <div class="paper-meta" data-reveal>
-              <span>著者 · 佐藤貴士（Takashi Sato）</span>
-              <span>分野 · AIガバナンス / 人間による監督</span>
-              <span>研究記録 · v6.2</span>
-              <span>拠点 · 札幌、日本</span>
-            </div>
-          </header>
-
-          <section class="section" aria-labelledby="ja-trilogy-title">
-            <div class="shell">
-              <div class="section-head" data-reveal>
-                <p class="label" lang="ja">研究三部作</p>
-                <div>
-                  <h2 id="ja-trilogy-title" lang="ja">判断、組織、終了。</h2>
-                  <p class="section-intro" lang="ja">3本の論文は同じ問題を一つの尺度に還元するものではありません。個別の意思決定、組織の統治能力、そして責任ある終了という異なるスケールを順に扱います。</p>
-                </div>
-              </div>
-              <div class="ja-records">{records}</div>
-            </div>
-          </section>
-
-          <section class="section compact">
-            <div class="shell">
-              <div class="japanese-bridge" data-reveal>
-                <p class="label" lang="ja">研究上の境界</p>
-                <div>
-                  <h2 lang="ja">形式的に検証できることと、現実に有効であることは別です。</h2>
-                  <p lang="ja">論文内の有限探索や合成データによる結果は、宣言した抽象モデルの内部での検証です。法的十分性、現場での有効性、予測性能、実証的な因果効果を意味しません。引用と版の確認には、各論文のSSRN記録を一次の研究記録として利用してください。</p>
-                  <div class="hero-actions"><a class="button primary" href="/papers/" lang="ja">英語の論文記録へ</a><a class="button" href="/about.html" lang="ja">著者記録</a></div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </main>
-        """
-    ).strip()
-    return shell_page(
-        head_html=head(
-            title="佐藤貴士｜AIガバナンス研究アーカイブ",
-            description="佐藤貴士（Takashi Sato）のAIガバナンス研究。人間による監督、統治能力、責任ある終了と権限返還を扱う独立研究アーカイブ。",
-            path="/ja/",
-            image="/assets/og/home.jpg",
-            schema=schema,
-            html_lang="ja",
-            og_locale="ja_JP",
-        ),
-        body=body,
-        active="",
-        page="ja-home",
-        language="ja",
     )
 
 
@@ -1120,7 +977,6 @@ def about_page() -> str:
               </div>
               <div class="author-thesis" data-reveal>
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
-                <p class="author-identity" lang="ja">佐藤貴士　札幌</p>
               </div>
             </div>
           </header>
@@ -1130,6 +986,7 @@ def about_page() -> str:
                 <h2 class="label">At a glance</h2>
                 <dl class="author-facts">
                   <div><dt>Role</dt><dd>Independent researcher</dd></div>
+                  <div><dt>Native name</dt><dd lang="ja">佐藤貴士</dd></div>
                   <div><dt>Base</dt><dd>Sapporo, Japan</dd></div>
                   <div><dt>Series</dt><dd>The Proper Ending Index</dd></div>
                 </dl>
@@ -1277,10 +1134,7 @@ def research_index() -> dict:
         "@type": "CreativeWorkSeries",
         "@id": f"{SITE}/papers/#trilogy",
         "name": "Workflow-Centric AI Governance Trilogy",
-        "alternateName": [
-            "The Proper Ending Index research trilogy",
-            "佐藤貴士のAIガバナンス研究三部作",
-        ],
+        "alternateName": "The Proper Ending Index research trilogy",
         "url": f"{SITE}/papers/",
         "mainEntityOfPage": f"{SITE}/research-index.json",
         "description": "Independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
@@ -1318,7 +1172,6 @@ def research_index() -> dict:
 def sitemap() -> str:
     entries = [
         "/",
-        "/ja/",
         "/papers/",
         "/papers/part1.html",
         "/papers/part2.html",
@@ -1337,7 +1190,6 @@ def sitemap() -> str:
 
 def main() -> None:
     write("index.html", home_page())
-    write("ja/index.html", japanese_home_page())
     write("papers/index.html", papers_index_page())
     for paper in PAPERS:
         write(f"papers/{paper['slug']}.html", paper_page(paper))
@@ -1427,7 +1279,6 @@ def main() -> None:
             ORCID: https://orcid.org/0009-0003-1584-6965
             SSRN author record: https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672
             Machine-readable index: {SITE}/research-index.json
-            Japanese index: {SITE}/ja/
             Current paper version: 6.2 (23 August 2026)
 
             ## Papers
@@ -1468,7 +1319,7 @@ def main() -> None:
             Static HTML, CSS, and progressive JavaScript
             Three self-hosted type families; no framework runtime
             Current research version: 6.2
-            Last update: 2026-09-11
+            Last update: 2026-08-24
 
             /* ORIENTATION */
             https://takashisato.me/llms.txt

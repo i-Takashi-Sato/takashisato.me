@@ -15,7 +15,6 @@ BASE = os.environ.get("QUALITY_BASE_URL", "http://127.0.0.1:4173")
 AXE = Path(os.environ.get("AXE_PATH", "node_modules/axe-core/axe.min.js"))
 PAGES = {
     "home": "/",
-    "japanese": "/ja/",
     "papers": "/papers/",
     "author": "/about.html",
     "part1": "/papers/part1.html",

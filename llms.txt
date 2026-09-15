@@ -7,7 +7,6 @@ Author: Takashi Sato (佐藤貴士), Independent Researcher, Sapporo, Japan
 ORCID: https://orcid.org/0009-0003-1584-6965
 SSRN author record: https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672
 Machine-readable index: https://takashisato.me/research-index.json
-Japanese index: https://takashisato.me/ja/
 Current paper version: 6.2 (23 August 2026)
 
 ## Papers
