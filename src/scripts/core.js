@@ -1,23 +1,289 @@
-/* The Proper Ending Index — production progressive enhancement. */
-(()=>{"use strict";
-const d=document,r=d.documentElement,C=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));r.classList.add("js");
-function enableFullStyle(){d.querySelectorAll("link[data-full-style]").forEach(x=>{x.media="all";x.removeAttribute("data-full-style")})}
-if(d.readyState==="complete")requestAnimationFrame(enableFullStyle);else addEventListener("load",()=>requestAnimationFrame(enableFullStyle),{once:true});
-const fallback=setTimeout(()=>r.classList.remove("js"),3000);
-function reading(){let s=[...d.querySelectorAll(".content>section[id]")],a=[...d.querySelectorAll('.toc a[href^="#"]')];if(!s.length||!a.length||!window.IntersectionObserver)return;let m=new Map(a.map(x=>[x.hash.slice(1),x])),set=x=>{s.forEach(y=>y.classList.toggle("is-current",y===x));a.forEach(y=>y.removeAttribute("aria-current"));m.get(x.id)?.setAttribute("aria-current","location")},o=new IntersectionObserver(e=>{let v=e.filter(x=>x.isIntersecting).sort((x,y)=>Math.abs(x.boundingClientRect.top)-Math.abs(y.boundingClientRect.top));v[0]&&set(v[0].target)},{rootMargin:"-18% 0px -66% 0px",threshold:[0,.08,.2]});s.forEach(x=>o.observe(x));set(s[0])}
-function label(a){let h=a.getAttribute("href")||"",t=(a.textContent||"").toLowerCase();if(a.dataset.cursor)return a.dataset.cursor;return h.includes(".pdf")?"PDF":h.includes("ssrn.com")?"SSRN":h.includes("doi.org")?"DOI":h.includes("orcid.org")?"ORCID":h.includes("scholar.google")?"Scholar":h.startsWith("mailto:")?"Mail":t.includes("author")?"Author":t.includes("paper")||t.includes("trilogy")?"Read":a.target==="_blank"?"Open":"View"}
-function pointer(reduce){if(reduce||!matchMedia("(hover:hover) and (pointer:fine)").matches)return;let q=d.createElement("div"),o=d.createElement("div"),z=d.createElement("span");q.className="cursor-dot";o.className="cursor-orbit";q.ariaHidden=o.ariaHidden="true";z.textContent="View";o.append(z);d.body.append(q,o);r.classList.add("has-custom-cursor");
-let bs=[...d.querySelectorAll(".button")],hero=d.querySelector(".paper-hero"),x=innerWidth/2,y=innerHeight/2,ox=x,oy=y,px=x,py=y,pt=performance.now(),v=0,ang=0,dirty=0,near=null;
-function frame(){ox+=(x-ox)*(.135+v*.055);oy+=(y-oy)*(.135+v*.055);q.style.transform=`translate3d(${x}px,${y}px,0)`;o.style.transform=`translate3d(${ox}px,${oy}px,0)`;
-if(dirty){dirty=0;let now=performance.now(),dx=x-px,dy=y-py,sp=Math.hypot(dx,dy)/Math.max(8,now-pt);v+=(C(sp/2.1)-v)*.28;if(Math.abs(dx)+Math.abs(dy)>.25)ang=Math.atan2(dy,dx)*180/Math.PI+90;o.style.setProperty("--cursor-v",v.toFixed(3));o.style.setProperty("--cursor-r",ang.toFixed(1)+"deg");px=x;py=y;pt=now;
-let n=null,nd=1e9,np=0,nr;bs.forEach(b=>{let a=b.getBoundingClientRect();if(a.bottom<-100||a.top>innerHeight+100)return;let dist=Math.hypot(x-a.left-a.width/2,y-a.top-a.height/2),rad=Math.max(86,Math.min(150,Math.max(a.width,a.height)*1.15)),p=C(1-dist/rad);b.style.setProperty("--prox",p.toFixed(3));b.style.setProperty("--pointer-x",C((x-a.left)/a.width*100,0,100).toFixed(1)+"%");b.style.setProperty("--pointer-y",C((y-a.top)/a.height*100,0,100).toFixed(1)+"%");b.classList.toggle("is-near",p>.05);if(p>.05&&dist<nd){n=b;nd=dist;np=p;nr=a}});
-if(near&&near!==n){near.style.setProperty("--mag-x","0px");near.style.setProperty("--mag-y","0px")}near=n;o.classList.toggle("is-near",!!n);if(n){n.style.setProperty("--mag-x",((x-nr.left-nr.width/2)*.11*np).toFixed(1)+"px");n.style.setProperty("--mag-y",((y-nr.top-nr.height/2)*.13*np).toFixed(1)+"px")}
-if(hero){let a=hero.getBoundingClientRect();if(y>=a.top&&y<=a.bottom){hero.style.setProperty("--stage-x",(C((x-a.left)/a.width-.5,-.5,.5)*-18).toFixed(1)+"px");hero.style.setProperty("--stage-y",(C((y-a.top)/a.height-.5,-.5,.5)*-11).toFixed(1)+"px")}}}requestAnimationFrame(frame)}
-d.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;x=e.clientX;y=e.clientY;dirty=1;q.classList.add("is-visible");o.classList.add("is-visible");let el=e.target instanceof Element?e.target:null,a=el?.closest("a,button,[data-cursor]");q.classList.toggle("is-active",!!a);o.classList.toggle("is-active",!!a);if(a){let k=label(a);z.textContent=k;o.dataset.kind=k.toLowerCase().replace(/[^a-z]/g,"")}else delete o.dataset.kind;let s=el?.closest(".sequence-row,.metric,.fact,.series-nav a,.author-links a");if(s){let b=s.getBoundingClientRect();s.style.setProperty("--pointer-x",C((x-b.left)/b.width*100,0,100).toFixed(1)+"%");s.style.setProperty("--pointer-y",C((y-b.top)/b.height*100,0,100).toFixed(1)+"%")}}, {passive:true});
-let reset=()=>{q.classList.remove("is-visible");o.classList.remove("is-visible");delete o.dataset.kind;bs.forEach(b=>{b.style.setProperty("--mag-x","0px");b.style.setProperty("--mag-y","0px");b.style.setProperty("--prox","0");b.classList.remove("is-near")});near=null};addEventListener("mouseout",e=>{if(!e.relatedTarget)reset()});addEventListener("blur",reset);frame()}
-function init(){let reduce=matchMedia("(prefers-reduced-motion:reduce)").matches,home=d.querySelector('body[data-page="home"] .hero'),foot=d.querySelector(".site-footer"),tick=0;
-function scroll(){let max=r.scrollHeight-innerHeight;r.style.setProperty("--scroll",(max?C(scrollY/max):0).toFixed(4));if(home&&!reduce)r.style.setProperty("--home-scroll",C(scrollY/Math.max(home.offsetHeight*1.15,innerHeight)).toFixed(4));if(foot){let e=C(1-foot.getBoundingClientRect().top/innerHeight);r.style.setProperty("--ending",e.toFixed(4));r.classList.toggle("is-ending",e>.48)}}
-addEventListener("scroll",()=>{if(tick)return;tick=1;requestAnimationFrame(()=>{scroll();tick=0})},{passive:true});addEventListener("resize",()=>requestAnimationFrame(scroll),{passive:true});scroll();
-let items=[...d.querySelectorAll("[data-reveal]")];if(reduce||!window.IntersectionObserver)items.forEach(x=>x.classList.add("is-visible"));else{let io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add("is-visible");io.unobserve(x.target)}}),{rootMargin:"0px 0px -9% 0px",threshold:.08});items.forEach(x=>io.observe(x))}
-d.querySelectorAll('a[target="_blank"]').forEach(a=>{let s=new Set((a.rel||"").split(/\s+/).filter(Boolean));s.add("noopener");s.add("noreferrer");a.rel=[...s].join(" ")});reading();pointer(reduce);clearTimeout(fallback)}
-d.readyState==="loading"?d.addEventListener("DOMContentLoaded",init,{once:true}):init()})();
+/* The Proper Ending Index — progressive enhancement.
+ *
+ * Research content is complete before this script runs. JavaScript adds only
+ * orientation, pointer response, reveal timing, and terminal settling.
+ */
+(() => {
+  'use strict';
+
+  const doc = document;
+  const root = doc.documentElement;
+  const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+
+  root.classList.add('js');
+
+  function enableFullStyle() {
+    doc.querySelectorAll('link[data-full-style]').forEach((link) => {
+      link.media = 'all';
+      link.removeAttribute('data-full-style');
+    });
+  }
+
+  if (doc.readyState === 'complete') {
+    requestAnimationFrame(enableFullStyle);
+  } else {
+    addEventListener('load', () => requestAnimationFrame(enableFullStyle), { once: true });
+  }
+
+  // If initialization fails, return to the complete no-JavaScript presentation.
+  const initializationFallback = setTimeout(() => root.classList.remove('js'), 3000);
+
+  function initReadingState() {
+    const sections = [...doc.querySelectorAll('.content > section[id]')];
+    const links = [...doc.querySelectorAll('.toc a[href^="#"]')];
+    if (!sections.length || !links.length || !window.IntersectionObserver) return;
+
+    const linksById = new Map(links.map((link) => [link.hash.slice(1), link]));
+
+    function setCurrent(section) {
+      sections.forEach((item) => item.classList.toggle('is-current', item === section));
+      links.forEach((link) => link.removeAttribute('aria-current'));
+      linksById.get(section.id)?.setAttribute('aria-current', 'location');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top));
+      if (visible[0]) setCurrent(visible[0].target);
+    }, {
+      rootMargin: '-18% 0px -66% 0px',
+      threshold: [0, 0.08, 0.2],
+    });
+
+    sections.forEach((section) => observer.observe(section));
+    setCurrent(sections[0]);
+  }
+
+  function cursorLabel(control) {
+    const href = control.getAttribute('href') || '';
+    const text = (control.textContent || '').toLowerCase();
+    if (control.dataset.cursor) return control.dataset.cursor;
+    if (href.includes('.pdf')) return 'PDF';
+    if (href.includes('ssrn.com')) return 'SSRN';
+    if (href.includes('doi.org')) return 'DOI';
+    if (href.includes('orcid.org')) return 'ORCID';
+    if (href.includes('scholar.google')) return 'Scholar';
+    if (href.startsWith('mailto:')) return 'Mail';
+    if (text.includes('author')) return 'Author';
+    if (text.includes('paper') || text.includes('trilogy')) return 'Read';
+    return control.target === '_blank' ? 'Open' : 'View';
+  }
+
+  function initAuthorityCursor(reduceMotion) {
+    if (reduceMotion || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+
+    const dot = doc.createElement('div');
+    const orbit = doc.createElement('div');
+    const label = doc.createElement('span');
+    dot.className = 'cursor-dot';
+    orbit.className = 'cursor-orbit';
+    dot.ariaHidden = 'true';
+    orbit.ariaHidden = 'true';
+    label.textContent = 'View';
+    orbit.append(label);
+    doc.body.append(dot, orbit);
+    root.classList.add('has-custom-cursor');
+
+    const magneticControls = [...doc.querySelectorAll('.button')];
+    const paperHero = doc.querySelector('.paper-hero');
+    let pointerX = innerWidth / 2;
+    let pointerY = innerHeight / 2;
+    let orbitX = pointerX;
+    let orbitY = pointerY;
+    let previousX = pointerX;
+    let previousY = pointerY;
+    let previousTime = performance.now();
+    let velocity = 0;
+    let angle = 0;
+    let dirty = false;
+    let nearest = null;
+
+    function renderFrame() {
+      orbitX += (pointerX - orbitX) * (0.135 + velocity * 0.055);
+      orbitY += (pointerY - orbitY) * (0.135 + velocity * 0.055);
+      dot.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
+      orbit.style.transform = `translate3d(${orbitX}px,${orbitY}px,0)`;
+
+      if (dirty) {
+        dirty = false;
+        const now = performance.now();
+        const dx = pointerX - previousX;
+        const dy = pointerY - previousY;
+        const speed = Math.hypot(dx, dy) / Math.max(8, now - previousTime);
+        velocity += (clamp(speed / 2.1) - velocity) * 0.28;
+        if (Math.abs(dx) + Math.abs(dy) > 0.25) angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+        orbit.style.setProperty('--cursor-v', velocity.toFixed(3));
+        orbit.style.setProperty('--cursor-r', `${angle.toFixed(1)}deg`);
+        previousX = pointerX;
+        previousY = pointerY;
+        previousTime = now;
+
+        let nextNearest = null;
+        let nearestDistance = Infinity;
+        let nearestProximity = 0;
+        let nearestRect = null;
+
+        magneticControls.forEach((control) => {
+          const rect = control.getBoundingClientRect();
+          if (rect.bottom < -100 || rect.top > innerHeight + 100) return;
+          const distance = Math.hypot(
+            pointerX - rect.left - rect.width / 2,
+            pointerY - rect.top - rect.height / 2,
+          );
+          const radius = Math.max(86, Math.min(150, Math.max(rect.width, rect.height) * 1.15));
+          const proximity = clamp(1 - distance / radius);
+          control.style.setProperty('--prox', proximity.toFixed(3));
+          control.style.setProperty('--pointer-x', `${clamp((pointerX - rect.left) / rect.width * 100, 0, 100).toFixed(1)}%`);
+          control.style.setProperty('--pointer-y', `${clamp((pointerY - rect.top) / rect.height * 100, 0, 100).toFixed(1)}%`);
+          control.classList.toggle('is-near', proximity > 0.05);
+          if (proximity > 0.05 && distance < nearestDistance) {
+            nextNearest = control;
+            nearestDistance = distance;
+            nearestProximity = proximity;
+            nearestRect = rect;
+          }
+        });
+
+        if (nearest && nearest !== nextNearest) {
+          nearest.style.setProperty('--mag-x', '0px');
+          nearest.style.setProperty('--mag-y', '0px');
+        }
+        nearest = nextNearest;
+        orbit.classList.toggle('is-near', Boolean(nearest));
+        if (nearest && nearestRect) {
+          nearest.style.setProperty('--mag-x', `${((pointerX - nearestRect.left - nearestRect.width / 2) * 0.11 * nearestProximity).toFixed(1)}px`);
+          nearest.style.setProperty('--mag-y', `${((pointerY - nearestRect.top - nearestRect.height / 2) * 0.13 * nearestProximity).toFixed(1)}px`);
+        }
+
+        if (paperHero) {
+          const rect = paperHero.getBoundingClientRect();
+          if (pointerY >= rect.top && pointerY <= rect.bottom) {
+            paperHero.style.setProperty('--stage-x', `${(clamp((pointerX - rect.left) / rect.width - 0.5, -0.5, 0.5) * -18).toFixed(1)}px`);
+            paperHero.style.setProperty('--stage-y', `${(clamp((pointerY - rect.top) / rect.height - 0.5, -0.5, 0.5) * -11).toFixed(1)}px`);
+          }
+        }
+      }
+      requestAnimationFrame(renderFrame);
+    }
+
+    doc.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'touch') return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      dirty = true;
+      dot.classList.add('is-visible');
+      orbit.classList.add('is-visible');
+
+      const element = event.target instanceof Element ? event.target : null;
+      const control = element?.closest('a,button,[data-cursor]');
+      dot.classList.toggle('is-active', Boolean(control));
+      orbit.classList.toggle('is-active', Boolean(control));
+      if (control) {
+        const kind = cursorLabel(control);
+        label.textContent = kind;
+        orbit.dataset.kind = kind.toLowerCase().replace(/[^a-z]/g, '');
+      } else {
+        delete orbit.dataset.kind;
+      }
+
+      const surface = element?.closest('.sequence-row,.metric,.fact,.series-nav a,.author-links a');
+      if (surface) {
+        const rect = surface.getBoundingClientRect();
+        surface.style.setProperty('--pointer-x', `${clamp((pointerX - rect.left) / rect.width * 100, 0, 100).toFixed(1)}%`);
+        surface.style.setProperty('--pointer-y', `${clamp((pointerY - rect.top) / rect.height * 100, 0, 100).toFixed(1)}%`);
+      }
+    }, { passive: true });
+
+    function resetCursor() {
+      dot.classList.remove('is-visible');
+      orbit.classList.remove('is-visible');
+      delete orbit.dataset.kind;
+      magneticControls.forEach((control) => {
+        control.style.setProperty('--mag-x', '0px');
+        control.style.setProperty('--mag-y', '0px');
+        control.style.setProperty('--prox', '0');
+        control.classList.remove('is-near');
+      });
+      nearest = null;
+    }
+
+    addEventListener('mouseout', (event) => {
+      if (!event.relatedTarget) resetCursor();
+    });
+    addEventListener('blur', resetCursor);
+    renderFrame();
+  }
+
+  function initScrollState(reduceMotion) {
+    const homeHero = doc.querySelector('body[data-page="home"] .hero');
+    const footer = doc.querySelector('.site-footer');
+    let scheduled = false;
+
+    function update() {
+      const maximum = root.scrollHeight - innerHeight;
+      root.style.setProperty('--scroll', (maximum ? clamp(scrollY / maximum) : 0).toFixed(4));
+      if (homeHero && !reduceMotion) {
+        const progress = clamp(scrollY / Math.max(homeHero.offsetHeight * 1.15, innerHeight));
+        root.style.setProperty('--home-scroll', progress.toFixed(4));
+      }
+      if (footer) {
+        const ending = clamp(1 - footer.getBoundingClientRect().top / innerHeight);
+        root.style.setProperty('--ending', ending.toFixed(4));
+        root.classList.toggle('is-ending', ending > 0.48);
+      }
+    }
+
+    addEventListener('scroll', () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        update();
+        scheduled = false;
+      });
+    }, { passive: true });
+    addEventListener('resize', () => requestAnimationFrame(update), { passive: true });
+    update();
+  }
+
+  function initReveal(reduceMotion) {
+    const items = [...doc.querySelectorAll('[data-reveal]')];
+    if (reduceMotion || !window.IntersectionObserver) {
+      items.forEach((item) => item.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -9% 0px', threshold: 0.08 });
+    items.forEach((item) => observer.observe(item));
+  }
+
+  function hardenExternalLinks() {
+    doc.querySelectorAll('a[target="_blank"]').forEach((anchor) => {
+      const rel = new Set((anchor.rel || '').split(/\s+/).filter(Boolean));
+      rel.add('noopener');
+      rel.add('noreferrer');
+      anchor.rel = [...rel].join(' ');
+    });
+  }
+
+  function initArchive() {
+    const reduceMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    initScrollState(reduceMotion);
+    initReveal(reduceMotion);
+    hardenExternalLinks();
+    initReadingState();
+    initAuthorityCursor(reduceMotion);
+    clearTimeout(initializationFallback);
+  }
+
+  if (doc.readyState === 'loading') {
+    doc.addEventListener('DOMContentLoaded', initArchive, { once: true });
+  } else {
+    initArchive();
+  }
+})();
