@@ -36,7 +36,7 @@ jobs:
         run: |
           python tools/fix_v614_migration.py
           python tools/migrate_v614_architecture.py
-          printf '\n\nif __name__ == "__main__":\n    main()\n' >> tools/build_site.py
+          python tools/postfix_v614.py
 
       - name: Build archive and social records
         run: |
@@ -53,7 +53,7 @@ jobs:
 
       - name: Commit migrated archive
         run: |
-          rm -f tools/migrate_v614_architecture.py tools/fix_v614_migration.py
+          rm -f tools/migrate_v614_architecture.py tools/fix_v614_migration.py tools/postfix_v614.py
           rm -f .github/workflows/v614-architecture-migration-once.yml
           rm -f .github/workflows/v614-architecture-migration-retry.yml
           find . -type d -name __pycache__ -prune -exec rm -rf {} +
