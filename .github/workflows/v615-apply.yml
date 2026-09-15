@@ -71,6 +71,7 @@ jobs:
 
       - name: Rebuild deterministic production output
         run: |
+          python -m pip install --disable-pip-version-check -r tools/requirements.txt
           python tools/build_site.py
           python tools/verify_v62.py
           python -m py_compile src/archive/*.py tools/*.py
