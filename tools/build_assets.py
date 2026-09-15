@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STYLE_SOURCES = (
     ROOT / "src/styles/base.css",
     ROOT / "src/styles/pavilion.css",
+    ROOT / "src/styles/performance.css",
 )
 SCRIPT_SOURCES = (
     ROOT / "src/scripts/core.js",
