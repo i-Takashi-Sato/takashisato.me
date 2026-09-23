@@ -124,9 +124,9 @@ def head(
           <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
           {paper_meta}
           {schema_html}
-          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
           <style data-critical>{critical_css}</style>
+          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+          <noscript><link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}"></noscript>
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
