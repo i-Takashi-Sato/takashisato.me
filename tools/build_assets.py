@@ -37,13 +37,35 @@ def minify_css(css: str) -> str:
     return css.strip() + "\n"
 
 
+def compact_js(js: str) -> str:
+    """Drop source-only comments and blank lines without rewriting JavaScript syntax."""
+    output: list[str] = []
+    in_block_comment = False
+
+    for line in js.splitlines():
+        stripped = line.strip()
+        if in_block_comment:
+            if "*/" in stripped:
+                in_block_comment = False
+            continue
+        if stripped.startswith("/*"):
+            if "*/" not in stripped:
+                in_block_comment = True
+            continue
+        if not stripped or stripped.startswith("//"):
+            continue
+        output.append(line.rstrip())
+
+    return "\n".join(output).rstrip() + "\n"
+
+
 def build_assets() -> None:
     (ROOT / "assets/site.css").write_text(
         minify_css(join_sources(STYLE_SOURCES)),
         encoding="utf-8",
     )
     (ROOT / "assets/site.js").write_text(
-        join_sources(SCRIPT_SOURCES),
+        compact_js(join_sources(SCRIPT_SOURCES)),
         encoding="utf-8",
     )
     critical = (ROOT / "src/styles/critical.css").read_text(encoding="utf-8").rstrip() + "\n"
