@@ -1,0 +1,189 @@
+name: Production Live Audit 2026-09-23
+
+on:
+  push:
+    branches:
+      - qa-production-live-20260923
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Audit live production against v6.18 release
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BASE="https://takashisato.me"
+          RAW="https://raw.githubusercontent.com/i-Takashi-Sato/takashisato.me/7febdf445698bae91148b18285e8c536fa8b0499"
+          TMP="$(mktemp -d)"
+          FAIL=0
+
+          fetch() {
+            curl --fail --silent --show-error --location --retry 3 --retry-delay 1 --max-time 40 \
+              -A 'Mozilla/5.0 (compatible; ProperEndingIndex-QA/1.0)' "$1" -o "$2"
+          }
+
+          parity() {
+            local live_path="$1"
+            local raw_path="$2"
+            local label="$3"
+            local live="$TMP/live-$(echo "$raw_path" | tr '/.' '__')"
+            local raw="$TMP/raw-$(echo "$raw_path" | tr '/.' '__')"
+            fetch "$BASE$live_path" "$live"
+            fetch "$RAW/$raw_path" "$raw"
+            if cmp -s "$live" "$raw"; then
+              echo "PASS parity: $label"
+            else
+              echo "FAIL parity: $label"
+              echo "  live sha256: $(sha256sum "$live" | awk '{print $1}')"
+              echo "  main sha256: $(sha256sum "$raw" | awk '{print $1}')"
+              FAIL=1
+            fi
+          }
+
+          echo '=== Production/source parity ==='
+          parity "/" "index.html" "Home"
+          parity "/papers/" "papers/index.html" "Papers"
+          parity "/papers/part1.html" "papers/part1.html" "Part I"
+          parity "/papers/part2.html" "papers/part2.html" "Part II"
+          parity "/papers/part3.html" "papers/part3.html" "Part III"
+          parity "/about.html" "about.html" "About"
+          parity "/colophon.html" "colophon.html" "Colophon"
+          parity "/privacy.html" "privacy.html" "Privacy"
+          parity "/security.html" "security.html" "Security"
+          parity "/assets/site.css" "assets/site.css" "site.css"
+          parity "/assets/site.js" "assets/site.js" "site.js"
+          parity "/sitemap.xml" "sitemap.xml" "sitemap.xml"
+          parity "/robots.txt" "robots.txt" "robots.txt"
+          parity "/research-index.json" "research-index.json" "research-index.json"
+          parity "/llms.txt" "llms.txt" "llms.txt"
+
+          echo '=== Immutable preserved PDFs ==='
+          declare -A EXPECTED_PDF_HASH=(
+            [part1]="edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8"
+            [part2]="6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88"
+            [part3]="7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72"
+          )
+          for p in part1 part2 part3; do
+            out="$TMP/$p.pdf"
+            fetch "$BASE/pdf/v6.2/$p.pdf" "$out"
+            actual="$(sha256sum "$out" | awk '{print $1}')"
+            bytes="$(wc -c < "$out" | tr -d ' ')"
+            if [[ "$actual" == "${EXPECTED_PDF_HASH[$p]}" ]]; then
+              echo "PASS PDF $p: sha256=$actual bytes=$bytes"
+            else
+              echo "FAIL PDF $p: sha256=$actual expected=${EXPECTED_PDF_HASH[$p]} bytes=$bytes"
+              FAIL=1
+            fi
+          done
+
+          echo '=== Retired route behavior ==='
+          for path in /contact.html /services.html /samples.html /pdf/part1.pdf /pdf/part2.pdf /pdf/part3.pdf; do
+            code="$(curl --silent --show-error --location --max-time 30 -A 'Mozilla/5.0 (compatible; ProperEndingIndex-QA/1.0)' -o /dev/null -w '%{http_code}' "$BASE$path" || true)"
+            if [[ "$code" == "404" ]]; then
+              echo "PASS retired: $path -> 404"
+            else
+              echo "FAIL retired: $path -> $code (expected 404)"
+              FAIL=1
+            fi
+          done
+
+          demo="$TMP/demo.html"
+          demo_code="$(curl --silent --show-error --location --max-time 30 -A 'Mozilla/5.0 (compatible; ProperEndingIndex-QA/1.0)' -o "$demo" -w '%{http_code}' "$BASE/demo/" || true)"
+          if [[ "$demo_code" == "200" ]] && grep -Eqi 'noindex' "$demo" && grep -Eqi 'canonical[^>]+https://takashisato.me/papers/' "$demo"; then
+            echo 'PASS demo tombstone: 200 + noindex + canonical /papers/'
+          else
+            echo "FAIL demo tombstone: status=$demo_code"
+            FAIL=1
+          fi
+
+          echo '=== OG image parity and dimensions ==='
+          for name in home papers part1 part2 part3 about; do
+            live="$TMP/og-$name.jpg"
+            raw="$TMP/raw-og-$name.jpg"
+            fetch "$BASE/assets/og/$name.jpg" "$live"
+            fetch "$RAW/assets/og/$name.jpg" "$raw"
+            if cmp -s "$live" "$raw"; then
+              echo "PASS OG parity: $name.jpg"
+            else
+              echo "FAIL OG parity: $name.jpg"
+              FAIL=1
+            fi
+          done
+
+          python - "$TMP" <<'PY'
+          from pathlib import Path
+          import sys
+
+          root = Path(sys.argv[1])
+          sof = {0xC0,0xC1,0xC2,0xC3,0xC5,0xC6,0xC7,0xC9,0xCA,0xCB,0xCD,0xCE,0xCF}
+
+          def size(path: Path):
+              data = path.read_bytes()
+              if data[:2] != b'\xff\xd8':
+                  raise ValueError('not JPEG')
+              i = 2
+              while i + 4 <= len(data):
+                  if data[i] != 0xFF:
+                      i += 1
+                      continue
+                  while i < len(data) and data[i] == 0xFF:
+                      i += 1
+                  if i >= len(data):
+                      break
+                  marker = data[i]
+                  i += 1
+                  if marker in (0xD8,0xD9) or 0xD0 <= marker <= 0xD7:
+                      continue
+                  if i + 2 > len(data):
+                      break
+                  seglen = int.from_bytes(data[i:i+2], 'big')
+                  if seglen < 2 or i + seglen > len(data):
+                      break
+                  if marker in sof:
+                      h = int.from_bytes(data[i+3:i+5], 'big')
+                      w = int.from_bytes(data[i+5:i+7], 'big')
+                      return w, h
+                  i += seglen
+              raise ValueError('SOF not found')
+
+          bad = False
+          for name in ('home','papers','part1','part2','part3','about'):
+              p = root / f'og-{name}.jpg'
+              dims = size(p)
+              print(f'OG {name}.jpg: {dims[0]}x{dims[1]}')
+              if dims != (1200, 630):
+                  bad = True
+          raise SystemExit(1 if bad else 0)
+          PY
+
+          echo '=== DOI resolver audit ==='
+          for doi in 10.2139/ssrn.5911063 10.2139/ssrn.5913703 10.2139/ssrn.6066430; do
+            headers="$TMP/doi-$(echo "$doi" | tr '/.' '__').txt"
+            code="$(curl --silent --show-error --max-time 30 -A 'Mozilla/5.0 (compatible; ProperEndingIndex-QA/1.0)' -D "$headers" -o /dev/null -w '%{http_code}' "https://doi.org/$doi" || true)"
+            location="$(awk 'BEGIN{IGNORECASE=1} /^location:/ {sub(/\r$/,""); print substr($0,index($0,":")+2)}' "$headers" | tail -1)"
+            echo "DOI $doi: status=$code location=$location"
+            if [[ ! "$code" =~ ^30[12378]$ ]] || [[ "$location" != *"ssrn"* && "$location" != *"papers.ssrn.com"* ]]; then
+              echo "FAIL DOI resolver: $doi"
+              FAIL=1
+            fi
+          done
+
+          echo '=== External identity / SSRN reachability (informational) ==='
+          orcid_code="$(curl --silent --show-error --location --max-time 30 -A 'Mozilla/5.0' -o "$TMP/orcid.html" -w '%{http_code}' 'https://orcid.org/0009-0003-1584-6965' || true)"
+          echo "ORCID HTTP status: $orcid_code"
+          for id in 5911063 5913703 6066430; do
+            code="$(curl --silent --show-error --location --max-time 30 -A 'Mozilla/5.0' -o "$TMP/ssrn-$id.html" -w '%{http_code}' "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=$id" || true)"
+            echo "SSRN $id HTTP status: $code"
+          done
+
+          echo '=== Result ==='
+          if [[ "$FAIL" -ne 0 ]]; then
+            echo 'Production audit FAILED.'
+            exit 1
+          fi
+          echo 'Production audit PASSED.'
