@@ -230,28 +230,33 @@ body[data-page="part3"] .paper-hero h1 {
   font-variant-numeric: tabular-nums lining-nums;
 }
 
-/* Selection is part-specific but intentionally quiet: state, not decoration. */
-::selection {
+/* Selection inherits the paper state without selector-specific pseudo-element hacks. */
+:root {
+  --selection-bg: rgba(174,200,210,.22);
+}
+
+body[data-tone="part-1"] {
+  --selection-bg: rgba(216,192,143,.28);
+}
+
+body[data-tone="part-2"] {
+  --selection-bg: rgba(182,209,218,.26);
+}
+
+body[data-tone="part-3"] {
+  --selection-bg: rgba(212,138,115,.28);
+}
+
+::selection,
+::-moz-selection {
   color: #fff;
-  background: rgba(174,200,210,.22);
+  background: var(--selection-bg);
+  text-shadow: none;
 }
 
-body[data-tone="part-1"] ::selection {
-  background: rgba(216,192,143,.28);
-}
-
-body[data-tone="part-2"] ::selection {
-  background: rgba(182,209,218,.26);
-}
-
-body[data-tone="part-3"] ::selection {
-  background: rgba(212,138,115,.28);
-}
-
-/* Paint-heavy instruments are isolated so sophistication does not become page cost. */
+/* Instruments form their own stacking context; overflow remains architectural data. */
 .map-glyph,
 .paper-apparatus {
-  contain: paint;
   isolation: isolate;
 }
 
