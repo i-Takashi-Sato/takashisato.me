@@ -93,8 +93,6 @@ def build_assets() -> None:
         compact_js(join_sources(SCRIPT_SOURCES)),
         encoding="utf-8",
     )
-    critical = (ROOT / "src/styles/critical.css").read_text(encoding="utf-8").rstrip() + "\n"
-    (ROOT / "assets/critical.css").write_text(critical, encoding="utf-8")
 
 
 if __name__ == "__main__":
