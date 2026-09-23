@@ -104,8 +104,8 @@ def head(
           <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-          <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
+          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
+          <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin fetchpriority="low">
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
