@@ -33,7 +33,7 @@ jobs:
       - name: Verify source and runtime contracts
         run: |
           python -m py_compile src/archive/model.py tools/build_site.py tools/visual_smoke.py
-          python tools/verify_site.py
+          python tools/verify_v62.py
           css_bytes=$(wc -c < assets/site.css)
           js_bytes=$(wc -c < assets/site.js)
           echo "site.css=${css_bytes}"
