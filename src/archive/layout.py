@@ -10,7 +10,6 @@ from .model import (
     ASSET_VERSION,
     GOOGLE_SITE_VERIFICATION,
     PAPER_REVISION_DATE,
-    ROOT,
     SCHOLAR_URL,
     SITE,
     VERSION,

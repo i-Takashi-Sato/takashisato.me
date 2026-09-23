@@ -176,6 +176,9 @@ def audit_html(errors: list[str]) -> None:
         inline_styles = [attrs.get("style", "") for _, attrs in parser.tags if attrs.get("style")]
         if inline_styles:
             fail(errors, f"{rel}: inline style attributes are not allowed")
+        style_blocks = [attrs for tag, attrs in parser.tags if tag == "style"]
+        if style_blocks:
+            fail(errors, f"{rel}: inline style blocks conflict with production style-src-elem CSP")
         if parser.inline_executable_scripts:
             fail(errors, f"{rel}: executable inline script conflicts with production CSP at lines {parser.inline_executable_scripts}")
         if parser.section_without_heading:
@@ -191,8 +194,6 @@ def audit_html(errors: list[str]) -> None:
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
         if styles != [expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
-        if "<style data-critical>" not in text or "critical first-viewport stylesheet" not in text:
-            fail(errors, f"{rel}: inline critical stylesheet is missing")
         scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
         production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
         if [attrs.get("src") for attrs in production_scripts] != [expected_script]:
@@ -200,7 +201,7 @@ def audit_html(errors: list[str]) -> None:
         if len(scripts) != 1:
             fail(errors, f"{rel}: expected one production script, found {scripts}")
         head_text = text.partition("</head>")[0]
-        if expected_style not in head_text or expected_script not in head_text or "<style data-critical>" not in head_text:
+        if expected_style not in head_text or expected_script not in head_text:
             fail(errors, f"{rel}: production assets are not loaded from head")
 
         identity_links = {
