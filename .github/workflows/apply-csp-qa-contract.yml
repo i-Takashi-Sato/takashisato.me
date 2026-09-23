@@ -1,0 +1,80 @@
+name: Apply CSP QA Contract
+
+on:
+  push:
+    branches:
+      - v6.18.1-csp-critical-css
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: v6.18.1-csp-critical-css
+          fetch-depth: 0
+      - name: Align source and repository QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          layout = Path('src/archive/layout.py')
+          text = layout.read_text(encoding='utf-8')
+          text = text.replace('    ROOT,\n', '')
+          layout.write_text(text, encoding='utf-8')
+
+          qa = Path('tools/verify_v62.py')
+          text = qa.read_text(encoding='utf-8')
+          old = '''        inline_styles = [attrs.get("style", "") for _, attrs in parser.tags if attrs.get("style")]
+        if inline_styles:
+            fail(errors, f"{rel}: inline style attributes are not allowed")
+        if parser.inline_executable_scripts:
+'''
+          new = '''        inline_styles = [attrs.get("style", "") for _, attrs in parser.tags if attrs.get("style")]
+        if inline_styles:
+            fail(errors, f"{rel}: inline style attributes are not allowed")
+        style_blocks = [attrs for tag, attrs in parser.tags if tag == "style"]
+        if style_blocks:
+            fail(errors, f"{rel}: inline style blocks conflict with production style-src-elem CSP")
+        if parser.inline_executable_scripts:
+'''
+          if old not in text:
+              raise SystemExit('inline style QA block not found')
+          text = text.replace(old, new)
+
+          old = '''        if "<style data-critical>" not in text or "critical first-viewport stylesheet" not in text:
+            fail(errors, f"{rel}: inline critical stylesheet is missing")
+'''
+          if old not in text:
+              raise SystemExit('old critical stylesheet requirement not found')
+          text = text.replace(old, '')
+
+          old = '''        if expected_style not in head_text or expected_script not in head_text or "<style data-critical>" not in head_text:
+            fail(errors, f"{rel}: production assets are not loaded from head")
+'''
+          new = '''        if expected_style not in head_text or expected_script not in head_text:
+            fail(errors, f"{rel}: production assets are not loaded from head")
+'''
+          if old not in text:
+              raise SystemExit('head asset QA condition not found')
+          text = text.replace(old, new)
+          qa.write_text(text, encoding='utf-8')
+          PY
+          python tools/build_site.py
+          python tools/verify_v62.py
+      - name: Commit QA contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m 'qa: reject CSP-blocked inline style blocks [skip ci]'
+          git push origin HEAD:v6.18.1-csp-critical-css
