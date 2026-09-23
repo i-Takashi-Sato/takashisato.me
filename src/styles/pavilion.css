@@ -1,62 +1,81 @@
-/* The Proper Ending Index — pavilion foundation.
- * Editorial chrome, material, and shared room architecture live here.
- * Paper-specific instruments and motion have their own modules.
+/* The Proper Ending Index — v7 pavilion architecture.
+ * This module owns exhibition space, material, route hierarchy, and editorial
+ * rhythm. Paper mechanisms live in instruments.css; state change lives in
+ * motion.css. The pavilion should still read as architecture with both removed.
  */
 
 :root {
   --route-case: #d4ba82;
   --route-institution: #aec8d2;
   --route-exit: #d28470;
-  --archive-rule: rgba(242,240,233,.155);
-  --archive-rule-soft: rgba(242,240,233,.075);
-  --surface-archive: var(--paper);
-  --ink-primary: var(--ink);
-  --ink-secondary: var(--ink-soft);
-  --rule-structural: var(--archive-rule);
+  --archive-rule: rgba(242, 240, 233, .16);
+  --archive-rule-soft: rgba(242, 240, 233, .07);
+  --archive-rule-faint: rgba(242, 240, 233, .035);
+  --surface-archive: #080808;
+  --surface-ink: #f2f0e9;
   --part-i-measure: var(--bronze-soft);
   --part-ii-capacity: var(--ice);
   --part-iii-return: var(--copper);
+  --pavilion-max: 108rem;
+  --pavilion-gutter: clamp(1.2rem, 4.6vw, 5.75rem);
 }
 
-/* Archival chrome: opaque, quiet, and deliberately unlike a glass product UI. */
+/* The archive is a room, not a product surface. */
+.header-inner,
+.shell {
+  width: min(100%, var(--pavilion-max));
+  padding-left: max(var(--pavilion-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--pavilion-gutter), env(safe-area-inset-right));
+}
+
 .site-header {
-  background: rgba(7,7,8,.965);
+  border-bottom-color: var(--archive-rule-soft);
+  background: rgba(6, 6, 7, .975);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-
-.header-inner { min-height: 4.15rem; }
-.brand { letter-spacing: .155em; }
-.brand-mark { width: 1.22rem; height: 1.22rem; opacity: .88; }
-.site-nav a { position: relative; padding-inline: .72rem; }
-.site-nav a[aria-current="page"] { box-shadow: none; }
-.site-nav a[aria-current="page"]::before {
+.header-inner { min-height: 4.35rem; }
+.brand { gap: .8rem; letter-spacing: .17em; }
+.brand-mark { width: 1.08rem; height: 1.08rem; opacity: .78; }
+.site-nav { gap: clamp(.1rem, 1vw, .8rem); }
+.site-nav a {
+  position: relative;
+  padding-inline: .78rem;
+  color: color-mix(in srgb, var(--ink-soft) 88%, transparent);
+  letter-spacing: .12em;
+}
+.site-nav a[aria-current="page"]::after {
   content: "";
   position: absolute;
-  left: .14rem;
-  top: 50%;
-  width: .28rem;
-  height: .28rem;
-  background: var(--signal-soft);
-  transform: translateY(-50%) rotate(45deg);
+  right: .78rem;
+  bottom: .43rem;
+  left: .78rem;
+  height: 1px;
+  background: currentColor;
+  transform-origin: 0 50%;
 }
-.scroll-meter { height: 1px; }
+.scroll-meter { height: 1px; opacity: .72; }
 
-/* Routes read as editorial research links, not conversion CTAs. */
-.button {
-  overflow: visible;
-  min-height: 2.72rem;
-  padding: .58rem .15rem .54rem 0;
-  border: 0;
-  border-bottom: 1px solid var(--line-strong);
-  justify-content: flex-start;
-  background: transparent;
-  letter-spacing: .105em;
+/* Hairlines replace cards, glow, and product-like chrome. */
+.section { border-top-color: var(--archive-rule-soft); }
+.eyebrow,
+.label,
+.meta-label {
+  color: color-mix(in srgb, var(--signal-soft) 76%, var(--ink-soft));
+  letter-spacing: .19em;
 }
-.button::before,
-.button::after { display: none; }
+.button {
+  min-height: 2.85rem;
+  padding: .62rem .1rem .56rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--archive-rule);
+  justify-content: flex-start;
+  overflow: visible;
+  background: transparent;
+  letter-spacing: .12em;
+}
 .button.primary {
-  border-color: color-mix(in srgb,var(--signal-soft) 68%,var(--line-strong));
+  border-color: color-mix(in srgb, var(--signal-soft) 72%, var(--archive-rule));
   background: transparent;
   color: var(--signal-pale);
 }
@@ -67,221 +86,180 @@
   color: var(--ink);
 }
 .button .arrow { transition: transform .28s var(--ease); }
-.button:hover .arrow { transform: translate(.2rem,-.2rem); }
+.button:hover .arrow { transform: translate(.2rem, -.2rem); }
 
-/* Authority cursor: a regulator ring, never a generic filled bubble. */
-@media (hover:hover) and (pointer:fine) {
-  .cursor-orbit {
-    width: 2.9rem;
-    height: 2.9rem;
-    margin: -1.45rem 0 0 -1.45rem;
-    border-color: rgba(255,255,255,.62);
-    background: rgba(255,255,255,.008);
-    box-shadow: none;
-  }
-  .cursor-orbit::before {
-    content: "";
-    position: absolute;
-    inset: -.26rem;
-    border-radius: 50%;
-    background: conic-gradient(
-      from var(--cursor-r,0deg),
-      rgba(255,255,255,.82) 0 22deg,
-      transparent 22deg 154deg,
-      rgba(255,255,255,.48) 154deg 178deg,
-      transparent 178deg 332deg,
-      rgba(255,255,255,.82) 332deg 360deg
-    );
-    -webkit-mask: radial-gradient(circle,transparent 0 55%,#000 57% 63%,transparent 65%);
-    mask: radial-gradient(circle,transparent 0 55%,#000 57% 63%,transparent 65%);
-    opacity: .62;
-    pointer-events: none;
-  }
-  .cursor-orbit::after { display: none; }
-  .cursor-orbit span {
-    font-family: var(--mono);
-    font-size: .46rem;
-    font-weight: 650;
-    letter-spacing: .07em;
-    transform: none;
-  }
-  .cursor-orbit.is-active {
-    width: 3.9rem;
-    height: 3.9rem;
-    margin: -1.95rem 0 0 -1.95rem;
-    border-color: rgba(255,255,255,.46);
-    background: rgba(255,255,255,.025);
-    box-shadow: none;
-  }
-  .cursor-orbit.is-active::before { inset: -.32rem; opacity: .9; }
-  .cursor-orbit.is-active span { opacity: .92; transform: none; }
-  .cursor-orbit[data-kind="ssrn"] { border-color: var(--signal-soft); }
-}
-
-/* The opening corridor uses a small state legend rather than a progress widget. */
-body[data-page="home"] .hero .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: .72rem;
-  color: color-mix(in srgb,var(--signal-pale) 78%,var(--ink-soft));
-}
-body[data-page="home"] .hero .eyebrow::before {
-  content: "";
-  width: 2.6rem;
-  height: 1px;
-  background: var(--signal-soft);
-  opacity: .72;
-}
-.hero-aside { border-top-color: var(--archive-rule); }
-.hero-transition {
-  margin: 1.45rem 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
-  border-top: 1px solid var(--archive-rule);
-  list-style: none;
-}
-.hero-transition li {
-  position: relative;
-  padding: .68rem .55rem 0 0;
-  display: grid;
-  gap: .08rem;
-  color: var(--ink-faint);
-}
-.hero-transition li::before {
-  content: "";
-  position: absolute;
-  top: -.24rem;
-  left: 0;
-  width: .4rem;
-  height: .4rem;
-  border: 1px solid currentColor;
-  background: var(--paper);
-}
-.hero-transition li:nth-child(1) { color: var(--route-case); }
-.hero-transition li:nth-child(2) { color: var(--route-institution); }
-.hero-transition li:nth-child(3) { color: var(--route-exit); }
-.hero-transition b {
-  font-family: var(--mono);
-  font-size: .52rem;
-  font-weight: 650;
-  letter-spacing: .08em;
-}
-.hero-transition span {
-  color: var(--ink-soft);
-  font-size: .59rem;
-  font-weight: 650;
-  letter-spacing: .115em;
-  text-transform: uppercase;
-}
-
-/* Shared trilogy rail. Instruments later supply the distinct paper geometry. */
-body[data-page="home"] .sequence::before,
-body[data-page="papers"] .sequence::before { opacity: .7; }
-body[data-page="home"] .sequence-function,
-body[data-page="papers"] .sequence-function {
-  color: var(--row-accent,var(--ink));
-  font-family: var(--mono);
-  font-size: .61rem;
-  font-weight: 620;
-  letter-spacing: .085em;
-}
-body[data-page="home"] a.sequence-row:hover,
-body[data-page="papers"] .sequence-row:hover {
-  padding-inline: 0;
-  transform: none;
-}
-body[data-page="home"] .sequence-title,
-body[data-page="papers"] .sequence-title {
-  transition: transform .42s var(--ease),color .3s ease;
-}
-body[data-page="home"] .sequence-row:hover .sequence-title,
-body[data-page="papers"] .sequence-row:hover .sequence-title {
-  color: color-mix(in srgb,var(--row-accent) 46%,var(--ink));
-  transform: translateX(.38rem);
-}
-
-.metric-grid {
-  border: 0;
-  border-top: 1px solid var(--line-strong);
-  background: transparent;
-}
-.metric {
-  border: 0;
-  border-right: 1px solid var(--line);
-  background: transparent;
-}
-.metric:last-child { border-right: 0; }
-.metric strong { font-variant-numeric: tabular-nums lining-nums; }
-
-/* Reading orientation is a measured rail rather than a boxed navigation card. */
-.toc ol { border-top: 0; border-left: 1px solid var(--line); }
-.toc a {
-  position: relative;
-  padding: .78rem 0 .78rem 1rem;
-  border-bottom: 0;
-}
-.toc a[aria-current="location"] { color: var(--ink); }
-.toc a[aria-current="location"]::before {
-  content: "";
-  position: absolute;
-  left: -.24rem;
-  top: 50%;
-  width: .42rem;
-  height: .42rem;
-  background: var(--signal-soft);
-  transform: translateY(-50%) rotate(45deg);
-}
-.table-wrap:focus-visible {
-  outline: .15rem solid var(--signal-soft);
-  outline-offset: .25rem;
-}
-
-/* Material is generated with light and rules; there are no raster textures. */
+/* Material is light, temperature, and measurement—not wallpaper. */
 body::before {
   background:
-    repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 4px),
-    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 7px);
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, .018) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .008) 0 1px, transparent 1px 11px);
   mix-blend-mode: soft-light;
-  opacity: .15;
+  opacity: .13;
 }
 .hero::after,
 .page-hero::before,
 .author-hero::before,
 .paper-hero::before {
   background:
-    radial-gradient(84% 120% at 96% 18%,var(--signal-wash),transparent 62%),
-    linear-gradient(90deg,rgba(8,8,8,.96) 0%,rgba(8,8,8,.46) 54%,rgba(8,8,8,.91) 100%);
-  opacity: .58;
-}
-.metric-grid,
-.paper-meta {
-  background: linear-gradient(90deg,rgba(255,255,255,.022),transparent 42%),rgba(8,8,8,.78);
-}
-.boundary {
-  background: linear-gradient(112deg,rgba(255,255,255,.026),transparent 38%),rgba(10,10,11,.88);
-}
-.model {
-  background:
-    linear-gradient(rgba(10,10,10,.82),rgba(10,10,10,.91)),
-    linear-gradient(var(--line) 1px,transparent 1px),
-    linear-gradient(90deg,var(--line) 1px,transparent 1px);
-  background-size: auto,2rem 2rem,2rem 2rem;
-}
-.citation,
-.notice {
-  background: linear-gradient(100deg,rgba(255,255,255,.022),transparent 58%),rgba(8,8,8,.88);
-}
-.site-footer {
-  background: radial-gradient(80% 90% at 50% 0,var(--signal-wash),transparent 68%),linear-gradient(180deg,#080808,#050505);
+    radial-gradient(64% 95% at 88% 18%, var(--signal-wash), transparent 68%),
+    linear-gradient(90deg, rgba(8, 8, 8, .985) 0%, rgba(8, 8, 8, .58) 54%, rgba(8, 8, 8, .94) 100%);
+  opacity: .48;
 }
 
-/* Papers is a map of three mechanisms, each an entrance to a reading room. */
-.research-map-section { position:relative; z-index:2; margin-top:clamp(-2.6rem,-2.8vw,-1.35rem); padding:0 0 clamp(2rem,5vw,4.5rem); }
+/* Home: one threshold, one thesis, then the trilogy. */
+body[data-page="home"] .hero {
+  min-height: calc(100svh - 4.35rem);
+  padding-block: clamp(6rem, 15vh, 11.5rem) clamp(4rem, 8vh, 6rem);
+}
+body[data-page="home"] .hero-grid { align-items: end; }
+body[data-page="home"] .hero-grid > div:first-child { grid-column: 1 / 10; }
+body[data-page="home"] .hero h1 {
+  max-width: 8.55ch;
+  font-size: clamp(5.6rem, 11.5vw, 12.8rem);
+  font-weight: 300;
+  letter-spacing: -.064em;
+  line-height: .77;
+}
+body[data-page="home"] .hero h1 em {
+  color: inherit;
+  font-family: var(--display);
+  font-size: .96em;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -.064em;
+  line-height: inherit;
+  text-shadow: none;
+  transform: none;
+}
+body[data-page="home"] .hero .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+body[data-page="home"] .hero .eyebrow::before {
+  content: "";
+  width: clamp(2.4rem, 5vw, 5rem);
+  height: 1px;
+  background: var(--signal-soft);
+  opacity: .62;
+}
+.hero-aside {
+  grid-column: 10 / -1;
+  max-width: 27rem;
+  margin-top: clamp(4rem, 9vh, 7rem);
+  padding-top: 1.15rem;
+  border-top-color: var(--archive-rule);
+}
+.hero-aside .hero-statement {
+  font-size: clamp(1.6rem, 1.8vw, 2.25rem);
+  line-height: 1.08;
+}
+.hero-transition {
+  margin: 1.7rem 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--archive-rule);
+  list-style: none;
+}
+.hero-transition li {
+  position: relative;
+  padding: .8rem .6rem 0 0;
+  display: grid;
+  gap: .14rem;
+}
+.hero-transition li::before {
+  content: "";
+  position: absolute;
+  top: -.22rem;
+  left: 0;
+  width: .36rem;
+  height: .36rem;
+  border: 1px solid currentColor;
+  background: var(--paper);
+}
+.hero-transition li:nth-child(1) { color: var(--route-case); }
+.hero-transition li:nth-child(2) { color: var(--route-institution); }
+.hero-transition li:nth-child(3) { color: var(--route-exit); }
+.hero-transition b { font-family: var(--mono); font-size: .5rem; font-weight: 650; letter-spacing: .1em; }
+.hero-transition span { color: var(--ink-soft); font-size: .56rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
+
+/* The trilogy is a scored architectural elevation, not three cards. */
+body[data-page="home"] .sequence,
+body[data-page="papers"] .sequence {
+  position: relative;
+  border-top-color: var(--archive-rule);
+  isolation: isolate;
+}
+body[data-page="home"] .sequence::before,
+body[data-page="papers"] .sequence::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 3.45rem;
+  width: 1px;
+  background: linear-gradient(180deg, var(--route-case) 0 31%, var(--route-institution) 38% 65%, var(--route-exit) 72% 100%);
+  opacity: .42;
+  pointer-events: none;
+}
+body[data-page="home"] .sequence-row,
+body[data-page="papers"] .sequence-row {
+  --row-accent: var(--signal-soft);
+  --row-wash: transparent;
+  min-height: clamp(13rem, 17vw, 18rem);
+  grid-template-columns: 3.5rem minmax(9rem, .34fr) minmax(18rem, 1fr) 2rem;
+  padding-block: clamp(2.4rem, 4.8vw, 4.6rem);
+  border-bottom-color: var(--archive-rule-soft);
+  overflow: clip;
+}
+body[data-page="home"] .sequence-row:nth-child(1),
+body[data-page="papers"] .sequence-row:nth-child(1) { --row-accent: var(--route-case); --row-wash: rgba(183, 154, 99, .055); }
+body[data-page="home"] .sequence-row:nth-child(2),
+body[data-page="papers"] .sequence-row:nth-child(2) { --row-accent: var(--route-institution); --row-wash: rgba(145, 162, 170, .05); }
+body[data-page="home"] .sequence-row:nth-child(3),
+body[data-page="papers"] .sequence-row:nth-child(3) { --row-accent: var(--route-exit); --row-wash: rgba(135, 59, 52, .055); }
+body[data-page="home"] .sequence-row::before,
+body[data-page="papers"] .sequence-row::before,
+body[data-page="home"] .sequence-function,
+body[data-page="papers"] .sequence-function,
+body[data-page="home"] .sequence-state,
+body[data-page="papers"] .sequence-state { color: var(--row-accent); }
+body[data-page="home"] .sequence-function,
+body[data-page="papers"] .sequence-function { font-family: var(--mono); font-size: .59rem; letter-spacing: .1em; }
+body[data-page="home"] .sequence-title,
+body[data-page="papers"] .sequence-title {
+  max-width: 15ch;
+  font-size: clamp(2.8rem, 4.1vw, 5rem);
+  font-weight: 315;
+  letter-spacing: -.052em;
+  line-height: .88;
+  transition: color .3s ease, transform .42s var(--ease);
+}
+body[data-page="home"] a.sequence-row:hover,
+body[data-page="papers"] .sequence-row:hover {
+  padding-inline: 0;
+  background: linear-gradient(90deg, var(--row-wash), transparent 62%);
+  transform: none;
+}
+body[data-page="home"] .sequence-row:hover .sequence-title,
+body[data-page="papers"] .sequence-row:hover .sequence-title {
+  color: color-mix(in srgb, var(--row-accent) 42%, var(--ink));
+  transform: translateX(.28rem);
+}
+
+/* Papers: a measured map suspended between title and records. */
+.research-map-section {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(-3.4rem, -3.4vw, -1.7rem);
+  padding: 0 0 clamp(3rem, 6vw, 6rem);
+}
 .research-map {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid var(--archive-rule);
   border-bottom: 1px solid var(--archive-rule-soft);
 }
@@ -292,94 +270,171 @@ body::before {
   left: 0;
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg,var(--route-case),var(--route-institution),var(--route-exit));
-  opacity: .72;
+  background: linear-gradient(90deg, var(--route-case), var(--route-institution), var(--route-exit));
+  opacity: .66;
 }
 .research-map-node {
+  min-height: 9.5rem;
+  padding: 1.3rem 1.1rem 1.2rem 0;
   display: grid;
   align-content: space-between;
-  gap: .7rem;
+  gap: 1.2rem;
   border-right: 1px solid var(--archive-rule-soft);
 }
+.research-map-node + .research-map-node { padding-left: 1.1rem; }
 .research-map-node:last-child { border-right: 0; }
-.research-map-node span {
-  font-family: var(--mono);
-  font-size: .57rem;
-  letter-spacing: .08em;
-  color: var(--ink-faint);
-}
-.research-map-node small { color: var(--ink-soft); line-height: 1.45; }
+.research-map-node span { color: var(--ink-faint); font-family: var(--mono); font-size: .56rem; letter-spacing: .1em; }
+.research-map-node small { max-width: 20rem; color: var(--ink-soft); line-height: 1.5; }
 
-/* The paper rooms have distinct environmental fields before any motion is applied. */
+/* Reading rooms: the page becomes quieter once the paper begins. */
+.paper-hero { padding-block: clamp(6rem, 11vw, 10rem) clamp(4.4rem, 7vw, 6.5rem); }
+.paper-hero h1 { max-width: 14ch; font-weight: 305; letter-spacing: -.055em; }
+.paper-subtitle { max-width: 50rem; color: color-mix(in srgb, var(--ink-soft) 92%, transparent); }
+.paper-meta {
+  margin-top: clamp(3rem, 5vw, 4.8rem);
+  padding: .95rem 0;
+  border: 0;
+  border-top: 1px solid var(--archive-rule);
+  border-bottom: 1px solid var(--archive-rule-soft);
+  background: transparent;
+}
+.paper-layout { grid-template-columns: minmax(10rem, .24fr) minmax(0, 1fr); gap: clamp(3rem, 9vw, 10rem); }
+.toc ol { border-top: 0; border-left: 1px solid var(--archive-rule-soft); }
+.toc a { position: relative; padding: .78rem 0 .78rem 1rem; border-bottom: 0; }
+.toc a[aria-current="location"] { color: var(--ink); }
+.content > section + section { border-top-color: var(--archive-rule-soft); }
+.content h2 { max-width: 13ch; font-weight: 315; letter-spacing: -.048em; }
+.content .lead { max-width: 44rem; }
+
 body[data-tone="part-1"] .paper-hero {
   background-image:
-    linear-gradient(90deg,transparent 0 72%,rgba(215,191,140,.055) 72% calc(72% + 1px),transparent calc(72% + 1px)),
-    linear-gradient(180deg,transparent 0 66%,rgba(215,191,140,.045) 66% calc(66% + 1px),transparent calc(66% + 1px));
+    linear-gradient(90deg, transparent 0 69%, rgba(215, 191, 140, .07) 69% calc(69% + 1px), transparent calc(69% + 1px)),
+    linear-gradient(180deg, transparent 0 64%, rgba(215, 191, 140, .052) 64% calc(64% + 1px), transparent calc(64% + 1px));
 }
 body[data-tone="part-2"] .paper-hero {
   background-image:
-    repeating-linear-gradient(180deg,rgba(168,198,210,.022) 0 1px,transparent 1px 3.8rem),
-    linear-gradient(90deg,transparent 0 58%,rgba(168,198,210,.035) 58% 58.08%,transparent 58.08%);
+    repeating-linear-gradient(180deg, rgba(168, 198, 210, .026) 0 1px, transparent 1px 4.6rem),
+    linear-gradient(90deg, transparent 0 56%, rgba(168, 198, 210, .045) 56% 56.08%, transparent 56.08%);
 }
 body[data-tone="part-3"] .paper-hero {
   background-image:
-    radial-gradient(circle at 82% 58%,transparent 0 8.7rem,rgba(207,129,105,.065) 8.76rem 8.82rem,transparent 8.9rem),
-    radial-gradient(circle at 82% 58%,transparent 0 13.4rem,rgba(207,129,105,.035) 13.46rem 13.52rem,transparent 13.6rem);
+    radial-gradient(circle at 82% 55%, transparent 0 8.2rem, rgba(207, 129, 105, .075) 8.26rem 8.31rem, transparent 8.38rem),
+    radial-gradient(circle at 82% 55%, transparent 0 12.8rem, rgba(207, 129, 105, .042) 12.86rem 12.91rem, transparent 13rem);
 }
-body[data-tone="part-1"] .content > section { border-top-color: color-mix(in srgb,var(--part-i-measure) 28%,var(--line)); }
-body[data-tone="part-2"] .content > section { border-top-color: color-mix(in srgb,var(--part-ii-capacity) 24%,var(--line)); }
-body[data-tone="part-3"] .content > section { border-top-color: color-mix(in srgb,var(--part-iii-return) 26%,var(--line)); }
+body[data-tone="part-1"] .content > section { border-top-color: color-mix(in srgb, var(--part-i-measure) 24%, var(--line)); }
+body[data-tone="part-2"] .content > section { border-top-color: color-mix(in srgb, var(--part-ii-capacity) 21%, var(--line)); }
+body[data-tone="part-3"] .content > section { border-top-color: color-mix(in srgb, var(--part-iii-return) 23%, var(--line)); }
 
-/* Author signature remains the one intentionally calligraphic surface. */
+/* Research apparatuses share a drafting-table material, not a dashboard shell. */
+.model,
+.boundary,
+.citation,
+.notice,
+.metric-grid,
+.paper-meta { box-shadow: none; }
+.model {
+  background:
+    linear-gradient(rgba(9, 9, 9, .88), rgba(9, 9, 9, .94)),
+    linear-gradient(var(--archive-rule-faint) 1px, transparent 1px),
+    linear-gradient(90deg, var(--archive-rule-faint) 1px, transparent 1px);
+  background-size: auto, 2rem 2rem, 2rem 2rem;
+}
+.metric-grid { border: 0; border-top: 1px solid var(--archive-rule); background: transparent; }
+.metric { border: 0; border-right: 1px solid var(--archive-rule-soft); background: transparent; }
+.metric:last-child { border-right: 0; }
+.metric strong { font-variant-numeric: tabular-nums lining-nums; }
+.boundary { background: linear-gradient(112deg, rgba(255, 255, 255, .018), transparent 40%), rgba(8, 8, 9, .9); }
+.citation,
+.notice { background: rgba(8, 8, 9, .9); }
+.table-wrap:focus-visible { outline: .15rem solid var(--signal-soft); outline-offset: .25rem; }
+
+/* Author: dossier first, signature as evidence of identity rather than decoration. */
+body[data-page="about"] .author-hero { min-height: calc(100svh - 4.35rem); }
 body[data-page="about"] .author-name,
 body[data-page="about"] .author-name h1,
 body[data-page="about"] .author-links { overflow: clip; }
 body[data-page="about"] .author-name h1 { contain: paint; }
 body[data-page="about"] .author-name h1::after {
-  background: linear-gradient(90deg,#f2f0e9 0%,#f2f0e9 72%,#d7bf8c 100%);
-  filter: drop-shadow(0 0 2rem rgba(183,154,99,.11));
+  background: linear-gradient(90deg, #f2f0e9 0%, #e8e3d8 68%, #c6a86e 100%);
+  filter: drop-shadow(0 0 1.8rem rgba(183, 154, 99, .095));
 }
+.author-thesis { border-top-color: var(--archive-rule); }
+.author-layout { grid-template-columns: minmax(12rem, .27fr) minmax(0, 1fr); gap: clamp(4rem, 11vw, 12rem); }
+.author-rail { border-top-color: var(--archive-rule); }
+.author-facts div,
+.author-links,
+.author-links a,
+.record-list,
+.record-row { border-color: var(--archive-rule-soft); }
+.author-copy { max-width: 62rem; }
+.author-copy > section + section { border-top-color: var(--archive-rule-soft); }
+.author-copy h2 { max-width: 12ch; font-weight: 305; letter-spacing: -.055em; }
 
-@media (min-width:110rem) {
-  :root { --max: 104rem; }
+/* The ending is a physical closure, not a footer flourish. */
+.site-footer {
+  border-top-color: var(--archive-rule);
+  background: linear-gradient(180deg, #070707 0%, #040404 100%);
 }
-
-/* Proper Ending is drawn shut by one rule; motion.css controls the terminal state. */
 .footer-wordmark { position: relative; }
 .footer-wordmark::after {
   content: "";
   position: absolute;
-  left: 0;
   right: 0;
   bottom: -.7rem;
+  left: 0;
   height: 1px;
-  background: linear-gradient(90deg,var(--line-strong),color-mix(in srgb,var(--signal-soft) 44%,transparent));
-  transform: scaleX(var(--ending,0));
+  background: linear-gradient(90deg, var(--archive-rule), color-mix(in srgb, var(--signal-soft) 40%, transparent));
+  transform: scaleX(var(--ending, 0));
   transform-origin: 0 50%;
-  opacity: .78;
+  opacity: .72;
+}
+.footer-links a { color: color-mix(in srgb, var(--ink-soft) 86%, transparent); }
+
+@media (min-width: 120rem) {
+  :root { --pavilion-max: 116rem; --pavilion-gutter: clamp(4rem, 5vw, 7rem); }
+  body[data-page="home"] .hero h1 { font-size: clamp(9rem, 10.5vw, 13.5rem); }
 }
 
-@media (max-width:44rem) {
-  .header-inner { min-height: 4rem; }
+@media (max-width: 68rem) {
+  body[data-page="home"] .hero-grid > div:first-child { grid-column: 1 / 9; }
+  .hero-aside { grid-column: 9 / -1; }
+}
+
+@media (max-width: 62rem) {
+  body[data-page="home"] .hero-grid > div:first-child,
+  .hero-aside { grid-column: auto; }
+  body[data-page="home"] .hero h1 { max-width: 9ch; }
   .research-map-section { margin-top: 0; }
-  .hero-transition { margin-top: 1.2rem; }
-  .hero-transition span { font-size: .53rem; letter-spacing: .08em; }
-  .research-map { grid-template-columns: 1fr; }
-  .research-map-node { border-right: 0; border-bottom: 1px solid var(--archive-rule-soft); }
-  .research-map-node:last-child { border-bottom: 0; }
+  .author-layout { gap: 4rem; }
+}
+
+@media (max-width: 44rem) {
+  :root { --pavilion-gutter: 1.15rem; }
+  .header-inner { min-height: 4rem; }
+  body[data-page="home"] .hero { padding-top: 5rem; }
+  body[data-page="home"] .hero h1 { font-size: clamp(4.5rem, 22vw, 7rem); line-height: .76; }
   body[data-page="home"] .hero .eyebrow { align-items: flex-start; }
-  body[data-page="home"] .hero .eyebrow::before { width: 1.4rem; margin-top: .45rem; flex: 0 0 auto; }
+  body[data-page="home"] .hero .eyebrow::before { width: 1.3rem; margin-top: .45rem; flex: 0 0 auto; }
+  .hero-transition { margin-top: 1.3rem; }
+  .hero-transition span { font-size: .51rem; letter-spacing: .08em; }
+  body[data-page="home"] .sequence::before,
+  body[data-page="papers"] .sequence::before { left: .18rem; }
+  body[data-page="home"] .sequence-row,
+  body[data-page="papers"] .sequence-row { min-height: 11rem; grid-template-columns: 2.5rem 1fr 1.5rem; padding-block: 2.3rem; }
+  body[data-page="home"] .sequence-title,
+  body[data-page="papers"] .sequence-title { font-size: clamp(2.45rem, 12vw, 3.8rem); }
+  .research-map { grid-template-columns: 1fr; }
+  .research-map-node,
+  .research-map-node + .research-map-node { min-height: 7.4rem; padding: 1.2rem 0; border-right: 0; border-bottom: 1px solid var(--archive-rule-soft); }
+  .research-map-node:last-child { border-bottom: 0; }
   body[data-page="about"] .author-name h1::after { inset: 3% 0 0; transform: none; }
 }
 
-@media (prefers-reduced-motion:reduce) {
+@media (prefers-reduced-motion: reduce) {
   .footer-wordmark::after { transform: scaleX(1); }
 }
 
-@media (forced-colors:active) {
-  .hero-transition li::before,
-  .toc a[aria-current="location"]::before {
-    forced-color-adjust: auto;
-    background: Highlight;
-  }
+@media (forced-colors: active) {
+  .hero-transition li::before { forced-color-adjust: auto; background: Highlight; }
+  .site-nav a[aria-current="page"]::after { background: Highlight; }
 }
