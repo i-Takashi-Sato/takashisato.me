@@ -78,11 +78,11 @@ def home_page() -> str:
         <main id="main">
           <section class="hero shell" aria-labelledby="hero-title">
             <div class="hero-grid">
-              <div data-reveal>
+              <div>
                 <p class="eyebrow">AI Governance Research Archive · Workflow-Centric Trilogy · v6.2</p>
                 <h1 id="hero-title"><span>A role alone</span><span class="hero-turn">is <em>not</em></span><span class="hero-governance">governance.</span></h1>
               </div>
-              <div class="hero-aside" data-reveal>
+              <div class="hero-aside">
                 <p class="hero-statement">Accountability lives in the sequence.</p>
                 <ol class="hero-transition" aria-label="Research sequence">
                   <li><b>01</b><span>Case</span></li>
@@ -219,10 +219,10 @@ def papers_index_page() -> str:
         <main id="main">
           <header class="page-hero shell">
             {breadcrumbs([("Index", "/"), ("Papers", None)])}
-            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy</p>
-            <h1 data-reveal>Three papers. One institutional problem.</h1>
-            <p class="page-deck" data-reveal>Accountability can fail at the moment of routing, across the life of an institution, and at the point of exit. The trilogy treats those as related but analytically separate governance problems.</p>
-            <div class="paper-meta" data-reveal>
+            <p class="eyebrow">Workflow-Centric AI Governance Trilogy</p>
+            <h1>Three papers. One institutional problem.</h1>
+            <p class="page-deck">Accountability can fail at the moment of routing, across the life of an institution, and at the point of exit. The trilogy treats those as related but analytically separate governance problems.</p>
+            <div class="paper-meta">
               <span>Author · Takashi Sato</span>
               <span>Status · Working papers</span>
               <span>Current version · 6.2</span>
@@ -315,17 +315,17 @@ def paper_page(paper: Paper) -> str:
           <header class="paper-hero shell" data-roman="{paper['roman']}">
             <div class="paper-apparatus" aria-hidden="true"><span class="apparatus-label">{paper['function']}</span><i></i><i></i><i></i><i></i></div>
             {breadcrumbs([("Index", "/"), ("Papers", "/papers/"), (f"Part {paper['roman']}", None)])}
-            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part {paper['roman']}</p>
-            <h1 data-reveal>{paper['title']}</h1>
-            <p class="paper-subtitle" data-reveal>{paper['subtitle']}</p>
-            <div class="paper-meta" data-reveal>
+            <p class="eyebrow">Workflow-Centric AI Governance Trilogy · Part {paper['roman']}</p>
+            <h1>{paper['title']}</h1>
+            <p class="paper-subtitle">{paper['subtitle']}</p>
+            <div class="paper-meta">
               <span>Takashi Sato</span>
               <span>Working paper · v6.2</span>
               <span>23 August 2026</span>
               <span>{paper['pages']} pages</span>
               <span>SSRN {paper['ssrn']}</span>
             </div>
-            <div class="paper-actions" data-reveal>
+            <div class="paper-actions">
               <a class="button primary" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
               <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf">Preserved PDF · v6.2</a>
               <a class="button" href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
@@ -413,11 +413,11 @@ def about_page() -> str:
           <header class="author-hero shell">
             {breadcrumbs([("Index", "/"), ("Author", None)])}
             <div class="author-hero-grid">
-              <div class="author-name" data-reveal>
+              <div class="author-name">
                 <p class="eyebrow">Author record · 001</p>
                 <h1><span>Takashi Sato</span></h1>
               </div>
-              <div class="author-thesis" data-reveal>
+              <div class="author-thesis">
                 <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
               </div>
             </div>
