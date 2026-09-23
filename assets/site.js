@@ -287,7 +287,9 @@ root.style.setProperty('--home-scroll', progress.toFixed(4));
 }
 updatePaperMechanism();
 if (footer) {
-const ending = clamp(1 - footer.getBoundingClientRect().top / innerHeight);
+const footerRect = footer.getBoundingClientRect();
+const terminalTravel = Math.max(1, Math.min(innerHeight, footerRect.height));
+const ending = clamp((innerHeight - footerRect.top) / terminalTravel);
 root.style.setProperty('--ending', ending.toFixed(4));
 root.classList.toggle('is-ending', ending > 0.48);
 }
