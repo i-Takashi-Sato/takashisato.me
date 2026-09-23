@@ -10,7 +10,6 @@ from .model import (
     ASSET_VERSION,
     GOOGLE_SITE_VERIFICATION,
     PAPER_REVISION_DATE,
-    ROOT,
     SCHOLAR_URL,
     SITE,
     VERSION,
@@ -45,7 +44,6 @@ def head(
     safe_title = escape(title, quote=True)
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
-    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8").strip()
 
     schema_html = ""
     if schema:
@@ -126,7 +124,6 @@ def head(
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
           <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
-          <style data-critical>{critical_css}</style>
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
