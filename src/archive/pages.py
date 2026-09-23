@@ -401,7 +401,6 @@ def about_page() -> str:
                 "@id": f"{SITE}/about.html#profile",
                 "url": f"{SITE}/about.html",
                 "name": "Takashi Sato · Author Record",
-                "dateModified": UPDATED,
                 "mainEntity": {"@id": AUTHOR_ID},
             },
             breadcrumb_schema([("Index", "/"), ("Author", "/about.html")]),
