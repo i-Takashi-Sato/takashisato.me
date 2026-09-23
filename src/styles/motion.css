@@ -56,7 +56,24 @@
   --ease-settle: cubic-bezier(.12,.72,.16,1);
 }
 
-/* Cross-document continuity: the instrument, not the whole page, carries state. */
+/* A sampled easing curve gives closure a critically damped feel without a spring library. */
+@supports (animation-timing-function: linear(0, 1)) {
+  :root {
+    --ease-settle: linear(
+      0,
+      .19 7%,
+      .39 16%,
+      .59 28%,
+      .75 42%,
+      .87 57%,
+      .945 72%,
+      .985 86%,
+      1
+    );
+  }
+}
+
+/* Cross-document continuity: identity transfers; the page itself never performs. */
 @view-transition {
   navigation: auto;
 }
@@ -200,6 +217,32 @@ body[data-tone="part-1"] .paper-apparatus,
 @media (hover:hover) and (pointer:fine) {
   .research-map-node[data-part="1"]:hover .map-glyph {
     filter: brightness(1.14) contrast(1.04);
+  }
+}
+
+/* Typed state feedback uses the DOM's declared aria-pressed state as its source. */
+@supports selector(.probe-gate:has(button[aria-pressed="true"])) {
+  .probe-gate {
+    transition:
+      border-color var(--motion-state) ease,
+      background-color var(--motion-state) ease;
+  }
+
+  .probe-gate:has(button[data-state="PASS"][aria-pressed="true"]) {
+    border-color: color-mix(in srgb,var(--part-i-measure) 56%,var(--line));
+    background: color-mix(in srgb,var(--part-i-measure) 3%,transparent);
+  }
+
+  .probe-gate:has(button[data-state="REVIEW"][aria-pressed="true"]) {
+    border-color: color-mix(in srgb,var(--part-ii-capacity) 46%,var(--line));
+  }
+
+  .probe-gate:has(button[data-state="BLOCK"][aria-pressed="true"]) {
+    border-color: color-mix(in srgb,var(--part-iii-return) 50%,var(--line));
+  }
+
+  .probe-gate:has(button[data-state="UNKNOWN"][aria-pressed="true"]) {
+    border-color: var(--line-strong);
   }
 }
 
@@ -355,12 +398,12 @@ body[data-page="part3"] .site-footer .footer-bottom {
 
 html.is-ending body[data-page="part3"] .site-footer .footer-links,
 html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
-  opacity: .58;
-  transform: translateY(.2rem);
+  opacity: .78;
+  transform: translateY(.12rem);
 }
 
 html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
-  opacity: .72;
+  opacity: .82;
 }
 
 html.is-ending body[data-page="part3"] .footer-wordmark::after {
