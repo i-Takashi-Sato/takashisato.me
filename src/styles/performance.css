@@ -10,3 +10,9 @@
   transform: none;
   transition: none;
 }
+
+/* A fine-pointer ornament must never widen a phone-sized document. */
+@media (max-width:44rem) {
+  .cursor-orbit,
+  .cursor-dot { display:none !important; }
+}
