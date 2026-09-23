@@ -1,0 +1,22 @@
+name: Apply CSP QA Simple
+on:
+  push:
+    branches: [v6.18.1-csp-critical-css]
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: v6.18.1-csp-critical-css
+          fetch-depth: 0
+      - run: python tools/_apply_csp_qa.py
+      - run: python tools/build_site.py
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m "qa: reject CSP-blocked inline style blocks [skip ci]"
+          git push origin HEAD:v6.18.1-csp-critical-css
