@@ -1,0 +1,112 @@
+name: v6.16.1 Reconcile Preview
+
+on:
+  push:
+    branches:
+      - v6.16.1-artifact-polish
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: ${{ !contains(github.event.head_commit.message, '[generated-sync]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: v6.16.1-artifact-polish
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Apply final source corrections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/styles/motion.css')
+          text = path.read_text(encoding='utf-8')
+
+          old_selection = '''/* Selection is part-specific but intentionally quiet: state, not decoration. */
+          ::selection {
+            color: #fff;
+            background: rgba(174,200,210,.22);
+          }
+
+          body[data-tone="part-1"] ::selection {
+            background: rgba(216,192,143,.28);
+          }
+
+          body[data-tone="part-2"] ::selection {
+            background: rgba(182,209,218,.26);
+          }
+
+          body[data-tone="part-3"] ::selection {
+            background: rgba(212,138,115,.28);
+          }
+
+          /* Paint-heavy instruments are isolated so sophistication does not become page cost. */
+          .map-glyph,
+          .paper-apparatus {
+            contain: paint;
+            isolation: isolate;
+          }
+          '''
+
+          new_selection = '''/* Selection inherits the paper state without selector-specific pseudo-element hacks. */
+          :root {
+            --selection-bg: rgba(174,200,210,.22);
+          }
+
+          body[data-tone="part-1"] {
+            --selection-bg: rgba(216,192,143,.28);
+          }
+
+          body[data-tone="part-2"] {
+            --selection-bg: rgba(182,209,218,.26);
+          }
+
+          body[data-tone="part-3"] {
+            --selection-bg: rgba(212,138,115,.28);
+          }
+
+          ::selection,
+          ::-moz-selection {
+            color: #fff;
+            background: var(--selection-bg);
+            text-shadow: none;
+          }
+
+          /* Instruments form their own stacking context; overflow remains architectural data. */
+          .map-glyph,
+          .paper-apparatus {
+            isolation: isolate;
+          }
+          '''
+
+          if old_selection not in text:
+              raise SystemExit('expected selection/containment block not found; refusing blind rewrite')
+          path.write_text(text.replace(old_selection, new_selection), encoding='utf-8')
+          PY
+
+      - name: Rebuild deterministic archive outputs
+        run: |
+          python tools/build_site.py
+          python tools/generate_og.py
+
+      - name: Commit reconciled source and generated output
+        run: |
+          if git diff --quiet; then
+            echo 'Nothing to reconcile.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/styles/motion.css assets/site.css assets/site.js assets/critical.css index.html papers/index.html papers/part1.html papers/part2.html papers/part3.html about.html colophon.html privacy.html security.html 404.html demo/index.html demo/altrion-part1.html demo/altrion-part2.html research-index.json sitemap.xml robots.txt llms.txt humans.txt site.webmanifest .well-known/security.txt
+          git commit -m 'chore: reconcile v6.16.1 source and generated output [generated-sync]'
+          git push origin HEAD:v6.16.1-artifact-polish
