@@ -1,0 +1,316 @@
+name: v6.17 Refinement Preview
+
+on:
+  push:
+    branches:
+      - v6.17-editorial-precision
+
+permissions:
+  contents: write
+
+jobs:
+  refine:
+    if: ${{ !contains(github.event.head_commit.message, '[v617-generated]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: v6.17-editorial-precision
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Refine source ownership and editorial precision
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              if text.count(old) != 1:
+                  raise SystemExit(f'{path}: expected exactly one match, found {text.count(old)}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # Base owns structure; pavilion owns material. Remove declarations that were
+          # being emitted only to be deterministically overridden later in the cascade.
+          replace_once('src/styles/base.css', '''.site-header {
+            position: sticky;
+            z-index: 40;
+            top: 0;
+            border-bottom: 1px solid var(--line);
+            padding-top: env(safe-area-inset-top);
+            background: rgba(8, 8, 8, .82);
+            backdrop-filter: blur(24px) saturate(.9);
+            -webkit-backdrop-filter: blur(24px) saturate(.9);
+          }
+          ''', '''.site-header {
+            position: sticky;
+            z-index: 40;
+            top: 0;
+            border-bottom: 1px solid var(--line);
+            padding-top: env(safe-area-inset-top);
+          }
+          ''')
+
+          replace_once('src/styles/base.css', '''.header-inner {
+            min-height: 4.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+          }
+          ''', '''.header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+          }
+          ''')
+
+          replace_once('src/styles/base.css', '''  font-weight: 610;
+            letter-spacing: .14em;
+            line-height: 1.15;
+          ''', '''  font-weight: 610;
+            line-height: 1.15;
+          ''')
+          replace_once('src/styles/base.css', '.brand-mark { width: 1.48rem; height: 1.48rem; }\n', '')
+          replace_once('src/styles/base.css', '.site-nav a[aria-current="page"] { box-shadow: inset 0 -1px var(--signal-soft); }\n', '')
+
+          replace_once('src/styles/base.css', '''body::before {
+            content: "";
+            position: fixed;
+            z-index: 90;
+            inset: 0;
+            background: repeating-linear-gradient(180deg, rgba(255,255,255,.026) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 7px);
+            mix-blend-mode: screen;
+            opacity: .055;
+            pointer-events: none;
+          }
+          ''', '''body::before {
+            content: "";
+            position: fixed;
+            z-index: 90;
+            inset: 0;
+            pointer-events: none;
+          }
+          ''')
+
+          replace_once('src/styles/base.css', '''.hero::after,
+          .page-hero::before,
+          .author-hero::before,
+          .paper-hero::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(8, 8, 8, .9) 0%, rgba(8, 8, 8, .5) 54%, rgba(8, 8, 8, .9) 100%);
+            opacity: .43;
+            mask-image: linear-gradient(180deg, transparent 0, #000 17%, #000 82%, transparent 100%);
+          }
+          ''', '''.hero::after,
+          .page-hero::before,
+          .author-hero::before,
+          .paper-hero::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            mask-image: linear-gradient(180deg, transparent 0, #000 17%, #000 82%, transparent 100%);
+          }
+          ''')
+
+          replace_once('src/styles/base.css', '''.button {
+            --mag-x: 0px;
+            --mag-y: 0px;
+            position: relative;
+            z-index: 0;
+            isolation: isolate;
+            overflow: hidden;
+            min-height: 3.05rem;
+            padding: .74rem 1.05rem;
+            border: 1px solid var(--line-strong);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            background: rgba(8, 8, 8, .2);
+            color: var(--ink);
+            font-size: .7rem;
+            font-weight: 630;
+            letter-spacing: .09em;
+            line-height: 1.2;
+            text-decoration: none;
+            text-transform: uppercase;
+            transform: translate3d(var(--mag-x), var(--mag-y), 0);
+            transition: transform .22s var(--ease), background .28s ease, color .28s ease, border-color .28s ease;
+          }
+          .button::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            inset: -1px;
+            background: var(--signal);
+            transform: scaleX(0);
+            transform-origin: 100% 50%;
+            transition: transform .42s var(--ease);
+          }
+          .button:hover { border-color: var(--signal); color: #fff; text-decoration: none; }
+          .button:hover::before { transform: scaleX(1); transform-origin: 0 50%; }
+          .button.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+          .button.primary:hover { background: var(--signal); color: #fff; border-color: var(--signal); }
+          .button .arrow { font-size: 1.15em; line-height: 0; }
+          ''', '''.button {
+            --mag-x: 0px;
+            --mag-y: 0px;
+            position: relative;
+            z-index: 0;
+            isolation: isolate;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            color: var(--ink);
+            font-size: .7rem;
+            font-weight: 630;
+            line-height: 1.2;
+            text-decoration: none;
+            text-transform: uppercase;
+            transform: translate3d(var(--mag-x), var(--mag-y), 0);
+            transition: transform .22s var(--ease), color .28s ease, border-color .28s ease;
+          }
+          .button:hover { text-decoration: none; }
+          .button .arrow { font-size: 1.15em; line-height: 0; }
+          ''')
+
+          replace_once('src/styles/base.css', '''.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line); background: linear-gradient(rgba(8, 8, 8, .79), rgba(8, 8, 8, .88)); }
+          .metric { min-height: 11rem; padding: clamp(1.25rem, 3vw, 2.3rem); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; }
+          ''', '''.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+          .metric { min-height: 11rem; padding: clamp(1.25rem, 3vw, 2.3rem); display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; }
+          ''')
+
+          replace_once('src/styles/base.css', '''.boundary { position: relative; overflow: hidden; padding: clamp(2rem, 5vw, 4.5rem); border: 1px solid var(--line-strong); display: grid; grid-template-columns: minmax(12rem, .55fr) minmax(0, 1fr); gap: clamp(2rem, 7vw, 7rem); background: linear-gradient(100deg, rgba(15, 15, 16, .92), rgba(8, 8, 8, .84)); }
+          ''', '''.boundary { position: relative; overflow: hidden; padding: clamp(2rem, 5vw, 4.5rem); border: 1px solid var(--line-strong); display: grid; grid-template-columns: minmax(12rem, .55fr) minmax(0, 1fr); gap: clamp(2rem, 7vw, 7rem); }
+          ''')
+
+          replace_once('src/styles/base.css', '''.paper-hero::after { content: attr(data-roman); position: absolute; z-index: -1; right: var(--gutter); bottom: -.16em; color: rgba(131, 152, 255, .12); font-family: var(--display); font-size: clamp(13rem, 33vw, 33rem); font-weight: 250; line-height: .7; pointer-events: none; }
+          .paper-hero h1 { max-width: 18ch; font-size: clamp(3.7rem, 6.4vw, 7.1rem); }
+          ''', '''.paper-hero::after { position: absolute; z-index: -1; pointer-events: none; }
+          ''')
+
+          # The papers map becomes the physical threshold between catalogue and record.
+          replace_once('src/styles/pavilion.css', '.research-map-section { padding: 0 0 clamp(2rem,5vw,4.5rem); }\n', '.research-map-section { position:relative; z-index:2; margin-top:clamp(-2.6rem,-2.8vw,-1.35rem); padding:0 0 clamp(2rem,5vw,4.5rem); }\n')
+
+          replace_once('src/styles/pavilion.css', '''@media (max-width:44rem) {
+            .header-inner { min-height: 4rem; }
+          ''', '''@media (max-width:44rem) {
+            .header-inner { min-height: 4rem; }
+            .research-map-section { margin-top: 0; }
+          ''')
+
+          # At gallery-scale viewports, use more of the wall while preserving reading measure.
+          marker = '/* Proper Ending is drawn shut by one rule; motion.css controls the terminal state. */\n'
+          p = Path('src/styles/pavilion.css')
+          text = p.read_text(encoding='utf-8')
+          insert = '''@media (min-width:110rem) {
+            :root { --max: 104rem; }
+          }
+
+          '''
+          if marker not in text or insert.strip() in text:
+              raise SystemExit('pavilion.css: ultra-wide insertion point invalid')
+          p.write_text(text.replace(marker, insert + marker, 1), encoding='utf-8')
+
+          # Bring the paper mechanism into the same visual plane as the title on desktop.
+          replace_once('src/styles/instruments.css', 'right:max(calc(var(--gutter) + 2rem),7vw);top:clamp(7rem,14vw,11rem);width:clamp(18rem,31vw,31rem);aspect-ratio:1.12;opacity:.74;', 'right:max(calc(var(--gutter) + 1rem),5.5vw);top:clamp(7rem,13vw,10.5rem);width:clamp(19rem,32vw,32rem);aspect-ratio:1.12;opacity:.8;')
+
+          # Section folios turn long-form reading into an indexed editorial object.
+          p = Path('src/styles/motion.css')
+          text = p.read_text(encoding='utf-8')
+          marker = '@media (max-width: 44rem) {'
+          folios = '''/* Long-form sections carry a quiet folio outside the reading measure. */
+          body[data-tone] .content {
+            counter-reset: archive-section;
+          }
+
+          body[data-tone] .content > section:not(#citation) {
+            counter-increment: archive-section;
+            position: relative;
+          }
+
+          @media (min-width: 70rem) {
+            body[data-tone] .content > section:not(#citation)::before {
+              content: counter(archive-section, decimal-leading-zero);
+              position: absolute;
+              top: clamp(2.8rem, 4vw, 4rem);
+              left: clamp(-5rem, -4.5vw, -3.6rem);
+              font: 620 .54rem/1 var(--mono);
+              letter-spacing: .14em;
+              opacity: .58;
+            }
+
+            body[data-tone="part-1"] .content > section:not(#citation)::before { color: var(--part-i-measure); }
+            body[data-tone="part-2"] .content > section:not(#citation)::before { color: var(--part-ii-capacity); }
+            body[data-tone="part-3"] .content > section:not(#citation)::before { color: var(--part-iii-return); }
+          }
+
+          '''
+          if marker not in text or 'counter-reset: archive-section' in text:
+              raise SystemExit('motion.css: folio insertion point invalid')
+          p.write_text(text.replace(marker, folios + marker, 1), encoding='utf-8')
+
+          # Pointer semantics are identical for mouse and keyboard focus.
+          p = Path('src/styles/motion.css')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('.research-map-node[data-part="1"]:hover .map-glyph', '.research-map-node[data-part="1"]:is(:hover,:focus-visible) .map-glyph')
+          text = text.replace('.research-map-node:hover::after,\n  .series-nav a:hover::after', '.research-map-node:is(:hover,:focus-visible)::after,\n  .series-nav a:is(:hover,:focus-visible)::after')
+          text = text.replace('.research-map-node[data-part="2"]:hover .map-glyph i:first-child', '.research-map-node[data-part="2"]:is(:hover,:focus-visible) .map-glyph i:first-child')
+          text = text.replace('.research-map-node[data-part="2"]:hover .map-glyph i:nth-child(2)', '.research-map-node[data-part="2"]:is(:hover,:focus-visible) .map-glyph i:nth-child(2)')
+          text = text.replace('.research-map-node[data-part="3"]:hover .map-glyph', '.research-map-node[data-part="3"]:is(:hover,:focus-visible) .map-glyph')
+          p.write_text(text, encoding='utf-8')
+
+          # Native rendering containment below the first paper section reduces long-document cost.
+          p = Path('src/styles/performance.css')
+          text = p.read_text(encoding='utf-8')
+          addition = '''
+          @supports (content-visibility: auto) {
+            body[data-tone] .content > section + section {
+              content-visibility: auto;
+              contain-intrinsic-size: auto 52rem;
+            }
+          }
+
+          @media print {
+            body[data-tone] .content > section + section {
+              content-visibility: visible;
+              contain-intrinsic-size: none;
+            }
+          }
+          '''
+          if 'contain-intrinsic-size: auto 52rem' in text:
+              raise SystemExit('performance.css: refinement already present')
+          p.write_text(text.rstrip() + '\n' + addition.lstrip(), encoding='utf-8')
+          PY
+
+      - name: Rebuild deterministic output
+        run: python tools/build_site.py
+
+      - name: Enforce runtime budget before commit
+        run: |
+          css_bytes=$(wc -c < assets/site.css)
+          js_bytes=$(wc -c < assets/site.js)
+          echo "site.css=${css_bytes}"
+          echo "site.js=${js_bytes}"
+          test "$css_bytes" -lt 100000
+
+      - name: Commit refinement
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/styles/base.css src/styles/pavilion.css src/styles/instruments.css src/styles/motion.css src/styles/performance.css assets/site.css assets/site.js assets/critical.css
+          git commit -m 'v6.17: editorial precision and source ownership [v617-generated]'
+          git push origin HEAD:v6.17-editorial-precision
