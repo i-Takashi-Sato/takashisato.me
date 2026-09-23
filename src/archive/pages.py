@@ -2,17 +2,37 @@
 
 from __future__ import annotations
 
-from html import escape
 from textwrap import dedent
 
-from .layout import *
-from .model import *
+from .layout import breadcrumbs, head, shell_page
+from .model import (
+    AUTHOR,
+    AUTHOR_ID,
+    PAPERS,
+    SERIES_ID,
+    SCHOLAR_URL,
+    SITE,
+    UPDATED,
+    VERSION,
+    Paper,
+    article_schema,
+    breadcrumb_schema,
+    paper_url,
+    series_schema,
+    ssrn_url,
+)
 from .paper_content import part1_content, part2_content, part3_content
+
 
 def home_page() -> str:
     item_list = [
-        {"@type": "ListItem", "position": p["part"], "url": paper_url(p), "name": f"{p['title']}: {p['subtitle']}"}
-        for p in PAPERS
+        {
+            "@type": "ListItem",
+            "position": paper["part"],
+            "url": paper_url(paper),
+            "name": f"{paper['title']}: {paper['subtitle']}",
+        }
+        for paper in PAPERS
     ]
     schema = {
         "@context": "https://schema.org",
@@ -41,17 +61,17 @@ def home_page() -> str:
     rows = "\n".join(
         dedent(
             f"""
-            <a class="sequence-row" href="/papers/{p['slug']}.html" data-reveal>
-              <p class="sequence-function">Part {p['roman']} · {p['function']}</p>
+            <a class="sequence-row" href="/papers/{paper['slug']}.html" data-reveal>
+              <p class="sequence-function">Part {paper['roman']} · {paper['function']}</p>
               <div>
-                <h3 class="sequence-title">{p['title']}</h3>
-                <p class="sequence-copy">{p['question']} {p['description']}</p>
-                <span class="sequence-state">{p['state']} · v6.2 · {p['pages']} pages</span>
+                <h3 class="sequence-title">{paper['title']}</h3>
+                <p class="sequence-copy">{paper['question']} {paper['description']}</p>
+                <span class="sequence-state">{paper['state']} · v6.2 · {paper['pages']} pages</span>
               </div>
             </a>
             """
         ).strip()
-        for p in PAPERS
+        for paper in PAPERS
     )
     body = dedent(
         f"""
@@ -150,6 +170,7 @@ def home_page() -> str:
         page="home",
     )
 
+
 def papers_index_page() -> str:
     schema = {
         "@context": "https://schema.org",
@@ -168,21 +189,21 @@ def papers_index_page() -> str:
             breadcrumb_schema([("Index", "/"), ("Papers", "/papers/")]),
         ],
     }
-    records = []
-    for p in PAPERS:
+    records: list[str] = []
+    for paper in PAPERS:
         records.append(
             dedent(
                 f"""
                 <article class="sequence-row" data-reveal>
-                  <p class="sequence-function">Part {p['roman']} · {p['function']}</p>
+                  <p class="sequence-function">Part {paper['roman']} · {paper['function']}</p>
                   <div>
-                    <h2 class="sequence-title"><a href="/papers/{p['slug']}.html">{p['title']}</a></h2>
-                    <p class="paper-subtitle">{p['subtitle']}</p>
-                    <p class="sequence-copy">{p['description']}</p>
-                    <span class="sequence-state">SSRN {p['ssrn']} · DOI {p['doi']} · v6.2 · {p['pages']} pages</span>
+                    <h2 class="sequence-title"><a href="/papers/{paper['slug']}.html">{paper['title']}</a></h2>
+                    <p class="paper-subtitle">{paper['subtitle']}</p>
+                    <p class="sequence-copy">{paper['description']}</p>
+                    <span class="sequence-state">SSRN {paper['ssrn']} · DOI {paper['doi']} · v6.2 · {paper['pages']} pages</span>
                     <div class="hero-actions">
-                      <a class="button primary" href="/papers/{p['slug']}.html">Paper record</a>
-                      <a class="button" href="{ssrn_url(p)}" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
+                      <a class="button primary" href="/papers/{paper['slug']}.html">Paper record</a>
+                      <a class="button" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
                     </div>
                   </div>
                 </article>
@@ -190,8 +211,8 @@ def papers_index_page() -> str:
             ).strip()
         )
     map_nodes = "\n".join(
-        f'<a class="research-map-node" href="/papers/{p["slug"]}.html" data-part="{p["part"]}"><span class="map-index">0{p["part"]}</span><span class="map-glyph" aria-hidden="true"><i></i><i></i><i></i></span><b>{p["function"]}</b><small>{p["question"]}</small></a>'
-        for p in PAPERS
+        f'<a class="research-map-node" href="/papers/{paper["slug"]}.html" data-part="{paper["part"]}"><span class="map-index">0{paper["part"]}</span><span class="map-glyph" aria-hidden="true"><i></i><i></i><i></i></span><b>{paper["function"]}</b><small>{paper["question"]}</small></a>'
+        for paper in PAPERS
     )
     body = dedent(
         f"""
@@ -243,27 +264,51 @@ def papers_index_page() -> str:
         page="papers",
     )
 
+
 def series_navigation(current: int) -> str:
-    links = []
-    for p in PAPERS:
-        attrs = ' aria-current="page"' if p["part"] == current else ""
+    links: list[str] = []
+    for paper in PAPERS:
+        attrs = ' aria-current="page"' if paper["part"] == current else ""
         links.append(
-            f'<a href="/papers/{p["slug"]}.html"{attrs}><small>PART {p["roman"]} · {p["function"].upper()}</small><strong>{p["title"]}</strong></a>'
+            f'<a href="/papers/{paper["slug"]}.html"{attrs}><small>PART {paper["roman"]} · {paper["function"].upper()}</small><strong>{paper["title"]}</strong></a>'
         )
     return '<nav class="series-nav" aria-label="Paper trilogy">' + "".join(links) + "</nav>"
 
-def paper_page(paper: dict) -> str:
+
+def paper_page(paper: Paper) -> str:
     if paper["part"] == 1:
         content = part1_content()
-        toc = [("overview", "Question"), ("contract", "Contract"), ("verification", "Verification"), ("boundary", "Boundary")]
+        toc = [
+            ("overview", "Question"),
+            ("contract", "Contract"),
+            ("verification", "Verification"),
+            ("boundary", "Boundary"),
+        ]
     elif paper["part"] == 2:
         content = part2_content()
-        toc = [("overview", "Question"), ("state-model", "State model"), ("mechanisms", "Mechanisms"), ("propositions", "Propositions"), ("boundary", "Boundary")]
+        toc = [
+            ("overview", "Question"),
+            ("state-model", "State model"),
+            ("mechanisms", "Mechanisms"),
+            ("propositions", "Propositions"),
+            ("boundary", "Boundary"),
+        ]
     else:
         content = part3_content()
-        toc = [("overview", "Question"), ("proper-ending", "Proper Ending"), ("authority-return", "Authority Return"), ("verification", "Verification"), ("measurement", "Measurement"), ("boundary", "Boundary")]
+        toc = [
+            ("overview", "Question"),
+            ("proper-ending", "Proper Ending"),
+            ("authority-return", "Authority Return"),
+            ("verification", "Verification"),
+            ("measurement", "Measurement"),
+            ("boundary", "Boundary"),
+        ]
+
     toc_items = "".join(f'<li><a href="#{anchor}">{label}</a></li>' for anchor, label in toc)
-    citation = f"Sato, Takashi. “{paper['title']}: {paper['subtitle']}.” Working Paper, version 6.2, 23 August 2026. https://doi.org/{paper['doi']}."
+    citation = (
+        f"Sato, Takashi. “{paper['title']}: {paper['subtitle']}.” Working Paper, "
+        f"version 6.2, 23 August 2026. https://doi.org/{paper['doi']}."
+    )
     body = dedent(
         f"""
         <main id="main">
@@ -328,7 +373,11 @@ def paper_page(paper: dict) -> str:
                     series_schema(),
                     article_schema(paper),
                     breadcrumb_schema(
-                        [("Index", "/"), ("Papers", "/papers/"), (f"Part {paper['roman']}", f"/papers/{paper['slug']}.html")]
+                        [
+                            ("Index", "/"),
+                            ("Papers", "/papers/"),
+                            (f"Part {paper['roman']}", f"/papers/{paper['slug']}.html"),
+                        ]
                     ),
                 ],
             },
@@ -340,6 +389,7 @@ def paper_page(paper: dict) -> str:
         tone=paper["tone"],
         page=paper["slug"],
     )
+
 
 def about_page() -> str:
     schema = {
@@ -433,7 +483,15 @@ def about_page() -> str:
         page="about",
     )
 
-def utility_page(*, slug: str, title: str, description: str, content: str, robots: str = "index,follow") -> str:
+
+def utility_page(
+    *,
+    slug: str,
+    title: str,
+    description: str,
+    content: str,
+    robots: str = "index,follow",
+) -> str:
     body = dedent(
         f"""
         <main id="main" class="utility-page shell">
@@ -472,6 +530,7 @@ def utility_page(*, slug: str, title: str, description: str, content: str, robot
         page=slug.replace(".html", ""),
     )
 
+
 def legacy_notice(*, path: str, part: int | None = None) -> str:
     if part:
         paper = PAPERS[part - 1]
@@ -482,6 +541,7 @@ def legacy_notice(*, path: str, part: int | None = None) -> str:
         title = "Research prototypes retired"
         destination = "/papers/"
         detail = "The earlier interactive prototypes do not implement the current v6.2 papers. The paper records now provide the authoritative definitions, verification results, and claim boundaries."
+
     body = dedent(
         f"""
         <main id="main" class="utility-page shell">
@@ -504,5 +564,5 @@ def legacy_notice(*, path: str, part: int | None = None) -> str:
             robots="noindex,follow,noarchive",
         ),
         body=body,
-        page="superseded",
+        page="legacy",
     )

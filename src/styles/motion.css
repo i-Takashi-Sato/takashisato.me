@@ -1,0 +1,415 @@
+/* The Proper Ending Index — v6.16 advanced pavilion layer.
+ *
+ * Browser features in this file are optional enhancements. The archive remains
+ * complete, legible, navigable, and citable without them.
+ *
+ * Motion semantics:
+ *   Part I   — measure against a stable datum.
+ *   Part II  — preserve the procedural frame while capacity drifts inside it.
+ *   Part III — contract, contain, return authority, and settle.
+ */
+
+@property --trace-a {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --trace-b {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --trace-c {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --capacity-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --closure-scale {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --closure-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: .74;
+}
+
+:root {
+  --motion-route: 280ms;
+  --motion-state: 460ms;
+  --motion-transfer: 720ms;
+  --motion-settle: 980ms;
+  --ease-route: cubic-bezier(.2,.82,.2,1);
+  --ease-state: cubic-bezier(.18,.78,.2,1);
+  --ease-transfer: cubic-bezier(.16,.84,.18,1);
+  --ease-settle: cubic-bezier(.12,.72,.16,1);
+}
+
+/* Cross-document continuity: the instrument, not the whole page, carries state. */
+@view-transition {
+  navigation: auto;
+}
+
+.research-map-node[data-part="1"] .map-glyph {
+  view-transition-name: part-i-instrument;
+}
+
+.research-map-node[data-part="2"] .map-glyph {
+  view-transition-name: part-ii-instrument;
+}
+
+.research-map-node[data-part="3"] .map-glyph {
+  view-transition-name: part-iii-instrument;
+}
+
+body[data-tone="part-1"] .paper-apparatus {
+  view-transition-name: part-i-instrument;
+}
+
+body[data-tone="part-2"] .paper-apparatus {
+  view-transition-name: part-ii-instrument;
+}
+
+body[data-tone="part-3"] .paper-apparatus {
+  view-transition-name: part-iii-instrument;
+}
+
+::view-transition-group(root) {
+  animation-duration: var(--motion-state);
+  animation-timing-function: var(--ease-state);
+}
+
+::view-transition-old(root) {
+  animation: archive-leave var(--motion-state) var(--ease-state) both;
+}
+
+::view-transition-new(root) {
+  animation: archive-enter var(--motion-state) var(--ease-state) both;
+}
+
+::view-transition-group(archive-brand) {
+  animation-duration: var(--motion-transfer);
+  animation-timing-function: var(--ease-transfer);
+}
+
+::view-transition-group(part-i-instrument),
+::view-transition-group(part-ii-instrument),
+::view-transition-group(part-iii-instrument) {
+  animation-duration: var(--motion-transfer);
+  animation-timing-function: var(--ease-transfer);
+}
+
+::view-transition-old(part-i-instrument),
+::view-transition-new(part-i-instrument),
+::view-transition-old(part-ii-instrument),
+::view-transition-new(part-ii-instrument),
+::view-transition-old(part-iii-instrument),
+::view-transition-new(part-iii-instrument) {
+  mix-blend-mode: normal;
+}
+
+@keyframes archive-leave {
+  to {
+    opacity: .76;
+    filter: contrast(.98);
+  }
+}
+
+@keyframes archive-enter {
+  from {
+    opacity: .7;
+    filter: contrast(.97);
+  }
+}
+
+/* Typography behaves like architecture: a small number of deliberate measures. */
+.hero h1,
+.page-hero h1,
+.paper-hero h1,
+.section-head h2,
+.content h2,
+.author-copy h2,
+.sequence-title,
+.footer-wordmark {
+  text-wrap: balance;
+  hanging-punctuation: first last;
+}
+
+.page-deck,
+.section-intro,
+.paper-subtitle,
+.content p,
+.content li,
+.author-copy p,
+.footer-thesis {
+  text-wrap: pretty;
+}
+
+.content p,
+.content li,
+.paper-subtitle,
+.page-deck {
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+}
+
+.paper-meta,
+.record-list,
+.verification,
+.metric-grid {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* The research map is responsive to its own width, not merely the viewport. */
+.research-map-node {
+  container-name: research-entry;
+  container-type: inline-size;
+}
+
+@container research-entry (max-width: 18rem) {
+  .map-glyph {
+    min-height: 7.5rem;
+  }
+
+  .research-map-node b {
+    font-size: clamp(1.45rem, 11cqi, 2.15rem);
+  }
+
+  .research-map-node small {
+    font-size: .76rem;
+  }
+}
+
+/* Part I: emphasis changes; geometry does not drift. */
+body[data-tone="part-1"] .paper-apparatus,
+.research-map-node[data-part="1"] .map-glyph {
+  transform-origin: 50% 62%;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .research-map-node[data-part="1"]:hover .map-glyph {
+    filter: brightness(1.14) contrast(1.04);
+  }
+}
+
+/* Part II: outer procedure stays put while the internal trace loses alignment. */
+body[data-tone="part-2"] .paper-apparatus {
+  --trace-a: 0px;
+  --trace-b: 0px;
+  --trace-c: 0px;
+  --capacity-opacity: 1;
+}
+
+body[data-tone="part-2"] .paper-apparatus i:first-of-type {
+  translate: var(--trace-a) 0;
+  opacity: var(--capacity-opacity);
+}
+
+body[data-tone="part-2"] .paper-apparatus i:nth-of-type(2) {
+  translate: var(--trace-b) 0;
+  opacity: var(--capacity-opacity);
+}
+
+body[data-tone="part-2"] .paper-apparatus i:nth-of-type(3) {
+  translate: var(--trace-c) 0;
+  opacity: var(--capacity-opacity);
+}
+
+/* Part III: movement spends energy. The apparatus gets smaller, quieter, denser. */
+body[data-tone="part-3"] .paper-apparatus {
+  --closure-scale: 1;
+  --closure-opacity: .74;
+  transform: scale(var(--closure-scale));
+  opacity: var(--closure-opacity);
+  transform-origin: 50% 50%;
+}
+
+body[data-tone="part-3"] .paper-apparatus i:first-of-type,
+body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
+  transition:
+    width var(--motion-settle) var(--ease-settle),
+    height var(--motion-settle) var(--ease-settle),
+    opacity var(--motion-settle) ease;
+}
+
+html.is-ending body[data-tone="part-3"] .paper-apparatus i:first-of-type {
+  width: .72rem;
+  height: .72rem;
+  opacity: .72;
+}
+
+html.is-ending body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
+  width: .18rem;
+  height: .18rem;
+  opacity: .86;
+}
+
+@keyframes governing-capacity-drift {
+  0% {
+    --trace-a: 0px;
+    --trace-b: 0px;
+    --trace-c: 0px;
+    --capacity-opacity: 1;
+  }
+
+  12%, 100% {
+    --trace-a: 10px;
+    --trace-b: -6px;
+    --trace-c: 4px;
+    --capacity-opacity: .86;
+  }
+}
+
+@keyframes accountable-closure {
+  0% {
+    --closure-scale: 1;
+    --closure-opacity: .74;
+  }
+
+  12%, 100% {
+    --closure-scale: .88;
+    --closure-opacity: .54;
+  }
+}
+
+/* Native scroll timelines remove main-thread scroll work where supported. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 44.01rem) {
+    body[data-tone="part-2"] .paper-apparatus {
+      animation: governing-capacity-drift 1ms linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    body[data-tone="part-3"] .paper-apparatus {
+      animation: accountable-closure 1ms linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* Pointer response is strongest at an entrance and weak inside the reading room. */
+.research-map-node,
+.sequence-row,
+.series-nav a,
+.author-links a,
+.button {
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+}
+
+.research-map-node::after,
+.series-nav a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    18rem circle at var(--pointer-x) var(--pointer-y),
+    color-mix(in srgb, currentColor 8%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--motion-state) ease;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .research-map-node:hover::after,
+  .series-nav a:hover::after {
+    opacity: 1;
+  }
+
+  .research-map-node[data-part="2"]:hover .map-glyph i:first-child {
+    translate: .35rem .12rem;
+    rotate: -3deg;
+  }
+
+  .research-map-node[data-part="2"]:hover .map-glyph i:nth-child(2) {
+    translate: -.22rem .24rem;
+    rotate: 3deg;
+  }
+
+  .research-map-node[data-part="3"]:hover .map-glyph {
+    transform: scale(.925);
+  }
+}
+
+/* The end of Part III does not reveal another spectacle. It removes energy. */
+body[data-page="part3"] .site-footer .footer-links,
+body[data-page="part3"] .site-footer .footer-thesis,
+body[data-page="part3"] .site-footer .footer-bottom {
+  transition:
+    opacity var(--motion-settle) ease,
+    transform var(--motion-settle) var(--ease-settle);
+}
+
+html.is-ending body[data-page="part3"] .site-footer .footer-links,
+html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
+  opacity: .58;
+  transform: translateY(.2rem);
+}
+
+html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
+  opacity: .72;
+}
+
+html.is-ending body[data-page="part3"] .footer-wordmark::after {
+  opacity: 1;
+}
+
+@media (max-width: 44rem) {
+  .research-map-node {
+    container-type: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root),
+  ::view-transition-group(archive-brand),
+  ::view-transition-group(part-i-instrument),
+  ::view-transition-group(part-ii-instrument),
+  ::view-transition-group(part-iii-instrument) {
+    animation-duration: .01ms;
+  }
+
+  body[data-tone="part-2"] .paper-apparatus,
+  body[data-tone="part-3"] .paper-apparatus,
+  .research-map-node .map-glyph {
+    animation: none !important;
+    transform: none !important;
+    translate: none !important;
+  }
+
+  body[data-tone="part-2"] .paper-apparatus {
+    opacity: .74;
+  }
+
+  body[data-tone="part-3"] .paper-apparatus {
+    opacity: .62;
+  }
+}
+
+@media (forced-colors: active) {
+  .research-map-node::after,
+  .series-nav a::after {
+    display: none;
+  }
+}
+
+@media print {
+  .research-map-node,
+  .paper-apparatus,
+  .site-footer {
+    view-transition-name: none;
+  }
+}

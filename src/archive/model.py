@@ -8,9 +8,10 @@ Renderers and QA import from here rather than maintaining parallel copies.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TypedDict
+from typing import Final, TypedDict
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT: Final = Path(__file__).resolve().parents[2]
+
 
 class Paper(TypedDict):
     part: int
@@ -30,22 +31,18 @@ class Paper(TypedDict):
     question: str
     state: str
 
-SITE = "https://takashisato.me"
 
-AUTHOR_ID = f"{SITE}/about.html#takashi-sato"
-SERIES_ID = f"{SITE}/papers/#trilogy"
+SITE: Final = "https://takashisato.me"
+AUTHOR_ID: Final = f"{SITE}/about.html#takashi-sato"
+SERIES_ID: Final = f"{SITE}/papers/#trilogy"
+SCHOLAR_URL: Final = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 
-SCHOLAR_URL = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
+UPDATED: Final = "2026-09-16"
+PAPER_REVISION_DATE: Final = "2026-08-23"
+VERSION: Final = "6.2"
+ASSET_VERSION: Final = "6.16.0"
 
-UPDATED = "2026-09-16"
-
-PAPER_REVISION_DATE = "2026-08-23"
-
-VERSION = "6.2"
-
-ASSET_VERSION = "6.15.0"
-
-GOOGLE_SITE_VERIFICATION = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
+GOOGLE_SITE_VERIFICATION: Final = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 
 AUTHOR: dict[str, object] = {
     "@type": "Person",
@@ -144,13 +141,16 @@ PAPERS: list[Paper] = [
     },
 ]
 
-def paper_url(paper: dict) -> str:
+
+def paper_url(paper: Paper) -> str:
     return f"{SITE}/papers/{paper['slug']}.html"
 
-def ssrn_url(paper: dict) -> str:
+
+def ssrn_url(paper: Paper) -> str:
     return f"https://papers.ssrn.com/sol3/papers.cfm?abstract_id={paper['ssrn']}"
 
-def article_schema(paper: dict) -> dict:
+
+def article_schema(paper: Paper) -> dict[str, object]:
     return {
         "@type": "ScholarlyArticle",
         "@id": f"{paper_url(paper)}#article",
@@ -194,7 +194,8 @@ def article_schema(paper: dict) -> dict:
         ],
     }
 
-def breadcrumb_schema(items: list[tuple[str, str]]) -> dict:
+
+def breadcrumb_schema(items: list[tuple[str, str]]) -> dict[str, object]:
     return {
         "@type": "BreadcrumbList",
         "itemListElement": [
@@ -208,7 +209,8 @@ def breadcrumb_schema(items: list[tuple[str, str]]) -> dict:
         ],
     }
 
-def series_schema() -> dict:
+
+def series_schema() -> dict[str, object]:
     """Return the canonical entity for the three-paper research programme."""
     return {
         "@type": "CreativeWorkSeries",
@@ -227,5 +229,6 @@ def series_schema() -> dict:
         "creator": {"@id": AUTHOR_ID},
         "hasPart": [{"@id": f"{paper_url(paper)}#article"} for paper in PAPERS],
     }
+
 
 PAPERS_BY_SLUG: dict[str, Paper] = {paper["slug"]: paper for paper in PAPERS}
