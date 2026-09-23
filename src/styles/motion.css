@@ -1,4 +1,4 @@
-/* The Proper Ending Index — v6.16 advanced pavilion layer.
+/* The Proper Ending Index — v6.18 terminal-precision layer.
  *
  * Browser features in this file are optional enhancements. The archive remains
  * complete, legible, navigable, and citable without them.
@@ -151,6 +151,9 @@ body[data-tone="part-3"] .paper-apparatus {
 }
 
 /* Typography behaves like architecture: a small number of deliberate measures. */
+html { scroll-padding-top: 5.4rem; }
+.content > section[id] { scroll-margin-top: 5.4rem; }
+
 .hero h1,
 .page-hero h1,
 .paper-hero h1,
@@ -161,6 +164,7 @@ body[data-tone="part-3"] .paper-apparatus {
 .footer-wordmark {
   text-wrap: balance;
   hanging-punctuation: first last;
+  font-optical-sizing: auto;
 }
 
 .page-deck,
@@ -278,26 +282,6 @@ body[data-tone="part-3"] .paper-apparatus {
   transform-origin: 50% 50%;
 }
 
-body[data-tone="part-3"] .paper-apparatus i:first-of-type,
-body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
-  transition:
-    width var(--motion-settle) var(--ease-settle),
-    height var(--motion-settle) var(--ease-settle),
-    opacity var(--motion-settle) ease;
-}
-
-html.is-ending body[data-tone="part-3"] .paper-apparatus i:first-of-type {
-  width: .72rem;
-  height: .72rem;
-  opacity: .72;
-}
-
-html.is-ending body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
-  width: .18rem;
-  height: .18rem;
-  opacity: .86;
-}
-
 @keyframes governing-capacity-drift {
   0% {
     --trace-a: 0px;
@@ -388,6 +372,19 @@ html.is-ending body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
 }
 
 /* The end of Part III does not reveal another spectacle. It removes energy. */
+body[data-page="part3"] .series-nav {
+  transform: scaleX(calc(1 - (var(--ending,0) * .018)));
+  transform-origin: 50% 100%;
+  opacity: calc(1 - (var(--ending,0) * .14));
+}
+
+body[data-page="part3"] .footer-wordmark::after {
+  left: calc(var(--ending,0) * 50%);
+  right: calc(var(--ending,0) * 50%);
+  transform: none;
+  opacity: .78;
+}
+
 body[data-page="part3"] .site-footer .footer-links,
 body[data-page="part3"] .site-footer .footer-thesis,
 body[data-page="part3"] .site-footer .footer-bottom {
@@ -404,10 +401,6 @@ html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
 
 html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
   opacity: .82;
-}
-
-html.is-ending body[data-page="part3"] .footer-wordmark::after {
-  opacity: 1;
 }
 
 /* Long-form sections carry a quiet folio outside the reading measure. */
@@ -465,6 +458,25 @@ body[data-tone] .content > section:not(#citation) {
 
   body[data-tone="part-3"] .paper-apparatus {
     opacity: .62;
+  }
+
+  body[data-page="part3"] .series-nav {
+    opacity: 1;
+    transform: none !important;
+  }
+
+  body[data-page="part3"] .footer-wordmark::after {
+    left: 0;
+    right: 0;
+    transform: none;
+  }
+
+  body[data-page="part3"] .site-footer .footer-links,
+  body[data-page="part3"] .site-footer .footer-thesis,
+  body[data-page="part3"] .site-footer .footer-bottom {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

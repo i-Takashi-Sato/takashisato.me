@@ -106,6 +106,26 @@ def _style_snapshot(page, selector: str) -> dict[str, str]:
     )
 
 
+def _pseudo_snapshot(page, selector: str, pseudo: str = "::after") -> dict[str, str]:
+    return page.locator(selector).evaluate(
+        """(el, pseudo) => {
+          const s = getComputedStyle(el, pseudo);
+          return {
+            width: s.width,
+            left: s.left,
+            right: s.right,
+            opacity: s.opacity,
+            transform: s.transform
+          };
+        }""",
+        pseudo,
+    )
+
+
+def _px(value: str) -> float:
+    return float(value[:-2]) if value.endswith("px") else 0.0
+
+
 def semantic_motion_errors(page, name: str, width: int) -> list[str]:
     """Assert geometry describes the paper's research state rather than decoration."""
     if name not in {"part1", "part2", "part3"} or width < 768:
@@ -198,6 +218,88 @@ def transition_identity_errors(page, name: str, width: int) -> list[str]:
     ]
 
 
+def anchor_offset_errors(page, name: str, width: int) -> list[str]:
+    """Sticky archive chrome must not cover in-document research targets."""
+    if name not in {"part1", "part2", "part3"} or width != 1440:
+        return []
+
+    links = page.locator('.toc a[href^="#"]')
+    if links.count() < 2:
+        return [f"{name}@1440/js: insufficient TOC links for anchor test"]
+    href = links.nth(1).get_attribute("href")
+    if not href:
+        return [f"{name}@1440/js: missing TOC href for anchor test"]
+
+    page.evaluate(
+        """selector => {
+          document.documentElement.style.scrollBehavior = 'auto';
+          document.querySelector(selector)?.scrollIntoView({block:'start'});
+        }""",
+        href,
+    )
+    page.wait_for_timeout(60)
+    geometry = page.evaluate(
+        """selector => {
+          const target = document.querySelector(selector);
+          const header = document.querySelector('.site-header');
+          return {
+            top: target?.getBoundingClientRect().top ?? -1,
+            headerBottom: header?.getBoundingClientRect().bottom ?? 0
+          };
+        }""",
+        href,
+    )
+    page.evaluate(
+        """() => {
+          scrollTo(0,0);
+          document.documentElement.style.removeProperty('scroll-behavior');
+        }"""
+    )
+    if geometry["top"] < geometry["headerBottom"] + 8:
+        return [f"{name}@1440/js: anchor target hidden by sticky header {geometry}"]
+    return []
+
+
+def terminal_settle_errors(page, name: str, width: int) -> list[str]:
+    """Part III must visibly spend energy and close at the footer, not open into spectacle."""
+    if name != "part3" or width != 1440:
+        return []
+
+    page.evaluate("document.documentElement.style.scrollBehavior='auto'; scrollTo(0,0)")
+    page.wait_for_timeout(50)
+    line_before = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_before = _style_snapshot(page, '.series-nav')
+
+    page.evaluate("scrollTo(0, document.documentElement.scrollHeight - innerHeight)")
+    page.wait_for_timeout(120)
+    line_after = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_after = _style_snapshot(page, '.series-nav')
+    ending = float(page.evaluate(
+        "getComputedStyle(document.documentElement).getPropertyValue('--ending') || '0'"
+    ))
+    ending_class = page.evaluate("document.documentElement.classList.contains('is-ending')")
+
+    page.evaluate(
+        """() => {
+          scrollTo(0,0);
+          document.documentElement.style.removeProperty('scroll-behavior');
+        }"""
+    )
+
+    errors: list[str] = []
+    if ending < .95 or not ending_class:
+        errors.append(f"part3@1440/js: terminal state did not engage ending={ending}")
+    if _px(line_before["width"]) <= 0 or _px(line_after["width"]) > _px(line_before["width"]) * .12:
+        errors.append(
+            f"part3@1440/js: closure rule did not converge ({line_before} -> {line_after})"
+        )
+    if float(nav_after["opacity"]) >= float(nav_before["opacity"]) - .05:
+        errors.append(
+            f"part3@1440/js: pre-footer navigation did not settle ({nav_before} -> {nav_after})"
+        )
+    return errors
+
+
 def reduced_motion_errors(browser, errors: list[str]) -> None:
     """Reduced-motion users keep the complete research image without semantic motion."""
     context = browser.new_context(
@@ -229,6 +331,24 @@ def reduced_motion_errors(browser, errors: list[str]) -> None:
                 f"({trace_before} -> {trace_after})"
             )
 
+    page.goto(BASE + PAGES["part3"], wait_until="networkidle")
+    page.evaluate("document.documentElement.style.scrollBehavior='auto'; scrollTo(0,0)")
+    page.wait_for_timeout(50)
+    line_before = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_before = _style_snapshot(page, '.series-nav')
+    page.evaluate("scrollTo(0, document.documentElement.scrollHeight - innerHeight)")
+    page.wait_for_timeout(100)
+    line_after = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_after = _style_snapshot(page, '.series-nav')
+    if abs(_px(line_after["width"]) - _px(line_before["width"])) > 1:
+        errors.append(
+            f"part3@1440/reduced-motion: closure rule moved ({line_before} -> {line_after})"
+        )
+    if abs(float(nav_after["opacity"]) - float(nav_before["opacity"])) > .01:
+        errors.append(
+            f"part3@1440/reduced-motion: terminal navigation faded ({nav_before} -> {nav_after})"
+        )
+
     context.close()
 
 
@@ -258,6 +378,8 @@ def run_context(
             if js:
                 errors.extend(semantic_motion_errors(page, name, width))
                 errors.extend(transition_identity_errors(page, name, width))
+                errors.extend(anchor_offset_errors(page, name, width))
+                errors.extend(terminal_settle_errors(page, name, width))
 
                 # Full-page screenshots do not scroll each section through its
                 # IntersectionObserver. Reveal after measurement so artifacts remain
@@ -313,7 +435,7 @@ def main() -> None:
 
     print(
         f"Visual smoke passed: {len(PAGES) * len(VIEWPORTS)} JS views + "
-        "representative no-JS views + semantic/reduced-motion/transition contracts"
+        "representative no-JS views + semantic/reduced-motion/transition/anchor/terminal contracts"
     )
 
 

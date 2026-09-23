@@ -9,7 +9,7 @@ The Proper Ending Index
 Static HTML, CSS, and progressive JavaScript
 Three self-hosted type families; no framework runtime
 Current research version: 6.2
-Last update: 2026-09-16
+Last update: 2026-09-23
 
 /* ORIENTATION */
 https://takashisato.me/llms.txt
