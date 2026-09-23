@@ -138,9 +138,14 @@ body[data-page="about"] .author-name h1 { contain:paint; font-size:clamp(5rem,10
 .author-thesis p { max-width:22ch; font-family:var(--display); font-size:clamp(1.7rem,2.8vw,3rem); line-height:1.03; }
 .author-copy h2 { max-width:16ch; font-size:clamp(2.3rem,4vw,4.7rem); line-height:.96; letter-spacing:-.03em; }
 
-/* Footer is a terminal field, not a second home page. */
+/* The terminal rule physically converges under Part III's ending state. */
 .site-footer { padding-top:clamp(5rem,10vw,10rem); background:radial-gradient(60% 70% at 50% 0,var(--signal-wash),transparent 72%),#040404; }
-.footer-wordmark { font-size:clamp(4rem,11vw,12rem); line-height:.78; letter-spacing:-.055em; }
+.footer-wordmark { position:relative; font-size:clamp(4rem,11vw,12rem); line-height:.78; letter-spacing:-.055em; }
+.footer-wordmark::after {
+  content:""; position:absolute; left:0; right:0; bottom:-.7rem; height:1px;
+  background:linear-gradient(90deg,var(--line-strong),color-mix(in srgb,var(--signal-soft) 44%,transparent));
+  transform:scaleX(var(--ending,0)); transform-origin:0 50%; opacity:.78;
+}
 
 @media (min-width:110rem) {
   :root { --max:108rem; --reading:45rem; }
@@ -155,6 +160,7 @@ body[data-page="about"] .author-name h1 { contain:paint; font-size:clamp(5rem,10
 @media (max-width:44rem) {
   :root { --exhibit-gap:clamp(3rem,14vw,5rem); }
   .header-inner { min-height:4rem; }
+  .cursor-dot,.cursor-orbit { display:none!important; }
   body[data-page="home"] .hero { min-height:0; padding-top:5.5rem; }
   body[data-page="home"] .hero-grid::before { display:none; }
   body[data-page="home"] .hero h1 { font-size:clamp(3.55rem,18vw,5.3rem); line-height:.82; }
@@ -170,6 +176,7 @@ body[data-page="about"] .author-name h1 { contain:paint; font-size:clamp(5rem,10
   body[data-page="about"] .author-name h1 { font-size:clamp(4.6rem,20vw,6.8rem); }
   .footer-wordmark { font-size:clamp(4rem,20vw,7rem); }
 }
+@media (prefers-reduced-motion:reduce) { .footer-wordmark::after { transform:scaleX(1); } }
 @media (forced-colors:active) {
   .hero-transition li::before,.toc a[aria-current="location"]::before,.site-nav a[aria-current="page"]::before { forced-color-adjust:auto; background:Highlight; }
 }
