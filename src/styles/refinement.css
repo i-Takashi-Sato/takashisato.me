@@ -1,5 +1,4 @@
-/* The Proper Ending Index — v6.18 terminal cadence and editorial precision.
-   This layer only refines reading rhythm and closure; it adds no new research claim. */
+/* The Proper Ending Index — v6.18 terminal cadence and editorial precision. */
 
 @supports (text-wrap: balance) {
   h1,
@@ -11,62 +10,29 @@
   }
 }
 
-@supports (text-wrap: pretty) {
-  .content > section > p:not(.eyebrow):not(.caveat),
-  .content > section > ul li,
-  .content > section > ol li {
-    text-wrap: pretty;
-  }
+body[data-tone="part-3"] #citation {
+  position: relative;
+  margin-bottom: 5rem;
+  padding-bottom: 6rem;
+  border-bottom: 1px solid rgba(212,138,115,.38);
 }
 
-.paper-meta,
-.record-list,
-.verification,
-.metric,
-.map-index {
-  font-variant-numeric: tabular-nums lining-nums;
-}
-
-.content > section > h2 {
-  hanging-punctuation: first last;
-}
-
-/* Part III must end by reducing energy, not by opening another spectacle. */
-body[data-tone="part-3"] .content #citation {
-  margin-bottom: clamp(3.5rem, 7vw, 7rem);
-  padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
-  background:
-    linear-gradient(90deg, rgba(212,138,115,.58), rgba(212,138,115,.18)) left bottom / 44% 1px no-repeat,
-    linear-gradient(90deg, rgba(212,138,115,.18), rgba(212,138,115,.58)) right bottom / 44% 1px no-repeat,
-    linear-gradient(rgba(212,138,115,.78), rgba(212,138,115,.78)) center bottom / .52rem .52rem no-repeat;
+body[data-tone="part-3"] #citation::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -.28rem;
+  width: .52rem;
+  height: .52rem;
+  border: 1px solid rgba(212,138,115,.78);
+  background: #080808;
+  transform: translateX(-50%) rotate(45deg);
 }
 
 body[data-tone="part-3"] main > .section.compact {
-  position: relative;
   margin-top: 0;
-  padding-top: clamp(2.5rem, 5vw, 4.75rem);
-  padding-bottom: clamp(3.5rem, 6vw, 5.75rem);
-  background: linear-gradient(180deg, #080808 0%, #060606 54%, #050505 100%);
-}
-
-body[data-tone="part-3"] main > .section.compact::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: min(22rem, 42vw);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212,138,115,.32), transparent);
-  transform: translateX(-50%);
-}
-
-body[data-tone="part-3"] .series-nav a {
-  transition-duration: .28s;
-}
-
-body[data-tone="part-3"] .series-nav a[aria-current="page"] {
-  background: #060606;
-  box-shadow: inset 0 -1px 0 rgba(212,138,115,.18);
+  padding-block: 3.5rem;
+  background: linear-gradient(#080808,#050505);
 }
 
 body[data-tone="part-3"] .site-footer {
@@ -78,49 +44,9 @@ body[data-tone="part-3"] .footer-wordmark {
   opacity: .34;
 }
 
-body[data-tone="part-3"] .footer-bottom {
-  opacity: .78;
-}
-
-/* On gallery-scale displays, preserve editorial measure while improving optical centering. */
-@media (min-width: 110rem) {
-  .paper-hero h1 {
-    max-width: 13.5ch;
-  }
-
-  .content > section > h2 {
-    max-width: 18ch;
-  }
-}
-
 @media (max-width: 44rem) {
-  body[data-tone="part-3"] .content #citation {
+  body[data-tone="part-3"] #citation {
     margin-bottom: 2.5rem;
     padding-bottom: 4rem;
-    background-size: 41% 1px, 41% 1px, .44rem .44rem;
-  }
-
-  body[data-tone="part-3"] main > .section.compact {
-    padding-top: 2.5rem;
-    padding-bottom: 3.5rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body[data-tone="part-3"] .series-nav a {
-    transition: none;
-  }
-}
-
-@media print {
-  body[data-tone="part-3"] .content #citation {
-    background: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  body[data-tone="part-3"] main > .section.compact,
-  body[data-tone="part-3"] .site-footer {
-    background: transparent;
   }
 }
