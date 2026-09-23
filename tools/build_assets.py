@@ -37,24 +37,49 @@ def minify_css(css: str) -> str:
     return css.strip() + "\n"
 
 
+def _backtick_parity(line: str) -> int:
+    """Return whether a line contains an odd number of unescaped template delimiters."""
+    count = 0
+    escaped = False
+    for character in line:
+        if escaped:
+            escaped = False
+            continue
+        if character == "\\":
+            escaped = True
+            continue
+        if character == "`":
+            count += 1
+    return count % 2
+
+
 def compact_js(js: str) -> str:
-    """Drop source-only comments and blank lines without rewriting JavaScript syntax."""
+    """Remove source-only space while preserving multiline template literal content."""
     output: list[str] = []
     in_block_comment = False
+    in_template = False
 
     for line in js.splitlines():
         stripped = line.strip()
-        if in_block_comment:
-            if "*/" in stripped:
-                in_block_comment = False
-            continue
-        if stripped.startswith("/*"):
-            if "*/" not in stripped:
-                in_block_comment = True
-            continue
-        if not stripped or stripped.startswith("//"):
-            continue
-        output.append(line.rstrip())
+
+        if not in_template:
+            if in_block_comment:
+                if "*/" in stripped:
+                    in_block_comment = False
+                continue
+            if stripped.startswith("/*"):
+                if "*/" not in stripped:
+                    in_block_comment = True
+                continue
+            if not stripped or stripped.startswith("//"):
+                continue
+            rendered = line.lstrip().rstrip()
+        else:
+            rendered = line.rstrip()
+
+        output.append(rendered)
+        if _backtick_parity(line):
+            in_template = not in_template
 
     return "\n".join(output).rstrip() + "\n"
 
