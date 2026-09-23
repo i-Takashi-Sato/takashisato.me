@@ -1,0 +1,105 @@
+name: Production Browser Audit 2026-09-23
+
+on:
+  push:
+    branches:
+      - qa-production-live-20260923
+
+permissions:
+  contents: read
+
+jobs:
+  browser-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13'
+      - name: Install Playwright browsers
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.62.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Exercise released pages in Chromium and WebKit
+        shell: bash
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+
+          BASE = 'https://takashisato.me'
+          ROUTES = ['/', '/papers/', '/papers/part1.html', '/papers/part2.html', '/papers/part3.html', '/about.html']
+          PROFILES = [
+              ('chromium-desktop', 'chromium', {'width': 1440, 'height': 1000}, 'no-preference'),
+              ('chromium-mobile', 'chromium', {'width': 390, 'height': 844}, 'no-preference'),
+              ('webkit-desktop', 'webkit', {'width': 1440, 'height': 1000}, 'no-preference'),
+              ('webkit-mobile', 'webkit', {'width': 390, 'height': 844}, 'no-preference'),
+              ('webkit-mobile-reduced', 'webkit', {'width': 390, 'height': 844}, 'reduce'),
+          ]
+
+          failures = []
+          with sync_playwright() as p:
+              for label, engine, viewport, reduced_motion in PROFILES:
+                  browser_type = getattr(p, engine)
+                  browser = browser_type.launch()
+                  context = browser.new_context(
+                      viewport=viewport,
+                      reduced_motion=reduced_motion,
+                      ignore_https_errors=False,
+                  )
+                  for route in ROUTES:
+                      page = context.new_page()
+                      errors = []
+                      page.on('pageerror', lambda exc, errors=errors: errors.append(f'pageerror: {exc}'))
+                      page.on('console', lambda msg, errors=errors: errors.append(f'console error: {msg.text}') if msg.type == 'error' else None)
+                      try:
+                          response = page.goto(BASE + route, wait_until='networkidle', timeout=45000)
+                          status = response.status if response else 0
+                          if status != 200:
+                              failures.append(f'{label} {route}: HTTP {status}')
+                              continue
+                          page.locator('h1').first.wait_for(state='visible', timeout=10000)
+                          metrics = page.evaluate('''() => ({
+                            innerWidth: window.innerWidth,
+                            scrollWidth: document.documentElement.scrollWidth,
+                            bodyWidth: document.body.scrollWidth,
+                            title: document.title,
+                            headerVisible: !!document.querySelector('.site-header'),
+                            footerVisible: !!document.querySelector('.site-footer')
+                          })''')
+                          overflow = max(metrics['scrollWidth'], metrics['bodyWidth']) - metrics['innerWidth']
+                          if overflow > 1:
+                              failures.append(f'{label} {route}: horizontal overflow {overflow}px')
+                          if not metrics['headerVisible'] or not metrics['footerVisible']:
+                              failures.append(f'{label} {route}: missing header/footer')
+                          if errors:
+                              failures.append(f"{label} {route}: {' | '.join(errors)}")
+
+                          if route == '/papers/part3.html':
+                              page.evaluate('window.scrollTo(0, document.documentElement.scrollHeight)')
+                              page.wait_for_timeout(700)
+                              footer_box = page.locator('.site-footer').bounding_box()
+                              if not footer_box:
+                                  failures.append(f'{label} {route}: footer not rendered at terminal state')
+                              if reduced_motion == 'reduce':
+                                  nav = page.locator('.series-nav').first
+                                  if nav.count():
+                                      transform = nav.evaluate("el => getComputedStyle(el).transform")
+                                      opacity = float(nav.evaluate("el => getComputedStyle(el).opacity"))
+                                      if transform not in ('none', 'matrix(1, 0, 0, 1, 0, 0)') or abs(opacity - 1) > 0.01:
+                                          failures.append(f'{label} {route}: reduced-motion terminal state mutated ({transform}, {opacity})')
+
+                          print(f"PASS {label}: {route} · {metrics['title']}")
+                      except Exception as exc:
+                          failures.append(f'{label} {route}: {type(exc).__name__}: {exc}')
+                      finally:
+                          page.close()
+                  context.close()
+                  browser.close()
+
+          if failures:
+              print('\nFAILURES:')
+              for item in failures:
+                  print('-', item)
+              raise SystemExit(1)
+          print('\nProduction browser audit PASSED in Chromium and WebKit across desktop/mobile profiles.')
+          PY
