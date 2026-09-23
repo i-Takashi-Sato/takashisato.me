@@ -10,3 +10,16 @@
   transform: none;
   transition: none;
 }
+@supports (content-visibility: auto) {
+  body[data-tone] .content > section + section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 52rem;
+  }
+}
+
+@media print {
+  body[data-tone] .content > section + section {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+  }
+}
