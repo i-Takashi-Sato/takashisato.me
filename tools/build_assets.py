@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Compile readable source assets into the deterministic runtime contract."""
+"""Compile readable source modules into the deterministic runtime contract."""
 
 from __future__ import annotations
 
 from pathlib import Path
-import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -22,19 +21,12 @@ SCRIPT_SOURCES = (
     ROOT / "src/scripts/analytics.js",
 )
 
+RUNTIME_STYLE_DIR = ROOT / "assets/styles"
+
 
 def join_sources(paths: tuple[Path, ...]) -> str:
-    """Join source modules in declared cascade order without hiding boundaries."""
+    """Join source modules in declared order without hiding boundaries."""
     return "\n\n".join(path.read_text(encoding="utf-8").rstrip() for path in paths) + "\n"
-
-
-def minify_css(css: str) -> str:
-    """Compact generated CSS deterministically while keeping source files readable."""
-    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
-    css = re.sub(r"\s+", " ", css)
-    css = re.sub(r"\s*([{}:;,])\s*", r"\1", css)
-    css = css.replace(";} ", "} ").replace(";}", "}")
-    return css.strip() + "\n"
 
 
 def _backtick_parity(line: str) -> int:
@@ -84,11 +76,21 @@ def compact_js(js: str) -> str:
     return "\n".join(output).rstrip() + "\n"
 
 
+def build_styles() -> None:
+    """Publish the cascade as inspectable modules behind one stable stylesheet URL."""
+    RUNTIME_STYLE_DIR.mkdir(parents=True, exist_ok=True)
+    imports: list[str] = []
+
+    for source in STYLE_SOURCES:
+        runtime = RUNTIME_STYLE_DIR / source.name
+        runtime.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+        imports.append(f'@import url("/assets/styles/{source.name}");')
+
+    (ROOT / "assets/site.css").write_text("\n".join(imports) + "\n", encoding="utf-8")
+
+
 def build_assets() -> None:
-    (ROOT / "assets/site.css").write_text(
-        minify_css(join_sources(STYLE_SOURCES)),
-        encoding="utf-8",
-    )
+    build_styles()
     (ROOT / "assets/site.js").write_text(
         compact_js(join_sources(SCRIPT_SOURCES)),
         encoding="utf-8",
