@@ -1,0 +1,89 @@
+name: v6.18.1 Production Audit
+on:
+  push:
+    branches: [qa-v6.18.1-production]
+permissions:
+  contents: read
+jobs:
+  live-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13'
+      - name: Verify served files against released main
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://takashisato.me'
+          RAW='https://raw.githubusercontent.com/i-Takashi-Sato/takashisato.me/9c9f20655d168eae7ac40a149f3c5bd9f552d0d8'
+          tmp="$(mktemp -d)"
+          check() {
+            curl -fsSL --retry 3 "$BASE$1" -o "$tmp/live"
+            curl -fsSL --retry 3 "$RAW/$2" -o "$tmp/raw"
+            cmp -s "$tmp/live" "$tmp/raw" || { echo "PARITY FAIL $1"; exit 1; }
+            echo "PASS parity $1"
+          }
+          check / index.html
+          check /papers/ papers/index.html
+          check /papers/part1.html papers/part1.html
+          check /papers/part2.html papers/part2.html
+          check /papers/part3.html papers/part3.html
+          check /about.html about.html
+          check /assets/site.css assets/site.css
+          check /assets/site.js assets/site.js
+          check /sitemap.xml sitemap.xml
+          curl -fsSL "$BASE/" -o "$tmp/home"
+          if grep -q '<style data-critical>' "$tmp/home"; then
+            echo 'FAIL: blocked inline critical style is still served'; exit 1
+          fi
+          echo 'PASS: inline critical style is absent from live Home'
+      - name: Install Playwright engines
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.62.0
+          python -m playwright install --with-deps chromium webkit
+      - name: Exercise live HTTPS in Chromium and WebKit
+        shell: bash
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          BASE='https://takashisato.me'
+          ROUTES=['/','/papers/','/papers/part1.html','/papers/part2.html','/papers/part3.html','/about.html']
+          PROFILES=[
+            ('chromium-desktop','chromium',{'width':1440,'height':1000},'no-preference'),
+            ('chromium-mobile','chromium',{'width':390,'height':844},'no-preference'),
+            ('webkit-desktop','webkit',{'width':1440,'height':1000},'no-preference'),
+            ('webkit-mobile','webkit',{'width':390,'height':844},'no-preference'),
+            ('webkit-mobile-reduced','webkit',{'width':390,'height':844},'reduce'),
+          ]
+          failures=[]
+          with sync_playwright() as p:
+            for label,engine,viewport,reduced in PROFILES:
+              browser=getattr(p,engine).launch()
+              context=browser.new_context(viewport=viewport,reduced_motion=reduced)
+              for route in ROUTES:
+                page=context.new_page(); errors=[]
+                page.on('pageerror',lambda exc,errors=errors: errors.append(f'pageerror: {exc}'))
+                page.on('console',lambda msg,errors=errors: errors.append(f'console: {msg.text}') if msg.type=='error' else None)
+                try:
+                  response=page.goto(BASE+route,wait_until='networkidle',timeout=45000)
+                  if not response or response.status!=200: failures.append(f'{label} {route}: HTTP {response.status if response else 0}')
+                  page.locator('h1').first.wait_for(state='visible',timeout=10000)
+                  m=page.evaluate("() => ({w:innerWidth,sw:document.documentElement.scrollWidth,bw:document.body.scrollWidth,critical:!!document.querySelector('style[data-critical]')})")
+                  if m['critical']: failures.append(f'{label} {route}: inline critical style present')
+                  if max(m['sw'],m['bw'])-m['w']>1: failures.append(f"{label} {route}: horizontal overflow {max(m['sw'],m['bw'])-m['w']}px")
+                  if errors: failures.append(f"{label} {route}: {' | '.join(errors)}")
+                  if route=='/papers/part3.html':
+                    page.evaluate('window.scrollTo(0,document.documentElement.scrollHeight)'); page.wait_for_timeout(500)
+                    if reduced=='reduce' and page.locator('.series-nav').count():
+                      nav=page.locator('.series-nav').first
+                      t=nav.evaluate("el=>getComputedStyle(el).transform"); o=float(nav.evaluate("el=>getComputedStyle(el).opacity"))
+                      if t not in ('none','matrix(1, 0, 0, 1, 0, 0)') or abs(o-1)>0.01: failures.append(f'{label} Part III reduced-motion terminal mutation: {t}, {o}')
+                  print('PASS',label,route)
+                except Exception as exc: failures.append(f'{label} {route}: {exc}')
+                finally: page.close()
+              context.close(); browser.close()
+          if failures:
+            print('\n'.join('FAIL '+x for x in failures)); raise SystemExit(1)
+          print('LIVE BROWSER AUDIT PASSED')
+          PY
