@@ -41,6 +41,13 @@ jobs:
           python tools/build_site.py
           python tools/generate_og.py
 
+      - name: Upload deterministic rebuild
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: v7-rebuild
+          path: assets/site.css
+          retention-days: 1
+
       - name: Require committed generated output
         run: git diff --exit-code
 
