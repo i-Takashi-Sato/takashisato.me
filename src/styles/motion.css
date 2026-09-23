@@ -56,9 +56,30 @@
   --ease-settle: cubic-bezier(.12,.72,.16,1);
 }
 
-/* Cross-document continuity: the instrument, not the whole page, carries state. */
+/* A sampled easing curve gives closure a critically damped feel without a spring library. */
+@supports (animation-timing-function: linear(0, 1)) {
+  :root {
+    --ease-settle: linear(
+      0,
+      .19 7%,
+      .39 16%,
+      .59 28%,
+      .75 42%,
+      .87 57%,
+      .945 72%,
+      .985 86%,
+      1
+    );
+  }
+}
+
+/* Cross-document continuity: identity transfers; the page itself never performs. */
 @view-transition {
   navigation: auto;
+}
+
+.brand {
+  view-transition-name: archive-brand;
 }
 
 .research-map-node[data-part="1"] .map-glyph {
@@ -73,6 +94,18 @@
   view-transition-name: part-iii-instrument;
 }
 
+.research-map-node[data-part="1"] b {
+  view-transition-name: part-i-title;
+}
+
+.research-map-node[data-part="2"] b {
+  view-transition-name: part-ii-title;
+}
+
+.research-map-node[data-part="3"] b {
+  view-transition-name: part-iii-title;
+}
+
 body[data-tone="part-1"] .paper-apparatus {
   view-transition-name: part-i-instrument;
 }
@@ -83,6 +116,18 @@ body[data-tone="part-2"] .paper-apparatus {
 
 body[data-tone="part-3"] .paper-apparatus {
   view-transition-name: part-iii-instrument;
+}
+
+body[data-page="part1"] .paper-hero h1 {
+  view-transition-name: part-i-title;
+}
+
+body[data-page="part2"] .paper-hero h1 {
+  view-transition-name: part-ii-title;
+}
+
+body[data-page="part3"] .paper-hero h1 {
+  view-transition-name: part-iii-title;
 }
 
 ::view-transition-group(root) {
@@ -110,12 +155,25 @@ body[data-tone="part-3"] .paper-apparatus {
   animation-timing-function: var(--ease-transfer);
 }
 
+::view-transition-group(part-i-title),
+::view-transition-group(part-ii-title),
+::view-transition-group(part-iii-title) {
+  animation-duration: calc(var(--motion-transfer) * .92);
+  animation-timing-function: var(--ease-transfer);
+}
+
 ::view-transition-old(part-i-instrument),
 ::view-transition-new(part-i-instrument),
 ::view-transition-old(part-ii-instrument),
 ::view-transition-new(part-ii-instrument),
 ::view-transition-old(part-iii-instrument),
-::view-transition-new(part-iii-instrument) {
+::view-transition-new(part-iii-instrument),
+::view-transition-old(part-i-title),
+::view-transition-new(part-i-title),
+::view-transition-old(part-ii-title),
+::view-transition-new(part-ii-title),
+::view-transition-old(part-iii-title),
+::view-transition-new(part-iii-title) {
   mix-blend-mode: normal;
 }
 
@@ -142,6 +200,7 @@ body[data-tone="part-3"] .paper-apparatus {
 .author-copy h2,
 .sequence-title,
 .footer-wordmark {
+  font-optical-sizing: auto;
   text-wrap: balance;
   hanging-punctuation: first last;
 }
@@ -169,6 +228,31 @@ body[data-tone="part-3"] .paper-apparatus {
 .verification,
 .metric-grid {
   font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Selection is part-specific but intentionally quiet: state, not decoration. */
+::selection {
+  color: #fff;
+  background: rgba(174,200,210,.22);
+}
+
+body[data-tone="part-1"] ::selection {
+  background: rgba(216,192,143,.28);
+}
+
+body[data-tone="part-2"] ::selection {
+  background: rgba(182,209,218,.26);
+}
+
+body[data-tone="part-3"] ::selection {
+  background: rgba(212,138,115,.28);
+}
+
+/* Paint-heavy instruments are isolated so sophistication does not become page cost. */
+.map-glyph,
+.paper-apparatus {
+  contain: paint;
+  isolation: isolate;
 }
 
 /* The research map is responsive to its own width, not merely the viewport. */
@@ -200,6 +284,32 @@ body[data-tone="part-1"] .paper-apparatus,
 @media (hover:hover) and (pointer:fine) {
   .research-map-node[data-part="1"]:hover .map-glyph {
     filter: brightness(1.14) contrast(1.04);
+  }
+}
+
+/* Typed state feedback uses the DOM's declared aria-pressed state as its source. */
+@supports selector(.probe-gate:has(button[aria-pressed="true"])) {
+  .probe-gate {
+    transition:
+      border-color var(--motion-state) ease,
+      background-color var(--motion-state) ease;
+  }
+
+  .probe-gate:has(button[data-state="PASS"][aria-pressed="true"]) {
+    border-color: color-mix(in srgb,var(--part-i-measure) 56%,var(--line));
+    background: color-mix(in srgb,var(--part-i-measure) 3%,transparent);
+  }
+
+  .probe-gate:has(button[data-state="REVIEW"][aria-pressed="true"]) {
+    border-color: color-mix(in srgb,var(--part-ii-capacity) 46%,var(--line));
+  }
+
+  .probe-gate:has(button[data-state="BLOCK"][aria-pressed="true"]) {
+    border-color: color-mix(in srgb,var(--part-iii-return) 50%,var(--line));
+  }
+
+  .probe-gate:has(button[data-state="UNKNOWN"][aria-pressed="true"]) {
+    border-color: var(--line-strong);
   }
 }
 
@@ -355,16 +465,34 @@ body[data-page="part3"] .site-footer .footer-bottom {
 
 html.is-ending body[data-page="part3"] .site-footer .footer-links,
 html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
-  opacity: .58;
-  transform: translateY(.2rem);
+  opacity: .78;
+  transform: translateY(.12rem);
 }
 
 html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
-  opacity: .72;
+  opacity: .82;
 }
 
 html.is-ending body[data-page="part3"] .footer-wordmark::after {
   opacity: 1;
+}
+
+/* Higher-contrast users receive stronger structure without a second visual system. */
+@media (prefers-contrast: more) {
+  .research-map-node,
+  .paper-meta,
+  .boundary,
+  .model,
+  .citation {
+    border-color: color-mix(in srgb,var(--ink) 42%,transparent);
+  }
+
+  .research-map-node small,
+  .sequence-copy,
+  .content p,
+  .content li {
+    color: color-mix(in srgb,var(--ink) 86%,var(--ink-soft));
+  }
 }
 
 @media (max-width: 44rem) {
@@ -378,7 +506,10 @@ html.is-ending body[data-page="part3"] .footer-wordmark::after {
   ::view-transition-group(archive-brand),
   ::view-transition-group(part-i-instrument),
   ::view-transition-group(part-ii-instrument),
-  ::view-transition-group(part-iii-instrument) {
+  ::view-transition-group(part-iii-instrument),
+  ::view-transition-group(part-i-title),
+  ::view-transition-group(part-ii-title),
+  ::view-transition-group(part-iii-title) {
     animation-duration: .01ms;
   }
 
@@ -407,8 +538,10 @@ html.is-ending body[data-page="part3"] .footer-wordmark::after {
 }
 
 @media print {
+  .brand,
   .research-map-node,
   .paper-apparatus,
+  .paper-hero h1,
   .site-footer {
     view-transition-name: none;
   }
