@@ -1,0 +1,320 @@
+#!/usr/bin/env python3
+"""Temporary deterministic v6.18 source refinement; removed before merge."""
+from pathlib import Path
+
+
+def replace_once(path: str, old: str, new: str) -> None:
+    target = Path(path)
+    text = target.read_text(encoding="utf-8")
+    if old not in text:
+        raise SystemExit(f"Expected source block not found in {path}: {old[:90]!r}")
+    target.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+
+# Release metadata: archive presentation changed; paper revision metadata remains v6.2 / 2026-08-23.
+replace_once("src/archive/model.py", 'UPDATED: Final = "2026-09-16"', 'UPDATED: Final = "2026-09-23"')
+replace_once("src/archive/model.py", 'ASSET_VERSION: Final = "6.16.0"', 'ASSET_VERSION: Final = "6.18.0"')
+replace_once(
+    "tools/build_site.py",
+    "Source architecture and public records reconciled on 16 September 2026.",
+    "Source architecture and public records reconciled on 23 September 2026.",
+)
+replace_once("tools/build_site.py", "Last update: 2026-09-16", "Last update: 2026-09-23")
+
+# Motion owns state and closure. Improve anchor orientation and make the visible end-state close rather than animate an offscreen hero.
+replace_once(
+    "src/styles/motion.css",
+    "/* The Proper Ending Index — v6.16 advanced pavilion layer.",
+    "/* The Proper Ending Index — v6.18 terminal-precision layer.",
+)
+replace_once(
+    "src/styles/motion.css",
+    "/* Typography behaves like architecture: a small number of deliberate measures. */\n",
+    "/* Typography behaves like architecture: a small number of deliberate measures. */\nhtml { scroll-padding-top: 5.4rem; }\n.content > section[id] { scroll-margin-top: 5.4rem; }\n\n",
+)
+replace_once(
+    "src/styles/motion.css",
+    "  text-wrap: balance;\n  hanging-punctuation: first last;\n}",
+    "  text-wrap: balance;\n  hanging-punctuation: first last;\n  font-optical-sizing: auto;\n}",
+)
+replace_once(
+    "src/styles/motion.css",
+    '''body[data-tone="part-3"] .paper-apparatus i:first-of-type,
+body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
+  transition:
+    width var(--motion-settle) var(--ease-settle),
+    height var(--motion-settle) var(--ease-settle),
+    opacity var(--motion-settle) ease;
+}
+
+html.is-ending body[data-tone="part-3"] .paper-apparatus i:first-of-type {
+  width: .72rem;
+  height: .72rem;
+  opacity: .72;
+}
+
+html.is-ending body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
+  width: .18rem;
+  height: .18rem;
+  opacity: .86;
+}
+
+''',
+    "",
+)
+replace_once(
+    "src/styles/motion.css",
+    '''/* The end of Part III does not reveal another spectacle. It removes energy. */
+body[data-page="part3"] .site-footer .footer-links,
+body[data-page="part3"] .site-footer .footer-thesis,
+body[data-page="part3"] .site-footer .footer-bottom {
+  transition:
+    opacity var(--motion-settle) ease,
+    transform var(--motion-settle) var(--ease-settle);
+}
+
+html.is-ending body[data-page="part3"] .site-footer .footer-links,
+html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
+  opacity: .78;
+  transform: translateY(.12rem);
+}
+
+html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
+  opacity: .82;
+}
+
+html.is-ending body[data-page="part3"] .footer-wordmark::after {
+  opacity: 1;
+}
+''',
+    '''/* The end of Part III does not reveal another spectacle. It removes energy. */
+body[data-page="part3"] .series-nav {
+  transform: scaleX(calc(1 - (var(--ending,0) * .018)));
+  transform-origin: 50% 100%;
+  opacity: calc(1 - (var(--ending,0) * .14));
+}
+
+body[data-page="part3"] .footer-wordmark::after {
+  left: calc(var(--ending,0) * 50%);
+  right: calc(var(--ending,0) * 50%);
+  transform: none;
+  opacity: .78;
+}
+
+body[data-page="part3"] .site-footer .footer-links,
+body[data-page="part3"] .site-footer .footer-thesis,
+body[data-page="part3"] .site-footer .footer-bottom {
+  transition:
+    opacity var(--motion-settle) ease,
+    transform var(--motion-settle) var(--ease-settle);
+}
+
+html.is-ending body[data-page="part3"] .site-footer .footer-links,
+html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
+  opacity: .78;
+  transform: translateY(.12rem);
+}
+
+html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
+  opacity: .82;
+}
+''',
+)
+replace_once(
+    "src/styles/motion.css",
+    '''  body[data-tone="part-3"] .paper-apparatus {
+    opacity: .62;
+  }
+}
+''',
+    '''  body[data-tone="part-3"] .paper-apparatus {
+    opacity: .62;
+  }
+
+  body[data-page="part3"] .series-nav {
+    opacity: 1;
+    transform: none !important;
+  }
+
+  body[data-page="part3"] .footer-wordmark::after {
+    left: 0;
+    right: 0;
+    transform: none;
+  }
+
+  body[data-page="part3"] .site-footer .footer-links,
+  body[data-page="part3"] .site-footer .footer-thesis,
+  body[data-page="part3"] .site-footer .footer-bottom {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+''',
+)
+
+# Visual Smoke now protects anchor clearance and the final Part III closure contract.
+visual = Path("tools/visual_smoke.py")
+text = visual.read_text(encoding="utf-8")
+marker = "\n\ndef semantic_motion_errors(page, name: str, width: int) -> list[str]:\n"
+if marker not in text:
+    raise SystemExit("visual_smoke semantic marker not found")
+pseudo_helper = '''\n\ndef _pseudo_snapshot(page, selector: str, pseudo: str = "::after") -> dict[str, str]:
+    return page.locator(selector).evaluate(
+        """(el, pseudo) => {
+          const s = getComputedStyle(el, pseudo);
+          return {
+            width: s.width,
+            left: s.left,
+            right: s.right,
+            opacity: s.opacity,
+            transform: s.transform
+          };
+        }""",
+        pseudo,
+    )
+
+
+def _px(value: str) -> float:
+    return float(value[:-2]) if value.endswith("px") else 0.0
+'''
+text = text.replace(marker, pseudo_helper + marker, 1)
+
+marker = "\n\ndef reduced_motion_errors(browser, errors: list[str]) -> None:\n"
+if marker not in text:
+    raise SystemExit("visual_smoke reduced-motion marker not found")
+contract_functions = '''\n\ndef anchor_offset_errors(page, name: str, width: int) -> list[str]:
+    """Sticky archive chrome must not cover in-document research targets."""
+    if name not in {"part1", "part2", "part3"} or width != 1440:
+        return []
+
+    links = page.locator('.toc a[href^="#"]')
+    if links.count() < 2:
+        return [f"{name}@1440/js: insufficient TOC links for anchor test"]
+    href = links.nth(1).get_attribute("href")
+    if not href:
+        return [f"{name}@1440/js: missing TOC href for anchor test"]
+
+    page.evaluate(
+        """selector => {
+          document.documentElement.style.scrollBehavior = 'auto';
+          document.querySelector(selector)?.scrollIntoView({block:'start'});
+        }""",
+        href,
+    )
+    page.wait_for_timeout(60)
+    geometry = page.evaluate(
+        """selector => {
+          const target = document.querySelector(selector);
+          const header = document.querySelector('.site-header');
+          return {
+            top: target?.getBoundingClientRect().top ?? -1,
+            headerBottom: header?.getBoundingClientRect().bottom ?? 0
+          };
+        }""",
+        href,
+    )
+    page.evaluate(
+        """() => {
+          scrollTo(0,0);
+          document.documentElement.style.removeProperty('scroll-behavior');
+        }"""
+    )
+    if geometry["top"] < geometry["headerBottom"] + 8:
+        return [f"{name}@1440/js: anchor target hidden by sticky header {geometry}"]
+    return []
+
+
+def terminal_settle_errors(page, name: str, width: int) -> list[str]:
+    """Part III must visibly spend energy and close at the footer, not open into spectacle."""
+    if name != "part3" or width != 1440:
+        return []
+
+    page.evaluate("document.documentElement.style.scrollBehavior='auto'; scrollTo(0,0)")
+    page.wait_for_timeout(50)
+    line_before = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_before = _style_snapshot(page, '.series-nav')
+
+    page.evaluate("scrollTo(0, document.documentElement.scrollHeight - innerHeight)")
+    page.wait_for_timeout(120)
+    line_after = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_after = _style_snapshot(page, '.series-nav')
+    ending = float(page.evaluate(
+        "getComputedStyle(document.documentElement).getPropertyValue('--ending') || '0'"
+    ))
+    ending_class = page.evaluate("document.documentElement.classList.contains('is-ending')")
+
+    page.evaluate(
+        """() => {
+          scrollTo(0,0);
+          document.documentElement.style.removeProperty('scroll-behavior');
+        }"""
+    )
+
+    errors: list[str] = []
+    if ending < .95 or not ending_class:
+        errors.append(f"part3@1440/js: terminal state did not engage ending={ending}")
+    if _px(line_before["width"]) <= 0 or _px(line_after["width"]) > _px(line_before["width"]) * .12:
+        errors.append(
+            f"part3@1440/js: closure rule did not converge ({line_before} -> {line_after})"
+        )
+    if float(nav_after["opacity"]) >= float(nav_before["opacity"]) - .05:
+        errors.append(
+            f"part3@1440/js: pre-footer navigation did not settle ({nav_before} -> {nav_after})"
+        )
+    return errors
+'''
+text = text.replace(marker, contract_functions + marker, 1)
+
+old = '''            if js:
+                errors.extend(semantic_motion_errors(page, name, width))
+                errors.extend(transition_identity_errors(page, name, width))
+'''
+new = '''            if js:
+                errors.extend(semantic_motion_errors(page, name, width))
+                errors.extend(transition_identity_errors(page, name, width))
+                errors.extend(anchor_offset_errors(page, name, width))
+                errors.extend(terminal_settle_errors(page, name, width))
+'''
+if old not in text:
+    raise SystemExit("visual_smoke run_context block not found")
+text = text.replace(old, new, 1)
+
+old = '''    context.close()
+
+
+def run_context(
+'''
+reduced_terminal = '''    page.goto(BASE + PAGES["part3"], wait_until="networkidle")
+    page.evaluate("document.documentElement.style.scrollBehavior='auto'; scrollTo(0,0)")
+    page.wait_for_timeout(50)
+    line_before = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_before = _style_snapshot(page, '.series-nav')
+    page.evaluate("scrollTo(0, document.documentElement.scrollHeight - innerHeight)")
+    page.wait_for_timeout(100)
+    line_after = _pseudo_snapshot(page, '.footer-wordmark')
+    nav_after = _style_snapshot(page, '.series-nav')
+    if abs(_px(line_after["width"]) - _px(line_before["width"])) > 1:
+        errors.append(
+            f"part3@1440/reduced-motion: closure rule moved ({line_before} -> {line_after})"
+        )
+    if abs(float(nav_after["opacity"]) - float(nav_before["opacity"])) > .01:
+        errors.append(
+            f"part3@1440/reduced-motion: terminal navigation faded ({nav_before} -> {nav_after})"
+        )
+
+    context.close()
+
+
+def run_context(
+'''
+if old not in text:
+    raise SystemExit("visual_smoke context-close block not found")
+text = text.replace(old, reduced_terminal, 1)
+
+old = '"representative no-JS views + semantic/reduced-motion/transition contracts"'
+new = '"representative no-JS views + semantic/reduced-motion/transition/anchor/terminal contracts"'
+if old not in text:
+    raise SystemExit("visual_smoke summary string not found")
+text = text.replace(old, new, 1)
+visual.write_text(text, encoding="utf-8")
