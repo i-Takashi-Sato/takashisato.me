@@ -14,6 +14,7 @@ STYLE_SOURCES = (
     ROOT / "src/styles/instruments.css",
     ROOT / "src/styles/motion.css",
     ROOT / "src/styles/performance.css",
+    ROOT / "src/styles/refinement.css",
 )
 
 SCRIPT_SOURCES = (
