@@ -1,0 +1,21 @@
+name: Production Security Headers 2026-09-23
+
+on:
+  push:
+    branches:
+      - qa-production-live-20260923
+
+permissions:
+  contents: read
+
+jobs:
+  headers:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Print live response headers
+        run: |
+          set -euo pipefail
+          for path in / /papers/ /papers/part1.html /papers/part2.html /papers/part3.html /about.html; do
+            echo "===== $path ====="
+            curl --silent --show-error --head --location --max-time 30 "https://takashisato.me$path" | sed -n '/^HTTP\//p;/^[Cc]ontent-[Ss]ecurity-[Pp]olicy:/p;/^[Cc]ache-[Cc]ontrol:/p;/^[Cc]ontent-[Tt]ype:/p;/^[Ss]trict-[Tt]ransport-[Ss]ecurity:/p;/^[Xx]-[Cc]ontent-[Tt]ype-[Oo]ptions:/p;/^[Rr]eferrer-[Pp]olicy:/p'
+          done
