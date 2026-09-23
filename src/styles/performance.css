@@ -11,8 +11,22 @@
   transition: none;
 }
 
-/* A fine-pointer ornament must never widen a phone-sized document. */
+/* Fine-pointer ornaments and masked identity paint must never widen a phone viewport. */
 @media (max-width:44rem) {
   .cursor-orbit,
   .cursor-dot { display:none !important; }
+
+  body[data-page="about"] .author-name {
+    min-width:0;
+    overflow:clip;
+  }
+  body[data-page="about"] .author-name h1 {
+    width:100%;
+    max-width:100%;
+    overflow:clip;
+  }
+  body[data-page="about"] .author-name h1::after {
+    inset:3% 0 0;
+    transform:none;
+  }
 }
