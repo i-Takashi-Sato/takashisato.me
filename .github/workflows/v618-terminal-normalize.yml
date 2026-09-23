@@ -1,0 +1,63 @@
+name: v6.18 Terminal Normalize
+
+on:
+  push:
+    branches:
+      - v6.18-terminal-precision
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: v6.18-terminal-precision
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Normalize terminal progress to complete closure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('src/scripts/core.js')
+          text = path.read_text(encoding='utf-8')
+          old = """      if (footer) {
+        const ending = clamp(1 - footer.getBoundingClientRect().top / innerHeight);
+        root.style.setProperty('--ending', ending.toFixed(4));
+        root.classList.toggle('is-ending', ending > 0.48);
+      }
+"""
+          new = """      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        const terminalTravel = Math.max(1, Math.min(innerHeight, footerRect.height));
+        const ending = clamp((innerHeight - footerRect.top) / terminalTravel);
+        root.style.setProperty('--ending', ending.toFixed(4));
+        root.classList.toggle('is-ending', ending > 0.48);
+      }
+"""
+          if old not in text:
+              raise SystemExit('footer ending block not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+      - name: Rebuild deterministic output
+        run: python tools/build_site.py
+      - name: Enforce runtime budget
+        run: |
+          css_bytes=$(wc -c < assets/site.css)
+          js_bytes=$(wc -c < assets/site.js)
+          echo "site.css=${css_bytes}"
+          echo "site.js=${js_bytes}"
+          test "$css_bytes" -lt 100000
+          python -m py_compile tools/visual_smoke.py
+      - name: Commit generated output
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/scripts/core.js assets/site.js index.html papers/index.html papers/part1.html papers/part2.html papers/part3.html about.html colophon.html privacy.html security.html 404.html demo/index.html demo/altrion-part1.html demo/altrion-part2.html
+          git commit -m 'v6.18: normalize terminal progress to complete closure [v618-terminal]'
+          git push origin HEAD:v6.18-terminal-precision
