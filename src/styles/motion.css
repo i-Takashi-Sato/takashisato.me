@@ -215,7 +215,7 @@ body[data-tone="part-1"] .paper-apparatus,
 }
 
 @media (hover:hover) and (pointer:fine) {
-  .research-map-node[data-part="1"]:hover .map-glyph {
+  .research-map-node[data-part="1"]:is(:hover,:focus-visible) .map-glyph {
     filter: brightness(1.14) contrast(1.04);
   }
 }
@@ -367,22 +367,22 @@ html.is-ending body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2) {
 }
 
 @media (hover:hover) and (pointer:fine) {
-  .research-map-node:hover::after,
-  .series-nav a:hover::after {
+  .research-map-node:is(:hover,:focus-visible)::after,
+  .series-nav a:is(:hover,:focus-visible)::after {
     opacity: 1;
   }
 
-  .research-map-node[data-part="2"]:hover .map-glyph i:first-child {
+  .research-map-node[data-part="2"]:is(:hover,:focus-visible) .map-glyph i:first-child {
     translate: .35rem .12rem;
     rotate: -3deg;
   }
 
-  .research-map-node[data-part="2"]:hover .map-glyph i:nth-child(2) {
+  .research-map-node[data-part="2"]:is(:hover,:focus-visible) .map-glyph i:nth-child(2) {
     translate: -.22rem .24rem;
     rotate: 3deg;
   }
 
-  .research-map-node[data-part="3"]:hover .map-glyph {
+  .research-map-node[data-part="3"]:is(:hover,:focus-visible) .map-glyph {
     transform: scale(.925);
   }
 }
@@ -408,6 +408,32 @@ html.is-ending body[data-page="part3"] .site-footer .footer-bottom {
 
 html.is-ending body[data-page="part3"] .footer-wordmark::after {
   opacity: 1;
+}
+
+/* Long-form sections carry a quiet folio outside the reading measure. */
+body[data-tone] .content {
+  counter-reset: archive-section;
+}
+
+body[data-tone] .content > section:not(#citation) {
+  counter-increment: archive-section;
+  position: relative;
+}
+
+@media (min-width: 70rem) {
+  body[data-tone] .content > section:not(#citation)::before {
+    content: counter(archive-section, decimal-leading-zero);
+    position: absolute;
+    top: clamp(2.8rem, 4vw, 4rem);
+    left: clamp(-5rem, -4.5vw, -3.6rem);
+    font: 620 .54rem/1 var(--mono);
+    letter-spacing: .14em;
+    opacity: .58;
+  }
+
+  body[data-tone="part-1"] .content > section:not(#citation)::before { color: var(--part-i-measure); }
+  body[data-tone="part-2"] .content > section:not(#citation)::before { color: var(--part-ii-capacity); }
+  body[data-tone="part-3"] .content > section:not(#citation)::before { color: var(--part-iii-return); }
 }
 
 @media (max-width: 44rem) {

@@ -277,7 +277,7 @@ body::before {
 }
 
 /* Papers is a map of three mechanisms, each an entrance to a reading room. */
-.research-map-section { padding: 0 0 clamp(2rem,5vw,4.5rem); }
+.research-map-section { position:relative; z-index:2; margin-top:clamp(-2.6rem,-2.8vw,-1.35rem); padding:0 0 clamp(2rem,5vw,4.5rem); }
 .research-map {
   position: relative;
   display: grid;
@@ -340,6 +340,10 @@ body[data-page="about"] .author-name h1::after {
   filter: drop-shadow(0 0 2rem rgba(183,154,99,.11));
 }
 
+@media (min-width:110rem) {
+  :root { --max: 104rem; }
+}
+
 /* Proper Ending is drawn shut by one rule; motion.css controls the terminal state. */
 .footer-wordmark { position: relative; }
 .footer-wordmark::after {
@@ -357,6 +361,7 @@ body[data-page="about"] .author-name h1::after {
 
 @media (max-width:44rem) {
   .header-inner { min-height: 4rem; }
+  .research-map-section { margin-top: 0; }
   .hero-transition { margin-top: 1.2rem; }
   .hero-transition span { font-size: .53rem; letter-spacing: .08em; }
   .research-map { grid-template-columns: 1fr; }
