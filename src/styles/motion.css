@@ -78,10 +78,6 @@
   navigation: auto;
 }
 
-.brand {
-  view-transition-name: archive-brand;
-}
-
 .research-map-node[data-part="1"] .map-glyph {
   view-transition-name: part-i-instrument;
 }
@@ -94,18 +90,6 @@
   view-transition-name: part-iii-instrument;
 }
 
-.research-map-node[data-part="1"] b {
-  view-transition-name: part-i-title;
-}
-
-.research-map-node[data-part="2"] b {
-  view-transition-name: part-ii-title;
-}
-
-.research-map-node[data-part="3"] b {
-  view-transition-name: part-iii-title;
-}
-
 body[data-tone="part-1"] .paper-apparatus {
   view-transition-name: part-i-instrument;
 }
@@ -116,18 +100,6 @@ body[data-tone="part-2"] .paper-apparatus {
 
 body[data-tone="part-3"] .paper-apparatus {
   view-transition-name: part-iii-instrument;
-}
-
-body[data-page="part1"] .paper-hero h1 {
-  view-transition-name: part-i-title;
-}
-
-body[data-page="part2"] .paper-hero h1 {
-  view-transition-name: part-ii-title;
-}
-
-body[data-page="part3"] .paper-hero h1 {
-  view-transition-name: part-iii-title;
 }
 
 ::view-transition-group(root) {
@@ -155,25 +127,12 @@ body[data-page="part3"] .paper-hero h1 {
   animation-timing-function: var(--ease-transfer);
 }
 
-::view-transition-group(part-i-title),
-::view-transition-group(part-ii-title),
-::view-transition-group(part-iii-title) {
-  animation-duration: calc(var(--motion-transfer) * .92);
-  animation-timing-function: var(--ease-transfer);
-}
-
 ::view-transition-old(part-i-instrument),
 ::view-transition-new(part-i-instrument),
 ::view-transition-old(part-ii-instrument),
 ::view-transition-new(part-ii-instrument),
 ::view-transition-old(part-iii-instrument),
-::view-transition-new(part-iii-instrument),
-::view-transition-old(part-i-title),
-::view-transition-new(part-i-title),
-::view-transition-old(part-ii-title),
-::view-transition-new(part-ii-title),
-::view-transition-old(part-iii-title),
-::view-transition-new(part-iii-title) {
+::view-transition-new(part-iii-instrument) {
   mix-blend-mode: normal;
 }
 
@@ -200,7 +159,6 @@ body[data-page="part3"] .paper-hero h1 {
 .author-copy h2,
 .sequence-title,
 .footer-wordmark {
-  font-optical-sizing: auto;
   text-wrap: balance;
   hanging-punctuation: first last;
 }
@@ -228,36 +186,6 @@ body[data-page="part3"] .paper-hero h1 {
 .verification,
 .metric-grid {
   font-variant-numeric: tabular-nums lining-nums;
-}
-
-/* Selection inherits the paper state without selector-specific pseudo-element hacks. */
-:root {
-  --selection-bg: rgba(174,200,210,.22);
-}
-
-body[data-tone="part-1"] {
-  --selection-bg: rgba(216,192,143,.28);
-}
-
-body[data-tone="part-2"] {
-  --selection-bg: rgba(182,209,218,.26);
-}
-
-body[data-tone="part-3"] {
-  --selection-bg: rgba(212,138,115,.28);
-}
-
-::selection,
-::-moz-selection {
-  color: #fff;
-  background: var(--selection-bg);
-  text-shadow: none;
-}
-
-/* Instruments form their own stacking context; overflow remains architectural data. */
-.map-glyph,
-.paper-apparatus {
-  isolation: isolate;
 }
 
 /* The research map is responsive to its own width, not merely the viewport. */
@@ -482,24 +410,6 @@ html.is-ending body[data-page="part3"] .footer-wordmark::after {
   opacity: 1;
 }
 
-/* Higher-contrast users receive stronger structure without a second visual system. */
-@media (prefers-contrast: more) {
-  .research-map-node,
-  .paper-meta,
-  .boundary,
-  .model,
-  .citation {
-    border-color: color-mix(in srgb,var(--ink) 42%,transparent);
-  }
-
-  .research-map-node small,
-  .sequence-copy,
-  .content p,
-  .content li {
-    color: color-mix(in srgb,var(--ink) 86%,var(--ink-soft));
-  }
-}
-
 @media (max-width: 44rem) {
   .research-map-node {
     container-type: normal;
@@ -511,10 +421,7 @@ html.is-ending body[data-page="part3"] .footer-wordmark::after {
   ::view-transition-group(archive-brand),
   ::view-transition-group(part-i-instrument),
   ::view-transition-group(part-ii-instrument),
-  ::view-transition-group(part-iii-instrument),
-  ::view-transition-group(part-i-title),
-  ::view-transition-group(part-ii-title),
-  ::view-transition-group(part-iii-title) {
+  ::view-transition-group(part-iii-instrument) {
     animation-duration: .01ms;
   }
 
@@ -543,10 +450,8 @@ html.is-ending body[data-page="part3"] .footer-wordmark::after {
 }
 
 @media print {
-  .brand,
   .research-map-node,
   .paper-apparatus,
-  .paper-hero h1,
   .site-footer {
     view-transition-name: none;
   }
