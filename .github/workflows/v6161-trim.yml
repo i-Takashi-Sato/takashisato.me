@@ -1,0 +1,178 @@
+name: v6.16.1 Trim Preview
+
+on:
+  push:
+    branches:
+      - v6.16.1-artifact-polish
+
+permissions:
+  contents: write
+
+jobs:
+  trim:
+    if: ${{ !contains(github.event.head_commit.message, '[generated-trim]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: v6.16.1-artifact-polish
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
+      - name: Keep only details that earn their runtime weight
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/styles/motion.css')
+          text = path.read_text(encoding='utf-8')
+
+          removals = [
+          '''.brand {
+            view-transition-name: archive-brand;
+          }
+
+          ''',
+          '''.research-map-node[data-part="1"] b {
+            view-transition-name: part-i-title;
+          }
+
+          .research-map-node[data-part="2"] b {
+            view-transition-name: part-ii-title;
+          }
+
+          .research-map-node[data-part="3"] b {
+            view-transition-name: part-iii-title;
+          }
+
+          ''',
+          '''body[data-page="part1"] .paper-hero h1 {
+            view-transition-name: part-i-title;
+          }
+
+          body[data-page="part2"] .paper-hero h1 {
+            view-transition-name: part-ii-title;
+          }
+
+          body[data-page="part3"] .paper-hero h1 {
+            view-transition-name: part-iii-title;
+          }
+
+          ''',
+          '''::view-transition-group(part-i-title),
+          ::view-transition-group(part-ii-title),
+          ::view-transition-group(part-iii-title) {
+            animation-duration: calc(var(--motion-transfer) * .92);
+            animation-timing-function: var(--ease-transfer);
+          }
+
+          ''',
+          '''/* Selection inherits the paper state without selector-specific pseudo-element hacks. */
+          :root {
+            --selection-bg: rgba(174,200,210,.22);
+          }
+
+          body[data-tone="part-1"] {
+            --selection-bg: rgba(216,192,143,.28);
+          }
+
+          body[data-tone="part-2"] {
+            --selection-bg: rgba(182,209,218,.26);
+          }
+
+          body[data-tone="part-3"] {
+            --selection-bg: rgba(212,138,115,.28);
+          }
+
+          ::selection,
+          ::-moz-selection {
+            color: #fff;
+            background: var(--selection-bg);
+            text-shadow: none;
+          }
+
+          /* Instruments form their own stacking context; overflow remains architectural data. */
+          .map-glyph,
+          .paper-apparatus {
+            isolation: isolate;
+          }
+
+          ''',
+          '''/* Higher-contrast users receive stronger structure without a second visual system. */
+          @media (prefers-contrast: more) {
+            .research-map-node,
+            .paper-meta,
+            .boundary,
+            .model,
+            .citation {
+              border-color: color-mix(in srgb,var(--ink) 42%,transparent);
+            }
+
+            .research-map-node small,
+            .sequence-copy,
+            .content p,
+            .content li {
+              color: color-mix(in srgb,var(--ink) 86%,var(--ink-soft));
+            }
+          }
+
+          ''',
+          ]
+
+          for block in removals:
+              if block not in text:
+                  raise SystemExit('expected refinement block not found; refusing blind rewrite')
+              text = text.replace(block, '')
+
+          text = text.replace('''::view-transition-old(part-iii-instrument),
+          ::view-transition-new(part-iii-instrument),
+          ::view-transition-old(part-i-title),
+          ::view-transition-new(part-i-title),
+          ::view-transition-old(part-ii-title),
+          ::view-transition-new(part-ii-title),
+          ::view-transition-old(part-iii-title),
+          ::view-transition-new(part-iii-title) {''', '''::view-transition-old(part-iii-instrument),
+          ::view-transition-new(part-iii-instrument) {''')
+
+          text = text.replace('''  font-optical-sizing: auto;
+          ''', '', 1)
+
+          text = text.replace('''  ::view-transition-group(part-iii-instrument),
+            ::view-transition-group(part-i-title),
+            ::view-transition-group(part-ii-title),
+            ::view-transition-group(part-iii-title) {''', '''  ::view-transition-group(part-iii-instrument) {''')
+
+          text = text.replace('''@media print {
+            .brand,
+            .research-map-node,
+            .paper-apparatus,
+            .paper-hero h1,
+            .site-footer {''', '''@media print {
+            .research-map-node,
+            .paper-apparatus,
+            .site-footer {''')
+
+          if 'part-i-title' in text or '--selection-bg' in text or 'contain: paint' in text:
+              raise SystemExit('trim left an unintended refinement behind')
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Rebuild deterministic archive outputs
+        run: python tools/build_site.py
+
+      - name: Report runtime size
+        run: wc -c assets/site.css assets/site.js
+
+      - name: Commit trimmed source and generated output
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/styles/motion.css assets/site.css
+          git commit -m 'refine: keep only pavilion details that earn their runtime weight [generated-trim]'
+          git push origin HEAD:v6.16.1-artifact-polish
