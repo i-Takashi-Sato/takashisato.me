@@ -67,6 +67,24 @@ doc.body.append(dot, orbit);
 root.classList.add('has-custom-cursor');
 const magneticControls = [...doc.querySelectorAll('.button')];
 const paperHero = doc.querySelector('.paper-hero');
+let cursorFontPromise = null;
+function ensureCursorFont() {
+if (root.classList.contains('has-cursor-font')) return Promise.resolve();
+if (cursorFontPromise) return cursorFontPromise;
+if (!window.FontFace || !doc.fonts) return Promise.resolve();
+const face = new FontFace(
+'Mea Culpa',
+'url("/assets/fonts/MeaCulpa.woff2") format("woff2")',
+{ style: 'normal', weight: '400', display: 'swap' },
+);
+cursorFontPromise = face.load()
+.then((loaded) => {
+doc.fonts.add(loaded);
+root.classList.add('has-cursor-font');
+})
+.catch(() => undefined);
+return cursorFontPromise;
+}
 let pointerX = innerWidth / 2;
 let pointerY = innerHeight / 2;
 let orbitX = pointerX;
@@ -170,7 +188,6 @@ scheduleFrame();
 }
 doc.addEventListener('pointermove', (event) => {
 if (event.pointerType === 'touch') return;
-if (!root.classList.contains('has-cursor-font')) root.classList.add('has-cursor-font');
 const samples = event.getCoalescedEvents?.() || [event];
 const sample = samples[samples.length - 1] || event;
 const now = performance.now();
@@ -198,6 +215,7 @@ const active = Boolean(control);
 dot.classList.toggle('is-active', active);
 orbit.classList.toggle('is-active', active);
 if (control) {
+void ensureCursorFont();
 const kind = cursorLabel(control);
 label.textContent = kind;
 orbit.dataset.kind = kind.toLowerCase().replace(/[^a-z]/g, '');
