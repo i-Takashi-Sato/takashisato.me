@@ -207,6 +207,7 @@
 
     doc.addEventListener('pointermove', (event) => {
       if (event.pointerType === 'touch') return;
+      if (!root.classList.contains('has-cursor-font')) root.classList.add('has-cursor-font');
 
       const samples = event.getCoalescedEvents?.() || [event];
       const sample = samples[samples.length - 1] || event;
