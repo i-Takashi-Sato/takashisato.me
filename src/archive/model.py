@@ -37,10 +37,10 @@ AUTHOR_ID: Final = f"{SITE}/about.html#takashi-sato"
 SERIES_ID: Final = f"{SITE}/papers/#trilogy"
 SCHOLAR_URL: Final = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 
-UPDATED: Final = "2026-09-16"
+UPDATED: Final = "2026-09-23"
 PAPER_REVISION_DATE: Final = "2026-08-23"
 VERSION: Final = "6.2"
-ASSET_VERSION: Final = "6.16.0"
+ASSET_VERSION: Final = "6.18.0"
 
 GOOGLE_SITE_VERIFICATION: Final = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
 
