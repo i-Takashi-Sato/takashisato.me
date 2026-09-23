@@ -95,9 +95,7 @@ jobs:
           PY
 
       - name: Rebuild deterministic archive outputs
-        run: |
-          python tools/build_site.py
-          python tools/generate_og.py
+        run: python tools/build_site.py
 
       - name: Commit reconciled source and generated output
         run: |
