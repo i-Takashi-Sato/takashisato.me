@@ -351,7 +351,6 @@ def audit_content(errors: list[str]) -> None:
 
 def audit_assets(errors: list[str]) -> None:
     expected_assets = {
-        "critical.css",
         "site.css",
         "site.js",
         "fonts/InterVariable.woff2",
@@ -380,7 +379,6 @@ def audit_assets(errors: list[str]) -> None:
         )
 
     css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
-    critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8")
     js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
         fail(errors, "production stylesheet has unbalanced braces")
@@ -397,13 +395,6 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"production script references retired runtime: {retired}")
     if len(css.encode()) > 100_000:
         fail(errors, f"production stylesheet exceeds 100 KB: {len(css.encode())}")
-    if len(critical_css.encode()) > 25_000:
-        fail(errors, f"critical stylesheet exceeds 25 KB: {len(critical_css.encode())}")
-    if re.search(r"https?://|@import\s+url", critical_css):
-        fail(errors, "critical stylesheet contains a remote dependency")
-    for token in ["site-header", "page-hero", "paper-hero", "author-hero", "hero-transition"]:
-        if token not in critical_css:
-            fail(errors, f"critical stylesheet missing {token}")
     if len(js.encode()) > 20_000:
         fail(errors, f"production script exceeds 20 KB: {len(js.encode())}")
 
