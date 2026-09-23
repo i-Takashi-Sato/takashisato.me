@@ -1,20 +1,30 @@
-/* v6.13 — State / Authority editorial grammar.
-   One visual language: route, state, boundary, return. No stage marks, liquid,
-   WebGL, glassmorphism, or layout-injected spectacle. */
+/* The Proper Ending Index — pavilion foundation.
+ * Editorial chrome, material, and shared room architecture live here.
+ * Paper-specific instruments and motion have their own modules.
+ */
+
 :root {
   --route-case: #d4ba82;
   --route-institution: #aec8d2;
   --route-exit: #d28470;
   --archive-rule: rgba(242,240,233,.155);
   --archive-rule-soft: rgba(242,240,233,.075);
+  --surface-archive: var(--paper);
+  --ink-primary: var(--ink);
+  --ink-secondary: var(--ink-soft);
+  --rule-structural: var(--archive-rule);
+  --part-i-measure: var(--bronze-soft);
+  --part-ii-capacity: var(--ice);
+  --part-iii-return: var(--copper);
 }
 
-/* Header: archival bar, not glass. */
+/* Archival chrome: opaque, quiet, and deliberately unlike a glass product UI. */
 .site-header {
   background: rgba(7,7,8,.965);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
+
 .header-inner { min-height: 4.15rem; }
 .brand { letter-spacing: .155em; }
 .brand-mark { width: 1.22rem; height: 1.22rem; opacity: .88; }
@@ -32,7 +42,7 @@
 }
 .scroll-meter { height: 1px; }
 
-/* Routes read like editorial links, not product CTA buttons. */
+/* Routes read as editorial research links, not conversion CTAs. */
 .button {
   overflow: visible;
   min-height: 2.72rem;
@@ -46,7 +56,7 @@
 .button::before,
 .button::after { display: none; }
 .button.primary {
-  border-color: color-mix(in srgb, var(--signal-soft) 68%, var(--line-strong));
+  border-color: color-mix(in srgb,var(--signal-soft) 68%,var(--line-strong));
   background: transparent;
   color: var(--signal-pale);
 }
@@ -59,7 +69,7 @@
 .button .arrow { transition: transform .28s var(--ease); }
 .button:hover .arrow { transform: translate(.2rem,-.2rem); }
 
-/* Cursor becomes a regulator/authority ring rather than a generic filled bubble. */
+/* Authority cursor: a regulator ring, never a generic filled bubble. */
 @media (hover:hover) and (pointer:fine) {
   .cursor-orbit {
     width: 2.9rem;
@@ -71,13 +81,19 @@
   }
   .cursor-orbit::before {
     content: "";
-    display: block;
     position: absolute;
     inset: -.26rem;
     border-radius: 50%;
-    background: conic-gradient(from var(--cursor-r,0deg), rgba(255,255,255,.82) 0 22deg, transparent 22deg 154deg, rgba(255,255,255,.48) 154deg 178deg, transparent 178deg 332deg, rgba(255,255,255,.82) 332deg 360deg);
-    -webkit-mask: radial-gradient(circle, transparent 0 55%, #000 57% 63%, transparent 65%);
-    mask: radial-gradient(circle, transparent 0 55%, #000 57% 63%, transparent 65%);
+    background: conic-gradient(
+      from var(--cursor-r,0deg),
+      rgba(255,255,255,.82) 0 22deg,
+      transparent 22deg 154deg,
+      rgba(255,255,255,.48) 154deg 178deg,
+      transparent 178deg 332deg,
+      rgba(255,255,255,.82) 332deg 360deg
+    );
+    -webkit-mask: radial-gradient(circle,transparent 0 55%,#000 57% 63%,transparent 65%);
+    mask: radial-gradient(circle,transparent 0 55%,#000 57% 63%,transparent 65%);
     opacity: .62;
     pointer-events: none;
   }
@@ -99,58 +115,26 @@
   }
   .cursor-orbit.is-active::before { inset: -.32rem; opacity: .9; }
   .cursor-orbit.is-active span { opacity: .92; transform: none; }
-  .cursor-orbit[data-kind="ssrn"] { border-color: var(--signal-soft); box-shadow: none; }
+  .cursor-orbit[data-kind="ssrn"] { border-color: var(--signal-soft); }
 }
 
-/* Home: a measured state corridor, with typography doing the heavy lifting. */
-body[data-page="home"] .hero {
-  min-height: calc(100svh - 4.15rem);
-  padding-block: clamp(5rem,12vh,8.5rem) clamp(4rem,8vh,6rem);
+/* The opening corridor uses a small state legend rather than a progress widget. */
+body[data-page="home"] .hero .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .72rem;
+  color: color-mix(in srgb,var(--signal-pale) 78%,var(--ink-soft));
 }
-body[data-page="home"] .hero::before {
+body[data-page="home"] .hero .eyebrow::before {
   content: "";
-  position: absolute;
-  z-index: -1;
-  top: clamp(5rem,10vh,8rem);
-  right: max(var(--gutter), env(safe-area-inset-right));
-  bottom: clamp(3rem,7vh,5rem);
-  width: min(34vw,31rem);
-  border-top: 1px solid var(--archive-rule-soft);
-  border-bottom: 1px solid var(--archive-rule-soft);
-  background:
-    linear-gradient(90deg,
-      transparent 0 9%, var(--archive-rule) 9% calc(9% + 1px),
-      transparent calc(9% + 1px) 50%, var(--archive-rule) 50% calc(50% + 1px),
-      transparent calc(50% + 1px) 91%, var(--archive-rule) 91% calc(91% + 1px),
-      transparent calc(91% + 1px) 100%),
-    linear-gradient(180deg, transparent 0 62%, var(--archive-rule) 62% calc(62% + 1px), transparent calc(62% + 1px));
-  opacity: .52;
-  mask-image: linear-gradient(180deg, transparent 0, #000 12%, #000 88%, transparent 100%);
-  pointer-events: none;
-}
-body[data-page="home"] .hero h1 {
-  max-width: 10.7ch;
-  font-size: clamp(4.8rem,9.8vw,10.7rem);
-  line-height: .77;
-  letter-spacing: -.062em;
-}
-body[data-page="home"] .hero h1 .hero-turn {
-  margin: .04em 0 -.02em clamp(1.8rem,5vw,6.2rem);
-  font-size: .68em;
-  letter-spacing: -.045em;
-  line-height: .9;
-}
-body[data-page="home"] .hero h1 .hero-governance { margin-top: -.02em; }
-body[data-page="home"] .hero h1 em {
-  border-bottom: 1px solid color-mix(in srgb,var(--signal-soft) 62%,transparent);
-  color: var(--ink-soft);
-  font-size: 1em;
-  font-style: italic;
-  letter-spacing: -.035em;
+  width: 2.6rem;
+  height: 1px;
+  background: var(--signal-soft);
+  opacity: .72;
 }
 .hero-aside { border-top-color: var(--archive-rule); }
 .hero-transition {
-  margin: 1.45rem 0 1.45rem;
+  margin: 1.45rem 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3,minmax(0,1fr));
@@ -173,7 +157,6 @@ body[data-page="home"] .hero h1 em {
   height: .4rem;
   border: 1px solid currentColor;
   background: var(--paper);
-  transform: rotate(45deg);
 }
 .hero-transition li:nth-child(1) { color: var(--route-case); }
 .hero-transition li:nth-child(2) { color: var(--route-institution); }
@@ -192,21 +175,9 @@ body[data-page="home"] .hero h1 em {
   text-transform: uppercase;
 }
 
-/* One state rail across the trilogy. */
+/* Shared trilogy rail. Instruments later supply the distinct paper geometry. */
 body[data-page="home"] .sequence::before,
-body[data-page="papers"] .sequence::before { left: 1.72rem; opacity: .7; }
-body[data-page="home"] .sequence-row::before,
-body[data-page="papers"] .sequence-row::before {
-  content: "";
-  width: .52rem;
-  height: .52rem;
-  margin: .1rem 0 0 1.46rem;
-  border: 1px solid var(--row-accent,var(--signal-soft));
-  border-radius: 50%;
-  background: var(--paper);
-  box-shadow: 0 0 0 .26rem rgba(8,8,8,.92);
-  align-self: start;
-}
+body[data-page="papers"] .sequence::before { opacity: .7; }
 body[data-page="home"] .sequence-function,
 body[data-page="papers"] .sequence-function {
   color: var(--row-accent,var(--ink));
@@ -221,21 +192,21 @@ body[data-page="papers"] .sequence-row:hover {
   transform: none;
 }
 body[data-page="home"] .sequence-title,
-body[data-page="papers"] .sequence-title { transition: transform .42s var(--ease), color .3s ease, letter-spacing .3s ease; }
+body[data-page="papers"] .sequence-title {
+  transition: transform .42s var(--ease),color .3s ease;
+}
 body[data-page="home"] .sequence-row:hover .sequence-title,
 body[data-page="papers"] .sequence-row:hover .sequence-title {
   color: color-mix(in srgb,var(--row-accent) 46%,var(--ink));
   transform: translateX(.38rem);
 }
 
-/* Numbers become an editorial evidence strip rather than a dashboard card grid. */
 .metric-grid {
   border: 0;
   border-top: 1px solid var(--line-strong);
   background: transparent;
 }
 .metric {
-  min-height: 10rem;
   border: 0;
   border-right: 1px solid var(--line);
   background: transparent;
@@ -243,29 +214,8 @@ body[data-page="papers"] .sequence-row:hover .sequence-title {
 .metric:last-child { border-right: 0; }
 .metric strong { font-variant-numeric: tabular-nums lining-nums; }
 
-/* Paper records: outlined part identity + state-rail TOC. */
-.paper-hero::after {
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb,var(--signal-soft) 46%,transparent);
-  opacity: .72;
-  filter: none;
-  transform: translate3d(var(--stage-x,0),var(--stage-y,0),0);
-  transform-origin: 100% 60%;
-}
-body[data-tone="part-1"] .paper-hero::after { -webkit-text-stroke-color: color-mix(in srgb,var(--bronze-soft) 56%,transparent); }
-body[data-tone="part-2"] .paper-hero::after {
-  -webkit-text-stroke-color: color-mix(in srgb,var(--ice) 52%,transparent);
-  filter: blur(.22px);
-  transform: translate3d(var(--stage-x,0),var(--stage-y,0),0) scaleX(.965);
-}
-body[data-tone="part-3"] .paper-hero::after {
-  -webkit-text-stroke-color: color-mix(in srgb,var(--copper) 54%,transparent);
-  transform: translate3d(var(--stage-x,0),var(--stage-y,0),0) scaleX(.86);
-}
-.toc ol {
-  border-top: 0;
-  border-left: 1px solid var(--line);
-}
+/* Reading orientation is a measured rail rather than a boxed navigation card. */
+.toc ol { border-top: 0; border-left: 1px solid var(--line); }
 .toc a {
   position: relative;
   padding: .78rem 0 .78rem 1rem;
@@ -287,66 +237,11 @@ body[data-tone="part-3"] .paper-hero::after {
   outline-offset: .25rem;
 }
 
-/* Author: retain the supplied signature, remove mobile paint overflow. */
-body[data-page="about"] .author-name { overflow: clip; }
-body[data-page="about"] .author-name h1 { overflow: clip; contain: paint; }
-body[data-page="about"] .author-name h1::after {
-  background: linear-gradient(90deg,#f2f0e9 0%,#f2f0e9 72%,#d7bf8c 100%);
-  filter: drop-shadow(0 0 2rem rgba(183,154,99,.11));
-}
-@media (max-width:42rem) {
-  body[data-page="about"] .author-name h1::after { inset: 3% 0 0 0; transform: none; }
-}
-
-/* Proper Ending: the final word is drawn shut by a single closure rule. */
-.footer-wordmark { position: relative; }
-.footer-wordmark::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -.7rem;
-  height: 1px;
-  background: linear-gradient(90deg,var(--line-strong),color-mix(in srgb,var(--signal-soft) 44%,transparent));
-  transform: scaleX(var(--ending,0));
-  transform-origin: 0 50%;
-  opacity: .78;
-}
-
-@media (max-width:62rem) {
-  body[data-page="home"] .hero::before { width: 42vw; opacity: .34; }
-  body[data-page="home"] .hero h1 .hero-turn { margin-left: clamp(.8rem,3vw,2rem); }
-}
-@media (max-width:44rem) {
-  .header-inner { min-height: 4rem; }
-  body[data-page="home"] .hero { min-height: auto; padding-block: 5rem 4rem; }
-  body[data-page="home"] .hero::before { top: 3.4rem; right: 1rem; bottom: 2rem; width: 38vw; opacity: .22; }
-  body[data-page="home"] .hero h1 { max-width: 9.5ch; font-size: clamp(4rem,18vw,6.1rem); line-height: .8; }
-  body[data-page="home"] .hero h1 .hero-turn { margin-left: .42rem; font-size: .72em; }
-  .hero-transition { margin-top: 1.2rem; }
-  .hero-transition span { font-size: .53rem; letter-spacing: .08em; }
-  body[data-page="home"] .sequence-row::before,
-  body[data-page="papers"] .sequence-row::before { margin-left: 0; }
-  .metric { min-height: 8.5rem; }
-}
-@media (prefers-reduced-motion:reduce) {
-  .paper-hero::after { transform: none !important; filter: none !important; }
-  .footer-wordmark::after { transform: scaleX(1); }
-}
-@media (forced-colors:active) {
-  .hero-transition li::before,
-  .toc a[aria-current="location"]::before { forced-color-adjust: auto; background: Highlight; }
-  .paper-hero::after { color: CanvasText; -webkit-text-stroke: 0; opacity: .08; }
-}
-
-
-
-/* v6.13.1 — Raster-free material finish. */
-/* Materiality is generated from state rules, light and hairlines—not wallpaper textures. */
+/* Material is generated with light and rules; there are no raster textures. */
 body::before {
   background:
-    repeating-linear-gradient(180deg, rgba(255,255,255,.026) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 7px);
+    repeating-linear-gradient(180deg,rgba(255,255,255,.026) 0 1px,transparent 1px 4px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 1px,transparent 1px 7px);
   mix-blend-mode: soft-light;
   opacity: .15;
 }
@@ -355,100 +250,33 @@ body::before {
 .author-hero::before,
 .paper-hero::before {
   background:
-    radial-gradient(84% 120% at 96% 18%, var(--signal-wash), transparent 62%),
-    linear-gradient(90deg, rgba(8,8,8,.96) 0%, rgba(8,8,8,.46) 54%, rgba(8,8,8,.91) 100%);
+    radial-gradient(84% 120% at 96% 18%,var(--signal-wash),transparent 62%),
+    linear-gradient(90deg,rgba(8,8,8,.96) 0%,rgba(8,8,8,.46) 54%,rgba(8,8,8,.91) 100%);
   opacity: .58;
 }
 .metric-grid,
 .paper-meta {
-  background:
-    linear-gradient(90deg, rgba(255,255,255,.022), transparent 42%),
-    rgba(8,8,8,.78);
+  background: linear-gradient(90deg,rgba(255,255,255,.022),transparent 42%),rgba(8,8,8,.78);
 }
 .boundary {
-  background:
-    linear-gradient(112deg, rgba(255,255,255,.026), transparent 38%),
-    rgba(10,10,11,.88);
+  background: linear-gradient(112deg,rgba(255,255,255,.026),transparent 38%),rgba(10,10,11,.88);
 }
 .model {
   background:
-    linear-gradient(rgba(10,10,10,.82), rgba(10,10,10,.91)),
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: auto, 2rem 2rem, 2rem 2rem;
+    linear-gradient(rgba(10,10,10,.82),rgba(10,10,10,.91)),
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size: auto,2rem 2rem,2rem 2rem;
 }
-.citation {
-  background:
-    linear-gradient(100deg, rgba(255,255,255,.022), transparent 58%),
-    rgba(8,8,8,.88);
-}
+.citation,
 .notice {
-  background:
-    linear-gradient(110deg, rgba(255,255,255,.026), transparent 52%),
-    rgba(8,8,8,.88);
+  background: linear-gradient(100deg,rgba(255,255,255,.022),transparent 58%),rgba(8,8,8,.88);
 }
 .site-footer {
-  background:
-    radial-gradient(80% 90% at 50% 0, var(--signal-wash), transparent 68%),
-    linear-gradient(180deg, #080808, #050505);
-}
-body[data-page="about"] .author-links {
-  overflow: clip;
-}
-@media (max-width:44rem) {
-  body[data-page="about"] .author-links::before {
-    left: 0;
-    right: 0;
-    transform: translateY(-50%) rotate(-1.5deg);
-  }
+  background: radial-gradient(80% 90% at 50% 0,var(--signal-wash),transparent 68%),linear-gradient(180deg,#080808,#050505);
 }
 
-
-/* v6.13.2 — Critical hero paint. */
-/* Above-the-fold research identity must paint immediately; motion begins below the fold. */
-.js .hero [data-reveal],
-.js .page-hero [data-reveal],
-.js .paper-hero [data-reveal],
-.js .author-hero [data-reveal],
-.js .page-hero[data-reveal],
-.js .paper-hero[data-reveal],
-.js .author-hero[data-reveal] {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-
-
-/* v6.13.3 — Font delivery discipline. */
-/* Preloaded variable fonts may be used immediately; they must never force a late LCP repaint. */
-
-
-/* v6.14 — Research pavilion refinement. */
-/* Semantic aliases make the design system legible in code and in use. */
-:root {
-  --surface-archive: var(--paper);
-  --ink-primary: var(--ink);
-  --ink-secondary: var(--ink-soft);
-  --rule-structural: var(--archive-rule);
-  --part-i-measure: var(--bronze-soft);
-  --part-ii-capacity: var(--ice);
-  --part-iii-return: var(--copper);
-}
-
-body[data-page="home"] .hero .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: .72rem;
-  color: color-mix(in srgb, var(--signal-pale) 78%, var(--ink-soft));
-}
-body[data-page="home"] .hero .eyebrow::before {
-  content: "";
-  width: 2.6rem;
-  height: 1px;
-  background: var(--signal-soft);
-  opacity: .72;
-}
-
+/* Papers is a map of three mechanisms, each an entrance to a reading room. */
 .research-map-section { padding: 0 0 clamp(2rem,5vw,4.5rem); }
 .research-map {
   position: relative;
@@ -468,8 +296,6 @@ body[data-page="home"] .hero .eyebrow::before {
   opacity: .72;
 }
 .research-map-node {
-  min-height: 9rem;
-  padding: 1.2rem clamp(.8rem,2vw,1.6rem) 1.35rem 0;
   display: grid;
   align-content: space-between;
   gap: .7rem;
@@ -482,62 +308,73 @@ body[data-page="home"] .hero .eyebrow::before {
   letter-spacing: .08em;
   color: var(--ink-faint);
 }
-.research-map-node b {
-  max-width: 15rem;
-  font-family: var(--display);
-  font-size: clamp(1.35rem,2vw,2rem);
-  font-weight: 350;
-  letter-spacing: -.03em;
-  line-height: 1.05;
-}
 .research-map-node small { color: var(--ink-soft); line-height: 1.45; }
-.research-map-node[data-part="1"] b { color: var(--route-case); }
-.research-map-node[data-part="2"] b { color: var(--route-institution); }
-.research-map-node[data-part="3"] b { color: var(--route-exit); }
 
-/* Each paper has a distinct physical grammar while remaining one archive. */
+/* The paper rooms have distinct environmental fields before any motion is applied. */
 body[data-tone="part-1"] .paper-hero {
   background-image:
-    linear-gradient(90deg, transparent 0 72%, rgba(215,191,140,.055) 72% calc(72% + 1px), transparent calc(72% + 1px)),
-    linear-gradient(180deg, transparent 0 66%, rgba(215,191,140,.045) 66% calc(66% + 1px), transparent calc(66% + 1px));
+    linear-gradient(90deg,transparent 0 72%,rgba(215,191,140,.055) 72% calc(72% + 1px),transparent calc(72% + 1px)),
+    linear-gradient(180deg,transparent 0 66%,rgba(215,191,140,.045) 66% calc(66% + 1px),transparent calc(66% + 1px));
 }
 body[data-tone="part-2"] .paper-hero {
   background-image:
-    repeating-linear-gradient(180deg, rgba(168,198,210,.022) 0 1px, transparent 1px 3.8rem),
-    linear-gradient(90deg, transparent 0 58%, rgba(168,198,210,.035) 58% 58.08%, transparent 58.08%);
+    repeating-linear-gradient(180deg,rgba(168,198,210,.022) 0 1px,transparent 1px 3.8rem),
+    linear-gradient(90deg,transparent 0 58%,rgba(168,198,210,.035) 58% 58.08%,transparent 58.08%);
 }
 body[data-tone="part-3"] .paper-hero {
   background-image:
-    radial-gradient(circle at 82% 58%, transparent 0 8.7rem, rgba(207,129,105,.065) 8.76rem 8.82rem, transparent 8.9rem),
-    radial-gradient(circle at 82% 58%, transparent 0 13.4rem, rgba(207,129,105,.035) 13.46rem 13.52rem, transparent 13.6rem);
+    radial-gradient(circle at 82% 58%,transparent 0 8.7rem,rgba(207,129,105,.065) 8.76rem 8.82rem,transparent 8.9rem),
+    radial-gradient(circle at 82% 58%,transparent 0 13.4rem,rgba(207,129,105,.035) 13.46rem 13.52rem,transparent 13.6rem);
 }
 body[data-tone="part-1"] .content > section { border-top-color: color-mix(in srgb,var(--part-i-measure) 28%,var(--line)); }
 body[data-tone="part-2"] .content > section { border-top-color: color-mix(in srgb,var(--part-ii-capacity) 24%,var(--line)); }
 body[data-tone="part-3"] .content > section { border-top-color: color-mix(in srgb,var(--part-iii-return) 26%,var(--line)); }
 
-/* Proper Ending progressively removes interface energy near the terminal state. */
-body[data-page="part3"] .site-footer .footer-links,
-body[data-page="part3"] .site-footer .footer-thesis {
-  transition: opacity .8s var(--ease), transform .8s var(--ease);
+/* Author signature remains the one intentionally calligraphic surface. */
+body[data-page="about"] .author-name,
+body[data-page="about"] .author-name h1,
+body[data-page="about"] .author-links { overflow: clip; }
+body[data-page="about"] .author-name h1 { contain: paint; }
+body[data-page="about"] .author-name h1::after {
+  background: linear-gradient(90deg,#f2f0e9 0%,#f2f0e9 72%,#d7bf8c 100%);
+  filter: drop-shadow(0 0 2rem rgba(183,154,99,.11));
 }
-html.is-ending body[data-page="part3"] .site-footer .footer-links,
-html.is-ending body[data-page="part3"] .site-footer .footer-thesis {
-  opacity: .72;
-  transform: translateY(.12rem);
-}
-html.is-ending body[data-page="part3"] .site-footer {
-  --signal-glow: transparent;
+
+/* Proper Ending is drawn shut by one rule; motion.css controls the terminal state. */
+.footer-wordmark { position: relative; }
+.footer-wordmark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -.7rem;
+  height: 1px;
+  background: linear-gradient(90deg,var(--line-strong),color-mix(in srgb,var(--signal-soft) 44%,transparent));
+  transform: scaleX(var(--ending,0));
+  transform-origin: 0 50%;
+  opacity: .78;
 }
 
 @media (max-width:44rem) {
+  .header-inner { min-height: 4rem; }
+  .hero-transition { margin-top: 1.2rem; }
+  .hero-transition span { font-size: .53rem; letter-spacing: .08em; }
   .research-map { grid-template-columns: 1fr; }
-  .research-map-node { min-height: 6.5rem; border-right: 0; border-bottom: 1px solid var(--archive-rule-soft); }
+  .research-map-node { border-right: 0; border-bottom: 1px solid var(--archive-rule-soft); }
   .research-map-node:last-child { border-bottom: 0; }
   body[data-page="home"] .hero .eyebrow { align-items: flex-start; }
   body[data-page="home"] .hero .eyebrow::before { width: 1.4rem; margin-top: .45rem; flex: 0 0 auto; }
+  body[data-page="about"] .author-name h1::after { inset: 3% 0 0; transform: none; }
 }
 
 @media (prefers-reduced-motion:reduce) {
-  body[data-page="part3"] .site-footer .footer-links,
-  body[data-page="part3"] .site-footer .footer-thesis { transition: none; transform: none; }
+  .footer-wordmark::after { transform: scaleX(1); }
+}
+
+@media (forced-colors:active) {
+  .hero-transition li::before,
+  .toc a[aria-current="location"]::before {
+    forced-color-adjust: auto;
+    background: Highlight;
+  }
 }
