@@ -6,10 +6,20 @@ import json
 from html import escape
 from textwrap import dedent
 
-from .model import *
+from .model import (
+    ASSET_VERSION,
+    GOOGLE_SITE_VERIFICATION,
+    PAPER_REVISION_DATE,
+    ROOT,
+    SCHOLAR_URL,
+    SITE,
+    VERSION,
+    Paper,
+)
+
 
 def breadcrumbs(items: list[tuple[str, str | None]]) -> str:
-    rendered = []
+    rendered: list[str] = []
     for label, path in items:
         safe_label = escape(label)
         if path is None:
@@ -18,16 +28,17 @@ def breadcrumbs(items: list[tuple[str, str | None]]) -> str:
             rendered.append(f'<li><a href="{path}">{safe_label}</a></li>')
     return '<nav class="breadcrumbs" aria-label="Breadcrumb"><ol>' + "".join(rendered) + "</ol></nav>"
 
+
 def head(
     *,
     title: str,
     description: str,
     path: str,
     image: str,
-    schema: dict | list[dict] | None = None,
+    schema: dict[str, object] | list[dict[str, object]] | None = None,
     robots: str = "index,follow,max-image-preview:large",
     og_type: str = "website",
-    paper: dict | None = None,
+    paper: Paper | None = None,
     site_verification: bool = False,
 ) -> str:
     canonical = f"{SITE}{path}"
@@ -35,6 +46,7 @@ def head(
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
     critical_css = (ROOT / "assets/critical.css").read_text(encoding="utf-8").strip()
+
     schema_html = ""
     if schema:
         schema_html = (
@@ -42,11 +54,13 @@ def head(
             + json.dumps(schema, ensure_ascii=False, separators=(",", ":"))
             + "</script>"
         )
+
     verification_html = (
         f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">'
         if site_verification
         else ""
     )
+
     paper_meta = ""
     if paper:
         full_title = escape(f"{paper['title']}: {paper['subtitle']}", quote=True)
@@ -63,6 +77,7 @@ def head(
             <meta property="article:author" content="{SITE}/about.html">
             """
         ).strip()
+
     return dedent(
         f"""
         <!DOCTYPE html>
@@ -112,11 +127,11 @@ def head(
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
           <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
           <style data-critical>{critical_css}</style>
-          
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """
     ).strip()
+
 
 def header(active: str = "") -> str:
     def current(name: str) -> str:
@@ -141,6 +156,7 @@ def header(active: str = "") -> str:
         </header>
         """
     ).strip()
+
 
 def footer() -> str:
     return dedent(
@@ -184,5 +200,16 @@ def footer() -> str:
         """
     ).strip()
 
-def shell_page(*, head_html: str, body: str, active: str = "", tone: str = "neutral", page: str = "") -> str:
-    return f"{head_html}\n<body data-tone=\"{tone}\" data-page=\"{page}\">\n{header(active)}\n{body}\n{footer()}\n</body>\n</html>\n"
+
+def shell_page(
+    *,
+    head_html: str,
+    body: str,
+    active: str = "",
+    tone: str = "neutral",
+    page: str = "",
+) -> str:
+    return (
+        f'{head_html}\n<body data-tone="{tone}" data-page="{page}">\n'
+        f'{header(active)}\n{body}\n{footer()}\n</body>\n</html>\n'
+    )

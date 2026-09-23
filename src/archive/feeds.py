@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from .model import *
+from .model import AUTHOR, PAPERS, SITE, UPDATED, VERSION, article_schema
 
-def research_index() -> dict:
-    parts = []
+
+def research_index() -> dict[str, object]:
+    parts: list[dict[str, object]] = []
     for paper in PAPERS:
         record = article_schema(paper)
         record["position"] = paper["part"]
@@ -15,6 +16,7 @@ def research_index() -> dict:
             {"@type": "PropertyValue", "name": "SSRN abstract ID", "value": paper["ssrn"]},
         ]
         parts.append(record)
+
     return {
         "@context": "https://schema.org",
         "@type": "CreativeWorkSeries",
@@ -54,6 +56,7 @@ def research_index() -> dict:
         ],
     }
 
+
 def sitemap() -> str:
     entries = [
         "/",
@@ -70,4 +73,9 @@ def sitemap() -> str:
         f"  <url><loc>{SITE}{path}</loc><lastmod>{UPDATED}</lastmod></url>"
         for path in entries
     )
-    return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{urls}\n"
+        "</urlset>\n"
+    )
