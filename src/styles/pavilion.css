@@ -43,13 +43,6 @@ body[data-page="home"] .hero .eyebrow { display:flex;align-items:center;gap:.8re
 body[data-page="home"] .hero .eyebrow::before { content:"";width:clamp(2.4rem,5vw,5rem);height:1px;background:var(--signal-soft);opacity:.62; }
 .hero-aside { grid-column:10 / -1;max-width:27rem;margin-top:clamp(4rem,9vh,7rem);padding-top:1.15rem;border-top-color:var(--archive-rule); }
 .hero-aside .hero-statement { font-size:clamp(1.6rem,1.8vw,2.25rem);line-height:1.08; }
-.hero-transition { margin:1.7rem 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--archive-rule);list-style:none; }
-.hero-transition li { padding:.8rem .6rem 0 0;color:var(--ink-soft); }
-.hero-transition li:nth-child(1) { color:var(--route-case); }
-.hero-transition li:nth-child(2) { color:var(--route-institution); }
-.hero-transition li:nth-child(3) { color:var(--route-exit); }
-.hero-transition b { font-family:var(--mono);font-size:.5rem;letter-spacing:.1em; }
-.hero-transition span { display:block;color:var(--ink-soft);font-size:.56rem;letter-spacing:.13em;text-transform:uppercase; }
 
 /* The trilogy is an architectural elevation, not a card stack. */
 :is(body[data-page="home"],body[data-page="papers"]) .sequence { position:relative;border-top-color:var(--archive-rule);isolation:isolate; }
@@ -126,28 +119,22 @@ body[data-tone="part-3"] .content>section { border-top-color:color-mix(in srgb,v
 }
 @media (prefers-reduced-motion:reduce) { .footer-wordmark::after { transform:scaleX(1); } }
 @media (forced-colors:active) {
-  .hero-transition li::before { forced-color-adjust:auto;background:Highlight; }
   .site-nav a[aria-current="page"]::after { background:Highlight; }
 }
-/* The research is the interface: native, accessible evidence disclosures. */
-body[data-page="home"] .hero-aside{max-width:30rem;margin-top:clamp(2rem,5vh,3.5rem)}
-.research-lenses{margin:1.5rem 0 1rem;border-top:1px solid var(--archive-rule)}
-.lens-intro{margin:1rem 0;color:var(--ink-faint);font:600 .59rem/1.4 var(--mono);letter-spacing:.13em}
-.research-lens{--lens:var(--route-case);border-bottom:1px solid var(--archive-rule-soft)}
-.research-lens:nth-of-type(2){--lens:var(--route-institution)}
-.research-lens:nth-of-type(3){--lens:var(--route-exit)}
-.research-lens summary{display:grid;grid-template-columns:1.6rem minmax(0,1fr) 1rem;gap:.65rem;align-items:center;min-height:3rem;padding:.7rem 0;cursor:pointer;list-style:none;color:var(--ink);font-size:.86rem;line-height:1.35}
+/* Research claims are inspectable, not simulated. */
+.research-lenses{margin:1.5rem 0;border-top:1px solid var(--archive-rule)}
+.lens-intro,.lens-disclaimer{color:var(--ink-faint);font-size:.7rem}
+.research-lens{border-bottom:1px solid var(--archive-rule-soft)}
+.research-lens summary{display:flex;gap:.8rem;align-items:center;padding:.85rem 0;cursor:pointer;list-style:none;font-size:.87rem;line-height:1.4}
 .research-lens summary::-webkit-details-marker{display:none}
-.research-lens summary::after{content:"+";font:400 1.2rem/1 var(--display);color:var(--lens);text-align:right}
-.research-lens[open] summary::after{content:"−"}
-.research-lens summary:hover{color:var(--lens)}
-.research-lens summary:focus-visible{outline:2px solid var(--lens);outline-offset:3px}
-.lens-number{font:600 .58rem/1 var(--mono);color:var(--lens)}
-.lens-readout{padding:0 0 1.1rem 2.25rem}
-.lens-readout p{margin:.56rem 0;font-size:.78rem;line-height:1.55;color:var(--ink-soft)}
-.lens-readout b{display:block;color:var(--lens);font:600 .55rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase}
-.lens-links{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin-top:.8rem}
-.lens-links a{display:inline-flex;min-height:2rem;align-items:center;border-bottom:1px solid var(--archive-rule);color:var(--ink);font-size:.7rem;line-height:1.4}
-.lens-links a:hover{border-color:var(--lens);color:var(--lens)}
-.lens-disclaimer{color:var(--ink-faint)!important;font-size:.69rem!important;line-height:1.5!important}
-@media(max-width:44rem){.research-lens summary{min-height:3.25rem;font-size:.91rem}.lens-readout p{font-size:.87rem}}
+.research-lens summary::after{content:"+";margin-left:auto;color:var(--signal-soft)}
+.research-lens[open] summary::after{content:"-"}
+.research-lens summary:focus-visible{outline:2px solid var(--signal-soft);outline-offset:3px}
+.lens-number{color:var(--route-case);font:600 .62rem/1 var(--mono)}
+.research-lens:nth-of-type(2) .lens-number{color:var(--route-institution)}
+.research-lens:nth-of-type(3) .lens-number{color:var(--route-exit)}
+.lens-readout{padding:0 0 1rem 1.5rem}
+.lens-readout p{margin:.6rem 0;font-size:.82rem;line-height:1.6}
+.lens-readout b{display:block;font-size:.66rem;color:var(--ink-soft)}
+.lens-links{display:flex;flex-wrap:wrap;gap:.7rem}
+.lens-links a{border-bottom:1px solid var(--archive-rule);font-size:.78rem;color:var(--ink)}
