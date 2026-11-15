@@ -31,3 +31,8 @@
     transform:none;
   }
 }
+
+/* Reduced-motion keeps the terminal rule stationary and fully legible. */
+@media(prefers-reduced-motion:reduce){
+ body[data-page="part3"] .footer-wordmark::after{width:100%;left:0;right:0}
+}
