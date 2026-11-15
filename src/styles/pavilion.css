@@ -129,3 +129,25 @@ body[data-tone="part-3"] .content>section { border-top-color:color-mix(in srgb,v
   .hero-transition li::before { forced-color-adjust:auto;background:Highlight; }
   .site-nav a[aria-current="page"]::after { background:Highlight; }
 }
+/* The research is the interface: native, accessible evidence disclosures. */
+body[data-page="home"] .hero-aside{max-width:30rem;margin-top:clamp(2rem,5vh,3.5rem)}
+.research-lenses{margin:1.5rem 0 1rem;border-top:1px solid var(--archive-rule)}
+.lens-intro{margin:1rem 0;color:var(--ink-faint);font:600 .59rem/1.4 var(--mono);letter-spacing:.13em}
+.research-lens{--lens:var(--route-case);border-bottom:1px solid var(--archive-rule-soft)}
+.research-lens:nth-of-type(2){--lens:var(--route-institution)}
+.research-lens:nth-of-type(3){--lens:var(--route-exit)}
+.research-lens summary{display:grid;grid-template-columns:1.6rem minmax(0,1fr) 1rem;gap:.65rem;align-items:center;min-height:3rem;padding:.7rem 0;cursor:pointer;list-style:none;color:var(--ink);font-size:.86rem;line-height:1.35}
+.research-lens summary::-webkit-details-marker{display:none}
+.research-lens summary::after{content:"+";font:400 1.2rem/1 var(--display);color:var(--lens);text-align:right}
+.research-lens[open] summary::after{content:"−"}
+.research-lens summary:hover{color:var(--lens)}
+.research-lens summary:focus-visible{outline:2px solid var(--lens);outline-offset:3px}
+.lens-number{font:600 .58rem/1 var(--mono);color:var(--lens)}
+.lens-readout{padding:0 0 1.1rem 2.25rem}
+.lens-readout p{margin:.56rem 0;font-size:.78rem;line-height:1.55;color:var(--ink-soft)}
+.lens-readout b{display:block;color:var(--lens);font:600 .55rem/1.5 var(--mono);letter-spacing:.11em;text-transform:uppercase}
+.lens-links{display:flex;flex-wrap:wrap;gap:.5rem 1rem;margin-top:.8rem}
+.lens-links a{display:inline-flex;min-height:2rem;align-items:center;border-bottom:1px solid var(--archive-rule);color:var(--ink);font-size:.7rem;line-height:1.4}
+.lens-links a:hover{border-color:var(--lens);color:var(--lens)}
+.lens-disclaimer{color:var(--ink-faint)!important;font-size:.69rem!important;line-height:1.5!important}
+@media(max-width:44rem){.research-lens summary{min-height:3.25rem;font-size:.91rem}.lens-readout p{font-size:.87rem}}
