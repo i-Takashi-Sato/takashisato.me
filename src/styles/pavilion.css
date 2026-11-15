@@ -35,13 +35,13 @@
 .button:hover,.button.primary:hover { border-color:var(--signal-soft);background:transparent;color:var(--ink); }
 
 /* Home is a threshold: one thesis, then three analytical rooms. */
-body[data-page="home"] .hero { min-height:calc(100svh - 4.35rem);padding-block:clamp(6rem,15vh,11.5rem) clamp(4rem,8vh,6rem); }
+body[data-page="home"] .hero { min-height:calc(100svh - 4.35rem);padding-block:clamp(4rem,9vh,7rem) clamp(3rem,6vh,5rem); }
 body[data-page="home"] .hero-grid>div:first-child { grid-column:1 / 10; }
 body[data-page="home"] .hero h1 { max-width:8.55ch;font-size:clamp(5.6rem,11.5vw,12.8rem);font-weight:300;letter-spacing:-.064em;line-height:.77; }
 body[data-page="home"] .hero h1 em { color:inherit;font-family:var(--display);font-size:.96em;font-style:italic;font-weight:300;letter-spacing:-.064em;line-height:inherit;text-shadow:none;transform:none; }
 body[data-page="home"] .hero .eyebrow { display:flex;align-items:center;gap:.8rem; }
 body[data-page="home"] .hero .eyebrow::before { content:"";width:clamp(2.4rem,5vw,5rem);height:1px;background:var(--signal-soft);opacity:.62; }
-.hero-aside { grid-column:10 / -1;max-width:27rem;margin-top:clamp(4rem,9vh,7rem);padding-top:1.15rem;border-top-color:var(--archive-rule); }
+.hero-aside { grid-column:10 / -1;max-width:27rem;margin-top:clamp(2rem,4vh,3.5rem);padding-top:1.15rem;border-top-color:var(--archive-rule); }
 .hero-aside .hero-statement { font-size:clamp(1.6rem,1.8vw,2.25rem);line-height:1.08; }
 
 /* The trilogy is an architectural elevation, not a card stack. */
@@ -68,9 +68,9 @@ body[data-page="home"] .hero .eyebrow::before { content:"";width:clamp(2.4rem,5v
 .research-map-node small { color:var(--ink-soft);line-height:1.5; }
 
 /* Reading rooms become quieter once the paper begins. */
-.paper-hero { padding-block:clamp(6rem,11vw,10rem) clamp(4.4rem,7vw,6.5rem); }
+.paper-hero { padding-block:clamp(4.5rem,7vw,7rem) clamp(3rem,5vw,5rem); }
 .paper-hero h1 { max-width:14ch;font-weight:305;letter-spacing:-.055em; }
-.paper-meta { margin-top:clamp(3rem,5vw,4.8rem);padding:.95rem 0;border:0;border-top:1px solid var(--archive-rule);border-bottom:1px solid var(--archive-rule-soft);background:transparent; }
+.paper-meta { margin-top:clamp(2rem,3vw,3rem);padding:.95rem 0;border:0;border-top:1px solid var(--archive-rule);border-bottom:1px solid var(--archive-rule-soft);background:transparent; }
 .paper-layout { grid-template-columns:minmax(10rem,.24fr) minmax(0,1fr);gap:clamp(3rem,9vw,10rem); }
 .toc ol { border-top:0;border-left:1px solid var(--archive-rule-soft); }
 .toc a { padding:.78rem 0 .78rem 1rem;border-bottom:0; }
