@@ -73,6 +73,50 @@ def home_page() -> str:
         ).strip()
         for paper in PAPERS
     )
+    # Public research questions expose mechanism, method, and limits without simulating governance.
+    lens_notes = [
+        {
+            "question": "When may a case proceed?",
+            "claim": "A routing status is not an execution authorization; missing evidence or capacity must remain visible.",
+            "method": "Typed case contract, two stages, and finite checks within the declared model.",
+            "limit": "The checks do not establish operational or legal effectiveness.",
+            "anchor": "contract",
+        },
+        {
+            "question": "Can the institution still govern?",
+            "claim": "Visible procedure may remain intact while independent judgment, capacity, and a protected function deteriorate.",
+            "method": "A four-object descriptive model with five rejectable propositions.",
+            "limit": "The model is not a validated predictor; PAC needs separate causal identification.",
+            "anchor": "state-model",
+        },
+        {
+            "question": "What makes an ending accountable?",
+            "claim": "Retirement must preserve evidence, remedy, service obligations, and a responsible holder of authority.",
+            "method": "A dependency-constrained exit protocol with bounded state exploration.",
+            "limit": "Formal consistency does not demonstrate lawful or successful field implementation.",
+            "anchor": "proper-ending",
+        },
+    ]
+    lenses = "\n".join(
+        dedent(
+            f"""
+            <details class="research-lens"{' open' if paper['part'] == 1 else ''}>
+              <summary><span class="lens-number">{paper['roman']}</span><span>{note['question']}</span></summary>
+              <div class="lens-readout">
+                <p><b>Claim</b>{note['claim']}</p>
+                <p><b>Method</b>{note['method']}</p>
+                <p><b>Limit</b>{note['limit']}</p>
+                <div class="lens-links">
+                  <a href="/papers/{paper['slug']}.html#{note['anchor']}">Examine the argument</a>
+                  <a href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">Primary SSRN record ↗</a>
+                </div>
+              </div>
+            </details>
+            """
+        ).strip()
+        for paper, note in zip(PAPERS, lens_notes)
+    )
+
     body = dedent(
         f"""
         <main id="main">
@@ -84,12 +128,11 @@ def home_page() -> str:
               </div>
               <div class="hero-aside" data-reveal>
                 <p class="hero-statement">Accountability lives in the sequence.</p>
-                <ol class="hero-transition" aria-label="Research sequence">
-                  <li><b>01</b><span>Case</span></li>
-                  <li><b>02</b><span>Institution</span></li>
-                  <li><b>03</b><span>Exit</span></li>
-                </ol>
-                <p>Three working papers trace one institutional problem across three scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
+                <div class="research-lenses">
+                  <p class="lens-intro">INSPECT THE CLAIM / METHOD / LIMIT</p>
+                  {lenses}
+                </div>
+                <p class="lens-disclaimer">A conceptual reading guide, not a live diagnostic or operational decision tool.</p>
                 <div class="hero-actions">
                   <a class="button primary" href="/papers/">Read the trilogy <span class="arrow" aria-hidden="true">↗</span></a>
                   <a class="button" href="/about.html">Author record</a>
