@@ -1,1 +1,55 @@
-/* Editorial Atlas: visual explanation is carried by semantic diagrams and the source research models. */
+/* Editorial marginal instruments: schematic structures, never measured data.
+ * Native scroll timelines in motion.css differentiate the paper states. */
+.paper-hero .paper-apparatus{
+  position:absolute;z-index:0;right:max(var(--gutter),2rem);top:2rem;
+  width:clamp(7.5rem,13vw,12rem);height:5.5rem;
+  pointer-events:none;border:1px solid var(--line-strong);
+  opacity:.65;background:transparent;
+}
+.paper-apparatus .apparatus-label{
+  position:absolute;left:.65rem;bottom:.42rem;color:var(--ink-faint);
+  font:600 .48rem/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em;
+}
+.paper-apparatus i{position:absolute;display:block}
+body[data-tone="part-1"] .paper-apparatus i:first-of-type{
+  left:14%;top:28%;height:1px;width:23%;background:var(--signal-soft)
+}
+body[data-tone="part-1"] .paper-apparatus i:nth-of-type(2){
+  left:37%;top:28%;height:38%;width:1px;background:var(--signal-soft)
+}
+body[data-tone="part-1"] .paper-apparatus i:nth-of-type(3){
+  left:37%;top:66%;height:1px;width:44%;background:var(--signal-soft)
+}
+body[data-tone="part-2"] .paper-apparatus{
+  border-color:color-mix(in srgb,var(--signal-soft) 35%,var(--line));
+}
+body[data-tone="part-2"] .paper-apparatus i:first-of-type{
+  left:12%;top:26%;width:76%;height:1px;background:var(--signal-soft)
+}
+body[data-tone="part-2"] .paper-apparatus i:nth-of-type(2){
+  left:12%;top:43%;width:55%;height:1px;background:var(--signal-soft)
+}
+body[data-tone="part-2"] .paper-apparatus i:nth-of-type(3){
+  left:12%;top:60%;width:36%;height:1px;background:var(--signal-soft)
+}
+body[data-tone="part-3"] .paper-apparatus{
+  border-color:rgba(237,181,163,.44)
+}
+body[data-tone="part-3"] .paper-apparatus i:first-of-type{
+  left:18%;top:35%;width:64%;height:1px;background:var(--signal-soft)
+}
+body[data-tone="part-3"] .paper-apparatus i:nth-of-type(2){
+  left:50%;top:21%;height:43%;width:1px;background:var(--signal-soft)
+}
+body[data-tone="part-3"] .paper-apparatus i:nth-of-type(3){
+  left:44%;top:28%;width:12%;aspect-ratio:1;border:1px solid var(--signal-soft)
+}
+.footer-wordmark{position:relative}
+.footer-wordmark::after{
+  content:"";display:block;position:absolute;bottom:-.65rem;
+  width:calc(100% - var(--ending,0) * 100%);
+  left:calc(var(--ending,0) * 50%);height:1px;
+  background:var(--signal-soft);opacity:.78
+}
+@media(max-width:44rem){.paper-hero .paper-apparatus{display:none}}
+@media print{.paper-hero .paper-apparatus{display:none}}
