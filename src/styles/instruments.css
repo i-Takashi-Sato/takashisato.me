@@ -7,7 +7,7 @@
   opacity:.65;background:transparent;
 }
 .paper-apparatus .apparatus-label{
-  position:absolute;left:.65rem;bottom:.42rem;color:var(--ink-faint);
+  display:none;position:absolute;left:.65rem;bottom:.42rem;color:var(--ink-faint);
   font:600 .48rem/1.2 var(--mono);text-transform:uppercase;letter-spacing:.06em;
 }
 .paper-apparatus i{position:absolute;display:block}
