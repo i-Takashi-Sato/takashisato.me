@@ -76,27 +76,39 @@ def home_page() -> str:
     body = dedent(
         f"""
         <main id="main">
-          <section class="hero shell" aria-labelledby="hero-title">
-            <div class="hero-grid">
-              <div data-reveal>
-                <p class="eyebrow">AI Governance Research Archive · Workflow-Centric Trilogy · v6.2</p>
-                <h1 id="hero-title"><span>A role alone</span><span class="hero-turn">is <em>not</em></span><span class="hero-governance">governance.</span></h1>
-              </div>
-              <div class="hero-aside" data-reveal>
-                <p class="hero-statement">Accountability lives in the sequence.</p>
-                <ol class="hero-transition" aria-label="Research sequence">
-                  <li><b>01</b><span>Case</span></li>
-                  <li><b>02</b><span>Institution</span></li>
-                  <li><b>03</b><span>Exit</span></li>
-                </ol>
-                <p>Three working papers trace one institutional problem across three scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
-                <div class="hero-actions">
-                  <a class="button primary" href="/papers/">Read the trilogy <span class="arrow" aria-hidden="true">↗</span></a>
-                  <a class="button" href="/about.html">Author record</a>
-                </div>
-              </div>
-            </div>
-          </section>
+          <section class="atlas-opening shell" aria-labelledby="cover-title">
+<div class="atlas-opening-intro"><p class="eyebrow">TAKASHI SATO / INDEPENDENT AI GOVERNANCE RESEARCH / 2026</p>
+  <h1 id="hero-title"><span>Oversight</span><span>is not a <em>role.</em></span></h1>
+  <p class="atlas-opening-deck">It is the practical capacity to decide, to challenge, to remedy—and, when necessary, to bring a failing workflow to an accountable end.</p>
+  <div class="hero-actions"><a class="button primary" href="/papers/index.html">Explore the three papers <span class="arrow" aria-hidden="true">↗</span></a>
+  <a class="button" href="/about.html">About the author</a></div>
+</div>
+<div class="atlas-plate"><div class="atlas-plate-head"><span>THE PROPER ENDING INDEX</span><span>STUDIES 01—03</span></div>
+<figure class="atlas-figure"><svg viewBox="0 0 520 378" role="img" aria-labelledby="atlas-title atlas-desc">
+   <title id="atlas-title">Three distinct governance research mechanisms</title>
+   <desc id="atlas-desc">Part I shows gated decision routing, Part II shows procedure persisting while judgment and governing capacity diminish, and Part III shows obligations preserved and assigned before final closure. This schematic is conceptual rather than measured or predictive data. The research parts are not a universal lifecycle.</desc>
+   <defs><pattern id="g" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#d9d8cf" stroke-width=".6"/></pattern></defs>
+   <rect width="520" height="378" fill="url(#g)" opacity=".55"/>
+   <g font-family="Arial,sans-serif" font-size="10.5" letter-spacing="1.2" fill="#53625d">
+   <text x="8" y="23">I / ROUTE</text><text x="8" y="146">II / CAPACITY</text><text x="8" y="266">III / RETURN</text></g>
+   <g stroke="#765c3f" stroke-width="1.5" fill="none">
+   <rect x="9" y="40" width="150" height="65"/><rect x="183" y="40" width="150" height="65"/><rect x="357" y="40" width="150" height="65"/>
+   <path d="M159 72H183 M333 72H357"/><path d="M176 67L183 72L176 77 M350 67L357 72L350 77"/></g>
+   <g fill="#4c3b29" font-family="Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">
+   <text x="84" y="79">EVIDENCE</text><text x="258" y="79">AUTHORITY</text><text x="432" y="79">ROUTE</text></g>
+   <g stroke="#476d79" stroke-width="1.2" fill="none"><rect x="9" y="165" width="498" height="74"/><path d="M21 185H491 M21 226H491" stroke-dasharray="4 6" opacity=".5"/>
+   <path d="M24 198H494" stroke-width="2.5"/><path d="M24 211H345" stroke-width="2"/><path d="M24 222H195" stroke-width="2"/></g>
+   <g fill="#365d6e" font-family="Arial,sans-serif" font-size="11"><text x="23" y="178">PROCEDURE / CONTINUITY</text><text x="360" y="212">JUDGMENT</text><text x="211" y="235">CAPACITY</text></g>
+   <g stroke="#8c5a47" stroke-width="1.4" fill="none"><path d="M9 306H507"/><rect x="9" y="287" width="112" height="40"/><rect x="153" y="287" width="122" height="40"/><rect x="307" y="287" width="111" height="40"/>
+   <path d="M121 306H153 M275 306H307 M418 306H507"/><path d="M500 300l7 6-7 6"/></g>
+   <g fill="#704737" font-family="Arial,sans-serif" font-size="11" font-weight="600" text-anchor="middle"><text x="65" y="310">PRESERVE</text><text x="214" y="310">TRANSFER</text><text x="362" y="310">ASSURE</text></g>
+   <g fill="#53625d" font-family="Arial,sans-serif" font-size="9.5"><text x="9" y="367">SCHEMATIC ONLY · NOT EMPIRICAL DATA</text><text x="318" y="367">THREE ANALYTICAL SCALES</text></g>
+   </svg><figcaption>Conceptual structures, not measured outcomes. The three papers address distinct analytical scales, not a universal lifecycle.</figcaption></figure>
+<nav class="atlas-doors" aria-label="Open a paper">
+   <a href="/papers/part1.html"><strong>01 / ROUTE</strong><span>Decision contract</span></a>
+   <a href="/papers/part2.html"><strong>02 / LOSS</strong><span>Governing capacity</span></a>
+   <a href="/papers/part3.html"><strong>03 / RETURN</strong><span>Accountable exit</span></a>
+</nav></div></section>
 
           <section class="section">
             <div class="shell">

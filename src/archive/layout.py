@@ -44,6 +44,8 @@ def head(
     safe_title = escape(title, quote=True)
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
+    theme_color = "#101715" if paper and paper["part"] == 3 else "#f5f2eb"
+    image_alt = safe_title if safe_title.startswith("The Proper Ending Index") else f"The Proper Ending Index — {safe_title}"
 
     schema_html = ""
     if schema:
@@ -83,8 +85,8 @@ def head(
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-          <meta name="color-scheme" content="dark">
-          <meta name="theme-color" content="#080808">
+          <meta name="color-scheme" content="light dark">
+          <meta name="theme-color" content="{theme_color}">
           <title>{safe_title}</title>
           <meta name="description" content="{safe_description}">
           <meta name="author" content="Takashi Sato">
@@ -114,12 +116,12 @@ def head(
           <meta property="og:image:type" content="image/jpeg">
           <meta property="og:image:width" content="1200">
           <meta property="og:image:height" content="630">
-          <meta property="og:image:alt" content="The Proper Ending Index — {safe_title}">
+          <meta property="og:image:alt" content="{image_alt}">
           <meta name="twitter:card" content="summary_large_image">
           <meta name="twitter:title" content="{safe_title}">
           <meta name="twitter:description" content="{safe_description}">
           <meta name="twitter:image" content="{SITE}{image}">
-          <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
+          <meta name="twitter:image:alt" content="{image_alt}">
           {paper_meta}
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
