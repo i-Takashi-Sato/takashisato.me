@@ -279,6 +279,20 @@ body[data-tone] .paper-hero .apparatus-label {
 }
 .identity-art svg {overflow:hidden}
 
+/* Preserve two-column numerical legibility on narrow screens. */
+@media (max-width:44rem) {
+  .metric {min-width:0;padding:clamp(1rem,3vw,1.5rem)}
+  .metric strong {
+    max-width:100%;
+    font-size:clamp(2.05rem,9vw,3.15rem);
+    font-weight:530;
+    letter-spacing:-.055em;
+    white-space:nowrap;
+    line-height:1;
+  }
+  .metric span {overflow-wrap:anywhere}
+}
+
 /* The retired oversized watermark produced 16px of phantom horizontal scroll at 320px.
    It has no scholarly meaning and is excluded from the new catalogue grammar. */
 body[data-page="home"] .sequence-row > div::after,
