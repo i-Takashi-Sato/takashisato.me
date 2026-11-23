@@ -83,7 +83,7 @@ def home_page() -> str:
                 <p class="identity-overline">THE PROPER ENDING INDEX <span aria-hidden="true">/</span> 01–03</p>
                 <h1 id="hero-title">A role alone<br>is not <strong>governance.</strong></h1>
                 <p class="identity-thesis">Accountability lives in the sequence.</p>
-                <p class="identity-detail">Three working papers trace one institutional problem across distinct scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
+                <p class="identity-detail">When an AI-assisted institution keeps its procedures but loses the capacity to challenge decisions, who can recognize the failure and stop it responsibly? These three working papers examine case decisions, governing capacity, and accountable exit. They propose analytical structures, not proven operational solutions.</p>
                 <div class="identity-actions">
                   <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
                   <a class="button" href="/about.html">Author record</a>
