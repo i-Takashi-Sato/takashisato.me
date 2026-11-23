@@ -161,7 +161,7 @@ def main() -> None:
             Static HTML, CSS, and progressive JavaScript
             Three self-hosted type families; no framework runtime
             Current research version: 6.2
-            Last update: 2026-09-23
+            Last update: 2026-11-24
 
             /* ORIENTATION */
             https://takashisato.me/llms.txt
@@ -182,8 +182,8 @@ def main() -> None:
                 "scope": "/",
                 "display": "standalone",
                 "lang": "en",
-                "background_color": "#080808",
-                "theme_color": "#080808",
+                "background_color": "#F8F8F7",
+                "theme_color": "#F8F8F7",
                 "icons": [
                     {"src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"},
                     {"src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png"},
