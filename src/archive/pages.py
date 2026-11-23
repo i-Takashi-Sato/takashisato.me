@@ -400,6 +400,7 @@ def paper_page(paper: Paper) -> str:
                   <p class="eyebrow">Citation &amp; preservation</p>
                   <h2>Cite the versioned record.</h2>
                   <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
+                  <p>To challenge an assumption, identify relevant prior work, or report a counterexample, see the <a href="/papers/#critical-review">critical-review questions and contact route</a>.</p>
                   <div class="citation">{citation}</div>
                   <dl class="record-list">
                     <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">{paper['doi']}</a></dd></div>
