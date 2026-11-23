@@ -10,10 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 STYLE_SOURCES = (
     ROOT / "src/styles/base.css",
-    ROOT / "src/styles/pavilion.css",
     ROOT / "src/styles/instruments.css",
-    ROOT / "src/styles/motion.css",
     ROOT / "src/styles/performance.css",
+    ROOT / "src/styles/identity-2026.css",
+    ROOT / "src/styles/research-motion-2026.css",
 )
 
 SCRIPT_SOURCES = (

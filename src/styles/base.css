@@ -1033,11 +1033,11 @@ body[data-page="papers"] .sequence-row {
   overflow: clip;
 }
 body[data-page="home"] .sequence-row:nth-child(1),
-body[data-page="papers"] .sequence-row:nth-child(1) { --row-accent: var(--bronze-soft); --row-wash: rgba(183,154,99,.09); }
+body[data-page="papers"] .sequence-row:nth-child(1) { --row-accent: #555; --row-wash: rgba(85,85,85,.06); }
 body[data-page="home"] .sequence-row:nth-child(2),
-body[data-page="papers"] .sequence-row:nth-child(2) { --row-accent: var(--ice); --row-wash: rgba(145,162,170,.08); }
+body[data-page="papers"] .sequence-row:nth-child(2) { --row-accent: #555; --row-wash: rgba(85,85,85,.06); }
 body[data-page="home"] .sequence-row:nth-child(3),
-body[data-page="papers"] .sequence-row:nth-child(3) { --row-accent: var(--copper); --row-wash: rgba(135,59,52,.09); }
+body[data-page="papers"] .sequence-row:nth-child(3) { --row-accent: #555; --row-wash: rgba(85,85,85,.06); }
 body[data-page="home"] .sequence-row::before,
 body[data-page="papers"] .sequence-row::before,
 body[data-page="home"] .sequence-state,

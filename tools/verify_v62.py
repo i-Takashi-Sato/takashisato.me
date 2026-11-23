@@ -353,6 +353,7 @@ def audit_assets(errors: list[str]) -> None:
     expected_assets = {
         "site.css",
         "site.js",
+        "brand-mark.svg",
         "fonts/InterVariable.woff2",
         "fonts/Inter-OFL.txt",
         "fonts/Newsreader-Variable.woff2",
@@ -384,12 +385,15 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, "production stylesheet has unbalanced braces")
     if re.search(r"https?://|@import\s+url", css):
         fail(errors, "production stylesheet contains a remote dependency")
-    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "cursor-orbit", "animation-timeline", "gate-probe"]:
+    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "identity-hero-grid", "gate-probe"]:
         if token not in css:
             fail(errors, f"production stylesheet missing {token}")
-    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor", "data-gate-probe", "site-analytics:event"]:
+    for token in ["requestAnimationFrame", "data-gate-probe", "site-analytics:event"]:
         if token not in js:
             fail(errors, f"production script missing {token}")
+    for retired_pointer in ["has-custom-cursor", "cursorLabel", "initAuthorityCursor"]:
+        if retired_pointer in js:
+            fail(errors, f"retired custom pointer code remains: {retired_pointer}")
     for retired in ["archive-v62.css", "archive-v66.css", "archive-v68.css", "archive-v610.css", "research-fluid.js"]:
         if retired in js:
             fail(errors, f"production script references retired runtime: {retired}")
@@ -414,16 +418,32 @@ def audit_assets(errors: list[str]) -> None:
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
 
-    paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
-    if not paper_match:
-        fail(errors, "production stylesheet is missing the paper color token")
+    # Only :root color tokens belong to the global paper/ink contrast test.
+    # Scoped dark research exhibits are audited against their actual backgrounds by axe.
+    required_palette = ("paper", "ink", "ink-soft", "ink-faint", "signal-soft")
+    root_bodies = re.findall(r":root\s*\{([^{}]*)\}", css)
+    # Print-only roots may override paper and ink without being the screen palette.
+    # Require one coherent root declaration containing the full semantic palette.
+    main_roots = [
+        root_body for root_body in root_bodies
+        if all(re.search(rf"--{token}\s*:", root_body) for token in required_palette)
+    ]
+    global_palette = (
+        dict(re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", main_roots[-1]))
+        if main_roots else {}
+    )
+    paper_color = global_palette.get("paper")
+    if not paper_color:
+        fail(errors, "production stylesheet is missing the root paper color token")
     else:
-        paper_color = paper_match.group(1)
-        text_colors = set(re.findall(r"--(?:ink|ink-soft|ink-faint|signal-soft):\s*(#[0-9a-fA-F]{6})", css))
-        for color in sorted(text_colors):
+        for token in ("ink", "ink-soft", "ink-faint", "signal-soft"):
+            color = global_palette.get(token)
+            if not color:
+                fail(errors, f"production stylesheet missing global --{token} palette token")
+                continue
             ratio = contrast_ratio(color, paper_color)
             if ratio < 4.5:
-                fail(errors, f"text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
+                fail(errors, f"global text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
 
     for name in ["home", "papers", "about", *PAPERS]:
         image_path = ROOT / f"assets/og/{name}.jpg"

@@ -70,7 +70,32 @@ def layout_errors(page, name: str, width: int, suffix: str) -> list[str]:
     prefix = f"{name}@{width}/{suffix}"
 
     if metrics["scrollWidth"] > metrics["innerWidth"] + 3:
-        errors.append(f"{prefix}: horizontal overflow {metrics}")
+        diagnostics = page.evaluate("""() => {
+          const width = () => document.documentElement.scrollWidth;
+          const baseline = width();
+          const selectors = ['.site-header', 'main', '.site-footer',
+            '.identity-hero', '.sequence', '.metric-grid', '.boundary',
+            '.profile-grid', '.research-map', '.identity-questions',
+            '.identity-art', '.identity-masthead'];
+          const candidates = selectors.flatMap(selector =>
+            [...document.querySelectorAll(selector)].map((el, i) => {
+              const prior = el.style.getPropertyValue('display');
+              const priority = el.style.getPropertyPriority('display');
+              el.style.setProperty('display', 'none', 'important');
+              const after = width();
+              if (prior) el.style.setProperty('display', prior, priority);
+              else el.style.removeProperty('display');
+              return {selector, index:i, after, recovered:baseline-after};
+            })
+          ).filter(x => x.recovered > 1).sort((a,b) => b.recovered-a.recovered);
+          const style = document.createElement('style');
+          style.textContent='*::before,*::after{content:none!important;display:none!important}';
+          document.head.append(style);
+          const withoutPseudos = width();
+          style.remove();
+          return {baseline, withoutPseudos, candidates};
+        }""")
+        errors.append(f"{prefix}: horizontal overflow {metrics} diagnostic={diagnostics}")
     if not metrics["h1"] or min(metrics["h1"]) < (118 if width <= 390 else 180):
         errors.append(f"{prefix}: collapsed h1 {metrics}")
 
