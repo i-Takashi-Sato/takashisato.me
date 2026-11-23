@@ -2,25 +2,29 @@
    This layer follows the original archive's CSS, never replaces its research
    instruments, citations, or semantic page structure. */
 :root {
-  --paper:#eeece6;
-  --paper-raised:#f9f8f4;
-  --paper-deep:#e3e1d9;
-  --ink:#14191a;
-  --ink-soft:#3d4648;
-  --ink-faint:#596164;
-  --line:rgba(20,25,26,.17);
-  --line-strong:rgba(20,25,26,.36);
-  --signal:#91503f;
-  --signal-soft:#754333;
-  --signal-pale:#774d3f;
-  --signal-wash:rgba(145,80,63,.09);
+  --paper:#f6f7f8;
+  --paper-raised:#ffffff;
+  --paper-deep:#e9edf0;
+  --ink:#15191e;
+  --ink-soft:#424b55;
+  --ink-faint:#57616b;
+  --line:rgba(21,25,30,.17);
+  --line-strong:rgba(21,25,30,.36);
+  --signal:#334b62;
+  --signal-soft:#334b62;
+  --signal-pale:#415c75;
+  --signal-wash:rgba(51,75,98,.08);
   --signal-glow:transparent;
   --archive-rule:rgba(20,25,26,.18);
   --archive-rule-soft:rgba(20,25,26,.11);
   --archive-rule-faint:rgba(20,25,26,.055);
-  --route-case:#735947;
-  --route-institution:#4a6167;
-  --route-exit:#905a48;
+  --route-case:#536779;
+  --route-institution:#42596e;
+  --route-exit:#718293;
+  --m-gold:#718293;
+  --c-ice:#496075;
+  --r-copper:#647d91;
+  --r-oxide:#334b62;
   --sans:"Inter Variable","Avenir Next",Avenir,"Segoe UI",sans-serif;
   --display:"Inter Variable","Avenir Next",Avenir,"Segoe UI",sans-serif;
   --script:"Inter Variable","Avenir Next",Avenir,"Segoe UI",sans-serif;
@@ -32,12 +36,12 @@
 html {background:var(--paper)}
 body {background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:clamp(1rem,.25vw + .94rem,1.125rem);line-height:1.62;font-variation-settings:normal}
 body::before {display:none}
-::selection {background:#d9d0c4;color:var(--ink)}
+::selection {background:#d7e1e8;color:var(--ink)}
 a:hover {text-decoration-color:var(--signal)}
-:focus-visible {outline:3px solid #8b5848;outline-offset:4px}
+:focus-visible {outline:3px solid #334b62;outline-offset:4px}
 .cursor-orbit,.cursor-dot {display:none!important}
 .has-custom-cursor, .has-custom-cursor a,.has-custom-cursor button {cursor:auto!important}
-.site-header {background:rgba(238,236,230,.97);border-bottom:1px solid var(--line);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.site-header {background:rgba(246,247,248,.97);border-bottom:1px solid var(--line);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 .header-inner {min-height:5rem}
 .brand {font-size:.79rem;font-weight:670;letter-spacing:-.03em;text-transform:none;gap:.75rem}
 .brand span:last-child {max-width:17rem}
@@ -66,10 +70,16 @@ body[data-page="home"] .identity-copy h1 {margin:0;max-width:11ch;font-family:va
 .identity-thesis {font-size:clamp(1.3rem,1.75vw,1.9rem);font-weight:540;letter-spacing:-.025em;line-height:1.23;margin:clamp(2.25rem,4vw,4rem) 0 .85rem}
 .identity-detail {max-width:35rem;color:var(--ink-soft);font-size:clamp(1rem,.45vw + .86rem,1.125rem);line-height:1.65;margin:0 0 1.7rem}
 .identity-actions {display:flex;align-items:center;flex-wrap:wrap;gap:.4rem 2rem}
-.identity-art {margin:0;min-width:0;background:#172024;color:#eeeae2;padding:clamp(1.25rem,2vw,2.5rem);display:flex;min-height:clamp(25rem,42vw,40rem);flex-direction:column;justify-content:space-between;box-shadow:0 18px 55px rgba(16,20,21,.07)}
-.identity-art-head {display:flex;justify-content:space-between;gap:.5rem 1.25rem;color:#d4d1ca;font-size:.72rem;font-family:var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.identity-art {margin:0;min-width:0;background:#e9edf0;color:#253545;padding:clamp(1.25rem,2vw,2.5rem);display:flex;min-height:clamp(25rem,42vw,40rem);flex-direction:column;justify-content:space-between;box-shadow:none;border:1px solid #c7cfd6}
+.identity-art-head {display:flex;justify-content:space-between;gap:.5rem 1.25rem;color:#465766;font-size:.72rem;font-family:var(--sans);letter-spacing:.08em;text-transform:uppercase}
 .identity-art svg {width:100%;height:auto;min-height:15rem;display:block;overflow:visible}
-.identity-art figcaption {font-size:.8rem;max-width:30rem;line-height:1.5;color:#c8c9c4;border-top:1px solid rgba(255,255,255,.2);padding-top:1rem}
+.identity-art svg path:nth-of-type(-n+2){stroke:#344553}
+.identity-art svg path:nth-of-type(3),.identity-art svg path:nth-of-type(5){stroke:#334b62}
+.identity-art svg path:nth-of-type(4){stroke:#708293;opacity:.65}
+.identity-art svg circle{fill:#e9edf0;stroke:#334b62}
+.identity-art svg text{fill:#465766}
+.identity-art svg text:last-child{fill:#334b62}
+.identity-art figcaption {font-size:.8rem;max-width:30rem;line-height:1.5;color:#465766;border-top:1px solid rgba(20,30,40,.2);padding-top:1rem}
 .identity-questions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);list-style:none;padding:0}
 .identity-questions li {border-right:1px solid var(--line);padding:1.2rem clamp(.7rem,2.8vw,2.4rem)}
 .identity-questions li:first-child {padding-left:0}
@@ -133,7 +143,7 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .author-copy section {border-color:var(--line)}
 .author-links a {color:var(--ink);border-color:var(--line)}
 /* Existing footer remains a dark material: a clear end-state, not an animation. */
-.site-footer {background:#172024;color:#f1efea;border-color:#172024}
+.site-footer {background:#19232d;color:#f1efea;border-color:#19232d}
 .site-footer .footer-wordmark {color:#f1efea!important;font-family:var(--sans);font-style:normal;font-size:clamp(3rem,6.5vw,7.5rem);font-weight:470;letter-spacing:-.065em;line-height:1.04;text-shadow:none;transform:none}
 .site-footer .footer-wordmark::before,.site-footer .footer-wordmark::after {display:none!important}
 .site-footer *:is(p,h2,a,.label,.eyebrow) {color:#e4e2dc}
@@ -189,8 +199,8 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 body .paper-layout .toc a,
 body .paper-layout .toc a:hover,
 body .paper-layout .toc a[aria-current="location"] {
-  color:#172024;
-  background-color:#eeece6;
+  color:#19232d;
+  background-color:#f6f7f8;
 }
 
 /* Index numerals are textual records, not decorative color-coded labels. */
@@ -200,7 +210,7 @@ body .paper-layout .toc a[aria-current="location"] {
 body{min-width:0}
 body[data-page="home"],body[data-page="papers"],body[data-page="about"]{background:var(--paper);color:var(--ink)}
 body[data-tone="part-1"],body[data-tone="part-2"],body[data-tone="part-3"]{
---signal:#91503f;--signal-soft:#754333;--signal-pale:#774d3f;
+--signal:#334b62;--signal-soft:#334b62;--signal-pale:#415c75;
 background:var(--paper);color:var(--ink)
 }
 /* Decorative dark hero overlays and masked signature are not part of this identity. */
@@ -221,18 +231,18 @@ body[data-tone] .content *:is(
   .model,.gate-probe,.gate,.route-box,.construct,.protocol li,
   .fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route
 ) {
-  --ink:#14191a;
-  --ink-soft:#3d4648;
+  --ink:#15191e;
+  --ink-soft:#424b55;
   --ink-faint:#50595b;
-  --signal:#754333;
-  --signal-soft:#754333;
-  --signal-pale:#754333;
-  --paper-raised:#f9f8f4;
+  --signal:#334b62;
+  --signal-soft:#334b62;
+  --signal-pale:#334b62;
+  --paper-raised:#ffffff;
   --paper-deep:#e8e5dc;
   --line:rgba(20,25,26,.28);
   --line-strong:rgba(20,25,26,.44);
-  background:#f9f8f4!important;
-  color:#14191a!important;
+  background:#ffffff!important;
+  color:#15191e!important;
   border-color:rgba(20,25,26,.3)!important;
 }
 body[data-tone] .content :is(
@@ -242,14 +252,14 @@ body[data-tone] .content :is(
   color:#253135;
 }
 body[data-tone] .content .probe-route {
-  background:#eeeae2!important;
-  color:#14191a!important;
+  background:#ecf0f3!important;
+  color:#15191e!important;
 }
 body[data-tone] .content .probe-route > span {
-  color:#754333!important;
+  color:#334b62!important;
 }
 body[data-tone] .content .probe-route > strong {
-  color:#14191a!important;
+  color:#15191e!important;
 }
 body[data-tone] .content .probe-route > small {
   color:#344043!important;
@@ -274,7 +284,7 @@ body[data-tone] .paper-hero .paper-apparatus {
   filter:none;
 }
 body[data-tone] .paper-hero .apparatus-label {
-  color:#172024!important;
+  color:#19232d!important;
   opacity:1!important;
 }
 .identity-art svg {overflow:hidden}
