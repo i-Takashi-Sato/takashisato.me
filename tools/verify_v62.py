@@ -570,8 +570,11 @@ def audit_indexes(errors: list[str]) -> None:
         fail(errors, f"sitemap.xml: canonical URL inventory mismatch: {actual_urls}")
     if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
         fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
-    if sitemap.count(f"<lastmod>{UPDATED}</lastmod>") != len(expected_urls):
-        fail(errors, "sitemap.xml: lastmod contract mismatch")
+    # Page freshness is not the same as the immutable v6.2 paper revision.
+    expected_lastmods = ["2026-11-24"] * 6 + ["2026-11-23", UPDATED, UPDATED]
+    actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
+    if actual_lastmods != expected_lastmods:
+        fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")
 
     robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
     if f"Sitemap: {SITE}/sitemap.xml" not in robots or f"{SITE}/llms.txt" not in robots:

@@ -69,8 +69,19 @@ def sitemap() -> str:
         "/privacy.html",
         "/security.html",
     ]
+    # Only genuinely revised documents receive a newer sitemap lastmod.
+    # Research version and PDF revision dates remain unchanged.
+    changed_pages = {
+        "/": "2026-11-24",
+        "/papers/": "2026-11-24",
+        "/papers/part1.html": "2026-11-24",
+        "/papers/part2.html": "2026-11-24",
+        "/papers/part3.html": "2026-11-24",
+        "/about.html": "2026-11-24",
+        "/colophon.html": "2026-11-23",
+    }
     urls = "\n".join(
-        f"  <url><loc>{SITE}{path}</loc><lastmod>{UPDATED}</lastmod></url>"
+        f"  <url><loc>{SITE}{path}</loc><lastmod>{changed_pages.get(path, UPDATED)}</lastmod></url>"
         for path in entries
     )
     return (
