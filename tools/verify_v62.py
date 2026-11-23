@@ -353,6 +353,7 @@ def audit_assets(errors: list[str]) -> None:
     expected_assets = {
         "site.css",
         "site.js",
+        "brand-mark.svg",
         "fonts/InterVariable.woff2",
         "fonts/Inter-OFL.txt",
         "fonts/Newsreader-Variable.woff2",
@@ -414,13 +415,19 @@ def audit_assets(errors: list[str]) -> None:
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
 
-    paper_match = re.search(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
-    if not paper_match:
+    # Validate the effective last-declared palette rather than historic, overridden tokens.
+    # Keep the original 4.5:1 text contrast gate for all four semantic text colors.
+    paper_colors = re.findall(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
+    if not paper_colors:
         fail(errors, "production stylesheet is missing the paper color token")
     else:
-        paper_color = paper_match.group(1)
-        text_colors = set(re.findall(r"--(?:ink|ink-soft|ink-faint|signal-soft):\s*(#[0-9a-fA-F]{6})", css))
-        for color in sorted(text_colors):
+        paper_color = paper_colors[-1]
+        for token in ("ink", "ink-soft", "ink-faint", "signal-soft"):
+            colors = re.findall(rf"--{token}:\s*(#[0-9a-fA-F]{{6}})", css)
+            if not colors:
+                fail(errors, f"production stylesheet missing --{token} palette token")
+                continue
+            color = colors[-1]
             ratio = contrast_ratio(color, paper_color)
             if ratio < 4.5:
                 fail(errors, f"text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
