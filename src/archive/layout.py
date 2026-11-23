@@ -84,7 +84,7 @@ def head(
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
           <meta name="color-scheme" content="light">
-          <meta name="theme-color" content="#fafafa">
+          <meta name="theme-color" content="#F8F8F7">
           <title>{safe_title}</title>
           <meta name="description" content="{safe_description}">
           <meta name="author" content="Takashi Sato">
