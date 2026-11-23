@@ -98,7 +98,7 @@ def home_page() -> str:
                     <path d="M25 36H475M25 190H475M25 352H475M25 515H475"/>
                     <path d="M25 36V515M475 36V515" stroke-dasharray="2 10"/>
                   </g>
-                  <g fill="#c4becb" font-family="Inter, sans-serif" font-size="17" font-weight="600" letter-spacing="3">
+                  <g fill="#c4becb" font-family="Inter, sans-serif" font-size="19" font-weight="600" letter-spacing="3">
                     <text x="45" y="74">I / CASE</text>
                     <text x="45" y="228">II / INSTITUTION</text>
                     <text x="45" y="390">III / EXIT</text>
@@ -124,7 +124,7 @@ def home_page() -> str:
                     <circle cx="319" cy="143" r="5"/>
                     <circle cx="251" cy="291" r="5"/>
                   </g>
-                  <g fill="#aaa5b2" font-family="Inter, sans-serif" font-size="13" letter-spacing="2">
+                  <g fill="#aaa5b2" font-family="Inter, sans-serif" font-size="16" letter-spacing="1.7">
                     <text x="45" y="175">DECISION ROUTING</text>
                     <text x="45" y="337">GOVERNING CAPACITY</text>
                     <text x="45" y="505">ACCOUNTABILITY CONTINUES</text>
