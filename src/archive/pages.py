@@ -76,26 +76,41 @@ def home_page() -> str:
     body = dedent(
         f"""
         <main id="main">
-          <section class="hero shell" aria-labelledby="hero-title">
-            <div class="hero-grid">
-              <div data-reveal>
-                <p class="eyebrow">AI Governance Research Archive · Workflow-Centric Trilogy · v6.2</p>
-                <h1 id="hero-title"><span>A role alone</span><span class="hero-turn">is <em>not</em></span><span class="hero-governance">governance.</span></h1>
-              </div>
-              <div class="hero-aside" data-reveal>
-                <p class="hero-statement">Accountability lives in the sequence.</p>
-                <ol class="hero-transition" aria-label="Research sequence">
-                  <li><b>01</b><span>Case</span></li>
-                  <li><b>02</b><span>Institution</span></li>
-                  <li><b>03</b><span>Exit</span></li>
-                </ol>
-                <p>Three working papers trace one institutional problem across three scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
-                <div class="hero-actions">
-                  <a class="button primary" href="/papers/">Read the trilogy <span class="arrow" aria-hidden="true">↗</span></a>
+          <section class="hero shell identity-hero" aria-labelledby="hero-title">
+            <div class="identity-masthead"><span>THE PROPER ENDING INDEX</span><span>INDEPENDENT RESEARCH · SAPPORO</span></div>
+            <div class="identity-hero-grid">
+              <div class="identity-copy">
+                <p class="identity-overline">AI Governance · Working papers v6.2</p>
+                <h1 id="hero-title">A role alone<br>is not <strong>governance.</strong></h1>
+                <p class="identity-thesis">Accountability lives in the sequence.</p>
+                <p class="identity-detail">Three working papers trace one institutional problem across distinct scales: route the decision, diagnose governing-capacity loss, and end a failing workflow without abandoning authority or remedy.</p>
+                <div class="identity-actions">
+                  <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
                   <a class="button" href="/about.html">Author record</a>
                 </div>
               </div>
+              <figure class="identity-art">
+                <div class="identity-art-head"><span>STUDY / THE REMAINDER</span><span>CONCEPTUAL FIGURE</span></div>
+                <svg viewBox="0 0 540 450" role="img" aria-labelledby="engraving-title engraving-desc" xmlns="http://www.w3.org/2000/svg">
+                  <title id="engraving-title">An interrupted institutional perimeter and a continuing obligation</title>
+                  <desc id="engraving-desc">A bounded architectural line ends before reaching the right edge. A horizontal line continues beyond its boundary, symbolising that obligations survive the end of one workflow. This is conceptual, not evidence or a verified state diagram.</desc>
+                  <path d="M65 370V65H395V178" fill="none" stroke="#f1eee6" stroke-width="5"/>
+                  <path d="M395 291V370H65" fill="none" stroke="#f1eee6" stroke-width="5"/>
+                  <path d="M182 242H510" fill="none" stroke="#e7b5a0" stroke-width="6"/>
+                  <path d="M172 242H110" fill="none" stroke="#f1eee6" stroke-width="2" stroke-dasharray="2 10" opacity=".4"/>
+                  <circle cx="395" cy="242" r="10" fill="#172024" stroke="#e7b5a0" stroke-width="3"/>
+                  <path d="M65 65L78 65M65 65L65 78" stroke="#e7b5a0" stroke-width="2"/>
+                  <text x="65" y="418" font-size="13" letter-spacing="2" fill="#d1cfc9">WORKFLOW / ENDS</text>
+                  <text x="510" y="217" text-anchor="end" font-size="13" letter-spacing="2" fill="#e7b5a0">OBLIGATION / CONTINUES</text>
+                </svg>
+                <figcaption>An interpretive diagram, not a verification result: a workflow may end while service, evidence, remedy, and accountable authority remain.</figcaption>
+              </figure>
             </div>
+            <ol class="identity-questions" aria-label="Three distinct research questions">
+              <li><a href="/papers/part1.html"><b>01 / CASE</b>What may happen next?</a></li>
+              <li><a href="/papers/part2.html"><b>02 / INSTITUTION</b>Can it still govern?</a></li>
+              <li><a href="/papers/part3.html"><b>03 / EXIT</b>How does it end accountably?</a></li>
+            </ol>
           </section>
 
           <section class="section">
