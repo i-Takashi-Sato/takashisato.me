@@ -417,10 +417,18 @@ def audit_assets(errors: list[str]) -> None:
 
     # Only :root color tokens belong to the global paper/ink contrast test.
     # Scoped dark research exhibits are audited against their actual backgrounds by axe.
-    global_palette: dict[str, str] = {}
-    for root_body in re.findall(r":root\s*\{([^{}]*)\}", css):
-        for token, color in re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", root_body):
-            global_palette[token] = color
+    required_palette = ("paper", "ink", "ink-soft", "ink-faint", "signal-soft")
+    root_bodies = re.findall(r":root\s*\{([^{}]*)\}", css)
+    # Print-only roots may override paper and ink without being the screen palette.
+    # Require one coherent root declaration containing the full semantic palette.
+    main_roots = [
+        root_body for root_body in root_bodies
+        if all(re.search(rf"--{token}\s*:", root_body) for token in required_palette)
+    ]
+    global_palette = (
+        dict(re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", main_roots[-1]))
+        if main_roots else {}
+    )
     paper_color = global_palette.get("paper")
     if not paper_color:
         fail(errors, "production stylesheet is missing the root paper color token")
