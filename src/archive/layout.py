@@ -112,12 +112,12 @@ def head(
           <meta property="og:image:type" content="image/jpeg">
           <meta property="og:image:width" content="1200">
           <meta property="og:image:height" content="630">
-          <meta property="og:image:alt" content="The Proper Ending Index — {safe_title}">
+          <meta property="og:image:alt" content="{safe_title}">
           <meta name="twitter:card" content="summary_large_image">
           <meta name="twitter:title" content="{safe_title}">
           <meta name="twitter:description" content="{safe_description}">
           <meta name="twitter:image" content="{SITE}{image}">
-          <meta name="twitter:image:alt" content="The Proper Ending Index — {safe_title}">
+          <meta name="twitter:image:alt" content="{safe_title}">
           {paper_meta}
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
