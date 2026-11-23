@@ -115,14 +115,14 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .content h3 {font-size:clamp(1.3rem,1.65vw,2rem)}
 .content p,.content li,.author-copy p {color:var(--ink-soft)}
 .content .lead,.author-copy .lead {color:var(--ink)}
-.content :is(code,pre,kbd,samp) {color:var(--ink);font-variant-ligatures:none}
+.content *:is(code,pre,kbd,samp) {color:var(--ink);font-variant-ligatures:none}
 .content pre {background:var(--paper-raised);border:1px solid var(--line);overflow:auto}
-.content :is(table,th,td) {border-color:var(--line);color:var(--ink)}
+.content *:is(table,th,td) {border-color:var(--line);color:var(--ink)}
 .content table {background:transparent}
 .content th {background:var(--paper-deep)}
-.content :is(button,input,select) {color:var(--ink)}
-.content :is(input,select) {background:var(--paper-raised);border-color:var(--line-strong)}
-.content :is(.diagram,.instrument,.verification,.record-list,.citation,.callout,.paper-probe,.state-card) {border-color:var(--line);color:var(--ink)}
+.content *:is(button,input,select) {color:var(--ink)}
+.content *:is(input,select) {background:var(--paper-raised);border-color:var(--line-strong)}
+.content *:is(.diagram,.instrument,.verification,.record-list,.citation,.callout,.paper-probe,.state-card) {border-color:var(--line);color:var(--ink)}
 .record-row,.record-list div,.author-facts div {border-color:var(--line)}
 .research-map {border-color:var(--line);background:var(--paper-raised)}
 .research-map-node {background:transparent;color:var(--ink);border-color:var(--line)}
@@ -136,7 +136,7 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .site-footer {background:#172024;color:#f1efea;border-color:#172024}
 .site-footer .footer-wordmark {color:#f1efea!important;font-family:var(--sans);font-style:normal;font-size:clamp(3rem,6.5vw,7.5rem);font-weight:470;letter-spacing:-.065em;line-height:1.04;text-shadow:none;transform:none}
 .site-footer .footer-wordmark::before,.site-footer .footer-wordmark::after {display:none!important}
-.site-footer :is(p,h2,a,.label,.eyebrow) {color:#e4e2dc}
+.site-footer *:is(p,h2,a,.label,.eyebrow) {color:#e4e2dc}
 .site-footer .footer-links a:hover {color:#fff}
 .site-footer .footer-bottom,.site-footer .footer-thesis {color:#c6c6c1}
 /* No hiding of academic facts because of animation state. */
@@ -216,7 +216,7 @@ color:inherit;font:inherit;white-space:normal;display:inline;
 }
 body[data-page="about"] .author-name h1::after{display:none!important}
 /* Technical exhibits retain dark material, with independently legible text tokens. */
-body[data-tone] .content :is(.model,.gate-probe,.gate,.route-box,.construct,.protocol li,.fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route){
+body[data-tone] .content *:is(.model,.gate-probe,.gate,.route-box,.construct,.protocol li,.fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route){
 --ink:#f2f0eb;--ink-soft:#c8ccc9;--ink-faint:#afb8b6;--signal:#e5b49e;--signal-soft:#e5b49e;--signal-pale:#f0d3c5;
 --paper-raised:#172024;--paper-deep:#263136;--line:rgba(255,255,255,.22);--line-strong:rgba(255,255,255,.35);
 background:#172024!important;color:#f2f0eb!important;border-color:rgba(255,255,255,.3)!important
@@ -227,7 +227,7 @@ background:#263136!important;color:#f2f0eb!important;border-color:rgba(255,255,2
 body[data-tone] .content .probe-states button[aria-pressed="true"]{background:#394549!important;color:#fff!important;border-color:#e5b49e!important}
 body[data-tone] .content .probe-route{background:#263136!important}
 body[data-tone] .content .model-head h3{font-size:.86rem}
-body[data-tone] .content :is(.citation,.protocol span,.construct span){font-size:clamp(.8rem,.23vw + .74rem,.92rem)}
+body[data-tone] .content *:is(.citation,.protocol span,.construct span){font-size:clamp(.8rem,.23vw + .74rem,.92rem)}
 body[data-tone] .paper-hero .paper-apparatus{opacity:1!important;filter:none}
 body[data-tone] .paper-hero .apparatus-label{color:#172024!important;opacity:1!important}
 .identity-art svg{overflow:hidden}
