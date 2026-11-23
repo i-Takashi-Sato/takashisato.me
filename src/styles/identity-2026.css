@@ -124,7 +124,7 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .content :is(input,select) {background:var(--paper-raised);border-color:var(--line-strong)}
 .content :is(.diagram,.instrument,.verification,.record-list,.citation,.callout,.paper-probe,.state-card) {border-color:var(--line);color:var(--ink)}
 .record-row,.record-list div,.author-facts div {border-color:var(--line)}
-.research-map {border-color:var(--line)}
+.research-map {border-color:var(--line);background:var(--paper-raised)}
 .research-map-node {background:transparent;color:var(--ink);border-color:var(--line)}
 .research-map-node:hover {background:var(--paper-raised)}
 .research-map-node b,.research-map-node small {color:var(--ink)}
