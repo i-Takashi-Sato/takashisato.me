@@ -292,6 +292,25 @@ body[data-tone] .paper-hero .apparatus-label {
 }
 .identity-art svg {overflow:hidden}
 
+/* Neutralise legacy paper-by-paper semantic hues; paper identity remains in text. */
+body[data-page="home"] .sequence-row,
+body[data-page="papers"] .sequence-row {
+  --row-accent:#555555!important;
+  --row-wash:rgba(85,85,85,.06)!important;
+}
+body[data-page="home"] .sequence-row .sequence-state,
+body[data-page="papers"] .sequence-row .sequence-state {
+  color:#555555!important;
+}
+body[data-page="home"] .sequence::before,
+body[data-page="papers"] .sequence::before {
+  background:linear-gradient(#A6A8AB,#A6A8AB)!important;
+}
+body[data-page="home"] .sequence-row:hover,
+body[data-page="papers"] .sequence-row:hover {
+  background:transparent!important;
+}
+
 /* Preserve two-column numerical legibility on narrow screens. */
 @media (max-width:44rem) {
   .metric {min-width:0;padding:clamp(1rem,3vw,1.5rem)}
