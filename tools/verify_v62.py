@@ -385,12 +385,15 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, "production stylesheet has unbalanced braces")
     if re.search(r"https?://|@import\s+url", css):
         fail(errors, "production stylesheet contains a remote dependency")
-    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "cursor-orbit", "animation-timeline", "gate-probe"]:
+    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "identity-hero-grid", "gate-probe"]:
         if token not in css:
             fail(errors, f"production stylesheet missing {token}")
-    for token in ["pointermove", "requestAnimationFrame", "has-custom-cursor", "data-gate-probe", "site-analytics:event"]:
+    for token in ["requestAnimationFrame", "data-gate-probe", "site-analytics:event"]:
         if token not in js:
             fail(errors, f"production script missing {token}")
+    for retired_pointer in ["has-custom-cursor", "cursorLabel", "initAuthorityCursor"]:
+        if retired_pointer in js:
+            fail(errors, f"retired custom pointer code remains: {retired_pointer}")
     for retired in ["archive-v62.css", "archive-v66.css", "archive-v68.css", "archive-v610.css", "research-fluid.js"]:
         if retired in js:
             fail(errors, f"production script references retired runtime: {retired}")
