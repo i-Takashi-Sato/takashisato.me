@@ -172,6 +172,7 @@ def home_page() -> str:
                 <div>
                   <p>These are working papers and formalized research artifacts—not legal advice, a compliance certification, an operational decision engine, or evidence that the proposed architectures improve outcomes in the field.</p>
                   <p>Finite checks are exhaustive only over each declared abstraction. The shared public-record corpus supports traceability, not frequency, prediction, causal sufficiency, or independent validation.</p>
+                <p>Independent critical review is invited. <a href="/papers/#critical-review">Examine the review questions and submission route</a>.</p>
                 </div>
               </div>
             </div>
@@ -287,6 +288,18 @@ def papers_index_page() -> str:
               <div>
                 <p>Part I specifies a case-level routing contract. Part II models institutional loss over time. Part III specifies containment, accountable retirement, and authority transfer. Each paper contains its own definitions, limitations, and verification boundary.</p>
                 <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2.</p>
+              </div>
+            </div>
+          </section>
+          <section class="section compact" id="critical-review">
+            <div class="shell boundary" data-reveal>
+              <h2>How to challenge these papers.</h2>
+              <div>
+                <p>The most useful review identifies a claim that is unclear, already established elsewhere, unsupported, or contradicted by a counterexample. Criticism is welcome across all three working papers.</p>
+                <p><strong>Part I / Decision routing.</strong> Are important states or precedence rules missing? Can a counterexample breach the separation between typed routing, authorized disposition, and actual execution?</p>
+                <p><strong>Part II / Governing capacity.</strong> Can the proposed state distinctions be separated from existing accounts of organizational failure? What observations would contradict the descriptive model?</p>
+                <p><strong>Part III / Accountable exit.</strong> Do the proposed dependencies preserve evidence, remedy, service continuity, and accountable authority? Which transitions are infeasible or omit a failure path?</p>
+                <p>Send critiques, relevant prior work, or reproducible counterexamples to <a href="mailto:i@takashisato.me?subject=Critical%20review%20of%20AI%20governance%20working%20papers">i@takashisato.me</a>. Please identify the paper, version 6.2, section or page, and supporting reasoning. This invitation is not a claim of completed independent peer review or field validation.</p>
               </div>
             </div>
           </section>
@@ -498,6 +511,7 @@ def about_page() -> str:
                   <p class="eyebrow">03 · Public record</p>
                   <h2>One author. One verifiable record.</h2>
                   <p>SSRN carries the primary paper records. This archive preserves versioned copies and connects them to a single public author identity.</p>
+                  <p>Questions for independent critical examination are set out in the <a href="/papers/#critical-review">critical review guide</a>.</p>
                   <dl class="record-list">
                     <div class="record-row"><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">0009-0003-1584-6965</a></dd></div>
                     <div class="record-row"><dt>SSRN Author ID</dt><dd><a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">9540672</a></dd></div>
