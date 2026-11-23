@@ -1,0 +1,206 @@
+/* The Proper Ending Index — identity revision / source-level layer.
+   This layer follows the original archive's CSS, never replaces its research
+   instruments, citations, or semantic page structure. */
+:root {
+  --paper:#eeece6;
+  --paper-raised:#f9f8f4;
+  --paper-deep:#e3e1d9;
+  --ink:#14191a;
+  --ink-soft:#3d4648;
+  --ink-faint:#596164;
+  --line:rgba(20,25,26,.17);
+  --line-strong:rgba(20,25,26,.36);
+  --signal:#91503f;
+  --signal-soft:#754333;
+  --signal-pale:#774d3f;
+  --signal-wash:rgba(145,80,63,.09);
+  --signal-glow:transparent;
+  --archive-rule:rgba(20,25,26,.18);
+  --archive-rule-soft:rgba(20,25,26,.11);
+  --archive-rule-faint:rgba(20,25,26,.055);
+  --route-case:#735947;
+  --route-institution:#4a6167;
+  --route-exit:#905a48;
+  --sans:"Inter Variable","Avenir Next",Avenir,"Segoe UI",sans-serif;
+  --display:"Inter Variable","Avenir Next",Avenir,"Segoe UI",sans-serif;
+  --script:"Inter Variable","Avenir Next",Avenir,"Segoe UI",sans-serif;
+  --reading:47rem;
+  --pavilion-max:92rem;
+  --pavilion-gutter:clamp(1.25rem,5.2vw,6rem);
+  color-scheme:light;
+}
+html {background:var(--paper)}
+body {background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:clamp(1rem,.25vw + .94rem,1.125rem);line-height:1.62;font-variation-settings:normal}
+body::before {display:none}
+::selection {background:#d9d0c4;color:var(--ink)}
+a:hover {text-decoration-color:var(--signal)}
+:focus-visible {outline:3px solid #8b5848;outline-offset:4px}
+.cursor-orbit,.cursor-dot {display:none!important}
+.has-custom-cursor, .has-custom-cursor a,.has-custom-cursor button {cursor:auto!important}
+.site-header {background:rgba(238,236,230,.97);border-bottom:1px solid var(--line);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.header-inner {min-height:5rem}
+.brand {font-size:.79rem;font-weight:670;letter-spacing:-.03em;text-transform:none;gap:.75rem}
+.brand span:last-child {max-width:17rem}
+.brand-mark {width:2rem;height:2rem;flex:none}
+.site-nav a {color:var(--ink-soft);font-size:.79rem;letter-spacing:.02em;text-transform:none;font-weight:550;padding-inline:.7rem}
+.site-nav a[aria-current="page"] {color:var(--ink)}
+.site-nav a[aria-current="page"]::after {background:var(--ink)}
+.scroll-meter {height:1px}
+.scroll-meter::before {background:var(--signal)}
+.eyebrow,.label,.meta-label {color:var(--ink-faint);font-size:clamp(.77rem,.3vw + .71rem,.85rem);letter-spacing:.085em;text-transform:uppercase;font-weight:600}
+.section,.section.compact {border-top:1px solid var(--line)}
+.section-head h2,.section-heading h2 {font-family:var(--display);font-weight:490;letter-spacing:-.042em;line-height:1.04;color:var(--ink)}
+.section-intro,.page-deck,.paper-subtitle,.sequence-copy {color:var(--ink-soft)}
+.button {min-height:2.9rem;padding:.72rem .1rem;border-bottom:1px solid var(--line-strong);color:var(--ink);font-size:.87rem;letter-spacing:.015em;text-transform:none;font-weight:610}
+.button.primary {color:var(--ink);background:transparent;border-color:var(--ink)}
+.button.primary:hover,.button:hover {color:var(--signal);background:transparent;border-color:var(--signal)}
+/* Identity / first impression: one deliberate conceptual plate, not a dashboard. */
+body[data-page="home"] .identity-hero {display:block;min-height:auto;padding-block:clamp(3.25rem,7vw,7.75rem) clamp(3rem,6vw,6.5rem)}
+body[data-page="home"] .identity-hero::before,body[data-page="home"] .identity-hero::after {content:none!important;display:none!important}
+.identity-masthead {display:flex;gap:1.25rem;justify-content:space-between;border-bottom:1px solid var(--line-strong);padding-bottom:1rem;color:var(--ink-soft);font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600}
+.identity-hero-grid {display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(2rem,5vw,7rem);align-items:end;padding-block:clamp(3.25rem,8vw,8rem) clamp(2.5rem,5vw,5rem)}
+.identity-copy {align-self:center;min-width:0}
+.identity-overline {color:var(--signal);font-weight:660;font-size:.8rem;letter-spacing:.13em;text-transform:uppercase;margin:0 0 clamp(1.6rem,3vw,3rem)}
+body[data-page="home"] .identity-copy h1 {margin:0;max-width:11ch;font-family:var(--display);font-size:clamp(3.3rem,6.7vw,8.4rem);line-height:.94;letter-spacing:-.075em;font-weight:520;text-wrap:balance;color:var(--ink)}
+.identity-copy h1 strong {font-weight:650;color:var(--ink)}
+.identity-thesis {font-size:clamp(1.3rem,1.75vw,1.9rem);font-weight:540;letter-spacing:-.025em;line-height:1.23;margin:clamp(2.25rem,4vw,4rem) 0 .85rem}
+.identity-detail {max-width:35rem;color:var(--ink-soft);font-size:clamp(1rem,.45vw + .86rem,1.125rem);line-height:1.65;margin:0 0 1.7rem}
+.identity-actions {display:flex;align-items:center;flex-wrap:wrap;gap:.4rem 2rem}
+.identity-art {margin:0;min-width:0;background:#172024;color:#eeeae2;padding:clamp(1.25rem,2vw,2.5rem);display:flex;min-height:clamp(25rem,42vw,40rem);flex-direction:column;justify-content:space-between;box-shadow:0 18px 55px rgba(16,20,21,.07)}
+.identity-art-head {display:flex;justify-content:space-between;gap:.5rem 1.25rem;color:#d4d1ca;font-size:.72rem;font-family:var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.identity-art svg {width:100%;height:auto;min-height:15rem;display:block;overflow:visible}
+.identity-art figcaption {font-size:.8rem;max-width:30rem;line-height:1.5;color:#c8c9c4;border-top:1px solid rgba(255,255,255,.2);padding-top:1rem}
+.identity-questions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);list-style:none;padding:0}
+.identity-questions li {border-right:1px solid var(--line);padding:1.2rem clamp(.7rem,2.8vw,2.4rem)}
+.identity-questions li:first-child {padding-left:0}
+.identity-questions li:last-child {border-right:none;padding-right:0}
+.identity-questions a {display:block;text-decoration:none;font-weight:590;font-size:clamp(.9rem,1.1vw,1.125rem);line-height:1.35}
+.identity-questions b {display:block;font-family:var(--sans);font-size:.72rem;color:var(--signal);letter-spacing:.09em;margin-bottom:.55rem}
+.identity-questions a:hover {color:var(--signal)}
+/* The long-form content is first-class: no content hiding, no tiny legal language. */
+body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::before {display:none}
+:is(body[data-page="home"],body[data-page="papers"]) .sequence-row {background:transparent;overflow:visible;border-color:var(--line);min-height:auto;grid-template-columns:minmax(8rem,.31fr) minmax(0,1fr);padding-block:clamp(2.5rem,4vw,4.5rem)}
+:is(body[data-page="home"],body[data-page="papers"]) .sequence-row::before, .sequence-row::after {display:none}
+:is(body[data-page="home"],body[data-page="papers"]) .sequence-function {color:var(--signal);font-family:var(--sans);font-size:.82rem;letter-spacing:.015em;text-transform:none;font-weight:640}
+:is(body[data-page="home"],body[data-page="papers"]) .sequence-title {font-family:var(--display);font-size:clamp(2rem,3.2vw,4rem);max-width:25ch;line-height:1.08;letter-spacing:-.045em;font-weight:540;color:var(--ink)}
+:is(body[data-page="home"],body[data-page="papers"]) .sequence-row:hover {background:transparent}
+:is(body[data-page="home"],body[data-page="papers"]) .sequence-row:hover .sequence-title {color:var(--signal);transform:none}
+.sequence-state {color:var(--ink-faint);font-size:.8rem;letter-spacing:.03em}
+.metric-grid {border-color:var(--line)}
+.metric {background:transparent;border-color:var(--line)}
+.metric strong {color:var(--ink);font-weight:520;font-family:var(--sans);font-variant-numeric:tabular-nums}
+.metric span {color:var(--ink-soft);font-size:clamp(.8rem,.32vw + .75rem,.92rem)}
+.boundary {background:transparent;color:var(--ink);border-color:var(--line)}
+.boundary h2 {font-family:var(--display);font-weight:520;letter-spacing:-.045em}
+.boundary p {color:var(--ink-soft)}
+/* Catalogue, long-form article, and authorship inherit the same publishing language. */
+.page-hero,.paper-hero,.author-hero {background:var(--paper);color:var(--ink);border-color:var(--line)}
+.page-hero h1,.paper-hero h1,.author-name h1 {font-family:var(--display);font-weight:520;letter-spacing:-.055em;line-height:1.04;color:var(--ink);text-shadow:none}
+.page-hero h1 {font-size:clamp(3rem,5.7vw,6.8rem)}
+.paper-hero h1 {max-width:19ch;font-size:clamp(2.65rem,4.8vw,6rem)}
+.author-name h1 {font-size:clamp(3.8rem,7vw,8.8rem)}
+.author-name h1::after {display:none!important}
+.paper-subtitle,.paper-meta,.author-thesis {color:var(--ink-soft)}
+.paper-apparatus {opacity:.15;filter:grayscale(1)}
+.page-hero::before,.page-hero::after,.paper-hero::before,.author-hero::before {opacity:.12}
+.breadcrumbs a,.breadcrumbs span {color:var(--ink-faint);font-size:.82rem}
+.paper-layout {align-items:start}
+.toc {border-color:var(--line)}
+.toc a {color:var(--ink-soft);font-size:.86rem}
+.toc a:hover,.toc a[aria-current="location"] {color:var(--signal)}
+.content {color:var(--ink);font-size:clamp(1.04rem,.22vw + 1rem,1.15rem);line-height:1.72}
+.content > section {border-color:var(--line)}
+.content h2,.content h3 {color:var(--ink);font-family:var(--display);font-weight:570;letter-spacing:-.035em;line-height:1.19}
+.content h2 {font-size:clamp(1.85rem,2.7vw,3.2rem)}
+.content h3 {font-size:clamp(1.3rem,1.65vw,2rem)}
+.content p,.content li,.author-copy p {color:var(--ink-soft)}
+.content .lead,.author-copy .lead {color:var(--ink)}
+.content :is(code,pre,kbd,samp) {color:var(--ink);font-variant-ligatures:none}
+.content pre {background:var(--paper-raised);border:1px solid var(--line);overflow:auto}
+.content :is(table,th,td) {border-color:var(--line);color:var(--ink)}
+.content table {background:transparent}
+.content th {background:var(--paper-deep)}
+.content :is(button,input,select) {color:var(--ink)}
+.content :is(input,select) {background:var(--paper-raised);border-color:var(--line-strong)}
+.content :is(.diagram,.instrument,.verification,.record-list,.citation,.callout,.paper-probe,.state-card) {border-color:var(--line);color:var(--ink)}
+.record-row,.record-list div,.author-facts div {border-color:var(--line)}
+.research-map {border-color:var(--line)}
+.research-map-node {background:transparent;color:var(--ink);border-color:var(--line)}
+.research-map-node:hover {background:var(--paper-raised)}
+.research-map-node b,.research-map-node small {color:var(--ink)}
+.research-map-node .map-glyph {filter:grayscale(1)}
+.author-rail {border-color:var(--line)}
+.author-copy section {border-color:var(--line)}
+.author-links a {color:var(--ink);border-color:var(--line)}
+/* Existing footer remains a dark material: a clear end-state, not an animation. */
+.site-footer {background:#172024;color:#f1efea;border-color:#172024}
+.site-footer .footer-wordmark {color:#f1efea!important;font-family:var(--sans);font-style:normal;font-size:clamp(3rem,6.5vw,7.5rem);font-weight:470;letter-spacing:-.065em;line-height:1.04;text-shadow:none;transform:none}
+.site-footer .footer-wordmark::before,.site-footer .footer-wordmark::after {display:none!important}
+.site-footer :is(p,h2,a,.label,.eyebrow) {color:#e4e2dc}
+.site-footer .footer-links a:hover {color:#fff}
+.site-footer .footer-bottom,.site-footer .footer-thesis {color:#c6c6c1}
+/* No hiding of academic facts because of animation state. */
+.js [data-reveal] {opacity:1;transform:none}
+@media (max-width: 61rem) {
+ .identity-hero-grid {grid-template-columns:1fr;gap:3rem}
+ .identity-art {min-height:30rem}
+ .identity-copy h1 {max-width:12ch}
+ .identity-questions {grid-template-columns:1fr}
+ .identity-questions li {border-right:0;border-bottom:1px solid var(--line);padding:1rem 0}
+ .identity-questions li:last-child {border-bottom:0}
+}
+@media (max-width: 44rem) {
+ .header-inner {min-height:4.5rem;gap:.5rem}
+ .brand {font-size:.72rem;gap:.45rem}
+ .brand-mark {width:1.65rem;height:1.65rem}
+ .site-nav {gap:0}
+ .site-nav a {font-size:.75rem;padding-inline:.45rem}
+ body[data-page="home"] .identity-hero {padding-block:2.25rem 3.25rem}
+ .identity-masthead {font-size:.68rem;letter-spacing:.06em;gap:.5rem}
+ .identity-masthead span:last-child {text-align:right}
+ .identity-hero-grid {padding-block:2.4rem 2rem;gap:2.4rem}
+ body[data-page="home"] .identity-copy h1 {font-size:clamp(2.9rem,11vw,5rem);max-width:11ch;letter-spacing:-.065em}
+ .identity-thesis {margin-top:2rem}
+ .identity-art {min-height:22rem;padding:1.1rem}
+ .identity-art-head {font-size:.62rem}
+ :is(body[data-page="home"],body[data-page="papers"]) .sequence-row {grid-template-columns:1fr;gap:.75rem}
+ :is(body[data-page="home"],body[data-page="papers"]) .sequence-title {font-size:clamp(1.9rem,7vw,3rem)}
+ .page-hero h1,.paper-hero h1 {font-size:clamp(2.45rem,9vw,4.25rem)}
+ .author-name h1 {font-size:clamp(2.8rem,11vw,5rem)}
+}
+@media (prefers-reduced-motion:reduce) {
+ *,*::before,*::after {scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media print {
+ :root{--paper:#fff;--paper-raised:#fff;--ink:#000;--ink-soft:#333;--ink-faint:#444;--line:rgba(0,0,0,.3)}
+ .site-header,.site-footer,.identity-art {background:#fff!important;color:#000!important}
+ .identity-art {border:1px solid #000}
+}
+
+/* The original technical plates used hard-coded nearly-black surfaces. They must
+   be reconciled when the page becomes light; otherwise dark text disappears. */
+:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) {
+  background:var(--paper-raised);
+  color:var(--ink);
+  border-color:var(--line);
+}
+:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) :is(p,span,small,dd) {color:var(--ink-soft)}
+:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) :is(b,strong,h3,dt) {color:var(--ink)}
+:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) code {color:var(--signal)}
+.gate:not(:last-of-type)::after {color:var(--signal);background:var(--paper-raised)}
+.construct strong,.protocol li::before,.research-table tbody th {color:var(--signal)}
+.model-head h3 {font-size:.82rem;letter-spacing:.05em}
+.model-head span,.state-line i,.disposition-grid span,.protocol li::before,.verification span,.record-row dt {font-size:clamp(.76rem,.24vw + .7rem,.85rem)}
+.protocol span,.construct span {font-size:clamp(.8rem,.2vw + .76rem,.9rem)}
+.citation {font-size:clamp(.82rem,.22vw + .76rem,.92rem)}
+.paper-hero .paper-apparatus {color:var(--signal)!important}
+body[data-tone="part-1"],body[data-tone="part-2"],body[data-tone="part-3"] {background:var(--paper);color:var(--ink)}
+body[data-tone="part-1"] :is(.paper-hero,.paper-layout),body[data-tone="part-2"] :is(.paper-hero,.paper-layout),body[data-tone="part-3"] :is(.paper-hero,.paper-layout) {color:var(--ink)}
+/* Controls in interactive research exhibits preserve focus and readout contrast. */
+.content button {min-height:2.65rem}
+.content button:focus-visible,.content input:focus-visible,.content select:focus-visible {outline:3px solid var(--signal);outline-offset:3px}
+@media(forced-colors:active) {
+ .identity-art {border:2px solid CanvasText;background:Canvas;color:CanvasText}
+ .identity-art svg {display:none}
+ .identity-questions li {border-color:CanvasText}
+}
