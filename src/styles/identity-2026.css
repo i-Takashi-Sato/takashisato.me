@@ -214,3 +214,36 @@ body .paper-layout .toc a[aria-current="location"] {
 
 /* Index numerals are textual records, not decorative color-coded labels. */
 .research-map-node .map-index{color:var(--ink);opacity:1}
+
+/* Final composite audit: old theme selectors must not leave dark text on dark pages. */
+body{min-width:0}
+body[data-page="home"],body[data-page="papers"],body[data-page="about"]{background:var(--paper);color:var(--ink)}
+body[data-tone="part-1"],body[data-tone="part-2"],body[data-tone="part-3"]{
+--signal:#91503f;--signal-soft:#754333;--signal-pale:#774d3f;
+background:var(--paper);color:var(--ink)
+}
+/* Decorative dark hero overlays and masked signature are not part of this identity. */
+.page-hero::before,.page-hero::after,.paper-hero::before,.paper-hero::after,
+.author-hero::before,.author-hero::after,.site-footer::after{display:none!important;content:none!important}
+body[data-page="about"] .author-name h1{
+position:static;width:auto;max-width:100%;height:auto;font-size:clamp(3.8rem,7vw,8.8rem);
+line-height:1.04;color:var(--ink);transform:none;white-space:normal;margin:0;overflow-wrap:anywhere;
+}
+body[data-page="about"] .author-name h1 span{
+position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;clip-path:none;
+color:inherit;font:inherit;white-space:normal;display:inline;
+}
+body[data-page="about"] .author-name h1::after{display:none!important}
+/* Research exhibits remain fully legible without changing their technical content. */
+body[data-tone] .content .model,
+body[data-tone] .content .gate-probe,
+body[data-tone] .content .probe-route{background:var(--paper-raised);color:var(--ink);border-color:var(--line-strong)}
+body[data-tone] .content .probe-route{background:var(--paper-deep)}
+body[data-tone] .content .probe-route :is(strong,small,span),
+body[data-tone] .content .gate-probe :is(h3,strong,legend){color:var(--ink)}
+body[data-tone] .content .gate-probe :is(p,small){color:var(--ink-soft)}
+body[data-tone] .content .probe-gate,
+body[data-tone] .content .probe-states button,
+body[data-tone] .content .probe-reset{background:var(--paper-raised);color:var(--ink);border-color:var(--line-strong)}
+body[data-tone] .content .probe-states button[aria-pressed="true"]{background:var(--paper-deep);color:var(--ink);border-color:var(--signal)}
+.identity-art svg{overflow:hidden}
