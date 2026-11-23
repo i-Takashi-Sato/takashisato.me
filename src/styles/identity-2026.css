@@ -211,3 +211,6 @@ body .paper-layout .toc a[aria-current="location"] {
   color:#172024;
   background-color:#eeece6;
 }
+
+/* Index numerals are textual records, not decorative color-coded labels. */
+.research-map-node .map-index{color:var(--ink);opacity:1}
