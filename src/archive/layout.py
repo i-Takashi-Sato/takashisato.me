@@ -83,8 +83,8 @@ def head(
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-          <meta name="color-scheme" content="dark">
-          <meta name="theme-color" content="#080808">
+          <meta name="color-scheme" content="light">
+          <meta name="theme-color" content="#eeece6">
           <title>{safe_title}</title>
           <meta name="description" content="{safe_description}">
           <meta name="author" content="Takashi Sato">
@@ -98,8 +98,8 @@ def head(
           <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
           <link rel="me" href="{SCHOLAR_URL}">
           <link rel="manifest" href="/site.webmanifest">
-          <link rel="icon" href="/favicon.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-          <link rel="icon" href="/favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+          <link rel="icon" href="/assets/brand-mark.svg" type="image/svg+xml">
+          
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
@@ -140,7 +140,7 @@ def header(active: str = "") -> str:
         <header class="site-header">
           <div class="header-inner">
             <a class="brand" href="/" aria-label="The Proper Ending Index — home">
-              <img class="brand-mark" src="/favicon.svg" width="29" height="29" alt="">
+              <img class="brand-mark" src="/assets/brand-mark.svg" width="32" height="32" alt="">
               <span>The Proper Ending Index</span>
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
