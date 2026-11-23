@@ -415,22 +415,24 @@ def audit_assets(errors: list[str]) -> None:
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
 
-    # Validate the effective last-declared palette rather than historic, overridden tokens.
-    # Keep the original 4.5:1 text contrast gate for all four semantic text colors.
-    paper_colors = re.findall(r"--paper:\s*(#[0-9a-fA-F]{6})", css)
-    if not paper_colors:
-        fail(errors, "production stylesheet is missing the paper color token")
+    # Only :root color tokens belong to the global paper/ink contrast test.
+    # Scoped dark research exhibits are audited against their actual backgrounds by axe.
+    global_palette: dict[str, str] = {}
+    for root_body in re.findall(r":root\s*\{([^{}]*)\}", css):
+        for token, color in re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", root_body):
+            global_palette[token] = color
+    paper_color = global_palette.get("paper")
+    if not paper_color:
+        fail(errors, "production stylesheet is missing the root paper color token")
     else:
-        paper_color = paper_colors[-1]
         for token in ("ink", "ink-soft", "ink-faint", "signal-soft"):
-            colors = re.findall(rf"--{token}:\s*(#[0-9a-fA-F]{{6}})", css)
-            if not colors:
-                fail(errors, f"production stylesheet missing --{token} palette token")
+            color = global_palette.get(token)
+            if not color:
+                fail(errors, f"production stylesheet missing global --{token} palette token")
                 continue
-            color = colors[-1]
             ratio = contrast_ratio(color, paper_color)
             if ratio < 4.5:
-                fail(errors, f"text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
+                fail(errors, f"global text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
 
     for name in ["home", "papers", "about", *PAPERS]:
         image_path = ROOT / f"assets/og/{name}.jpg"
