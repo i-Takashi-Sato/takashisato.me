@@ -177,25 +177,6 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
  .identity-art {border:1px solid #000}
 }
 
-/* The original technical plates used hard-coded nearly-black surfaces. They must
-   be reconciled when the page becomes light; otherwise dark text disappears. */
-:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) {
-  background:var(--paper-raised);
-  color:var(--ink);
-  border-color:var(--line);
-}
-:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) :is(p,span,small,dd) {color:var(--ink-soft)}
-:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) :is(b,strong,h3,dt) {color:var(--ink)}
-:is(.fact,.model,.gate,.route-box,.disposition-grid span,.construct,.protocol li,.citation,.notice) code {color:var(--signal)}
-.gate:not(:last-of-type)::after {color:var(--signal);background:var(--paper-raised)}
-.construct strong,.protocol li::before,.research-table tbody th {color:var(--signal)}
-.model-head h3 {font-size:.82rem;letter-spacing:.05em}
-.model-head span,.state-line i,.disposition-grid span,.protocol li::before,.verification span,.record-row dt {font-size:clamp(.76rem,.24vw + .7rem,.85rem)}
-.protocol span,.construct span {font-size:clamp(.8rem,.2vw + .76rem,.9rem)}
-.citation {font-size:clamp(.82rem,.22vw + .76rem,.92rem)}
-.paper-hero .paper-apparatus {color:var(--signal)!important}
-body[data-tone="part-1"],body[data-tone="part-2"],body[data-tone="part-3"] {background:var(--paper);color:var(--ink)}
-body[data-tone="part-1"] :is(.paper-hero,.paper-layout),body[data-tone="part-2"] :is(.paper-hero,.paper-layout),body[data-tone="part-3"] :is(.paper-hero,.paper-layout) {color:var(--ink)}
 /* Controls in interactive research exhibits preserve focus and readout contrast. */
 .content button {min-height:2.65rem}
 .content button:focus-visible,.content input:focus-visible,.content select:focus-visible {outline:3px solid var(--signal);outline-offset:3px}
@@ -234,16 +215,19 @@ position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;clip-
 color:inherit;font:inherit;white-space:normal;display:inline;
 }
 body[data-page="about"] .author-name h1::after{display:none!important}
-/* Research exhibits remain fully legible without changing their technical content. */
-body[data-tone] .content .model,
-body[data-tone] .content .gate-probe,
-body[data-tone] .content .probe-route{background:var(--paper-raised);color:var(--ink);border-color:var(--line-strong)}
-body[data-tone] .content .probe-route{background:var(--paper-deep)}
-body[data-tone] .content .probe-route :is(strong,small,span),
-body[data-tone] .content .gate-probe :is(h3,strong,legend){color:var(--ink)}
-body[data-tone] .content .gate-probe :is(p,small){color:var(--ink-soft)}
-body[data-tone] .content .probe-gate,
-body[data-tone] .content .probe-states button,
-body[data-tone] .content .probe-reset{background:var(--paper-raised);color:var(--ink);border-color:var(--line-strong)}
-body[data-tone] .content .probe-states button[aria-pressed="true"]{background:var(--paper-deep);color:var(--ink);border-color:var(--signal)}
+/* Technical exhibits retain dark material, with independently legible text tokens. */
+body[data-tone] .content :is(.model,.gate-probe,.gate,.route-box,.construct,.protocol li,.fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route){
+--ink:#f2f0eb;--ink-soft:#c8ccc9;--ink-faint:#afb8b6;--signal:#e5b49e;--signal-soft:#e5b49e;--signal-pale:#f0d3c5;
+--paper-raised:#172024;--paper-deep:#263136;--line:rgba(255,255,255,.22);--line-strong:rgba(255,255,255,.35);
+background:#172024!important;color:#f2f0eb!important;border-color:rgba(255,255,255,.3)!important
+}
+body[data-tone] .content .probe-states button,body[data-tone] .content .probe-reset{
+background:#263136!important;color:#f2f0eb!important;border-color:rgba(255,255,255,.35)!important
+}
+body[data-tone] .content .probe-states button[aria-pressed="true"]{background:#394549!important;color:#fff!important;border-color:#e5b49e!important}
+body[data-tone] .content .probe-route{background:#263136!important}
+body[data-tone] .content .model-head h3{font-size:.86rem}
+body[data-tone] .content :is(.citation,.protocol span,.construct span){font-size:clamp(.8rem,.23vw + .74rem,.92rem)}
+body[data-tone] .paper-hero .paper-apparatus{opacity:1!important;filter:none}
+body[data-tone] .paper-hero .apparatus-label{color:#172024!important;opacity:1!important}
 .identity-art svg{overflow:hidden}
