@@ -1,0 +1,48 @@
+/* Research-state motion: only the mechanisms needed to retain analytical meaning. */
+@property --trace-a{syntax:"<length>";inherits:true;initial-value:0px}
+@property --trace-b{syntax:"<length>";inherits:true;initial-value:0px}
+@property --trace-c{syntax:"<length>";inherits:true;initial-value:0px}
+@property --capacity-opacity{syntax:"<number>";inherits:true;initial-value:1}
+@property --closure-scale{syntax:"<number>";inherits:true;initial-value:1}
+@property --closure-opacity{syntax:"<number>";inherits:true;initial-value:.74}
+@view-transition{navigation:auto}
+.research-map-node[data-part="1"] .map-glyph,
+body[data-tone="part-1"] .paper-apparatus{view-transition-name:part-i-instrument}
+.research-map-node[data-part="2"] .map-glyph,
+body[data-tone="part-2"] .paper-apparatus{view-transition-name:part-ii-instrument}
+.research-map-node[data-part="3"] .map-glyph,
+body[data-tone="part-3"] .paper-apparatus{view-transition-name:part-iii-instrument}
+body[data-tone="part-2"] .paper-apparatus{
+--trace-a:0px;--trace-b:0px;--trace-c:0px;--capacity-opacity:1
+}
+body[data-tone="part-2"] .paper-apparatus i:first-of-type{translate:var(--trace-a) 0;opacity:var(--capacity-opacity)}
+body[data-tone="part-2"] .paper-apparatus i:nth-of-type(2){translate:var(--trace-b) 0;opacity:var(--capacity-opacity)}
+body[data-tone="part-2"] .paper-apparatus i:nth-of-type(3){translate:var(--trace-c) 0;opacity:var(--capacity-opacity)}
+body[data-tone="part-3"] .paper-apparatus{
+--closure-scale:1;--closure-opacity:.74;transform:scale(var(--closure-scale));opacity:var(--closure-opacity);transform-origin:50% 50%
+}
+@keyframes governing-capacity-drift{
+0%{--trace-a:0px;--trace-b:0px;--trace-c:0px;--capacity-opacity:1}
+12%,100%{--trace-a:10px;--trace-b:-6px;--trace-c:4px;--capacity-opacity:.86}
+}
+@keyframes accountable-closure{
+0%{--closure-scale:1;--closure-opacity:.74}
+12%,100%{--closure-scale:.88;--closure-opacity:.54}
+}
+@supports (animation-timeline:scroll()){
+@media (prefers-reduced-motion:no-preference) and (min-width:44.01rem){
+body[data-tone="part-2"] .paper-apparatus{animation:governing-capacity-drift 1ms linear both;animation-timeline:scroll(root block)}
+body[data-tone="part-3"] .paper-apparatus{animation:accountable-closure 1ms linear both;animation-timeline:scroll(root block)}
+}}
+/* A completed workflow does not erase remaining service and remedy duties. */
+body[data-page="part3"] .series-nav{transform:scaleX(calc(1 - (var(--ending,0) * .018)));transform-origin:50% 100%;opacity:calc(1 - (var(--ending,0) * .14))}
+body[data-page="part3"] .footer-wordmark{position:relative}
+body[data-page="part3"] .footer-wordmark::after{
+content:"";display:block!important;position:absolute;left:calc(var(--ending,0) * 50%);right:calc(var(--ending,0) * 50%);bottom:-.7rem;height:1px;transform:none;opacity:.78;background:currentColor;
+}
+@media (prefers-reduced-motion:reduce){
+body[data-tone="part-2"] .paper-apparatus,body[data-tone="part-3"] .paper-apparatus,
+.research-map-node .map-glyph{animation:none!important;transform:none!important;translate:none!important}
+body[data-page="part3"] .series-nav{opacity:1;transform:none!important}
+body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
+}
