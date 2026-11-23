@@ -145,12 +145,12 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .author-copy section {border-color:var(--line)}
 .author-links a {color:var(--ink);border-color:var(--line)}
 /* Existing footer remains a dark material: a clear end-state, not an animation. */
-.site-footer {background:#19232d;color:#f1efea;border-color:#151319}
-.site-footer .footer-wordmark {color:#f1efea!important;font-family:var(--sans);font-style:normal;font-size:clamp(3rem,6.5vw,7.5rem);font-weight:470;letter-spacing:-.065em;line-height:1.04;text-shadow:none;transform:none}
+.site-footer {background:#151319;color:#f5f3f8;border-color:#151319}
+.site-footer .footer-wordmark {color:#f5f3f8!important;font-family:var(--sans);font-style:normal;font-size:clamp(3rem,6.5vw,7.5rem);font-weight:470;letter-spacing:-.065em;line-height:1.04;text-shadow:none;transform:none}
 .site-footer .footer-wordmark::before,.site-footer .footer-wordmark::after {display:none!important}
-.site-footer *:is(p,h2,a,.label,.eyebrow) {color:#e4e2dc}
+.site-footer *:is(p,h2,a,.label,.eyebrow) {color:#e4e1e9}
 .site-footer .footer-links a:hover {color:#fff}
-.site-footer .footer-bottom,.site-footer .footer-thesis {color:#c6c6c1}
+.site-footer .footer-bottom,.site-footer .footer-thesis {color:#c6c1cd}
 /* No hiding of academic facts because of animation state. */
 .js [data-reveal] {opacity:1;transform:none}
 @media (max-width: 61rem) {
@@ -203,7 +203,7 @@ body .paper-layout .toc a,
 body .paper-layout .toc a:hover,
 body .paper-layout .toc a[aria-current="location"] {
   color:#151319;
-  background-color:#f6f7f8;
+  background-color:#fafafa;
 }
 
 /* Index numerals are textual records, not decorative color-coded labels. */
@@ -213,7 +213,7 @@ body .paper-layout .toc a[aria-current="location"] {
 body{min-width:0}
 body[data-page="home"],body[data-page="papers"],body[data-page="about"]{background:var(--paper);color:var(--ink)}
 body[data-tone="part-1"],body[data-tone="part-2"],body[data-tone="part-3"]{
---signal:#334b62;--signal-soft:#334b62;--signal-pale:#415c75;
+--signal:#6c43cc;--signal-soft:#6c43cc;--signal-pale:#9777e8;
 background:var(--paper);color:var(--ink)
 }
 /* Decorative dark hero overlays and masked signature are not part of this identity. */
@@ -234,14 +234,14 @@ body[data-tone] .content *:is(
   .model,.gate-probe,.gate,.route-box,.construct,.protocol li,
   .fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route
 ) {
-  --ink:#15191e;
-  --ink-soft:#424b55;
-  --ink-faint:#50595b;
-  --signal:#334b62;
-  --signal-soft:#334b62;
-  --signal-pale:#334b62;
+  --ink:#151319;
+  --ink-soft:#44414b;
+  --ink-faint:#625d69;
+  --signal:#6c43cc;
+  --signal-soft:#6c43cc;
+  --signal-pale:#6c43cc;
   --paper-raised:#ffffff;
-  --paper-deep:#e8e5dc;
+  --paper-deep:#eeedf0;
   --line:rgba(20,25,26,.28);
   --line-strong:rgba(20,25,26,.44);
   background:#ffffff!important;
@@ -252,10 +252,10 @@ body[data-tone] .content :is(
   .model,.gate-probe,.gate,.route-box,.construct,.protocol li,
   .fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route
 ) :is(p,small,b,strong,span,h2,h3,legend,dt,dd,code) {
-  color:#253135;
+  color:#44414b;
 }
 body[data-tone] .content .probe-route {
-  background:#ecf0f3!important;
+  background:#eeedf0!important;
   color:#151319!important;
 }
 body[data-tone] .content .probe-route > span {
@@ -265,18 +265,18 @@ body[data-tone] .content .probe-route > strong {
   color:#151319!important;
 }
 body[data-tone] .content .probe-route > small {
-  color:#344043!important;
+  color:#44414b!important;
 }
 body[data-tone] .content .probe-states button,
 body[data-tone] .content .probe-reset {
-  background:#263136!important;
-  color:#f2f0eb!important;
+  background:#24212b!important;
+  color:#f5f3f8!important;
   border-color:rgba(255,255,255,.35)!important;
 }
 body[data-tone] .content .probe-states button[aria-pressed="true"] {
-  background:#394549!important;
+  background:#383342!important;
   color:#fff!important;
-  border-color:#e5b49e!important;
+  border-color:#bca1ff!important;
 }
 body[data-tone] .content .model-head h3 {font-size:.86rem}
 body[data-tone] .content *:is(.citation,.protocol span,.construct span) {
