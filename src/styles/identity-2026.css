@@ -204,3 +204,10 @@ body[data-tone="part-1"] :is(.paper-hero,.paper-layout),body[data-tone="part-2"]
  .identity-art svg {display:none}
  .identity-questions li {border-color:CanvasText}
 }
+/* Current table-of-contents location must always meet the body-text contrast gate. */
+body .paper-layout .toc a,
+body .paper-layout .toc a:hover,
+body .paper-layout .toc a[aria-current="location"] {
+  color:#172024;
+  background-color:#eeece6;
+}
