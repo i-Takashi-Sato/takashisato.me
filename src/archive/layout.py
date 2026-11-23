@@ -99,7 +99,6 @@ def head(
           <link rel="me" href="{SCHOLAR_URL}">
           <link rel="manifest" href="/site.webmanifest">
           <link rel="icon" href="/assets/brand-mark.svg" type="image/svg+xml">
-          
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
