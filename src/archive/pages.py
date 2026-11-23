@@ -133,7 +133,6 @@ def home_page() -> str:
                 <figcaption>Interpretive geometry, not an empirical result. Case, institution, and accountable exit are distinct analytical questions.</figcaption>
               </figure>
             </div>
-            </div>
             <ol class="identity-questions" aria-label="Three distinct research questions">
               <li><a href="/papers/part1.html"><b>01 / CASE</b>What may happen next?</a></li>
               <li><a href="/papers/part2.html"><b>02 / INSTITUTION</b>Can it still govern?</a></li>
