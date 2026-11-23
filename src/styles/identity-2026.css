@@ -215,19 +215,74 @@ position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;clip-
 color:inherit;font:inherit;white-space:normal;display:inline;
 }
 body[data-page="about"] .author-name h1::after{display:none!important}
-/* Technical exhibits retain dark material, with independently legible text tokens. */
-body[data-tone] .content *:is(.model,.gate-probe,.gate,.route-box,.construct,.protocol li,.fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route){
---ink:#f2f0eb;--ink-soft:#c8ccc9;--ink-faint:#afb8b6;--signal:#e5b49e;--signal-soft:#e5b49e;--signal-pale:#f0d3c5;
---paper-raised:#172024;--paper-deep:#263136;--line:rgba(255,255,255,.22);--line-strong:rgba(255,255,255,.35);
-background:#172024!important;color:#f2f0eb!important;border-color:rgba(255,255,255,.3)!important
+/* The source panels remain readable on a light reading surface.
+   Interactive state buttons keep a dark fill, but their labels retain contrast. */
+body[data-tone] .content *:is(
+  .model,.gate-probe,.gate,.route-box,.construct,.protocol li,
+  .fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route
+) {
+  --ink:#14191a;
+  --ink-soft:#3d4648;
+  --ink-faint:#50595b;
+  --signal:#754333;
+  --signal-soft:#754333;
+  --signal-pale:#754333;
+  --paper-raised:#f9f8f4;
+  --paper-deep:#e8e5dc;
+  --line:rgba(20,25,26,.28);
+  --line-strong:rgba(20,25,26,.44);
+  background:#f9f8f4!important;
+  color:#14191a!important;
+  border-color:rgba(20,25,26,.3)!important;
 }
-body[data-tone] .content .probe-states button,body[data-tone] .content .probe-reset{
-background:#263136!important;color:#f2f0eb!important;border-color:rgba(255,255,255,.35)!important
+body[data-tone] .content :is(
+  .model,.gate-probe,.gate,.route-box,.construct,.protocol li,
+  .fact,.citation,.notice,.disposition-grid span,.probe-gate,.probe-route
+) :is(p,small,b,strong,span,h2,h3,legend,dt,dd,code) {
+  color:#253135;
 }
-body[data-tone] .content .probe-states button[aria-pressed="true"]{background:#394549!important;color:#fff!important;border-color:#e5b49e!important}
-body[data-tone] .content .probe-route{background:#263136!important}
-body[data-tone] .content .model-head h3{font-size:.86rem}
-body[data-tone] .content *:is(.citation,.protocol span,.construct span){font-size:clamp(.8rem,.23vw + .74rem,.92rem)}
-body[data-tone] .paper-hero .paper-apparatus{opacity:1!important;filter:none}
-body[data-tone] .paper-hero .apparatus-label{color:#172024!important;opacity:1!important}
-.identity-art svg{overflow:hidden}
+body[data-tone] .content .probe-route {
+  background:#eeeae2!important;
+  color:#14191a!important;
+}
+body[data-tone] .content .probe-route > span {
+  color:#754333!important;
+}
+body[data-tone] .content .probe-route > strong {
+  color:#14191a!important;
+}
+body[data-tone] .content .probe-route > small {
+  color:#344043!important;
+}
+body[data-tone] .content .probe-states button,
+body[data-tone] .content .probe-reset {
+  background:#263136!important;
+  color:#f2f0eb!important;
+  border-color:rgba(255,255,255,.35)!important;
+}
+body[data-tone] .content .probe-states button[aria-pressed="true"] {
+  background:#394549!important;
+  color:#fff!important;
+  border-color:#e5b49e!important;
+}
+body[data-tone] .content .model-head h3 {font-size:.86rem}
+body[data-tone] .content *:is(.citation,.protocol span,.construct span) {
+  font-size:clamp(.8rem,.23vw + .74rem,.92rem);
+}
+body[data-tone] .paper-hero .paper-apparatus {
+  opacity:1!important;
+  filter:none;
+}
+body[data-tone] .paper-hero .apparatus-label {
+  color:#172024!important;
+  opacity:1!important;
+}
+.identity-art svg {overflow:hidden}
+
+/* The retired oversized watermark produced 16px of phantom horizontal scroll at 320px.
+   It has no scholarly meaning and is excluded from the new catalogue grammar. */
+body[data-page="home"] .sequence-row > div::after,
+body[data-page="papers"] .sequence-row > div::after {
+  display:none!important;
+  content:none!important;
+}
