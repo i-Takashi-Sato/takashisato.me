@@ -208,10 +208,19 @@ def render_card(name: str, card: dict[str, str]) -> Image.Image:
     max_width = 1040 if author else 676
     size = 100 if author else 76 if name in ("home","papers") else 65
     title = "Takashi Sato" if author else card["title"]
+    # Editorial line breaks preserve phrases rather than leaving a single orphan word.
+    preferred = {
+        "papers": ("Three papers.", "One institutional problem."),
+        "part1": ("Workflow-Centric", "AI Governance"),
+        "part3": ("From Governance Drift", "to Accountable Exit"),
+    }.get(name)
+    if preferred and " ".join(preferred) != title:
+        preferred = None  # Future title revisions still use the generic measured wrapper.
     while size >= 40:
         title_font = face(size,580)
-        title_lines = wrap(draw,title,title_font,max_width)
-        if len(title_lines) <= 3 and len(title_lines)*round(size*1.10) <= 262:
+        title_lines = list(preferred) if preferred else wrap(draw,title,title_font,max_width)
+        if (len(title_lines) <= 3 and len(title_lines)*round(size*1.10) <= 262
+                and all(draw.textbbox((0,0),line,font=title_font)[2] <= max_width for line in title_lines)):
             break
         size -= 2
     else:
