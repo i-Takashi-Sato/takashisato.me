@@ -34,7 +34,7 @@ ROUTES = {
         "assets/fonts/InterVariable.woff2", "assets/fonts/Newsreader-Variable.woff2",
         "favicon.svg", "favicon.ico", "favicon-96x96.png", "apple-touch-icon.png",
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
-        "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt",
+        "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
     )},
 }
 TYPES = {
@@ -49,7 +49,7 @@ TYPES = {
     ".woff2": {"font/woff2", "application/font-woff2", "application/octet-stream"},
     ".ico": {"image/x-icon", "image/vnd.microsoft.icon", "application/octet-stream"},
     ".json": {"application/json"},
-    ".xml": {"application/xml", "text/xml"},
+    ".xml": {"application/xml", "text/xml", "application/atom+xml"},
     ".webmanifest": {"application/manifest+json", "application/json", "application/octet-stream"},
     ".txt": {"text/plain"},
 }

@@ -50,3 +50,7 @@ Generated files are committed only when `python tools/build_site.py` and
 `python tools/generate_og.py` have been run. CI rebuilds and rejects uncommitted drift.
 Python bytecode, local screenshots, Lighthouse working directories, and package caches
 are never repository content.
+
+## Performance measurement
+
+Lighthouse runs three times per URL. The least favorable measurement must satisfy the existing hard thresholds; LCP above 2500 ms remains a warning. The unsuccessful font-preload experiment was not adopted.
