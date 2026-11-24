@@ -29,3 +29,5 @@ visual, accessibility, performance, and search contracts, it should be allowed t
 still until new evidence or a new research mechanism justifies change.
 
 The author record limits public personal information to name, city, approved correspondence address and the supplied visual signature. Research identity and identifiers remain independently verifiable. Do not add detailed biography, employment history, or personal photographs without explicit authorization.
+
+Interaction policy (2026-11-24): decorative material remains confined to the author chamber. The approved paper texture is a metadata-free WebP derivative; all essential information is plain HTML. Preserve stable target geometry and sibling legibility on hover. Use native CSS feedback, input modality and reduced-motion safeguards; cross-document transitions remain progressive enhancement. Do not introduce pointer tracking or new third-party runtimes for decorative interaction.
