@@ -279,7 +279,8 @@ def icon(size: int, inverse: bool = False, maskable: bool = False) -> Image.Imag
         mask = mask.filter(ImageFilter.MaxFilter(15 if size <= 16 else 7))
     width = max(512, size*4)
     side = round(width * (.51 if maskable else .83 if size <= 32 else .70))
-    mask.thumbnail((side,side),Image.Resampling.LANCZOS)
+    factor = side / max(mask.size)
+    mask = mask.resize(tuple(max(1,round(n*factor)) for n in mask.size),Image.Resampling.LANCZOS)
     bg = INK if inverse else PAPER
     ink = WHITE if inverse else INK
     image = Image.new("RGB",(width,width),bg)
