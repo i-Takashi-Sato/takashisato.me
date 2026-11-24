@@ -11,3 +11,7 @@ On 25 November 2026 JST the public robots response was inspected from GitHub Act
 ## Runtime cache isolation
 
 Release `621bf0b8` delivered 46 of 48 expected responses; the two unversioned shared bundles returned bytes of the prior size after all 16 attempts. The HTML used query-versioned paths, which were not directly verified by that run. The new build references SHA-256-named files instead; each new content digest receives a distinct URL. The audit now also checks those exact referenced URLs and retains strict checking of both old aliases. No CDN settings or cache policies are changed by this migration; failure of either alias remains visible and fails the audit. Historical fingerprinted bundles are retained for cached HTML.
+
+## Coherent confirmation after propagation
+
+After accumulating successes across multiple attempts, the audit requires a fresh full sweep with every route matching. This is a bounded single sweep, not an atomic or multi-region observation. A regression returns the affected route to the bounded retry set. HTTP errors and byte mismatches include allowlisted cache response metadata when provided; no cookies or credentials are logged. No acceptance thresholds, canonical URLs, or provider settings are changed.
