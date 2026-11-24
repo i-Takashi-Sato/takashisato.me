@@ -83,7 +83,7 @@ def home_page() -> str:
                 <p class="identity-overline">THE PROPER ENDING INDEX <span aria-hidden="true">/</span> 01–03</p>
                 <h1 id="hero-title">A role alone<br>is not <strong>governance.</strong></h1>
                 <p class="identity-thesis">Accountability lives in the sequence.</p>
-                <p class="identity-detail">When an AI-assisted institution keeps its procedures but loses the capacity to challenge decisions, who can recognize the failure and stop it responsibly? These three working papers examine case decisions, governing capacity, and accountable exit. They propose analytical structures, not proven operational solutions.</p>
+                <p class="identity-detail">Three working papers examine how consequential human–AI decisions are routed, how governing capacity can deteriorate while procedures remain intact, and how failing workflows can be retired without abandoning unresolved obligations. They propose analytical models and bounded verification, not demonstrated operational effectiveness.</p>
                 <div class="identity-actions">
                   <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
                   <a class="button" href="/about.html">Author record</a>
@@ -246,6 +246,7 @@ def papers_index_page() -> str:
                     <span class="sequence-state">SSRN {paper['ssrn']} · DOI {paper['doi']} · v6.2 · {paper['pages']} pages</span>
                     <div class="hero-actions">
                       <a class="button primary" href="/papers/{paper['slug']}.html">Paper record</a>
+                      <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Read PDF ({paper['pages']} pages) — Part {paper['roman']}, version {VERSION}">Read PDF ({paper['pages']} pages)</a>
                       <a class="button" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
                     </div>
                   </div>
