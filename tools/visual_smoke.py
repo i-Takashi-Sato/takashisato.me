@@ -114,6 +114,15 @@ def layout_errors(page, name: str, width: int, suffix: str) -> list[str]:
     if metrics["hero"] and min(metrics["hero"]) < width * 0.78:
         errors.append(f"{prefix}: collapsed paper hero {metrics}")
 
+    if name == "home":
+        links = page.locator(".identity-instruments .research-map-node")
+        if links.count() != 3 or [link.get_attribute("href") for link in links.all()] != ["/papers/part1.html", "/papers/part2.html", "/papers/part3.html"]:
+            errors.append(f"{prefix}: research index destinations changed")
+        for link in links.all():
+            box = link.bounding_box()
+            if not box or box["height"] < 44:
+                errors.append(f"{prefix}: insufficient instrument touch target")
+
     # Horizontal fit does not rule out internal overlap.
     overlaps = page.evaluate("""() => {
       const failures = [];
@@ -236,7 +245,7 @@ def transition_identity_errors(page, name: str, width: int) -> list[str]:
     if width != 1440:
         return []
 
-    if name == "papers":
+    if name in {"home", "papers"}:
         expected = {
             '1': 'part-i-instrument',
             '2': 'part-ii-instrument',
@@ -248,7 +257,7 @@ def transition_identity_errors(page, name: str, width: int) -> list[str]:
             actual = _style_snapshot(page, selector)["viewTransitionName"]
             if actual != transition_name:
                 errors.append(
-                    f"papers@1440/js: {selector} transition identity {actual!r}; "
+                    f"{name}@1440/js: {selector} transition identity {actual!r}; "
                     f"expected {transition_name!r}"
                 )
         return errors
@@ -425,7 +434,7 @@ def material_interaction_errors(browser, errors: list[str]) -> None:
     response = page.request.get(BASE + "/assets/research-metal.webp")
     if not response.ok or not response.body().startswith(b"RIFF"):
         errors.append("material interaction: research metal unavailable")
-    for name, selector in (("papers", ".map-glyph"), ("part1", ".paper-apparatus"), ("part2", ".paper-apparatus"), ("part3", ".paper-apparatus")):
+    for name, selector in (("home", ".identity-instruments .map-glyph"), ("papers", ".map-glyph"), ("part1", ".paper-apparatus"), ("part2", ".paper-apparatus"), ("part3", ".paper-apparatus")):
         page.goto(BASE + PAGES[name], wait_until="networkidle")
         for element in page.locator(selector).all():
             if "research-metal.webp" not in element.evaluate("el => getComputedStyle(el).backgroundImage"):

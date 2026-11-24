@@ -74,7 +74,6 @@ body[data-page="home"] .identity-copy h1 {margin:0;max-width:12ch;font-family:va
 .identity-actions {display:flex;align-items:center;flex-wrap:wrap;gap:.4rem 2rem}
 .identity-art {margin:0;min-width:0;background:linear-gradient(135deg,rgba(20,20,20,.46),rgba(20,20,20,.12)),#141414 url("/assets/research-metal.webp") center/cover no-repeat;color:#F5F5F4;padding:clamp(1.6rem,2.5vw,3rem);display:flex;min-height:clamp(33rem,49vw,43rem);flex-direction:column;justify-content:space-between;border:0;box-shadow:none}
 .identity-art-head {display:flex;justify-content:space-between;gap:.6rem 1.2rem;color:#D5D5D5;font-size:.69rem;font-family:var(--sans);letter-spacing:.1em;text-transform:uppercase}
-.identity-art svg {width:100%;height:auto;min-height:17rem;display:block;overflow:hidden;margin:clamp(.6rem,2vw,2rem) 0}
 
 
 
@@ -82,13 +81,6 @@ body[data-page="home"] .identity-copy h1 {margin:0;max-width:12ch;font-family:va
 
 
 .identity-art figcaption {font-size:.76rem;max-width:30rem;line-height:1.5;color:#C6C6C6;border-top:1px solid #454545;padding-top:1.05rem}
-.identity-questions {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);list-style:none;padding:0}
-.identity-questions li {border-right:1px solid var(--line);padding:1.2rem clamp(.7rem,2.8vw,2.4rem)}
-.identity-questions li:first-child {padding-left:0}
-.identity-questions li:last-child {border-right:none;padding-right:0}
-.identity-questions a {display:block;text-decoration:none;font-weight:590;font-size:clamp(.9rem,1.1vw,1.125rem);line-height:1.35}
-.identity-questions b {display:block;font-family:var(--sans);font-size:.72rem;color:var(--signal);letter-spacing:.09em;margin-bottom:.55rem}
-.identity-questions a:hover {color:var(--signal)}
 /* The long-form content is first-class: no content hiding, no tiny legal language. */
 body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::before {display:none}
 :is(body[data-page="home"],body[data-page="papers"]) .sequence-row {background:transparent;overflow:visible;border-color:var(--line);min-height:auto;grid-template-columns:minmax(8rem,.31fr) minmax(0,1fr);padding-block:clamp(2.5rem,4vw,4.5rem)}
@@ -158,9 +150,6 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
  .identity-art {min-height:31rem}
  .identity-copy {padding:1.5rem 0 1rem}
  .identity-copy h1 {max-width:12ch}
- .identity-questions {grid-template-columns:1fr}
- .identity-questions li {border-right:0;border-bottom:1px solid var(--line);padding:1rem 0}
- .identity-questions li:last-child {border-bottom:0}
 }
 @media (max-width: 44rem) {
  .header-inner {min-height:4.5rem;gap:.5rem}
@@ -195,8 +184,6 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .content button:focus-visible,.content input:focus-visible,.content select:focus-visible {outline:3px solid var(--signal);outline-offset:3px}
 @media(forced-colors:active) {
  .identity-art {border:2px solid CanvasText;background:Canvas;color:CanvasText}
- .identity-art svg {display:none}
- .identity-questions li {border-color:CanvasText}
 }
 /* Current table-of-contents location must always meet the body-text contrast gate. */
 body .paper-layout .toc a,
@@ -290,7 +277,6 @@ body[data-tone] .paper-hero .apparatus-label {
   color:#141414!important;
   opacity:1!important;
 }
-.identity-art svg {overflow:hidden}
 
 /* Preserve two-column numerical legibility on narrow screens. */
 @media (max-width:44rem) {
