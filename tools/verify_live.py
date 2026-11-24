@@ -71,6 +71,12 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def cache_details(headers) -> str:
+    fields = ("Age", "Cache-Control", "CF-Cache-Status", "X-Cache", "ETag", "Last-Modified")
+    values = [f"{name}={headers.get(name)[:180]!r}" for name in fields if headers.get(name)]
+    return f" [cache: {'; '.join(values)}]" if values else ""
+
+
 def verify_one(base: str, route: str, local: Path) -> str | None:
     expected = local.read_bytes()
     if len(expected) > MAX_BYTES:
@@ -94,7 +100,10 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
             if allowed and media not in allowed:
                 return f"{route}: unexpected media type {media}"
             actual = response.read(MAX_BYTES + 1)
-    except (HTTPError, URLError, TimeoutError, OSError) as exc:
+            cache = cache_details(response.headers)
+    except HTTPError as exc:
+        return f"{route}: HTTPError: HTTP {exc.code}" + cache_details(exc.headers)
+    except (URLError, TimeoutError, OSError) as exc:
         return f"{route}: {type(exc).__name__}: {exc}"
     if route == "/robots.txt" and actual != expected:
         prefix = ROBOTS_PREFIX.read_bytes()
@@ -103,7 +112,7 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
             return None
     if actual != expected:
         return (f"{route}: SHA-256 mismatch; expected {digest(expected)}, "
-                f"received {digest(actual)} ({len(actual)} bytes)")
+                f"received {digest(actual)} ({len(actual)} bytes)" + cache)
     return None
 
 
@@ -119,7 +128,18 @@ def verify(base: str, root: Path, routes: dict[str, str], attempts: int, interva
                 pending.pop(route)
         print(f"Attempt {attempt}/{attempts}: {len(routes) - len(pending)}/{len(routes)} verified responses", flush=True)
         if not pending:
-            return 0
+            if attempt == 1:
+                return 0
+            # Partial successes from different attempts are not a coherent sweep.
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                confirmation = list(pool.map(lambda item: (item[0], verify_one(base, item[0], root / item[1])), routes.items()))
+            for route, problem in confirmation:
+                if problem:
+                    print(problem, flush=True)
+                    pending[route] = routes[route]
+            print(f"Full confirmation: {len(routes) - len(pending)}/{len(routes)} verified responses", flush=True)
+            if not pending:
+                return 0
         if attempt < attempts:
             time.sleep(interval)
     return 1
