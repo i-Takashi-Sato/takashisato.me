@@ -6,7 +6,10 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 import sys
+import tempfile
+import zipfile
 import unicodedata
 from html import unescape
 from html.parser import HTMLParser
@@ -356,6 +359,41 @@ def audit_content(errors: list[str]) -> None:
         fail(errors, "Part III re-execution scope mismatch")
     if record["partIII"] != {"reachableStates": 8564, "enabledTransitions": 36096, "authoredInvariantViolations": 0, "mutationsWithCounterexamples": 30}:
         fail(errors, "Part III re-execution results mismatch")
+    # Verify the downloadable historical source before executing it in an isolated directory.
+    bundle = ROOT / "reproduction/v5.9/part3-historical-checker.zip"
+    expected_bundle_sha = "f2daa94a5c9c88358d2d1579be2ada55afe20fe5ba8bd5ddbaff92e9f5b16086"
+    expected_members = {"LICENSE", "formal_protocol_checks.py", "README.txt"}
+    expected_hashes = {
+        "LICENSE": "7735ca7d95593d86cfeb31a7165dc3e8c8d6eec76a1c154954e71d98d610ac80",
+        "formal_protocol_checks.py": "ca82fc325fce1ddac2dcbcc407fe3eaa96892914855decc961ab220caebc0c7d",
+        "formal_protocol_results.json": "30608277c7c8f1ede88e86699674ac4679ad7a2cf0a36ebd3c2d5507928ef952",
+        "formal_protocol_results.md": "51e21af27021d1b94e20ff1b0f4f699c807f9a31303713217ba77d7a40fb6e5e",
+    }
+    subset = record.get("executableSubset", {})
+    if subset.get("sha256") != expected_bundle_sha or subset.get("bytes") != 8908 or subset.get("url") != f"{SITE}/reproduction/v5.9/part3-historical-checker.zip":
+        fail(errors, "historical checker metadata mismatch")
+    if not bundle.is_file() or bundle.stat().st_size != 8908 or hashlib.sha256(bundle.read_bytes()).hexdigest() != expected_bundle_sha:
+        fail(errors, "historical checker bundle integrity mismatch")
+    else:
+        with zipfile.ZipFile(bundle) as z:
+            if set(z.namelist()) != expected_members or len(z.namelist()) != 3 or z.testzip() is not None:
+                fail(errors, "historical checker bundle members mismatch")
+            elif any(hashlib.sha256(z.read(n)).hexdigest() != expected_hashes[n] for n in ("LICENSE", "formal_protocol_checks.py")):
+                fail(errors, "historical checker source or license mismatch")
+            else:
+                with tempfile.TemporaryDirectory(prefix="historical-checker-") as tmp:
+                    work = Path(tmp)
+                    (work / "formal_protocol_checks.py").write_bytes(z.read("formal_protocol_checks.py"))
+                    run = subprocess.run([sys.executable, "-I", "formal_protocol_checks.py", "--out", "rerun"], cwd=work, capture_output=True, timeout=120)
+                    if run.returncode:
+                        fail(errors, "historical checker re-execution failed")
+                    else:
+                        for n in ("formal_protocol_results.json", "formal_protocol_results.md"):
+                            output = work / "rerun" / n
+                            if not output.is_file() or hashlib.sha256(output.read_bytes()).hexdigest() != expected_hashes[n]:
+                                fail(errors, f"historical checker output mismatch: {n}")
+    if f'href="/reproduction/v5.9/part3-historical-checker.zip" download' not in (ROOT / "papers/part3.html").read_text(encoding="utf-8"):
+        fail(errors, "historical checker download link missing")
     if '"dateModified":"2026-11-24"' not in (ROOT / "colophon.html").read_text(encoding="utf-8"):
         fail(errors, "colophon.html: structured revision date mismatch")
     if GOOGLE_SITE_VERIFICATION not in home:
