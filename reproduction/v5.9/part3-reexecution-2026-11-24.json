@@ -1,0 +1,32 @@
+{
+  "title": "Part III — historical checker recovery and re-execution",
+  "date": "2026-11-24",
+  "artifactVersion": "5.9",
+  "manuscriptVersion": "6.2",
+  "doi": "10.2139/ssrn.6066430",
+  "paperUrl": "https://takashisato.me/papers/part3.html",
+  "status": "Author-side subsequent computational check",
+  "independentReplication": false,
+  "fullPackagePublished": false,
+  "python": "3.13.5",
+  "command": "python formal_protocol_checks.py --out rerun",
+  "partIII": {
+    "reachableStates": 8564,
+    "enabledTransitions": 36096,
+    "authoredInvariantViolations": 0,
+    "mutationsWithCounterexamples": 30
+  },
+  "outputsByteIdentical": true,
+  "sha256": {
+    "formal_protocol_checks.py": "ca82fc325fce1ddac2dcbcc407fe3eaa96892914855decc961ab220caebc0c7d",
+    "formal_protocol_results.json": "30608277c7c8f1ede88e86699674ac4679ad7a2cf0a36ebd3c2d5507928ef952",
+    "formal_protocol_results.md": "51e21af27021d1b94e20ff1b0f4f699c807f9a31303713217ba77d7a40fb6e5e"
+  },
+  "limitations": [
+    "The checker and stored outputs were recovered from a historical archive; matching bytes do not establish an independently timestamped chain of custody.",
+    "No independent replication, empirical validation, or completeness guarantee is claimed.",
+    "The synthetic benchmark and sensitivity grid were not re-executed in this check.",
+    "The historical checker includes Part I v5.9 results; it is not the independent Part I v6.2 checker.",
+    "This record describes the check and file digests; it is not itself an executable reproduction package."
+  ]
+}

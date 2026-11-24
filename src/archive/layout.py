@@ -61,6 +61,7 @@ def head(
 
     author_material_preload = (
         '\n          <link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">'
+        '\n          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>'
         if path == "/about.html" else ""
     )
 

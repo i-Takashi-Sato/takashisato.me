@@ -234,6 +234,7 @@ def part3_content() -> str:
             <div role="listitem"><strong>30</strong><span>mutation-adequate guards with a minimal counterexample when weakened</span></div>
           </div>
           <p class="caveat"><strong>Execution provenance:</strong> these reported results are carried forward from the frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation (p. 37). <strong>Result:</strong> no authored-invariant violation in the unmutated model. This is executable consistency testing of a selected abstraction—not certification, semantic validation, or proof that a real institution records facts honestly or performs remedy effectively.</p>
+          <p><strong>Archive re-execution · 24 November 2026.</strong> The recovered v5.9 checker was rerun without code changes in Python 3.13.5. Its JSON and Markdown outputs matched the stored files byte for byte. This is a subsequent author-side check, not a new execution reported by the v6.2 paper or independent replication. See the <a href="/reproduction/v5.9/part3-reexecution-2026-11-24.json">dated verification record and file digests</a>. The full executable package is not yet published here.</p>
         </section>
 
         <section id="measurement">

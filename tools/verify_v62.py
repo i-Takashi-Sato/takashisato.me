@@ -348,6 +348,14 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"{rel}: bilingual identity title missing")
     if '<link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">' not in about or "/assets/author-paper.webp" in home:
         fail(errors, "author-only material preload contract violated")
+    if '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' not in about or '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' in home:
+        fail(errors, "author-only editorial font preload contract violated")
+    record_path = ROOT / "reproduction/v5.9/part3-reexecution-2026-11-24.json"
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    if record["artifactVersion"] != "5.9" or record["manuscriptVersion"] != "6.2" or record["independentReplication"] or record["fullPackagePublished"]:
+        fail(errors, "Part III re-execution scope mismatch")
+    if record["partIII"] != {"reachableStates": 8564, "enabledTransitions": 36096, "authoredInvariantViolations": 0, "mutationsWithCounterexamples": 30}:
+        fail(errors, "Part III re-execution results mismatch")
     if '"dateModified":"2026-11-24"' not in (ROOT / "colophon.html").read_text(encoding="utf-8"):
         fail(errors, "colophon.html: structured revision date mismatch")
     if GOOGLE_SITE_VERIFICATION not in home:
