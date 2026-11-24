@@ -37,3 +37,12 @@ same canonical Person identity links both records to the established scholarly p
 The archive remains English-first; no keyword lists, duplicate identity pages, or
 parallel Japanese presentation layer are introduced. Search ranking and title display
 are not guaranteed by these fields.
+
+## Scholarly update syndication
+
+`/feed.xml` is an Atom 1.0 feed with stable DOI entry identifiers, canonical paper links,
+primary SSRN record links and canonical revision dates. It is generated from the paper
+model and discoverable on every HTML page. Day-precision research dates are serialized
+at 00:00 UTC for Atom compatibility; this is not a known publication time. Cosmetic
+site releases do not change the scholarly update date. No new paper or revised claim
+is implied by adding the feed.

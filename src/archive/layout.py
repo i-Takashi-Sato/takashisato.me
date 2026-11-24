@@ -104,6 +104,7 @@ def head(
           <meta name="robots" content="{robots}">
           {verification_html}
           <link rel="canonical" href="{safe_canonical}">
+          <link rel="alternate" type="application/atom+xml" title="Research updates" href="{SITE}/feed.xml">
           <link rel="alternate" hreflang="en" href="{safe_canonical}">
           <link rel="alternate" hreflang="x-default" href="{safe_canonical}">
           <link rel="author" href="/about.html">
@@ -183,6 +184,7 @@ def footer() -> str:
                   <p class="label">Research</p>
                   <a href="/papers/">Paper trilogy</a>
                   <a href="/research-index.json">Machine-readable index</a>
+                  <a href="/feed.xml">Research feed · Atom</a>
                   <a href="/llms.txt">LLM orientation</a>
                 </div>
                 <div>
