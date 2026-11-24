@@ -105,7 +105,7 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
 .author-name h1 {font-size:clamp(3.8rem,7vw,8.8rem)}
 .author-name h1::after {display:none!important}
 .paper-subtitle,.paper-meta,.author-thesis {color:var(--ink-soft)}
-.paper-apparatus {opacity:.15;filter:grayscale(1)}
+.paper-apparatus {filter:grayscale(1)}
 .page-hero::before,.page-hero::after,.paper-hero::before,.author-hero::before {opacity:.12}
 .breadcrumbs a,.breadcrumbs span {color:var(--ink-faint);font-size:.82rem}
 .paper-layout {align-items:start}
