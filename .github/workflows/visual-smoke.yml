@@ -85,6 +85,8 @@ jobs:
           exit 1
       - name: Check WebKit and Firefox layout and targets
         run: python tools/cross_engine_smoke.py
+      - name: Stress cross-engine reading resilience
+        run: python tools/reading_resilience.py --cross-engine
       - name: Upload cross-engine screenshots
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

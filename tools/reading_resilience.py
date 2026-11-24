@@ -2,6 +2,7 @@
 """Reading-resilience stress probes, separate from automated WCAG conformance claims."""
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -43,13 +44,18 @@ MEASURE = """() => {
 }"""
 
 
-def main() -> int:
-    OUT.mkdir(parents=True, exist_ok=True)
+def run(engine: str) -> int:
+    # Chromium retains the complete seven-mode suite. The other engines
+    # exercise the five comparable screen-reading modes; print and forced
+    # colors remain separately covered by the Chromium suite.
+    cases = CASES if engine == "chromium" else tuple(case for case in CASES if case[0] not in ("print", "forced-colors"))
+    out = OUT if engine == "chromium" else Path("artifacts/cross-engine/resilience") / engine
+    out.mkdir(parents=True, exist_ok=True)
     failures = []
     records = []
     with sync_playwright() as pw:
-        browser = pw.chromium.launch()
-        for mode, (width, height), options in CASES:
+        browser = getattr(pw, engine).launch()
+        for mode, (width, height), options in cases:
             context = browser.new_context(
                 viewport={"width": width, "height": height},
                 reduced_motion="reduce", **options,
@@ -58,7 +64,7 @@ def main() -> int:
                 context.route("**/*", lambda route: route.abort() if route.request.resource_type == "font" else route.continue_())
             page = context.new_page()
             for name, route in PAGES.items():
-                prefix = f"{mode}/{name}"
+                prefix = f"{engine}/{mode}/{name}"
                 problems = []
                 page.goto(BASE + route, wait_until="networkidle")
                 if mode == "large-text":
@@ -92,18 +98,27 @@ def main() -> int:
                             problems.append("skip link did not navigate to main")
                 if mode == "print":
                     page.emulate_media(media="screen")
-                records.append({"mode": mode, "page": name, "metrics": metrics, "problems": problems})
+                records.append({"engine": engine, "mode": mode, "page": name, "metrics": metrics, "problems": problems})
                 if problems:
                     failures.extend(f"{prefix}: {problem}" for problem in problems)
                 if problems or mode == "large-text":
-                    page.screenshot(path=str(OUT / f"{mode}-{name}.png"), full_page=True)
+                    page.screenshot(path=str(out / f"{mode}-{name}.png"), full_page=True)
             context.close()
         browser.close()
-    (OUT / "report.json").write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (out / "report.json").write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     for failure in failures:
         print(failure)
-    print(f"Reading-resilience probes: {len(records)} page/mode combinations, {len(failures)} findings.")
+    print(f"Reading-resilience probes ({engine}): {len(records)} page/mode combinations, {len(failures)} findings.")
     return int(bool(failures))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--cross-engine", action="store_true", help="Run comparable screen-reading probes on Firefox and WebKit.")
+    args = parser.parse_args()
+    engines = ("firefox", "webkit") if args.cross_engine else ("chromium",)
+    # Evaluate both engines even if one reports failures.
+    return int(any([run(engine) for engine in engines]))
 
 
 if __name__ == "__main__":
