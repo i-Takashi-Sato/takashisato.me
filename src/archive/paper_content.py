@@ -89,7 +89,7 @@ def part1_content() -> str:
             <div role="listitem"><strong>1,248</strong><span>applicable Stage-2 configurations enumerated</span></div>
             <div role="listitem"><strong>9 / 9</strong><span>isolated guard mutations produced a counterexample</span></div>
           </div>
-          <p class="caveat"><strong>Result:</strong> the authored functions produced zero invariant violations. “Exhaustive” means complete over the declared finite abstraction; it is not proof that the invariants are complete, comparison with external ground truth, or evidence of legal or field effectiveness.</p>
+          <p class="caveat"><strong>Execution provenance:</strong> the manuscript reports a v6.2 independent reimplementation, <code>verify_part1_contract_v62.py</code>, derived from the published finite specification rather than editing the v5.9 checker (p. 17). This is not a claim of third-party reproduction. <strong>Result:</strong> the authored functions produced zero invariant violations. “Exhaustive” means complete over the declared finite abstraction; it is not proof that the invariants are complete, comparison with external ground truth, or evidence of legal or field effectiveness.</p>
           <div class="fact-grid">
             <article class="fact"><code>CROSS-STAGE TEST</code><h3>Defer is not evidence hold</h3><p>A dedicated mutation catches any collapse of signed DEFER back into the Stage-1 EVIDENCE HOLD label.</p></article>
             <article class="fact"><code>PUBLIC RECORDS</code><h3>Traceability, not validation</h3><p>Fifteen author-coded units from three official investigations trace evidence, reasons, review access, authority, proportionality, feedback, and remedy.</p></article>
@@ -233,14 +233,14 @@ def part3_content() -> str:
             <div role="listitem"><strong>36,096</strong><span>enabled transitions explored</span></div>
             <div role="listitem"><strong>30</strong><span>mutation-adequate guards with a minimal counterexample when weakened</span></div>
           </div>
-          <p class="caveat"><strong>Result:</strong> no authored-invariant violation in the unmutated model. This is executable consistency testing of a selected abstraction—not certification, semantic validation, or proof that a real institution records facts honestly or performs remedy effectively.</p>
+          <p class="caveat"><strong>Execution provenance:</strong> these reported results are carried forward from the frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation (p. 37). <strong>Result:</strong> no authored-invariant violation in the unmutated model. This is executable consistency testing of a selected abstraction—not certification, semantic validation, or proof that a real institution records facts honestly or performs remedy effectively.</p>
         </section>
 
         <section id="measurement">
           <p class="eyebrow">Measurement boundary</p>
           <h2>Indicators route investigation. They do not authorize action.</h2>
           <p>The Governance Drift Indicator layer asks whether rationales add held-out information, review time remains responsive to legitimate complexity, and corrective voice is supplied and acted upon. It is subordinate to the authorization protocol and is not a prerequisite for Proper Ending.</p>
-          <p>Aggregate monitoring misses 92 of 100 constructed localized-collapse streams in the frozen benchmark. The added fixed subgroup rule recovers 97 of 100, and the union 98 of 100—but the subgroup definition matches the synthetic generator’s declared failure boundary. Those are internal implementation results, not field sensitivity, specificity, discovery, or a validated real-world threshold.</p>
+          <p>The synthetic benchmark is likewise carried forward from the frozen v5.9 computational artifact (p. 35, Table B3). Aggregate monitoring misses 92 of 100 constructed localized-collapse streams in the frozen benchmark. The added fixed subgroup rule recovers 97 of 100, and the union 98 of 100—but the subgroup definition matches the synthetic generator’s declared failure boundary. Those are internal implementation results, not field sensitivity, specificity, discovery, or a validated real-world threshold.</p>
         </section>
 
         <section id="boundary">

@@ -135,6 +135,11 @@
           "@type": "PropertyValue",
           "name": "SSRN abstract ID",
           "value": "5911063"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Research provenance",
+          "value": "Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here."
         }
       ]
     },
@@ -210,6 +215,11 @@
           "@type": "PropertyValue",
           "name": "SSRN abstract ID",
           "value": "5913703"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Research provenance",
+          "value": "Descriptive model and rejectable propositions; empirical validation is not established."
         }
       ]
     },
@@ -285,6 +295,11 @@
           "@type": "PropertyValue",
           "name": "SSRN abstract ID",
           "value": "6066430"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Research provenance",
+          "value": "Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation."
         }
       ]
     }

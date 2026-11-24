@@ -598,6 +598,32 @@ def audit_indexes(errors: list[str]) -> None:
         if encoding.get("contentSize") != f"{expected['bytes']} bytes" or encoding.get("sha256") != expected["sha256"]:
             fail(errors, f"research-index.json: {slug} PDF preservation metadata mismatch")
 
+    # Preserve the disclosed distinction between manuscript and computational versions.
+    provenance_checks = {
+        "index.html": ("v6.2 independent reimplementation", "Frozen v5.9 execution"),
+        "papers/part1.html": ("verify_part1_contract_v62.py", "not a claim of third-party reproduction"),
+        "papers/part3.html": ("frozen v5.9 computational artifacts", "frozen v5.9 computational artifact (p. 35"),
+        "llms.txt": ("## Research provenance", "v6.2 independent reimplementation", "frozen v5.9 computational artifacts"),
+    }
+    for rel, phrases in provenance_checks.items():
+        content = (ROOT / rel).read_text(encoding="utf-8")
+        for phrase in phrases:
+            if phrase not in content:
+                fail(errors, f"{rel}: research provenance disclosure missing: {phrase}")
+    for position, markers in enumerate((
+        ("v6.2", "verify_part1_contract_v62.py"),
+        ("empirical validation is not established",),
+        ("v5.9", "synthetic benchmark", "no new execution"),
+    )):
+        if position >= len(parts):
+            break
+        provenance = [
+            str(entry.get("value", "")) for entry in parts[position].get("additionalProperty", [])
+            if entry.get("name") == "Research provenance"
+        ]
+        if len(provenance) != 1 or not all(marker in provenance[0] for marker in markers):
+            fail(errors, f"research-index.json: Part {position + 1} provenance mismatch")
+
     manifest_expectations = {
         "name": "The Proper Ending Index",
         "id": "/",
@@ -627,7 +653,7 @@ def audit_indexes(errors: list[str]) -> None:
     if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
         fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
     # Page freshness is not the same as the immutable v6.2 paper revision.
-    expected_lastmods = ["2026-11-24"] * 6 + ["2026-11-23", UPDATED, UPDATED]
+    expected_lastmods = ["2026-11-24"] * 7 + [UPDATED, UPDATED]
     actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
     if actual_lastmods != expected_lastmods:
         fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")

@@ -21,6 +21,12 @@ Current paper version: 6.2 (23 August 2026)
   https://takashisato.me/papers/part3.html
   DOI: 10.2139/ssrn.6066430
 
+## Research provenance
+
+- Part I: Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here.
+- Part II: Descriptive model and rejectable propositions; empirical validation is not established.
+- Part III: Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation.
+
 ## Interpretation boundary
 
 - These are working papers, not legal advice, compliance certification, or an operational decision service.
