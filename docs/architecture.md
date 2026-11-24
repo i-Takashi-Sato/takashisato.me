@@ -56,3 +56,7 @@ are never repository content.
 Lighthouse runs three times per URL. The least favorable measurement must satisfy the existing hard thresholds; LCP above 2500 ms remains a warning. The unsuccessful font-preload experiment was not adopted.
 
 The Papers index contains a stable, semantic concept register. Citation-copy controls are created only when the browser exposes the Clipboard API, and errors preserve manual selection. No runtime dependency, remote request, new stylesheet, or storage is introduced.
+
+## Content-addressed runtime delivery
+
+Current HTML references the SHA-256-named CSS and JS bundles derived from the exact deterministic build bytes. The legacy `assets/site.css` and `assets/site.js` paths remain available for older links and are still byte-verified. Historical fingerprinted bundles are retained so cached documents cannot lose their referenced resources; the inventory validates their names, hashes and size limits. The current page still loads only one stylesheet and one script. No stylesheet or script content was changed in the initial migration.

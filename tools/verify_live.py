@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.archive.model import PAPERS, SITE, VERSION
+from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
 
 SLUGS = tuple(paper["slug"] for paper in PAPERS)
 # Canonical public routes only; no mutable PDF aliases or third-party requests.
@@ -28,6 +29,8 @@ ROUTES = {
     **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
     **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
     **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about")},
+    # Check the exact URLs used by newly generated HTML as well as the legacy aliases.
+    **{"/" + runtime_path(name): runtime_path(name) for name in RUNTIME_NAMES},
     **{f"/{name}": name for name in (
         "assets/site.css", "assets/site.js", "assets/brand-mark.svg",
         "assets/author-mark.svg", "assets/author-paper.webp", "assets/research-metal.webp",

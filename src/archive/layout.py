@@ -6,8 +6,8 @@ import json
 from html import escape
 from textwrap import dedent
 
+from .runtime_assets import runtime_url
 from .model import (
-    ASSET_VERSION,
     GOOGLE_SITE_VERIFICATION,
     PAPER_REVISION_DATE,
     SCHOLAR_URL,
@@ -139,9 +139,9 @@ def head(
           <meta name="twitter:image:alt" content="{safe_image_alt}">
           {paper_meta}
           {schema_html}
-          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
-          <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
+          <link rel="preload" href="{runtime_url("site.css")}" as="style">
+          <link rel="stylesheet" href="{runtime_url("site.css")}">
+          <script src="{runtime_url("site.js")}" defer></script>
         </head>
         """
     ).strip()

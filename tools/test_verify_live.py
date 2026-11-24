@@ -6,6 +6,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from verify_live import ROOT, ROUTES, ROBOTS_PREFIX, verify, verify_one
+from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
+from hashlib import sha256
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -48,6 +50,16 @@ class LiveAuditTests(unittest.TestCase):
         for route, path in ROUTES.items():
             with self.subTest(route=route):
                 self.assertTrue((ROOT / path).is_file())
+
+    def test_runtime_routes_match_content(self):
+        for name in RUNTIME_NAMES:
+            data = (ROOT / "assets" / name).read_bytes()
+            stem, suffix = name.split(".")
+            expected = f"assets/{stem}.{sha256(data).hexdigest()}.{suffix}"
+            self.assertEqual(runtime_path(name), expected)
+            self.assertEqual(ROUTES["/" + expected], expected)
+            self.assertEqual((ROOT / expected).read_bytes(), data)
+            self.assertEqual(ROUTES["/assets/" + name], "assets/" + name)
 
     def test_managed_robots(self):
         self.assertIsNone(verify_one(self.base, "/robots.txt", ROOT / "robots.txt"))
