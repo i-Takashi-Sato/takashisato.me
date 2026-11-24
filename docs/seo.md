@@ -31,6 +31,9 @@ local access and is not the primary reading route.
 
 ## Japanese identity
 
-`佐藤貴士` remains in the factual author record and machine-readable Person identity.
-There is no parallel Japanese presentation layer unless a complete editorial Japanese
-edition is intentionally created in the future.
+`佐藤貴士` appears once in the visible home author introduction and once in the author
+record, alongside the English name, and in the home and author document titles. The
+same canonical Person identity links both records to the established scholarly profiles.
+The archive remains English-first; no keyword lists, duplicate identity pages, or
+parallel Japanese presentation layer are introduced. Search ranking and title display
+are not guaranteed by these fields.
