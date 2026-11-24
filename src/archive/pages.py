@@ -385,9 +385,11 @@ def paper_page(paper: Paper) -> str:
           <header class="paper-hero shell" data-roman="{paper['roman']}">
             <div class="paper-apparatus" aria-hidden="true"><span class="apparatus-label">{paper['function']}</span><i></i><i></i><i></i><i></i></div>
             {breadcrumbs([("Index", "/"), ("Papers", "/papers/"), (f"Part {paper['roman']}", None)])}
-            <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part {paper['roman']}</p>
-            <h1 data-reveal>{paper['title']}</h1>
-            <p class="paper-subtitle" data-reveal>{paper['subtitle']}</p>
+            <div class="paper-intro">
+              <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy · Part {paper['roman']}</p>
+              <h1 data-reveal>{paper['title']}</h1>
+              <p class="paper-subtitle" data-reveal>{paper['subtitle']}</p>
+            </div>
             <div class="paper-meta" data-reveal>
               <span>Takashi Sato</span>
               <span>Working paper · v6.2</span>

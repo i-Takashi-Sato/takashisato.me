@@ -114,6 +114,30 @@ def layout_errors(page, name: str, width: int, suffix: str) -> list[str]:
     if metrics["hero"] and min(metrics["hero"]) < width * 0.78:
         errors.append(f"{prefix}: collapsed paper hero {metrics}")
 
+    # Horizontal fit does not rule out internal overlap.
+    overlaps = page.evaluate("""() => {
+      const failures = [];
+      const intersects = (a,b) => a.width>0 && a.height>0 && b.width>0 && b.height>0 &&
+        Math.min(a.right,b.right)-Math.max(a.left,b.left)>2 &&
+        Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2;
+      const hero = document.querySelector('.paper-hero');
+      if (hero) {
+        const plate = hero.querySelector('.paper-apparatus').getBoundingClientRect();
+        for (const el of hero.querySelectorAll('.breadcrumbs,.eyebrow,h1,.paper-subtitle,.paper-meta,.paper-actions')) {
+          if (intersects(plate,el.getBoundingClientRect())) failures.push('paper plate overlaps '+el.className+' '+el.tagName);
+        }
+      }
+      for (const node of document.querySelectorAll('.research-map-node')) {
+        const parts = [...node.querySelectorAll('.map-index,.map-glyph,b,small')];
+        for (let i=0;i<parts.length;i++) for (let j=i+1;j<parts.length;j++) {
+          if (intersects(parts[i].getBoundingClientRect(),parts[j].getBoundingClientRect()))
+            failures.push('map '+node.dataset.part+' overlaps '+parts[i].tagName+' '+parts[j].tagName);
+        }
+      }
+      return failures;
+    }""")
+    errors.extend(f"{prefix}: {message}" for message in overlaps)
+
     return errors
 
 
