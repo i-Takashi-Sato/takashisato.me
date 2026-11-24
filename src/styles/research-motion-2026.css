@@ -182,3 +182,6 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
  .site-footer .footer-bottom {gap:.35rem}
 }
 @media print {.paper-intro {display:block}}
+
+/* Materials supplied by the author: research metal only inside plates. */
+@media(forced-colors:active){.identity-art,.research-map-node .map-glyph,.paper-apparatus{background-image:none!important}}

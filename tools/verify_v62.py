@@ -426,6 +426,7 @@ def audit_assets(errors: list[str]) -> None:
         "og/about.jpg",
         "author-mark.svg",
         "author-paper.webp",
+        "research-metal.webp",
         "og/part1.jpg",
         "og/part2.jpg",
         "og/part3.jpg",
@@ -446,6 +447,12 @@ def audit_assets(errors: list[str]) -> None:
     with Image.open(texture) as image:
         if image.format != "WEBP" or image.size != (900, 599) or texture.stat().st_size > 12_000:
             fail(errors, "author paper texture violates the local asset budget")
+    metal = ROOT / "assets/research-metal.webp"
+    with Image.open(metal) as image:
+        if image.format != "WEBP" or image.size != (480, 280) or metal.stat().st_size > 4_000 or image.getexif():
+            fail(errors, "research metal texture violates the local asset budget")
+    if hashlib.sha256(metal.read_bytes()).hexdigest() != "991c61263406b977f10b94dad4481afdde30f929028f33245e1c4349aed9c22c":
+        fail(errors, "research metal texture digest mismatch")
     css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
     js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
