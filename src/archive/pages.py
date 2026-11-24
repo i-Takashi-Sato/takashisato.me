@@ -246,7 +246,7 @@ def papers_index_page() -> str:
                     <span class="sequence-state">SSRN {paper['ssrn']} · DOI {paper['doi']} · v6.2 · {paper['pages']} pages</span>
                     <div class="hero-actions">
                       <a class="button primary" href="/papers/{paper['slug']}.html">Paper record</a>
-                      <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Read Part {paper['roman']} PDF, version {VERSION}, {paper['pages']} pages">Read PDF ({paper['pages']} pages)</a>
+                      <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Read PDF ({paper['pages']} pages) — Part {paper['roman']}, version {VERSION}">Read PDF ({paper['pages']} pages)</a>
                       <a class="button" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
                     </div>
                   </div>
