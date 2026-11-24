@@ -427,6 +427,7 @@ def audit_assets(errors: list[str]) -> None:
         "author-mark.svg",
         "author-paper.webp",
         "research-metal.webp",
+        "favicon-source-20260117.png",
         "og/part1.jpg",
         "og/part2.jpg",
         "og/part3.jpg",
