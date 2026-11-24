@@ -83,7 +83,7 @@ def home_page() -> str:
                 <p class="identity-overline">THE PROPER ENDING INDEX <span aria-hidden="true">/</span> 01–03</p>
                 <h1 id="hero-title">A role alone<br>is not <strong>governance.</strong></h1>
                 <p class="identity-thesis">Accountability lives in the sequence.</p>
-                <p class="identity-detail">When an AI-assisted institution keeps its procedures but loses the capacity to challenge decisions, who can recognize the failure and stop it responsibly? These three working papers examine case decisions, governing capacity, and accountable exit. They propose analytical structures, not proven operational solutions.</p>
+                <p class="identity-detail">Who is allowed to make a decision when AI is involved? How can people tell when oversight has stopped working? How can an institution stop using AI while preserving accountability? Three working papers examine these questions. They propose analytical models, not proven operational solutions.</p>
                 <div class="identity-actions">
                   <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
                   <a class="button" href="/about.html">Author record</a>
@@ -134,9 +134,9 @@ def home_page() -> str:
               </figure>
             </div>
             <ol class="identity-questions" aria-label="Three distinct research questions">
-              <li><a href="/papers/part1.html"><b>01 / CASE</b>What may happen next?</a></li>
-              <li><a href="/papers/part2.html"><b>02 / INSTITUTION</b>Can it still govern?</a></li>
-              <li><a href="/papers/part3.html"><b>03 / EXIT</b>How does it end accountably?</a></li>
+              <li><a href="/papers/part1.html"><b>01 / CASE</b>Who can decide what happens next?</a></li>
+              <li><a href="/papers/part2.html"><b>02 / INSTITUTION</b>Can people still challenge decisions?</a></li>
+              <li><a href="/papers/part3.html"><b>03 / EXIT</b>How can AI use end responsibly?</a></li>
             </ol>
           </section>
 
@@ -246,6 +246,7 @@ def papers_index_page() -> str:
                     <span class="sequence-state">SSRN {paper['ssrn']} · DOI {paper['doi']} · v6.2 · {paper['pages']} pages</span>
                     <div class="hero-actions">
                       <a class="button primary" href="/papers/{paper['slug']}.html">Paper record</a>
+                      <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Read Part {paper['roman']} PDF, version {VERSION}, {paper['pages']} pages">Read PDF ({paper['pages']} pages)</a>
                       <a class="button" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN <span class="arrow" aria-hidden="true">↗</span></a>
                     </div>
                   </div>
