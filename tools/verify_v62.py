@@ -529,9 +529,9 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
             if image.format != "JPEG":
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
-    for name in ("favicon.svg", "favicon-dark.svg"):
+    for name in ("favicon.svg", "favicon-dark.svg", "assets/brand-mark.svg"):
         icon_svg = (ROOT / name).read_text(encoding="utf-8")
-        if 'M11 59V12H55V30M55 52V59H11' not in icon_svg or 'M29 41H67' not in icon_svg or '#395cff' in icon_svg or '#8398ff' in icon_svg:
+        if 'M11 59V12H55V30M55 52V59H11' not in icon_svg or 'M29 41H64' not in icon_svg or '#395cff' in icon_svg or '#8398ff' in icon_svg:
             fail(errors, f"{name}: retired identity or mismatched open-boundary mark")
     for name, size in {
         "android-chrome-192x192.png": (192, 192),
@@ -539,6 +539,10 @@ def audit_assets(errors: list[str]) -> None:
         "apple-touch-icon.png": (180, 180),
         "favicon-16x16.png": (16, 16),
         "favicon-32x32.png": (32, 32),
+        "favicon-96x96.png": (96, 96),
+        "favicon-16x16-dark.png": (16, 16),
+        "favicon-32x32-dark.png": (32, 32),
+        "maskable-512x512.png": (512, 512),
     }.items():
         image_path = ROOT / name
         if not image_path.exists():
@@ -547,6 +551,20 @@ def audit_assets(errors: list[str]) -> None:
         with Image.open(image_path) as image:
             if image.size != size:
                 fail(errors, f"{name}: expected {size}, found {image.size}")
+    if "prefers-color-scheme:dark" not in (ROOT / "favicon.svg").read_text(encoding="utf-8"):
+        fail(errors, "favicon: missing adaptive theme")
+    with Image.open(ROOT / "favicon.ico") as image:
+        if image.ico.sizes() != {(16,16),(32,32),(48,48),(64,64)}:
+            fail(errors, "favicon.ico: incomplete multi-size master")
+        for n in (16,32):
+            with Image.open(ROOT / f"favicon-{n}x{n}.png") as png:
+                if image.ico.getimage((n,n)).convert("RGB").tobytes() != png.convert("RGB").tobytes():
+                    fail(errors, f"favicon.ico: optical {n}px variant mismatch")
+    with Image.open(ROOT / "maskable-512x512.png") as image:
+        pixels = image.convert("RGB").load()
+        bg = pixels[0,0]
+        if any(pixels[x,y] != bg for y in range(512) for x in range(512) if (x-255.5)**2+(y-255.5)**2 > (512*.40)**2):
+            fail(errors, "maskable icon: artwork exceeds circular safe zone")
 
 
 def normalize_abstract(value: str) -> str:
@@ -700,6 +718,9 @@ def audit_indexes(errors: list[str]) -> None:
     for key, value in manifest_expectations.items():
         if manifest.get(key) != value:
             fail(errors, f"site.webmanifest: {key} mismatch")
+
+    if not any(x.get("src")=="/maskable-512x512.png" and x.get("purpose")=="maskable" for x in manifest.get("icons", [])):
+        fail(errors, "site.webmanifest: missing dedicated maskable icon")
 
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     expected_urls = [
