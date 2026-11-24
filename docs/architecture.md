@@ -66,3 +66,5 @@ The concept register's secondary preserved-PDF links now point to exact starting
 ## Reading resilience
 
 The separate Chromium stress suite checks landscape, 320px reflow, doubled root font size, forced colors, font/script failure and print media. It records diagnostic geometry and screenshots on failure. These are bounded laboratory probes, not native zoom, a screen-reader test, physical-device certification or full WCAG conformance.
+
+Reading-resilience follow-up: preserve the 200% root-font stress probe and original viewport/reading-element limits. Allow narrow single-column grid tracks to shrink to zero intrinsic minimum, wrap long headings and series titles, and let masthead flex items wrap instead of overlapping when text expands. The header brand/navigation overlap and header target boundaries are additional checks; all six large-text screenshots are retained for review even when passing. These are stress probes, not native browser zoom or complete WCAG conformance evidence.

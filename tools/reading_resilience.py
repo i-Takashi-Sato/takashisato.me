@@ -28,8 +28,18 @@ MEASURE = """() => {
               left: Math.round(r.left), right: Math.round(r.right),
               width: Math.round(r.width)};
     }).filter(r => r.width > 0 && (r.left < -3 || r.right > innerWidth + 3)).slice(0,12);
+  const brand = document.querySelector('.header-inner .brand');
+  const nav = document.querySelector('.header-inner .site-nav');
+  const b = brand?.getBoundingClientRect(), n = nav?.getBoundingClientRect();
+  const headerOverlap = !!(b && n && b.width && n.width &&
+    Math.min(b.right,n.right)-Math.max(b.left,n.left)>1 &&
+    Math.min(b.bottom,n.bottom)-Math.max(b.top,n.top)>1);
+  const headerOutside = [...document.querySelectorAll('.header-inner .brand,.header-inner .site-nav a')]
+    .filter(el => el.getClientRects().length)
+    .map(el => el.getBoundingClientRect())
+    .some(r => r.width > 0 && (r.left < -3 || r.right > innerWidth + 3));
   return {viewport: innerWidth, scrollWidth: root.scrollWidth,
-          heading: head?.textContent.trim() || '', outside};
+          heading: head?.textContent.trim() || '', outside, headerOverlap, headerOutside};
 }"""
 
 
@@ -64,6 +74,10 @@ def main() -> int:
                     problems.append("document horizontal overflow")
                 if mode != "print" and metrics["outside"]:
                     problems.append("visible reading element extends outside viewport")
+                if mode != "print" and metrics["headerOverlap"]:
+                    problems.append("brand and navigation overlap")
+                if mode != "print" and metrics["headerOutside"]:
+                    problems.append("header reading target extends outside viewport")
                 if name.startswith("part") and mode != "print":
                     for selector in ('main a[href*="papers.ssrn.com"]', 'main a[href*="/pdf/v6.2/"]'):
                         if not any(link.is_visible() for link in page.locator(selector).all()):
@@ -81,6 +95,7 @@ def main() -> int:
                 records.append({"mode": mode, "page": name, "metrics": metrics, "problems": problems})
                 if problems:
                     failures.extend(f"{prefix}: {problem}" for problem in problems)
+                if problems or mode == "large-text":
                     page.screenshot(path=str(OUT / f"{mode}-{name}.png"), full_page=True)
             context.close()
         browser.close()
