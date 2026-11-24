@@ -97,7 +97,7 @@ a { color: inherit; text-decoration-thickness: .07em; text-underline-offset: .2e
 a:hover { text-decoration-color: var(--signal-soft); }
 img, svg { display: block; max-width: 100%; }
 button, input, select, textarea { font: inherit; }
-h1, h2, h3, p { overflow-wrap: break-word; }
+h1, h2, h3, p { overflow-wrap: anywhere; }
 
 :focus-visible { outline: .17rem solid var(--signal-soft); outline-offset: .24rem; }
 
@@ -177,8 +177,10 @@ h1, h2, h3, p { overflow-wrap: break-word; }
   padding-right: max(var(--gutter), env(safe-area-inset-right));
 }
 
+/* Wrap rather than overlap when user-scaled text exceeds the masthead. */
 .header-inner {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
@@ -420,7 +422,7 @@ a.sequence-row:hover::after { transform: translate(.2rem, -.2rem); }
 .series-nav a:last-child { border-right: 0; }
 .series-nav a[aria-current="page"] { background: var(--signal-wash); }
 .series-nav small { color: var(--signal-soft); font-family: var(--mono); font-size: .61rem; letter-spacing: .07em; }
-.series-nav strong { font-family: var(--display); font-size: clamp(1.7rem, 2.6vw, 2.7rem); font-weight: 350; letter-spacing: -.035em; line-height: .95; }
+.series-nav strong { overflow-wrap: anywhere; font-family: var(--display); font-size: clamp(1.7rem, 2.6vw, 2.7rem); font-weight: 350; letter-spacing: -.035em; line-height: .95; }
 
 .profile-grid { display: grid; grid-template-columns: minmax(13rem, .42fr) minmax(0, 1fr); gap: clamp(3rem, 10vw, 10rem); }
 .profile-aside { align-self: start; padding-top: 1rem; border-top: 1px solid var(--line-strong); }
@@ -539,7 +541,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
 }
 
 @media (max-width: 62rem) {
-  .hero-grid, .section-head, .boundary, .paper-layout, .profile-grid, .author-layout, .footer-grid { grid-template-columns: 1fr; }
+  .hero-grid, .section-head, .boundary, .paper-layout, .profile-grid, .author-layout, .footer-grid { grid-template-columns: minmax(0, 1fr); }
   .hero { min-height: auto; }
   .hero-grid > div:first-child, .hero-aside { grid-column: auto; }
   .hero-aside { max-width: 42rem; }
@@ -575,7 +577,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
   .sequence-function { grid-column: 2; }
   .sequence-row > div { grid-column: 2 / -1; }
   .sequence-row::after { grid-column: 3; grid-row: 1; }
-  .metric-grid, .fact-grid, .construct-grid, .verification, .series-nav { grid-template-columns: 1fr; }
+  .metric-grid, .fact-grid, .construct-grid, .verification, .series-nav { grid-template-columns: minmax(0, 1fr); }
   .metric { min-height: 8.5rem; }
   .gate-flow, .disposition-grid { grid-template-columns: 1fr; }
   .route-box { grid-column: auto; }

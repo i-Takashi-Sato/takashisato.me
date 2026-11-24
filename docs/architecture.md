@@ -62,3 +62,9 @@ The Papers index contains a stable, semantic concept register. Citation-copy con
 Current HTML references the SHA-256-named CSS and JS bundles derived from the exact deterministic build bytes. The legacy `assets/site.css` and `assets/site.js` paths remain available for older links and are still byte-verified. Historical fingerprinted bundles are retained so cached documents cannot lose their referenced resources; the inventory validates their names, hashes and size limits. The current page still loads only one stylesheet and one script. No stylesheet or script content was changed in the initial migration.
 
 The concept register's secondary preserved-PDF links now point to exact starting pages in the immutable v6.2 manuscripts. Each page range is checked for bounds and its source heading is located in the preserved PDF. This verifies locators, not external construct validity. The SSRN reading route remains primary.
+
+## Reading resilience
+
+The separate Chromium stress suite checks landscape, 320px reflow, doubled root font size, forced colors, font/script failure and print media. It records diagnostic geometry and screenshots on failure. These are bounded laboratory probes, not native zoom, a screen-reader test, physical-device certification or full WCAG conformance.
+
+Reading-resilience follow-up: preserve the 200% root-font stress probe and original viewport/reading-element limits. Allow narrow single-column grid tracks to shrink to zero intrinsic minimum, wrap long headings and series titles, and let masthead flex items wrap instead of overlapping when text expands. The header brand/navigation overlap and header target boundaries are additional checks; all six large-text screenshots are retained for review even when passing. These are stress probes, not native browser zoom or complete WCAG conformance evidence.
