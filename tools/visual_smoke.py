@@ -531,6 +531,28 @@ def citation_copy_errors(browser, errors: list[str]) -> None:
 
 
 
+def concept_register_errors(browser, errors: list[str]) -> None:
+    for width in (320, 390, 1440):
+        context = browser.new_context(viewport={"width": width, "height": 844}, java_script_enabled=False)
+        page = context.new_page()
+        page.goto(BASE + PAGES["papers"] + "#concepts", wait_until="domcontentloaded")
+        rows = page.locator(".concept-record")
+        if rows.count() != 7:
+            errors.append(f"concepts {width}: expected seven records")
+        for row in rows.all():
+            links = row.locator("a.button")
+            if links.count() != 4:
+                errors.append(f"concepts {width}: expected four source links")
+            for link in links.all():
+                box = link.bounding_box()
+                if not box or box["height"] < 44 or box["width"] < 44:
+                    errors.append(f"concepts {width}: target below 44px")
+        if page.evaluate("document.documentElement.scrollWidth > innerWidth"):
+            errors.append(f"concepts {width}: horizontal overflow")
+        context.close()
+
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -565,6 +587,7 @@ def main() -> None:
         reduced_motion_errors(browser, errors)
         material_interaction_errors(browser, errors)
         citation_copy_errors(browser, errors)
+        concept_register_errors(browser, errors)
         browser.close()
 
     if errors:

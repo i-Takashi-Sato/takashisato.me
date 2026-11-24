@@ -848,15 +848,14 @@ def audit_concept_register(errors: list[str]) -> None:
     expected = {f"concept-{record[0]}" for record in CONCEPTS}
     if anchors != expected or len(expected) != len(CONCEPTS):
         fail(errors, "concept register: missing or duplicate stable anchors")
-    hrefs = {attrs.get("href") for tag, attrs in parser.tags if tag == "a"}
     for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS:
         if paper not in PAPERS or PAPERS[paper]["roman"] != roman:
             fail(errors, f"concept {slug}: unknown paper")
             continue
-        for section in (anchor, assessment, "boundary", "citation"):
-            if f"/papers/{paper}.html#{section}" not in hrefs:
-                fail(errors, f"concept {slug}: missing source link {section}")
-
+        for label, section in (("Explanation", anchor), ("Assessment", assessment), ("Limits", "boundary"), ("Citation", "citation")):
+            expected_href = f"/papers/{paper}.html#{section}"
+            if not any(href == expected_href and attrs.get("aria-label") == f"{label}: {title}" for href, attrs in parser.hrefs):
+                fail(errors, f"concept {slug}: missing contextual source link {section}")
 
 
 def main() -> int:

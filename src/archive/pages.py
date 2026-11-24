@@ -102,14 +102,18 @@ CONCEPTS = [
 
 
 def concept_register() -> str:
-    return "".join(
-        f'<h3 id="concept-{slug}">{escape(title)}</h3><p><strong>{escape(status)}</strong> {escape(summary)} '
-        f'<a href="/papers/{paper}.html#{anchor}">Part {roman} · explanation</a> · '
-        f'<a href="/papers/{paper}.html#{assessment}">Evidence and assessment</a> · '
-        f'<a href="/papers/{paper}.html#boundary">Limits</a> · '
-        f'<a href="/papers/{paper}.html#citation">Citation</a></p>'
-        for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS
-    )
+    rows: list[str] = []
+    for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS:
+        links = "".join(
+            f'<a class="button" href="/papers/{paper}.html#{section}" aria-label="{label}: {escape(title)}">{label}</a>'
+            for label, section in (("Explanation", anchor), ("Assessment", assessment), ("Limits", "boundary"), ("Citation", "citation"))
+        )
+        rows.append(
+            f'<article class="record-row concept-record" id="concept-{slug}"><div><p class="label">Part {roman}</p>'
+            f'<h3>{escape(title)}</h3></div><div><p><strong>{escape(status)}</strong> {escape(summary)}</p>'
+            f'<div class="paper-actions">{links}</div></div></article>'
+        )
+    return "".join(rows)
 
 
 def research_map_nodes() -> str:
@@ -345,12 +349,15 @@ def papers_index_page() -> str:
             </div>
           </section>
           <section class="section compact" id="concepts">
-            <div class="shell boundary">
-              <h2>Concepts and evidence.</h2>
-              <div>
-                <p>A navigational index of the published archive explanations, not new definitions or independent validation. Each term leads to its source discussion, assessment, stated limits and versioned citation.</p>
-                {concept_register()}
+            <div class="shell">
+              <div class="section-head">
+                <p class="label">Research architecture / 01—07</p>
+                <div>
+                  <h2>Concepts and evidence.</h2>
+                  <p class="section-intro">A navigational index of the published archive explanations, not new definitions or independent validation. Each term leads to its source discussion, assessment, stated limits and versioned citation.</p>
+                </div>
               </div>
+              <div class="record-list">{concept_register()}</div>
             </div>
           </section>
           <section class="section compact" id="critical-review">
