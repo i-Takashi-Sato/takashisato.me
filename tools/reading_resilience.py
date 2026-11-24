@@ -73,8 +73,14 @@ def run(engine: str) -> int:
                     page.evaluate("document.documentElement.style.setProperty('font-size','200%','important')")
                 if mode == "print":
                     page.emulate_media(media="print")
-                # A stuck font promise must fail explicitly, not consume the job timeout.
-                page.evaluate("""() => Promise.race([document.fonts.ready, new Promise((_, reject) => setTimeout(() => reject(new Error('Font readiness timed out')), 15000))])""")
+                # Firefox with page scripting disabled can stall asynchronous
+                # evaluation. The no-script case verifies geometry after load
+                # without requiring a page-world Promise to resolve.
+                if mode != "script-unavailable":
+                    page.evaluate("""() => Promise.race([document.fonts.ready, new Promise((_, reject) => setTimeout(() => reject(new Error('Font readiness timed out')), 15000))])""")
+                else:
+                    page.wait_for_load_state("load", timeout=15000)
+                    page.locator("main h1").wait_for(state="visible", timeout=15000)
                 if not page.locator("main h1").is_visible():
                     problems.append("main heading is not visible")
                 metrics = page.evaluate(MEASURE)

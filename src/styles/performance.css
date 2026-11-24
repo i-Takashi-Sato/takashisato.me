@@ -11,11 +11,8 @@
   transition: none;
 }
 
-/* Fine-pointer ornaments and masked identity paint must never widen a phone viewport. */
+/* Masked identity paint must never widen a phone viewport. */
 @media (max-width:44rem) {
-  .cursor-orbit,
-  .cursor-dot { display:none !important; }
-
   body[data-page="about"] .author-name,
   body[data-page="about"] .author-links {
     min-width:0;
