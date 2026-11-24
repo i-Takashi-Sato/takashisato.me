@@ -1,0 +1,64 @@
+"""Local HTTP integration tests for the deployed-byte audit; no external network."""
+import tempfile
+import threading
+import unittest
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+from verify_live import ROOT, ROUTES, verify, verify_one
+
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/redirect":
+            self.send_response(302)
+            self.send_header("Location", "/good")
+            self.end_headers()
+            return
+        if self.path == "/missing":
+            self.send_error(404)
+            return
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain" if self.path == "/wrongtype" else "text/html")
+        self.end_headers()
+        self.wfile.write(b"outdated" if self.path == "/stale" else b"<h1>Release</h1>")
+
+    def log_message(self, *args):
+        pass
+
+
+class LiveAuditTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
+        cls.thread.start()
+        cls.base = f"http://127.0.0.1:{cls.server.server_port}"
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.server.shutdown()
+        cls.server.server_close()
+        cls.thread.join()
+
+    def test_inventory_exists(self):
+        for route, path in ROUTES.items():
+            with self.subTest(route=route):
+                self.assertTrue((ROOT / path).is_file())
+
+    def test_actual_http(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            page = root / "index.html"
+            page.write_bytes(b"<h1>Release</h1>")
+            self.assertIsNone(verify_one(self.base, "/good", page))
+            self.assertIn("SHA-256 mismatch", verify_one(self.base, "/stale", page))
+            self.assertIn("media type", verify_one(self.base, "/wrongtype", page))
+            self.assertIn("302", verify_one(self.base, "/redirect", page))
+            self.assertIn("404", verify_one(self.base, "/missing", page))
+            self.assertEqual(verify(self.base, root, {"/good": "index.html"}, 1, 0), 0)
+            self.assertEqual(verify(self.base, root, {"/stale": "index.html"}, 2, 0), 1)
+
+
+if __name__ == "__main__":
+    unittest.main()

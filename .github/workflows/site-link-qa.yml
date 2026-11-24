@@ -47,6 +47,9 @@ jobs:
       - name: Verify archive, metadata, PDFs, and assets
         run: python tools/verify_v62.py
 
+      - name: Test deployed-byte verification locally
+        run: python tools/test_verify_live.py
+
       - name: Check Python and JavaScript syntax
         run: |
           python -m compileall -q tools
