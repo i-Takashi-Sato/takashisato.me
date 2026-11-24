@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -12,15 +13,20 @@ from urllib.parse import urljoin
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE = "https://takashisato.me"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.archive.model import PAPERS, SITE, VERSION
+
+SLUGS = tuple(paper["slug"] for paper in PAPERS)
 # Canonical public routes only; no mutable PDF aliases or third-party requests.
 ROUTES = {
     "/": "index.html",
     "/papers/": "papers/index.html",
-    **{f"/papers/part{i}.html": f"papers/part{i}.html" for i in range(1, 4)},
+    **{f"/papers/{slug}.html": f"papers/{slug}.html" for slug in SLUGS},
     **{f"/{name}.html": f"{name}.html" for name in ("about", "colophon", "privacy", "security")},
-    **{f"/pdf/v6.2/part{i}.pdf": f"pdf/v6.2/part{i}.pdf" for i in range(1, 4)},
-    **{f"/citations/v6.2/part{i}.{ext}": f"citations/v6.2/part{i}.{ext}" for i in range(1, 4) for ext in ("bib", "ris")},
+    **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
+    **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris")},
     **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about")},
     **{f"/{name}": name for name in (
         "assets/site.css", "assets/site.js", "assets/brand-mark.svg",
