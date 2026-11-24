@@ -481,17 +481,18 @@ def paper_page(paper: Paper) -> str:
             </div>
             <div class="paper-actions" data-reveal>
               <a class="button primary" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
-              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf">Preserved PDF · v6.2</a>
+              <a class="button" href="#abstract" aria-label="Read abstract">Abstract <span aria-hidden="true">↓</span></a>
+              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Preserved PDF · v6.2">PDF · v6.2</a>
               <a class="button" href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
             </div>
           </header>
 
           <div class="section">
             <div class="shell paper-layout">
-              <aside class="toc" aria-label="On this page">
+              <nav class="toc" aria-label="On this page">
                 <p class="label">On this page</p>
                 <ol>{toc_items}</ol>
-              </aside>
+              </nav>
               <article class="content" data-reveal>
                 <h2 class="sr-only">Part {paper['roman']} analysis</h2>
                 <section id="abstract"><p class="eyebrow">Author abstract · v{VERSION}</p><h2>Abstract</h2>{abstract_html}<p class="caveat">Transcribed from <a href="/pdf/v{VERSION}/{paper['slug']}.pdf#page=2">the preserved paper, page 2</a>. The original includes the generative-AI disclosure.</p></section>

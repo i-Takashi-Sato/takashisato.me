@@ -72,3 +72,7 @@ Reading-resilience follow-up: preserve the 200% root-font stress probe and origi
 ### Cross-engine reading resilience
 
 The Chromium seven-mode reading-resilience suite remains unchanged in coverage and thresholds (42 page/mode combinations). Firefox and WebKit additionally run the same five comparable screen-reading modes — landscape, 320 px reflow, 200% root text stress, font request failure, and JavaScript disabled — across all six core pages (60 additional combinations). Both engines produce their own JSON report and enlarged-text screenshots. Print and forced-colors probes remain in the Chromium suite. These are synthetic browser stress tests, not native zoom, assistive-technology, or physical-device certification.
+
+### Editorial reading entry
+
+Each paper cover retains the primary SSRN research record and adds a native in-page abstract link before the preserved PDF and DOI. The named table of contents is a navigation landmark. Wide paper layouts reduce the empty space between cover and reading field; mobile spacing remains unchanged. No claims, original documents, or citations are altered. The reading entry is tested at three widths with and without JavaScript.
