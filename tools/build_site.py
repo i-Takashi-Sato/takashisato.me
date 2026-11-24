@@ -143,6 +143,8 @@ def main() -> None:
             - Part I: Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here.
             - Part II: Descriptive model and rejectable propositions; empirical validation is not established.
             - Part III: Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation.
+            - Historical checker subset (not the full reproducibility package): {SITE}/reproduction/v5.9/part3-historical-checker.zip
+            - Subsequent author-side re-execution record: {SITE}/reproduction/v5.9/part3-reexecution-2026-11-24.json
 
             ## Interpretation boundary
 
