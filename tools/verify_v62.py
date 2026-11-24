@@ -765,6 +765,56 @@ def audit_indexes(errors: list[str]) -> None:
             fail(errors, f"{rel}: superseded route is not noindexed")
 
 
+def audit_atom(errors: list[str]) -> None:
+    from xml.etree import ElementTree as ET
+    from src.archive.model import PAPER_REVISION_DATE, paper_url, ssrn_url
+
+    ns = {"a": "http://www.w3.org/2005/Atom"}
+    try:
+        feed = ET.parse(ROOT / "feed.xml").getroot()
+    except (OSError, ET.ParseError) as exc:
+        fail(errors, f"feed.xml: {exc}")
+        return
+    if feed.tag != "{http://www.w3.org/2005/Atom}feed":
+        fail(errors, "feed.xml: incorrect Atom namespace")
+    expected_updated = f"{PAPER_REVISION_DATE}T00:00:00Z"
+    if feed.findtext("a:id", namespaces=ns) != f"{SITE}/feed.xml":
+        fail(errors, "feed.xml: stable feed identifier missing")
+    if feed.findtext("a:updated", namespaces=ns) != expected_updated:
+        fail(errors, "feed.xml: scholarly revision date mismatch")
+    if feed.findtext("a:author/a:name", namespaces=ns) != "Takashi Sato":
+        fail(errors, "feed.xml: author mismatch")
+    self_links = [link.get("href") for link in feed.findall("a:link", ns) if link.get("rel") == "self"]
+    if self_links != [f"{SITE}/feed.xml"]:
+        fail(errors, "feed.xml: incorrect self link")
+    entries = feed.findall("a:entry", ns)
+    expected = sorted(PAPERS.values(), key=lambda paper: paper["posted"], reverse=True)
+    if len(entries) != len(expected):
+        fail(errors, "feed.xml: entry count mismatch")
+    for entry, paper in zip(entries, expected):
+        required = {
+            "id": f"https://doi.org/{paper['doi']}",
+            "title": f"{paper['title']}: {paper['subtitle']}",
+            "published": f"{paper['posted']}T00:00:00Z",
+            "updated": expected_updated,
+            "summary": f"Working paper · Version {VERSION}. {paper['description']}",
+        }
+        for key, value in required.items():
+            if entry.findtext(f"a:{key}", namespaces=ns) != value:
+                fail(errors, f"feed.xml: {paper['slug']} {key} mismatch")
+        links = {link.get("rel"): link.get("href") for link in entry.findall("a:link", ns)}
+        if links != {"alternate": paper_url(paper), "related": ssrn_url(paper)}:
+            fail(errors, f"feed.xml: {paper['slug']} links mismatch")
+    for rel in ALL_HTML:
+        parser = AuditParser()
+        parser.feed((ROOT / rel).read_text(encoding="utf-8"))
+        discovery = [attrs.get("href") for tag, attrs in parser.tags
+                     if tag == "link" and attrs.get("rel") == "alternate"
+                     and attrs.get("type") == "application/atom+xml"]
+        if discovery != [f"{SITE}/feed.xml"]:
+            fail(errors, f"{rel}: Atom discovery link mismatch")
+
+
 def main() -> int:
     errors: list[str] = []
     audit_html(errors)
@@ -773,6 +823,7 @@ def main() -> int:
     audit_pdfs(errors)
     audit_scholarly_apparatus(errors)
     audit_indexes(errors)
+    audit_atom(errors)
     if errors:
         print("v6.2 archive verification failed:", file=sys.stderr)
         for error in errors:

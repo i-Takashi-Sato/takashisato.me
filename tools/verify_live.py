@@ -34,7 +34,7 @@ ROUTES = {
         "assets/fonts/InterVariable.woff2", "assets/fonts/Newsreader-Variable.woff2",
         "favicon.svg", "favicon.ico", "favicon-96x96.png", "apple-touch-icon.png",
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
-        "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt",
+        "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
     )},
 }
 TYPES = {
@@ -49,11 +49,12 @@ TYPES = {
     ".woff2": {"font/woff2", "application/font-woff2", "application/octet-stream"},
     ".ico": {"image/x-icon", "image/vnd.microsoft.icon", "application/octet-stream"},
     ".json": {"application/json"},
-    ".xml": {"application/xml", "text/xml"},
+    ".xml": {"application/xml", "text/xml", "application/atom+xml"},
     ".webmanifest": {"application/manifest+json", "application/json", "application/octet-stream"},
     ".txt": {"text/plain"},
 }
 MAX_BYTES = 8 * 1024 * 1024
+ROBOTS_PREFIX = ROOT / "tools/fixtures/cloudflare-managed-robots.txt"
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -92,6 +93,11 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
             actual = response.read(MAX_BYTES + 1)
     except (HTTPError, URLError, TimeoutError, OSError) as exc:
         return f"{route}: {type(exc).__name__}: {exc}"
+    if route == "/robots.txt" and actual != expected:
+        prefix = ROBOTS_PREFIX.read_bytes()
+        if actual == prefix + expected:
+            print("/robots.txt: exact approved Cloudflare prefix and origin suffix match", flush=True)
+            return None
     if actual != expected:
         return (f"{route}: SHA-256 mismatch; expected {digest(expected)}, "
                 f"received {digest(actual)} ({len(actual)} bytes)")
@@ -108,7 +114,7 @@ def verify(base: str, root: Path, routes: dict[str, str], attempts: int, interva
                 print(problem, flush=True)
             else:
                 pending.pop(route)
-        print(f"Attempt {attempt}/{attempts}: {len(routes) - len(pending)}/{len(routes)} exact matches", flush=True)
+        print(f"Attempt {attempt}/{attempts}: {len(routes) - len(pending)}/{len(routes)} verified responses", flush=True)
         if not pending:
             return 0
         if attempt < attempts:

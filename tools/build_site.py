@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.archive.feeds import research_index, sitemap
+from src.archive.feeds import atom_feed, research_index, sitemap
 from src.archive.citations import citation_export
 from src.archive.model import PAPERS, SITE, VERSION
 from src.archive.pages import (
@@ -107,6 +107,7 @@ def main() -> None:
 
     write("research-index.json", json.dumps(research_index(), ensure_ascii=False, indent=2) + "\n")
     write("sitemap.xml", sitemap())
+    write("feed.xml", atom_feed())
     write(
         "robots.txt",
         f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n# Archive orientation: {SITE}/llms.txt\n",

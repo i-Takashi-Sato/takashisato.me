@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from .model import AUTHOR, PAPERS, SITE, UPDATED, VERSION, article_schema
+from .model import AUTHOR, PAPERS, PAPER_REVISION_DATE, SITE, UPDATED, VERSION, article_schema, paper_url, ssrn_url
 
 
 RESEARCH_PROVENANCE = {
@@ -63,6 +63,46 @@ def research_index() -> dict[str, object]:
             },
         ],
     }
+
+
+def atom_feed() -> str:
+    """Syndicate scholarly revisions, never routine cosmetic changes."""
+    from xml.sax.saxutils import escape
+
+    def timestamp(day: str) -> str:
+        # Source metadata has day precision, not an asserted publication time.
+        return f"{day}T00:00:00Z"
+
+    rows = [
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">',
+        f'  <id>{SITE}/feed.xml</id>',
+        '  <title>The Proper Ending Index — Research updates</title>',
+        '  <subtitle>AI governance working papers by Takashi Sato</subtitle>',
+        f'  <updated>{timestamp(PAPER_REVISION_DATE)}</updated>',
+        f'  <link rel="self" type="application/atom+xml" href="{SITE}/feed.xml"/>',
+        f'  <link rel="alternate" type="text/html" href="{SITE}/papers/"/>',
+        '  <author>',
+        '    <name>Takashi Sato</name>',
+        f'    <uri>{SITE}/about.html</uri>',
+        '  </author>',
+    ]
+    for paper in sorted(PAPERS, key=lambda item: item["posted"], reverse=True):
+        title = escape(f"{paper['title']}: {paper['subtitle']}")
+        description = escape(f"Working paper · Version {VERSION}. {paper['description']}")
+        rows.extend([
+            '  <entry>',
+            f'    <id>https://doi.org/{paper["doi"]}</id>',
+            f'    <title>{title}</title>',
+            f'    <published>{timestamp(paper["posted"])}</published>',
+            f'    <updated>{timestamp(PAPER_REVISION_DATE)}</updated>',
+            f'    <link rel="alternate" type="text/html" href="{paper_url(paper)}"/>',
+            f'    <link rel="related" href="{ssrn_url(paper)}"/>',
+            f'    <summary type="text">{description}</summary>',
+            '  </entry>',
+        ])
+    rows.append('</feed>')
+    return "\n".join(rows) + "\n"
 
 
 def sitemap() -> str:
