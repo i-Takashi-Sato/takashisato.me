@@ -26,8 +26,8 @@ if str(ROOT) not in sys.path:
 
 from src.archive.abstracts import ABSTRACTS
 from src.archive.citations import citation_export
+from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path, runtime_url
 from src.archive.model import (
-    ASSET_VERSION,
     AUTHOR_ID,
     GOOGLE_SITE_VERIFICATION,
     PAPERS_BY_SLUG as PAPERS,
@@ -196,17 +196,20 @@ def audit_html(errors: list[str]) -> None:
             if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
                 fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
 
-        expected_style = f"/assets/site.css?v={ASSET_VERSION}"
-        expected_script = f"/assets/site.js?v={ASSET_VERSION}"
+        expected_style = runtime_url("site.css")
+        expected_script = runtime_url("site.js")
         styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
         if styles != [expected_style]:
             fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
         scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
-        production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.js")]
+        production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.")]
         if [attrs.get("src") for attrs in production_scripts] != [expected_script]:
             fail(errors, f"{rel}: production script contract mismatch: {production_scripts}")
         if len(scripts) != 1:
             fail(errors, f"{rel}: expected one production script, found {scripts}")
+        preloads = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "preload" and attrs.get("as") == "style"]
+        if preloads != [expected_style]:
+            fail(errors, f"{rel}: stylesheet preload contract mismatch: {preloads}")
         head_text = text.partition("</head>")[0]
         if expected_style not in head_text or expected_script not in head_text:
             fail(errors, f"{rel}: production assets are not loaded from head")
@@ -437,6 +440,22 @@ def audit_assets(errors: list[str]) -> None:
         for path in (ROOT / "assets").rglob("*")
         if path.is_file()
     }
+    # Current bundles must be committed and identical to their deterministic aliases.
+    for name in RUNTIME_NAMES:
+        current = runtime_path(name).removeprefix("assets/")
+        expected_assets.add(current)
+        target = ROOT / "assets" / current
+        if not target.is_file() or target.read_bytes() != (ROOT / "assets" / name).read_bytes():
+            fail(errors, f"current fingerprinted bundle missing or differs: {current}")
+    # Historical content-addressed bundles remain valid for cached documents.
+    # Do not allow arbitrary extras or mismatched hashes into the inventory.
+    for name in actual_assets - expected_assets:
+        match = re.fullmatch(r"site\.([0-9a-f]{64})\.(css|js)", name)
+        if match:
+            data = (ROOT / "assets" / name).read_bytes()
+            limit = 100_000 if match[2] == "css" else 20_000
+            if hashlib.sha256(data).hexdigest() == match[1] and len(data) <= limit:
+                expected_assets.add(name)
     if actual_assets != expected_assets:
         fail(
             errors,

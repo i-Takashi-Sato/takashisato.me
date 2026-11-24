@@ -5,8 +5,13 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
 
 STYLE_SOURCES = (
     ROOT / "src/styles/base.css",
@@ -93,6 +98,15 @@ def build_assets() -> None:
         compact_js(join_sources(SCRIPT_SOURCES)),
         encoding="utf-8",
     )
+    # Preserve previously published fingerprinted paths for cached HTML.
+    # Never silently overwrite an immutable path with different bytes.
+    for name in RUNTIME_NAMES:
+        data = (ROOT / "assets" / name).read_bytes()
+        target = ROOT / runtime_path(name)
+        if target.exists() and target.read_bytes() != data:
+            raise ValueError(f"Immutable runtime asset mismatch: {target}")
+        if not target.exists():
+            target.write_bytes(data)
 
 
 if __name__ == "__main__":
