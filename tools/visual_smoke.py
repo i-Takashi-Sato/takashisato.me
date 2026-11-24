@@ -419,6 +419,17 @@ def material_interaction_errors(browser, errors: list[str]) -> None:
     sibling = page.locator("a.sequence-row").nth(1)
     if float(sibling.evaluate("el => getComputedStyle(el).opacity")) < .99:
         errors.append("material interaction: hover dims another paper")
+    plate = page.locator(".identity-art")
+    if "research-metal.webp" not in plate.evaluate("el => getComputedStyle(el).backgroundImage"):
+        errors.append("material interaction: research metal missing on home plate")
+    response = page.request.get(BASE + "/assets/research-metal.webp")
+    if not response.ok or not response.body().startswith(b"RIFF"):
+        errors.append("material interaction: research metal unavailable")
+    for name, selector in (("papers", ".map-glyph"), ("part1", ".paper-apparatus"), ("part2", ".paper-apparatus"), ("part3", ".paper-apparatus")):
+        page.goto(BASE + PAGES[name], wait_until="networkidle")
+        for element in page.locator(selector).all():
+            if "research-metal.webp" not in element.evaluate("el => getComputedStyle(el).backgroundImage"):
+                errors.append(f"material interaction: {name} plate missing research metal")
     page.goto(BASE + PAGES["about"], wait_until="networkidle")
     paper = page.locator(".portrait-chamber")
     if "author-paper.webp" not in paper.evaluate("el => getComputedStyle(el).backgroundImage"):
