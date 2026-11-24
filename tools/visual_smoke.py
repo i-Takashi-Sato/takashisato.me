@@ -505,6 +505,30 @@ def run_context(
         context.close()
 
 
+def reading_entry_errors(browser, errors: list[str]) -> None:
+    for width in (320, 390, 1440):
+        for js in (False, True):
+            context = browser.new_context(viewport={"width": width, "height": 844}, java_script_enabled=js, reduced_motion="reduce")
+            page = context.new_page()
+            for name in ("part1", "part2", "part3"):
+                page.goto(BASE + PAGES[name], wait_until="domcontentloaded")
+                entry = page.locator('.paper-hero .paper-actions a[href="#abstract"]')
+                if entry.count() != 1:
+                    errors.append(f"{name}@{width}: missing unique reading entry")
+                    continue
+                box = entry.bounding_box()
+                if not box or box["height"] < 44 or box["width"] < 44:
+                    errors.append(f"{name}@{width}: reading entry target below 44px")
+                entry.click(timeout=5000)
+                if page.evaluate("location.hash") != "#abstract":
+                    errors.append(f"{name}@{width}: reading entry failed")
+                if not page.locator("#abstract").is_visible():
+                    errors.append(f"{name}@{width}: abstract not visible")
+                if page.locator('nav.toc[aria-label="On this page"]').count() != 1:
+                    errors.append(f"{name}@{width}: missing named reading navigation")
+            context.close()
+
+
 def citation_copy_errors(browser, errors: list[str]) -> None:
     context = browser.new_context(viewport={"width": 390, "height": 844})
     # Deterministic clipboard stub exercises the click handler without OS permission.
@@ -589,6 +613,7 @@ def main() -> None:
         reduced_motion_errors(browser, errors)
         material_interaction_errors(browser, errors)
         citation_copy_errors(browser, errors)
+        reading_entry_errors(browser, errors)
         concept_register_errors(browser, errors)
         browser.close()
 
