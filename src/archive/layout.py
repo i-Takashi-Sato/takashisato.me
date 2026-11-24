@@ -44,6 +44,13 @@ def head(
     safe_title = escape(title, quote=True)
     safe_description = escape(description, quote=True)
     safe_canonical = escape(canonical, quote=True)
+    image_kind = image.rsplit("/",1)[-1]
+    image_alt = {
+        "home.jpg": "A role alone is not governance. Takashi Sato, AI governance, and three conceptual research instruments on black metal.",
+        "papers.jpg": "Three papers. One institutional problem. Three distinct conceptual research instruments on black metal.",
+        "about.jpg": "Takashi Sato, AI governance, Sapporo, Japan. Open-boundary mark on black paper.",
+    }.get(image_kind, f"{paper['title']}: {paper['subtitle']}. Conceptual research instrument, not empirical data." if paper else title)
+    safe_image_alt = escape(image_alt, quote=True)
 
     schema_html = ""
     if schema:
@@ -104,7 +111,8 @@ def head(
           <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
           <link rel="me" href="{SCHOLAR_URL}">
           <link rel="manifest" href="/site.webmanifest">
-          <link rel="icon" href="/assets/brand-mark.svg" type="image/svg+xml">
+          <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>{author_material_preload}
@@ -118,12 +126,12 @@ def head(
           <meta property="og:image:type" content="image/jpeg">
           <meta property="og:image:width" content="1200">
           <meta property="og:image:height" content="630">
-          <meta property="og:image:alt" content="{safe_title}">
+          <meta property="og:image:alt" content="{safe_image_alt}">
           <meta name="twitter:card" content="summary_large_image">
           <meta name="twitter:title" content="{safe_title}">
           <meta name="twitter:description" content="{safe_description}">
           <meta name="twitter:image" content="{SITE}{image}">
-          <meta name="twitter:image:alt" content="{safe_title}">
+          <meta name="twitter:image:alt" content="{safe_image_alt}">
           {paper_meta}
           {schema_html}
           <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">

@@ -8,8 +8,10 @@ Run after build_site.py to keep SVG, raster icons, and social cards aligned.
 from __future__ import annotations
 
 import sys
+import base64
+import io
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -31,11 +33,11 @@ MONO = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 
 CARDS = {
     "home": {
-        "label": "INDEPENDENT RESEARCH / TAKASHI SATO",
+        "label": "AI GOVERNANCE / TAKASHI SATO",
         "title": "A role alone is not governance.",
         "subtitle": "Accountability lives in the sequence.",
         "index": "00",
-        "record": "DECISION ROUTING · CAPACITY · ACCOUNTABLE EXIT",
+        "record": "THREE WORKING PAPERS · AI GOVERNANCE",
     },
     "papers": {
         "label": "THE PROPER ENDING INDEX / RESEARCH SERIES",
@@ -104,15 +106,35 @@ def wrap(draw: ImageDraw.ImageDraw, txt: str, font: ImageFont.FreeTypeFont, widt
     return lines
 
 
-def mark(draw: ImageDraw.ImageDraw, x: int, y: int, size: int, inverse: bool = False) -> None:
-    """Open boundary / continuing line, matching the site's primary mark."""
+# Canonical paths; the open boundary and continuing line survive every medium.
+BOUNDARY = "M11 59V12H55V30M55 52V59H11"
+CONTINUITY = "M29 41H64"
+GRAPHITE = (72, 72, 72)
+
+
+def mark(draw: ImageDraw.ImageDraw, x: int, y: int, size: int, inverse: bool = False, optical: bool = False) -> None:
+    """Square-capped strokes on one coordinate grid; strengthen the tiny raster variant."""
     k = size / 72
-    pt = lambda a, b: (round(x + a*k), round(y + b*k))
     ink = WHITE if inverse else INK
-    width = max(1, round(5*k))
-    draw.line([pt(11,59), pt(11,12), pt(55,12), pt(55,30)], fill=ink, width=width)
-    draw.line([pt(55,52), pt(55,59), pt(11,59)], fill=ink, width=width)
-    draw.line([pt(29,41), pt(67,41)], fill=PLATINUM, width=width)
+    trace = PLATINUM if inverse else GRAPHITE
+    half = 4 if optical else 3.25
+    def rect(a,b,c,d,fill):
+        draw.rectangle((round(x+a*k),round(y+b*k),round(x+c*k),round(y+d*k)),fill=fill)
+    for x0,y0,x1,y1 in ((11,12,11,59),(11,12,55,12),(55,12,55,30),(55,52,55,59),(11,59,55,59)):
+        rect(x0-half,y0-half,x1+half,y1+half,ink)
+    rect(29-half,41-half,64+half,41+half,trace)
+
+
+def svg_mark(*, tile: bool, dark: bool = False, adaptive: bool = False) -> str:
+    background = "#141414" if dark else "#F8F8F7"
+    ink = "#F8F8F7" if dark else "#141414"
+    trace = "#A6A8AB" if dark else "#484848"
+    style = "<style>@media(prefers-color-scheme:dark){.paper{fill:#141414}.boundary{stroke:#F8F8F7}.continuity{stroke:#A6A8AB}}</style>" if adaptive else ""
+    rect = f'<rect class="paper" width="72" height="72" fill="{background}"/>' if tile else ""
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-labelledby="t">'
+            '<title id="t">The Proper Ending Index — open boundary</title>' + style + rect
+            + f'<path class="boundary" d="{BOUNDARY}" fill="none" stroke="{ink}" stroke-width="6.5" stroke-linecap="square" stroke-linejoin="miter"/>'
+            + f'<path class="continuity" d="{CONTINUITY}" fill="none" stroke="{trace}" stroke-width="6.5" stroke-linecap="square"/></svg>\n')
 
 
 def material(name: str, size: tuple[int, int], strength: float = .55) -> Image.Image:
@@ -128,29 +150,29 @@ def instrument(draw: ImageDraw.ImageDraw, part: int, box: tuple[int, int, int, i
     x0, y0, x1, y1 = box
     w, h = x1-x0, y1-y0
     xy = lambda x,y: (round(x0+w*x), round(y0+h*y))
-    def line(points, fill=PLATINUM, width=2):
+    def line(points, fill=PLATINUM, width=4):
         draw.line([xy(x,y) for x,y in points], fill=fill, width=width)
     def diamond(x,y,r):
-        draw.line([xy(x,y-r),xy(x+r*h/w,y),xy(x,y+r),xy(x-r*h/w,y),xy(x,y-r)],fill=WHITE,width=2)
+        draw.line([xy(x,y-r),xy(x+r*h/w,y),xy(x,y+r),xy(x-r*h/w,y),xy(x,y-r)],fill=WHITE,width=4)
     if part == 1:
         line([(.26,.83),(.26,.18),(.74,.18),(.74,.83)])
-        line([(.50,.11),(.50,.91)], DARK_RULE, 2)
-        line([(.10,.62),(.90,.62)], WHITE, 2)
+        line([(.50,.11),(.50,.91)], DARK_RULE, 3)
+        line([(.10,.62),(.90,.62)], WHITE, 4)
         diamond(.50,.18,.045)
     elif part == 2:
         line([(.08,.20),(.92,.20)])
         line([(.08,.80),(.92,.80)], DARK_RULE)
         for a,b in ((.08,.18),(.23,.31),(.36,.45),(.66,.71),(.76,.81),(.86,.92)):
             line([(a,.49),(b,.49)])
-        line([(.44,.49),(.59,.38)], WHITE, 2)
+        line([(.44,.49),(.59,.38)], WHITE, 4)
         line([(.53,.52),(.65,.65)])
         line([(.49,.43),(.51,.68)], DARK_RULE)
     else:
         cx,cy=xy(.50,.50)
         radius=min(w,h)*.43
-        for fraction,color in ((1,DARK_RULE),(.72,PLATINUM),(.45,WHITE)):
+        for fraction,color in ((1,(127,127,127)),(.72,PLATINUM),(.45,WHITE)):
             r=radius*fraction
-            draw.ellipse((round(cx-r),round(cy-r),round(cx+r),round(cy+r)),outline=color,width=2)
+            draw.ellipse((round(cx-r),round(cy-r),round(cx+r),round(cy+r)),outline=color,width=4)
         line([(.08,.50),(.40,.50)],WHITE)
         line([(.60,.50),(.92,.50)],WHITE)
         diamond(.50,.50,.052)
@@ -161,16 +183,16 @@ def geometry(draw: ImageDraw.ImageDraw, selected: str) -> None:
     labels = ("I / CASE", "II / INSTITUTION", "III / EXIT")
     selected_part = {"I": 1, "II": 2, "III": 3}.get(selected)
     if selected_part:
-        draw.text((824,96),labels[selected_part-1],font=face(24,640),fill=WHITE)
+        draw.text((824,96),labels[selected_part-1],font=face(26,640),fill=WHITE)
         draw.line((824,143,1152,143),fill=DARK_RULE,width=1)
         instrument(draw, selected_part,(824,175,1152,480))
         draw.text((824,525),"CONCEPTUAL INSTRUMENT",font=face(18,600),fill=WHITE)
     else:
         for i,y in enumerate((88,240,392),1):
-            draw.text((824,y),labels[i-1],font=face(18,640),fill=WHITE)
+            draw.text((824,y),labels[i-1],font=face(22,640),fill=WHITE)
             instrument(draw,i,(824,y+30,1152,y+130))
             draw.line((824,y+139,1152,y+139),fill=DARK_RULE,width=1)
-    draw.text((824,568),"INTERPRETIVE · NOT EMPIRICAL",font=face(15,530),fill=PLATINUM)
+    draw.text((824,568),"INTERPRETIVE · NOT EMPIRICAL",font=face(17,530),fill=PLATINUM)
 
 
 def render_card(name: str, card: dict[str, str]) -> Image.Image:
@@ -180,18 +202,27 @@ def render_card(name: str, card: dict[str, str]) -> Image.Image:
         image.paste(material("research-metal.webp",(W-784,H),.72),(784,0))
     draw = ImageDraw.Draw(image)
     ink, soft, rule = (WHITE,PLATINUM,DARK_RULE) if author else (INK,SOFT,RULE)
-    mark(draw,65,28,43,author)
-    draw.text((120,41),card["label"],font=face(17,650),fill=soft)
+    mark(draw,65,26,48,author)
+    draw.text((124,40),card["label"],font=face(21,650),fill=soft)
     draw.line((68,90,1132 if author else 744,90),fill=rule,width=1)
     draw.line((68,540,1132 if author else 744,540),fill=rule,width=1)
 
     max_width = 1040 if author else 676
     size = 100 if author else 76 if name in ("home","papers") else 65
     title = "Takashi Sato" if author else card["title"]
+    # Editorial line breaks preserve phrases rather than leaving a single orphan word.
+    preferred = {
+        "papers": ("Three papers.", "One institutional problem."),
+        "part1": ("Workflow-Centric", "AI Governance"),
+        "part3": ("From Governance Drift", "to Accountable Exit"),
+    }.get(name)
+    if preferred and " ".join(preferred) != title:
+        preferred = None  # Future title revisions still use the generic measured wrapper.
     while size >= 40:
         title_font = face(size,580)
-        title_lines = wrap(draw,title,title_font,max_width)
-        if len(title_lines) <= 3 and len(title_lines)*round(size*1.10) <= 262:
+        title_lines = list(preferred) if preferred else wrap(draw,title,title_font,max_width)
+        if (len(title_lines) <= 3 and len(title_lines)*round(size*1.10) <= 262
+                and all(draw.textbbox((0,0),line,font=title_font)[2] <= max_width for line in title_lines)):
             break
         size -= 2
     else:
@@ -217,8 +248,12 @@ def render_card(name: str, card: dict[str, str]) -> Image.Image:
         draw.text((70,y),line,font=subtitle_font,fill=soft)
         y += round(subtitle_size*1.42)
 
-    draw.text((68,560),"THE PROPER ENDING INDEX",font=face(17,680),fill=ink)
-    draw.text((68,587),card["record"],font=face(14,480),fill=soft)
+    draw.text((68,551),"THE PROPER ENDING INDEX",font=face(22,680),fill=ink)
+    domain = "takashisato.me"
+    right = 1132 if author else 744
+    domain_font = face(19,570)
+    draw.text((right-draw.textlength(domain,font=domain_font),554),domain,font=domain_font,fill=soft)
+    draw.text((68,585),card["record"],font=face(17,480),fill=soft)
     if author:
         # Signature remains exclusive to the author page, not redistributed in cards.
         mark(draw,940,278,170,True)
@@ -227,20 +262,44 @@ def render_card(name: str, card: dict[str, str]) -> Image.Image:
     return image
 
 
-def icon(size: int, inverse: bool = False) -> Image.Image:
-    """Rasterize the exact 'open boundary / continuing line' identity from brand-mark.svg."""
-    scale = max(4, 320 // size)
-    width = size * scale
-    image = Image.new("RGB", (width, width), INK if inverse else PAPER)
-    draw = ImageDraw.Draw(image)
-    ink = PAPER if inverse else INK
-    factor = width / 72.0
-    xy = lambda x, y: (round(x*factor), round(y*factor))
-    points = [xy(11, 59), xy(11, 12), xy(55, 12), xy(55, 30)]
-    draw.line(points, fill=ink, width=max(2, round(5*factor)), joint="curve")
-    draw.line([xy(55, 52), xy(55, 59), xy(11, 59)], fill=ink, width=max(2, round(5*factor)))
-    draw.line([xy(29, 41), xy(67, 41)], fill=PLATINUM, width=max(2, round(5*factor)))
-    return image.resize((size, size), Image.Resampling.LANCZOS)
+def favicon_master() -> Image.Image:
+    """Recovered January 2026 personal T mark; retain its original brush geometry."""
+    with Image.open(ROOT / "assets/favicon-source-20260117.png") as original:
+        mask = original.convert("L").point(lambda v: max(0, min(255, round((v-8)*255/247))))
+    bounds = mask.point(lambda v: 255 if v > 18 else 0).getbbox()
+    if bounds is None:
+        raise ValueError("empty supplied favicon mark")
+    return mask.crop(bounds)
+
+
+def icon(size: int, inverse: bool = False, maskable: bool = False) -> Image.Image:
+    """Restore the supplied mark; optical weight adjustment only at tiny raster sizes."""
+    mask = favicon_master()
+    if size <= 32:
+        mask = mask.filter(ImageFilter.MaxFilter(15 if size <= 16 else 7))
+    width = max(512, size*4)
+    side = round(width * (.51 if maskable else .83 if size <= 32 else .70))
+    factor = side / max(mask.size)
+    mask = mask.resize(tuple(max(1,round(n*factor)) for n in mask.size),Image.Resampling.LANCZOS)
+    bg = INK if inverse else PAPER
+    ink = WHITE if inverse else INK
+    image = Image.new("RGB",(width,width),bg)
+    image.paste(ink,((width-mask.width)//2,(width-mask.height)//2),mask)
+    return image.resize((size,size),Image.Resampling.LANCZOS)
+
+
+def personal_favicon_svg(adaptive: bool = False, dark: bool = False) -> str:
+    """Self-contained raster-based SVG wrapper, not a new vector drawing."""
+    def encoded(inverse):
+        buffer = io.BytesIO()
+        icon(128,inverse).save(buffer,"PNG",optimize=True)
+        return "data:image/png;base64,"+base64.b64encode(buffer.getvalue()).decode("ascii")
+    style = '<style>.dark{display:none}@media(prefers-color-scheme:dark){.light{display:none}.dark{display:inline}}</style>' if adaptive else ""
+    def layer(inverse, cls):
+        return f'<image class="{cls}" width="128" height="128" href="{encoded(inverse)}"/>'
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">'
+            '<title id="t">Takashi Sato — personal T mark</title>'+style
+            +(layer(False,"light")+layer(True,"dark") if adaptive else layer(dark,"mark"))+'</svg>\n')
 
 
 def main() -> None:
@@ -248,18 +307,23 @@ def main() -> None:
     for name, card in CARDS.items():
         render_card(name, card).save(OUT / f"{name}.jpg", "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
 
+    (ROOT / "assets/brand-mark.svg").write_text(svg_mark(tile=False),encoding="utf-8")
+    (ROOT / "favicon.svg").write_text(personal_favicon_svg(adaptive=True),encoding="utf-8")
+    (ROOT / "favicon-dark.svg").write_text(personal_favicon_svg(dark=True),encoding="utf-8")
+    icon(512,maskable=True).save(ROOT / "maskable-512x512.png","PNG",optimize=True)
     icon_specs = {
         "android-chrome-192x192.png": (192, False),
         "android-chrome-512x512.png": (512, False),
         "apple-touch-icon.png": (180, False),
         "favicon-16x16.png": (16, False),
         "favicon-32x32.png": (32, False),
+        "favicon-96x96.png": (96, False),
         "favicon-16x16-dark.png": (16, True),
         "favicon-32x32-dark.png": (32, True),
     }
     for filename, (size, inverse) in icon_specs.items():
         icon(size, inverse).save(ROOT / filename, "PNG", optimize=True)
-    icon(64).save(ROOT / "favicon.ico", format="ICO", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
+    icon(64).save(ROOT / "favicon.ico",format="ICO",sizes=[(16,16),(32,32),(48,48),(64,64)],append_images=[icon(n) for n in (16,32,48)])
 
 
 if __name__ == "__main__":
