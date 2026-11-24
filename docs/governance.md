@@ -27,3 +27,5 @@ head being merged is the head that was actually tested.
 The archive is not improved by perpetual redesign. Once a release passes its research,
 visual, accessibility, performance, and search contracts, it should be allowed to remain
 still until new evidence or a new research mechanism justifies change.
+
+The author record limits public personal information to name, city, approved correspondence address and the supplied visual signature. Research identity and identifiers remain independently verifiable. Do not add detailed biography, employment history, or personal photographs without explicit authorization.

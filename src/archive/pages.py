@@ -481,65 +481,48 @@ def about_page() -> str:
     }
     body = dedent(
         f"""
-        <main id="main">
-          <header class="author-hero shell">
-            {breadcrumbs([("Index", "/"), ("Author", None)])}
-            <div class="author-hero-grid">
-              <div class="author-name" data-reveal>
-                <p class="eyebrow">Author record · 001</p>
-                <h1><span>Takashi Sato</span></h1>
+        <main id="main" class="portrait">
+          <header class="portrait-chamber">
+            <div class="shell portrait-inner">
+              {breadcrumbs([("Index", "/"), ("Author", None)])}
+              <div class="portrait-mast">
+                <p>Independent research</p>
+                <p>Sapporo, Japan</p>
               </div>
-              <div class="author-thesis" data-reveal>
-                <p>I study the conditions under which human oversight remains real—and the terms on which an AI-assisted institution should stop, transfer authority, and close.</p>
+              <div class="portrait-grid">
+                <div class="portrait-name">
+                  <h1>Takashi<br>Sato</h1>
+                  <p lang="ja">佐藤貴士</p>
+                </div>
+                <div class="portrait-signature" aria-hidden="true"></div>
+              </div>
+              <div class="portrait-position">
+                <p class="portrait-question">What remains when form and function diverge?</p>
+                <p>I study authority, responsibility, and independent judgment, with particular attention to the conditions under which institutions retain or lose the capacity to govern. My current work examines these questions in AI-assisted systems.</p>
               </div>
             </div>
           </header>
-          <div class="section author-section">
-            <div class="shell author-layout">
-              <aside class="author-rail" data-reveal>
-                <h2 class="label">At a glance</h2>
-                <dl class="author-facts">
-                  <div><dt>Role</dt><dd>Independent researcher</dd></div>
-                  <div><dt>Native name</dt><dd lang="ja">佐藤貴士</dd></div>
-                  <div><dt>Base</dt><dd>Sapporo, Japan</dd></div>
-                  <div><dt>Series</dt><dd>The Proper Ending Index</dd></div>
+          <section class="shell portrait-record" aria-labelledby="portrait-research">
+            <div class="portrait-record-grid">
+              <div>
+                <p class="eyebrow">Research</p>
+                <h2 id="portrait-research">The Proper Ending Index</h2>
+                <p>Three working papers on accountable decision routing, governing capacity, and responsible workflow exit. Their claims, methods, and limits are documented in the archive.</p>
+                <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
+                <p class="portrait-note"><a href="/papers/#critical-review">Independent critical review</a></p>
+              </div>
+              <div class="portrait-identifiers">
+                <h2 class="eyebrow">Scholarly record</h2>
+                <dl>
+                  <div><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">0009-0003-1584-6965 <span aria-hidden="true">↗</span></a></dd></div>
+                  <div><dt>SSRN</dt><dd><a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">Author 9540672 <span aria-hidden="true">↗</span></a></dd></div>
+                  <div><dt>Google Scholar</dt><dd><a href="{SCHOLAR_URL}" target="_blank" rel="me noopener noreferrer">Author profile <span aria-hidden="true">↗</span></a></dd></div>
                 </dl>
-                <nav class="author-links" aria-label="External author records">
-                  <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer"><span>ORCID</span><span aria-hidden="true">↗</span></a>
-                  <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer"><span>SSRN</span><span aria-hidden="true">↗</span></a>
-                  <a href="{SCHOLAR_URL}" target="_blank" rel="me noopener noreferrer"><span>Google Scholar</span><span aria-hidden="true">↗</span></a>
-                </nav>
-              </aside>
-              <div class="author-copy">
-                <section data-reveal>
-                  <p class="eyebrow">01 · Research position</p>
-                  <h2>Oversight is a capacity, not a presence.</h2>
-                  <p class="lead">A person can be present in a workflow and still be unable to govern it.</p>
-                  <p>My research questions are informed by work in business operations and organizational management, where formal responsibility must be translated into workable decisions, review paths, and corrective action. That experience motivates the inquiry; it is not independent validation of the proposed models.</p>
-                  <p>My work treats evidence, time, authority, review capacity, fallback readiness, and remedy as institutional conditions—not interface labels.</p>
-                  <p>The current trilogy follows that problem at three levels: the decision contract, the institution’s governing capacity, and the exit through which authority is returned.</p>
-                </section>
-                <section data-reveal>
-                  <p class="eyebrow">02 · Research practice</p>
-                  <h2>Formalize the claim. Publish the boundary.</h2>
-                  <p>The papers combine typed protocols, finite-state exploration, mutation testing, synthetic stress tests, and theory-directed public-record traceability.</p>
-                  <p>Each method carries an explicit limit: executable consistency is not legal sufficiency, synthetic performance is not field validity, and a purposive official-record corpus is not representative evidence.</p>
-                </section>
-                <section data-reveal>
-                  <p class="eyebrow">03 · Public record</p>
-                  <h2>One author. One verifiable record.</h2>
-                  <p>SSRN carries the primary paper records. This archive preserves versioned copies and connects them to a single public author identity.</p>
-                  <p>Questions for independent critical examination are set out in the <a href="/papers/#critical-review">critical review guide</a>.</p>
-                  <dl class="record-list">
-                    <div class="record-row"><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">0009-0003-1584-6965</a></dd></div>
-                    <div class="record-row"><dt>SSRN Author ID</dt><dd><a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">9540672</a></dd></div>
-                    <div class="record-row"><dt>Google Scholar</dt><dd><a href="{SCHOLAR_URL}" target="_blank" rel="me noopener noreferrer">Author profile</a></dd></div>
-                    <div class="record-row"><dt>Location</dt><dd>Sapporo, Hokkaido, Japan</dd></div>
-                  </dl>
-                </section>
+                <h2 class="eyebrow portrait-contact">Correspondence</h2>
+                <a class="portrait-mail" href="mailto:i@takashisato.me">i@takashisato.me</a>
               </div>
             </div>
-          </div>
+          </section>
         </main>
         """
     ).strip()
