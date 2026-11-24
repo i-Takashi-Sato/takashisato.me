@@ -481,8 +481,8 @@ def paper_page(paper: Paper) -> str:
             </div>
             <div class="paper-actions" data-reveal>
               <a class="button primary" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
-              <a class="button" href="#abstract">Read abstract <span aria-hidden="true">↓</span></a>
-              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf">Preserved PDF · v6.2</a>
+              <a class="button" href="#abstract" aria-label="Read abstract">Abstract <span aria-hidden="true">↓</span></a>
+              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Preserved PDF · v6.2">PDF · v6.2</a>
               <a class="button" href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
             </div>
           </header>
