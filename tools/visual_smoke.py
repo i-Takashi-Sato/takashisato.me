@@ -505,6 +505,32 @@ def run_context(
         context.close()
 
 
+def citation_copy_errors(browser, errors: list[str]) -> None:
+    context = browser.new_context(viewport={"width": 390, "height": 844})
+    # Deterministic clipboard stub exercises the click handler without OS permission.
+    context.add_init_script("""
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {writeText: async value => {window.__copiedCitation = value;}}
+      });
+    """)
+    page = context.new_page()
+    for name in ("part1", "part2", "part3"):
+        page.goto(BASE + PAGES[name], wait_until="domcontentloaded")
+        button = page.locator("[data-citation-copy]")
+        try:
+            button.click(timeout=5000)
+            page.wait_for_function("window.__copiedCitation !== undefined")
+            if page.evaluate("window.__copiedCitation") != page.locator("#citation .citation").inner_text().strip():
+                errors.append(f"{name}: copied citation differs from displayed record")
+            if button.inner_text() != "Citation copied":
+                errors.append(f"{name}: copy action lacks success feedback")
+        except Exception as exc:
+            errors.append(f"{name}: citation copy failed: {exc}")
+    context.close()
+
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -538,6 +564,7 @@ def main() -> None:
         )
         reduced_motion_errors(browser, errors)
         material_interaction_errors(browser, errors)
+        citation_copy_errors(browser, errors)
         browser.close()
 
     if errors:

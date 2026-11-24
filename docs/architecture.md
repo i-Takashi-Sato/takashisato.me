@@ -54,3 +54,5 @@ are never repository content.
 ## Performance measurement
 
 Lighthouse runs three times per URL. The least favorable measurement must satisfy the existing hard thresholds; LCP above 2500 ms remains a warning. The unsuccessful font-preload experiment was not adopted.
+
+The Papers index contains a stable, semantic concept register. Citation-copy controls are created only when the browser exposes the Clipboard API, and errors preserve manual selection. No runtime dependency, remote request, new stylesheet, or storage is introduced.

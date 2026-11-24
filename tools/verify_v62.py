@@ -815,6 +815,26 @@ def audit_atom(errors: list[str]) -> None:
             fail(errors, f"{rel}: Atom discovery link mismatch")
 
 
+def audit_concept_register(errors: list[str]) -> None:
+    from src.archive.pages import CONCEPTS
+
+    parser = AuditParser()
+    parser.feed((ROOT / "papers/index.html").read_text(encoding="utf-8"))
+    anchors = {value for value in parser.ids if value.startswith("concept-")}
+    expected = {f"concept-{record[0]}" for record in CONCEPTS}
+    if anchors != expected or len(expected) != len(CONCEPTS):
+        fail(errors, "concept register: missing or duplicate stable anchors")
+    hrefs = {attrs.get("href") for tag, attrs in parser.tags if tag == "a"}
+    for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS:
+        if paper not in PAPERS or PAPERS[paper]["roman"] != roman:
+            fail(errors, f"concept {slug}: unknown paper")
+            continue
+        for section in (anchor, assessment, "boundary", "citation"):
+            if f"/papers/{paper}.html#{section}" not in hrefs:
+                fail(errors, f"concept {slug}: missing source link {section}")
+
+
+
 def main() -> int:
     errors: list[str] = []
     audit_html(errors)
@@ -824,6 +844,7 @@ def main() -> int:
     audit_scholarly_apparatus(errors)
     audit_indexes(errors)
     audit_atom(errors)
+    audit_concept_register(errors)
     if errors:
         print("v6.2 archive verification failed:", file=sys.stderr)
         for error in errors:

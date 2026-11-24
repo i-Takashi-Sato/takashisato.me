@@ -26,6 +26,92 @@ from .abstracts import ABSTRACTS
 from html import escape
 
 
+# Navigation records summarize existing archive sections; they do not extend the papers.
+CONCEPTS = [
+    [
+        "typed-gate",
+        "Typed Gate Contract",
+        "part1",
+        "I",
+        "contract",
+        "Decision routing, not execution.",
+        "The case-level contract separates preliminary routing, signed disposition and actual execution.",
+        "verification"
+    ],
+    [
+        "evidence-hold",
+        "Evidence hold",
+        "part1",
+        "I",
+        "contract",
+        "Missing evidence is not approval.",
+        "UNKNOWN is routed explicitly; preliminary states do not authorize action.",
+        "verification"
+    ],
+    [
+        "pmgcl",
+        "Procedurally Masked Governing-Capacity Loss (PMGCL)",
+        "part2",
+        "II",
+        "state-model",
+        "Descriptive state model.",
+        "Distinguish intact procedures from judgment, practical capacity and protected-function impairment.",
+        "propositions"
+    ],
+    [
+        "pac",
+        "Pre-Abuse Collapse (PAC)",
+        "part2",
+        "II",
+        "overview",
+        "Provisional etiological subtype.",
+        "The additional causal boundary must be identified; PMGCL alone does not establish PAC.",
+        "propositions"
+    ],
+    [
+        "circuit-breaker",
+        "Circuit Breaker",
+        "part3",
+        "III",
+        "overview",
+        "Reversible containment.",
+        "Containment and retirement are authorized acts; indicators do not decide them.",
+        "verification"
+    ],
+    [
+        "proper-ending",
+        "Proper Ending",
+        "part3",
+        "III",
+        "proper-ending",
+        "Accountable retirement.",
+        "The protocol preserves evidence, continuity, remedy, responsibility and closure under dependency constraints.",
+        "verification"
+    ],
+    [
+        "authority-return",
+        "Authority Return",
+        "part3",
+        "III",
+        "authority-return",
+        "Practical capacity, not title alone.",
+        "Successor or residual custodian arrangements must address judgment, resources and outstanding obligations.",
+        "verification"
+    ]
+]
+
+
+def concept_register() -> str:
+    return "".join(
+        f'<h3 id="concept-{slug}">{escape(title)}</h3><p><strong>{escape(status)}</strong> {escape(summary)} '
+        f'<a href="/papers/{paper}.html#{anchor}">Part {roman} · explanation</a> · '
+        f'<a href="/papers/{paper}.html#{assessment}">Evidence and assessment</a> · '
+        f'<a href="/papers/{paper}.html#boundary">Limits</a> · '
+        f'<a href="/papers/{paper}.html#citation">Citation</a></p>'
+        for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS
+    )
+
+
 def research_map_nodes() -> str:
     return "\n".join(
         f'<a class="research-map-node" href="/papers/{paper["slug"]}.html" data-part="{paper["part"]}"><span class="map-index">0{paper["part"]}</span><span class="map-glyph" aria-hidden="true"><i></i><i></i><i></i></span><b>{paper["function"]}</b><small>{paper["question"]}</small></a>'
@@ -254,7 +340,16 @@ def papers_index_page() -> str:
               <h2>Reading order is useful, not mandatory.</h2>
               <div>
                 <p>Part I specifies a case-level routing contract. Part II models institutional loss over time. Part III specifies containment, accountable retirement, and authority transfer. Each paper contains its own definitions, limitations, and verification boundary.</p>
-                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2.</p>
+                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2. <a href="#concepts">Browse concepts and evidence.</a></p>
+              </div>
+            </div>
+          </section>
+          <section class="section compact" id="concepts">
+            <div class="shell boundary">
+              <h2>Concepts and evidence.</h2>
+              <div>
+                <p>A navigational index of the published archive explanations, not new definitions or independent validation. Each term leads to its source discussion, assessment, stated limits and versioned citation.</p>
+                {concept_register()}
               </div>
             </div>
           </section>
