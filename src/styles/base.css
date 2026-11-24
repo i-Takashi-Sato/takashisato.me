@@ -311,7 +311,7 @@ main { min-height: 70vh; }
 .sequence-row { position: relative; min-height: 12.5rem; padding: clamp(1.65rem, 4vw, 3.4rem) 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 3.5rem minmax(10rem, .48fr) minmax(18rem, 1fr) 2.5rem; gap: clamp(1rem, 3vw, 3rem); align-items: start; text-decoration: none; transition: color .25s ease, padding .3s var(--ease), background .25s ease; }
 .sequence-row::before { counter-increment: papers; content: "0" counter(papers); color: var(--signal-soft); font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; }
 a.sequence-row::after { content: "↗"; font-size: 1.1rem; transition: transform .25s var(--ease); }
-a.sequence-row:hover { padding-inline: 1rem; background: linear-gradient(90deg, var(--signal-wash), transparent 68%); text-decoration: none; }
+a.sequence-row:hover { text-decoration:none; }
 a.sequence-row:hover::after { transform: translate(.2rem, -.2rem); }
 .sequence-row:not(a) { grid-template-columns: 3.5rem minmax(10rem, .48fr) minmax(18rem, 1fr); }
 .sequence-function { margin: 0; font-size: .68rem; font-weight: 680; letter-spacing: .13em; text-transform: uppercase; }
@@ -527,7 +527,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
 
   @supports selector(:has(*)) {
     .sequence:has(.sequence-row:hover) .sequence-row:not(:hover),
-    .metric-grid:has(.metric:hover) .metric:not(:hover) { opacity: .42; }
+    .metric-grid:has(.metric:hover) .metric:not(:hover) { opacity: 1; }
   }
 }
 
@@ -758,15 +758,15 @@ body[data-tone="part-3"] .button:hover{transform:translate3d(var(--mag-x),var(--
 .sequence-row>div::before{inset:-1rem -1.25rem;z-index:-1}
 .fact::before,.metric::before,.series-nav a::before,.author-links a::before{inset:0}
 .sequence-row:hover>div::before,.fact:hover::before,.metric:hover::before,.series-nav a:hover::before,.author-links a:hover::before{opacity:1}
-.sequence-row:hover{transform:translateX(.22rem)}
-.sequence-row:hover .sequence-title{letter-spacing:-.026em}
+.sequence-row:hover{transform:none}
+
 .fact:hover,.metric:hover{transform:translateY(-2px)}
 .research-table tbody tr{transition:background var(--motion-engage) ease,color var(--motion-engage) ease}
 .research-table tbody tr:hover{background:linear-gradient(90deg,rgba(57,92,255,.055),transparent 72%)}
 @supports selector(:has(*)) {
   .paper-actions:has(.button:hover) .button:not(:hover),
-  .hero-actions:has(.button:hover) .button:not(:hover){opacity:.34}
-  .sequence:has(.sequence-row:hover)>.sequence-row:not(:hover){opacity:.34;filter:saturate(.72)}
+  .hero-actions:has(.button:hover) .button:not(:hover){opacity:1}
+  .sequence:has(.sequence-row:hover)>.sequence-row:not(:hover){opacity:1;filter:none}
   .paper-hero:has(.button:hover)::after{opacity:calc(var(--stage-opacity) + .018)}
   body[data-page="home"] .sequence-row:hover>div::after,
   body[data-page="papers"] .sequence-row:hover>div::after{opacity:.07;filter:blur(.12px) contrast(1.2);transform:translate3d(-.2rem,-50%,0) rotate(-2deg) scale(1.04)}

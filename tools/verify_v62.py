@@ -370,6 +370,7 @@ def audit_assets(errors: list[str]) -> None:
         "og/papers.jpg",
         "og/about.jpg",
         "author-mark.svg",
+        "author-paper.webp",
         "og/part1.jpg",
         "og/part2.jpg",
         "og/part3.jpg",
@@ -386,6 +387,10 @@ def audit_assets(errors: list[str]) -> None:
             f"missing={sorted(expected_assets - actual_assets)}, extra={sorted(actual_assets - expected_assets)}",
         )
 
+    texture = ROOT / "assets/author-paper.webp"
+    with Image.open(texture) as image:
+        if image.format != "WEBP" or image.size != (900, 599) or texture.stat().st_size > 12_000:
+            fail(errors, "author paper texture violates the local asset budget")
     css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
     js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):

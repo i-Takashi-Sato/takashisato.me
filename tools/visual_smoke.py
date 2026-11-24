@@ -377,6 +377,38 @@ def reduced_motion_errors(browser, errors: list[str]) -> None:
     context.close()
 
 
+def material_interaction_errors(browser, errors: list[str]) -> None:
+    """Check hover feedback, stable target geometry, and the local texture."""
+    context = browser.new_context(viewport={"width": 1440, "height": 900})
+    page = context.new_page()
+    page.goto(BASE + PAGES["home"], wait_until="networkidle")
+    link = page.locator("a.sequence-row").first
+    link.scroll_into_view_if_needed()
+    page.evaluate("document.querySelectorAll('[data-reveal]').forEach(x => x.classList.add('is-visible'))")
+    page.wait_for_timeout(400)
+    before = link.bounding_box()
+    link.hover()
+    page.wait_for_timeout(400)
+    after = link.bounding_box()
+    if not before or not after or any(abs(before[k] - after[k]) > 1 for k in ("x", "y", "width", "height")):
+        errors.append("material interaction: paper hover shifts the clickable target")
+    sibling = page.locator("a.sequence-row").nth(1)
+    if float(sibling.evaluate("el => getComputedStyle(el).opacity")) < .99:
+        errors.append("material interaction: hover dims another paper")
+    page.goto(BASE + PAGES["about"], wait_until="networkidle")
+    paper = page.locator(".portrait-chamber")
+    if "author-paper.webp" not in paper.evaluate("el => getComputedStyle(el).backgroundImage"):
+        errors.append("material interaction: author texture missing")
+    response = page.request.get(BASE + "/assets/author-paper.webp")
+    if not response.ok or not response.body().startswith(b"RIFF"):
+        errors.append("material interaction: author texture unavailable")
+    link = page.locator(".portrait-identifiers dd a").first
+    link.focus()
+    if link.evaluate("el => getComputedStyle(el).outlineStyle") == "none":
+        errors.append("material interaction: author identity keyboard focus invisible")
+    context.close()
+
+
 def run_context(
     browser,
     *,
@@ -444,12 +476,14 @@ def main() -> None:
             pages={
                 "home": "/",
                 "papers": "/papers/",
+                "about": "/about.html",
                 "part1": "/papers/part1.html",
                 "part3": "/papers/part3.html",
             },
             errors=errors,
         )
         reduced_motion_errors(browser, errors)
+        material_interaction_errors(browser, errors)
         browser.close()
 
     if errors:

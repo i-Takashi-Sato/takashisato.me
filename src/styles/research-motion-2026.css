@@ -48,7 +48,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 }
 
 /* Author portrait: a distinct, quiet chamber within the public research archive. */
-.portrait-chamber{background:#141414;color:#F5F4F0;padding-block:clamp(1.8rem,4vw,3.5rem) clamp(3.5rem,7vw,6rem)}
+.portrait-chamber{background:#141414 linear-gradient(110deg,rgba(20,20,20,.70),rgba(20,20,20,.58) 58%,rgba(20,20,20,.78));background-image:linear-gradient(110deg,rgba(20,20,20,.70),rgba(20,20,20,.58) 58%,rgba(20,20,20,.78)),url("/assets/author-paper.webp");background-position:center;background-size:cover;color:#F5F4F0;padding-block:clamp(1.8rem,4vw,3.5rem) clamp(3.5rem,7vw,6rem)}
 .portrait-chamber .breadcrumbs a,.portrait-chamber .breadcrumbs span{color:#C4C4C4}
 .portrait-chamber a:focus-visible{outline-color:#F5F4F0}
 .portrait-mast{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #555;padding-block:clamp(1.5rem,4vw,3rem) 1rem}
@@ -57,7 +57,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-name{min-width:0}
 .portrait-name h1{margin:0;color:#F5F4F0;font-family:var(--display);font-size:clamp(3.6rem,9.3vw,10.6rem);font-weight:470;line-height:.95;letter-spacing:-.075em}
 .portrait-name p{margin:1.65rem 0 0;color:#BDBDBD;font-size:.94rem;letter-spacing:.15em}
-.portrait-signature{width:100%;aspect-ratio:1000/504;background:#E9E8E4;mask:var(--signature-mask) center / contain no-repeat;max-width:35rem;justify-self:end}
+.portrait-signature{width:100%;aspect-ratio:1000/504;background:linear-gradient(155deg,#F0EEE8,#C9C9C7 58%,#E8E6E0);mask:var(--signature-mask) center / contain no-repeat;max-width:35rem;justify-self:end}
 .portrait-position{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.4rem,6vw,6rem);border-top:1px solid #555;padding-top:clamp(1.6rem,3vw,2.8rem);align-items:start}
 .portrait-position p{margin:0;color:#D0D0CE;max-width:38rem;line-height:1.72}
 .portrait-position .portrait-question{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2rem,3.6vw,4.1rem);line-height:1.1;letter-spacing:-.027em;color:#F5F4F0;max-width:22ch;font-weight:400}
@@ -78,3 +78,31 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 @media(max-width:23rem){.portrait-mast p{font-size:.68rem}.portrait-identifiers dl div{grid-template-columns:1fr;gap:0}}
 @media print{.portrait-chamber{background:#fff;color:#000;padding-block:1rem}.portrait-chamber h1,.portrait-chamber p,.portrait-chamber .portrait-question,.portrait-chamber .breadcrumbs a,.portrait-chamber .breadcrumbs span{color:#000}.portrait-grid{padding-block:1rem}.portrait-signature{display:none}.portrait-record{padding-block:1rem}}
 @media(forced-colors:active){.portrait-signature{display:none}}
+
+/* Material interaction: stable targets, fast acknowledgement, quiet release.
+   Motion is additive and never the sole state cue. */
+:root{--response:180ms;--settle:320ms;--gesture:cubic-bezier(.2,.75,.25,1)}
+.site-nav a,.portrait-identifiers a,.footer-links a,.toc a,.button{ text-decoration-thickness:1px;text-underline-offset:.24em }
+.button::before,.button::after{display:none}
+.button,.sequence-row,.research-map-node,.metric,.fact,.series-nav a{background-image:none}
+.button{transition:color var(--response) ease,border-color var(--response) ease,background-color var(--response) ease}
+a.sequence-row{transition:background-color var(--settle) var(--gesture)}
+.sequence-row>div::before,.metric::before,.fact::before{display:none}
+.site-nav a:focus-visible,.button:focus-visible,.portrait-identifiers a:focus-visible,.footer-links a:focus-visible{outline-offset:4px}
+.site-footer a:focus-visible{outline-color:#F5F4F0}
+.portrait-identifiers a:focus-visible,.portrait-note a:focus-visible,.toc a:focus-visible{text-decoration:underline}
+.research-map-node:focus-visible{outline-offset:-4px}
+@media(hover:hover) and (pointer:fine){
+.site-nav a:hover,.portrait-identifiers a:hover,.portrait-note a:hover,.footer-links a:hover,.toc a:hover{text-decoration:underline;text-decoration-thickness:1px}
+body[data-tone] .button:hover{background:#E9E9E7;color:#141414;border-color:#303030;transform:none}
+body[data-page="home"] a.sequence-row:hover,body[data-page="papers"] .sequence-row:focus-within{background:#EFEFEE;transform:none}
+.research-map-node:hover,.research-map-node:focus-visible{background:#EFEFEE}
+.series-nav a:hover{background-image:none;background-color:#EFEFEE}
+}
+@media(prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine){
+.button>span,.portrait-identifiers dd a>span{display:inline-block;transition:transform var(--settle) var(--gesture)}
+.button:hover>span,.button:focus-visible>span,.portrait-identifiers a:hover>span,.portrait-identifiers a:focus-visible>span{transform:translate(2px,-2px)}
+}
+::view-transition-old(root),::view-transition-new(root){animation-duration:240ms;animation-timing-function:var(--gesture)}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}::view-transition-group(*){animation-duration:.01ms!important}}
+@media(forced-colors:active){.portrait-chamber{background:Canvas;color:CanvasText}}
