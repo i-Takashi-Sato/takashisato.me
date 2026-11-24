@@ -60,7 +60,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-signature{width:100%;aspect-ratio:1000/504;background:#E9E8E4;mask:var(--signature-mask) center / contain no-repeat;max-width:35rem;justify-self:end}
 .portrait-position{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.4rem,6vw,6rem);border-top:1px solid #555;padding-top:clamp(1.6rem,3vw,2.8rem);align-items:start}
 .portrait-position p{margin:0;color:#D0D0CE;max-width:38rem;line-height:1.72}
-.portrait-position .portrait-question{font-family:Newsreader,Georgia,serif;font-size:clamp(2rem,3.6vw,4.1rem);line-height:1.1;letter-spacing:-.027em;color:#F5F4F0;max-width:22ch;font-weight:400}
+.portrait-position .portrait-question{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2rem,3.6vw,4.1rem);line-height:1.1;letter-spacing:-.027em;color:#F5F4F0;max-width:22ch;font-weight:400}
 .portrait-record{padding-block:clamp(3.2rem,7vw,6rem)}
 .portrait-record-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:clamp(2rem,7vw,7rem)}
 .portrait-record h2:not(.eyebrow){font-family:var(--display);font-size:clamp(2rem,3.2vw,3.5rem);font-weight:520;letter-spacing:-.045em;line-height:1.1;margin:.8rem 0 1.2rem}
