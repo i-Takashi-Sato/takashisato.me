@@ -529,10 +529,17 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
             if image.format != "JPEG":
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
-    for name in ("favicon.svg", "favicon-dark.svg", "assets/brand-mark.svg"):
-        icon_svg = (ROOT / name).read_text(encoding="utf-8")
-        if 'M11 59V12H55V30M55 52V59H11' not in icon_svg or 'M29 41H64' not in icon_svg or '#395cff' in icon_svg or '#8398ff' in icon_svg:
-            fail(errors, f"{name}: retired identity or mismatched open-boundary mark")
+    brand_svg = (ROOT / "assets/brand-mark.svg").read_text(encoding="utf-8")
+    if 'M11 59V12H55V30M55 52V59H11' not in brand_svg or 'M29 41H64' not in brand_svg:
+        fail(errors, "archive brand geometry mismatch")
+    source_bytes = (ROOT / "assets/favicon-source-20260117.png").read_bytes()
+    git_header = f"blob {len(source_bytes)}".encode()+b"\x00"
+    if hashlib.sha1(git_header+source_bytes).hexdigest() != "77b0d7361039b623cc383ee053b88211d00c5735":
+        fail(errors, "recovered January favicon source mismatch")
+    for name in ("favicon.svg","favicon-dark.svg"):
+        svg = (ROOT / name).read_text(encoding="utf-8")
+        if 'Takashi Sato — personal T mark' not in svg or 'data:image/png;base64,' not in svg:
+            fail(errors, f"{name}: supplied personal mark missing")
     for name, size in {
         "android-chrome-192x192.png": (192, 192),
         "android-chrome-512x512.png": (512, 512),

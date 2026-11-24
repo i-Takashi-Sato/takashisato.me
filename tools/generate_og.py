@@ -8,8 +8,10 @@ Run after build_site.py to keep SVG, raster icons, and social cards aligned.
 from __future__ import annotations
 
 import sys
+import base64
+import io
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -260,15 +262,43 @@ def render_card(name: str, card: dict[str, str]) -> Image.Image:
     return image
 
 
+def favicon_master() -> Image.Image:
+    """Recovered January 2026 personal T mark; retain its original brush geometry."""
+    with Image.open(ROOT / "assets/favicon-source-20260117.png") as original:
+        mask = original.convert("L").point(lambda v: max(0, min(255, round((v-8)*255/247))))
+    bounds = mask.point(lambda v: 255 if v > 18 else 0).getbbox()
+    if bounds is None:
+        raise ValueError("empty supplied favicon mark")
+    return mask.crop(bounds)
+
+
 def icon(size: int, inverse: bool = False, maskable: bool = False) -> Image.Image:
-    """Optical 16/32px raster masters; separate safe-zone icon for OS masks."""
-    scale = max(4, 320 // size)
-    width = size * scale
-    image = Image.new("RGB", (width, width), INK if inverse else PAPER)
-    side = round(width * .70) if maskable else width
-    origin = (width-side)//2
-    mark(ImageDraw.Draw(image),origin,origin,side,inverse,optical=size <= 32)
+    """Restore the supplied mark; optical weight adjustment only at tiny raster sizes."""
+    mask = favicon_master()
+    if size <= 32:
+        mask = mask.filter(ImageFilter.MaxFilter(15 if size <= 16 else 7))
+    width = max(512, size*4)
+    side = round(width * (.51 if maskable else .83 if size <= 32 else .70))
+    mask.thumbnail((side,side),Image.Resampling.LANCZOS)
+    bg = INK if inverse else PAPER
+    ink = WHITE if inverse else INK
+    image = Image.new("RGB",(width,width),bg)
+    image.paste(ink,((width-mask.width)//2,(width-mask.height)//2),mask)
     return image.resize((size,size),Image.Resampling.LANCZOS)
+
+
+def personal_favicon_svg(adaptive: bool = False, dark: bool = False) -> str:
+    """Self-contained raster-based SVG wrapper, not a new vector drawing."""
+    def encoded(inverse):
+        buffer = io.BytesIO()
+        icon(128,inverse).save(buffer,"PNG",optimize=True)
+        return "data:image/png;base64,"+base64.b64encode(buffer.getvalue()).decode("ascii")
+    style = '<style>.dark{display:none}@media(prefers-color-scheme:dark){.light{display:none}.dark{display:inline}}</style>' if adaptive else ""
+    def layer(inverse, cls):
+        return f'<image class="{cls}" width="128" height="128" href="{encoded(inverse)}"/>'
+    return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">'
+            '<title id="t">Takashi Sato — personal T mark</title>'+style
+            +(layer(False,"light")+layer(True,"dark") if adaptive else layer(dark,"mark"))+'</svg>\n')
 
 
 def main() -> None:
@@ -277,8 +307,8 @@ def main() -> None:
         render_card(name, card).save(OUT / f"{name}.jpg", "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
 
     (ROOT / "assets/brand-mark.svg").write_text(svg_mark(tile=False),encoding="utf-8")
-    (ROOT / "favicon.svg").write_text(svg_mark(tile=True,adaptive=True),encoding="utf-8")
-    (ROOT / "favicon-dark.svg").write_text(svg_mark(tile=True,dark=True),encoding="utf-8")
+    (ROOT / "favicon.svg").write_text(personal_favicon_svg(adaptive=True),encoding="utf-8")
+    (ROOT / "favicon-dark.svg").write_text(personal_favicon_svg(dark=True),encoding="utf-8")
     icon(512,maskable=True).save(ROOT / "maskable-512x512.png","PNG",optimize=True)
     icon_specs = {
         "android-chrome-192x192.png": (192, False),
