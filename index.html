@@ -161,14 +161,17 @@
             </div>
           </section>
 
-          <section class="section compact">
-            <div class="shell">
-              <h2 class="sr-only">Series at a glance</h2>
-              <div class="metric-grid" data-reveal role="list" aria-label="Series at a glance">
-                <div class="metric" role="listitem"><strong>1,024</strong><span>Stage-1 configurations enumerated in Part I</span></div>
-                <div class="metric" role="listitem"><strong>1,248</strong><span>applicable Stage-2 configurations in Part I</span></div>
-                <div class="metric" role="listitem"><strong>5</strong><span>rejectable propositions in Part II</span></div>
-                <div class="metric" role="listitem"><strong>8,564</strong><span>reachable states explored in Part III</span></div>
+          <section class="section compact" aria-labelledby="verification-register">
+            <div class="shell boundary" data-reveal>
+              <h2 id="verification-register">Verification register.</h2>
+              <div>
+                <p class="label">Part I / Finite contract</p>
+                <p>1,024 Stage-1 and 1,248 applicable Stage-2 configurations; nine isolated guard mutations. <a href="/papers/part1.html#verification">Truth-table abstraction and invariant checks.</a></p>
+                <p class="label">Part II / Descriptive model</p>
+                <p>Five rejectable propositions and a comparative retirement test. <a href="/papers/part2.html#propositions">Empirical rejection criteria, not a validated classification.</a></p>
+                <p class="label">Part III / Transition protocol</p>
+                <p>8,564 reachable states, 36,096 enabled transitions and 30 guard mutations within a selected finite abstraction. <a href="/papers/part3.html#verification">Verification scope and disclosed execution provenance.</a></p>
+                <p>These quantities describe different research objects. They are not comparable measures of validity, performance or practical effectiveness.</p>
               </div>
             </div>
           </section>
