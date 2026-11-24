@@ -22,6 +22,8 @@ from .model import (
     ssrn_url,
 )
 from .paper_content import part1_content, part2_content, part3_content
+from .abstracts import ABSTRACTS
+from html import escape
 
 
 def home_page() -> str:
@@ -370,7 +372,9 @@ def paper_page(paper: Paper) -> str:
             ("boundary", "Boundary"),
         ]
 
+    toc = [("abstract", "Abstract"), *toc, ("citation", "Citation")]
     toc_items = "".join(f'<li><a href="#{anchor}">{label}</a></li>' for anchor, label in toc)
+    abstract_html = "".join(f"<p>{escape(paragraph)}</p>" for paragraph in ABSTRACTS[paper["slug"]])
     citation = (
         f"Sato, Takashi. “{paper['title']}: {paper['subtitle']}.” Working Paper, "
         f"version 6.2, 23 August 2026. https://doi.org/{paper['doi']}."
@@ -406,6 +410,7 @@ def paper_page(paper: Paper) -> str:
               </aside>
               <article class="content" data-reveal>
                 <h2 class="sr-only">Part {paper['roman']} analysis</h2>
+                <section id="abstract"><p class="eyebrow">Author abstract · v{VERSION}</p><h2>Abstract</h2>{abstract_html}<p class="caveat">Transcribed from <a href="/pdf/v{VERSION}/{paper['slug']}.pdf#page=2">the preserved paper, page 2</a>. The original includes the generative-AI disclosure.</p></section>
                 {content}
                 <section id="citation">
                   <p class="eyebrow">Citation &amp; preservation</p>
@@ -413,6 +418,7 @@ def paper_page(paper: Paper) -> str:
                   <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
                   <p>To challenge an assumption, identify relevant prior work, or report a counterexample, see the <a href="/papers/#critical-review">critical-review questions and contact route</a>.</p>
                   <div class="citation">{citation}</div>
+                  <div class="paper-actions"><a class="button" href="/citations/v{VERSION}/{paper['slug']}.bib" download>Export BibTeX</a><a class="button" href="/citations/v{VERSION}/{paper['slug']}.ris" download>Export RIS</a></div>
                   <dl class="record-list">
                     <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">{paper['doi']}</a></dd></div>
                     <div class="record-row"><dt>SSRN</dt><dd><a href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">Abstract ID {paper['ssrn']}</a></dd></div>
