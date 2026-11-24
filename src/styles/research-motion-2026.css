@@ -169,7 +169,6 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 .site-footer .footer-bottom {font-size:.75rem;margin-top:2rem}
 @media(max-width:44rem) {
  body[data-page="home"] .identity-hero {padding-block:1.6rem 2.25rem}
- .identity-art svg {min-height:0;margin:1rem 0}
  .identity-detail {margin-bottom:1.15rem}
  .identity-actions {gap:.55rem 1rem}
  body[data-tone^="part-"] .paper-intro h1 {text-wrap:pretty;overflow-wrap:anywhere}
@@ -185,3 +184,16 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 
 /* Materials supplied by the author: research metal only inside plates. */
 @media(forced-colors:active){.identity-art,.research-map-node .map-glyph,.paper-apparatus{background-image:none!important}}
+
+/* One research index, two contexts: the same linked instruments appear on Index and Papers. */
+.identity-art{gap:1.2rem}
+.identity-instruments{display:grid;gap:0}
+.identity-instruments .research-map-node{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);grid-template-rows:auto auto auto;align-content:center;gap:.28rem 1rem;min-height:0;padding:1.25rem 0;border:0;border-top:1px solid #555;color:#F5F5F4;overflow:visible;background:transparent;transition:background var(--response) ease}
+.identity-instruments .map-index{grid-column:1;grid-row:1;color:#C7C9CB;font-size:.72rem;letter-spacing:.1em}
+.identity-instruments .research-map-node b{grid-column:1;grid-row:2;max-width:none;align-self:start;font-size:clamp(1.05rem,1.55vw,1.65rem);font-weight:580;line-height:1.16;letter-spacing:-.03em;color:inherit}
+.identity-instruments .research-map-node small{grid-column:1;grid-row:3;max-width:none;margin:0;color:#C7C9CB;font-size:.8rem;line-height:1.45}
+.identity-instruments .map-glyph{grid-column:2;grid-row:1/4;min-height:5.7rem;height:auto;margin:0;align-self:stretch;background-color:#141414}
+.identity-instruments .research-map-node:focus-visible{outline-color:#F5F5F4;outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.identity-instruments .research-map-node:hover{background:rgba(255,255,255,.055)}.identity-instruments .research-map-node:hover b{text-decoration:underline;text-underline-offset:.18em}}
+@media(max-width:27.5rem){body[data-page="home"] .identity-copy h1{font-size:clamp(2.75rem,11vw,4rem);text-wrap:wrap}.identity-copy h1 strong{display:block;width:fit-content;max-width:100%}.identity-instruments .research-map-node{gap:.22rem .75rem;padding:1rem 0}.identity-instruments .map-glyph{min-height:5rem}}
+@media print, (forced-colors:active){.identity-instruments .research-map-node{color:inherit;border-color:currentColor}.identity-instruments .map-index,.identity-instruments .research-map-node small,.identity-art-head,.identity-art figcaption{color:inherit}.identity-instruments .map-glyph{visibility:hidden}}
