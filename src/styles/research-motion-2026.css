@@ -46,3 +46,35 @@ body[data-tone="part-2"] .paper-apparatus,body[data-tone="part-3"] .paper-appara
 body[data-page="part3"] .series-nav{opacity:1;transform:none!important}
 body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 }
+
+/* Author portrait: a distinct, quiet chamber within the public research archive. */
+.portrait-chamber{background:#141414;color:#F5F4F0;padding-block:clamp(1.8rem,4vw,3.5rem) clamp(3.5rem,7vw,6rem)}
+.portrait-chamber .breadcrumbs :is(a,span){color:#C4C4C4}
+.portrait-chamber a:focus-visible{outline-color:#F5F4F0}
+.portrait-mast{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #555;padding-block:clamp(1.5rem,4vw,3rem) 1rem}
+.portrait-mast p{margin:0;color:#C4C4C4;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.portrait-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(1rem,5vw,6rem);align-items:center;padding-block:clamp(3rem,7vw,7.2rem)}
+.portrait-name{min-width:0}
+.portrait-name h1{margin:0;color:#F5F4F0;font-family:var(--display);font-size:clamp(3.6rem,9.3vw,10.6rem);font-weight:470;line-height:.95;letter-spacing:-.075em}
+.portrait-name p{margin:1.65rem 0 0;color:#BDBDBD;font-size:.94rem;letter-spacing:.15em}
+.portrait-signature{width:100%;aspect-ratio:1000/504;background:#E9E8E4;mask:var(--signature-mask) center / contain no-repeat;max-width:35rem;justify-self:end}
+.portrait-position{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.4rem,6vw,6rem);border-top:1px solid #555;padding-top:clamp(1.6rem,3vw,2.8rem);align-items:start}
+.portrait-position p{margin:0;color:#D0D0CE;max-width:38rem;line-height:1.72}
+.portrait-position .portrait-question{font-family:Newsreader,Georgia,serif;font-size:clamp(2rem,3.6vw,4.1rem);line-height:1.1;letter-spacing:-.027em;color:#F5F4F0;max-width:22ch;font-weight:400}
+.portrait-record{padding-block:clamp(3.2rem,7vw,6rem)}
+.portrait-record-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:clamp(2rem,7vw,7rem)}
+.portrait-record h2:not(.eyebrow){font-family:var(--display);font-size:clamp(2rem,3.2vw,3.5rem);font-weight:520;letter-spacing:-.045em;line-height:1.1;margin:.8rem 0 1.2rem}
+.portrait-record p:not(.eyebrow){max-width:36rem;color:var(--ink-soft)}
+.portrait-record .button{display:inline-flex;margin-top:1rem}
+.portrait-identifiers dl{margin:1.25rem 0 0;border-top:1px solid var(--line-strong)}
+.portrait-identifiers dl div{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1fr);gap:.75rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--line)}
+.portrait-identifiers dt{font-size:.85rem;color:var(--ink-soft)}
+.portrait-identifiers dd{margin:0;font-size:.9rem;overflow-wrap:anywhere}
+.portrait-identifiers a{display:inline-flex;align-items:center;min-height:2.75rem;gap:.3rem}
+.portrait-contact{margin:2rem 0 .5rem}
+.portrait-mail{font-size:1.1rem;overflow-wrap:anywhere}
+.portrait-note{font-size:.85rem;margin-top:1.2rem}
+@media(max-width:48rem){.portrait-grid,.portrait-position,.portrait-record-grid{grid-template-columns:1fr}.portrait-name h1{font-size:clamp(3.5rem,14vw,6.5rem)}.portrait-signature{max-width:15rem;justify-self:end}.portrait-grid{gap:2rem}.portrait-identifiers dl div{grid-template-columns:minmax(0,.7fr) minmax(0,1fr)}}
+@media(max-width:23rem){.portrait-mast p{font-size:.68rem}.portrait-identifiers dl div{grid-template-columns:1fr;gap:0}}
+@media print{.portrait-chamber{background:#fff;color:#000;padding-block:1rem}.portrait-chamber :is(h1,p,.portrait-question,.breadcrumbs a,.breadcrumbs span){color:#000}.portrait-grid{padding-block:1rem}.portrait-signature{display:none}.portrait-record{padding-block:1rem}}
+@media(forced-colors:active){.portrait-signature{display:none}}

@@ -331,9 +331,11 @@ def audit_content(errors: list[str]) -> None:
     for stale_copy in ["佐藤貴士について", "現在の研究では、人間が形式上", "AIガバナンス、人間による監督、ワークフロー・ガバナンス"]:
         if stale_copy in about:
             fail(errors, f"about.html: verbose Japanese profile copy returned: {stale_copy}")
-    if "mailto:" in about or ">Contact<" in about:
-        fail(errors, "about.html: direct contact route must remain outside the author record")
-    if about.count('<dd lang="ja">佐藤貴士</dd>') != 1:
+    if about.count('href="mailto:i@takashisato.me"') != 1:
+        fail(errors, "about.html: approved correspondence link must appear once")
+    if any(term in about for term in ["business operations", "organizational management", "competitive golf"]):
+        fail(errors, "about.html: private biography must remain outside the public author record")
+    if about.count('<p lang="ja">佐藤貴士</p>') != 1:
         fail(errors, "about.html: native-name identity fact must be exactly one instance")
     if "佐藤貴士　札幌" in about:
         fail(errors, "about.html: awkward Japanese SEO phrase returned to the visible author record")
@@ -367,6 +369,7 @@ def audit_assets(errors: list[str]) -> None:
         "og/home.jpg",
         "og/papers.jpg",
         "og/about.jpg",
+        "author-mark.svg",
         "og/part1.jpg",
         "og/part2.jpg",
         "og/part3.jpg",
