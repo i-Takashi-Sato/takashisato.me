@@ -123,6 +123,16 @@ def layout_errors(page, name: str, width: int, suffix: str) -> list[str]:
             if not box or box["height"] < 44:
                 errors.append(f"{prefix}: insufficient instrument touch target")
 
+    if 368 <= width <= 704:
+        wordmark = page.locator('.brand span:last-child')
+        if not wordmark.is_visible():
+            errors.append(f'{prefix}: mobile brand wordmark missing')
+    if width <= 704 and name in {'part1', 'part2', 'part3'}:
+        for target in page.locator('.toc a').all():
+            rect = target.bounding_box()
+            if not rect or rect['height'] < 44:
+                errors.append(f'{prefix}: undersized reading navigation target')
+
     # Horizontal fit does not rule out internal overlap.
     overlaps = page.evaluate("""() => {
       const failures = [];
