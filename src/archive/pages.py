@@ -35,7 +35,7 @@ CONCEPTS = [
         "I",
         "contract",
         "Decision routing, not execution.",
-        "The case-level contract separates preliminary routing, signed disposition and actual execution.",
+        "Stage 1 routes cases; all-PASS permits entry to separate execution control. Reviewed cases require a current, in-scope signed disposition.",
         "verification"
     ],
     [
@@ -45,7 +45,7 @@ CONCEPTS = [
         "I",
         "contract",
         "Missing evidence is not approval.",
-        "UNKNOWN is routed explicitly; preliminary states do not authorize action.",
+        "UNKNOWN with review authority and capacity routes to evidence completion and rerun. Signed DEFER is a separate disposition.",
         "verification"
     ],
     [
@@ -55,7 +55,7 @@ CONCEPTS = [
         "II",
         "state-model",
         "Descriptive state model.",
-        "Distinguish intact procedures from judgment, practical capacity and protected-function impairment.",
+        "Stable or improving procedural fidelity, persistent material losses of judgment and governing capacity, and material impairment of a predeclared protected function.",
         "propositions"
     ],
     [
@@ -65,7 +65,7 @@ CONCEPTS = [
         "II",
         "overview",
         "Provisional etiological subtype.",
-        "The additional causal boundary must be identified; PMGCL alone does not establish PAC.",
+        "Requires PMGCL plus an identified materially adverse ordinary-exposure contrast under a predeclared malicious-pathway intervention or reference condition.",
         "propositions"
     ],
     [
@@ -75,7 +75,7 @@ CONCEPTS = [
         "III",
         "overview",
         "Reversible containment.",
-        "Containment and retirement are authorized acts; indicators do not decide them.",
+        "An authorized, scoped and reversible containment action with a named owner. Indicators cannot authorize it.",
         "verification"
     ],
     [
@@ -85,7 +85,7 @@ CONCEPTS = [
         "III",
         "proper-ending",
         "Accountable retirement.",
-        "The protocol preserves evidence, continuity, remedy, responsibility and closure under dependency constraints.",
+        "Retirement requires evidence preservation, service continuity, remedy, branch-specific responsibility, assurance and authorized closure.",
         "verification"
     ],
     [
@@ -95,10 +95,23 @@ CONCEPTS = [
         "III",
         "authority-return",
         "Practical capacity, not title alone.",
-        "Successor or residual custodian arrangements must address judgment, resources and outstanding obligations.",
+        "Reconstitute practical decision capacity in an accepting successor, or assign residual custody or remedy authority if the function ends.",
         "verification"
     ]
 ]
+
+
+# Printed page locators in the immutable v6.2 papers (cover is page 1).
+# Each heading is checked against the preserved PDF by Archive QA.
+CONCEPT_SOURCES = {
+    "typed-gate": (9, 10, "total triage function"),
+    "evidence-hold": (9, 10, "total triage function"),
+    "pmgcl": (8, 9, "Core Constructs, Descriptive State"),
+    "pac": (8, 9, "Core Constructs, Descriptive State"),
+    "circuit-breaker": (13, 13, "5. Circuit Breaker"),
+    "proper-ending": (14, 15, "7. Proper Ending"),
+    "authority-return": (15, 16, "8. Authority Return"),
+}
 
 
 def concept_register() -> str:
@@ -107,6 +120,12 @@ def concept_register() -> str:
         links = "".join(
             f'<a class="button" href="/papers/{paper}.html#{section}" aria-label="{label}: {escape(title)}">{label}</a>'
             for label, section in (("Explanation", anchor), ("Assessment", assessment), ("Limits", "boundary"), ("Citation", "citation"))
+        )
+        start, end, _ = CONCEPT_SOURCES[slug]
+        pages = f"p. {start}" if start == end else f"pp. {start}–{end}"
+        links += (
+            f'<a class="button" href="/pdf/v{VERSION}/{paper}.pdf#page={start}" '
+            f'aria-label="Preserved v{VERSION} PDF, {pages}: {escape(title)}">PDF {pages}</a>'
         )
         rows.append(
             f'<article class="record-row concept-record" id="concept-{slug}"><div><p class="label">Part {roman}</p>'
@@ -354,7 +373,7 @@ def papers_index_page() -> str:
                 <p class="label">Research architecture / 01—07</p>
                 <div>
                   <h2>Concepts and evidence.</h2>
-                  <p class="section-intro">A navigational index of the published archive explanations, not new definitions or independent validation. Each term leads to its source discussion, assessment, stated limits and versioned citation.</p>
+                  <p class="section-intro">An index of the archive's research concepts, not new definitions or independent validation. Each entry links to its explanation, assessment, stated limits, citation and the relevant pages of the preserved v6.2 paper.</p>
                 </div>
               </div>
               <div class="record-list">{concept_register()}</div>

@@ -859,7 +859,7 @@ def audit_atom(errors: list[str]) -> None:
 
 
 def audit_concept_register(errors: list[str]) -> None:
-    from src.archive.pages import CONCEPTS
+    from src.archive.pages import CONCEPTS, CONCEPT_SOURCES
 
     parser = AuditParser()
     parser.feed((ROOT / "papers/index.html").read_text(encoding="utf-8"))
@@ -867,6 +867,10 @@ def audit_concept_register(errors: list[str]) -> None:
     expected = {f"concept-{record[0]}" for record in CONCEPTS}
     if anchors != expected or len(expected) != len(CONCEPTS):
         fail(errors, "concept register: missing or duplicate stable anchors")
+    if set(CONCEPT_SOURCES) != {record[0] for record in CONCEPTS}:
+        fail(errors, "concept register: source locator coverage differs from records")
+        return
+    readers = {slug: PdfReader(ROOT / f"pdf/v{VERSION}/{slug}.pdf") for slug in PAPERS}
     for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS:
         if paper not in PAPERS or PAPERS[paper]["roman"] != roman:
             fail(errors, f"concept {slug}: unknown paper")
@@ -875,6 +879,18 @@ def audit_concept_register(errors: list[str]) -> None:
             expected_href = f"/papers/{paper}.html#{section}"
             if not any(href == expected_href and attrs.get("aria-label") == f"{label}: {title}" for href, attrs in parser.hrefs):
                 fail(errors, f"concept {slug}: missing contextual source link {section}")
+        start, end, heading = CONCEPT_SOURCES[slug]
+        if not 1 <= start <= end <= len(readers[paper].pages):
+            fail(errors, f"concept {slug}: invalid preserved PDF page range")
+            continue
+        text = re.sub(r"\s+", " ", readers[paper].pages[start - 1].extract_text() or "")
+        if heading.casefold() not in text.casefold():
+            fail(errors, f"concept {slug}: source heading absent from page {start}")
+        pages = f"p. {start}" if start == end else f"pp. {start}–{end}"
+        href = f"/pdf/v{VERSION}/{paper}.pdf#page={start}"
+        label = f"Preserved v{VERSION} PDF, {pages}: {title}"
+        if not any(value == href and attrs.get("aria-label") == label for value, attrs in parser.hrefs):
+            fail(errors, f"concept {slug}: missing preserved source locator")
 
 
 def main() -> int:

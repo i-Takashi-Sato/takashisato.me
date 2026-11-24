@@ -541,8 +541,10 @@ def concept_register_errors(browser, errors: list[str]) -> None:
             errors.append(f"concepts {width}: expected seven records")
         for row in rows.all():
             links = row.locator("a.button")
-            if links.count() != 4:
-                errors.append(f"concepts {width}: expected four source links")
+            if links.count() != 5:
+                errors.append(f"concepts {width}: expected five source links")
+            if row.locator('a.button[href*=".pdf#page="]').count() != 1:
+                errors.append(f"concepts {width}: expected one preserved PDF page locator")
             for link in links.all():
                 box = link.bounding_box()
                 if not box or box["height"] < 44 or box["width"] < 44:
