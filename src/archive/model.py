@@ -10,6 +10,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Final, TypedDict
 
+from .abstracts import ABSTRACTS
+
 ROOT: Final = Path(__file__).resolve().parents[2]
 
 
@@ -157,7 +159,7 @@ def article_schema(paper: Paper) -> dict[str, object]:
         "headline": f"{paper['title']}: {paper['subtitle']}",
         "name": f"{paper['title']}: {paper['subtitle']}",
         "description": paper["description"],
-        "abstract": paper["description"],
+        "abstract": "\n\n".join(ABSTRACTS[paper["slug"]]),
         "author": {"@id": AUTHOR_ID},
         "datePublished": paper["posted"],
         "dateModified": PAPER_REVISION_DATE,

@@ -7,6 +7,8 @@ import hashlib
 import json
 import re
 import sys
+import unicodedata
+from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlparse
@@ -19,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.archive.abstracts import ABSTRACTS
+from src.archive.citations import citation_export
 from src.archive.model import (
     ASSET_VERSION,
     AUTHOR_ID,
@@ -471,6 +475,45 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{name}: expected {size}, found {image.size}")
 
 
+def normalize_abstract(value: str) -> str:
+    """Ignore layout-only whitespace, discretionary hyphens, and extraction controls."""
+    value = unicodedata.normalize("NFKC", value)
+    return "".join(
+        char for char in value
+        if not char.isspace() and unicodedata.category(char) not in {"Cc", "Cf", "Pd"}
+    )
+
+
+def audit_scholarly_apparatus(errors: list[str]) -> None:
+    index = json.loads((ROOT / "research-index.json").read_text(encoding="utf-8"))
+    for position, (slug, paper) in enumerate(PAPERS.items()):
+        abstract = "\n\n".join(ABSTRACTS[slug])
+        html = (ROOT / f"papers/{slug}.html").read_text(encoding="utf-8")
+        section = re.search(r'<section id="abstract">(.*?)</section>', html, re.S)
+        if not section:
+            fail(errors, f"{slug}: visible abstract missing")
+        else:
+            paragraphs = re.findall(r"<p>(.*?)</p>", section.group(1), re.S)
+            if [unescape(p) for p in paragraphs] != ABSTRACTS[slug]:
+                fail(errors, f"{slug}: visible abstract differs from source")
+        parser = AuditParser()
+        parser.feed(html)
+        articles = [
+            item for raw in parser.json_ld for item in json.loads(raw).get("@graph", [])
+            if item.get("@type") == "ScholarlyArticle"
+        ]
+        if len(articles) != 1 or articles[0].get("abstract") != abstract:
+            fail(errors, f"{slug}: article metadata abstract mismatch")
+        if position >= len(index.get("hasPart", [])) or index["hasPart"][position].get("abstract") != abstract:
+            fail(errors, f"{slug}: research-index abstract mismatch")
+        for kind in ("bib", "ris"):
+            path = ROOT / f"citations/v{VERSION}/{slug}.{kind}"
+            if not path.exists() or path.read_text(encoding="utf-8") != citation_export(paper, kind):
+                fail(errors, f"{slug}: {kind} citation export mismatch")
+            if not any(href == f"/citations/v{VERSION}/{slug}.{kind}" for href, _ in parser.hrefs):
+                fail(errors, f"{slug}: {kind} citation link missing")
+
+
 def audit_pdfs(errors: list[str]) -> None:
     for slug, expected in PAPERS.items():
         path = ROOT / f"pdf/v{VERSION}/{slug}.pdf"
@@ -484,6 +527,11 @@ def audit_pdfs(errors: list[str]) -> None:
         if digest != expected["sha256"]:
             fail(errors, f"{path.relative_to(ROOT)}: SHA-256 mismatch")
         reader = PdfReader(path)
+        if len(reader.pages) > 1:
+            raw = reader.pages[1].extract_text() or ""
+            match = re.search(r"\bAbstract\s+(.*?)\bKeywords\s*:", raw, re.S | re.I)
+            if not match or normalize_abstract(match.group(1)) != normalize_abstract(" ".join(ABSTRACTS[slug])):
+                fail(errors, f"{slug}: transcribed abstract differs from preserved PDF page 2")
         if len(reader.pages) != expected["pages"]:
             fail(errors, f"{path.relative_to(ROOT)}: page count {len(reader.pages)} != {expected['pages']}")
         metadata_title = (reader.metadata.title or "") if reader.metadata else ""
@@ -594,6 +642,7 @@ def main() -> int:
     audit_content(errors)
     audit_assets(errors)
     audit_pdfs(errors)
+    audit_scholarly_apparatus(errors)
     audit_indexes(errors)
     if errors:
         print("v6.2 archive verification failed:", file=sys.stderr)
