@@ -206,7 +206,7 @@ def home_page() -> str:
     ).strip()
     return shell_page(
         head_html=head(
-            title="Takashi Sato (佐藤貴士) — The Proper Ending Index",
+            title="Takashi Sato (佐藤貴士) — AI Governance Research Archive",
             description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. Working papers on AI governance, accountable decisions, governing-capacity loss, Proper Ending, and Authority Return.",
             path="/",
             image="/assets/og/home.jpg",
