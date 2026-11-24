@@ -5,7 +5,7 @@ import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from verify_live import ROOT, ROUTES, verify, verify_one
+from verify_live import ROOT, ROUTES, ROBOTS_PREFIX, verify, verify_one
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -19,9 +19,12 @@ class Handler(BaseHTTPRequestHandler):
             self.send_error(404)
             return
         self.send_response(200)
-        self.send_header("Content-Type", "text/plain" if self.path == "/wrongtype" else "text/html")
+        self.send_header("Content-Type", "text/plain" if self.path in {"/wrongtype", "/robots.txt"} else "text/html")
         self.end_headers()
-        self.wfile.write(b"outdated" if self.path == "/stale" else b"<h1>Release</h1>")
+        if self.path == "/robots.txt":
+            self.wfile.write(ROBOTS_PREFIX.read_bytes() + (ROOT / "robots.txt").read_bytes())
+        else:
+            self.wfile.write(b"outdated" if self.path == "/stale" else b"<h1>Release</h1>")
 
     def log_message(self, *args):
         pass
@@ -45,6 +48,13 @@ class LiveAuditTests(unittest.TestCase):
         for route, path in ROUTES.items():
             with self.subTest(route=route):
                 self.assertTrue((ROOT / path).is_file())
+
+    def test_managed_robots(self):
+        self.assertIsNone(verify_one(self.base, "/robots.txt", ROOT / "robots.txt"))
+        with tempfile.TemporaryDirectory() as directory:
+            wrong = Path(directory) / "robots.txt"
+            wrong.write_bytes(b"User-agent: *\nDisallow: /\n")
+            self.assertIn("SHA-256 mismatch", verify_one(self.base, "/robots.txt", wrong))
 
     def test_actual_http(self):
         with tempfile.TemporaryDirectory() as directory:

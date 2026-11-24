@@ -54,6 +54,7 @@ TYPES = {
     ".txt": {"text/plain"},
 }
 MAX_BYTES = 8 * 1024 * 1024
+ROBOTS_PREFIX = ROOT / "tools/fixtures/cloudflare-managed-robots.txt"
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -92,6 +93,11 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
             actual = response.read(MAX_BYTES + 1)
     except (HTTPError, URLError, TimeoutError, OSError) as exc:
         return f"{route}: {type(exc).__name__}: {exc}"
+    if route == "/robots.txt" and actual != expected:
+        prefix = ROBOTS_PREFIX.read_bytes()
+        if actual == prefix + expected:
+            print("/robots.txt: exact approved Cloudflare prefix and origin suffix match", flush=True)
+            return None
     if actual != expected:
         return (f"{route}: SHA-256 mismatch; expected {digest(expected)}, "
                 f"received {digest(actual)} ({len(actual)} bytes)")
@@ -108,7 +114,7 @@ def verify(base: str, root: Path, routes: dict[str, str], attempts: int, interva
                 print(problem, flush=True)
             else:
                 pending.pop(route)
-        print(f"Attempt {attempt}/{attempts}: {len(routes) - len(pending)}/{len(routes)} exact matches", flush=True)
+        print(f"Attempt {attempt}/{attempts}: {len(routes) - len(pending)}/{len(routes)} verified responses", flush=True)
         if not pending:
             return 0
         if attempt < attempts:
