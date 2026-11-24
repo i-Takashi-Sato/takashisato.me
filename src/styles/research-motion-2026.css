@@ -49,7 +49,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 
 /* Author portrait: a distinct, quiet chamber within the public research archive. */
 .portrait-chamber{background:#141414;color:#F5F4F0;padding-block:clamp(1.8rem,4vw,3.5rem) clamp(3.5rem,7vw,6rem)}
-.portrait-chamber .breadcrumbs :is(a,span){color:#C4C4C4}
+.portrait-chamber .breadcrumbs a,.portrait-chamber .breadcrumbs span{color:#C4C4C4}
 .portrait-chamber a:focus-visible{outline-color:#F5F4F0}
 .portrait-mast{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid #555;padding-block:clamp(1.5rem,4vw,3rem) 1rem}
 .portrait-mast p{margin:0;color:#C4C4C4;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
