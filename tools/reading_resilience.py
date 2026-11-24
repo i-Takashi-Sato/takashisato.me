@@ -65,6 +65,7 @@ def run(engine: str) -> int:
             page = context.new_page()
             for name, route in PAGES.items():
                 prefix = f"{engine}/{mode}/{name}"
+                print(f"Checking {prefix}", flush=True)
                 problems = []
                 page.goto(BASE + route, wait_until="networkidle")
                 if mode == "large-text":
@@ -72,7 +73,8 @@ def run(engine: str) -> int:
                     page.evaluate("document.documentElement.style.setProperty('font-size','200%','important')")
                 if mode == "print":
                     page.emulate_media(media="print")
-                page.evaluate("document.fonts.ready")
+                # A stuck font promise must fail explicitly, not consume the job timeout.
+                page.evaluate("""() => Promise.race([document.fonts.ready, new Promise((_, reject) => setTimeout(() => reject(new Error('Font readiness timed out')), 15000))])""")
                 if not page.locator("main h1").is_visible():
                     problems.append("main heading is not visible")
                 metrics = page.evaluate(MEASURE)
@@ -119,9 +121,11 @@ def run(engine: str) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--cross-engine", action="store_true", help="Run comparable screen-reading probes on Firefox and WebKit.")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--cross-engine", action="store_true", help="Run comparable screen-reading probes on Firefox and WebKit.")
+    selection.add_argument("--engine", choices=("chromium", "firefox", "webkit"), help="Run one engine in an independent CI job.")
     args = parser.parse_args()
-    engines = ("firefox", "webkit") if args.cross_engine else ("chromium",)
+    engines = ("firefox", "webkit") if args.cross_engine else (args.engine or "chromium",)
     # Evaluate both engines even if one reports failures.
     return int(any([run(engine) for engine in engines]))
 

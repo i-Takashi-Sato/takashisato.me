@@ -85,13 +85,51 @@ jobs:
           exit 1
       - name: Check WebKit and Firefox layout and targets
         run: python tools/cross_engine_smoke.py
-      - name: Stress cross-engine reading resilience
-        run: python tools/reading_resilience.py --cross-engine
       - name: Upload cross-engine screenshots
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: cross-engine-screenshots
           path: artifacts/cross-engine
+          if-no-files-found: ignore
+          retention-days: 14
+
+  cross-engine-resilience:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [firefox, webkit]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Install browser
+        run: |
+          python -m pip install --disable-pip-version-check playwright==1.62.0
+          python -m playwright install --with-deps ${{ matrix.engine }}
+      - name: Serve archive
+        run: |
+          python -m http.server 4173 --bind 127.0.0.1 > /tmp/archive-http.log 2>&1 &
+          for i in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/archive-http.log
+          exit 1
+      - name: Stress reading resilience
+        run: python tools/reading_resilience.py --engine ${{ matrix.engine }}
+      - name: Upload resilience reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: resilience-${{ matrix.engine }}
+          path: artifacts/cross-engine/resilience/${{ matrix.engine }}
           if-no-files-found: ignore
           retention-days: 14
