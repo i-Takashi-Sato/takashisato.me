@@ -606,12 +606,36 @@ def audit_scholarly_apparatus(errors: list[str]) -> None:
             fail(errors, f"{slug}: article metadata abstract mismatch")
         if position >= len(index.get("hasPart", [])) or index["hasPart"][position].get("abstract") != abstract:
             fail(errors, f"{slug}: research-index abstract mismatch")
-        for kind in ("bib", "ris"):
+        for kind in ("bib", "ris", "json"):
             path = ROOT / f"citations/v{VERSION}/{slug}.{kind}"
             if not path.exists() or path.read_text(encoding="utf-8") != citation_export(paper, kind):
                 fail(errors, f"{slug}: {kind} citation export mismatch")
             if not any(href == f"/citations/v{VERSION}/{slug}.{kind}" for href, _ in parser.hrefs):
                 fail(errors, f"{slug}: {kind} citation link missing")
+        csl_path = ROOT / f"citations/v{VERSION}/{slug}.json"
+        if csl_path.exists():
+            try:
+                data = json.loads(csl_path.read_text(encoding="utf-8"))
+                record = data[0]
+                if len(data) != 1 or record["id"] != paper["doi"] or record["DOI"] != paper["doi"] or record["URL"] != f"https://doi.org/{paper['doi']}":
+                    fail(errors, f"{slug}: CSL identifier mismatch")
+                if record["type"] != "report" or record["genre"] != "Working paper" or record["title"] != f"{paper['title']}: {paper['subtitle']}" or record["author"] != [{"family": "Sato", "given": "Takashi"}]:
+                    fail(errors, f"{slug}: CSL scholarly identity mismatch")
+                if record["issued"]["date-parts"] != [[int(value) for value in paper["posted"].split("-")]]:
+                    fail(errors, f"{slug}: CSL publication date mismatch")
+            except (ValueError, KeyError, IndexError, TypeError) as exc:
+                fail(errors, f"{slug}: invalid CSL JSON: {exc}")
+        typed = {(attrs.get("rel"), attrs.get("href"), attrs.get("type")) for tag, attrs in parser.tags if tag == "link"}
+        required = {
+            ("related", f"https://doi.org/{paper['doi']}", None),
+            ("author", "https://orcid.org/0009-0003-1584-6965", None),
+            ("item", f"{SITE}/pdf/v{VERSION}/{slug}.pdf", "application/pdf"),
+            ("describedby", f"{SITE}/citations/v{VERSION}/{slug}.json", "application/json"),
+        }
+        if not required.issubset(typed):
+            fail(errors, f"{slug}: scholarly typed-link mismatch")
+        if any(relation == "cite-as" for relation, _, _ in typed):
+            fail(errors, f"{slug}: external DOI must not be presented as a self-resolving cite-as")
 
 
 def audit_pdfs(errors: list[str]) -> None:

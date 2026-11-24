@@ -1,0 +1,27 @@
+[
+  {
+    "id": "10.2139/ssrn.6066430",
+    "type": "report",
+    "genre": "Working paper",
+    "title": "From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions",
+    "author": [
+      {
+        "family": "Sato",
+        "given": "Takashi"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026,
+          2,
+          10
+        ]
+      ]
+    },
+    "DOI": "10.2139/ssrn.6066430",
+    "URL": "https://doi.org/10.2139/ssrn.6066430",
+    "language": "en",
+    "note": "Working paper, version 6.2, revised 2026-08-23"
+  }
+]

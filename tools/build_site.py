@@ -36,7 +36,7 @@ def main() -> None:
     write("papers/index.html", papers_index_page())
     for paper in PAPERS:
         write(f"papers/{paper['slug']}.html", paper_page(paper))
-        for kind in ("bib", "ris"):
+        for kind in ("bib", "ris", "json"):
             write(f"citations/v{VERSION}/{paper['slug']}.{kind}", citation_export(paper, kind))
     write("about.html", about_page())
 
