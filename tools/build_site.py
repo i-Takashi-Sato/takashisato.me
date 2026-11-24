@@ -13,6 +13,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.archive.feeds import research_index, sitemap
+from src.archive.citations import citation_export
 from src.archive.model import PAPERS, SITE
 from src.archive.pages import (
     about_page,
@@ -35,6 +36,8 @@ def main() -> None:
     write("papers/index.html", papers_index_page())
     for paper in PAPERS:
         write(f"papers/{paper['slug']}.html", paper_page(paper))
+        for kind in ("bib", "ris"):
+            write(f"citations/v6.2/{paper['slug']}.{kind}", citation_export(paper, kind))
     write("about.html", about_page())
 
     write(
