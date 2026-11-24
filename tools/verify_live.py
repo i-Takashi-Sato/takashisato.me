@@ -26,7 +26,7 @@ ROUTES = {
     **{f"/papers/{slug}.html": f"papers/{slug}.html" for slug in SLUGS},
     **{f"/{name}.html": f"{name}.html" for name in ("about", "colophon", "privacy", "security")},
     **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
-    **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris")},
+    **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
     **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about")},
     **{f"/{name}": name for name in (
         "assets/site.css", "assets/site.js", "assets/brand-mark.svg",

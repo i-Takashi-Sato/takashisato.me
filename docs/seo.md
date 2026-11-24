@@ -46,3 +46,9 @@ model and discoverable on every HTML page. Day-precision research dates are seri
 at 00:00 UTC for Atom compatibility; this is not a known publication time. Cosmetic
 site releases do not change the scholarly update date. No new paper or revised claim
 is implied by adding the feed.
+
+## Scholarly interoperability
+
+Each paper exposes CSL-JSON alongside BibTeX and RIS, and typed links for the preserved PDF, citation metadata, ORCID and related DOI. The DOI resolves through SSRN rather than this independent archive, so it is expressed as `related`, not `cite-as`. These links follow selected Signposting conventions; they do not claim full FAIR profile conformance. No license is asserted without authorization. Google Scholar's same-subdirectory requirement for `citation_pdf_url` is not met by the immutable `/pdf/v6.2/` structure; no misleading tag or duplicate PDF was added.
+
+References: https://signposting.org/FAIR/ ; https://github.com/citation-style-language/schema ; https://scholar.google.com/intl/en/scholar/inclusion.html

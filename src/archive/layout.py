@@ -82,6 +82,10 @@ def head(
             <meta name="citation_publication_date" content="{paper['posted'].replace('-', '/')}">
             <meta name="citation_doi" content="{paper['doi']}">
             <meta name="citation_language" content="en">
+            <link rel="related" href="https://doi.org/{paper['doi']}">
+            <link rel="author" href="https://orcid.org/0009-0003-1584-6965">
+            <link rel="item" type="application/pdf" href="{SITE}/pdf/v{VERSION}/{paper['slug']}.pdf">
+            <link rel="describedby" type="application/json" href="{SITE}/citations/v{VERSION}/{paper['slug']}.json">
             <link rel="alternate" type="application/pdf" title="Preserved PDF · v{VERSION}" href="{SITE}/pdf/v{VERSION}/{paper['slug']}.pdf">
             <meta property="article:published_time" content="{paper['posted']}">
             <meta property="article:modified_time" content="{PAPER_REVISION_DATE}">

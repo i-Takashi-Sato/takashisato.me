@@ -129,12 +129,47 @@ rel.add('noreferrer');
 anchor.rel = [...rel].join(' ');
 });
 }
+function initCitationCopy() {
+const citation = doc.querySelector('#citation .citation');
+const actions = doc.querySelector('#citation .paper-actions');
+if (!citation || !actions || !navigator.clipboard?.writeText) return;
+const button = doc.createElement('button');
+button.type = 'button';
+button.className = 'button';
+button.textContent = 'Copy citation';
+button.dataset.citationCopy = '';
+const status = doc.createElement('span');
+status.setAttribute('role', 'status');
+status.className = 'sr-only';
+button.addEventListener('click', async () => {
+try {
+await navigator.clipboard.writeText(citation.textContent.trim());
+button.textContent = 'Citation copied';
+status.textContent = 'Citation copied to clipboard.';
+} catch {
+const selection = window.getSelection();
+if (selection) {
+const range = doc.createRange();
+range.selectNodeContents(citation);
+selection.removeAllRanges();
+selection.addRange(range);
+status.textContent = 'Citation selected. Copy it manually.';
+} else {
+status.textContent = 'Copy unavailable. Select the citation manually.';
+}
+button.textContent = 'Copy citation';
+}
+});
+actions.prepend(button);
+actions.append(status);
+}
 function initArchive() {
 const reduceMotion = reducedMotion.matches;
 initScrollState(reduceMotion);
 initReveal(reduceMotion);
 hardenExternalLinks();
 initReadingState();
+initCitationCopy();
 clearTimeout(initializationFallback);
 }
 if (doc.readyState === 'loading') {

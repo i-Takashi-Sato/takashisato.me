@@ -1,4 +1,6 @@
 """Bibliographic exports derived from the canonical paper records."""
+import json
+
 from .model import Paper, VERSION, PAPER_REVISION_DATE
 
 def citation_export(paper: Paper, kind: str) -> str:
@@ -6,6 +8,20 @@ def citation_export(paper: Paper, kind: str) -> str:
     doi = paper["doi"]
     note = f"Working paper, version {VERSION}, revised {PAPER_REVISION_DATE}"
     year = paper["posted"][:4]
+    if kind == "json":
+        record = {
+            "id": doi,
+            "type": "report",
+            "genre": "Working paper",
+            "title": title,
+            "author": [{"family": "Sato", "given": "Takashi"}],
+            "issued": {"date-parts": [[int(value) for value in paper["posted"].split("-")]]},
+            "DOI": doi,
+            "URL": "https://doi.org/" + doi,
+            "language": "en",
+            "note": note,
+        }
+        return json.dumps([record], ensure_ascii=False, indent=2) + "\n"
     if kind == "bib":
         return (
             "@unpublished{Sato" + year + paper["roman"] + ",\n"

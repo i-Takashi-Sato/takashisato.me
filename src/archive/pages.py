@@ -26,6 +26,96 @@ from .abstracts import ABSTRACTS
 from html import escape
 
 
+# Navigation records summarize existing archive sections; they do not extend the papers.
+CONCEPTS = [
+    [
+        "typed-gate",
+        "Typed Gate Contract",
+        "part1",
+        "I",
+        "contract",
+        "Decision routing, not execution.",
+        "The case-level contract separates preliminary routing, signed disposition and actual execution.",
+        "verification"
+    ],
+    [
+        "evidence-hold",
+        "Evidence hold",
+        "part1",
+        "I",
+        "contract",
+        "Missing evidence is not approval.",
+        "UNKNOWN is routed explicitly; preliminary states do not authorize action.",
+        "verification"
+    ],
+    [
+        "pmgcl",
+        "Procedurally Masked Governing-Capacity Loss (PMGCL)",
+        "part2",
+        "II",
+        "state-model",
+        "Descriptive state model.",
+        "Distinguish intact procedures from judgment, practical capacity and protected-function impairment.",
+        "propositions"
+    ],
+    [
+        "pac",
+        "Pre-Abuse Collapse (PAC)",
+        "part2",
+        "II",
+        "overview",
+        "Provisional etiological subtype.",
+        "The additional causal boundary must be identified; PMGCL alone does not establish PAC.",
+        "propositions"
+    ],
+    [
+        "circuit-breaker",
+        "Circuit Breaker",
+        "part3",
+        "III",
+        "overview",
+        "Reversible containment.",
+        "Containment and retirement are authorized acts; indicators do not decide them.",
+        "verification"
+    ],
+    [
+        "proper-ending",
+        "Proper Ending",
+        "part3",
+        "III",
+        "proper-ending",
+        "Accountable retirement.",
+        "The protocol preserves evidence, continuity, remedy, responsibility and closure under dependency constraints.",
+        "verification"
+    ],
+    [
+        "authority-return",
+        "Authority Return",
+        "part3",
+        "III",
+        "authority-return",
+        "Practical capacity, not title alone.",
+        "Successor or residual custodian arrangements must address judgment, resources and outstanding obligations.",
+        "verification"
+    ]
+]
+
+
+def concept_register() -> str:
+    rows: list[str] = []
+    for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS:
+        links = "".join(
+            f'<a class="button" href="/papers/{paper}.html#{section}" aria-label="{label}: {escape(title)}">{label}</a>'
+            for label, section in (("Explanation", anchor), ("Assessment", assessment), ("Limits", "boundary"), ("Citation", "citation"))
+        )
+        rows.append(
+            f'<article class="record-row concept-record" id="concept-{slug}"><div><p class="label">Part {roman}</p>'
+            f'<h3>{escape(title)}</h3></div><div><p><strong>{escape(status)}</strong> {escape(summary)}</p>'
+            f'<div class="paper-actions">{links}</div></div></article>'
+        )
+    return "".join(rows)
+
+
 def research_map_nodes() -> str:
     return "\n".join(
         f'<a class="research-map-node" href="/papers/{paper["slug"]}.html" data-part="{paper["part"]}"><span class="map-index">0{paper["part"]}</span><span class="map-glyph" aria-hidden="true"><i></i><i></i><i></i></span><b>{paper["function"]}</b><small>{paper["question"]}</small></a>'
@@ -254,8 +344,20 @@ def papers_index_page() -> str:
               <h2>Reading order is useful, not mandatory.</h2>
               <div>
                 <p>Part I specifies a case-level routing contract. Part II models institutional loss over time. Part III specifies containment, accountable retirement, and authority transfer. Each paper contains its own definitions, limitations, and verification boundary.</p>
-                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2.</p>
+                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2. <a href="#concepts">Browse concepts and evidence.</a></p>
               </div>
+            </div>
+          </section>
+          <section class="section compact" id="concepts">
+            <div class="shell">
+              <div class="section-head">
+                <p class="label">Research architecture / 01—07</p>
+                <div>
+                  <h2>Concepts and evidence.</h2>
+                  <p class="section-intro">A navigational index of the published archive explanations, not new definitions or independent validation. Each term leads to its source discussion, assessment, stated limits and versioned citation.</p>
+                </div>
+              </div>
+              <div class="record-list">{concept_register()}</div>
             </div>
           </section>
           <section class="section compact" id="critical-review">
@@ -381,7 +483,7 @@ def paper_page(paper: Paper) -> str:
                   <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
                   <p>To challenge an assumption, identify relevant prior work, or report a counterexample, see the <a href="/papers/#critical-review">critical-review questions and contact route</a>.</p>
                   <div class="citation">{citation}</div>
-                  <div class="paper-actions"><a class="button" href="/citations/v{VERSION}/{paper['slug']}.bib" download>Export BibTeX</a><a class="button" href="/citations/v{VERSION}/{paper['slug']}.ris" download>Export RIS</a></div>
+                  <div class="paper-actions"><a class="button" href="/citations/v{VERSION}/{paper['slug']}.bib" download>Export BibTeX</a><a class="button" href="/citations/v{VERSION}/{paper['slug']}.ris" download>Export RIS</a><a class="button" href="/citations/v{VERSION}/{paper['slug']}.json" download>Export CSL-JSON</a></div>
                   <dl class="record-list">
                     <div class="record-row"><dt>DOI</dt><dd><a href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">{paper['doi']}</a></dd></div>
                     <div class="record-row"><dt>SSRN</dt><dd><a href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">Abstract ID {paper['ssrn']}</a></dd></div>
