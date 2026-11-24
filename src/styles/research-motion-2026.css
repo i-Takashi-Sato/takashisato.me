@@ -162,7 +162,7 @@ body[data-tone^="part-"] .content>section+section {margin-top:clamp(3.4rem,6vw,6
 .paper-actions .button.primary,.identity-actions .button.primary {background:var(--ink);color:var(--paper);border:1px solid var(--ink)}
 @media(hover:hover) and (pointer:fine) {.paper-actions .button.primary:hover,.identity-actions .button.primary:hover {background:#484848;color:#fff;border-color:#484848}}
 body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 {text-wrap:balance}
-.research-map-node .map-glyph,.paper-apparatus {--signal:#c7c9cb;--signal-soft:#a6a8ab;--signal-pale:#d6d6d6}
+.research-map-node .map-glyph,.paper-apparatus {--m-gold:#c7c9cb;--c-ice:#c7c9cb;--r-copper:#c7c9cb}
 .site-footer .footer-wordmark {margin-bottom:clamp(1.6rem,4vw,3rem);white-space:normal}
 .site-footer .footer-grid,.site-footer .footer-bottom {opacity:1}
 .site-footer .footer-links a {font-size:.85rem;min-height:2.75rem}
