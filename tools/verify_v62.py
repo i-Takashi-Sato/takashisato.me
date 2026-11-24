@@ -341,6 +341,15 @@ def audit_content(errors: list[str]) -> None:
         fail(errors, "about.html: awkward Japanese SEO phrase returned to the visible author record")
 
     home = (ROOT / "index.html").read_text(encoding="utf-8")
+    if home.count('<span lang="ja">佐藤貴士</span>') != 1:
+        fail(errors, "index.html: native author name must appear once in visible copy")
+    for rel, html in [("index.html", home), ("about.html", about)]:
+        if "<title>Takashi Sato (佐藤貴士) — " not in html:
+            fail(errors, f"{rel}: bilingual identity title missing")
+    if '<link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">' not in about or "/assets/author-paper.webp" in home:
+        fail(errors, "author-only material preload contract violated")
+    if '"dateModified":"2026-11-24"' not in (ROOT / "colophon.html").read_text(encoding="utf-8"):
+        fail(errors, "colophon.html: structured revision date mismatch")
     if GOOGLE_SITE_VERIFICATION not in home:
         fail(errors, "index.html: Search Console ownership verification is missing")
     if "AI Governance Research Archive" not in home:

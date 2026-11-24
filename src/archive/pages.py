@@ -192,7 +192,7 @@ def home_page() -> str:
                   <p>Independent research<br>Sapporo, Japan</p>
                 </div>
                 <div class="profile-copy">
-                  <p class="lead">Takashi Sato studies how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
+                  <p class="lead">Takashi Sato (<span lang="ja">佐藤貴士</span>) studies how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
                   <div class="hero-actions">
                     <a class="button" href="/about.html">About the author</a>
                     <a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID <span class="arrow" aria-hidden="true">↗</span></a>
@@ -206,8 +206,8 @@ def home_page() -> str:
     ).strip()
     return shell_page(
         head_html=head(
-            title="The Proper Ending Index — AI Governance Research Archive · Takashi Sato",
-            description="Takashi Sato’s independent AI governance research archive on accountable decision routing, governing-capacity loss, Proper Ending, and Authority Return.",
+            title="Takashi Sato (佐藤貴士) — AI Governance Research Archive",
+            description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. Working papers on AI governance, accountable decisions, governing-capacity loss, Proper Ending, and Authority Return.",
             path="/",
             image="/assets/og/home.jpg",
             schema=schema,
@@ -473,7 +473,9 @@ def about_page() -> str:
                 "@type": "ProfilePage",
                 "@id": f"{SITE}/about.html#profile",
                 "url": f"{SITE}/about.html",
-                "name": "Takashi Sato · Author Record",
+                "name": "Takashi Sato (佐藤貴士) · Author Record",
+                "dateModified": "2026-11-24",
+                "description": "Independent AI governance research in Sapporo, Japan.",
                 "mainEntity": {"@id": AUTHOR_ID},
             },
             breadcrumb_schema([("Index", "/"), ("Author", "/about.html")]),
@@ -509,7 +511,7 @@ def about_page() -> str:
                 <h2 id="portrait-research">The Proper Ending Index</h2>
                 <p>Three working papers on accountable decision routing, governing capacity, and responsible workflow exit. Their claims, methods, and limits are documented in the archive.</p>
                 <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
-                <p class="portrait-note"><a href="/papers/#critical-review">Independent critical review</a></p>
+                <p class="portrait-note"><a href="/papers/#critical-review">Invitation to independent review</a></p>
               </div>
               <div class="portrait-identifiers">
                 <h2 class="eyebrow">Scholarly record</h2>
@@ -528,7 +530,7 @@ def about_page() -> str:
     ).strip()
     return shell_page(
         head_html=head(
-            title="Takashi Sato — AI Governance Researcher · The Proper Ending Index",
+            title="Takashi Sato (佐藤貴士) — AI Governance Researcher",
             description="Author record for Takashi Sato (佐藤貴士), an independent AI governance researcher in Sapporo studying accountable decision routing, governing capacity, and institutional exit.",
             path="/about.html",
             image="/assets/og/about.jpg",
@@ -575,7 +577,7 @@ def utility_page(
                         "url": f"{SITE}/{slug}",
                         "name": title,
                         "description": description,
-                        "dateModified": UPDATED,
+                        "dateModified": "2026-11-24" if slug == "colophon.html" else UPDATED,
                         "author": {"@id": AUTHOR_ID},
                     },
                     AUTHOR,

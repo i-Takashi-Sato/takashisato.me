@@ -59,6 +59,11 @@ def head(
         else ""
     )
 
+    author_material_preload = (
+        '\n          <link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">'
+        if path == "/about.html" else ""
+    )
+
     paper_meta = ""
     if paper:
         full_title = escape(f"{paper['title']}: {paper['subtitle']}", quote=True)
@@ -101,7 +106,7 @@ def head(
           <link rel="icon" href="/assets/brand-mark.svg" type="image/svg+xml">
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-          <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+          <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>{author_material_preload}
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="The Proper Ending Index">
