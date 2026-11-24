@@ -102,7 +102,12 @@ def run(engine: str) -> int:
                 if problems:
                     failures.extend(f"{prefix}: {problem}" for problem in problems)
                 if problems or mode == "large-text":
-                    page.screenshot(path=str(out / f"{mode}-{name}.png"), full_page=True)
+                    # Bound raster size for engines with tall-page screenshot limits.
+                    # Geometry assertions still cover the full document.
+                    height = page.evaluate("document.documentElement.scrollHeight")
+                    full_page = engine == "chromium" or height <= 16000
+                    records[-1]["screenshotScope"] = "full-page" if full_page else "viewport"
+                    page.screenshot(path=str(out / f"{mode}-{name}.png"), full_page=full_page)
             context.close()
         browser.close()
     (out / "report.json").write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
