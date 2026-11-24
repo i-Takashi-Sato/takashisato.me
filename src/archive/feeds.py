@@ -5,6 +5,13 @@ from __future__ import annotations
 from .model import AUTHOR, PAPERS, SITE, UPDATED, VERSION, article_schema
 
 
+RESEARCH_PROVENANCE = {
+    1: "Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here.",
+    2: "Descriptive model and rejectable propositions; empirical validation is not established.",
+    3: "Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation.",
+}
+
+
 def research_index() -> dict[str, object]:
     parts: list[dict[str, object]] = []
     for paper in PAPERS:
@@ -14,6 +21,7 @@ def research_index() -> dict[str, object]:
             {"@type": "PropertyValue", "name": "Research function", "value": paper["function"]},
             {"@type": "PropertyValue", "name": "Research question", "value": paper["question"]},
             {"@type": "PropertyValue", "name": "SSRN abstract ID", "value": paper["ssrn"]},
+            {"@type": "PropertyValue", "name": "Research provenance", "value": RESEARCH_PROVENANCE[paper["part"]]},
         ]
         parts.append(record)
 
@@ -78,7 +86,7 @@ def sitemap() -> str:
         "/papers/part2.html": "2026-11-24",
         "/papers/part3.html": "2026-11-24",
         "/about.html": "2026-11-24",
-        "/colophon.html": "2026-11-23",
+        "/colophon.html": "2026-11-24",
     }
     urls = "\n".join(
         f"  <url><loc>{SITE}{path}</loc><lastmod>{changed_pages.get(path, UPDATED)}</lastmod></url>"

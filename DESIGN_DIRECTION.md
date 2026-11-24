@@ -46,9 +46,10 @@ research meaning unchanged, the effect is decoration and should usually be remov
 
 ## Typography and material
 
-Newsreader carries editorial display; Inter carries interface, data, and reading text;
-Mea Culpa is deliberately scarce. Materiality comes from light, hairlines, measurement
-fields, spacing, and color temperature—not wallpaper textures, glassmorphism, or glow.
+Inter carries the main display, interface, data, and reading text. Editorial serif typography
+and approved material texture are limited to the author chamber, which may display the
+supplied signature. Elsewhere materiality comes from light, hairlines, measurement fields,
+spacing, and color temperature—not wallpaper textures, glassmorphism, or glow.
 
 Typography is architecture. Line length, line break, optical size, letter spacing,
 vertical rhythm, numeric alignment, and the relationship between display and evidence

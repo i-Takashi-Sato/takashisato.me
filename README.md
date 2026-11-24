@@ -24,7 +24,7 @@ Authoring source is separated from generated runtime output:
 
 ```text
 src/archive/        canonical research model + page renderers
-src/styles/         base, pavilion, research instruments, performance, critical styles
+src/styles/         base, research instruments, performance, identity and research motion
 src/scripts/        progressive-enhancement modules
 tools/build_site.py build orchestration
 tools/build_assets.py deterministic CSS/JS compilation
@@ -36,7 +36,7 @@ pdf/v6.2/           immutable preserved papers
 ```
 
 Production remains intentionally small: pre-rendered HTML, one shared stylesheet,
-one progressive-enhancement script, and inline first-viewport CSS. No framework
+one progressive-enhancement script, and no inline style blocks. No framework
 runtime, remote font request, client-side router, account system, or UI package.
 
 ## Build
