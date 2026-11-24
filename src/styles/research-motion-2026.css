@@ -76,5 +76,5 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-note{font-size:.85rem;margin-top:1.2rem}
 @media(max-width:48rem){.portrait-grid,.portrait-position,.portrait-record-grid{grid-template-columns:1fr}.portrait-name h1{font-size:clamp(3.5rem,14vw,6.5rem)}.portrait-signature{max-width:15rem;justify-self:end}.portrait-grid{gap:2rem}.portrait-identifiers dl div{grid-template-columns:minmax(0,.7fr) minmax(0,1fr)}}
 @media(max-width:23rem){.portrait-mast p{font-size:.68rem}.portrait-identifiers dl div{grid-template-columns:1fr;gap:0}}
-@media print{.portrait-chamber{background:#fff;color:#000;padding-block:1rem}.portrait-chamber :is(h1,p,.portrait-question,.breadcrumbs a,.breadcrumbs span){color:#000}.portrait-grid{padding-block:1rem}.portrait-signature{display:none}.portrait-record{padding-block:1rem}}
+@media print{.portrait-chamber{background:#fff;color:#000;padding-block:1rem}.portrait-chamber h1,.portrait-chamber p,.portrait-chamber .portrait-question,.portrait-chamber .breadcrumbs a,.portrait-chamber .breadcrumbs span{color:#000}.portrait-grid{padding-block:1rem}.portrait-signature{display:none}.portrait-record{padding-block:1rem}}
 @media(forced-colors:active){.portrait-signature{display:none}}
