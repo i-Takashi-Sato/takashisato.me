@@ -68,7 +68,7 @@ def head(
 
     author_material_preload = (
         '\n          <link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">'
-        '\n          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>'
+        '\n          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin media="(min-width:48.01rem)">'
         if path == "/about.html" else ""
     )
 
@@ -115,6 +115,7 @@ def head(
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>{author_material_preload}
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
@@ -134,8 +135,6 @@ def head(
           <meta name="twitter:image:alt" content="{safe_image_alt}">
           {paper_meta}
           {schema_html}
-          <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style">
-          <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}">
           <script src="/assets/site.js?v={ASSET_VERSION}" defer></script>
         </head>
         """

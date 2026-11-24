@@ -351,7 +351,7 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"{rel}: bilingual identity title missing")
     if '<link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">' not in about or "/assets/author-paper.webp" in home:
         fail(errors, "author-only material preload contract violated")
-    if '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' not in about or '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' in home:
+    if '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin media="(min-width:48.01rem)">' not in about or '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin media="(min-width:48.01rem)">' in home:
         fail(errors, "author-only editorial font preload contract violated")
     record_path = ROOT / "reproduction/v5.9/part3-reexecution-2026-11-24.json"
     record = json.loads(record_path.read_text(encoding="utf-8"))

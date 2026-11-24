@@ -16,6 +16,10 @@ Source styling is compiled in the declared order in `tools/build_assets.py`: `ba
 Production ships one shared stylesheet without inline style blocks. The shared stylesheet participates
 in the initial render directly; it is not held behind a JavaScript or `window.load`
 style swap, so the archive does not trade a fast first paint for a delayed LCP restyle.
+The stylesheet is discovered before font preloads. The author-only editorial serif is
+preloaded for desktop widths; at smaller widths it is requested normally by CSS.
+Lighthouse takes three runs per URL and checks the least favorable measurement against
+the existing budgets rather than allowing a best-run pass.
 
 ## Dependency direction
 
