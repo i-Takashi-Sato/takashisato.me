@@ -579,6 +579,26 @@ def concept_register_errors(browser, errors: list[str]) -> None:
 
 
 
+def japanese_guide_errors(browser, errors: list[str]) -> None:
+    for width in (320, 390, 1440):
+        for js in (False, True):
+            context = browser.new_context(viewport={"width": width, "height": 844}, java_script_enabled=js, reduced_motion="reduce")
+            page = context.new_page()
+            page.goto(BASE + PAGES["home"], wait_until="domcontentloaded")
+            page.locator('a[href="/papers/#japanese"]').click(timeout=5000)
+            page.wait_for_url("**/papers/#japanese")
+            heading = page.locator("#japanese-title")
+            heading.wait_for(state="visible", timeout=5000)
+            if page.locator('#japanese[lang="ja"] .record-row').count() != 3:
+                errors.append(f"Japanese guide {width}/{js}: missing paper records")
+            if page.evaluate("document.documentElement.scrollWidth > innerWidth"):
+                errors.append(f"Japanese guide {width}/{js}: horizontal overflow")
+            geometry = heading.bounding_box()
+            if not geometry or geometry["y"] < 0 or geometry["y"] >= 844:
+                errors.append(f"Japanese guide {width}/{js}: entry heading outside viewport")
+            context.close()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -615,6 +635,7 @@ def main() -> None:
         citation_copy_errors(browser, errors)
         reading_entry_errors(browser, errors)
         concept_register_errors(browser, errors)
+        japanese_guide_errors(browser, errors)
         browser.close()
 
     if errors:
