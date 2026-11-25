@@ -918,7 +918,7 @@ def audit_japanese_guide(errors: list[str]) -> None:
     for slug in ("part1", "part2", "part3"):
         if section.count(f'href="/papers/{slug}.html"') != 1:
             fail(errors, f"Japanese guide: missing unique English paper link {slug}")
-    for required in ("正式な翻訳や新たな研究結果ではありません", "ワーキングペーパー", "実証するものではありません", 'href="#concepts"', 'href="#critical-review"'):
+    for required in ("正式な翻訳でも新たな研究結果でもない", "ワーキングペーパー", "実証するものではない", 'href="#concepts"', 'href="#critical-review"'):
         if required not in section:
             fail(errors, f"Japanese guide: missing interpretation boundary {required}")
 
