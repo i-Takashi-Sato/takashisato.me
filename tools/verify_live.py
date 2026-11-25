@@ -38,6 +38,9 @@ ROUTES = {
         "favicon.svg", "favicon.ico", "favicon-96x96.png", "apple-touch-icon.png",
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
         "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
+        "humans.txt", ".well-known/security.txt",
+        "reproduction/v5.9/part3-historical-checker.zip",
+        "reproduction/v5.9/part3-reexecution-2026-11-24.json",
     )},
 }
 TYPES = {
@@ -45,6 +48,7 @@ TYPES = {
     ".css": {"text/css"},
     ".js": {"text/javascript", "application/javascript"},
     ".pdf": {"application/pdf"},
+    ".zip": {"application/zip", "application/x-zip-compressed", "application/octet-stream"},
     ".jpg": {"image/jpeg"},
     ".png": {"image/png"},
     ".webp": {"image/webp"},

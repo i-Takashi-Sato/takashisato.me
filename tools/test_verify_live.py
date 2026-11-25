@@ -53,6 +53,30 @@ class LiveAuditTests(unittest.TestCase):
             with self.subTest(route=route):
                 self.assertTrue((ROOT / path).is_file())
 
+    def test_preservation_and_disclosure_inventory(self):
+        for path in (
+            "humans.txt", ".well-known/security.txt",
+            "reproduction/v5.9/part3-historical-checker.zip",
+            "reproduction/v5.9/part3-reexecution-2026-11-24.json",
+        ):
+            self.assertEqual(ROUTES["/" + path], path)
+
+    def test_security_disclosure_record(self):
+        from datetime import datetime, timezone
+        from src.archive.model import SITE
+        fields = {}
+        for line in (ROOT / ".well-known/security.txt").read_text(encoding="utf-8").splitlines():
+            if not line or line.startswith("#"):
+                continue
+            name, value = line.split(": ", 1)
+            fields.setdefault(name, []).append(value)
+        self.assertEqual(fields.get("Contact"), ["mailto:i@takashisato.me"])
+        self.assertEqual(fields.get("Canonical"), [SITE + "/.well-known/security.txt"])
+        self.assertEqual(fields.get("Policy"), [SITE + "/security.html"])
+        self.assertEqual(len(fields.get("Expires", [])), 1)
+        expiry = datetime.fromisoformat(fields["Expires"][0].replace("Z", "+00:00"))
+        self.assertGreater(expiry, datetime.now(timezone.utc), "security.txt has expired; verify and renew the contact record")
+
     def test_runtime_routes_match_content(self):
         for name in RUNTIME_NAMES:
             data = (ROOT / "assets" / name).read_bytes()
