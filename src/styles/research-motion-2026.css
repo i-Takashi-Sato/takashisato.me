@@ -227,7 +227,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
   color: var(--ink);
 }
 #japanese .shell { max-width: 76rem; }
-#japanese :is(.section-head,.record-row,.ja-evidence) {
+#japanese *:is(.section-head,.record-row,.ja-evidence) {
   display: grid;
   grid-template-columns: minmax(10rem, calc(var(--ja-h3)*12.5)) minmax(0, 38rem);
   column-gap: clamp(2rem, 5vw, 4.5rem);
@@ -244,16 +244,16 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese .ja-title-tail { display: inline-block; max-width: 100%; }
 #japanese .label { font: 600 .8rem/1.6 var(--ja-sans); letter-spacing: .07em; }
 #japanese h3 { font: 600 var(--ja-h3)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
-#japanese :is(p,h2,h3) { overflow-wrap: anywhere; word-break: normal; }
+#japanese *:is(p,h2,h3) { overflow-wrap: anywhere; word-break: normal; }
 #japanese .record-list { margin-top: 0; }
 #japanese .record-row { padding-block: clamp(1.9rem, 3.6vw, 3rem); }
-#japanese :is(.record-row,.section-head,.ja-evidence) > div { min-width: 0; }
-#japanese :is(.record-row,.ja-evidence,.section-head) p:not(.label) { font: inherit; color: var(--ink); max-width: none; margin: 0; }
-#japanese :is(.record-row,.ja-evidence,.section-head) p + p:not(.label) { margin-top: 1em; }
+#japanese *:is(.record-row,.section-head,.ja-evidence) > div { min-width: 0; }
+#japanese *:is(.record-row,.ja-evidence,.section-head) p:not(.label) { font: inherit; color: var(--ink); max-width: none; margin: 0; }
+#japanese *:is(.record-row,.ja-evidence,.section-head) p + p:not(.label) { margin-top: 1em; }
 #japanese .section-head .section-intro:last-child { font-size: .88em; color: var(--ink-soft); }
 #japanese .ja-evidence { padding-block-start: 2.4rem; }
 #japanese a { font-family: var(--ja-sans); font-size: .87em; text-underline-offset: .24em; text-decoration-thickness: 1px; }
 @media (max-width: 56rem) {
-  #japanese :is(.section-head,.record-row,.ja-evidence) { grid-template-columns: minmax(0,38rem); row-gap: 1rem; }
+  #japanese *:is(.section-head,.record-row,.ja-evidence) { grid-template-columns: minmax(0,38rem); row-gap: 1rem; }
   #japanese .section-head { margin-bottom: 2rem; }
 }
