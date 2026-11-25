@@ -109,7 +109,7 @@ def home_page() -> str:
                 <p class="identity-overline">RESEARCH &amp; WRITINGS</p>
                 <h1 id="hero-title">Takashi<br>Sato</h1>
                 <p class="identity-thesis"><span lang="ja">佐藤貴士</span></p>
-                <p class="identity-detail">An independent archive of research and writing. The featured collection examines how AI-assisted institutions route decisions, lose governing capacity, and bring workflows to an accountable end.</p>
+                <p class="identity-detail">An independent archive of research and writing. The current collection asks how institutions govern AI-assisted decisions, how that capacity erodes, and how failing workflows can be brought to an accountable end.</p>
                 <div class="identity-actions">
                   <a class="button primary" href="/publications/">Explore publications <span aria-hidden="true">↗</span></a>
                   <a class="button" href="/papers/">Featured research</a>
@@ -118,7 +118,7 @@ def home_page() -> str:
               <figure class="identity-art">
                 <div class="identity-art-head"><span>THE PROPER ENDING INDEX</span><span>I—III</span></div>
                 <nav class="identity-instruments" aria-label="Three distinct research questions">{research_map_nodes()}</nav>
-                <figcaption>Three working papers. Conceptual instruments, not empirical results. Each opens its corresponding paper.</figcaption>
+                <figcaption>Three working papers, each represented by a conceptual instrument rather than empirical data. Select an instrument to read the paper.</figcaption>
               </figure>
             </div>
           </section>
@@ -129,7 +129,7 @@ def home_page() -> str:
                 <p class="label">Featured research collection</p>
                 <div>
                   <h2>From a case decision to an institutional exit.</h2>
-                  <p class="section-intro">The papers are connected, but they do not collapse into a single score or universal lifecycle. Each asks a distinct question and states its own claim boundary.</p>
+                  <p class="section-intro">The papers address related problems without reducing them to a single score or prescribing a universal lifecycle. Each poses a distinct question and defines the limits of its claims.</p>
                 </div>
               </div>
               <div class="sequence">{rows}</div>
@@ -141,9 +141,9 @@ def home_page() -> str:
               <h2 id="verification-register">Verification register.</h2>
               <div>
                 <p class="label">Part I / Finite contract</p>
-                <p>v6.2 independent reimplementation: 1,024 Stage-1 and 1,248 applicable Stage-2 configurations; nine isolated guard mutations. <a href="/papers/part1.html#verification">Truth-table abstraction and invariant checks.</a></p>
+                <p>The v6.2 independent reimplementation reported in Part I covers 1,024 Stage-1 and 1,248 applicable Stage-2 configurations and nine isolated guard mutations. It is not an independent third-party replication. <a href="/papers/part1.html#verification">Truth-table abstraction and invariant checks.</a></p>
                 <p class="label">Part II / Descriptive model</p>
-                <p>Five rejectable propositions and a comparative retirement test. <a href="/papers/part2.html#propositions">Empirical rejection criteria, not a validated classification.</a></p>
+                <p>Five rejectable propositions and a comparative retirement test. <a href="/papers/part2.html#propositions">Criteria for empirical rejection, not evidence of a validated classification.</a></p>
                 <p class="label">Part III / Transition protocol</p>
                 <p>Frozen v5.9 execution, carried forward in v6.2: 8,564 reachable states, 36,096 enabled transitions and 30 guard mutations within a selected finite abstraction. Synthetic benchmark results are also carried forward; no new execution is claimed in v6.2. <a href="/papers/part3.html#verification">Verification scope and disclosed execution provenance.</a></p>
                 <p>These quantities describe different research objects. They are not comparable measures of validity, performance or practical effectiveness.</p>
@@ -158,7 +158,7 @@ def home_page() -> str:
                 <div>
                   <p>These are working papers and formalized research artifacts—not legal advice, a compliance certification, an operational decision engine, or evidence that the proposed architectures improve outcomes in the field.</p>
                   <p>Finite checks are exhaustive only over each declared abstraction. The shared public-record corpus supports traceability, not frequency, prediction, causal sufficiency, or independent validation.</p>
-                <p>Independent critical review is invited. <a href="/papers/#critical-review">Examine the review questions and submission route</a>.</p>
+                <p>Independent critical review is invited. <a href="/papers/#critical-review">Read the review questions and submit a critique</a>.</p>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@ def home_page() -> str:
                   <p>Independent research<br>Sapporo, Japan</p>
                 </div>
                 <div class="profile-copy">
-                  <p class="lead">Current research examines how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
+                  <p class="lead">Current research examines how institutions retain accountable judgment in AI-assisted decisions. When governance fails, the question is how to contain or retire the workflow and restore or reassign the capacity to decide.</p>
                   <div class="hero-actions">
                     <a class="button" href="/about.html">About the author</a>
                     <a class="button" href="/papers/#japanese" lang="ja">日本語の研究案内</a>
@@ -255,7 +255,7 @@ def papers_index_page() -> str:
             {breadcrumbs([("Index", "/"), ("Papers", None)])}
             <p class="eyebrow" data-reveal>Workflow-Centric AI Governance Trilogy</p>
             <h1 data-reveal>Three papers. One institutional problem.</h1>
-            <p class="page-deck" data-reveal>Accountability can fail at the moment of routing, across the life of an institution, and at the point of exit. The trilogy treats those as related but analytically separate governance problems.</p>
+            <p class="page-deck" data-reveal>Accountability can fail when a case is routed, as an institution’s governing capacity erodes, or when a workflow ends. The trilogy treats these as related but distinct governance problems.</p>
             <div class="paper-meta" data-reveal>
               <span>Author · Takashi Sato</span>
               <span>Status · Working papers</span>
@@ -331,7 +331,7 @@ def papers_index_page() -> str:
                 <p class="label">Research architecture / 01—07</p>
                 <div>
                   <h2>Concepts and evidence.</h2>
-                  <p class="section-intro">An index of the archive's research concepts, not new definitions or independent validation. Each entry links to its explanation, assessment, stated limits, citation and the relevant pages of the preserved v6.2 paper.</p>
+                  <p class="section-intro">An index of the trilogy’s research concepts, not a set of new definitions or evidence of independent validation. Each entry links to the concept’s explanation, assessment, limits, citation, and the relevant pages of the preserved v6.2 paper.</p>
                 </div>
               </div>
               <div class="record-list">{concept_register()}</div>
@@ -343,7 +343,7 @@ def papers_index_page() -> str:
               <div>
                 <p>The most useful review identifies a claim that is unclear, already established elsewhere, unsupported, or contradicted by a counterexample. Criticism is welcome across all three working papers.</p>
                 <p><strong>Part I / Decision routing.</strong> Are important states or precedence rules missing? Can a counterexample breach the separation between typed routing, authorized disposition, and actual execution?</p>
-                <p><strong>Part II / Governing capacity.</strong> Can the proposed state distinctions be separated from existing accounts of organizational failure? What observations would contradict the descriptive model?</p>
+                <p><strong>Part II / Governing capacity.</strong> Do the proposed state distinctions capture anything that existing accounts of organizational failure do not? What observations would contradict the descriptive model?</p>
                 <p><strong>Part III / Accountable exit.</strong> Do the proposed dependencies preserve evidence, remedy, service continuity, and accountable authority? Which transitions are infeasible or omit a failure path?</p>
                 <h3>Selected prior work for comparison</h3>
                                 <p>The following are comparison anchors, not endorsements or a systematic literature review. The existence of an oversight or decommissioning concern is not, by itself, a novel contribution.</p>
@@ -543,7 +543,7 @@ def about_page() -> str:
               </div>
               <div class="portrait-position">
                 <p class="portrait-question">What remains when form and function diverge?</p>
-                <p>I study authority, responsibility, and independent judgment. My current research examines how AI-assisted institutions retain the capacity to govern, how that capacity can be lost, and what an accountable exit requires.</p>
+                <p>I study authority, responsibility, and independent judgment. My current research asks how institutions retain the capacity to govern AI-assisted decisions, how that capacity is lost, and what an accountable exit requires.</p>
               </div>
             </div>
           </header>
@@ -552,7 +552,7 @@ def about_page() -> str:
               <div>
                 <p class="eyebrow">Research</p>
                 <h2 id="portrait-research">The Proper Ending Index</h2>
-                <p>Three working papers on accountable decision routing, governing capacity, and responsible workflow exit. Their claims, methods, and limits are documented in the archive.</p>
+                <p>Three working papers on accountable decision routing, governing capacity, and workflow exit. Each record sets out the paper’s claims, methods, and limits.</p>
                 <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
                 <p class="portrait-note"><a href="/papers/#critical-review">Invitation to independent review</a></p>
                 <p class="portrait-note"><a href="/papers/#japanese" lang="ja">日本語の研究案内</a></p>

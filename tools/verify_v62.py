@@ -392,6 +392,10 @@ def audit_content(errors: list[str]) -> None:
         fail(errors, "historical checker download link missing")
     if '"dateModified":"2026-11-24"' not in (ROOT / "colophon.html").read_text(encoding="utf-8"):
         fail(errors, "colophon.html: structured revision date mismatch")
+    if "It is not an independent third-party replication." not in home:
+        fail(errors, "index.html: author-side verification disclosure missing")
+    if "contain, retire, and transfer decision capacity" in home:
+        fail(errors, "index.html: workflow and decision-capacity objects conflated")
     if GOOGLE_SITE_VERIFICATION not in home:
         fail(errors, "index.html: Search Console ownership verification is missing")
     if "<title>Takashi Sato (佐藤貴士) — Research &amp; Writings</title>" not in home:
