@@ -76,3 +76,7 @@ The Chromium seven-mode reading-resilience suite remains unchanged in coverage a
 ### Editorial reading entry
 
 Each paper cover retains the primary SSRN research record and adds a native in-page abstract link before the preserved PDF and DOI. The named table of contents is a navigation landmark. Wide paper layouts reduce the empty space between cover and reading field; mobile spacing remains unchanged. No claims, original documents, or citations are altered. The reading entry is tested at three widths with and without JavaScript.
+
+## Discipline-neutral publication catalogue
+
+The individual author archive has a separate catalogue at `/publications/` and `/publications.json`. The adapter in `src/archive/publications.py` derives the current three records from the immutable trilogy metadata. Future released works may have independent dates, languages, types, optional series, optional DOI, optional versions and explicitly known review status. No topic is reserved in advance. A record must point to a real published destination; new individual record renderers and preservation/citation rules must be added when the corresponding work exists. The trilogy-specific index and Atom feed remain unchanged. Synthetic bilingual expansion probes are executed only in tests, not in generated public records.

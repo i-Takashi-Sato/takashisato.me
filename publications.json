@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "author": "https://takashisato.me/about.html#takashi-sato",
+  "url": "https://takashisato.me/publications/",
+  "publications": [
+    {
+      "id": "https://takashisato.me/papers/part1.html#article",
+      "path": "/papers/part1.html",
+      "title": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions",
+      "summary": "A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.",
+      "language": "en-US",
+      "kind": "working-paper",
+      "published": "2026-01-09",
+      "revised": "2026-08-23",
+      "version": "6.2",
+      "collection": "https://takashisato.me/papers/#trilogy",
+      "doi": "10.2139/ssrn.5911063",
+      "review": "not-established"
+    },
+    {
+      "id": "https://takashisato.me/papers/part2.html#article",
+      "path": "/papers/part2.html",
+      "title": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
+      "summary": "A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.",
+      "language": "en-US",
+      "kind": "working-paper",
+      "published": "2026-01-12",
+      "revised": "2026-08-23",
+      "version": "6.2",
+      "collection": "https://takashisato.me/papers/#trilogy",
+      "doi": "10.2139/ssrn.5913703",
+      "review": "not-established"
+    },
+    {
+      "id": "https://takashisato.me/papers/part3.html#article",
+      "path": "/papers/part3.html",
+      "title": "From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions",
+      "summary": "A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.",
+      "language": "en-US",
+      "kind": "working-paper",
+      "published": "2026-02-10",
+      "revised": "2026-08-23",
+      "version": "6.2",
+      "collection": "https://takashisato.me/papers/#trilogy",
+      "doi": "10.2139/ssrn.6066430",
+      "review": "not-established"
+    }
+  ]
+}

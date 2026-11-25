@@ -23,6 +23,7 @@ SLUGS = tuple(paper["slug"] for paper in PAPERS)
 # Canonical public routes only; no mutable PDF aliases or third-party requests.
 ROUTES = {
     "/": "index.html",
+    "/publications/": "publications/index.html",
     "/papers/": "papers/index.html",
     **{f"/papers/{slug}.html": f"papers/{slug}.html" for slug in SLUGS},
     **{f"/{name}.html": f"{name}.html" for name in ("about", "colophon", "privacy", "security")},
@@ -37,7 +38,7 @@ ROUTES = {
         "assets/fonts/InterVariable.woff2", "assets/fonts/Newsreader-Variable.woff2",
         "favicon.svg", "favicon.ico", "favicon-96x96.png", "apple-touch-icon.png",
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
-        "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
+        "site.webmanifest", "research-index.json", "publications.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
         "humans.txt", ".well-known/security.txt",
         "76a21f980fdabdd7e0452ee2206d1b18.txt",
         "reproduction/v5.9/part3-historical-checker.zip",
@@ -89,7 +90,7 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
     url = urljoin(base.rstrip("/") + "/", route.lstrip("/"))
     opener = build_opener(NoRedirect())
     request = Request(url, headers={
-        "User-Agent": "ProperEndingIndex-ReleaseAudit/1.0",
+        "User-Agent": "TakashiSatoArchive-ReleaseAudit/1.0",
         "Accept-Encoding": "identity",
         "Cache-Control": "no-cache",
     })

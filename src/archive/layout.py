@@ -12,6 +12,7 @@ from .model import (
     PAPER_REVISION_DATE,
     SCHOLAR_URL,
     SITE,
+    SITE_NAME,
     VERSION,
     Paper,
 )
@@ -24,8 +25,14 @@ def breadcrumbs(items: list[tuple[str, str | None]]) -> str:
         if path is None:
             rendered.append(f'<li><span aria-current="page">{safe_label}</span></li>')
         else:
-            rendered.append(f'<li><a href="{path}">{safe_label}</a></li>')
+            rendered.append(f'<li><a href="{escape(path, quote=True)}">{safe_label}</a></li>')
     return '<nav class="breadcrumbs" aria-label="Breadcrumb"><ol>' + "".join(rendered) + "</ol></nav>"
+
+
+def json_ld(schema: dict[str, object] | list[dict[str, object]]) -> str:
+    """Serialize metadata without allowing a literal HTML script end tag."""
+    payload = json.dumps(schema, ensure_ascii=False, separators=(",", ":"))
+    return '<script type="application/ld+json">' + payload.replace("<", "\\u003c") + "</script>"
 
 
 def head(
@@ -52,13 +59,7 @@ def head(
     }.get(image_kind, f"{paper['title']}: {paper['subtitle']}. Conceptual research instrument, not empirical data." if paper else title)
     safe_image_alt = escape(image_alt, quote=True)
 
-    schema_html = ""
-    if schema:
-        schema_html = (
-            '<script type="application/ld+json">'
-            + json.dumps(schema, ensure_ascii=False, separators=(",", ":"))
-            + "</script>"
-        )
+    schema_html = json_ld(schema) if schema else ""
 
     verification_html = (
         f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">'
@@ -123,7 +124,7 @@ def head(
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>{author_material_preload}
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
-          <meta property="og:site_name" content="Takashi Sato">
+          <meta property="og:site_name" content="{SITE_NAME}">
           <meta property="og:title" content="{safe_title}">
           <meta property="og:description" content="{safe_description}">
           <meta property="og:url" content="{safe_canonical}">
@@ -156,9 +157,9 @@ def header(active: str = "") -> str:
         <a class="skip-link" href="#main">Skip to content</a>
         <header class="site-header">
           <div class="header-inner">
-            <a class="brand" href="/" aria-label="Takashi Sato — home">
+            <a class="brand" href="/" aria-label="{SITE_NAME} — home">
               <img class="brand-mark" src="/assets/brand-mark.svg" width="32" height="32" alt="">
-              <span>Takashi Sato</span>
+              <span>{SITE_NAME}</span>
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
               <a href="/"{current('index')}>Index</a>
@@ -177,7 +178,7 @@ def footer() -> str:
         f"""
         <footer class="site-footer">
           <div class="shell">
-            <a class="footer-wordmark" href="/" aria-label="Takashi Sato — home">Takashi Sato</a>
+            <a class="footer-wordmark" href="/" aria-label="{SITE_NAME} — home">{SITE_NAME}</a>
             <div class="footer-grid">
               <div>
                 <p class="eyebrow">Research &amp; writings</p>
@@ -186,6 +187,7 @@ def footer() -> str:
               <div class="footer-links">
                 <div>
                   <p class="label">Research</p>
+                  <a href="/publications/">All publications</a>
                   <a href="/papers/">Paper trilogy</a>
                   <a href="/research-index.json">Machine-readable index</a>
                   <a href="/feed.xml">Research feed · Atom</a>

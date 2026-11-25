@@ -5,6 +5,7 @@ import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from unittest.mock import patch
+from xml.etree import ElementTree
 
 from verify_live import ROOT, ROUTES, ROBOTS_PREFIX, verify, verify_one
 from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
@@ -52,6 +53,23 @@ class LiveAuditTests(unittest.TestCase):
         for route, path in ROUTES.items():
             with self.subTest(route=route):
                 self.assertTrue((ROOT / path).is_file())
+
+    def test_public_route_inventory_covers_sitemap(self):
+        from src.archive.model import SITE
+
+        namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        sitemap = ElementTree.parse(ROOT / "sitemap.xml")
+        for loc in sitemap.findall("s:url/s:loc", namespace):
+            url = loc.text or ""
+            with self.subTest(url=url):
+                self.assertTrue(url.startswith(SITE + "/"))
+                route = url.removeprefix(SITE)
+                self.assertIn(route, ROUTES)
+                self.assertEqual(
+                    ROUTES[route],
+                    route.lstrip("/") + ("index.html" if route.endswith("/") else ""),
+                )
+        self.assertEqual(ROUTES["/publications.json"], "publications.json")
 
     def test_preservation_and_disclosure_inventory(self):
         for path in (

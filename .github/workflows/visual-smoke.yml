@@ -43,7 +43,7 @@ jobs:
           cat /tmp/archive-http.log
           exit 1
 
-      - name: Check 42 viewport/page combinations and no-JS fallbacks
+      - name: Check viewport/page combinations and no-JS fallbacks
         run: python tools/visual_smoke.py
 
       - name: Stress reading resilience

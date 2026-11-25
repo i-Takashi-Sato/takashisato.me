@@ -121,7 +121,7 @@ def home_page() -> str:
                 <p class="identity-detail">Three working papers examine decision routing in human–AI cases, the loss of governing capacity beneath intact procedures, and how workflows can end without abandoning unresolved obligations. Analytical models and bounded verification—not demonstrated operational effectiveness.</p>
                 <div class="identity-actions">
                   <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
-                  <a class="button" href="/about.html">Author record</a>
+                  <a class="button" href="/publications/">All publications</a>
                 </div>
               </div>
               <figure class="identity-art">
@@ -135,7 +135,7 @@ def home_page() -> str:
           <section class="section">
             <div class="shell">
               <div class="section-head" data-reveal>
-                <p class="label">Current research collection</p>
+                <p class="label">Featured research collection</p>
                 <div>
                   <h2>From a case decision to an institutional exit.</h2>
                   <p class="section-intro">The papers are connected, but they do not collapse into a single score or universal lifecycle. Each asks a distinct question and states its own claim boundary.</p>

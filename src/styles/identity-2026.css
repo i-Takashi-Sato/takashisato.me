@@ -82,14 +82,14 @@ body[data-page="home"] .identity-copy h1 {margin:0;max-width:12ch;font-family:va
 
 .identity-art figcaption {font-size:.76rem;max-width:30rem;line-height:1.5;color:#C6C6C6;border-top:1px solid #454545;padding-top:1.05rem}
 /* The long-form content is first-class: no content hiding, no tiny legal language. */
-body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::before {display:none}
-:is(body[data-page="home"],body[data-page="papers"]) .sequence-row {background:transparent;overflow:visible;border-color:var(--line);min-height:auto;grid-template-columns:minmax(8rem,.31fr) minmax(0,1fr);padding-block:clamp(2.5rem,4vw,4.5rem)}
-:is(body[data-page="home"],body[data-page="papers"]) .sequence-row::before, .sequence-row::after {display:none}
-:is(body[data-page="home"],body[data-page="papers"]) .sequence-function {color:var(--signal);font-family:var(--sans);font-size:.82rem;letter-spacing:.015em;text-transform:none;font-weight:640}
-:is(body[data-page="home"],body[data-page="papers"]) .sequence-title {font-family:var(--display);font-size:clamp(2rem,3.2vw,4rem);max-width:25ch;line-height:1.08;letter-spacing:-.045em;font-weight:540;color:var(--ink)}
-:is(body[data-page="home"],body[data-page="papers"]) .sequence-row:hover {background:transparent}
-:is(body[data-page="home"],body[data-page="papers"]) .sequence-row:hover .sequence-title {color:var(--signal);transform:none}
-.sequence-state {color:var(--ink-faint);font-size:.8rem;letter-spacing:.03em}
+body[data-page] .sequence::before {display:none}
+body[data-page] .sequence-row {background:transparent;overflow:visible;border-color:var(--line);min-height:auto;grid-template-columns:minmax(8rem,.31fr) minmax(0,1fr);padding-block:clamp(2.5rem,4vw,4.5rem)}
+body[data-page] .sequence-row::before, .sequence-row::after {display:none}
+body[data-page] .sequence-function {color:var(--signal);font-family:var(--sans);font-size:.82rem;letter-spacing:.015em;text-transform:none;font-weight:640}
+body[data-page] .sequence-title {font-family:var(--display);font-size:clamp(2rem,3.2vw,4rem);max-width:25ch;line-height:1.08;letter-spacing:-.045em;font-weight:540;color:var(--ink)}
+body[data-page] .sequence-row:hover {background:transparent}
+body[data-page] .sequence-row:hover .sequence-title {color:var(--signal);transform:none}
+.sequence-state {color:var(--ink-faint);font-size:.8rem;letter-spacing:.03em;overflow-wrap:anywhere}
 .metric-grid {border-color:var(--line)}
 .metric {background:transparent;border-color:var(--line)}
 .metric strong {color:var(--ink);font-weight:520;font-family:var(--sans);font-variant-numeric:tabular-nums}
@@ -165,8 +165,9 @@ body[data-page="home"] .sequence::before, body[data-page="papers"] .sequence::be
  .identity-thesis {margin-top:1.35rem}
  .identity-art {min-height:0;padding:1.25rem}
  .identity-art-head {font-size:.62rem}
- :is(body[data-page="home"],body[data-page="papers"]) .sequence-row {grid-template-columns:1fr;gap:.75rem}
- :is(body[data-page="home"],body[data-page="papers"]) .sequence-title {font-size:clamp(1.9rem,7vw,3rem)}
+ body[data-page] .sequence-row {grid-template-columns:minmax(0,1fr);gap:.75rem}
+ body[data-page] .sequence-row > div,body[data-page] .sequence-function {grid-column:1}
+ body[data-page] .sequence-title {font-size:clamp(1.9rem,7vw,3rem)}
  .page-hero h1,.paper-hero h1 {font-size:clamp(2.45rem,9vw,4.25rem)}
  .author-name h1 {font-size:clamp(2.8rem,11vw,5rem)}
 }

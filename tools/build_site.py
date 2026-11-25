@@ -14,6 +14,7 @@ if str(ROOT) not in sys.path:
 
 from src.archive.feeds import atom_feed, research_index, sitemap
 from src.archive.citations import citation_export
+from src.archive.publications import catalogue, publications_page
 from src.archive.model import PAPERS, SITE, VERSION
 from src.archive.pages import (
     about_page,
@@ -39,6 +40,8 @@ def main() -> None:
         for kind in ("bib", "ris", "json"):
             write(f"citations/v{VERSION}/{paper['slug']}.{kind}", citation_export(paper, kind))
     write("about.html", about_page())
+    write("publications/index.html", publications_page())
+    write("publications.json", json.dumps(catalogue(), ensure_ascii=False, indent=2) + "\n")
 
     write(
         "privacy.html",
@@ -124,7 +127,9 @@ def main() -> None:
             Author: Takashi Sato (佐藤貴士), Independent Researcher, Sapporo, Japan
             ORCID: https://orcid.org/0009-0003-1584-6965
             SSRN author record: https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672
-            Machine-readable index: {SITE}/research-index.json
+            Publication catalogue: {SITE}/publications/
+            Machine-readable catalogue: {SITE}/publications.json
+            Machine-readable index (AI governance trilogy): {SITE}/research-index.json
             Current paper version: 6.2 (23 August 2026)
 
             ## Papers

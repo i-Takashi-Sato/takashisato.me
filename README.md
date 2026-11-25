@@ -8,6 +8,8 @@ The interface should expose structure, not decorate content.
 
 The website identity and the research collection identity are separate. `PUBLISHED_COLLECTIONS` in `src/archive/model.py` lists only released collections by stable entity ID. The home CollectionPage points to those IDs; `/research-index.json`, `/feed.xml`, the paper routes and DOI records remain the established trilogy-specific contracts. Do not repurpose or renumber them when adding a collection. Add independently versioned records and appropriate publication types (research article, working paper, essay or other work) only when an actual work is released. No empty public categories or unearned subject expertise.
 
+The general publication catalogue is generated at `/publications/` and `/publications.json` from released records in `src/archive/publications.py`. It does not require a series, DOI, or version for an essay or research note. The QA suite exercises bilingual, standalone and optional-metadata records with synthetic fixtures; these are not publication claims.
+
 ## Research record
 
 The public archive preserves version 6.2 of the *Workflow-Centric AI Governance
