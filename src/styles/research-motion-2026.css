@@ -57,7 +57,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-name{min-width:0}
 .portrait-name h1{margin:0;color:#F5F4F0;font-family:var(--display);font-size:clamp(3.6rem,9.3vw,10.6rem);font-weight:470;line-height:.95;letter-spacing:-.075em}
 .portrait-name p{margin:1.65rem 0 0;color:#BDBDBD;font-size:.94rem;letter-spacing:.15em}
-.portrait-signature{width:100%;aspect-ratio:1000/504;background:linear-gradient(155deg,#F0EEE8,#C9C9C7 58%,#E8E6E0);mask:var(--signature-mask) center / contain no-repeat;max-width:35rem;justify-self:end}
+.portrait-signature{width:100%;aspect-ratio:1000/504;background:linear-gradient(155deg,#F0EEE8,#C9C9C7 58%,#E8E6E0);mask:var(--signature-mask) center / contain no-repeat;max-width:30rem;justify-self:end}
 .portrait-position{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.4rem,6vw,6rem);border-top:1px solid #555;padding-top:clamp(1.6rem,3vw,2.8rem);align-items:start}
 .portrait-position p{margin:0;color:#D0D0CE;max-width:38rem;line-height:1.72}
 .portrait-position .portrait-question{font-family:"Newsreader Variable",Georgia,serif;font-size:clamp(2rem,3.6vw,4.1rem);line-height:1.1;letter-spacing:-.027em;color:#F5F4F0;max-width:22ch;font-weight:400}

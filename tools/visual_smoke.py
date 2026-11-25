@@ -655,6 +655,16 @@ def japanese_guide_errors(browser, errors: list[str]) -> None:
                 page.wait_for_url(f"**/papers/#{anchor}")
                 if page.locator(f"#{anchor}").count() != 1:
                     errors.append(f"Japanese guide {width}/{js}: missing target {anchor}")
+            if width in (320, 390, 1440):
+                page.goto(BASE + PAGES["about"], wait_until="domcontentloaded")
+                author_entry = page.locator('.portrait-note a[href="/papers/#japanese"][lang="ja"]')
+                if author_entry.count() != 1:
+                    errors.append(f"Japanese guide {width}/{js}: missing author entry")
+                else:
+                    author_entry.click(timeout=5000)
+                    page.wait_for_url("**/papers/#japanese")
+                    if not page.locator("#japanese-title").is_visible():
+                        errors.append(f"Japanese guide {width}/{js}: author entry failed")
             context.close()
 
 
