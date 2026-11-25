@@ -1,0 +1,33 @@
+name: Public browser and privacy audit
+
+on:
+  pull_request:
+    paths:
+      - 'tools/public_browser_audit.py'
+      - '.github/workflows/public-browser.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install browser tooling
+        run: |
+          python3 -m pip install playwright==1.62.0
+          python3 -m playwright install --with-deps chromium webkit firefox
+      - name: Observe deployed archive
+        run: python3 tools/public_browser_audit.py
+      - name: Retain observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: public-browser-observations
+          path: artifacts/public-browser
+          retention-days: 14
