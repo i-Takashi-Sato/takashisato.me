@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from src.archive.model import SITE, SERIES_ID
+from src.archive.layout import json_ld
 from src.archive.publications import Publication, catalogue, publications_page, released_publications, validate_publications
 
 
@@ -54,6 +55,10 @@ def audit_publications(root: Path, errors: list[str]) -> None:
             errors.append("Publication catalogue: language or HTML escaping contract failed")
         if "/fixture/" in (root / "publications/index.html").read_text(encoding="utf-8") or "/fixture/" in json.dumps(generated):
             errors.append("Publication catalogue: synthetic fixture leaked into generated output")
+        hostile = {"headline": "</script><script>fixture</script>"}
+        serialized = json_ld(hostile)
+        if serialized.count("</script>") != 1 or json.loads(serialized.split(">", 1)[1].rsplit("</script>", 1)[0]) != hostile:
+            errors.append("Publication catalogue: unsafe or lossy JSON-LD serialization")
         invalid = (
             records + (records[0],),
             (replace(fixtures[0], path="//external.example/"),),

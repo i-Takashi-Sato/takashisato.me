@@ -8,7 +8,10 @@ import re
 from textwrap import dedent
 
 from .layout import breadcrumbs, head, shell_page
-from .model import AUTHOR, AUTHOR_ID, PAPERS, PAPER_REVISION_DATE, SERIES_ID, SITE, VERSION, article_schema, paper_url
+from .model import (
+    AUTHOR, AUTHOR_ID, PAPERS, PAPER_REVISION_DATE, SERIES_ID, SITE, VERSION,
+    breadcrumb_schema, paper_url,
+)
 
 KINDS = {
     "working-paper": "Working paper",
@@ -41,7 +44,7 @@ def released_publications() -> tuple[Publication, ...]:
     """Adapt the established trilogy records, not copies of their metadata."""
     return tuple(
         Publication(
-            id=article_schema(paper)["@id"],
+            id=f"{paper_url(paper)}#article",
             path=paper_url(paper).removeprefix(SITE),
             title=f"{paper['title']}: {paper['subtitle']}",
             summary=paper["description"],
@@ -158,13 +161,7 @@ def publications_page(records: tuple[Publication, ...] | None = None) -> str:
                     ],
                 },
             },
-            {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                    {"@type": "ListItem", "position": 1, "name": "Index", "item": f"{SITE}/"},
-                    {"@type": "ListItem", "position": 2, "name": "Publications", "item": f"{SITE}/publications/"},
-                ],
-            },
+            breadcrumb_schema([("Index", "/"), ("Publications", "/publications/")]),
         ],
     }
     rows = " ".join(publication_row(work) for work in records)
