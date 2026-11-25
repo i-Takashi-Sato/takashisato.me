@@ -13,7 +13,12 @@ permissions:
 jobs:
   observe:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit, firefox]
+        mode: [mobile, desktop, nojs]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -21,13 +26,13 @@ jobs:
       - name: Install browser tooling
         run: |
           python3 -m pip install playwright==1.62.0
-          python3 -m playwright install --with-deps chromium webkit firefox
+          python3 -m playwright install --with-deps ${{ matrix.engine }}
       - name: Observe deployed archive
-        run: python3 tools/public_browser_audit.py
+        run: timeout --signal=TERM 420s python3 -u tools/public_browser_audit.py --engine ${{ matrix.engine }} --mode ${{ matrix.mode }}
       - name: Retain observations
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: public-browser-observations
+          name: public-browser-${{ matrix.engine }}-${{ matrix.mode }}
           path: artifacts/public-browser
           retention-days: 14

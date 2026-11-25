@@ -2,6 +2,7 @@
 """Observe actual public-browser behavior, not just local HTML or HTTPS bytes."""
 from pathlib import Path
 from urllib.parse import urlsplit
+import argparse
 import json
 from playwright.sync_api import sync_playwright
 from verify_live import SITE
@@ -12,15 +13,21 @@ OUT = Path("artifacts/public-browser")
 ORIGIN = urlsplit(SITE).netloc
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--engine", required=True, choices=("chromium", "webkit", "firefox"))
+    parser.add_argument("--mode", required=True, choices=("mobile", "desktop", "nojs"))
+    args = parser.parse_args()
+    modes = {"mobile": (390, 844, True), "desktop": (1440, 900, True), "nojs": (390, 844, False)}
     OUT.mkdir(parents=True, exist_ok=True)
     observations, errors = [], []
     with sync_playwright() as pw:
-        for engine in ("chromium", "webkit", "firefox"):
+        for engine in (args.engine,):
             browser = getattr(pw, engine).launch()
-            for width, height, js in ((390, 844, True), (1440, 900, True), (390, 844, False)):
+            for width, height, js in (modes[args.mode],):
                 context = browser.new_context(viewport={"width": width, "height": height},
                     java_script_enabled=js, reduced_motion="reduce", service_workers="block")
                 page = context.new_page()
+                page.set_default_timeout(10000)
                 for index, path in enumerate(PAGES):
                     external, failures, exceptions, policies = set(), [], [], []
                     def request(req):
@@ -39,10 +46,14 @@ def main():
                     page.on("pageerror", page_error)
                     page.on("console", console)
                     tag = f"{engine}-{width}-{'js' if js else 'nojs'}-{index}"
+                    print(f"Starting {tag}", flush=True)
                     try:
                         res = page.goto(SITE + path, wait_until="load", timeout=30000)
                         page.locator("main h1").wait_for(state="visible", timeout=10000)
-                        page.evaluate("document.fonts.ready")
+                        if js:
+                            page.wait_for_function("document.fonts.status === \'loaded\'", timeout=10000)
+                        # A pending font promise in Firefox with JS disabled can stall evaluation.
+                        # The no-JS case still checks native layout, navigation and requests.
                         if res is None or res.status != 200 or urlsplit(page.url).path != path:
                             errors.append(f"{tag}: canonical navigation failed")
                         if page.evaluate("document.documentElement.scrollWidth > innerWidth + 1"):
@@ -56,7 +67,7 @@ def main():
                             if urlsplit(page.url).fragment != "japanese" or page.locator("#japanese .record-row").count() != 3:
                                 errors.append(f"{tag}: Japanese navigation failed")
                         if width == 390 and js:
-                            page.screenshot(path=str(OUT / (tag + ".png")))
+                            page.screenshot(path=str(OUT / (tag + ".png")), timeout=10000)
                     except Exception as exc:
                         errors.append(f"{tag}: {type(exc).__name__}: {str(exc)[:200]}")
                     finally:
@@ -76,9 +87,11 @@ def main():
                     observations.append(record)
                     if external or failures or exceptions or policies or storage["local"] or storage["session"]:
                         errors.append(f"{tag}: unexpected request, runtime failure, policy violation or browser storage")
+                    (OUT / "report.json").write_text(json.dumps({"observations": observations, "errors": errors}, ensure_ascii=False, indent=2) + "\n")
+                    print(f"Completed {tag}", flush=True)
                 context.close()
             browser.close()
-    report = {"scope": "54 public-browser cases; no external link navigation, physical devices or screen readers",
+    report = {"scope": "Six cases per engine/mode; 54 across the matrix; no external link navigation, physical devices or screen readers",
               "observations": observations, "errors": errors}
     (OUT / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(f"{len(observations)} public-browser cases; {len(errors)} findings")

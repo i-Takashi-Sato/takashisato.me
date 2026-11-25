@@ -9,3 +9,5 @@ Recovery procedure (not a performed outage exercise):
 4. Run byte, HTTP policy and real browser verification against the restored public domain. Inspect DOI/SSRN/ORCID/Scholar identity separately. Do not send IndexNow updates solely because a host was restored without content changes.
 
 A successful clean build is evidence of build repeatability, not proof of an independent backup, provider failover, or domain recovery. Physical-device, assistive-technology and external record availability require separate observations.
+
+The live-browser matrix isolates each browser and input mode in an independent bounded job, retains partial per-page results, and reports timeout as an incomplete observation. It does not await a JavaScript font promise in the disabled-JavaScript case. The original layout and navigation checks remain in place.
