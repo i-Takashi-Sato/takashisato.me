@@ -32,6 +32,7 @@ from src.archive.model import (
     GOOGLE_SITE_VERIFICATION,
     PAPERS_BY_SLUG as PAPERS,
     SERIES_ID,
+    SOCIAL_PROFILES,
     SITE,
     UPDATED,
     VERSION,
@@ -216,9 +217,21 @@ def audit_html(errors: list[str]) -> None:
             "https://orcid.org/0009-0003-1584-6965",
             "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
             "https://scholar.google.com/citations?user=tN4zV68AAAAJ",
+            *(url for _, _, url in SOCIAL_PROFILES),
         }
         if identity_links != expected_identity_links:
             fail(errors, f"{rel}: rel=me identity links mismatch: {sorted(identity_links)}")
+
+        for label, handle, url in SOCIAL_PROFILES:
+            matches = [attrs for href, attrs in parser.hrefs if href == url]
+            expected_count = 2 if rel == "about.html" else 1
+            if len(matches) != expected_count or any(
+                not {"me", "noopener", "noreferrer"}.issubset(attrs.get("rel", "").split())
+                for attrs in matches
+            ):
+                fail(errors, f"{rel}: social profile link contract mismatch: {label}")
+            if rel == "about.html" and handle not in text:
+                fail(errors, f"{rel}: missing approved public handle: {handle}")
 
         for raw in parser.json_ld:
             try:
@@ -234,6 +247,9 @@ def audit_html(errors: list[str]) -> None:
                 if data.get("@context") != "https://schema.org":
                     fail(errors, f"{rel}: JSON-LD context mismatch")
                 nodes = data.get("@graph", [data])
+                for person in (node for node in nodes if node.get("@id") == AUTHOR_ID):
+                    if set(person.get("sameAs", [])) != expected_identity_links:
+                        fail(errors, f"{rel}: author sameAs mismatch")
                 if rel != "index.html" and not any(node.get("@type") == "BreadcrumbList" for node in nodes):
                     fail(errors, f"{rel}: missing BreadcrumbList structured data")
             if rel != "index.html" and not any(
@@ -725,6 +741,7 @@ def audit_indexes(errors: list[str]) -> None:
         "https://orcid.org/0009-0003-1584-6965",
         "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
         "https://scholar.google.com/citations?user=tN4zV68AAAAJ",
+        *(url for _, _, url in SOCIAL_PROFILES),
     }
     if set(creator.get("sameAs", [])) != expected_same_as:
         fail(errors, "research-index.json: author sameAs mismatch")

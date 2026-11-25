@@ -11,6 +11,7 @@ from .model import (
     PAPERS,
     SERIES_ID,
     SCHOLAR_URL,
+    SOCIAL_PROFILES,
     SITE,
     SITE_NAME,
     publication_collection_refs,
@@ -512,6 +513,10 @@ def paper_page(paper: Paper) -> str:
 
 
 def about_page() -> str:
+    social_rows = "\n                  ".join(
+        f'<div><dt>{escape(label)}</dt><dd><a href="{escape(url, quote=True)}" target="_blank" rel="me noopener noreferrer">{escape(handle)} <span aria-hidden="true">↗</span></a></dd></div>'
+        for label, handle, url in SOCIAL_PROFILES
+    )
     schema = {
         "@context": "https://schema.org",
         "@graph": [
@@ -567,6 +572,10 @@ def about_page() -> str:
                   <div><dt>ORCID</dt><dd><a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">0009-0003-1584-6965 <span aria-hidden="true">↗</span></a></dd></div>
                   <div><dt>SSRN</dt><dd><a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">Author 9540672 <span aria-hidden="true">↗</span></a></dd></div>
                   <div><dt>Google Scholar</dt><dd><a href="{SCHOLAR_URL}" target="_blank" rel="me noopener noreferrer">Author profile <span aria-hidden="true">↗</span></a></dd></div>
+                </dl>
+                <h2 class="eyebrow portrait-contact">Social profiles</h2>
+                <dl>
+                  {social_rows}
                 </dl>
                 <h2 class="eyebrow portrait-contact">Correspondence</h2>
                 <a class="portrait-mail" href="mailto:i@takashisato.me">i@takashisato.me</a>

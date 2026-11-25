@@ -47,6 +47,11 @@ def publication_collection_refs() -> list[dict[str, str]]:
     return [{"@id": collection_id} for collection_id in PUBLISHED_COLLECTIONS]
 
 SCHOLAR_URL: Final = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
+# Public accounts explicitly approved by the author, separate from scholarly IDs.
+SOCIAL_PROFILES: Final = (
+    ("X", "@takashisato_me", "https://x.com/takashisato_me"),
+    ("Instagram", "@takashisato.me", "https://www.instagram.com/takashisato.me/"),
+)
 
 UPDATED: Final = "2026-09-23"
 PAPER_REVISION_DATE: Final = "2026-08-23"
@@ -82,6 +87,7 @@ AUTHOR: dict[str, object] = {
         "https://orcid.org/0009-0003-1584-6965",
         "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
         SCHOLAR_URL,
+        *(url for _, _, url in SOCIAL_PROFILES),
     ],
     "knowsAbout": [
         "AI governance",

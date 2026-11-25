@@ -11,6 +11,7 @@ from .model import (
     GOOGLE_SITE_VERIFICATION,
     PAPER_REVISION_DATE,
     SCHOLAR_URL,
+    SOCIAL_PROFILES,
     SITE,
     SITE_NAME,
     VERSION,
@@ -61,6 +62,7 @@ def head(
     safe_image_alt = escape(image_alt, quote=True)
 
     schema_html = json_ld(schema) if schema else ""
+    social_identity = "\n          ".join(f'<link rel="me" href="{escape(url, quote=True)}">' for _, _, url in SOCIAL_PROFILES)
 
     verification_html = (
         f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">'
@@ -117,6 +119,7 @@ def head(
           <link rel="me" href="https://orcid.org/0009-0003-1584-6965">
           <link rel="me" href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672">
           <link rel="me" href="{SCHOLAR_URL}">
+          {social_identity}
           <link rel="manifest" href="/site.webmanifest">
           <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
@@ -175,6 +178,10 @@ def header(active: str = "") -> str:
 
 
 def footer() -> str:
+    social_links = "\n                  ".join(
+        f'<a href="{escape(url, quote=True)}" target="_blank" rel="me noopener noreferrer">{escape(label)} ↗</a>'
+        for label, _, url in SOCIAL_PROFILES
+    )
     return dedent(
         f"""
         <footer class="site-footer">
@@ -199,6 +206,7 @@ def footer() -> str:
                   <a href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID ↗</a>
                   <a href="https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672" target="_blank" rel="me noopener noreferrer">SSRN ↗</a>
                   <a href="{SCHOLAR_URL}" target="_blank" rel="me noopener noreferrer">Google Scholar ↗</a>
+                  {social_links}
                 </div>
                 <div>
                   <p class="label">Site</p>
