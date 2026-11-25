@@ -268,6 +268,7 @@ def home_page() -> str:
                   <p class="lead">Takashi Sato (<span lang="ja">佐藤貴士</span>) studies how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
                   <div class="hero-actions">
                     <a class="button" href="/about.html">About the author</a>
+                    <a class="button" href="/papers/#japanese" lang="ja">日本語の研究案内</a>
                     <a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID <span class="arrow" aria-hidden="true">↗</span></a>
                   </div>
                 </div>
@@ -363,8 +364,25 @@ def papers_index_page() -> str:
               <h2>Reading order is useful, not mandatory.</h2>
               <div>
                 <p>Part I specifies a case-level routing contract. Part II models institutional loss over time. Part III specifies containment, accountable retirement, and authority transfer. Each paper contains its own definitions, limitations, and verification boundary.</p>
-                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2. <a href="#concepts">Browse concepts and evidence.</a></p>
+                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2. <a href="#concepts">Browse concepts and evidence.</a> <a href="#japanese" lang="ja">日本語の研究案内</a></p>
               </div>
+            </div>
+          </section>
+          <section class="section compact" id="japanese" lang="ja" aria-labelledby="japanese-title">
+            <div class="shell">
+              <div class="section-head">
+                <p class="label">日本語の研究案内</p>
+                <div>
+                  <h2 id="japanese-title">AIガバナンスの三つの問い</h2>
+                  <p class="section-intro">札幌を拠点とする独立研究者・佐藤貴士の研究は、AIを利用する組織において、誰が何を判断し、どのように責任を負い、判断能力を失ったときにどう対応するかを扱います。以下は英語論文（v6.2、2026年8月23日改訂）を読むための概要であり、正式な翻訳や新たな研究結果ではありません。</p>
+                </div>
+              </div>
+              <div class="record-list">
+                <article class="record-row"><div><p class="label" lang="en">Part I / Decision routing</p><h3>個別の意思決定をどう進めるか</h3></div><div><p>証拠の不足や判断能力の欠如を、暗黙の承認・否認に変えてはならない。Typed Gate Contractは、案件の状態に応じた処理経路と、権限を持つ主体による判断、実際の執行を区別する枠組みです。</p><p><a href="/papers/part1.html">Part I：論文と検証範囲（英語）</a></p></div></article>
+                <article class="record-row"><div><p class="label" lang="en">Part II / Governing capacity</p><h3>手続きが残っていても統治できるか</h3></div><div><p>形式上の手続きが維持されていても、独立した判断や実質的な統治能力は失われ得ます。Part IIはその状態を記述するモデルを提案し、Pre-Abuse Collapseを暫定的な原因類型として扱います。実証済みの分類ではありません。</p><p><a href="/papers/part2.html">Part II：状態モデルと反証条件（英語）</a></p></div></article>
+                <article class="record-row"><div><p class="label" lang="en">Part III / Accountable exit</p><h3>AIを利用した業務をどう終えるか</h3></div><div><p>運用を停止するだけでは、残された責任や救済の問題は解消されません。Proper EndingとAuthority Returnは、証拠、救済、サービスの継続、責任の所在、実質的な判断能力を考慮した終了と権限移転の枠組みです。</p><p><a href="/papers/part3.html">Part III：終了・権限移転の条件（英語）</a></p></div></article>
+              </div>
+              <p class="section-intro">三論文はワーキングペーパーです。有限の形式的検証や合成データによる結果は、設定した抽象化の範囲に限られ、現実の組織での有効性を実証するものではありません。<a href="#concepts">研究概念と根拠（英語）</a>、<a href="#critical-review">反証・批判の受付（英語）</a>も参照してください。</p>
             </div>
           </section>
           <section class="section compact" id="concepts">

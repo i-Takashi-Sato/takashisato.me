@@ -791,7 +791,7 @@ def audit_indexes(errors: list[str]) -> None:
     if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
         fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
     # Page freshness is not the same as the immutable v6.2 paper revision.
-    expected_lastmods = ["2026-11-24"] * 7 + [UPDATED, UPDATED]
+    expected_lastmods = ["2026-11-25"] * 5 + ["2026-11-24"] * 2 + [UPDATED, UPDATED]
     actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
     if actual_lastmods != expected_lastmods:
         fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")
@@ -893,6 +893,26 @@ def audit_concept_register(errors: list[str]) -> None:
             fail(errors, f"concept {slug}: missing preserved source locator")
 
 
+def audit_japanese_guide(errors: list[str]) -> None:
+    home = (ROOT / "index.html").read_text(encoding="utf-8")
+    papers = (ROOT / "papers/index.html").read_text(encoding="utf-8")
+    if home.count('href="/papers/#japanese" lang="ja"') != 1:
+        fail(errors, "Japanese guide: missing index entry")
+    if papers.count('href="#japanese" lang="ja"') != 1:
+        fail(errors, "Japanese guide: missing catalogue entry")
+    guide = papers.split('<section class="section compact" id="japanese" lang="ja"', 1)
+    if len(guide) != 2:
+        fail(errors, "Japanese guide: missing language-marked section")
+        return
+    section = guide[1].split("</section>", 1)[0]
+    for slug in ("part1", "part2", "part3"):
+        if section.count(f'href="/papers/{slug}.html"') != 1:
+            fail(errors, f"Japanese guide: missing unique English paper link {slug}")
+    for required in ("正式な翻訳や新たな研究結果ではありません", "ワーキングペーパー", "実証するものではありません", 'href="#concepts"', 'href="#critical-review"'):
+        if required not in section:
+            fail(errors, f"Japanese guide: missing interpretation boundary {required}")
+
+
 def main() -> int:
     errors: list[str] = []
     audit_html(errors)
@@ -903,6 +923,7 @@ def main() -> int:
     audit_indexes(errors)
     audit_atom(errors)
     audit_concept_register(errors)
+    audit_japanese_guide(errors)
     if errors:
         print("v6.2 archive verification failed:", file=sys.stderr)
         for error in errors:
