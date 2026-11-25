@@ -426,6 +426,7 @@ def audit_assets(errors: list[str]) -> None:
         "fonts/MeaCulpa.woff2",
         "fonts/MeaCulpa-OFL.txt",
         "og/home.jpg",
+        "og/archive.jpg",
         "og/papers.jpg",
         "og/about.jpg",
         "author-mark.svg",
@@ -540,7 +541,7 @@ def audit_assets(errors: list[str]) -> None:
             if ratio < 4.5:
                 fail(errors, f"global text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
 
-    for name in ["home", "papers", "about", *PAPERS]:
+    for name in ["home", "papers", "about", "archive", *PAPERS]:
         image_path = ROOT / f"assets/og/{name}.jpg"
         if not image_path.exists():
             fail(errors, f"missing OG image: {image_path.relative_to(ROOT)}")
@@ -550,6 +551,18 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
             if image.format != "JPEG":
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
+    archive_image = ROOT / "assets/og/archive.jpg"
+    if archive_image.exists():
+        with Image.open(archive_image) as image:
+            if archive_image.stat().st_size > 180_000 or image.getexif():
+                fail(errors, "author archive social card exceeds size or privacy contract")
+    for rel in ("index.html", "publications/index.html"):
+        parser = AuditParser()
+        parser.feed((ROOT / rel).read_text(encoding="utf-8"))
+        for field, attribute in (("og:image", "property"), ("twitter:image", "name")):
+            values = [attrs.get("content") for tag, attrs in parser.tags if tag == "meta" and attrs.get(attribute) == field]
+            if values != [SITE + "/assets/og/archive.jpg"]:
+                fail(errors, f"{rel}: author archive social card mismatch")
     brand_svg = (ROOT / "assets/brand-mark.svg").read_text(encoding="utf-8")
     if 'M11 59V12H55V30M55 52V59H11' not in brand_svg or 'M29 41H64' not in brand_svg:
         fail(errors, "archive brand geometry mismatch")

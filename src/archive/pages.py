@@ -191,7 +191,7 @@ def home_page() -> str:
             title="Takashi Sato (佐藤貴士) — Research & Writings",
             description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. An archive of research and writing, featuring the current AI governance collection, The Proper Ending Index.",
             path="/",
-            image="/assets/og/about.jpg",
+            image="/assets/og/archive.jpg",
             schema=schema,
             site_verification=True,
         ),

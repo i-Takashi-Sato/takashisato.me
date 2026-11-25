@@ -26,7 +26,7 @@ ROUTES = {
     **{page.path: page.file for page in public_pages()},
     **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
     **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
-    **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about")},
+    **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about", "archive")},
     # Check the exact URLs used by newly generated HTML as well as the legacy aliases.
     **{"/" + runtime_path(name): runtime_path(name) for name in RUNTIME_NAMES},
     **{f"/{name}": name for name in (

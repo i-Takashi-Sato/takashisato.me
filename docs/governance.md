@@ -43,3 +43,5 @@ Optical identity: the archive's open-boundary mark and the author's supplied per
 The concept register is an editorial navigation layer derived from published archive explanations. It must link each term to its source, assessment, limits and versioned citation without introducing new research claims. Citation copy is a progressive enhancement; the visible citation and file exports remain authoritative and accessible without JavaScript.
 
 The concept register uses the archive's existing record-row grammar, separating headings, explanatory text, and four named source links. Every link has a concept-specific accessible name; the seven stable anchors and no-JavaScript 44px target contract are tested at narrow and desktop widths. It remains an editorial index, not a new research model.
+
+The author-wide home and publication catalogue use a separate discipline-neutral social card (`assets/og/archive.jpg`): the public name, research and writing descriptor, city, domain and approved personal T mark. The trilogy's original social cards and the author record card are preserved. No signature or additional biography is distributed.
