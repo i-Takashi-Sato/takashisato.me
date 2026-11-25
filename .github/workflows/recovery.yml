@@ -1,0 +1,75 @@
+name: Verified repository recovery
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/recovery.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  recovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out published history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: '${{ github.event.pull_request.base.sha || github.sha }}'
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
+
+      - name: Install pinned build dependencies
+        run: |
+          python -m pip install --requirement tools/requirements.txt
+          python -m pip check
+
+      - name: Export and restore main history
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/recovery-output"
+          restored="$RUNNER_TEMP/recovery-checkout"
+          mkdir -p "$output"
+          revision="$(git rev-parse HEAD)"
+          git update-ref refs/heads/recovery-main "$revision"
+          git bundle create "$output/archive.bundle" refs/heads/recovery-main
+          git bundle verify "$output/archive.bundle"
+          git clone --branch recovery-main "$output/archive.bundle" "$restored"
+          git -C "$restored" fsck --full
+          test "$(git -C "$restored" rev-parse HEAD)" = "$revision"
+          test "$(git -C "$restored" rev-list --count HEAD)" = "$(git rev-list --count HEAD)"
+          (
+            cd "$restored"
+            python tools/build_site.py
+            python tools/generate_og.py
+            python tools/verify_v62.py
+            git diff --exit-code
+            test -z "$(git status --porcelain --untracked-files=all)"
+          )
+          (
+            cd "$output"
+            sha256sum archive.bundle > SHA256SUMS
+            sha256sum -c SHA256SUMS
+            printf 'commit=%s\ncommits=%s\nbundle_integrity=pass\nrestored_tree=pass\nrebuild_and_archive_qa=pass\n' "$revision" "$(git -C "$restored" rev-list --count HEAD)" > RECOVERY.txt
+            cat RECOVERY.txt
+          )
+
+      - name: Export verified recovery artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: verified-recovery
+          path: '${{ runner.temp }}/recovery-output/'
+          compression-level: 0
+          retention-days: 7
+          if-no-files-found: error
