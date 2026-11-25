@@ -40,19 +40,19 @@ SENSITIVE = frozenset({
 })
 
 
-def safe_external_origin(value: str) -> str:
+def safe_external_origin(value: str) -> tuple[str, str]:
     """Only same-origin HTTPS link destination updates can be editorial."""
     if not value.startswith("https://") or any(
         ch.isspace() or ord(ch) < 32 or ord(ch) == 127 for ch in value
     ):
-        return value
+        return ("literal", value)
     try:
         url = urlsplit(value)
         if url.hostname and not url.username and not url.password and url.port in (None, 443):
-            return "HTTPS-EXTERNAL:" + url.netloc
+            return ("https-origin", url.netloc)
     except ValueError:
         pass
-    return value
+    return ("literal", value)
 
 
 class Structure(HTMLParser):
@@ -208,6 +208,7 @@ def self_test():
         b.replace("<p>", "<section>").replace("</p>", "</section>"),
         b.replace("https://example.com", "https://other.example"),
         b.replace("https://example.com/two", "javascript:alert(1)"),
+        b.replace("https://example.com/two", "HTTPS-EXTERNAL:example.com"),
         b.replace('<p>', '<p style="color:red">'),
         b.replace("</head>", '<script>active()</script></head>'),
         b.replace("</head>", '<link rel="stylesheet" href="/new.css"></head>'),
