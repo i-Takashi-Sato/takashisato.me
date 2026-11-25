@@ -89,7 +89,19 @@ def compact_js(js: str) -> str:
     return "\n".join(output).rstrip() + "\n"
 
 
+def validate_source_inventory(paths: tuple[Path, ...], directory: Path, suffix: str) -> None:
+    """Keep the active source directory identical to the declared build inventory."""
+    declared = set(paths)
+    present = set(directory.glob(f"*{suffix}"))
+    if len(declared) != len(paths) or declared != present:
+        missing = sorted(str(path.relative_to(ROOT)) for path in declared - present)
+        unused = sorted(str(path.relative_to(ROOT)) for path in present - declared)
+        raise ValueError(f"Source inventory mismatch: missing={missing}, unused={unused}, duplicate={len(declared) != len(paths)}")
+
+
 def build_assets() -> None:
+    validate_source_inventory(STYLE_SOURCES, ROOT / "src/styles", ".css")
+    validate_source_inventory(SCRIPT_SOURCES, ROOT / "src/scripts", ".js")
     (ROOT / "assets/site.css").write_text(
         minify_css(join_sources(STYLE_SOURCES)),
         encoding="utf-8",

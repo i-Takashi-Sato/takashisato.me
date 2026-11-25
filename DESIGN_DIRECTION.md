@@ -1,8 +1,8 @@
-# The Proper Ending Index — Design Direction
+# Takashi Sato — Design Direction
 
 ## Position
 
-The Proper Ending Index is Takashi Sato's independent AI governance research archive.
+Takashi Sato is the author-wide research and writing archive. The Proper Ending Index is its current AI governance collection.
 It is not a portfolio, consultancy funnel, SaaS product, compliance service, or
 fictional control room.
 
@@ -14,15 +14,13 @@ pavilion whose architecture has been derived from the research itself.
 
 ## Spatial grammar
 
-One archive, three analytical states:
+One research collection, three analytical states:
 
-- **Part I — Gate / Architecture / Measurement.** Old gold, bronze, structural lines,
+- **Part I — Gate / Architecture / Measurement.** Platinum, structural lines,
   explicit passage conditions, measured orthogonality, and a stable datum.
-- **Part II — Capacity Loss / Entropy / Procedural Continuity.** Lead gray, mercury,
-  ice blue, a stable procedural frame with weakening or displaced internal capacity,
+- **Part II — Capacity Loss / Entropy / Procedural Continuity.** Graphite, platinum, a stable procedural frame with weakening or displaced internal capacity,
   and no theatrical collapse.
-- **Part III — Circuit Breaker / Authority Return / Proper Ending.** Black, oxidized
-  red, copper, residual heat, containment, convergence, and motion that spends energy
+- **Part III — Circuit Breaker / Authority Return / Proper Ending.** Graphite, platinum, containment, convergence, and motion that spends energy
   until it settles.
 
 The three papers are connected but must not be represented as one degradation score or
@@ -46,10 +44,7 @@ research meaning unchanged, the effect is decoration and should usually be remov
 
 ## Typography and material
 
-Inter carries the main display, interface, data, and reading text. Editorial serif typography
-and approved material texture are limited to the author chamber, which may display the
-supplied signature. Elsewhere materiality comes from light, hairlines, measurement fields,
-spacing, and color temperature—not wallpaper textures, glassmorphism, or glow.
+Inter carries the main Latin display, interface, data, and reading text. The author chamber uses an editorial serif and the approved signature; the Japanese research guide uses a local Mincho/Gothic font stack. Approved material textures are confined to the author chamber and research plates. Elsewhere materiality comes from light, hairlines, measurement fields and spacing—not wallpaper textures, glassmorphism, or glow.
 
 Typography is architecture. Line length, line break, optical size, letter spacing,
 vertical rhythm, numeric alignment, and the relationship between display and evidence
@@ -58,7 +53,7 @@ text are treated as structural decisions rather than cosmetic tuning.
 ## Interaction
 
 The archive is complete before JavaScript runs. Enhancement may add orientation,
-authority-ring pointer response, Typed Gate exploration, cross-document continuity,
+native focus and hover feedback, Typed Gate exploration, cross-document continuity,
 and terminal settling in Part III. The interaction grammar is:
 
 **route → state → contain → return → settle**
@@ -131,7 +126,7 @@ Do not restore:
 
 ## Record hierarchy
 
-SSRN is the primary external research record. Local PDFs are immutable preserved copies.
+SSRN is the primary external research record for the existing trilogy. Its local PDFs are immutable preserved copies. Future works retain their own publication and preservation contracts.
 Internal links are exhibition-room entrances; external research records may use `↗`.
 
 ## Review standard
