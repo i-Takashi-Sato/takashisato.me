@@ -26,3 +26,7 @@ The repository is part of the published work. Code quality is judged by the same
 - Is any custom build logic more complicated than the bytes it saves justify?
 
 The target is not clever code. The target is code that feels inevitable.
+
+## Editorial precision
+
+The public archive distinguishes the object being contained or retired (a workflow) from the capacity to decide, which may be reconstituted or reassigned. An independent reimplementation of a specification is not independent third-party replication. Editorial copy should express those distinctions directly, without treating a metaphor or an abbreviated sentence as a replacement for a technical definition. Manuscript abstracts and cited titles remain transcriptions, not editorial material.
