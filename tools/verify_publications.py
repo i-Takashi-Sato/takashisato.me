@@ -59,6 +59,24 @@ def audit_publications(root: Path, errors: list[str]) -> None:
         serialized = json_ld(hostile)
         if serialized.count("</script>") != 1 or json.loads(serialized.split(">", 1)[1].rsplit("</script>", 1)[0]) != hostile:
             errors.append("Publication catalogue: unsafe or lossy JSON-LD serialization")
+        # Larger catalogues must remain deterministic, unique and independent of
+        # the current trilogy's record count. These are in-memory fixtures only.
+        for count in (10, 50, 100):
+            synthetic = tuple(
+                replace(
+                    fixtures[i % len(fixtures)],
+                    id=f"{SITE}/fixture/item-{i}.html#work",
+                    path=f"/fixture/item-{i}.html",
+                )
+                for i in range(count)
+            )
+            sample = records + synthetic
+            result = catalogue(sample)["publications"]
+            rendered = publications_page(sample)
+            if len(result) != len(sample) or rendered.count('<article class="sequence-row">') != len(sample):
+                errors.append(f"Publication catalogue: expansion to {count} fixtures lost records")
+            if rendered != publications_page(sample):
+                errors.append(f"Publication catalogue: nondeterministic output for {count} fixtures")
         invalid = (
             records + (records[0],),
             (replace(fixtures[0], path="//external.example/"),),
