@@ -39,6 +39,7 @@ ROUTES = {
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
         "site.webmanifest", "research-index.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
         "humans.txt", ".well-known/security.txt",
+        "76a21f980fdabdd7e0452ee2206d1b18.txt",
         "reproduction/v5.9/part3-historical-checker.zip",
         "reproduction/v5.9/part3-reexecution-2026-11-24.json",
     )},

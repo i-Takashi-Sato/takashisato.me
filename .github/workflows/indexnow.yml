@@ -1,0 +1,33 @@
+name: IndexNow notification
+
+on:
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: 'Canonical paths separated by spaces (only genuinely updated pages)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-main
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify and notify
+        env:
+          PATHS: ${{ inputs.paths }}
+        shell: bash
+        run: |
+          read -r -a paths <<< "$PATHS"
+          python3 tools/indexnow.py --send "${paths[@]}"
