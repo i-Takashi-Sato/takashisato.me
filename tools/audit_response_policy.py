@@ -6,12 +6,12 @@ from urllib.request import Request, build_opener
 
 from verify_live import SITE, NoRedirect
 
-PAGES = ("/", "/papers/", "/papers/part1.html", "/about.html", "/.well-known/security.txt")
+PAGES = ("/", "/publications/", "/papers/", "/papers/part1.html", "/about.html", "/.well-known/security.txt")
 FIELDS = ("Strict-Transport-Security", "Content-Security-Policy",
           "Content-Security-Policy-Report-Only", "X-Content-Type-Options",
           "X-Frame-Options", "Referrer-Policy", "Permissions-Policy")
 def observe(path):
-    req = Request(SITE + path, headers={"User-Agent": "ProperEndingIndex-HeaderAudit/1.0"})
+    req = Request(SITE + path, headers={"User-Agent": "TakashiSatoArchive-HeaderAudit/1.0"})
     with build_opener(NoRedirect()).open(req, timeout=15) as res:
         if res.status != 200:
             raise RuntimeError(f"Unexpected response status: {res.status}")
