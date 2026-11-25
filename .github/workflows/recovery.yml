@@ -2,6 +2,10 @@ name: Verified repository recovery
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/release-operations.md'
   pull_request:
     branches: [main]
     paths:
@@ -54,6 +58,7 @@ jobs:
             python tools/build_site.py
             python tools/generate_og.py
             python tools/verify_v62.py
+            if [ -f tools/release_scope.py ]; then python tools/release_scope.py --self-test; fi
             git diff --exit-code
             test -z "$(git status --porcelain --untracked-files=all)"
           )

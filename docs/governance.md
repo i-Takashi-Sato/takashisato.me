@@ -22,6 +22,14 @@ not substitute for release checks. After any bot-authored synchronization commit
 user-authored repository commit must retrigger the three release gates so that the final
 head being merged is the head that was actually tested.
 
+Scope-aware release checks preserve the three workflow results for each release.
+Archive QA, HTML validation, axe and baseline visual smoke are unconditional.
+Only additional browser resilience, cross-engine coverage and Lighthouse may be
+omitted for a conservatively classified editorial delta. Unknown scope, structural
+or runtime changes, manual runs and the weekly audit use the full suite. See
+[release operations](release-operations.md). Never merge on a failed or unfinished
+required check; never claim publication before live release verification.
+
 ## Proper Ending for the site itself
 
 The archive is not improved by perpetual redesign. Once a release passes its research,

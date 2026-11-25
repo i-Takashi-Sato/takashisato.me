@@ -2,6 +2,8 @@ name: Web Quality Gate
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '23 18 * * 0' # Monday 03:23 JST; full audit
   pull_request:
   push:
     branches:
@@ -23,6 +25,15 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 2
+
+      - name: Classify release scope
+        id: scope
+        env:
+          BASE_SHA: "${{ github.event.pull_request.base.sha || github.event.before || '' }}"
+        run: |
+          python3 tools/release_scope.py --self-test
+          python3 tools/release_scope.py --base "$BASE_SHA" >> "$GITHUB_OUTPUT"
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -59,10 +70,11 @@ jobs:
         run: python tools/accessibility_smoke.py
 
       - name: Run Lighthouse CI budgets
+        if: steps.scope.outputs.scope != 'light'
         run: npx --no-install lhci autorun --config=.lighthouserc.json
 
       - name: Upload Lighthouse reports
-        if: always()
+        if: always() && steps.scope.outputs.scope != 'light'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: lighthouse-reports

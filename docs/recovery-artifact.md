@@ -1,7 +1,9 @@
 # Verified repository recovery
 
-The manual **Verified repository recovery** workflow exports the selected published commit
-and its reachable history into a self-contained Git bundle. Its pull-request check uses the
+The **Verified repository recovery** workflow exports the selected published commit
+and its reachable history into a self-contained Git bundle. It can be dispatched
+manually and also runs on main when `docs/release-operations.md` changes, marking
+an explicit release checkpoint. Its pull-request check uses the
 PR base commit rather than unpublished work. It includes no separate account credentials,
 other branch refs or tag refs, DNS state, CDN settings or external scholarly records.
 
