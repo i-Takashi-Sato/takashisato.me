@@ -124,12 +124,12 @@ def sitemap() -> str:
     # Only genuinely revised documents receive a newer sitemap lastmod.
     # Research version and PDF revision dates remain unchanged.
     changed_pages = {
-        "/": "2026-11-25",
+        "/": "2026-11-26",
         "/papers/": "2026-11-25",
         "/papers/part1.html": "2026-11-25",
         "/papers/part2.html": "2026-11-25",
         "/papers/part3.html": "2026-11-25",
-        "/about.html": "2026-11-24",
+        "/about.html": "2026-11-26",
         "/colophon.html": "2026-11-24",
     }
     urls = "\n".join(

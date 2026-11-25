@@ -35,8 +35,17 @@ class Paper(TypedDict):
 
 
 SITE: Final = "https://takashisato.me"
+SITE_NAME: Final = "Takashi Sato"
 AUTHOR_ID: Final = f"{SITE}/about.html#takashi-sato"
 SERIES_ID: Final = f"{SITE}/papers/#trilogy"
+# Only released collections belong in the public registry.
+PUBLISHED_COLLECTIONS: Final = (SERIES_ID,)
+
+
+def publication_collection_refs() -> list[dict[str, str]]:
+    """Stable collection IDs, independent of series versions and document types."""
+    return [{"@id": collection_id} for collection_id in PUBLISHED_COLLECTIONS]
+
 SCHOLAR_URL: Final = "https://scholar.google.com/citations?user=tN4zV68AAAAJ"
 
 UPDATED: Final = "2026-09-23"

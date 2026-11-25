@@ -1,9 +1,12 @@
-# The Proper Ending Index
+# Takashi Sato — Research & Writings
 
-A static research archive by **Takashi Sato** on AI governance, workflow failure,
-governing-capacity loss, Proper Ending, and Authority Return.
+A static personal research and writing archive. The current collection, **The Proper Ending Index**, covers AI governance, workflow failure, governing-capacity loss, Proper Ending, and Authority Return.
 
 The interface should expose structure, not decorate content.
+
+## Publication architecture
+
+The website identity and the research collection identity are separate. `PUBLISHED_COLLECTIONS` in `src/archive/model.py` lists only released collections by stable entity ID. The home CollectionPage points to those IDs; `/research-index.json`, `/feed.xml`, the paper routes and DOI records remain the established trilogy-specific contracts. Do not repurpose or renumber them when adding a collection. Add independently versioned records and appropriate publication types (research article, working paper, essay or other work) only when an actual work is released. No empty public categories or unearned subject expertise.
 
 ## Research record
 

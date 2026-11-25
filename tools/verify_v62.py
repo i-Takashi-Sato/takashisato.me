@@ -403,6 +403,10 @@ def audit_content(errors: list[str]) -> None:
         fail(errors, "index.html: Search Console ownership verification is missing")
     if "AI Governance Research Archive" not in home:
         fail(errors, "index.html: visible field classification is missing")
+    if '"@type":"WebSite","@id":"https://takashisato.me/#website","url":"https://takashisato.me/","name":"Takashi Sato"' not in home:
+        fail(errors, "index.html: personal site identity is missing")
+    if '"hasPart":[{"@id":"https://takashisato.me/papers/#trilogy"}]' not in home:
+        fail(errors, "index.html: published collection registry is missing")
     if '"@type":"CreativeWorkSeries"' not in home or SERIES_ID not in home:
         fail(errors, "index.html: canonical research-series entity is missing")
 
@@ -760,7 +764,7 @@ def audit_indexes(errors: list[str]) -> None:
             fail(errors, f"research-index.json: Part {position + 1} provenance mismatch")
 
     manifest_expectations = {
-        "name": "The Proper Ending Index",
+        "name": "Takashi Sato",
         "id": "/",
         "start_url": "/",
         "scope": "/",
@@ -791,7 +795,7 @@ def audit_indexes(errors: list[str]) -> None:
     if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
         fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
     # Page freshness is not the same as the immutable v6.2 paper revision.
-    expected_lastmods = ["2026-11-25"] * 5 + ["2026-11-24"] * 2 + [UPDATED, UPDATED]
+    expected_lastmods = ["2026-11-26"] + ["2026-11-25"] * 4 + ["2026-11-26", "2026-11-24", UPDATED, UPDATED]
     actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
     if actual_lastmods != expected_lastmods:
         fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")

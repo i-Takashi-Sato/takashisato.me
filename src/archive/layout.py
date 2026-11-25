@@ -123,7 +123,7 @@ def head(
           <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>{author_material_preload}
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
-          <meta property="og:site_name" content="The Proper Ending Index">
+          <meta property="og:site_name" content="Takashi Sato">
           <meta property="og:title" content="{safe_title}">
           <meta property="og:description" content="{safe_description}">
           <meta property="og:url" content="{safe_canonical}">
@@ -156,9 +156,9 @@ def header(active: str = "") -> str:
         <a class="skip-link" href="#main">Skip to content</a>
         <header class="site-header">
           <div class="header-inner">
-            <a class="brand" href="/" aria-label="The Proper Ending Index — home">
+            <a class="brand" href="/" aria-label="Takashi Sato — home">
               <img class="brand-mark" src="/assets/brand-mark.svg" width="32" height="32" alt="">
-              <span>The Proper Ending Index</span>
+              <span>Takashi Sato</span>
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
               <a href="/"{current('index')}>Index</a>
@@ -177,11 +177,11 @@ def footer() -> str:
         f"""
         <footer class="site-footer">
           <div class="shell">
-            <a class="footer-wordmark" href="/" aria-label="The Proper Ending Index — home">Proper Ending</a>
+            <a class="footer-wordmark" href="/" aria-label="Takashi Sato — home">Takashi Sato</a>
             <div class="footer-grid">
               <div>
-                <p class="eyebrow">The Proper Ending Index</p>
-                <p class="footer-thesis">An independent research archive on decision routing, governing capacity, and accountable exit in AI-assisted institutions.</p>
+                <p class="eyebrow">Research &amp; writings</p>
+                <p class="footer-thesis">An independent archive of research and writing. The current collection, The Proper Ending Index, examines decision routing, governing capacity, and accountable exit in AI-assisted institutions.</p>
               </div>
               <div class="footer-links">
                 <div>
