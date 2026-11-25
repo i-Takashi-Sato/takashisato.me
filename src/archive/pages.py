@@ -308,7 +308,7 @@ def papers_index_page() -> str:
                 <article class="record-row">
                   <div><p class="label">第二部 ／ 統治能力</p><h3>{ja_phrases("手続が維持されていても、", "統治できているか")}</h3></div>
                   <div><p>手続に覆われた統治能力の喪失（<span lang="en">Procedurally Masked Governing-Capacity Loss; PMGCL</span>）とは、外形上の手続遵守が維持または改善される一方で、独立した判断の寄与と実効的な統治能力がともに実質的かつ持続的に低下し、あらかじめ定めた保護対象機能も実質的に損なわれている状態をいう。四つの要件はいずれも不可欠であり、この定義は成因を特定するものではない。</p>
-                    <p><span lang="en">Pre-Abuse Collapse（PAC）</span>は、PMGCLの成因に関する暫定的な下位類型である。悪意ある行為の経路について事前に定めた介入条件または参照条件の下で、通常の組織的要因への曝露が保護対象機能に及ぼす実質的な悪影響を示す因果的対比が識別された場合に限り、この類型を用いる。「<span lang="en">Pre-Abuse</span>」は、崩壊が悪意ある行為に時間的に先行することを意味しない。また、悪意ある行為が存在しないことも、十分構成原因（<span lang="en">sufficient component cause</span>）の意味で不要であったことも、この類型は示さない。</p>
+                    <p><span lang="en">Pre-Abuse Collapse</span>（<span lang="en">PAC</span>）は、PMGCLの成因に関する暫定的な下位類型である。悪意ある行為の経路について、介入条件または参照条件を事前に定める。その条件の下で、通常の組織的要因への曝露が保護対象機能に実質的な悪影響を及ぼすことを示す因果的対比が識別された場合に限り、この類型を用いる。「<span lang="en">Pre-Abuse</span>」は、崩壊が悪意ある行為に時間的に先行することを意味しない。また、この類型は、悪意ある行為が存在しないことも、十分構成原因（<span lang="en">sufficient component cause</span>）の意味で不要であったことも示さない。</p>
                     <p>いずれも妥当性の検証を経ていない。既存理論や構成要素を連続量で扱うモデルと比較し、拠点または期間を分けた検証において、判別力、早期把握のための先行時間、較正、介入判断への有用性のいずれにも再現可能な付加価値が認められなければ、当該概念の独立した使用を撤回する。PACにはさらに、再現可能な因果的識別と、記述的な状態分類を超える付加価値が求められる。</p>
                     <p><a href="/papers/part2.html">論文・状態モデルと反証条件{ja_phrases("（英語）")}</a></p></div>
                 </article>
@@ -323,7 +323,7 @@ def papers_index_page() -> str:
               <div class="ja-evidence">
                 <h3>検証の範囲</h3>
                 <div>
-              <p class="section-intro">第一部と第三部の形式的検証が確認したのは、著者が定めた有限の抽象化における、設定済みの不変条件との整合性に限られる。第二部は記述モデルと反証可能な研究計画を提示したものであり、第三部の合成データによる試験は指標の実装と失敗の様態を調べるものである。現実の組織における有効性や検出性能を実証するものではない。</p>
+              <p class="section-intro">第一部と第三部の形式的検証が確認したのは、著者が定めた有限の抽象化の範囲内で、設定済みの不変条件との整合性が保たれることに限られる。第二部は記述モデルと反証可能な研究計画を提示したものであり、第三部の合成データによる試験は指標の実装と失敗の様態を調べるものである。現実の組織における有効性や検出性能を実証するものではない。</p>
               <p class="section-intro">三論文は、オーストラリアのRobodebt制度に関する王立委員会、オランダの保育手当問題に関する議会調査、米国ミシガン州の失業保険に関する公的監査から、同一の十五の記述箇所を用いている。目的に応じて選んだ失敗事例を著者一人が理論に沿って分類したものであり、統治上の対象が公的記録から追跡できることを例示するにとどまる。因果関係、発生頻度、予防効果を示すものではなく、記録の共用は三論文の独立した裏づけにはならない。</p>
               <p class="section-intro">三論文は、独立した査読や現場検証の完了、法的な十分性、新規性の確定を主張するものではない。<a href="#concepts">研究概念と根拠{ja_phrases("（英語）")}</a>、<a href="#critical-review">反証・批判の受付{ja_phrases("（英語）")}</a>も参照されたい。</p>
                 </div>
@@ -548,7 +548,7 @@ def about_page() -> str:
               </div>
               <div class="portrait-position">
                 <p class="portrait-question">What remains when form and function diverge?</p>
-                <p>I study authority, responsibility, and independent judgment, with particular attention to the conditions under which institutions retain or lose the capacity to govern. My current work examines these questions in AI-assisted systems.</p>
+                <p>I study authority, responsibility, and independent judgment. My current research examines how AI-assisted institutions retain the capacity to govern, how that capacity can be lost, and what an accountable exit requires.</p>
               </div>
             </div>
           </header>
@@ -560,6 +560,7 @@ def about_page() -> str:
                 <p>Three working papers on accountable decision routing, governing capacity, and responsible workflow exit. Their claims, methods, and limits are documented in the archive.</p>
                 <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
                 <p class="portrait-note"><a href="/papers/#critical-review">Invitation to independent review</a></p>
+                <p class="portrait-note"><a href="/papers/#japanese" lang="ja">日本語の研究案内</a></p>
               </div>
               <div class="portrait-identifiers">
                 <h2 class="eyebrow">Scholarly record</h2>
