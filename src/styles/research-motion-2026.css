@@ -220,9 +220,9 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
   --ja-sans: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
   --ja-h3: clamp(1.15rem, 1.5vw, 1.45rem);
   font-family: var(--ja-serif);
-  font-size: clamp(1.0625rem, 1rem + .18vw, 1.1875rem);
-  line-height: 1.95;
-  letter-spacing: .018em;
+  font-size: clamp(1.0625rem, 1rem + .22vw, 1.1875rem);
+  line-height: 2.05;
+  letter-spacing: .01em;
   line-break: strict;
   color: var(--ink);
 }
@@ -236,14 +236,14 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 }
 #japanese .section-head { margin-bottom: 3rem; }
 #japanese .section-head h2 {
-  font: 600 clamp(1.85rem, 3.1vw, 3rem)/1.42 var(--ja-serif);
+  font: 500 clamp(1.85rem, 3.1vw, 3rem)/1.42 var(--ja-serif);
   letter-spacing: .025em;
   text-wrap: wrap;
   margin: 0 0 1.4rem;
 }
 #japanese .ja-title-tail { display: inline-block; max-width: 100%; }
-#japanese .label { font: 600 .8rem/1.6 var(--ja-sans); letter-spacing: .07em; }
-#japanese h3 { font: 600 var(--ja-h3)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
+#japanese .label { font: 600 .875rem/1.6 var(--ja-sans); letter-spacing: .07em; }
+#japanese h3 { font: 500 var(--ja-h3)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
 #japanese *:is(p,h2,h3) { overflow-wrap: anywhere; word-break: normal; }
 #japanese .record-list { margin-top: 0; }
 #japanese .record-row { padding-block: clamp(1.9rem, 3.6vw, 3rem); }
