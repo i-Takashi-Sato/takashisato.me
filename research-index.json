@@ -304,6 +304,114 @@
       ]
     }
   ],
+  "subjectOf": {
+    "@type": "DefinedTermSet",
+    "@id": "https://takashisato.me/papers/#concepts",
+    "url": "https://takashisato.me/papers/#concepts",
+    "name": "Concepts and evidence",
+    "description": "An index of the archive's research concepts, not new definitions or independent validation.",
+    "version": "6.2",
+    "inLanguage": "en",
+    "creator": {
+      "@id": "https://takashisato.me/about.html#takashi-sato"
+    },
+    "about": {
+      "@id": "https://takashisato.me/papers/#trilogy"
+    },
+    "hasDefinedTerm": [
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-typed-gate",
+        "url": "https://takashisato.me/papers/#concept-typed-gate",
+        "name": "Typed Gate Contract",
+        "description": "Decision routing, not execution. Stage 1 routes cases; all-PASS permits entry to separate execution control. Reviewed cases require a current, in-scope signed disposition.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part1.html#article"
+        }
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-evidence-hold",
+        "url": "https://takashisato.me/papers/#concept-evidence-hold",
+        "name": "Evidence hold",
+        "description": "Missing evidence is not approval. UNKNOWN with review authority and capacity routes to evidence completion and rerun. Signed DEFER is a separate disposition.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part1.html#article"
+        }
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-pmgcl",
+        "url": "https://takashisato.me/papers/#concept-pmgcl",
+        "name": "Procedurally Masked Governing-Capacity Loss (PMGCL)",
+        "description": "Descriptive state model. Stable or improving procedural fidelity, persistent material losses of judgment and governing capacity, and material impairment of a predeclared protected function.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part2.html#article"
+        }
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-pac",
+        "url": "https://takashisato.me/papers/#concept-pac",
+        "name": "Pre-Abuse Collapse (PAC)",
+        "description": "Provisional etiological subtype. Requires PMGCL plus an identified materially adverse ordinary-exposure contrast under a predeclared malicious-pathway intervention or reference condition.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part2.html#article"
+        }
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-circuit-breaker",
+        "url": "https://takashisato.me/papers/#concept-circuit-breaker",
+        "name": "Circuit Breaker",
+        "description": "Reversible containment. An authorized, scoped and reversible containment action with a named owner. Indicators cannot authorize it.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part3.html#article"
+        }
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-proper-ending",
+        "url": "https://takashisato.me/papers/#concept-proper-ending",
+        "name": "Proper Ending",
+        "description": "Accountable retirement. Retirement requires evidence preservation, service continuity, remedy, branch-specific responsibility, assurance and authorized closure.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part3.html#article"
+        }
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": "https://takashisato.me/papers/#concept-authority-return",
+        "url": "https://takashisato.me/papers/#concept-authority-return",
+        "name": "Authority Return",
+        "description": "Practical capacity, not title alone. Reconstitute practical decision capacity in an accepting successor, or assign residual custody or remedy authority if the function ends.",
+        "inDefinedTermSet": {
+          "@id": "https://takashisato.me/papers/#concepts"
+        },
+        "subjectOf": {
+          "@id": "https://takashisato.me/papers/part3.html#article"
+        }
+      }
+    ]
+  },
   "about": [
     "AI governance",
     "human oversight",

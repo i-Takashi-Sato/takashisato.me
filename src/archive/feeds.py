@@ -5,6 +5,9 @@ from __future__ import annotations
 from .model import AUTHOR, PAPERS, PAPER_REVISION_DATE, SITE, UPDATED, VERSION, article_schema, paper_url, ssrn_url
 
 
+from .concepts import concept_schema
+
+
 RESEARCH_PROVENANCE = {
     1: "Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here.",
     2: "Descriptive model and rejectable propositions; empirical validation is not established.",
@@ -40,6 +43,7 @@ def research_index() -> dict[str, object]:
         "isAccessibleForFree": True,
         "creator": AUTHOR,
         "hasPart": parts,
+        "subjectOf": concept_schema(),
         "about": [
             "AI governance",
             "human oversight",

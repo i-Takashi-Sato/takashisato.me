@@ -859,7 +859,17 @@ def audit_atom(errors: list[str]) -> None:
 
 
 def audit_concept_register(errors: list[str]) -> None:
-    from src.archive.pages import CONCEPTS, CONCEPT_SOURCES
+    from src.archive.concepts import CONCEPTS, CONCEPT_SOURCES, concept_schema
+
+    expected_schema = concept_schema()
+    index = json.loads((ROOT / "research-index.json").read_text(encoding="utf-8"))
+    if index.get("subjectOf") != expected_schema:
+        fail(errors, "concept register: machine-readable index differs from canonical summaries")
+    html = (ROOT / "papers/index.html").read_text(encoding="utf-8")
+    graphs = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+    sets = [item for graph in graphs for item in json.loads(graph).get("@graph", []) if item.get("@type") == "DefinedTermSet"]
+    if sets != [expected_schema]:
+        fail(errors, "concept register: catalogue JSON-LD differs from canonical summaries")
 
     parser = AuditParser()
     parser.feed((ROOT / "papers/index.html").read_text(encoding="utf-8"))

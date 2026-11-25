@@ -23,95 +23,8 @@ from .model import (
 )
 from .paper_content import part1_content, part2_content, part3_content
 from .abstracts import ABSTRACTS
+from .concepts import CONCEPTS, CONCEPT_SOURCES, concept_schema
 from html import escape
-
-
-# Navigation records summarize existing archive sections; they do not extend the papers.
-CONCEPTS = [
-    [
-        "typed-gate",
-        "Typed Gate Contract",
-        "part1",
-        "I",
-        "contract",
-        "Decision routing, not execution.",
-        "Stage 1 routes cases; all-PASS permits entry to separate execution control. Reviewed cases require a current, in-scope signed disposition.",
-        "verification"
-    ],
-    [
-        "evidence-hold",
-        "Evidence hold",
-        "part1",
-        "I",
-        "contract",
-        "Missing evidence is not approval.",
-        "UNKNOWN with review authority and capacity routes to evidence completion and rerun. Signed DEFER is a separate disposition.",
-        "verification"
-    ],
-    [
-        "pmgcl",
-        "Procedurally Masked Governing-Capacity Loss (PMGCL)",
-        "part2",
-        "II",
-        "state-model",
-        "Descriptive state model.",
-        "Stable or improving procedural fidelity, persistent material losses of judgment and governing capacity, and material impairment of a predeclared protected function.",
-        "propositions"
-    ],
-    [
-        "pac",
-        "Pre-Abuse Collapse (PAC)",
-        "part2",
-        "II",
-        "overview",
-        "Provisional etiological subtype.",
-        "Requires PMGCL plus an identified materially adverse ordinary-exposure contrast under a predeclared malicious-pathway intervention or reference condition.",
-        "propositions"
-    ],
-    [
-        "circuit-breaker",
-        "Circuit Breaker",
-        "part3",
-        "III",
-        "overview",
-        "Reversible containment.",
-        "An authorized, scoped and reversible containment action with a named owner. Indicators cannot authorize it.",
-        "verification"
-    ],
-    [
-        "proper-ending",
-        "Proper Ending",
-        "part3",
-        "III",
-        "proper-ending",
-        "Accountable retirement.",
-        "Retirement requires evidence preservation, service continuity, remedy, branch-specific responsibility, assurance and authorized closure.",
-        "verification"
-    ],
-    [
-        "authority-return",
-        "Authority Return",
-        "part3",
-        "III",
-        "authority-return",
-        "Practical capacity, not title alone.",
-        "Reconstitute practical decision capacity in an accepting successor, or assign residual custody or remedy authority if the function ends.",
-        "verification"
-    ]
-]
-
-
-# Printed page locators in the immutable v6.2 papers (cover is page 1).
-# Each heading is checked against the preserved PDF by Archive QA.
-CONCEPT_SOURCES = {
-    "typed-gate": (9, 10, "total triage function"),
-    "evidence-hold": (9, 10, "total triage function"),
-    "pmgcl": (8, 9, "Core Constructs, Descriptive State"),
-    "pac": (8, 9, "Core Constructs, Descriptive State"),
-    "circuit-breaker": (13, 13, "5. Circuit Breaker"),
-    "proper-ending": (14, 15, "7. Proper Ending"),
-    "authority-return": (15, 16, "8. Authority Return"),
-}
 
 
 def concept_register() -> str:
@@ -309,6 +222,7 @@ def papers_index_page() -> str:
                 "mainEntity": {"@id": SERIES_ID},
             },
             breadcrumb_schema([("Index", "/"), ("Papers", "/papers/")]),
+            concept_schema(),
         ],
     }
     records: list[str] = []
