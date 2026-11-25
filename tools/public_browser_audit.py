@@ -32,9 +32,11 @@ def main():
                     def console(msg):
                         if msg.type == "error" and ("Content Security Policy" in msg.text or "CSP" in msg.text):
                             policies.append(msg.text[:300])
+                    def page_error(exc):
+                        exceptions.append(exc)
                     page.on("request", request)
                     page.on("response", response)
-                    page.on("pageerror", exceptions.append)
+                    page.on("pageerror", page_error)
                     page.on("console", console)
                     tag = f"{engine}-{width}-{'js' if js else 'nojs'}-{index}"
                     try:
@@ -60,10 +62,14 @@ def main():
                     finally:
                         page.remove_listener("request", request)
                         page.remove_listener("response", response)
-                        page.remove_listener("pageerror", exceptions.append)
+                        page.remove_listener("pageerror", page_error)
                         page.remove_listener("console", console)
                     cookies = [c["name"] for c in context.cookies()]
-                    storage = page.evaluate("() => ({local: Object.keys(localStorage), session: Object.keys(sessionStorage)})")
+                    try:
+                        storage = page.evaluate("() => ({local: Object.keys(localStorage), session: Object.keys(sessionStorage)})")
+                    except Exception as exc:
+                        storage = {"local": [], "session": [], "unavailable": True}
+                        errors.append(f"{tag}: storage observation unavailable: {type(exc).__name__}")
                     record = {"case": tag, "path": path, "external_hosts": sorted(external),
                         "failed_responses": failures, "page_errors": [str(e)[:200] for e in exceptions],
                         "policy_errors": policies, "cookie_names": cookies, "storage_keys": storage}
