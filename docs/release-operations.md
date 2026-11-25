@@ -45,9 +45,10 @@ unfinished workflow is not a release approval.
 ## Finalization and maintenance
 
 Use the checked main commit as the versioned source of truth. The existing
-verified repository recovery workflow is the reproducible backup mechanism;
-its bundle must be exported and retained separately before the seven-day
-artifact expiry. No account credentials or DNS/CDN configuration are in that
+verified repository recovery workflow is the reproducible backup mechanism.
+Changing this checkpoint record on main automatically creates a new verified
+bundle, not a backup on every minor edit. Retain it separately before the
+seven-day artifact expiry. No account credentials or DNS/CDN configuration are in that
 bundle. A particular fresh recovery artifact is not implied by this document.
 
 No routine redesign is required. Reopen design or engineering work only for a
