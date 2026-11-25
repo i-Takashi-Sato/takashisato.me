@@ -58,3 +58,7 @@ References: https://signposting.org/FAIR/ ; https://github.com/citation-style-la
 ## Search versus training
 
 Google's generative Search guidance does not require llms.txt or special AI markup. The archive retains its existing machine-readable orientation as a convenience, not a ranking claim. Cloudflare's observed managed policy distinguishes search access from training; do not expand training permissions to pursue search exposure. Google Scholar's PDF association remains unresolved without duplicating or relocating preserved originals. Actual search visibility and crawl access must be assessed independently of Lighthouse.
+
+## Concept interoperability
+
+The seven visible concept summaries are generated from the same source as a Schema.org DefinedTermSet on the Papers page and in research-index.json. Stable fragment identifiers connect each term to its visible summary and source paper; provisional status and evidential boundaries are retained verbatim. This is scholarly interoperability, not a claim of Google rich-result eligibility or a generative-search ranking boost.
