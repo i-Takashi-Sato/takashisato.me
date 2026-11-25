@@ -12,6 +12,8 @@ from .model import (
     SERIES_ID,
     SCHOLAR_URL,
     SITE,
+    SITE_NAME,
+    publication_collection_refs,
     UPDATED,
     VERSION,
     Paper,
@@ -72,8 +74,9 @@ def home_page() -> str:
                 "@type": "WebSite",
                 "@id": f"{SITE}/#website",
                 "url": f"{SITE}/",
-                "name": "The Proper Ending Index",
-                "description": "Takashi Sato's independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
+                "name": SITE_NAME,
+                "alternateName": "佐藤貴士",
+                "description": "Independent research and writing by Takashi Sato. The current collection examines workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
                 "inLanguage": "en-US",
                 "author": {"@id": AUTHOR_ID},
             },
@@ -83,7 +86,8 @@ def home_page() -> str:
                 "@type": "CollectionPage",
                 "@id": f"{SITE}/#index",
                 "url": f"{SITE}/",
-                "name": "The Proper Ending Index",
+                "name": "Takashi Sato — Research & Writings",
+                "hasPart": publication_collection_refs(),
                 "isPartOf": {"@id": f"{SITE}/#website"},
                 "mainEntity": {"@type": "ItemList", "itemListElement": item_list},
             },
@@ -131,7 +135,7 @@ def home_page() -> str:
           <section class="section">
             <div class="shell">
               <div class="section-head" data-reveal>
-                <p class="label">The research sequence</p>
+                <p class="label">Current research collection</p>
                 <div>
                   <h2>From a case decision to an institutional exit.</h2>
                   <p class="section-intro">The papers are connected, but they do not collapse into a single score or universal lifecycle. Each asks a distinct question and states its own claim boundary.</p>
@@ -194,7 +198,7 @@ def home_page() -> str:
     return shell_page(
         head_html=head(
             title="Takashi Sato (佐藤貴士) — AI Governance Research Archive",
-            description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. Working papers on AI governance, accountable decisions, governing-capacity loss, Proper Ending, and Authority Return.",
+            description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. Research and writings; the current collection covers AI governance, accountable decisions, governing-capacity loss, and Authority Return.",
             path="/",
             image="/assets/og/home.jpg",
             schema=schema,
@@ -522,8 +526,8 @@ def about_page() -> str:
                 "@id": f"{SITE}/about.html#profile",
                 "url": f"{SITE}/about.html",
                 "name": "Takashi Sato (佐藤貴士) · Author Record",
-                "dateModified": "2026-11-24",
-                "description": "Independent AI governance research in Sapporo, Japan.",
+                "dateModified": "2026-11-26",
+                "description": "Independent research in Sapporo, Japan. Current research: AI governance.",
                 "mainEntity": {"@id": AUTHOR_ID},
             },
             breadcrumb_schema([("Index", "/"), ("Author", "/about.html")]),
@@ -579,8 +583,8 @@ def about_page() -> str:
     ).strip()
     return shell_page(
         head_html=head(
-            title="Takashi Sato (佐藤貴士) — AI Governance Researcher",
-            description="Author record for Takashi Sato (佐藤貴士), an independent AI governance researcher in Sapporo studying accountable decision routing, governing capacity, and institutional exit.",
+            title="Takashi Sato (佐藤貴士) — Independent Researcher",
+            description="Author record for Takashi Sato (佐藤貴士), an independent researcher in Sapporo. Current research concerns AI governance, accountable decision routing, governing capacity, and institutional exit.",
             path="/about.html",
             image="/assets/og/about.jpg",
             schema=schema,
@@ -604,7 +608,7 @@ def utility_page(
         f"""
         <main id="main" class="utility-page shell">
           {breadcrumbs([("Index", "/"), (title, None)])}
-          <p class="eyebrow">The Proper Ending Index</p>
+          <p class="eyebrow">Takashi Sato</p>
           <h1>{title}</h1>
           <div class="content">{content}</div>
         </main>
@@ -612,7 +616,7 @@ def utility_page(
     ).strip()
     return shell_page(
         head_html=head(
-            title=f"{title} · The Proper Ending Index",
+            title=f"{title} · Takashi Sato",
             description=description,
             path=f"/{slug}",
             image="/assets/og/home.jpg",
@@ -665,7 +669,7 @@ def legacy_notice(*, path: str, part: int | None = None) -> str:
     canonical = destination if destination.endswith(".html") else "/papers/"
     return shell_page(
         head_html=head(
-            title=f"{title} · The Proper Ending Index",
+            title=f"{title} · Takashi Sato",
             description=detail,
             path=canonical,
             image="/assets/og/papers.jpg",

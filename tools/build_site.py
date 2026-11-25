@@ -45,7 +45,7 @@ def main() -> None:
         utility_page(
             slug="privacy.html",
             title="Privacy",
-            description="Privacy information for The Proper Ending Index.",
+            description="Privacy information for the Takashi Sato archive.",
             content=dedent(
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">This is a static research archive. It provides no user accounts, advertising, profiling, or first-party cookies.</p></section>
@@ -62,7 +62,7 @@ def main() -> None:
         utility_page(
             slug="security.html",
             title="Security",
-            description="Security contact and disclosure information for The Proper Ending Index.",
+            description="Security contact and disclosure information for the Takashi Sato archive.",
             content=dedent(
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">If you believe you have found a security issue affecting this archive, please report it privately.</p><div class="hero-actions"><a class="button primary" href="mailto:i@takashisato.me">i@takashisato.me</a><a class="button" href="/.well-known/security.txt">security.txt</a></div></section>
@@ -76,7 +76,7 @@ def main() -> None:
         utility_page(
             slug="colophon.html",
             title="Colophon",
-            description="Design, technology, and preservation notes for The Proper Ending Index.",
+            description="Design, technology, and preservation notes for the Takashi Sato archive.",
             content=dedent(
                 """
                 <section><h2 class="sr-only">Overview</h2><p class="lead">The archive is designed for legibility, evidence traceability, and long-term survival—not for product conversion or decorative spectacle.</p></section>
@@ -95,7 +95,7 @@ def main() -> None:
         utility_page(
             slug="404.html",
             title="Record not found",
-            description="The requested record is not part of The Proper Ending Index.",
+            description="The requested record is not part of the Takashi Sato archive.",
             robots="noindex,follow",
             content='<section><h2 class="sr-only">Overview</h2><p class="lead">This path does not resolve to a current archive record.</p><div class="hero-actions"><a class="button primary" href="/">Open the index</a><a class="button" href="/papers/">Browse papers</a></div></section>',
         ),
@@ -116,9 +116,9 @@ def main() -> None:
         "llms.txt",
         dedent(
             f"""
-            # The Proper Ending Index
+            # Takashi Sato
 
-            > Independent research archive by Takashi Sato on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.
+            > Independent research and writing by Takashi Sato. The current published research collection is The Proper Ending Index, on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.
 
             Canonical site: {SITE}/
             Author: Takashi Sato (佐藤貴士), Independent Researcher, Sapporo, Japan
@@ -169,11 +169,12 @@ def main() -> None:
             ORCID: 0009-0003-1584-6965
 
             /* SITE */
-            The Proper Ending Index
+            Takashi Sato
+            Current research collection: The Proper Ending Index
             Static HTML, CSS, and progressive JavaScript
             Three self-hosted type families; no framework runtime
             Current research version: 6.2
-            Last update: 2026-11-24
+            Last update: 2026-11-26
 
             /* ORIENTATION */
             https://takashisato.me/llms.txt
@@ -186,9 +187,9 @@ def main() -> None:
         "site.webmanifest",
         json.dumps(
             {
-                "name": "The Proper Ending Index",
-                "short_name": "Proper Ending",
-                "description": "Takashi Sato's independent AI governance research archive.",
+                "name": "Takashi Sato",
+                "short_name": "Takashi Sato",
+                "description": "Independent research and writing by Takashi Sato.",
                 "id": "/",
                 "start_url": "/",
                 "scope": "/",
