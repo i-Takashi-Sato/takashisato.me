@@ -2,6 +2,8 @@ name: Archive QA
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '23 18 * * 0' # Monday 03:23 JST; full audit
   pull_request:
   push:
     branches:
