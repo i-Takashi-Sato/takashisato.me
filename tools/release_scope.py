@@ -9,9 +9,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
+import tempfile
+from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 
@@ -221,6 +224,34 @@ def self_test():
         assert signature(f"<{tag}>a</{tag}>") != signature(f"<{tag}>b</{tag}>")
     assert classify("") == "full"
     assert classify("not-a-commit") == "full"
+    # Exercise the actual raw Git diff and ancestry comparison, not just fixtures.
+    previous = os.getcwd()
+    with tempfile.TemporaryDirectory() as temp:
+        try:
+            os.chdir(temp)
+            git("init", "--quiet")
+            git("config", "user.name", "Scope test")
+            git("config", "user.email", "scope-test@example.invalid")
+            git("config", "commit.gpgsign", "false")
+            Path("about.html").write_text(a, encoding="utf-8")
+            git("add", "--", "about.html")
+            git("commit", "--quiet", "-m", "Base fixture")
+            base = git("rev-parse", "HEAD").decode().strip()
+            Path("about.html").write_text(b, encoding="utf-8")
+            git("add", "--", "about.html")
+            git("commit", "--quiet", "-m", "Editorial fixture")
+            assert classify(base) == "light"
+            Path("about.html").write_text(b.replace("</body>", "<section>Added</section></body>"), encoding="utf-8")
+            git("add", "--", "about.html")
+            git("commit", "--quiet", "-m", "Structural fixture")
+            assert classify(base) == "full"
+            last = git("rev-parse", "HEAD").decode().strip()
+            Path("new.html").write_text(a, encoding="utf-8")
+            git("add", "--", "new.html")
+            git("commit", "--quiet", "-m", "New-file fixture")
+            assert classify(last) == "full"
+        finally:
+            os.chdir(previous)
     print("Release scope self-tests passed.", file=sys.stderr)
 
 
