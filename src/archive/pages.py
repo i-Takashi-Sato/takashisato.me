@@ -58,15 +58,6 @@ def research_map_nodes() -> str:
 
 
 def home_page() -> str:
-    item_list = [
-        {
-            "@type": "ListItem",
-            "position": paper["part"],
-            "url": paper_url(paper),
-            "name": f"{paper['title']}: {paper['subtitle']}",
-        }
-        for paper in PAPERS
-    ]
     schema = {
         "@context": "https://schema.org",
         "@graph": [
@@ -89,7 +80,7 @@ def home_page() -> str:
                 "name": "Takashi Sato — Research & Writings",
                 "hasPart": publication_collection_refs(),
                 "isPartOf": {"@id": f"{SITE}/#website"},
-                "mainEntity": {"@type": "ItemList", "itemListElement": item_list},
+                "mainEntity": {"@id": f"{SITE}/publications/#catalogue"},
             },
         ],
     }
@@ -112,22 +103,22 @@ def home_page() -> str:
         f"""
         <main id="main">
           <section class="hero shell identity-hero" aria-labelledby="hero-title">
-            <div class="identity-masthead"><span>TAKASHI SATO <span class="identity-masthead-sep">/</span> INDEPENDENT RESEARCH</span><span>AI GOVERNANCE · 2026</span></div>
+            <div class="identity-masthead"><span>INDEPENDENT ARCHIVE</span><span>SAPPORO, JAPAN</span></div>
             <div class="identity-hero-grid">
               <div class="identity-copy">
-                <p class="identity-overline">THE PROPER ENDING INDEX <span aria-hidden="true">/</span> 01–03</p>
-                <h1 id="hero-title">A role alone<br>is not <strong>governance.</strong></h1>
-                <p class="identity-thesis">Accountability lives in the sequence.</p>
-                <p class="identity-detail">Three working papers examine decision routing in human–AI cases, the loss of governing capacity beneath intact procedures, and how workflows can end without abandoning unresolved obligations. Analytical models and bounded verification—not demonstrated operational effectiveness.</p>
+                <p class="identity-overline">RESEARCH &amp; WRITINGS</p>
+                <h1 id="hero-title">Takashi<br>Sato</h1>
+                <p class="identity-thesis"><span lang="ja">佐藤貴士</span></p>
+                <p class="identity-detail">An independent archive of research and writing. The featured collection examines how AI-assisted institutions route decisions, lose governing capacity, and bring workflows to an accountable end.</p>
                 <div class="identity-actions">
-                  <a class="button primary" href="/papers/">Explore the research <span aria-hidden="true">↗</span></a>
-                  <a class="button" href="/publications/">All publications</a>
+                  <a class="button primary" href="/publications/">Explore publications <span aria-hidden="true">↗</span></a>
+                  <a class="button" href="/papers/">Featured research</a>
                 </div>
               </div>
               <figure class="identity-art">
-                <div class="identity-art-head"><span>THE INSTRUMENTS / I—III</span><span>CONCEPTUAL STUDY</span></div>
+                <div class="identity-art-head"><span>THE PROPER ENDING INDEX</span><span>I—III</span></div>
                 <nav class="identity-instruments" aria-label="Three distinct research questions">{research_map_nodes()}</nav>
-                <figcaption>Conceptual instruments, not empirical results. Each is a distinct analytical question and opens its corresponding paper.</figcaption>
+                <figcaption>Three working papers. Conceptual instruments, not empirical results. Each opens its corresponding paper.</figcaption>
               </figure>
             </div>
           </section>
@@ -163,7 +154,7 @@ def home_page() -> str:
           <section class="section">
             <div class="shell">
               <div class="boundary" data-reveal>
-                <h2>What this archive does not claim.</h2>
+                <h2>Limits of the featured research.</h2>
                 <div>
                   <p>These are working papers and formalized research artifacts—not legal advice, a compliance certification, an operational decision engine, or evidence that the proposed architectures improve outcomes in the field.</p>
                   <p>Finite checks are exhaustive only over each declared abstraction. The shared public-record corpus supports traceability, not frequency, prediction, causal sufficiency, or independent validation.</p>
@@ -182,7 +173,7 @@ def home_page() -> str:
                   <p>Independent research<br>Sapporo, Japan</p>
                 </div>
                 <div class="profile-copy">
-                  <p class="lead">Takashi Sato (<span lang="ja">佐藤貴士</span>) studies how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
+                  <p class="lead">Current research examines how AI-assisted institutions preserve accountable judgment—and how they should contain, retire, and transfer decision capacity when governance fails.</p>
                   <div class="hero-actions">
                     <a class="button" href="/about.html">About the author</a>
                     <a class="button" href="/papers/#japanese" lang="ja">日本語の研究案内</a>
@@ -197,10 +188,10 @@ def home_page() -> str:
     ).strip()
     return shell_page(
         head_html=head(
-            title="Takashi Sato (佐藤貴士) — AI Governance Research Archive",
-            description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. Research and writings; the current collection covers AI governance, accountable decisions, governing-capacity loss, and Authority Return.",
+            title="Takashi Sato (佐藤貴士) — Research & Writings",
+            description="Takashi Sato (佐藤貴士), independent researcher in Sapporo. An archive of research and writing, featuring the current AI governance collection, The Proper Ending Index.",
             path="/",
-            image="/assets/og/home.jpg",
+            image="/assets/og/about.jpg",
             schema=schema,
             site_verification=True,
         ),

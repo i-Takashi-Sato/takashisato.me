@@ -692,6 +692,33 @@ def publication_expansion_errors(browser, errors: list[str]) -> None:
             context.close()
 
 
+def author_archive_entry_errors(browser, errors: list[str]) -> None:
+    """The author-wide archive is the primary route; the trilogy is a feature."""
+    for width in (320, 390, 1440):
+        for js in (False, True):
+            context = browser.new_context(
+                viewport={"width": width, "height": 844},
+                java_script_enabled=js,
+                reduced_motion="reduce",
+            )
+            page = context.new_page()
+            page.goto(BASE + "/", wait_until="domcontentloaded")
+            heading = " ".join(page.locator("main h1").inner_text().split())
+            if heading != "Takashi Sato":
+                errors.append(f"Author archive {width}/{js}: unexpected home heading {heading!r}")
+            entries = page.locator('.identity-actions a[href="/publications/"]')
+            if entries.count() != 1 or not entries.first.is_visible():
+                errors.append(f"Author archive {width}/{js}: missing primary publication entry")
+            else:
+                entries.first.click(timeout=5000)
+                page.wait_for_url("**/publications/")
+                if page.locator('.site-nav a[href="/publications/"][aria-current="page"]').count() != 1:
+                    errors.append(f"Author archive {width}/{js}: catalogue current-page state missing")
+                if page.locator('main a[href="/papers/"]').count() < 1:
+                    errors.append(f"Author archive {width}/{js}: featured collection route lost")
+            context.close()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -731,6 +758,7 @@ def main() -> None:
         concept_register_errors(browser, errors)
         japanese_guide_errors(browser, errors)
         publication_expansion_errors(browser, errors)
+        author_archive_entry_errors(browser, errors)
         browser.close()
 
     if errors:

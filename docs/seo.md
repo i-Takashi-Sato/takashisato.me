@@ -20,7 +20,7 @@ pagination, and preserved-file metadata.
 
 ## Visible field classification
 
-The site identity is **Takashi Sato**; the current home title retains **AI Governance Research Archive** as an honest field classification. The Proper Ending Index remains a distinct CreativeWorkSeries with its existing identifiers. The home CollectionPage lists published collections through stable `hasPart` references. Unpublished topics are not added to structured data or visible navigation.
+The site identity is **Takashi Sato**. The home title describes the author-wide research and writing archive, while its visible featured collection and description retain AI governance as the current research field. The Proper Ending Index remains a distinct CreativeWorkSeries with its existing identifiers. The home CollectionPage lists published collections through stable `hasPart` references and points to the author-wide publication catalogue as `mainEntity`. Unpublished topics are not added to structured data or visible navigation.
 
 ## Canonical surfaces
 

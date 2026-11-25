@@ -163,7 +163,7 @@ def header(active: str = "") -> str:
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
               <a href="/"{current('index')}>Index</a>
-              <a href="/papers/"{current('papers')}>Papers</a>
+              <a href="/publications/"{current('publications')}>Works</a>
               <a href="/about.html"{current('about')}>Author</a>
             </nav>
           </div>
