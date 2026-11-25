@@ -394,8 +394,12 @@ def audit_content(errors: list[str]) -> None:
         fail(errors, "colophon.html: structured revision date mismatch")
     if GOOGLE_SITE_VERIFICATION not in home:
         fail(errors, "index.html: Search Console ownership verification is missing")
-    if "AI Governance Research Archive" not in home:
-        fail(errors, "index.html: visible field classification is missing")
+    if "<title>Takashi Sato (佐藤貴士) — Research &amp; Writings</title>" not in home:
+        fail(errors, "index.html: author archive title is missing")
+    if '<h1 id="hero-title">Takashi<br>Sato</h1>' not in home or "THE PROPER ENDING INDEX" not in home:
+        fail(errors, "index.html: author identity and featured collection must remain distinct")
+    if '"mainEntity":{"@id":"https://takashisato.me/publications/#catalogue"}' not in home:
+        fail(errors, "index.html: personal catalogue entity reference missing")
     if '"@type":"WebSite","@id":"https://takashisato.me/#website","url":"https://takashisato.me/","name":"Takashi Sato"' not in home:
         fail(errors, "index.html: personal site identity is missing")
     if '"hasPart":[{"@id":"https://takashisato.me/papers/#trilogy"}]' not in home:

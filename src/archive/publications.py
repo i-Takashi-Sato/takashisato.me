@@ -189,4 +189,4 @@ def publications_page(records: tuple[Publication, ...] | None = None) -> str:
           </section>
         </main>
         """).strip()
-    return shell_page(head_html=head(title=title, description=description, path="/publications/", image="/assets/og/home.jpg", schema=schema, robots="index,follow"), body=body, page="publications")
+    return shell_page(head_html=head(title=title, description=description, path="/publications/", image="/assets/og/about.jpg", schema=schema, robots="index,follow"), body=body, active="publications", page="publications")
