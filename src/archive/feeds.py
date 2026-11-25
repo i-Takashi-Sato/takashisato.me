@@ -112,6 +112,7 @@ def atom_feed() -> str:
 def sitemap() -> str:
     entries = [
         "/",
+        "/publications/",
         "/papers/",
         "/papers/part1.html",
         "/papers/part2.html",
@@ -125,6 +126,7 @@ def sitemap() -> str:
     # Research version and PDF revision dates remain unchanged.
     changed_pages = {
         "/": "2026-11-26",
+        "/publications/": "2026-11-26",
         "/papers/": "2026-11-25",
         "/papers/part1.html": "2026-11-25",
         "/papers/part2.html": "2026-11-25",

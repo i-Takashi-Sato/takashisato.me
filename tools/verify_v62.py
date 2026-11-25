@@ -37,8 +37,11 @@ from src.archive.model import (
     VERSION,
 )
 
+from verify_publications import audit_publications
+
 CORE_HTML = [
     "index.html",
+    "publications/index.html",
     "papers/index.html",
     "papers/part1.html",
     "papers/part2.html",
@@ -780,6 +783,7 @@ def audit_indexes(errors: list[str]) -> None:
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     expected_urls = [
         f"{SITE}/",
+        f"{SITE}/publications/",
         f"{SITE}/papers/",
         f"{SITE}/papers/part1.html",
         f"{SITE}/papers/part2.html",
@@ -795,7 +799,7 @@ def audit_indexes(errors: list[str]) -> None:
     if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
         fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
     # Page freshness is not the same as the immutable v6.2 paper revision.
-    expected_lastmods = ["2026-11-26"] + ["2026-11-25"] * 4 + ["2026-11-26", "2026-11-24", UPDATED, UPDATED]
+    expected_lastmods = ["2026-11-26"] * 2 + ["2026-11-25"] * 4 + ["2026-11-26", "2026-11-24", UPDATED, UPDATED]
     actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
     if actual_lastmods != expected_lastmods:
         fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")
@@ -938,6 +942,7 @@ def main() -> int:
     audit_atom(errors)
     audit_concept_register(errors)
     audit_japanese_guide(errors)
+    audit_publications(ROOT, errors)
     if errors:
         print("v6.2 archive verification failed:", file=sys.stderr)
         for error in errors:

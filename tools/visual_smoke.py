@@ -17,6 +17,7 @@ OUT = Path(os.environ.get("VISUAL_OUT", "artifacts/visual-smoke"))
 
 PAGES = {
     "home": "/",
+    "publications": "/publications/",
     "papers": "/papers/",
     "about": "/about.html",
     "part1": "/papers/part1.html",
@@ -668,6 +669,28 @@ def japanese_guide_errors(browser, errors: list[str]) -> None:
             context.close()
 
 
+def publication_expansion_errors(browser, errors: list[str]) -> None:
+    import sys
+    root = str(Path(__file__).resolve().parents[1])
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    from src.archive.publications import publications_page, released_publications
+    from verify_publications import fixture_records
+    html = publications_page(released_publications() + fixture_records())
+    for width in (320, 390, 768, 1440):
+        for js in (False, True):
+            context = browser.new_context(viewport={"width": width, "height": 844}, java_script_enabled=js, reduced_motion="reduce")
+            page = context.new_page()
+            page.route(BASE + "/publications/", lambda route: route.fulfill(status=200, content_type="text/html; charset=utf-8", body=html))
+            page.goto(BASE + "/publications/", wait_until="load")
+            errors.extend(layout_errors(page, "publication-fixture", width, str(js)))
+            if page.locator(".sequence-row").count() != 5 or page.locator('.sequence-title[lang="ja"]').count() != 1:
+                errors.append(f"Publication expansion {width}/{js}: fixture coverage or language mismatch")
+            if not page.locator('.sequence-title[lang="ja"]').is_visible():
+                errors.append(f"Publication expansion {width}/{js}: Japanese title not visible")
+            context.close()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -692,6 +715,7 @@ def main() -> None:
             viewports={"390": VIEWPORTS["390"], "1440": VIEWPORTS["1440"]},
             pages={
                 "home": "/",
+                "publications": "/publications/",
                 "papers": "/papers/",
                 "about": "/about.html",
                 "part1": "/papers/part1.html",
@@ -705,6 +729,7 @@ def main() -> None:
         reading_entry_errors(browser, errors)
         concept_register_errors(browser, errors)
         japanese_guide_errors(browser, errors)
+        publication_expansion_errors(browser, errors)
         browser.close()
 
     if errors:

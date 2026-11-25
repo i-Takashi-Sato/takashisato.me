@@ -186,6 +186,7 @@ def footer() -> str:
               <div class="footer-links">
                 <div>
                   <p class="label">Research</p>
+                  <a href="/publications/">All publications</a>
                   <a href="/papers/">Paper trilogy</a>
                   <a href="/research-index.json">Machine-readable index</a>
                   <a href="/feed.xml">Research feed · Atom</a>
