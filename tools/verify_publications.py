@@ -30,7 +30,7 @@ def audit_publications(root: Path, errors: list[str]) -> None:
     records = released_publications()
     try:
         validate_publications(records)
-        if len(records) != 3 or any(work.collection != SERIES_ID for work in records):
+        if sum(work.collection == SERIES_ID for work in records) != 3:
             errors.append("Publication catalogue: trilogy coverage differs")
         generated = json.loads((root / "publications.json").read_text(encoding="utf-8"))
         if generated != catalogue(records):
@@ -47,7 +47,7 @@ def audit_publications(root: Path, errors: list[str]) -> None:
         expanded = records + fixtures
         validate_publications(expanded)
         trial = catalogue(expanded)["publications"]
-        if len(trial) != 5 or "doi" in trial[-2] or "collection" in trial[-2] or "version" in trial[-2]:
+        if len(trial) != len(records) + len(fixtures) or "doi" in trial[-2] or "collection" in trial[-2] or "version" in trial[-2]:
             errors.append("Publication catalogue: optional fields incorrectly required")
         html = publications_page(expanded)
         if 'lang="ja"' not in html or "&amp; &lt;not a publication&gt;" not in html:

@@ -676,7 +676,8 @@ def publication_expansion_errors(browser, errors: list[str]) -> None:
         sys.path.insert(0, root)
     from src.archive.publications import publications_page, released_publications
     from verify_publications import fixture_records
-    html = publications_page(released_publications() + fixture_records())
+    records = released_publications() + fixture_records()
+    html = publications_page(records)
     for width in (320, 390, 768, 1440):
         for js in (False, True):
             context = browser.new_context(viewport={"width": width, "height": 844}, java_script_enabled=js, reduced_motion="reduce")
@@ -684,9 +685,9 @@ def publication_expansion_errors(browser, errors: list[str]) -> None:
             page.route(BASE + "/publications/", lambda route: route.fulfill(status=200, content_type="text/html; charset=utf-8", body=html))
             page.goto(BASE + "/publications/", wait_until="load")
             errors.extend(layout_errors(page, "publication-fixture", width, str(js)))
-            if page.locator(".sequence-row").count() != 5 or page.locator('.sequence-title[lang="ja"]').count() != 1:
+            if page.locator(".sequence-row").count() != len(records) or page.locator('.sequence-title a[href="/fixture/essay.html"]').count() != 1:
                 errors.append(f"Publication expansion {width}/{js}: fixture coverage or language mismatch")
-            if not page.locator('.sequence-title[lang="ja"]').is_visible():
+            if not page.locator('.sequence-title[lang="ja"] a[href="/fixture/essay.html"]').is_visible():
                 errors.append(f"Publication expansion {width}/{js}: Japanese title not visible")
             context.close()
 

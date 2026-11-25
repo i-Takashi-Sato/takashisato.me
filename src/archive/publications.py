@@ -63,7 +63,7 @@ def validate_publications(records: tuple[Publication, ...]) -> None:
     for work in records:
         if not re.fullmatch(r"/[a-z0-9][a-z0-9/-]*(?:\.html|/)", work.path) or "//" in work.path:
             raise ValueError("Invalid canonical publication path")
-        if not work.id.startswith(SITE + work.path + "#") or not re.fullmatch(r"[a-z][a-z0-9-]*", work.id.rsplit("#", 1)[-1]):
+        if not re.fullmatch(re.escape(SITE + work.path) + r"#[a-z][a-z0-9-]*", work.id):
             raise ValueError("Invalid stable publication identifier")
         if work.id in ids or work.path in paths:
             raise ValueError("Duplicate publication identity")
