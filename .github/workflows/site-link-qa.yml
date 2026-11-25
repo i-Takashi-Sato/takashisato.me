@@ -57,6 +57,7 @@ jobs:
         run: |
           python tools/test_verify_live.py
           python tools/test_indexnow.py
+          python tools/release_scope.py --self-test
 
       - name: Check Python and JavaScript syntax
         run: |
