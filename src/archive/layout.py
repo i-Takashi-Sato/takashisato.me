@@ -53,6 +53,7 @@ def head(
     safe_canonical = escape(canonical, quote=True)
     image_kind = image.rsplit("/",1)[-1]
     image_alt = {
+        "archive.jpg": "Takashi Sato. Research & Writings. Independent archive in Sapporo, Japan, with the personal T mark on black paper.",
         "home.jpg": "A role alone is not governance. Takashi Sato, AI governance, and three conceptual research instruments on black metal.",
         "papers.jpg": "Three papers. One institutional problem. Three distinct conceptual research instruments on black metal.",
         "about.jpg": "Takashi Sato, AI governance, Sapporo, Japan. Open-boundary mark on black paper.",

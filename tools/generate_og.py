@@ -302,8 +302,38 @@ def personal_favicon_svg(adaptive: bool = False, dark: bool = False) -> str:
             +(layer(False,"light")+layer(True,"dark") if adaptive else layer(dark,"mark"))+'</svg>\n')
 
 
+def render_archive_card() -> Image.Image:
+    """Discipline-neutral author cover, using the approved personal T artwork."""
+    image = material("author-paper.webp", (W, H), .48)
+    draw = ImageDraw.Draw(image)
+    left, right = 72, W - 72
+    draw.text((left, 48), "INDEPENDENT ARCHIVE", font=face(22, 650), fill=PLATINUM)
+    city = "SAPPORO, JAPAN"
+    city_font = face(22, 550)
+    draw.text((right - draw.textlength(city, font=city_font), 48), city, font=city_font, fill=PLATINUM)
+    draw.line((left, 100, right, 100), fill=DARK_RULE, width=1)
+
+    name = "Takashi Sato"
+    name_font = face(104, 550)
+    if draw.textbbox((0, 0), name, font=name_font)[2] > 795:
+        raise ValueError("Archive card author name exceeds title column")
+    draw.text((left, 188), name, font=name_font, fill=WHITE)
+    draw.text((left + 3, 345), "Research & Writings", font=face(39, 440), fill=WHITE)
+    draw.text((left + 3, 408), "An independent record of published work", font=face(23, 450), fill=PLATINUM)
+
+    # The personal T mark belongs to the author, not to the research series.
+    mask = favicon_master()
+    mask.thumbnail((180, 180), Image.Resampling.LANCZOS)
+    image.paste(WHITE, (1030 - mask.width // 2, 310 - mask.height // 2), mask)
+
+    draw.line((left, 522, right, 522), fill=DARK_RULE, width=1)
+    draw.text((left, 551), "takashisato.me", font=face(24, 580), fill=WHITE)
+    return image
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    render_archive_card().save(OUT / "archive.jpg", "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
     for name, card in CARDS.items():
         render_card(name, card).save(OUT / f"{name}.jpg", "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
 
