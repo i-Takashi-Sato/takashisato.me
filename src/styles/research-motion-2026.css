@@ -195,7 +195,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 .identity-instruments .map-glyph{grid-column:2;grid-row:1/4;min-height:5.7rem;height:auto;margin:0;align-self:stretch;background-color:#141414}
 .identity-instruments .research-map-node:focus-visible{outline-color:#F5F5F4;outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.identity-instruments .research-map-node:hover{background:rgba(255,255,255,.055)}.identity-instruments .research-map-node:hover b{text-decoration:underline;text-underline-offset:.18em}}
-@media(max-width:27.5rem){body[data-page="home"] .identity-copy h1{font-size:clamp(2.75rem,11vw,4rem);text-wrap:wrap}.identity-copy h1 strong{display:block;width:fit-content;max-width:100%}.identity-instruments .research-map-node{gap:.22rem .75rem;padding:1rem 0}.identity-instruments .map-glyph{min-height:5rem}}
+@media(max-width:27.5rem){body[data-page="home"] .identity-copy h1{font-size:clamp(2.75rem,11vw,4rem);text-wrap:wrap}.identity-instruments .research-map-node{gap:.22rem .75rem;padding:1rem 0}.identity-instruments .map-glyph{min-height:5rem}}
 @media print, (forced-colors:active){.identity-instruments .research-map-node{color:inherit;border-color:currentColor}.identity-instruments .map-index,.identity-instruments .research-map-node small,.identity-art-head,.identity-art figcaption{color:inherit}.identity-instruments .map-glyph{visibility:hidden}}
 
 /* Reading cadence: preserve identity at small widths, remove ornamental waiting space. */

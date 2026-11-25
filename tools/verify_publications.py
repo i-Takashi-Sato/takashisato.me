@@ -5,7 +5,7 @@ from dataclasses import replace
 import json
 from pathlib import Path
 
-from src.archive.model import SITE, SERIES_ID
+from src.archive.model import SITE, SERIES_ID, PAPERS
 from src.archive.layout import json_ld
 from src.archive.routes import PublicPage, public_pages
 from src.archive.publications import Publication, catalogue, publications_page, released_publications, validate_publications
@@ -34,6 +34,11 @@ def audit_publications(root: Path, errors: list[str]) -> None:
         validate_publications(records)
         if sum(work.collection == SERIES_ID for work in records) != 3:
             errors.append("Publication catalogue: trilogy coverage differs")
+        for work, paper in zip(records, PAPERS):
+            if work.title != paper["title"] or work.subtitle != paper["subtitle"]:
+                errors.append("Publication catalogue: title hierarchy differs from source")
+            if work.full_title != f"{paper['title']}: {paper['subtitle']}":
+                errors.append("Publication catalogue: full citation title changed")
         generated = json.loads((root / "publications.json").read_text(encoding="utf-8"))
         if generated != catalogue(records):
             errors.append("Publication catalogue: JSON differs from canonical registry")
@@ -52,6 +57,8 @@ def audit_publications(root: Path, errors: list[str]) -> None:
         if len(trial) != len(records) + len(fixtures) or "doi" in trial[-2] or "collection" in trial[-2] or "version" in trial[-2]:
             errors.append("Publication catalogue: optional fields incorrectly required")
         html = publications_page(expanded)
+        if html.count('class="publication-subtitle"') != sum(bool(work.subtitle) for work in expanded):
+            errors.append("Publication catalogue: optional subtitle hierarchy failed")
         if 'lang="ja"' not in html or "&amp; &lt;not a publication&gt;" not in html:
             errors.append("Publication catalogue: language or HTML escaping contract failed")
         if "/fixture/" in (root / "publications/index.html").read_text(encoding="utf-8") or "/fixture/" in json.dumps(generated):
@@ -99,6 +106,7 @@ def audit_publications(root: Path, errors: list[str]) -> None:
             (replace(fixtures[0], kind="draft"),),
             (replace(fixtures[0], language=""),),
             (replace(fixtures[0], doi="not-a-doi"),),
+            (replace(fixtures[0], subtitle=" "),),
         )
         for candidate in invalid:
             try:

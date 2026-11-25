@@ -84,3 +84,7 @@ The individual author archive has a separate catalogue at `/publications/` and `
 ## Canonical route registry
 
 The indexed HTML route inventory, editorial page dates and output paths are owned by `src/archive/routes.py`. The sitemap, deployed-byte audit, IndexNow allowlist and HTML archive QA consume the same registry. QA independently parses the generated sitemap and each document's canonical link. Standalone published works enter via `STANDALONE_PUBLICATIONS` in the catalogue model and must have real rendered destinations; the fixtures prove route propagation and reject collisions with existing pages. No new public route is fabricated. Binary preservation and retired notices remain separate contracts.
+
+## Publication title hierarchy
+
+The catalogue model stores main title and optional subtitle independently and derives the complete citation title through `full_title`. HTML distinguishes the subtitle visually without changing the accessible full title. The existing JSON title and scholarly entity names retain the complete title; no title parsing or new claims. Optional subtitles are not required for standalone works.

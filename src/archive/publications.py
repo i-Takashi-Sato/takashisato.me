@@ -38,6 +38,11 @@ class Publication:
     collection: str | None = None
     doi: str | None = None
     review: str | None = None
+    subtitle: str | None = None
+
+    @property
+    def full_title(self) -> str:
+        return f"{self.title}: {self.subtitle}" if self.subtitle else self.title
 
 
 # Add only records with a real, released HTML destination. No placeholder topics.
@@ -50,7 +55,8 @@ def released_publications() -> tuple[Publication, ...]:
         Publication(
             id=f"{paper_url(paper)}#article",
             path=paper_url(paper).removeprefix(SITE),
-            title=f"{paper['title']}: {paper['subtitle']}",
+            title=paper["title"],
+            subtitle=paper["subtitle"],
             summary=paper["description"],
             language="en-US",
             kind="working-paper",
@@ -79,6 +85,8 @@ def validate_publications(records: tuple[Publication, ...]) -> None:
             raise ValueError("Duplicate publication identity")
         if not work.title.strip() or not work.summary.strip():
             raise ValueError("Missing title or summary")
+        if work.subtitle is not None and not work.subtitle.strip():
+            raise ValueError("Empty publication subtitle")
         if work.kind not in KINDS or not re.fullmatch(r"[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*", work.language):
             raise ValueError("Invalid publication type or language")
         if work.review is not None and work.review not in REVIEW_STATES:
@@ -108,7 +116,7 @@ def catalogue(records: tuple[Publication, ...] | None = None) -> dict[str, objec
         "author": AUTHOR_ID,
         "url": f"{SITE}/publications/",
         "publications": [
-            {key: value for key, value in asdict(work).items() if value is not None}
+            {**{key: value for key, value in asdict(work).items() if value is not None and key != "subtitle"}, "title": work.full_title}
             for work in records
         ],
     }
@@ -117,6 +125,8 @@ def catalogue(records: tuple[Publication, ...] | None = None) -> dict[str, objec
 def publication_row(work: Publication) -> str:
     lang = escape(work.language, quote=True)
     title = escape(work.title)
+    if work.subtitle:
+        title += f'<span class="sr-only">: </span><span class="publication-subtitle">{escape(work.subtitle)}</span>'
     summary = escape(work.summary)
     path = escape(work.path, quote=True)
     meta = [work.published]
@@ -163,7 +173,7 @@ def publications_page(records: tuple[Publication, ...] | None = None) -> str:
                 "mainEntity": {
                     "@type": "ItemList",
                     "itemListElement": [
-                        {"@type": "ListItem", "position": i, "name": work.title, "url": SITE + work.path, "item": {"@id": work.id}}
+                        {"@type": "ListItem", "position": i, "name": work.full_title, "url": SITE + work.path, "item": {"@id": work.id}}
                         for i, work in enumerate(records, 1)
                     ],
                 },
