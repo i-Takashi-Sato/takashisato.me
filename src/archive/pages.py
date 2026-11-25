@@ -206,6 +206,11 @@ def home_page() -> str:
     )
 
 
+def ja_phrases(*phrases: str) -> str:
+    """Keep semantic Japanese phrases intact when the reading column wraps."""
+    return "".join(f'<span class="ja-title-tail">{escape(phrase)}</span>' for phrase in phrases)
+
+
 def papers_index_page() -> str:
     schema = {
         "@context": "https://schema.org",
@@ -287,32 +292,32 @@ def papers_index_page() -> str:
               <div class="section-head">
                 <p class="label">日本語の研究案内</p>
                 <div>
-                  <h2 id="japanese-title">AIガバナンスにおける<span class="ja-title-tail">権限と責任</span></h2>
+                  <h2 id="japanese-title">{ja_phrases("AIガバナンス", "における", "権限と責任")}</h2>
                   <p class="section-intro">私の研究が問うのは、AIを用いる組織が、いかに判断の主体であり続けるかである。個別案件の処理、組織の統治能力、運用の終了という三つの水準から、この問題を検討する。三論文に共通する原則は、診断、暫定的な判定、検知指標のいずれにも、それ自体として制度上の決定権限を与えないことである。</p>
                   <p class="section-intro">三論文はワーキングペーパー（v6.2、2026年8月23日改訂）である。以下は英語原論文に基づく概要であり、正式な翻訳でも新たな研究結果でもない。</p>
                 </div>
               </div>
               <div class="record-list">
                 <article class="record-row">
-                  <div><p class="label">第一部 ／ 意思決定の経路</p><h3><span class="ja-title-tail">次に何が</span><span class="ja-title-tail">許されるのか</span></h3></div>
+                  <div><p class="label">第一部 ／ 意思決定の経路</p><h3>{ja_phrases("次に何が", "許されるのか")}</h3></div>
                   <div><p>人間が手続に関与していても、必要な証拠、時間、決定権限、審査の余力、実行可能な代替手段のいずれかを欠けば、監督は実質を失い得る。型付きゲート規約（<span lang="en">Typed Gate Contract</span>）は、案件の処理経路と権限者による決定を、二段階に分けて規定する。</p>
                     <p>第一段階では、三つの診断の結果、審査の権限と余力、代替手段の承認と準備状況に基づき、案件の処理経路を定める。三つの診断がすべて通過しても、実行の資格が認められるにすぎない。実行は別個の規約に従う。権限に基づく審査に進んだ案件については、第二段階で、実際に下された、その時点で有効かつ権限の範囲内にある署名付きの決定を記録する。</p>
                     <p>証拠の不足を暗黙の通過判定に、暫定的な遮断を最終的な否認に置き換えない。</p>
-                    <p><a href="/papers/part1.html">論文・検証範囲（英語）</a></p></div>
+                    <p><a href="/papers/part1.html">論文・検証範囲{ja_phrases("（英語）")}</a></p></div>
                 </article>
                 <article class="record-row">
-                  <div><p class="label">第二部 ／ 統治能力</p><h3><span class="ja-title-tail">手続が</span><span class="ja-title-tail">維持されていても、</span><br><span class="ja-title-tail">統治できているか</span></h3></div>
+                  <div><p class="label">第二部 ／ 統治能力</p><h3>{ja_phrases("手続が維持されていても、", "統治できているか")}</h3></div>
                   <div><p>手続に覆われた統治能力の喪失（<span lang="en">Procedurally Masked Governing-Capacity Loss; PMGCL</span>）とは、外形上の手続遵守が維持または改善される一方で、独立した判断の寄与と実効的な統治能力がともに実質的かつ持続的に低下し、あらかじめ定めた保護対象機能も実質的に損なわれている状態をいう。四つの要件はいずれも不可欠であり、この定義は成因を特定するものではない。</p>
                     <p><span lang="en">Pre-Abuse Collapse（PAC）</span>は、PMGCLの成因に関する暫定的な下位類型である。悪意ある行為の経路について事前に定めた介入条件または参照条件の下で、通常の組織的要因への曝露が保護対象機能に及ぼす実質的な悪影響を示す因果的対比が識別された場合に限り、この類型を用いる。「<span lang="en">Pre-Abuse</span>」は、崩壊が悪意ある行為に時間的に先行することを意味しない。また、悪意ある行為が存在しないことも、十分構成原因（<span lang="en">sufficient component cause</span>）の意味で不要であったことも、この類型は示さない。</p>
                     <p>いずれも妥当性の検証を経ていない。既存理論や構成要素を連続量で扱うモデルと比較し、拠点または期間を分けた検証において、判別力、早期把握のための先行時間、較正、介入判断への有用性のいずれにも再現可能な付加価値が認められなければ、当該概念の独立した使用を撤回する。PACにはさらに、再現可能な因果的識別と、記述的な状態分類を超える付加価値が求められる。</p>
-                    <p><a href="/papers/part2.html">論文・状態モデルと反証条件（英語）</a></p></div>
+                    <p><a href="/papers/part2.html">論文・状態モデルと反証条件{ja_phrases("（英語）")}</a></p></div>
                 </article>
                 <article class="record-row">
-                  <div><p class="label">第三部 ／ 終了と権限返還</p><h3>責任を保ったまま、いかに終えるか</h3></div>
+                  <div><p class="label">第三部 ／ 終了と権限返還</p><h3>{ja_phrases("責任を保ったまま、", "いかに終えるか")}</h3></div>
                   <div><p>AIの稼働を止めても、その判断規則は、案件の待ち行列、記録、人員配置、委託先との接続などに残り得る。拙速な停止は、必要なサービスを断ち、証拠を失わせ、未解決案件を宙に浮かせかねない。第三部は、兆候の調査、可逆的な封じ込め（<span lang="en">Circuit Breaker</span>）、適正終了（<span lang="en">Proper Ending</span>）、権限返還を区別する。指標は調査の端緒となり得るが、封じ込め、終了、再開、再配備を授権するものではない。</p>
                     <p>適正終了は、権限者の承認、封じ込め、証拠保全、通知、救済、引継ぎ、運用廃止、独立した確認を含む制度的な移行過程である。各手続の依存関係を規定するのであって、一律の逐次処理を求めるものではない。終結（<span lang="en">Closure</span>）には、証拠の保全、サービスの継続措置、通知と利用可能な救済経路、未解決の全案件と残存する義務を担う責任主体、独立した確認、権限者による終結の承認を要する。終結によって、記録保存、補償、不服申立てへの対応などの継続的な義務が消滅するわけではない。</p>
                     <p>権限返還（<span lang="en">Authority Return</span>）は、自動化以前の体制が当然に復元されることを意味しない。意思決定機能を存続させる場合には、引受けを承諾した後継主体に、判断、説明、是正、資源の確保を行う実質的な能力を再構成する。機能を廃止する場合には、残存する記録、未解決案件、救済義務を担う主体を定める。</p>
-                    <p><a href="/papers/part3.html">論文・終了と権限返還の条件（英語）</a></p></div>
+                    <p><a href="/papers/part3.html">論文・終了と権限返還の条件{ja_phrases("（英語）")}</a></p></div>
                 </article>
               </div>
               <div class="ja-evidence">
@@ -320,7 +325,7 @@ def papers_index_page() -> str:
                 <div>
               <p class="section-intro">第一部と第三部の形式的検証が確認したのは、著者が定めた有限の抽象化における、設定済みの不変条件との整合性に限られる。第二部は記述モデルと反証可能な研究計画を提示したものであり、第三部の合成データによる試験は指標の実装と失敗の様態を調べるものである。現実の組織における有効性や検出性能を実証するものではない。</p>
               <p class="section-intro">三論文は、オーストラリアのRobodebt制度に関する王立委員会、オランダの保育手当問題に関する議会調査、米国ミシガン州の失業保険に関する公的監査から、同一の十五の記述箇所を用いている。目的に応じて選んだ失敗事例を著者一人が理論に沿って分類したものであり、統治上の対象が公的記録から追跡できることを例示するにとどまる。因果関係、発生頻度、予防効果を示すものではなく、記録の共用は三論文の独立した裏づけにはならない。</p>
-              <p class="section-intro">三論文は、独立した査読や現場検証の完了、法的な十分性、新規性の確定を主張するものではない。<a href="#concepts">研究概念と根拠（英語）</a>、<a href="#critical-review">反証・批判の受付（英語）</a>も参照されたい。</p>
+              <p class="section-intro">三論文は、独立した査読や現場検証の完了、法的な十分性、新規性の確定を主張するものではない。<a href="#concepts">研究概念と根拠{ja_phrases("（英語）")}</a>、<a href="#critical-review">反証・批判の受付{ja_phrases("（英語）")}</a>も参照されたい。</p>
                 </div>
               </div>
             </div>

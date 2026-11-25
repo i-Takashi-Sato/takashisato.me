@@ -580,8 +580,8 @@ def concept_register_errors(browser, errors: list[str]) -> None:
 
 
 def japanese_guide_errors(browser, errors: list[str]) -> None:
-    for width in (320, 390, 1440):
-        for js in (False, True):
+    for width in (320, 360, 375, 390, 393, 430, 768, 820, 896, 897, 1024, 1280, 1440, 1920):
+        for js in ((False, True) if width in (320, 390, 1440) else (True,)):
             context = browser.new_context(viewport={"width": width, "height": 844}, java_script_enabled=js, reduced_motion="reduce")
             page = context.new_page()
             page.goto(BASE + PAGES["home"], wait_until="domcontentloaded")
@@ -613,6 +613,43 @@ def japanese_guide_errors(browser, errors: list[str]) -> None:
                 errors.append(f"Japanese guide {width}/{js}: inappropriate body typography {metrics}")
             if geometry and boxes[0] and geometry["width"] > boxes[0]["width"] + 2:
                 errors.append(f"Japanese guide {width}/{js}: title wider than reading column")
+            # The family assertion above tests the declaration, not installed glyphs.
+            phrase_report = page.locator("#japanese").evaluate("""root => {
+                const lines = el => {
+                    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+                    const groups = [];
+                    while (walker.nextNode()) {
+                        const node = walker.currentNode;
+                        for (let i = 0; i < node.length; i++) {
+                            const range = document.createRange();
+                            range.setStart(node, i); range.setEnd(node, i + 1);
+                            const rect = range.getBoundingClientRect();
+                            if (!rect.width) continue;
+                            let line = groups.find(g => Math.abs(g.y - rect.top) < 2);
+                            if (!line) { line = {y: rect.top, text: ""}; groups.push(line); }
+                            line.text += node.data[i];
+                        }
+                    }
+                    return groups.map(g => g.text);
+                };
+                return {
+                    broken: [...root.querySelectorAll(".ja-title-tail")].filter(e =>
+                        lines(e).length !== 1 || e.scrollWidth > e.clientWidth + 2
+                    ).map(e => e.textContent),
+                    headings: [...root.querySelectorAll("h2, .record-row h3")].map(lines),
+                    tracking: [...root.querySelectorAll("a[href]")].filter(a =>
+                        a.getAttribute("href").includes("utm_")
+                    ).map(a => a.getAttribute("href")),
+                    measure: root.querySelector(".record-row > div:last-child").getBoundingClientRect().width
+                };
+            }""")
+            if phrase_report["broken"] or phrase_report["tracking"]:
+                errors.append(f"Japanese guide {width}/{js}: broken phrases or tracking {phrase_report}")
+            if width >= 1280 and phrase_report["headings"][2] != ["手続が維持されていても、", "統治できているか"]:
+                errors.append(f"Japanese guide {width}/{js}: Part II heading rhythm {phrase_report}")
+            if width >= 897 and phrase_report["measure"] < 500:
+                errors.append(f"Japanese guide {width}/{js}: cramped reading column {phrase_report}")
+            print(f"Japanese guide {width}/{js}: {phrase_report}")
             for anchor in ("concepts", "critical-review"):
                 page.locator(f'#japanese a[href="#{anchor}"]').click(timeout=5000)
                 page.wait_for_url(f"**/papers/#{anchor}")

@@ -218,6 +218,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese {
   --ja-serif: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho", "Noto Serif CJK JP", "Noto Serif JP", serif;
   --ja-sans: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
+  --ja-h3: clamp(1.15rem, 1.5vw, 1.45rem);
   font-family: var(--ja-serif);
   font-size: clamp(1.0625rem, 1rem + .18vw, 1.1875rem);
   line-height: 1.95;
@@ -228,7 +229,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese .shell { max-width: 76rem; }
 #japanese *:is(.section-head,.record-row,.ja-evidence) {
   display: grid;
-  grid-template-columns: minmax(10rem, 14rem) minmax(0, 38rem);
+  grid-template-columns: minmax(10rem, calc(var(--ja-h3)*13.5)) minmax(0, 38rem);
   column-gap: clamp(2rem, 5vw, 4.5rem);
   justify-content: center;
   align-items: start;
@@ -240,9 +241,9 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
   text-wrap: wrap;
   margin: 0 0 1.4rem;
 }
-#japanese .ja-title-tail { display: inline-block; }
+#japanese .ja-title-tail { display: inline-block; max-width: 100%; }
 #japanese .label { font: 600 .8rem/1.6 var(--ja-sans); letter-spacing: .07em; }
-#japanese h3 { font: 600 clamp(1.15rem, 1.5vw, 1.45rem)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
+#japanese h3 { font: 600 var(--ja-h3)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
 #japanese *:is(p,h2,h3) { overflow-wrap: anywhere; word-break: normal; }
 #japanese .record-list { margin-top: 0; }
 #japanese .record-row { padding-block: clamp(1.9rem, 3.6vw, 3rem); }
@@ -252,8 +253,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese .section-head .section-intro:last-child { font-size: .88em; color: var(--ink-soft); }
 #japanese .ja-evidence { padding-block-start: 2.4rem; }
 #japanese a { font-family: var(--ja-sans); font-size: .87em; text-underline-offset: .24em; text-decoration-thickness: 1px; }
-@media (max-width: 48rem) {
-  #japanese *:is(.section-head,.record-row,.ja-evidence) { grid-template-columns: minmax(0,1fr); row-gap: 1rem; }
+@media (max-width: 56rem) {
+  #japanese *:is(.section-head,.record-row,.ja-evidence) { grid-template-columns: minmax(0,38rem); row-gap: 1rem; }
   #japanese .section-head { margin-bottom: 2rem; }
-  #japanese .ja-title-tail { display: inline; }
 }
