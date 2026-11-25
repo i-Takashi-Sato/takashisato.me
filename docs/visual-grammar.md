@@ -8,12 +8,12 @@ settle**. Every motion or visual response must map to one of them.
 ## Part I
 
 Measurement, gates, passage conditions, orthogonal structure. Motion introduces and
-aligns; color temperature is bronze / old gold.
+aligns; orthogonal geometry carries meaning without a color legend.
 
 ## Part II
 
 Procedural continuity with declining governing capacity. The page should remain composed
-while information confidence and institutional signal feel colder and thinner. Do not
+while internal traces become weaker or displaced. Do not
 simulate failure with glitch effects.
 
 ## Part III

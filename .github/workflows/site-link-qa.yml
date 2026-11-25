@@ -42,7 +42,13 @@ jobs:
           python tools/generate_og.py
 
       - name: Require committed generated output
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          status="$(git status --porcelain --untracked-files=all)"
+          if [ -n "$status" ]; then
+            printf '%s\n' "$status"
+            exit 1
+          fi
 
       - name: Verify archive, metadata, PDFs, and assets
         run: python tools/verify_v62.py
