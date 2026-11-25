@@ -1,0 +1,22 @@
+name: Public response policy audit
+
+on:
+  pull_request:
+    paths:
+      - 'tools/audit_response_policy.py'
+      - '.github/workflows/response-policy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Observe first-party HTTPS response policies
+        run: python3 tools/audit_response_policy.py
