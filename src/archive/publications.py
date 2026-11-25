@@ -40,9 +40,13 @@ class Publication:
     review: str | None = None
 
 
+# Add only records with a real, released HTML destination. No placeholder topics.
+STANDALONE_PUBLICATIONS: tuple[Publication, ...] = ()
+
+
 def released_publications() -> tuple[Publication, ...]:
-    """Adapt the established trilogy records, not copies of their metadata."""
-    return tuple(
+    """Adapt the established trilogy and include independently released works."""
+    trilogy = tuple(
         Publication(
             id=f"{paper_url(paper)}#article",
             path=paper_url(paper).removeprefix(SITE),
@@ -59,6 +63,9 @@ def released_publications() -> tuple[Publication, ...]:
         )
         for paper in PAPERS
     )
+    records = trilogy + STANDALONE_PUBLICATIONS
+    validate_publications(records)
+    return records
 
 
 def validate_publications(records: tuple[Publication, ...]) -> None:

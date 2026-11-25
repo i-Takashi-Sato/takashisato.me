@@ -71,7 +71,7 @@ Reading-resilience follow-up: preserve the 200% root-font stress probe and origi
 
 ### Cross-engine reading resilience
 
-The Chromium seven-mode reading-resilience suite remains unchanged in coverage and thresholds (42 page/mode combinations). Firefox and WebKit additionally run the same five comparable screen-reading modes — landscape, 320 px reflow, 200% root text stress, font request failure, and JavaScript disabled — across all six core pages (60 additional combinations). Both engines produce their own JSON report and enlarged-text screenshots. Print and forced-colors probes remain in the Chromium suite. These are synthetic browser stress tests, not native zoom, assistive-technology, or physical-device certification.
+The Chromium seven-mode reading-resilience suite remains unchanged in coverage and thresholds (42 page/mode combinations). Firefox and WebKit additionally run the same five comparable screen-reading modes — landscape, 320 px reflow, 200% root text stress, font request failure, and JavaScript disabled — across all seven core reading pages (70 additional combinations). Both engines produce their own JSON report and enlarged-text screenshots. Print and forced-colors probes remain in the Chromium suite. These are synthetic browser stress tests, not native zoom, assistive-technology, or physical-device certification.
 
 ### Editorial reading entry
 
@@ -80,3 +80,7 @@ Each paper cover retains the primary SSRN research record and adds a native in-p
 ## Discipline-neutral publication catalogue
 
 The individual author archive has a separate catalogue at `/publications/` and `/publications.json`. The adapter in `src/archive/publications.py` derives the current three records from the immutable trilogy metadata. Future released works may have independent dates, languages, types, optional series, optional DOI, optional versions and explicitly known review status. No topic is reserved in advance. A record must point to a real published destination; new individual record renderers and preservation/citation rules must be added when the corresponding work exists. The trilogy-specific index and Atom feed remain unchanged. Synthetic bilingual expansion probes are executed only in tests, not in generated public records.
+
+## Canonical route registry
+
+The indexed HTML route inventory, editorial page dates and output paths are owned by `src/archive/routes.py`. The sitemap, deployed-byte audit, IndexNow allowlist and HTML archive QA consume the same registry. QA independently parses the generated sitemap and each document's canonical link. Standalone published works enter via `STANDALONE_PUBLICATIONS` in the catalogue model and must have real rendered destinations; the fixtures prove route propagation and reject collisions with existing pages. No new public route is fabricated. Binary preservation and retired notices remain separate contracts.

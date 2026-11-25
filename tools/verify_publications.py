@@ -7,6 +7,7 @@ from pathlib import Path
 
 from src.archive.model import SITE, SERIES_ID
 from src.archive.layout import json_ld
+from src.archive.routes import PublicPage, public_pages
 from src.archive.publications import Publication, catalogue, publications_page, released_publications, validate_publications
 
 
@@ -77,6 +78,20 @@ def audit_publications(root: Path, errors: list[str]) -> None:
                 errors.append(f"Publication catalogue: expansion to {count} fixtures lost records")
             if rendered != publications_page(sample):
                 errors.append(f"Publication catalogue: nondeterministic output for {count} fixtures")
+        # The independent fixtures flow into the same public-route machinery,
+        # without entering the released registry or generated files.
+        expanded_pages = {page.path: page for page in public_pages(expanded)}
+        for work in fixtures:
+            page = expanded_pages.get(work.path)
+            if page != PublicPage(work.path, work.revised or work.published):
+                errors.append(f"Publication catalogue: route/date propagation failed for {work.path}")
+        reserved = replace(fixtures[0], path="/about.html", id=f"{SITE}/about.html#work")
+        try:
+            public_pages(records + (reserved,))
+        except ValueError:
+            pass
+        else:
+            errors.append("Publication catalogue: collision with an existing public page accepted")
         invalid = (
             records + (records[0],),
             (replace(fixtures[0], path="//external.example/"),),

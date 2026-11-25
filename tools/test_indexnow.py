@@ -10,6 +10,7 @@ class IndexNowTests(unittest.TestCase):
         self.assertEqual(payload(["/", "/papers/", "/"])["urlList"],
                          [SITE + "/", SITE + "/papers/"])
         self.assertEqual(payload(["/"])["keyLocation"], SITE + KEY_PATH)
+        self.assertEqual(payload(["/publications/"])["urlList"], [SITE + "/publications/"])
         for paths in ([], ["/demo/"], ["https://example.org/"], ["/papers/?x=1"]):
             with self.assertRaises(ValueError):
                 payload(paths)
