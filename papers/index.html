@@ -140,16 +140,16 @@
               <div class="section-head">
                 <p class="label">研究概要</p>
                 <div>
-                  <h2 id="japanese-title">判断の権限と責任</h2>
-                  <p class="section-intro">AIを用いる組織では、手続きが整っていることと、責任ある判断ができることは同じではない。札幌を拠点とする独立研究者、佐藤貴士の三部作は、個々の案件の処理、組織の統治能力の喪失、業務を終える際の責任を、それぞれ異なる問題として論じる。</p>
+                  <h2 id="japanese-title">AIガバナンスにおける権限と責任</h2>
+                  <p class="section-intro">私の研究は、AIを介した意思決定における権限、判断、執行の関係を対象とする。制度上の権限が存在しても、それを行使する実質的な能力が備わっているとは限らない。この問題を、個別案件の処理、組織の統治能力、業務の終結という三つの水準から検討する。</p>
                 </div>
               </div>
               <div class="record-list">
-                <article class="record-row"><div><p class="label" lang="en">Part I / Decision routing</p><h3>判断と執行の境界</h3></div><div><p>証拠の不足や審査能力の欠如は、それだけで承認や否認を正当化するものではない。Typed Gate Contractは、案件をどの経路に進めるか、権限を持つ者が何を決定するか、その決定をどの条件で執行するかを区別する。</p><p><a href="/papers/part1.html">論文・検証範囲（英語）</a></p></div></article>
-                <article class="record-row"><div><p class="label" lang="en">Part II / Governing capacity</p><h3>手続きと統治能力の乖離</h3></div><div><p>定められた手続きが守られていても、組織は独立して判断し、本来守るべき機能を維持する力を失い得る。本論文はこの乖離を記述する状態モデルを提示する。Pre-Abuse Collapseは、その成立要因に関する暫定的な類型であり、実証された分類ではない。</p><p><a href="/papers/part2.html">論文・状態モデルと反証条件（英語）</a></p></div></article>
-                <article class="record-row"><div><p class="label" lang="en">Part III / Accountable exit</p><h3>運用の終了と権限の移転</h3></div><div><p>運用を止めても、責任は消えない。Proper EndingとAuthority Returnは、証拠の保全、救済、サービスの継続を考慮し、誰が残る責任を引き受け、誰が実際に判断を下せるのかを明らかにする。そうした条件のもとで、業務の終了と権限の移転を規定する。</p><p><a href="/papers/part3.html">論文・終了と権限移転の条件（英語）</a></p></div></article>
+                <article class="record-row"><div><p class="label" lang="en">Part I / Decision routing</p><h3>意思決定経路と執行権限の分離</h3></div><div><p>Typed Gate Contractは、診断状態、審査権限、審査能力等に基づく案件の処理経路と、権限者による意思決定、実際の執行を分離する二段階の形式モデルである。全診断がPASSであっても、執行の許可そのものを意味しない。審査を要する案件では、現時点で有効かつ権限範囲内の署名付き判断を記録する。証拠の欠落や暫定的な遮断を、最終的な承認・否認と同一視しないための設計である。</p><p><a href="/papers/part1.html">論文・検証範囲（英語）</a></p></div></article>
+                <article class="record-row"><div><p class="label" lang="en">Part II / Governing capacity</p><h3>手続きに潜在する統治能力の喪失</h3></div><div><p>Procedurally Masked Governing-Capacity Loss（PMGCL）は、手続きの遵守度が維持または改善される一方で、独立した判断と実効的な統治能力が持続的かつ実質的に低下し、事前に指定した保護対象機能が損なわれる状態を記述する。Pre-Abuse Collapse（PAC）は、悪意ある行為に至る経路について事前に定めた介入条件または参照条件の下で、通常の曝露に伴う実質的な悪化を示す対比が識別される場合に限る、暫定的な原因論的下位類型である。状態の記述と因果的な説明を区別し、経験的反証に開かれたモデルとして提示する。</p><p><a href="/papers/part2.html">論文・状態モデルと反証条件（英語）</a></p></div></article>
+                <article class="record-row"><div><p class="label" lang="en">Part III / Accountable exit</p><h3>責任ある終結と意思決定権限の再構成</h3></div><div><p>Proper EndingとAuthority Returnは、AIを用いた業務の可逆的な封じ込めから、責任を伴う運用終了および権限の移転に至る遷移条件を規定する。証拠保全、サービス継続、救済、未処理案件の責任主体を確定し、意思決定機能を継続する場合は引受主体に実質的な判断能力を再構成する。機能を廃止する場合は、残余の管理・救済責任の所在を定める。運用の停止と制度的責任の終結を同一視しない。</p><p><a href="/papers/part3.html">論文・終了と権限移転の条件（英語）</a></p></div></article>
               </div>
-              <p class="section-intro">以上は英語論文（v6.2、2026年8月23日改訂）の概要であり、正式な翻訳でも新たな研究結果でもない。三篇はいずれもワーキングペーパーである。形式的検証と合成データによる結果は、論文で定めた条件の範囲に限られ、実際の組織における有効性を実証するものではない。<a href="#concepts">研究概念と根拠（英語）</a>、<a href="#critical-review">批判的検討・反証（英語）</a>も参照されたい。</p>
+              <p class="section-intro">以上は英語論文（v6.2、2026年8月23日改訂）の研究概要であり、正式な翻訳でも新たな研究結果でもない。各論文はワーキングペーパーとして公開している。形式的検証および合成データによる知見は、それぞれの抽象化と実験条件に限定され、現実の組織における有効性を実証するものではない。<a href="#concepts">研究概念と根拠（英語）</a>、<a href="#critical-review">批判的検討・反証（英語）</a>に、各概念の出典と検討課題を示した。</p>
             </div>
           </section>
           <section class="section compact" id="concepts">
