@@ -229,7 +229,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese .shell { max-width: 76rem; }
 #japanese *:is(.section-head,.record-row,.ja-evidence) {
   display: grid;
-  grid-template-columns: minmax(10rem, calc(var(--ja-h3)*12.5)) minmax(0, 38rem);
+  grid-template-columns: minmax(10rem, calc(var(--ja-h3)*13.5)) minmax(0, 38rem);
   column-gap: clamp(2rem, 5vw, 4.5rem);
   justify-content: center;
   align-items: start;
