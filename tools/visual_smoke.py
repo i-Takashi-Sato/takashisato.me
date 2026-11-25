@@ -596,6 +596,28 @@ def japanese_guide_errors(browser, errors: list[str]) -> None:
             geometry = heading.bounding_box()
             if not geometry or geometry["y"] < 0 or geometry["y"] >= 844:
                 errors.append(f"Japanese guide {width}/{js}: entry heading outside viewport")
+            reading = page.locator("#japanese .section-head > div")
+            rows = page.locator("#japanese .record-row > div:last-child")
+            notes = page.locator("#japanese .ja-evidence > div")
+            boxes = [reading.bounding_box(), *[rows.nth(j).bounding_box() for j in range(3)], notes.bounding_box()]
+            if any(box is None for box in boxes):
+                errors.append(f"Japanese guide {width}/{js}: missing reading column")
+            elif max(box["x"] for box in boxes) - min(box["x"] for box in boxes) > 2:
+                errors.append(f"Japanese guide {width}/{js}: inconsistent reading alignment")
+            paragraph = rows.first.locator("p").first
+            metrics = paragraph.evaluate("""e => {
+                const s = getComputedStyle(e);
+                return {font:parseFloat(s.fontSize), line:parseFloat(s.lineHeight), family:s.fontFamily};
+            }""")
+            if metrics["font"] < 16 or metrics["line"] / metrics["font"] < 1.8 or "Hiragino" not in metrics["family"]:
+                errors.append(f"Japanese guide {width}/{js}: inappropriate body typography {metrics}")
+            if geometry and boxes[0] and geometry["width"] > boxes[0]["width"] + 2:
+                errors.append(f"Japanese guide {width}/{js}: title wider than reading column")
+            for anchor in ("concepts", "critical-review"):
+                page.locator(f'#japanese a[href="#{anchor}"]').click(timeout=5000)
+                page.wait_for_url(f"**/papers/#{anchor}")
+                if page.locator(f"#{anchor}").count() != 1:
+                    errors.append(f"Japanese guide {width}/{js}: missing target {anchor}")
             context.close()
 
 
