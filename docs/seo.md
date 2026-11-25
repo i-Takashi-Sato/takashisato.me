@@ -62,3 +62,7 @@ Google's generative Search guidance does not require llms.txt or special AI mark
 ## Concept interoperability
 
 The seven visible concept summaries are generated from the same source as a Schema.org DefinedTermSet on the Papers page and in research-index.json. Stable fragment identifiers connect each term to its visible summary and source paper; provisional status and evidential boundaries are retained verbatim. This is scholarly interoperability, not a claim of Google rich-result eligibility or a generative-search ranking boost.
+
+## IndexNow notification
+
+Participating search engines may receive a one-time notification for explicitly selected canonical pages after meaningful updates. The root verification key is a public ownership token, not a credential. Use the IndexNow notification workflow on main only, after live verification succeeds; the script checks the selected pages and key against the checked-out release before one HTTPS POST. Default local invocation is a dry run. No schedule, repeated submissions, Google Indexing API or indexing guarantee. HTTP 200 and 202 acknowledge receipt, not actual inclusion. Reference: https://www.indexnow.org/documentation
