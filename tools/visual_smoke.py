@@ -603,13 +603,13 @@ def japanese_guide_errors(browser, errors: list[str]) -> None:
             if any(box is None for box in boxes):
                 errors.append(f"Japanese guide {width}/{js}: missing reading column")
             elif max(box["x"] for box in boxes) - min(box["x"] for box in boxes) > 2:
-                errors.append(f"Japanese guide {width}/{js}: inconsistent reading alignment")
+                errors.append(f"Japanese guide {width}/{js}: inconsistent reading alignment {boxes}")
             paragraph = rows.first.locator("p").first
             metrics = paragraph.evaluate("""e => {
                 const s = getComputedStyle(e);
                 return {font:parseFloat(s.fontSize), line:parseFloat(s.lineHeight), family:s.fontFamily};
             }""")
-            if metrics["font"] < 16 or metrics["line"] / metrics["font"] < 1.8 or "Hiragino" not in metrics["family"]:
+            if metrics["font"] < 16 or metrics["line"] / metrics["font"] < 1.8 or "Hiragino Mincho" not in metrics["family"]:
                 errors.append(f"Japanese guide {width}/{js}: inappropriate body typography {metrics}")
             if geometry and boxes[0] and geometry["width"] > boxes[0]["width"] + 2:
                 errors.append(f"Japanese guide {width}/{js}: title wider than reading column")
