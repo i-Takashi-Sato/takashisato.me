@@ -14,6 +14,11 @@ class IndexNowTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 payload(paths)
 
+    def test_reviewed_notice(self):
+        paths = (ROOT / '.github/indexnow-notice.txt').read_text().splitlines()
+        self.assertEqual(len(paths), len(set(paths)))
+        self.assertTrue(payload(paths)['urlList'])
+
     def test_key(self):
         self.assertEqual((ROOT / ROUTES[KEY_PATH]).read_text().strip(), KEY)
         self.assertTrue(all(path in ROUTES for path in PUBLIC_PAGES))

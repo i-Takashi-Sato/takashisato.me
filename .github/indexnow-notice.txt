@@ -1,0 +1,5 @@
+/
+/papers/
+/papers/part1.html
+/papers/part2.html
+/papers/part3.html

@@ -1,6 +1,9 @@
 name: IndexNow notification
 
 on:
+  push:
+    branches: [main]
+    paths: ['.github/indexnow-notice.txt']
   workflow_dispatch:
     inputs:
       paths:
@@ -29,5 +32,9 @@ jobs:
           PATHS: ${{ inputs.paths }}
         shell: bash
         run: |
-          read -r -a paths <<< "$PATHS"
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            mapfile -t paths < .github/indexnow-notice.txt
+          else
+            read -r -a paths <<< "$PATHS"
+          fi
           python3 tools/indexnow.py --send "${paths[@]}"
