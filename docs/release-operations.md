@@ -23,7 +23,7 @@ and Firefox checks and resilience suites, and all 21 Lighthouse collections
 (seven URLs, three runs per URL) with unchanged budgets. Full checks are
 mandatory for structural HTML changes, new/deleted/renamed files, runtime or
 asset changes, build or QA changes, unknown scope, missing comparison commits,
-and manual dispatch. Both browser and Lighthouse workflows run a full weekly
+and manual dispatch. Archive QA, browser and Lighthouse workflows run a full weekly
 audit at Sunday 18:23 UTC (Monday 03:23 JST; actual start may vary).
 
 Editorial-only changes may omit the additional full checks only when a Git
