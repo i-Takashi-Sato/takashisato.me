@@ -8,13 +8,12 @@ from urllib.error import HTTPError
 from urllib.parse import urlsplit
 from urllib.request import Request, build_opener
 from verify_live import NoRedirect, ROOT, ROUTES, SITE, verify_one
+from src.archive.routes import public_pages
 
 KEY = "76a21f980fdabdd7e0452ee2206d1b18"
 KEY_PATH = "/" + KEY + ".txt"
 ENDPOINT = "https://api.indexnow.org/indexnow"
-PUBLIC_PAGES = ("/", "/papers/", "/papers/part1.html", "/papers/part2.html",
-                "/papers/part3.html", "/about.html", "/colophon.html",
-                "/privacy.html", "/security.html")
+PUBLIC_PAGES = tuple(page.path for page in public_pages())
 
 
 def payload(paths):
@@ -38,7 +37,7 @@ def submit(paths):
             raise RuntimeError(problem)
     request = Request(ENDPOINT, data=json.dumps(data).encode("utf-8"),
                       headers={"Content-Type": "application/json; charset=utf-8",
-                               "User-Agent": "ProperEndingIndex-SearchNotice/1.0"},
+                               "User-Agent": "TakashiSatoArchive-SearchNotice/1.0"},
                       method="POST")
     # No redirects, no repeated submissions, no credentials.
     with build_opener(NoRedirect()).open(request, timeout=20) as response:

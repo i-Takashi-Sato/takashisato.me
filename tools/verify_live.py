@@ -18,15 +18,12 @@ if str(ROOT) not in sys.path:
 
 from src.archive.model import PAPERS, SITE, VERSION
 from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
+from src.archive.routes import public_pages
 
 SLUGS = tuple(paper["slug"] for paper in PAPERS)
 # Canonical public routes only; no mutable PDF aliases or third-party requests.
 ROUTES = {
-    "/": "index.html",
-    "/publications/": "publications/index.html",
-    "/papers/": "papers/index.html",
-    **{f"/papers/{slug}.html": f"papers/{slug}.html" for slug in SLUGS},
-    **{f"/{name}.html": f"{name}.html" for name in ("about", "colophon", "privacy", "security")},
+    **{page.path: page.file for page in public_pages()},
     **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
     **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
     **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about")},

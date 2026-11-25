@@ -19,3 +19,7 @@ After accumulating successes across multiple attempts, the audit requires a fres
 ## Disclosure and reproducibility delivery
 
 The audit also covers the public security.txt and humans.txt records and the two published Part III historical-checker/re-execution artifacts. All four require exact bytes; the ZIP requires a recognized archive or binary MIME type. A local test checks the security disclosure contact, canonical URL, policy and unexpired RFC 9116 timestamp. This verifies delivery and freshness, not penetration-test results or mailbox ownership. The historical checker is not the full reproducibility package, and the author-side re-execution is not independent replication.
+
+## Catalogue coverage and canonical routing
+
+The personal publication catalogue HTML and JSON are audited alongside the established trilogy. The HTML inventory is derived from the canonical route registry. On release `fcc6af81`, the first audit reached 56/57: current fingerprinted runtime assets matched, while the old mutable `/assets/site.css` alias remained cached at the prior hash (observed CDN HIT and increasing Age). The strict legacy-alias check remains in place. Do not treat a successful Pages deployment as a full byte-verification pass, and do not weaken comparison to conceal stale content.

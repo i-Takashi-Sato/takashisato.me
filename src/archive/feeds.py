@@ -6,6 +6,7 @@ from .model import AUTHOR, PAPERS, PAPER_REVISION_DATE, SITE, UPDATED, VERSION, 
 
 
 from .concepts import concept_schema
+from .routes import public_pages
 
 
 RESEARCH_PROVENANCE = {
@@ -110,33 +111,9 @@ def atom_feed() -> str:
 
 
 def sitemap() -> str:
-    entries = [
-        "/",
-        "/publications/",
-        "/papers/",
-        "/papers/part1.html",
-        "/papers/part2.html",
-        "/papers/part3.html",
-        "/about.html",
-        "/colophon.html",
-        "/privacy.html",
-        "/security.html",
-    ]
-    # Only genuinely revised documents receive a newer sitemap lastmod.
-    # Research version and PDF revision dates remain unchanged.
-    changed_pages = {
-        "/": "2026-11-26",
-        "/publications/": "2026-11-26",
-        "/papers/": "2026-11-25",
-        "/papers/part1.html": "2026-11-25",
-        "/papers/part2.html": "2026-11-25",
-        "/papers/part3.html": "2026-11-25",
-        "/about.html": "2026-11-26",
-        "/colophon.html": "2026-11-24",
-    }
     urls = "\n".join(
-        f"  <url><loc>{SITE}{path}</loc><lastmod>{changed_pages.get(path, UPDATED)}</lastmod></url>"
-        for path in entries
+        f"  <url><loc>{SITE}{page.path}</loc><lastmod>{page.lastmod}</lastmod></url>"
+        for page in public_pages()
     )
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'

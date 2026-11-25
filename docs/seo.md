@@ -24,8 +24,7 @@ The site identity is **Takashi Sato**; the current home title retains **AI Gover
 
 ## Canonical surfaces
 
-The indexed primary routes are Home, Papers, About, Parts I–III, Colophon, Privacy, and
-Security. SSRN remains primary for paper publication records; `/pdf/v6.2/` is preserved
+The indexed primary routes are Home, Publications, Papers, About, Parts I–III, Colophon, Privacy, and Security. The canonical indexed-page registry in `src/archive/routes.py` supplies sitemap URLs, deployment checks and the IndexNow allowlist. SSRN remains primary for paper publication records; `/pdf/v6.2/` is preserved
 local access and is not the primary reading route.
 
 ## Japanese identity

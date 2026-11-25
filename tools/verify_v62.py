@@ -37,20 +37,10 @@ from src.archive.model import (
     VERSION,
 )
 
+from src.archive.routes import public_pages
 from verify_publications import audit_publications
 
-CORE_HTML = [
-    "index.html",
-    "publications/index.html",
-    "papers/index.html",
-    "papers/part1.html",
-    "papers/part2.html",
-    "papers/part3.html",
-    "about.html",
-    "privacy.html",
-    "security.html",
-    "colophon.html",
-]
+CORE_HTML = [page.file for page in public_pages()]
 ALL_HTML = CORE_HTML + ["404.html", "demo/index.html", "demo/altrion-part1.html", "demo/altrion-part2.html"]
 
 class AuditParser(HTMLParser):
@@ -781,28 +771,24 @@ def audit_indexes(errors: list[str]) -> None:
         fail(errors, "site.webmanifest: missing dedicated maskable icon")
 
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
-    expected_urls = [
-        f"{SITE}/",
-        f"{SITE}/publications/",
-        f"{SITE}/papers/",
-        f"{SITE}/papers/part1.html",
-        f"{SITE}/papers/part2.html",
-        f"{SITE}/papers/part3.html",
-        f"{SITE}/about.html",
-        f"{SITE}/colophon.html",
-        f"{SITE}/privacy.html",
-        f"{SITE}/security.html",
-    ]
+    pages = public_pages()
+    expected_urls = [SITE + page.path for page in pages]
     actual_urls = re.findall(r"<loc>(.*?)</loc>", sitemap)
     if actual_urls != expected_urls:
         fail(errors, f"sitemap.xml: canonical URL inventory mismatch: {actual_urls}")
     if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
         fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
     # Page freshness is not the same as the immutable v6.2 paper revision.
-    expected_lastmods = ["2026-11-26"] * 2 + ["2026-11-25"] * 4 + ["2026-11-26", "2026-11-24", UPDATED, UPDATED]
+    expected_lastmods = [page.lastmod for page in pages]
     actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
     if actual_lastmods != expected_lastmods:
         fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")
+    for page in pages:
+        parser = AuditParser()
+        parser.feed((ROOT / page.file).read_text(encoding="utf-8"))
+        canonicals = [attrs.get("href") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "canonical"]
+        if canonicals != [SITE + page.path]:
+            fail(errors, f"{page.file}: public route canonical mismatch: {canonicals}")
 
     robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
     if f"Sitemap: {SITE}/sitemap.xml" not in robots or f"{SITE}/llms.txt" not in robots:
