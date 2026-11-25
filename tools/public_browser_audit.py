@@ -67,7 +67,12 @@ def main():
                             if urlsplit(page.url).fragment != "japanese" or page.locator("#japanese .record-row").count() != 3:
                                 errors.append(f"{tag}: Japanese navigation failed")
                         if width == 390 and js:
-                            page.screenshot(path=str(OUT / (tag + ".png")), timeout=10000)
+                            print(f"{tag}: before screenshot, policy errors={len(policies)}", flush=True)
+                            # The default caret hiding injects a temporary style element.
+                            # Keep native caret/animations to observe the site without that mutation.
+                            page.screenshot(path=str(OUT / (tag + ".png")), timeout=10000,
+                                            caret="initial", animations="allow")
+                            print(f"{tag}: after screenshot, policy errors={len(policies)}", flush=True)
                     except Exception as exc:
                         errors.append(f"{tag}: {type(exc).__name__}: {str(exc)[:200]}")
                     finally:
