@@ -294,14 +294,14 @@ def papers_index_page() -> str:
               </div>
               <div class="record-list">
                 <article class="record-row">
-                  <div><p class="label">第一部 ／ 意思決定の経路</p><h3>次に何が許されるのか</h3></div>
+                  <div><p class="label">第一部 ／ 意思決定の経路</p><h3><span class="ja-title-tail">次に何が</span><span class="ja-title-tail">許されるのか</span></h3></div>
                   <div><p>人間が手続に関与していても、必要な証拠、時間、決定権限、審査の余力、実行可能な代替手段のいずれかを欠けば、監督は実質を失い得る。型付きゲート規約（<span lang="en">Typed Gate Contract</span>）は、案件の処理経路と権限者による決定を、二段階に分けて規定する。</p>
                     <p>第一段階では、三つの診断の結果、審査の権限と余力、代替手段の承認と準備状況に基づき、案件の処理経路を定める。三つの診断がすべて通過しても、実行の資格が認められるにすぎない。実行は別個の規約に従う。権限に基づく審査に進んだ案件については、第二段階で、実際に下された、その時点で有効かつ権限の範囲内にある署名付きの決定を記録する。</p>
                     <p>証拠の不足を暗黙の通過判定に、暫定的な遮断を最終的な否認に置き換えない。</p>
                     <p><a href="/papers/part1.html">論文・検証範囲（英語）</a></p></div>
                 </article>
                 <article class="record-row">
-                  <div><p class="label">第二部 ／ 統治能力</p><h3>手続が維持されていても、統治できているか</h3></div>
+                  <div><p class="label">第二部 ／ 統治能力</p><h3><span class="ja-title-tail">手続が</span><span class="ja-title-tail">維持されていても、</span><br><span class="ja-title-tail">統治できているか</span></h3></div>
                   <div><p>手続に覆われた統治能力の喪失（<span lang="en">Procedurally Masked Governing-Capacity Loss; PMGCL</span>）とは、外形上の手続遵守が維持または改善される一方で、独立した判断の寄与と実効的な統治能力がともに実質的かつ持続的に低下し、あらかじめ定めた保護対象機能も実質的に損なわれている状態をいう。四つの要件はいずれも不可欠であり、この定義は成因を特定するものではない。</p>
                     <p><span lang="en">Pre-Abuse Collapse（PAC）</span>は、PMGCLの成因に関する暫定的な下位類型である。悪意ある行為の経路について事前に定めた介入条件または参照条件の下で、通常の組織的要因への曝露が保護対象機能に及ぼす実質的な悪影響を示す因果的対比が識別された場合に限り、この類型を用いる。「<span lang="en">Pre-Abuse</span>」は、崩壊が悪意ある行為に時間的に先行することを意味しない。また、悪意ある行為が存在しないことも、十分構成原因（<span lang="en">sufficient component cause</span>）の意味で不要であったことも、この類型は示さない。</p>
                     <p>いずれも妥当性の検証を経ていない。既存理論や構成要素を連続量で扱うモデルと比較し、拠点または期間を分けた検証において、判別力、早期把握のための先行時間、較正、介入判断への有用性のいずれにも再現可能な付加価値が認められなければ、当該概念の独立した使用を撤回する。PACにはさらに、再現可能な因果的識別と、記述的な状態分類を超える付加価値が求められる。</p>
