@@ -1,5 +1,7 @@
 # The Proper Ending Index — Visual Grammar v6.13
 
+Historical release note. This document records the retired v6.13 design and delivery experiments; it is not the current implementation contract. See `../DESIGN_DIRECTION.md`, `architecture.md`, and `governance.md` for the maintained system.
+
 This release treats the site as a research pavilion, not a generic dark creative site.
 
 ## Core grammar

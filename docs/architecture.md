@@ -47,7 +47,7 @@ Code names should describe research semantics (`route`, `capacity`, `authority`,
 ## Generated-file discipline
 
 Generated files are committed only when `python tools/build_site.py` and
-`python tools/generate_og.py` have been run. CI rebuilds and rejects uncommitted drift.
+`python tools/generate_og.py` have been run. CI rebuilds and rejects both modified tracked output and untracked generated files. The active CSS and JavaScript directories must match their declared build inventories; retired experiments remain recoverable in Git history, not in the active source.
 Python bytecode, local screenshots, Lighthouse working directories, and package caches
 are never repository content.
 
@@ -67,11 +67,11 @@ The concept register's secondary preserved-PDF links now point to exact starting
 
 The separate Chromium stress suite checks landscape, 320px reflow, doubled root font size, forced colors, font/script failure and print media. It records diagnostic geometry and screenshots on failure. These are bounded laboratory probes, not native zoom, a screen-reader test, physical-device certification or full WCAG conformance.
 
-Reading-resilience follow-up: preserve the 200% root-font stress probe and original viewport/reading-element limits. Allow narrow single-column grid tracks to shrink to zero intrinsic minimum, wrap long headings and series titles, and let masthead flex items wrap instead of overlapping when text expands. The header brand/navigation overlap and header target boundaries are additional checks; all six large-text screenshots are retained for review even when passing. These are stress probes, not native browser zoom or complete WCAG conformance evidence.
+Reading-resilience follow-up: preserve the 200% root-font stress probe and original viewport/reading-element limits. Allow narrow single-column grid tracks to shrink to zero intrinsic minimum, wrap long headings and series titles, and let masthead flex items wrap instead of overlapping when text expands. The header brand/navigation overlap and header target boundaries are additional checks; all seven large-text screenshots are retained for review even when passing. These are stress probes, not native browser zoom or complete WCAG conformance evidence.
 
 ### Cross-engine reading resilience
 
-The Chromium seven-mode reading-resilience suite remains unchanged in coverage and thresholds (42 page/mode combinations). Firefox and WebKit additionally run the same five comparable screen-reading modes — landscape, 320 px reflow, 200% root text stress, font request failure, and JavaScript disabled — across all seven core reading pages (70 additional combinations). Both engines produce their own JSON report and enlarged-text screenshots. Print and forced-colors probes remain in the Chromium suite. These are synthetic browser stress tests, not native zoom, assistive-technology, or physical-device certification.
+The Chromium seven-mode reading-resilience suite covers all seven core reading pages (49 page/mode combinations). Firefox and WebKit additionally run the same five comparable screen-reading modes — landscape, 320 px reflow, 200% root text stress, font request failure, and JavaScript disabled — across all seven core reading pages (70 additional combinations). Both engines produce their own JSON report and enlarged-text screenshots. Print and forced-colors probes remain in the Chromium suite. These are synthetic browser stress tests, not native zoom, assistive-technology, or physical-device certification.
 
 ### Editorial reading entry
 

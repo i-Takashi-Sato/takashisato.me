@@ -5,13 +5,15 @@ from playwright.sync_api import sync_playwright
 from visual_smoke import BASE, PAGES, layout_errors
 
 OUT = Path("artifacts/cross-engine")
+ENGINES = ("webkit", "firefox")
+VIEWPORTS = ((320, 568), (390, 844), (768, 1024), (1440, 900))
 
-def main():
+def main() -> None:
     failures = []
     with sync_playwright() as pw:
-        for name in ("webkit", "firefox"):
+        for name in ENGINES:
             browser = getattr(pw, name).launch()
-            for width, height in ((320, 568), (390, 844), (768, 1024), (1440, 900)):
+            for width, height in VIEWPORTS:
                 ctx = browser.new_context(viewport={"width": width, "height": height}, has_touch=width < 768, reduced_motion="reduce")
                 page = ctx.new_page()
                 for key, path in PAGES.items():
@@ -36,7 +38,8 @@ def main():
     if failures:
         print("\n".join(failures))
         raise SystemExit(1)
-    print("Cross-engine layout checks passed: 48 page/viewport combinations across WebKit and Firefox.")
+    count = len(ENGINES) * len(VIEWPORTS) * len(PAGES)
+    print(f"Cross-engine layout checks passed: {count} page/viewport combinations across WebKit and Firefox.")
 
 if __name__ == "__main__":
     main()

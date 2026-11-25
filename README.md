@@ -79,3 +79,5 @@ causal sufficiency.
 
 See `docs/architecture.md`, `docs/visual-grammar.md`, `docs/seo.md`, and
 `docs/governance.md` for the maintained contracts behind the public archive.
+
+Publication, correction, withdrawal and recovery procedures are documented in [`docs/publication-lifecycle.md`](docs/publication-lifecycle.md).
