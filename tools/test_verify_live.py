@@ -7,8 +7,8 @@ from pathlib import Path
 from unittest.mock import patch
 from xml.etree import ElementTree
 
-from verify_live import ROOT, ROUTES, ROBOTS_PREFIX, verify, verify_one
-from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
+from verify_live import ROOT, ROUTES, ROBOTS_PREFIX, immutable_cache_error, verify, verify_one
+from src.archive.runtime_assets import ASSET_NAMES, LEGACY_DIGESTS, asset_path, fingerprint_path
 from hashlib import sha256
 
 
@@ -99,14 +99,29 @@ class LiveAuditTests(unittest.TestCase):
         self.assertGreater(expiry, datetime.now(timezone.utc), "security.txt has expired; verify and renew the contact record")
 
     def test_runtime_routes_match_content(self):
-        for name in RUNTIME_NAMES:
-            data = (ROOT / "assets" / name).read_bytes()
-            stem, suffix = name.split(".")
-            expected = f"assets/{stem}.{sha256(data).hexdigest()}.{suffix}"
-            self.assertEqual(runtime_path(name), expected)
-            self.assertEqual(ROUTES["/" + expected], expected)
-            self.assertEqual((ROOT / expected).read_bytes(), data)
+        for name in ASSET_NAMES:
+            legacy = (ROOT / "assets" / name).read_bytes()
+            self.assertEqual(sha256(legacy).hexdigest(), LEGACY_DIGESTS[name])
+            current = asset_path(name)
+            data = (ROOT / current).read_bytes()
+            self.assertEqual(current, fingerprint_path(name, data))
+            self.assertEqual(ROUTES["/" + current], current)
             self.assertEqual(ROUTES["/assets/" + name], "assets/" + name)
+
+    def test_no_new_html_references_legacy_assets(self):
+        for path in set(ROUTES.values()):
+            if path.endswith(".html"):
+                html = (ROOT / path).read_text(encoding="utf-8")
+                for name in ASSET_NAMES:
+                    self.assertNotIn("/assets/" + name, html, f"{path}: legacy asset reference")
+
+    def test_immutable_cache_policy(self):
+        route = "/" + asset_path("site.css")
+        self.assertIsNone(immutable_cache_error(route, "public, max-age=31536000, immutable"))
+        self.assertIsNotNone(immutable_cache_error(route, "max-age=14400"))
+        self.assertIsNotNone(immutable_cache_error(route, "max-age=31536000"))
+        self.assertIsNotNone(immutable_cache_error(route, "max-age=31536000, immutable, no-cache"))
+        self.assertIsNone(immutable_cache_error("/assets/site.css", "max-age=14400"))
 
     def test_managed_robots(self):
         self.assertIsNone(verify_one(self.base, "/robots.txt", ROOT / "robots.txt"))

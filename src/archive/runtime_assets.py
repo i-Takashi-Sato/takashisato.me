@@ -42,6 +42,12 @@ def read_manifest() -> dict[str, str]:
     if set(value) != set(ASSET_NAMES):
         raise ValueError("Production asset manifest inventory mismatch")
     for name, path in value.items():
+        stem, suffix = name.rsplit(".", 1)
+        prefix, extension = f"assets/{stem}.", f".{suffix}"
+        if (not isinstance(path, str) or not path.startswith(prefix) or not path.endswith(extension)
+                or len(path) != len(prefix) + 64 + len(extension)
+                or any(c not in "0123456789abcdef" for c in path[len(prefix):-len(extension)])):
+            raise ValueError(f"Invalid production asset path: {name}")
         if path != fingerprint_path(name, (ROOT / path).read_bytes()):
             raise ValueError(f"Production asset digest mismatch: {name}")
     return value

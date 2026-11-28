@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -17,7 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.archive.model import PAPERS, SITE, VERSION
-from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
+from src.archive.runtime_assets import ASSET_NAMES, asset_path
 from src.archive.routes import public_pages
 
 SLUGS = tuple(paper["slug"] for paper in PAPERS)
@@ -35,11 +36,11 @@ ROUTES = {
     "/assets/fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2": "assets/fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2",
     "/assets/fonts/TakashiNameSerif-OFL.txt": "assets/fonts/TakashiNameSerif-OFL.txt",
     # Check the exact URLs used by newly generated HTML as well as the legacy aliases.
-    **{"/" + runtime_path(name): runtime_path(name) for name in RUNTIME_NAMES},
+    **{"/" + asset_path(name): asset_path(name) for name in ASSET_NAMES},
     **{f"/{name}": name for name in (
         "assets/site.css", "assets/site.js", "assets/brand-mark.svg",
         "assets/author-mark.svg", "assets/author-paper.webp", "assets/research-metal.webp",
-        "assets/fonts/InterVariable.woff2", "assets/fonts/Newsreader-Variable.woff2",
+        "assets/fonts/InterVariable.woff2", "assets/fonts/Newsreader-Variable.woff2", "assets/fonts/MeaCulpa.woff2",
         "favicon.svg", "favicon.ico", "favicon-96x96.png", "apple-touch-icon.png",
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
         "site.webmanifest", "research-index.json", "publications.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
@@ -88,6 +89,17 @@ def cache_details(headers) -> str:
     return f" [cache: {'; '.join(values)}]" if values else ""
 
 
+def immutable_cache_error(route: str, cache_control: str) -> str | None:
+    if not re.fullmatch(r"/assets/.+\\.[0-9a-f]{64}\\.(?:css|js|jpg|woff2)", route):
+        return None
+    directives = {value.strip().lower() for value in cache_control.split(",")}
+    ages = [int(m[1]) for value in directives if (m := re.fullmatch(r"max-age=(\\d+)", value))]
+    if ("immutable" not in directives or len(ages) != 1 or ages[0] < 31536000
+            or directives & {"no-cache", "no-store", "private"}):
+        return f"{route}: immutable long-cache policy missing: {cache_control!r}"
+    return None
+
+
 def verify_one(base: str, route: str, local: Path) -> str | None:
     expected = local.read_bytes()
     if len(expected) > MAX_BYTES:
@@ -112,6 +124,7 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
                 return f"{route}: unexpected media type {media}"
             actual = response.read(MAX_BYTES + 1)
             cache = cache_details(response.headers)
+            cache_control = response.headers.get("Cache-Control", "")
     except HTTPError as exc:
         return f"{route}: HTTPError: HTTP {exc.code}" + cache_details(exc.headers)
     except (URLError, TimeoutError, OSError) as exc:
@@ -124,7 +137,7 @@ def verify_one(base: str, route: str, local: Path) -> str | None:
     if actual != expected:
         return (f"{route}: SHA-256 mismatch; expected {digest(expected)}, "
                 f"received {digest(actual)} ({len(actual)} bytes)" + cache)
-    return None
+    return immutable_cache_error(route, cache_control)
 
 
 def verify(base: str, root: Path, routes: dict[str, str], attempts: int, interval: int) -> int:
