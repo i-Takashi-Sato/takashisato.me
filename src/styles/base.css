@@ -299,7 +299,7 @@ a.sequence-row:hover::after { transform: translate(.2rem, -.2rem); }
 .toc a { padding: .75rem 0; border-bottom: 1px solid var(--line); display: block; color: var(--ink-soft); font-size: .72rem; font-weight: 610; letter-spacing: .04em; text-decoration: none; }
 .toc a:hover { color: var(--ink); }
 
-.content { min-width: 0; }
+.content { min-width: 0; overflow-wrap: anywhere; }
 .content > section { scroll-margin-top: 7rem; }
 .content > section + section { margin-top: clamp(4.8rem, 9vw, 8.8rem); padding-top: clamp(3.4rem, 6vw, 5.7rem); border-top: 1px solid var(--line); }
 .content h2 { max-width: 15ch; font-size: clamp(2.8rem, 4.7vw, 5rem); }
@@ -350,7 +350,7 @@ a.sequence-row:hover::after { transform: translate(.2rem, -.2rem); }
 
 .verification { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line); }
 .verification div { min-height: 9rem; padding: 1.4rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.verification strong { display: block; font-family: var(--display); font-size: clamp(3rem, 4.8vw, 5.2rem); font-weight: 340; letter-spacing: -.04em; line-height: .85; }
+.verification strong { display: block; font-family: var(--display); font-size: min(clamp(3rem, 4.8vw, 5.2rem), 14vw); font-weight: 340; letter-spacing: -.04em; line-height: .85; }
 .verification span { display: block; margin-top: .7rem; color: var(--ink-soft); font-size: .7rem; line-height: 1.45; }
 .caveat { margin-top: 2rem; padding: 1.3rem 1.4rem; border-left: .22rem solid var(--signal-soft); background: var(--signal-wash); color: var(--ink-soft); font-size: .86rem; }
 
@@ -529,7 +529,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
   .sequence-row::after { grid-column: 3; grid-row: 1; }
   .metric-grid, .fact-grid, .construct-grid, .verification, .series-nav { grid-template-columns: minmax(0, 1fr); }
   .metric { min-height: 8.5rem; }
-  .gate-flow, .disposition-grid { grid-template-columns: 1fr; }
+  .gate-flow, .disposition-grid { grid-template-columns: minmax(0,1fr); }
   .route-box { grid-column: auto; }
   .protocol { grid-template-columns: 1fr; }
   .protocol li:nth-child(n) { grid-column: auto; }
@@ -864,7 +864,7 @@ html.js .gate-probe { display: block; }
 .gate-probe .caveat { margin-bottom: 0; }
 
 /* Proper Ending is a reduction of motion, not another spectacle. */
-.site-footer { position: relative; isolation: isolate; overflow: hidden; }
+.site-footer { isolation: isolate; }
 .site-footer::after {
   content: "";
   position: absolute;

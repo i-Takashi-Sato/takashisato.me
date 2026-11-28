@@ -371,6 +371,13 @@ def audit_content(errors: list[str]) -> None:
     newsreader_preload = f'<link rel="preload" href="{asset_url("fonts/Newsreader-Variable.woff2")}" as="font" type="font/woff2" crossorigin>'
     if newsreader_preload not in about or newsreader_preload in home:
         fail(errors, "author-only editorial font preload contract violated")
+    name_preload = f'<link rel="preload" href="/{NAME_FONT_PATH}" as="font" type="font/woff2" crossorigin>'
+    for rel in ("index.html", "about.html"):
+        if (ROOT / rel).read_text(encoding="utf-8").count(name_preload) != 1:
+            fail(errors, f"{rel}: missing unique author-name font preload")
+    for rel in ("papers/index.html", "papers/part1.html", "papers/part2.html", "papers/part3.html", "publications/index.html", "privacy.html", "security.html", "colophon.html", "404.html", "demo/index.html", "demo/altrion-part1.html", "demo/altrion-part2.html"):
+        if NAME_FONT_PATH in (ROOT / rel).read_text(encoding="utf-8"):
+            fail(errors, f"{rel}: unexpected author-name font preload")
     record_path = ROOT / "reproduction/v5.9/part3-reexecution-2026-11-24.json"
     record = json.loads(record_path.read_text(encoding="utf-8"))
     if record["artifactVersion"] != "5.9" or record["manuscriptVersion"] != "6.2" or record["independentReplication"] or record["fullPackagePublished"]:

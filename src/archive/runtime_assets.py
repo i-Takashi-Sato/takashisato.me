@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+NAME_FONT_PATH = "assets/fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2"
 RUNTIME_NAMES = ("site.css", "site.js")
 FONT_NAMES = ("fonts/InterVariable.woff2", "fonts/Newsreader-Variable.woff2", "fonts/MeaCulpa.woff2")
 OG_NAMES = tuple(f"og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about", "archive"))

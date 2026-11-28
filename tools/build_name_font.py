@@ -87,7 +87,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SUBSET_SOURCE = ROOT / "src/fonts/TakashiNameSerif-Medium.otf"
 SUBSET_SHA256 = "3a716316c099c1dd028e799146f72367fc5e9be4ab5f91279b66232d01c93c01"
 WOFF2_SHA256 = "fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f"
-NAME_FONT_PATH = "assets/fonts/TakashiNameSerif." + WOFF2_SHA256 + ".woff2"
+from src.archive.runtime_assets import NAME_FONT_PATH
 
 
 def build_name_font() -> str:
