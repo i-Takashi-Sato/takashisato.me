@@ -107,7 +107,6 @@ def home_page() -> str:
             <div class="identity-masthead"><span>INDEPENDENT ARCHIVE</span><span>SAPPORO, JAPAN</span></div>
             <div class="identity-hero-grid">
               <div class="identity-copy">
-                <p class="identity-overline">RESEARCH &amp; WRITINGS</p>
                 <h1 id="hero-title">Takashi<br>Sato</h1>
                 <p class="identity-thesis"><span lang="ja">佐藤貴士</span></p>
                 <p class="identity-detail">An independent archive of research and writing. The current collection asks how institutions govern AI-assisted decisions, how that capacity erodes, and how failing workflows can be brought to an accountable end.</p>

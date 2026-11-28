@@ -65,12 +65,11 @@ body[data-page="home"] .identity-hero::before,body[data-page="home"] .identity-h
 .identity-masthead {display:flex;gap:1.25rem;justify-content:space-between;border-bottom:1px solid var(--line-strong);padding-bottom:1.1rem;color:var(--ink-faint);font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:640}
 .identity-hero-grid {display:grid;grid-template-columns:minmax(0,1.618fr) minmax(0,1fr);gap:0;align-items:stretch;padding-block:clamp(1.5rem,4vw,4rem) clamp(2.5rem,5vw,5rem)}
 .identity-copy {align-self:center;min-width:0;padding:clamp(2rem,5vw,5rem) clamp(2rem,5.3vw,5.8rem) clamp(2rem,5vw,5rem) 0}
-.identity-overline {color:var(--signal);font-weight:670;font-size:.73rem;letter-spacing:.15em;text-transform:uppercase;margin:0 0 clamp(2.2rem,3.7vw,4rem)}
-body[data-page="home"] .identity-copy h1 {margin:0;max-width:12ch;font-family:var(--display);font-size:clamp(3.25rem,7.4vw,9rem);line-height:1.04;letter-spacing:-.058em;font-weight:520;text-wrap:balance;color:var(--ink)}
+body[data-page="home"] .identity-copy h1 {margin:0;max-width:12ch;font-family:var(--display);font-size:clamp(3rem,5.6vw,6.8rem);line-height:1.04;letter-spacing:-.058em;font-weight:520;text-wrap:balance;color:var(--ink)}
 .identity-thesis {margin:clamp(1.5rem,2.8vw,2.6rem) 0 .75rem}
 .identity-detail {max-width:35rem;color:var(--ink-soft);font-size:clamp(1rem,.45vw + .86rem,1.125rem);line-height:1.65;margin:0 0 1.7rem}
 .identity-actions {display:flex;align-items:center;flex-wrap:wrap;gap:.4rem 2rem}
-.identity-art {margin:0;min-width:0;background:linear-gradient(135deg,rgba(20,20,20,.46),rgba(20,20,20,.12)),#141414 url("/assets/research-metal.webp") center/cover no-repeat;color:#F5F5F4;padding:clamp(1.6rem,2.5vw,3rem);display:flex;min-height:clamp(33rem,49vw,43rem);flex-direction:column;justify-content:space-between;border:0;box-shadow:none}
+.identity-art {margin:0;min-width:0;background:#141414;color:#F5F5F4;padding:clamp(1.6rem,2.5vw,3rem);display:flex;min-height:clamp(33rem,49vw,43rem);flex-direction:column;justify-content:space-between;border:0;box-shadow:none}
 .identity-art-head {display:flex;justify-content:space-between;gap:.6rem 1.2rem;color:#D5D5D5;font-size:.69rem;font-family:var(--sans);letter-spacing:.1em;text-transform:uppercase}
 
 
@@ -160,7 +159,7 @@ body[data-page] .sequence-row:hover .sequence-title {color:var(--signal);transfo
  .identity-masthead {font-size:.68rem;letter-spacing:.06em;gap:.5rem}
  .identity-masthead span:last-child {text-align:right}
  .identity-hero-grid {padding-block:1.25rem 1.5rem;gap:1.4rem}
- body[data-page="home"] .identity-copy h1 {font-size:clamp(2.9rem,11vw,5rem);max-width:12ch;letter-spacing:-.05em}
+ body[data-page="home"] .identity-copy h1 {font-size:clamp(2.175rem,8.25vw,3.75rem);max-width:12ch;letter-spacing:-.05em}
  .identity-thesis {margin-top:1.35rem}
  .identity-art {min-height:0;padding:1.25rem}
  .identity-art-head {font-size:.62rem}
