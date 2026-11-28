@@ -967,7 +967,14 @@ def audit_v63_release(errors: list[str]) -> None:
         verify_assets()
     except (OSError, ValueError, KeyError) as exc:
         fail(errors, f"v6.3 release assets: {exc}")
-    retired = re.compile(r"(?i)\\b(?:PMGCL|PAC)\\b|Pre-Abuse Collapse|procedurally masked")
+    retired = re.compile(r"(?i)\b(?:PMGCL|PAC)\b|Pre-Abuse Collapse|procedurally masked")
+    # Regression checks: standalone abbreviations must be detected, not substrings.
+    for term in ("PAC", "PMGCL", "pac", "pmgcl", "(PAC)", "Pre-Abuse Collapse", "procedurally masked"):
+        if retired.search(term) is None:
+            fail(errors, f"withdrawn-term detector regression: missed {term!r}")
+    for term in ("impact", "capacity", "package", "GCL-PC"):
+        if retired.search(term) is not None:
+            fail(errors, f"withdrawn-term detector regression: false positive {term!r}")
     for rel in (*CORE_HTML, "research-index.json", "publications.json", "llms.txt", "feed.xml", "sitemap.xml", "humans.txt", "README.md"):
         if retired.search((ROOT / rel).read_text(encoding="utf-8")):
             fail(errors, f"{rel}: withdrawn concept in current record")
