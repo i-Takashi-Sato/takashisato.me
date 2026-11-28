@@ -3,7 +3,7 @@
   <id>https://takashisato.me/feed.xml</id>
   <title>The Proper Ending Index — Research updates</title>
   <subtitle>AI governance working papers by Takashi Sato</subtitle>
-  <updated>2026-08-23T00:00:00Z</updated>
+  <updated>2026-11-28T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://takashisato.me/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://takashisato.me/papers/"/>
   <author>
@@ -14,27 +14,27 @@
     <id>https://doi.org/10.2139/ssrn.6066430</id>
     <title>From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions</title>
     <published>2026-02-10T00:00:00Z</published>
-    <updated>2026-08-23T00:00:00Z</updated>
+    <updated>2026-11-28T00:00:00Z</updated>
     <link rel="alternate" type="text/html" href="https://takashisato.me/papers/part3.html"/>
     <link rel="related" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6066430"/>
-    <summary type="text">Working paper · Version 6.2. A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.</summary>
+    <summary type="text">Working paper · Version 6.3. A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.</summary>
   </entry>
   <entry>
     <id>https://doi.org/10.2139/ssrn.5913703</id>
-    <title>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype</title>
+    <title>Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive Profile Model and a Rejection-Oriented Research Program</title>
     <published>2026-01-12T00:00:00Z</published>
-    <updated>2026-08-23T00:00:00Z</updated>
+    <updated>2026-11-28T00:00:00Z</updated>
     <link rel="alternate" type="text/html" href="https://takashisato.me/papers/part2.html"/>
     <link rel="related" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5913703"/>
-    <summary type="text">Working paper · Version 6.2. A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.</summary>
+    <summary type="text">Working paper · Version 6.3. A non-compensatory descriptive profile of governing-capacity loss under procedural continuity, with a separate causal question and a rejection-oriented research program.</summary>
   </entry>
   <entry>
     <id>https://doi.org/10.2139/ssrn.5911063</id>
-    <title>Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions</title>
+    <title>Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human–AI Decisions</title>
     <published>2026-01-09T00:00:00Z</published>
-    <updated>2026-08-23T00:00:00Z</updated>
+    <updated>2026-11-28T00:00:00Z</updated>
     <link rel="alternate" type="text/html" href="https://takashisato.me/papers/part1.html"/>
     <link rel="related" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5911063"/>
-    <summary type="text">Working paper · Version 6.2. A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.</summary>
+    <summary type="text">Working paper · Version 6.3. A typed two-stage gate contract and separate execution boundary for accountable human–AI decisions, with finite conformance and integrated temporal checks.</summary>
   </entry>
 </feed>

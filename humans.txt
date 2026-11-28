@@ -9,8 +9,8 @@ Takashi Sato
 Current research collection: The Proper Ending Index
 Static HTML, CSS, and progressive JavaScript
 Three self-hosted type families; no framework runtime
-Current research version: 6.2
-Last update: 2026-11-26
+Current research version: 6.3
+Last update: 2026-11-28
 
 /* ORIENTATION */
 https://takashisato.me/llms.txt

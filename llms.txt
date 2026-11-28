@@ -9,14 +9,14 @@ SSRN author record: https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=954
 Publication catalogue: https://takashisato.me/publications/
 Machine-readable catalogue: https://takashisato.me/publications.json
 Machine-readable index (AI governance trilogy): https://takashisato.me/research-index.json
-Current paper version: 6.2 (23 August 2026)
+Current paper version: 6.3 (28 November 2026)
 
 ## Papers
 
-- Part I — Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions
+- Part I — Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human–AI Decisions
   https://takashisato.me/papers/part1.html
   DOI: 10.2139/ssrn.5911063
-- Part II — Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype
+- Part II — Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive Profile Model and a Rejection-Oriented Research Program
   https://takashisato.me/papers/part2.html
   DOI: 10.2139/ssrn.5913703
 - Part III — From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions
@@ -25,10 +25,11 @@ Current paper version: 6.2 (23 August 2026)
 
 ## Research provenance
 
-- Part I: Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here.
-- Part II: Descriptive model and rejectable propositions; empirical validation is not established.
-- Part III: Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation.
-- Historical checker subset (not the full reproducibility package): https://takashisato.me/reproduction/v5.9/part3-historical-checker.zip
+- Part I: Finite-stage conformance using two same-author encodings and an integrated model with 134,672 reachable states. Every state has a path to a recorded outcome; independent third-party reproduction is not established.
+- Part II: Descriptive profile and separate causal specification; 81 three-valued profiles; empirical validation is not established.
+- Part III: Historical safety model (8,564 states, 36,096 transitions), reachability defect (1,152 states), and revised bounded PE-R1 (98,948 states). Historical synthetic generator is not included; no field validation.
+- Current source and reproduction archive: https://takashisato.me/reproduction/v6.3/trilogy_v6.3_publication_6953eeb9.zip
+ - Historical checker subset (not the full reproducibility package): https://takashisato.me/reproduction/v5.9/part3-historical-checker.zip
 - Subsequent author-side re-execution record: https://takashisato.me/reproduction/v5.9/part3-reexecution-2026-11-24.json
 
 ## Interpretation boundary
@@ -37,4 +38,4 @@ Current paper version: 6.2 (23 August 2026)
 - Exhaustive finite checks are exhaustive only over each declared abstraction.
 - Synthetic results are implementation and stress-test results, not field sensitivity, specificity, or effectiveness.
 - The shared official-record corpus supports traceability, not frequency, prediction, causal sufficiency, or independent validation.
-- Earlier ALTRION visualizers are superseded and do not represent v6.2.
+- Earlier ALTRION visualizers are superseded and do not represent v6.3.
