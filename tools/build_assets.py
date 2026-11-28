@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
+from src.archive.runtime_assets import FONT_NAMES, asset_path, publish_assets
 from build_name_font import build_name_font
 
 STYLE_SOURCES = (
@@ -104,23 +104,16 @@ def build_assets() -> None:
     build_name_font()
     validate_source_inventory(STYLE_SOURCES, ROOT / "src/styles", ".css")
     validate_source_inventory(SCRIPT_SOURCES, ROOT / "src/scripts", ".js")
-    (ROOT / "assets/site.css").write_text(
-        minify_css(join_sources(STYLE_SOURCES)),
-        encoding="utf-8",
-    )
-    (ROOT / "assets/site.js").write_text(
-        compact_js(join_sources(SCRIPT_SOURCES)),
-        encoding="utf-8",
-    )
-    # Preserve previously published fingerprinted paths for cached HTML.
-    # Never silently overwrite an immutable path with different bytes.
-    for name in RUNTIME_NAMES:
-        data = (ROOT / "assets" / name).read_bytes()
-        target = ROOT / runtime_path(name)
-        if target.exists() and target.read_bytes() != data:
-            raise ValueError(f"Immutable runtime asset mismatch: {target}")
-        if not target.exists():
-            target.write_bytes(data)
+    # Frozen original font sources are not overwritten. Current references
+    # always use exact content-addressed paths, never mutable aliases.
+    publish_assets({name: (ROOT / "assets" / name).read_bytes() for name in FONT_NAMES})
+    css = minify_css(join_sources(STYLE_SOURCES))
+    for name in FONT_NAMES:
+        css = css.replace("/assets/" + name, asset_path(name).removeprefix("assets/"))
+    publish_assets({
+        "site.css": css.encode("utf-8"),
+        "site.js": compact_js(join_sources(SCRIPT_SOURCES)).encode("utf-8"),
+    })
 
 
 if __name__ == "__main__":

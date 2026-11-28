@@ -56,7 +56,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(1rem,5vw,6rem);align-items:center;padding-block:clamp(3rem,7vw,7.2rem)}
 .portrait-name{min-width:0}
 .portrait-name h1{margin:0;color:#F5F4F0;font-family:var(--display);font-size:clamp(3.6rem,9.3vw,10.6rem);font-weight:470;line-height:.95;letter-spacing:-.075em}
-@font-face{font-family:TSName;src:url("fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2");font-weight:500;font-display:optional;unicode-range:U+4F50,U+85E4,U+8CB4,U+58EB}
+@font-face{font-family:TSName;src:url(fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2);font-weight:500;font-display:optional;unicode-range:U+4F50,U+85E4,U+8CB4,U+58EB}
 .portrait-name p{margin:1.65rem 0 0}
 :is(.identity-thesis,.portrait-name) [lang=ja]{display:block;font:500 clamp(1.05rem,1.5vw,1.4rem)/1.4 TSName,"Hiragino Mincho ProN","Yu Mincho",serif;letter-spacing:.18em;font-feature-settings:"palt" 0;color:var(--ink)}
 .portrait-name [lang=ja]{color:rgba(244,242,236,.86)}

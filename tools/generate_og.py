@@ -2,7 +2,7 @@
 """Deterministic social cards and icon assets for the platinum research identity.
 
 The generator uses canonical scholarly metadata; it never changes the papers.
-Run after build_site.py to keep SVG, raster icons, and social cards aligned.
+The main site build calls this before rendering HTML so social-card URLs remain synchronized.
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.archive.model import PAPERS_BY_SLUG, VERSION
+from src.archive.runtime_assets import publish_assets
 
 OUT = ROOT / "assets" / "og"
 W, H = 1200, 630
@@ -333,9 +334,14 @@ def render_archive_card() -> Image.Image:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    render_archive_card().save(OUT / "archive.jpg", "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
-    for name, card in CARDS.items():
-        render_card(name, card).save(OUT / f"{name}.jpg", "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
+    cards = {"archive": render_archive_card()}
+    cards.update({name: render_card(name, card) for name, card in CARDS.items()})
+    payloads = {}
+    for name, image in cards.items():
+        buffer = io.BytesIO()
+        image.save(buffer, "JPEG", quality=86, optimize=True, progressive=True, subsampling=0)
+        payloads[f"og/{name}.jpg"] = buffer.getvalue()
+    publish_assets(payloads)
 
     (ROOT / "assets/brand-mark.svg").write_text(svg_mark(tile=False),encoding="utf-8")
     (ROOT / "favicon.svg").write_text(personal_favicon_svg(adaptive=True),encoding="utf-8")

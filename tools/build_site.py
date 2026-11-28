@@ -25,6 +25,7 @@ from src.archive.pages import (
     utility_page,
 )
 from build_assets import build_assets
+from generate_og import main as generate_og
 
 def write(path: str, content: str) -> None:
     target = ROOT / path
@@ -32,6 +33,7 @@ def write(path: str, content: str) -> None:
     target.write_text(content, encoding="utf-8")
 
 def main() -> None:
+    generate_og()
     build_assets()
     write("index.html", home_page())
     write("papers/index.html", papers_index_page())
