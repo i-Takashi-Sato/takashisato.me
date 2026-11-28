@@ -21,6 +21,9 @@ PAGES = {
     "part1": "/papers/part1.html",
     "part2": "/papers/part2.html",
     "part3": "/papers/part3.html",
+    "legacy-index": "/demo/",
+    "legacy-part1": "/demo/altrion-part1.html",
+    "legacy-part2": "/demo/altrion-part2.html",
 }
 VIEWPORTS = {
     "mobile": (390, 844),

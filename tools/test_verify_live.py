@@ -70,6 +70,8 @@ class LiveAuditTests(unittest.TestCase):
                     route.lstrip("/") + ("index.html" if route.endswith("/") else ""),
                 )
         self.assertEqual(ROUTES["/publications.json"], "publications.json")
+        for route, path in {"/demo/": "demo/index.html", "/demo/altrion-part1.html": "demo/altrion-part1.html", "/demo/altrion-part2.html": "demo/altrion-part2.html"}.items():
+            self.assertEqual(ROUTES[route], path)
 
     def test_preservation_and_disclosure_inventory(self):
         for path in (

@@ -719,6 +719,69 @@ def author_archive_entry_errors(browser, errors: list[str]) -> None:
             context.close()
 
 
+def legacy_notice_errors(browser, errors: list[str]) -> None:
+    """Check computed colors even when axe cannot evaluate background images."""
+    routes = {
+        "legacy-index": "/demo/",
+        "legacy-part1": "/demo/altrion-part1.html",
+        "legacy-part2": "/demo/altrion-part2.html",
+    }
+    measure = """() => {
+        const panel = document.querySelector('.utility-page .notice');
+        if (!panel) return {error:'missing notice'};
+        const channels = value => (value.match(/[0-9]+(?:\\.[0-9]+)?/g) || []).map(Number);
+        const luminance = rgb => rgb.slice(0,3).map(c => c / 255)
+            .map(c => c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4)
+            .reduce((sum,c,i) => sum + c * [.2126,.7152,.0722][i], 0);
+        const ratio = (a,b) => {
+            const x = luminance(a), y = luminance(b);
+            return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);
+        };
+        const s = getComputedStyle(panel), panelRgb = channels(s.backgroundColor);
+        if (s.backgroundImage !== 'none' || panelRgb.length !== 3 || s.opacity !== '1')
+            return {error:'notice must have an opaque solid background', background:s.backgroundColor, image:s.backgroundImage, opacity:s.opacity};
+        return {background:s.backgroundColor, nodes:[...panel.querySelectorAll('h1,p,a.button')].map(el => {
+            const style = getComputedStyle(el), color = channels(style.color), ownBg = channels(style.backgroundColor);
+            const bg = ownBg.length === 3 ? ownBg : panelRgb;
+            const visible = el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0;
+            const supported = (ownBg.length === 3 || (ownBg.length === 4 && ownBg[3] === 0)) &&
+                color.length === 3 && style.backgroundImage === 'none' && style.opacity === '1';
+            return {text:el.textContent.trim(), color:style.color, background:style.backgroundColor,
+                contrast:supported ? ratio(color,bg) : 0, visible, threshold:4.5};
+        })};
+    }"""
+    for width, height in ((390, 844), (1440, 900)):
+        context = browser.new_context(viewport={"width": width, "height": height}, reduced_motion="reduce")
+        page = context.new_page()
+        for name, route in routes.items():
+            page.goto(BASE + route, wait_until="networkidle")
+            page.locator(".notice").wait_for(state="visible")
+            if page.evaluate("document.documentElement.scrollWidth > innerWidth"):
+                errors.append(f"{name}@{width}: horizontal overflow")
+            buttons = page.locator(".notice a.button")
+            if buttons.count() != 2:
+                errors.append(f"{name}@{width}: missing navigation buttons")
+            def check(state):
+                report = page.evaluate(measure)
+                print(f"{name}@{width}/{state}: {report}")
+                if report.get("error") or len(report.get("nodes", [])) != 5:
+                    errors.append(f"{name}@{width}/{state}: {report}")
+                    return
+                for node in report["nodes"]:
+                    if not node["visible"] or node["contrast"] < node["threshold"]:
+                        errors.append(f"{name}@{width}/{state}: insufficient contrast {node}")
+            page.mouse.move(0, 0)
+            check("normal")
+            page.screenshot(path=str(OUT / f"{name}-{width}.png"), full_page=True)
+            for i in range(buttons.count()):
+                buttons.nth(i).hover()
+                check(f"hover-{i}")
+                page.mouse.move(0, 0)
+                buttons.nth(i).focus()
+                check(f"focus-{i}")
+        context.close()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -759,6 +822,7 @@ def main() -> None:
         japanese_guide_errors(browser, errors)
         publication_expansion_errors(browser, errors)
         author_archive_entry_errors(browser, errors)
+        legacy_notice_errors(browser, errors)
         browser.close()
 
     if errors:
