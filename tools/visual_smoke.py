@@ -782,6 +782,29 @@ def legacy_notice_errors(browser, errors: list[str]) -> None:
         context.close()
 
 
+def japanese_glyph_errors(browser, errors: list[str]) -> None:
+    """Check loaded downloadable font faces, not only CSS fallback declarations."""
+    context = browser.new_context(viewport={"width": 390, "height": 844})
+    page = context.new_page()
+    for path, selector, family in [
+        ("/", ".identity-thesis [lang=ja]", "JPUI"),
+        ("/", ".identity-actions a[lang=ja]", "JPUI"),
+        ("/about.html", ".portrait-name [lang=ja]", "JPUI"),
+        ("/papers/#japanese", "#japanese .record-row p:not(.label)", "JPText"),
+    ]:
+        page.goto(BASE + path, wait_until="networkidle")
+        report = page.locator(selector).first.evaluate("""async (node, family) => {
+            const sample = Array.from(node.textContent).filter(c => /[\\u3000-\\u30ff\\u3400-\\u9fff\\uff00-\\uffef]/.test(c)).join('');
+            const css = getComputedStyle(node);
+            const loaded = await document.fonts.load(css.fontWeight + ' ' + css.fontSize + ' ' + family, sample);
+            return {sample, family:css.fontFamily, loaded:loaded.length, states:loaded.map(f=>f.status)};
+        }""", family)
+        if not report["sample"] or not report["family"].startswith(family) or not report["loaded"] or report["states"] != ["loaded"] * report["loaded"]:
+            errors.append(f"{path}: Japanese webfont unavailable {report}")
+        print(f"{path}: Japanese webfont {family} loaded, {len(report['sample'])} visible codepoints")
+    context.close()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -823,6 +846,7 @@ def main() -> None:
         publication_expansion_errors(browser, errors)
         author_archive_entry_errors(browser, errors)
         legacy_notice_errors(browser, errors)
+        japanese_glyph_errors(browser, errors)
         browser.close()
 
     if errors:

@@ -38,6 +38,7 @@ ROUTES = {
         "assets/site.css", "assets/site.js", "assets/brand-mark.svg",
         "assets/author-mark.svg", "assets/author-paper.webp", "assets/research-metal.webp",
         "assets/fonts/InterVariable.woff2", "assets/fonts/Newsreader-Variable.woff2",
+        "assets/fonts/JPUI.woff2", "assets/fonts/JPText.woff2",
         "favicon.svg", "favicon.ico", "favicon-96x96.png", "apple-touch-icon.png",
         "android-chrome-192x192.png", "android-chrome-512x512.png", "maskable-512x512.png",
         "site.webmanifest", "research-index.json", "publications.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",

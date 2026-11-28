@@ -446,6 +446,10 @@ def audit_assets(errors: list[str]) -> None:
         "fonts/Inter-OFL.txt",
         "fonts/Newsreader-Variable.woff2",
         "fonts/Newsreader-OFL.txt",
+        "fonts/JPUI.woff2",
+        "fonts/JPUI-OFL.txt",
+        "fonts/JPText.woff2",
+        "fonts/JPText-OFL.txt",
         "fonts/MeaCulpa.woff2",
         "fonts/MeaCulpa-OFL.txt",
         "og/home.jpg",
@@ -525,6 +529,8 @@ def audit_assets(errors: list[str]) -> None:
         "Inter": (ROOT / "assets/fonts/InterVariable.woff2", 100_000),
         "Newsreader": (ROOT / "assets/fonts/Newsreader-Variable.woff2", 150_000),
         "MeaCulpa": (ROOT / "assets/fonts/MeaCulpa.woff2", 50_000),
+        "JPUI": (ROOT / "assets/fonts/JPUI.woff2", 40_000),
+        "JPText": (ROOT / "assets/fonts/JPText.woff2", 400_000),
     }
     for family, (font_path, size_limit) in fonts.items():
         if not font_path.read_bytes().startswith(b"wOF2"):
@@ -536,6 +542,12 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"{family} license record is missing or invalid")
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
+
+    from build_japanese_fonts import verify as verify_japanese_fonts
+    try:
+        verify_japanese_fonts()
+    except (ValueError, OSError) as exc:
+        fail(errors, f"Japanese font coverage: {exc}")
 
     # Only :root color tokens belong to the global paper/ink contrast test.
     # Scoped dark research exhibits are audited against their actual backgrounds by axe.
