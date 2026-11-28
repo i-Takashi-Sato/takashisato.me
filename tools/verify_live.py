@@ -32,6 +32,8 @@ ROUTES = {
     **{f"/pdf/v6.2/{slug}.pdf": f"pdf/v6.2/{slug}.pdf" for slug in SLUGS},
     **{f"/citations/v6.2/{slug}.{ext}": f"citations/v6.2/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
     **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about", "archive")},
+    "/assets/fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2": "assets/fonts/TakashiNameSerif.fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f.woff2",
+    "/assets/fonts/TakashiNameSerif-OFL.txt": "assets/fonts/TakashiNameSerif-OFL.txt",
     # Check the exact URLs used by newly generated HTML as well as the legacy aliases.
     **{"/" + runtime_path(name): runtime_path(name) for name in RUNTIME_NAMES},
     **{f"/{name}": name for name in (

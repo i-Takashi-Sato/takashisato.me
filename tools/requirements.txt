@@ -1,2 +1,4 @@
 Pillow==13.0.0
 pypdf==7.1.1
+fonttools==4.63.0
+Brotli==1.2.0

@@ -83,10 +83,36 @@ def woff2(source: bytes) -> bytes:
     return data
 
 
+ROOT = Path(__file__).resolve().parents[1]
+SUBSET_SOURCE = ROOT / "src/fonts/TakashiNameSerif-Medium.otf"
+SUBSET_SHA256 = "3a716316c099c1dd028e799146f72367fc5e9be4ab5f91279b66232d01c93c01"
+WOFF2_SHA256 = "fcd03174884134e07fedbe5c8f361d37015b9b7c942a3c960e3c9687dee8b17f"
+NAME_FONT_PATH = "assets/fonts/TakashiNameSerif." + WOFF2_SHA256 + ".woff2"
+
+
+def build_name_font() -> str:
+    data = SUBSET_SOURCE.read_bytes()
+    if sha256(data).hexdigest() != SUBSET_SHA256:
+        raise ValueError("Committed author font source digest mismatch")
+    payload = woff2(data)
+    if sha256(payload).hexdigest() != WOFF2_SHA256:
+        raise ValueError("Author font build is not byte-identical to the verified output")
+    target = ROOT / NAME_FONT_PATH
+    if target.exists() and target.read_bytes() != payload:
+        raise ValueError("Immutable author font path contains different bytes")
+    if not target.exists():
+        target.write_bytes(payload)
+    return NAME_FONT_PATH
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--prepare", action="store_true", help="Reproduce the derivative from the pinned upstream file")
     parser.add_argument("--source", type=Path, help="Local pinned upstream OTF; otherwise fetch the exact commit")
     args = parser.parse_args()
+    if not args.prepare:
+        print(build_name_font())
+        return
     if args.source:
         data = args.source.read_bytes()
     else:

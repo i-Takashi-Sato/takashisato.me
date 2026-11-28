@@ -27,6 +27,8 @@ if str(ROOT) not in sys.path:
 from src.archive.abstracts import ABSTRACTS
 from src.archive.citations import citation_export
 from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path, runtime_url
+from build_name_font import NAME_FONT_PATH, WOFF2_SHA256, verify_font
+from fontTools.ttLib import TTFont
 from src.archive.model import (
     AUTHOR_ID,
     GOOGLE_SITE_VERIFICATION,
@@ -448,6 +450,8 @@ def audit_assets(errors: list[str]) -> None:
         "fonts/Newsreader-OFL.txt",
         "fonts/MeaCulpa.woff2",
         "fonts/MeaCulpa-OFL.txt",
+        "fonts/TakashiNameSerif-OFL.txt",
+        NAME_FONT_PATH.removeprefix("assets/"),
         "og/home.jpg",
         "og/archive.jpg",
         "og/papers.jpg",
@@ -536,6 +540,19 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"{family} license record is missing or invalid")
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
+
+    name_font = ROOT / NAME_FONT_PATH
+    try:
+        if hashlib.sha256(name_font.read_bytes()).hexdigest() != WOFF2_SHA256 or name_font.stat().st_size > 6000:
+            raise ValueError("Author font digest or size mismatch")
+        with TTFont(name_font) as subset_font:
+            verify_font(subset_font)
+        if name_font.name not in css or "unicode-range:U+4F50,U+85E4,U+8CB4,U+58EB" not in css:
+            raise ValueError("Author font URL or four-codepoint range mismatch")
+        if "SIL OPEN FONT LICENSE Version 1.1" not in (ROOT / "assets/fonts/TakashiNameSerif-OFL.txt").read_text(encoding="utf-8"):
+            raise ValueError("Missing author font license")
+    except (OSError, ValueError) as exc:
+        fail(errors, f"author font: {exc}")
 
     # Only :root color tokens belong to the global paper/ink contrast test.
     # Scoped dark research exhibits are audited against their actual backgrounds by axe.

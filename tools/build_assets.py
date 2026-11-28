@@ -12,6 +12,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
+from build_name_font import build_name_font
 
 STYLE_SOURCES = (
     ROOT / "src/styles/base.css",
@@ -100,6 +101,7 @@ def validate_source_inventory(paths: tuple[Path, ...], directory: Path, suffix: 
 
 
 def build_assets() -> None:
+    build_name_font()
     validate_source_inventory(STYLE_SOURCES, ROOT / "src/styles", ".css")
     validate_source_inventory(SCRIPT_SOURCES, ROOT / "src/scripts", ".js")
     (ROOT / "assets/site.css").write_text(
