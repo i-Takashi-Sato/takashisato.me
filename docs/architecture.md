@@ -4,8 +4,7 @@ The archive is a static publishing system, not a web application.
 
 ## Source and output
 
-`src/` is the authoring source. Root HTML and `assets/site.css` and `assets/site.js`
-are deterministic build output committed for GitHub Pages.
+`src/` is the authoring source. Root HTML and the current SHA-256-named CSS and JS bundles are deterministic build output committed for GitHub Pages. Unversioned legacy assets are frozen compatibility records.
 
 Research metadata has one canonical source: `src/archive/model.py`. Paper titles, DOI,
 SSRN identifiers, publication dates, page counts, preserved-file sizes, and SHA-256
@@ -46,8 +45,7 @@ Code names should describe research semantics (`route`, `capacity`, `authority`,
 
 ## Generated-file discipline
 
-Generated files are committed only when `python tools/build_site.py` and
-`python tools/generate_og.py` have been run. CI rebuilds and rejects both modified tracked output and untracked generated files. The active CSS and JavaScript directories must match their declared build inventories; retired experiments remain recoverable in Git history, not in the active source.
+Generated files are committed only after `python tools/build_site.py` has run with the pinned requirements; it generates OG assets before rendering HTML. CI rebuilds and rejects both modified tracked output and untracked generated files. The active CSS and JavaScript directories must match their declared build inventories; retired experiments remain recoverable in Git history, not in the active source.
 Python bytecode, local screenshots, Lighthouse working directories, and package caches
 are never repository content.
 
@@ -59,7 +57,7 @@ The Papers index contains a stable, semantic concept register. Citation-copy con
 
 ## Content-addressed runtime delivery
 
-Current HTML references the SHA-256-named CSS and JS bundles derived from the exact deterministic build bytes. The legacy `assets/site.css` and `assets/site.js` paths remain available for older links and are still byte-verified. Historical fingerprinted bundles are retained so cached documents cannot lose their referenced resources; the inventory validates their names, hashes and size limits. The current page still loads only one stylesheet and one script. No stylesheet or script content was changed in the initial migration.
+Current HTML and styles reference SHA-256-named CSS, JS, OG cards and webfonts. The production manifest is generated at `src/archive/asset-manifest.json`. Legacy aliases are frozen at the verified repository base a311ddf, remain available, and are still byte-verified; new builds never overwrite those aliases. All historical published fingerprinted assets remain available and their names, hashes and size limits are audited. The page still loads only one stylesheet and one script. The author name alone uses the four-codepoint Medium (500) derivative of Noto Serif CJK JP; Japanese guide prose uses system fonts. See `tools/build_name_font.py` and the OFL record for source provenance and deterministic WOFF2 generation.
 
 The concept register's secondary preserved-PDF links now point to exact starting pages in the immutable current v6.3 manuscripts. Each page range is checked for bounds and its source heading is located in the preserved PDF. This verifies locators, not external construct validity. The SSRN reading route remains primary.
 

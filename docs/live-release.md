@@ -27,3 +27,9 @@ The personal publication catalogue HTML and JSON are audited alongside the estab
 ## Retired notice delivery
 
 The three noindex legacy prototype notices are included in exact-byte live verification. Their visible text and navigation contrast are checked in visual smoke at 390 and 1440 CSS pixels; the original v6.3 manuscript and citation bytes remain untouched.
+
+## Final content-addressed release
+
+The final candidate freezes legacy CSS, JS, OG and existing font aliases at the public repository base `a311ddf` instead of rewriting mutable URLs. New CSS/JS, OG and font references are content-addressed. The strict delivered-byte comparison still includes every legacy URL as well as current assets. Historical immutable assets remain available. Current hashed CSS/JS/JPEG/WOFF2 responses must additionally advertise `immutable` and at least a one-year `max-age`; the live audit treats a missing policy as a failure, not as an exception.
+
+Cloudflare administration is separate from the repository: configure the production response policy only for the SHA-256-named assets (not HTML or legacy aliases), and purge stale legacy URL entries individually when necessary. A repository build or a Pages deployment cannot establish that this provider configuration has been applied. The final public verification must pass on all resources, without lowering thresholds.

@@ -122,6 +122,7 @@ def run(engine: str) -> int:
                     page.emulate_media(media="screen")
                 records.append({"engine": engine, "mode": mode, "page": name, "metrics": metrics, "problems": problems})
                 if problems:
+                    print(f"{prefix} diagnostic geometry: {json.dumps(metrics, ensure_ascii=False)}", flush=True)
                     failures.extend(f"{prefix}: {problem}" for problem in problems)
                 if problems or mode == "large-text":
                     # WebKit can exceed its raster limit even when scrollHeight

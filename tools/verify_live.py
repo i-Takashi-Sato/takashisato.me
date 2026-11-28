@@ -90,10 +90,10 @@ def cache_details(headers) -> str:
 
 
 def immutable_cache_error(route: str, cache_control: str) -> str | None:
-    if not re.fullmatch(r"/assets/.+\\.[0-9a-f]{64}\\.(?:css|js|jpg|woff2)", route):
+    if not re.fullmatch(r"/assets/.+\.[0-9a-f]{64}\.(?:css|js|jpg|woff2)", route):
         return None
     directives = {value.strip().lower() for value in cache_control.split(",")}
-    ages = [int(m[1]) for value in directives if (m := re.fullmatch(r"max-age=(\\d+)", value))]
+    ages = [int(m[1]) for value in directives if (m := re.fullmatch(r"max-age=(\d+)", value))]
     if ("immutable" not in directives or len(ages) != 1 or ages[0] < 31536000
             or directives & {"no-cache", "no-store", "private"}):
         return f"{route}: immutable long-cache policy missing: {cache_control!r}"

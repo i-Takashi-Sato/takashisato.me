@@ -46,12 +46,12 @@ runtime, remote font request, client-side router, account system, or UI package.
 ## Build
 
 ```bash
+python -m pip install --requirement tools/requirements.txt
 python tools/build_site.py
-python tools/generate_og.py
 python tools/verify_v63.py
 ```
 
-`build_site.py` compiles source assets before rendering pages. CI then rebuilds the
+`build_site.py` generates social cards and the four-character author-name WOFF2, compiles source assets, and renders pages from the SHA-256 asset manifest. Previously published unversioned CSS, JS, OG and font aliases remain frozen; the current build never writes them. CI then rebuilds the
 archive, requires a clean generated diff, validates HTML and accessibility, verifies
 identifiers and preserved PDFs, runs Lighthouse budgets, and captures multi-viewport
 visual smoke screenshots.

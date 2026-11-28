@@ -486,7 +486,7 @@ def audit_assets(errors: list[str]) -> None:
               "fonts/Newsreader-Variable.woff2": 150_000,
               "fonts/MeaCulpa.woff2": 50_000}
     for name in actual_assets - expected_assets:
-        match = re.fullmatch(r"(.+)\\.([0-9a-f]{64})\\.(css|js|woff2|jpg)", name)
+        match = re.fullmatch(r"(.+)\.([0-9a-f]{64})\.(css|js|woff2|jpg)", name)
         if not match:
             continue
         legacy_name = f"{match[1]}.{match[3]}"
