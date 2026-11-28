@@ -8,7 +8,7 @@ ORCID: 0009-0003-1584-6965
 Takashi Sato
 Current research collection: The Proper Ending Index
 Static HTML, CSS, and progressive JavaScript
-Three self-hosted type families; no framework runtime
+Self-hosted typography and a four-character author-name subset; no framework runtime
 Current research version: 6.3
 Last update: 2026-11-28
 
