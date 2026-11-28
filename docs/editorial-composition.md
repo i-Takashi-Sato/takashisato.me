@@ -18,3 +18,7 @@ Compare actual rendered screenshots, including 320/390/768/1440 widths, to previ
 - https://developer.mozilla.org/en-US/docs/Web/CSS/text-autospace
 - https://web.dev/articles/optimize-lcp
 - https://mitpress.mit.edu/celebrating-muriel-coopers-legacy-on-world-design-day/
+
+## Catalogue reading entry
+
+The previous 1440 × 900 screenshot showed no publication title in the initial viewport. Share the already bounded collection hero spacing and use the existing compact section rhythm, without changing the catalogue's information hierarchy. Check first-title visibility on desktop and mobile. Keep deliberate white space, but do not make it delay access to the work.

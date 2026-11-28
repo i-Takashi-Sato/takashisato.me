@@ -108,7 +108,7 @@ body[data-page="home"] a.sequence-row:hover,body[data-page="papers"] .sequence-r
 @media(forced-colors:active){.portrait-chamber{background:Canvas;color:CanvasText}}
 
 /* Editorial composition: independent tracks for text and research plates. */
-body[data-page="papers"] .page-hero {min-height:0;padding-block:clamp(2.8rem,6vw,6.5rem) clamp(2rem,4vw,4rem)}
+body[data-page] .page-hero {min-height:0;padding-block:clamp(2.8rem,6vw,6.5rem) clamp(2rem,4vw,4rem)}
 body[data-page="papers"] .page-hero h1 {max-width:15ch}
 body[data-page="papers"] .research-map-section {margin-top:0;padding-bottom:clamp(2rem,4vw,4rem)}
 body[data-page="papers"] .research-map {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);background:var(--paper)}
@@ -137,7 +137,7 @@ body[data-tone^="part-"] .content>section+section {margin-top:clamp(3.4rem,6vw,6
   body[data-tone^="part-"] .paper-hero>.paper-meta {margin-top:1.65rem}
 }
 @media(max-width:44rem) {
-  body[data-page="papers"] .page-hero,body[data-tone^="part-"] .paper-hero {padding-block:2.25rem 2.5rem}
+  body[data-page] .page-hero,body[data-tone^="part-"] .paper-hero {padding-block:2.25rem 2.5rem}
   body[data-page="papers"] .page-hero h1 {max-width:16ch}
   body[data-page="papers"] .research-map {grid-template-columns:1fr}
   body[data-page="papers"] .research-map-node {grid-template-columns:minmax(0,1fr) minmax(5rem,.58fr);grid-template-rows:auto auto 1fr;column-gap:.85rem;row-gap:.45rem;border-right:0;border-bottom:1px solid var(--line);padding:1rem}

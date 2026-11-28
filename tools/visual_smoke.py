@@ -805,6 +805,20 @@ def japanese_glyph_errors(browser, errors: list[str]) -> None:
     context.close()
 
 
+def catalogue_entry_errors(browser, errors: list[str]) -> None:
+    """The first catalogue record should be visible without scrolling."""
+    for width, height in ((390, 844), (1440, 900)):
+        context = browser.new_context(viewport={"width": width, "height": height})
+        page = context.new_page()
+        page.goto(BASE + "/publications/", wait_until="networkidle")
+        heading = page.locator(".sequence-title").first
+        box = heading.bounding_box()
+        if not box or box["y"] >= height:
+            errors.append(f"publications@{width}: first publication title starts below the initial viewport: {box}")
+        print(f"publications@{width}: first title {box}")
+        context.close()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
@@ -847,6 +861,7 @@ def main() -> None:
         author_archive_entry_errors(browser, errors)
         legacy_notice_errors(browser, errors)
         japanese_glyph_errors(browser, errors)
+        catalogue_entry_errors(browser, errors)
         browser.close()
 
     if errors:
