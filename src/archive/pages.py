@@ -93,7 +93,7 @@ def home_page() -> str:
               <div>
                 <h3 class="sequence-title">{paper['title']}</h3>
                 <p class="sequence-copy">{paper['question']} {paper['description']}</p>
-                <span class="sequence-state">{paper['state']} · v6.2 · {paper['pages']} pages</span>
+                <span class="sequence-state">{paper['state']} · v6.3 · {paper['pages']} pages</span>
               </div>
             </a>
             """
@@ -142,11 +142,11 @@ def home_page() -> str:
               <h2 id="verification-register">Verification register.</h2>
               <div>
                 <p class="label">Part I / Finite contract</p>
-                <p>The v6.2 independent reimplementation reported in Part I covers 1,024 Stage-1 and 1,248 applicable Stage-2 configurations and nine isolated guard mutations. It is not an independent third-party replication. <a href="/papers/part1.html#verification">Truth-table abstraction and invariant checks.</a></p>
+                <p>Part I reports 1,024 Stage-1 and 1,144 Stage-2 inputs and an integrated model with 134,672 reachable states. It is not an independent third-party replication. <a href="/papers/part1.html#verification">Truth-table abstraction and invariant checks.</a></p>
                 <p class="label">Part II / Descriptive model</p>
                 <p>Five rejectable propositions and a comparative retirement test. <a href="/papers/part2.html#propositions">Criteria for empirical rejection, not evidence of a validated classification.</a></p>
                 <p class="label">Part III / Transition protocol</p>
-                <p>Frozen v5.9 execution, carried forward in v6.2: 8,564 reachable states, 36,096 enabled transitions and 30 guard mutations within a selected finite abstraction. Synthetic benchmark results are also carried forward; no new execution is claimed in v6.2. <a href="/papers/part3.html#verification">Verification scope and disclosed execution provenance.</a></p>
+                <p>The historical model has 8,564 states and 36,096 transitions; 1,152 states have no path to closure, including 288 stranded retirement-authorized states. Revised bounded PE-R1 has 98,948 reachable states. <a href="/papers/part3.html#verification">Verification scope and disclosed execution provenance.</a></p>
                 <p>These quantities describe different research objects. They are not comparable measures of validity, performance or practical effectiveness.</p>
               </div>
             </div>
@@ -237,7 +237,7 @@ def papers_index_page() -> str:
                     <h2 class="sequence-title"><a href="/papers/{paper['slug']}.html">{paper['title']}</a></h2>
                     <p class="paper-subtitle">{paper['subtitle']}</p>
                     <p class="sequence-copy">{paper['description']}</p>
-                    <span class="sequence-state">SSRN {paper['ssrn']} · DOI {paper['doi']} · v6.2 · {paper['pages']} pages</span>
+                    <span class="sequence-state">SSRN {paper['ssrn']} · DOI {paper['doi']} · v6.3 · {paper['pages']} pages</span>
                     <div class="hero-actions">
                       <a class="button primary" href="/papers/{paper['slug']}.html">Paper record</a>
                       <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Read PDF ({paper['pages']} pages) — Part {paper['roman']}, version {VERSION}">Read PDF ({paper['pages']} pages)</a>
@@ -260,8 +260,8 @@ def papers_index_page() -> str:
             <div class="paper-meta" data-reveal>
               <span>Author · Takashi Sato</span>
               <span>Status · Working papers</span>
-              <span>Current version · 6.2</span>
-              <span>Updated · 23 August 2026</span>
+              <span>Current version · 6.3</span>
+              <span>Updated · 28 November 2026</span>
             </div>
           </header>
           <section class="research-map-section" aria-label="Trilogy research map">
@@ -279,7 +279,7 @@ def papers_index_page() -> str:
               <h2>Reading order is useful, not mandatory.</h2>
               <div>
                 <p>Part I specifies a case-level routing contract. Part II models institutional loss over time. Part III specifies containment, accountable retirement, and authority transfer. Each paper contains its own definitions, limitations, and verification boundary.</p>
-                <p>For citation and version history, use the SSRN record as the primary external research record. Local PDFs are preserved copies of version 6.2. <a href="#concepts">Browse concepts and evidence.</a> <a href="#japanese" lang="ja">日本語の研究案内</a></p>
+                <p>For citation and version history, use the SSRN record as the primary external research record. Current PDFs match the SSRN downloads. Earlier versions remain preserved at the individual records. <a href="#concepts">Browse concepts and evidence.</a> <a href="#japanese" lang="ja">日本語の研究案内</a></p>
               </div>
             </div>
           </section>
@@ -291,7 +291,7 @@ def papers_index_page() -> str:
                   <h2 id="japanese-title">{ja_phrases("AIガバナンス", "における", "権限と責任")}</h2>
                   <p class="section-intro">AIを用いる組織は、いかにして判断の主体であり続けられるか。</p>
                   <p class="section-intro">個別案件の処理、組織の統治能力、運用の終了という三つの水準から考察する。診断、暫定的な判定、検知指標は、それ自体では制度上の決定権限を持たない。三論文に共通する原則である。</p>
-                  <p class="section-intro">三論文はワーキングペーパー（v6.2、2026年8月23日改訂）である。以下は英語の原論文に基づく概要であり、正式な翻訳でも新たな研究結果でもない。</p>
+                  <p class="section-intro">三論文はワーキングペーパー（v6.3、2026年11月28日改訂）である。以下は英語の原論文に基づく概要であり、正式な翻訳でも新たな研究結果でもない。</p>
                 </div>
               </div>
               <div class="record-list">
@@ -305,10 +305,10 @@ def papers_index_page() -> str:
                 </article>
                 <article class="record-row">
                   <div><p class="label">第二部 ／ 統治能力</p><h3>{ja_phrases("手続が維持されていても、", "統治できているか")}</h3></div>
-                  <div><p>外形上の手続遵守が維持され、あるいは改善していても、独立した判断の寄与と実効的な統治能力がともに実質的かつ持続的に低下し、あらかじめ定めた保護対象機能も実質的に損なわれることがある。これら四つの要件をすべて満たす状態を、手続に覆われた統治能力の喪失（<span lang="en">Procedurally Masked Governing-Capacity Loss; PMGCL</span>）と呼ぶ。この定義だけでは成因を特定できない。</p>
-                    <p>PMGCLの成因に関する暫定的な下位類型が、<span lang="en">Pre-Abuse Collapse</span>（<span lang="en">PAC</span>）である。悪意ある行為の経路について、あらかじめ介入条件または参照条件を定める。その条件の下で、通常の組織的要因への曝露が保護対象機能に実質的な悪影響を及ぼすことを示す因果的対比が識別された場合に限り、PACと分類する。</p>
-                    <p>「<span lang="en">Pre-Abuse</span>」は、崩壊が悪意ある行為よりも先に起こるという意味ではない。PACと分類できても、悪意ある行為がなかったとはいえず、十分原因の構成要素（<span lang="en">sufficient component cause</span>）として不要だったともいえない。</p>
-                    <p>いずれの概念も、実証的な妥当性はまだ確認されていない。既存理論や、構成要素を連続量で扱うモデルと比較する。拠点または期間を分けた検証で、判別力、早期把握のための先行時間、較正、介入判断への有用性のいずれにも再現可能な付加価値が認められなければ、その概念の独立した使用を撤回する。PACについては、さらに再現可能な因果的識別と、記述的な状態分類を超える付加価値を要する。</p>
+                  <div><p>外形上の手続遵守が維持され、あるいは改善していても、独立した判断の寄与と実効的な統治能力がともに実質的かつ持続的に低下し、あらかじめ定めた保護対象機能も実質的に損なわれることがある。これら四つの条件がすべて成立する状態を、手続の継続下における統治能力の喪失（<span lang="en">GCL-PC</span>）と呼ぶ。隠蔽や特定の成因を定義の要件としない。</p>
+                    <p>各条件は成立、非成立、判定不能に区別する。81通りの組合せのうち、成立は1、非成立は65、判定不能は15である。非成立は組織の健全性を意味しない。</p>
+                    <p>成因については記述的分類とは別に、特定の悪意ある行為の経路を無効にする介入の下で、通常の組織的要因への曝露が保護対象の結果を実質的に損なうかを問う。因果効果の識別と効果の評価は区別する。</p>
+                    <p>実証的な妥当性は未確認である。評価前に保持と撤回の条件を登録し、既存理論や各構成要素を連続量として扱うモデルと比較する。特定の用途で意思決定を改善できない場合、その用途での二値分類を撤回する。</p>
                     <p><a href="/papers/part2.html">論文・状態モデルと反証条件{ja_phrases("（英語）")}</a></p></div>
                 </article>
                 <article class="record-row">
@@ -323,7 +323,7 @@ def papers_index_page() -> str:
               <div class="ja-evidence">
                 <h3>検証の範囲</h3>
                 <div>
-              <p class="section-intro">第一部と第三部の形式的検証で確認したのは、著者が定めた有限の抽象化の範囲内で、設定した不変条件が破られないことに限られる。第二部では記述モデルと反証可能な研究計画を提示する。第三部の合成データによる試験では、指標の実装と、どのような条件で失敗するかを調べる。いずれも現実の組織における有効性や検出性能を実証するものではない。</p>
+              <p class="section-intro">第一部の統合モデルでは134,672の到達可能状態を検証し、定めた実行要件への違反や非終端状態のデッドロックがなく、全状態から結果の記録に至る経路が存在した。第三部の旧モデルでは安全条件に違反しない一方、1,152状態から終結に至る経路がなく、うち288状態では終了の承認後に進行不能となった。改訂モデルPE-R1では、再封じ込めを一回に制限した98,948の到達可能状態について、安全条件への違反も終結に到達できない状態もなかった。第二部は記述モデルと反証可能な研究計画を提示する。第三部の過去の合成試験の生成器は今回の公開資料に含まれない。いずれも現実の組織における有効性や検出性能を実証するものではない。</p>
               <p class="section-intro">オーストラリアのRobodebt制度に関する王立委員会、オランダの保育手当問題に関する議会調査、米国ミシガン州の失業保険に関する公的監査の記録から、三論文では同じ十五の記述箇所を用いている。研究目的に応じて選んだ失敗事例を、著者一人が理論に沿って分類した。示せるのは、統治に関わる対象を公的記録から追跡できるということに限られる。因果関係、発生頻度、予防効果は示さない。同じ記録を用いることは、三論文それぞれの独立した裏づけにはならない。</p>
               <p class="section-intro">独立した査読や現場検証の完了、法的な十分性、新規性の確定は、いずれも主張しない。<a href="#concepts">研究概念と根拠{ja_phrases("（英語）")}</a>、<a href="#critical-review">反証・批判の受付{ja_phrases("（英語）")}</a>も参照されたい。</p>
                 </div>
@@ -336,7 +336,7 @@ def papers_index_page() -> str:
                 <p class="label">Research architecture / 01—07</p>
                 <div>
                   <h2>Concepts and evidence.</h2>
-                  <p class="section-intro">An index of the trilogy’s research concepts, not a set of new definitions or evidence of independent validation. Each entry links to the concept’s explanation, assessment, limits, citation, and the relevant pages of the preserved v6.2 paper.</p>
+                  <p class="section-intro">An index of the trilogy’s research concepts, not a set of new definitions or evidence of independent validation. Each entry links to the concept’s explanation, assessment, limits, citation, and the relevant pages of the preserved v6.3 paper.</p>
                 </div>
               </div>
               <div class="record-list">{concept_register()}</div>
@@ -356,8 +356,8 @@ def papers_index_page() -> str:
                                 <p><a href="https://doi.org/10.1016/j.clsr.2022.105681" target="_blank" rel="noopener noreferrer">Green (2022), The flaws of policies requiring human oversight of government algorithms</a>, argues for institutional oversight. Part II should be assessed for a distinct, refutable state model rather than the general proposition that institutions matter.</p>
                                 <p><a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" target="_blank" rel="noopener noreferrer">NIST AI RMF 1.0 (2023), GOVERN 1.7 and MANAGE 4.1</a>, already addresses safe decommissioning, appeal, recovery, and ongoing monitoring. Part III's claimed contribution must rest on what its proposed transition constraints add to that baseline.</p>
                                 <p><a href="https://doi.org/10.1007/s43681-026-01147-7" target="_blank" rel="noopener noreferrer">Zhu et al. (2026), Designing meaningful human oversight in AI</a>, distinguishes human evaluative agency from AI operative agency and describes concrete oversight patterns. Parts I and II should be compared on the level of explicit states, authority rules, and testability.</p>
-                                <p>These are questions for comparison, not determinations of originality, priority, reproducibility, or practical effectiveness. The three papers remain version 6.2; this site note does not revise their references or claims.</p>
-                <p>Send critiques, relevant prior work, or reproducible counterexamples to <a href="mailto:i@takashisato.me?subject=Critical%20review%20of%20AI%20governance%20working%20papers">i@takashisato.me</a>. Please identify the paper, version 6.2, section or page, and supporting reasoning. This invitation is not a claim of completed independent peer review or field validation.</p>
+                                <p>These are questions for comparison, not determinations of originality, priority, reproducibility, or practical effectiveness. The three papers remain version 6.3; this site note does not revise their references or claims.</p>
+                <p>Send critiques, relevant prior work, or reproducible counterexamples to <a href="mailto:i@takashisato.me?subject=Critical%20review%20of%20AI%20governance%20working%20papers">i@takashisato.me</a>. Please identify the paper, version 6.3, section or page, and supporting reasoning. This invitation is not a claim of completed independent peer review or field validation.</p>
               </div>
             </div>
           </section>
@@ -367,7 +367,7 @@ def papers_index_page() -> str:
     return shell_page(
         head_html=head(
             title="AI Governance Working Papers — The Proper Ending Index · Takashi Sato",
-            description="Takashi Sato’s v6.2 AI governance working-paper trilogy on decision routing, governing-capacity loss, Proper Ending, and Authority Return.",
+            description="Takashi Sato’s v6.3 AI governance working-paper trilogy on decision routing, governing-capacity loss, Proper Ending, and Authority Return.",
             path="/papers/",
             image="/assets/og/papers.jpg",
             schema=schema,
@@ -401,7 +401,7 @@ def paper_page(paper: Paper) -> str:
         content = part2_content()
         toc = [
             ("overview", "Question"),
-            ("state-model", "State model"),
+            ("state-model", "Profile model"),
             ("mechanisms", "Mechanisms"),
             ("propositions", "Propositions"),
             ("boundary", "Boundary"),
@@ -422,7 +422,7 @@ def paper_page(paper: Paper) -> str:
     abstract_html = "".join(f"<p>{escape(paragraph)}</p>" for paragraph in ABSTRACTS[paper["slug"]])
     citation = (
         f"Sato, Takashi. “{paper['title']}: {paper['subtitle']}.” Working Paper, "
-        f"version 6.2, 23 August 2026. https://doi.org/{paper['doi']}."
+        f"version 6.3, 28 November 2026. https://doi.org/{paper['doi']}."
     )
     body = dedent(
         f"""
@@ -437,15 +437,15 @@ def paper_page(paper: Paper) -> str:
             </div>
             <div class="paper-meta" data-reveal>
               <span>Takashi Sato</span>
-              <span>Working paper · v6.2</span>
-              <span>23 August 2026</span>
+              <span>Working paper · v6.3</span>
+              <span>28 November 2026</span>
               <span>{paper['pages']} pages</span>
               <span>SSRN {paper['ssrn']}</span>
             </div>
             <div class="paper-actions" data-reveal>
               <a class="button primary" href="{ssrn_url(paper)}" target="_blank" rel="noopener noreferrer">SSRN research record <span class="arrow" aria-hidden="true">↗</span></a>
               <a class="button" href="#abstract" aria-label="Read abstract">Abstract <span aria-hidden="true">↓</span></a>
-              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Preserved PDF · v6.2">PDF · v6.2</a>
+              <a class="button" href="/pdf/v{VERSION}/{paper['slug']}.pdf" aria-label="Preserved PDF · v6.3">PDF · v6.3</a>
               <a class="button" href="https://doi.org/{paper['doi']}" target="_blank" rel="noopener noreferrer">DOI <span class="arrow" aria-hidden="true">↗</span></a>
             </div>
           </header>
@@ -458,12 +458,12 @@ def paper_page(paper: Paper) -> str:
               </nav>
               <article class="content" data-reveal>
                 <h2 class="sr-only">Part {paper['roman']} analysis</h2>
-                <section id="abstract"><p class="eyebrow">Author abstract · v{VERSION}</p><h2>Abstract</h2>{abstract_html}<p class="caveat">Transcribed from <a href="/pdf/v{VERSION}/{paper['slug']}.pdf#page=2">the preserved paper, page 2</a>. The original includes the generative-AI disclosure.</p></section>
+                <section id="abstract"><p class="eyebrow">Author abstract · v{VERSION}</p><h2>Abstract</h2>{abstract_html}<p class="caveat">Transcribed from <a href="/pdf/v{VERSION}/{paper['slug']}.pdf#page=1">the preserved paper, page 1</a>. The PDF is the canonical text.</p></section>
                 {content}
                 <section id="citation">
                   <p class="eyebrow">Citation &amp; preservation</p>
                   <h2>Cite the versioned record.</h2>
-                  <p>The SSRN page is the primary external research record. The local file is a preserved copy of version 6.2 for stable access.</p>
+                  <p>The SSRN page is the primary external research record. The local PDF matches the verified SSRN download. <a href="/pdf/v6.2/{paper['slug']}.pdf">Previous version (v6.2, 23 August 2026)</a> · <a href="/citations/v6.2/{paper['slug']}.json">Previous citation record</a>. <a href="/reproduction/v6.3/trilogy_v6.3_publication_6953eeb9.zip">Source and reproduction archive (ZIP)</a>.</p>
                   <p>To challenge an assumption, identify relevant prior work, or report a counterexample, see the <a href="/papers/#critical-review">critical-review questions and contact route</a>.</p>
                   <div class="citation">{citation}</div>
                   <div class="paper-actions"><a class="button" href="/citations/v{VERSION}/{paper['slug']}.bib" download>Export BibTeX</a><a class="button" href="/citations/v{VERSION}/{paper['slug']}.ris" download>Export RIS</a><a class="button" href="/citations/v{VERSION}/{paper['slug']}.json" download>Export CSL-JSON</a></div>
@@ -526,7 +526,7 @@ def about_page() -> str:
                 "@id": f"{SITE}/about.html#profile",
                 "url": f"{SITE}/about.html",
                 "name": "Takashi Sato (佐藤貴士) · Author Record",
-                "dateModified": "2026-11-26",
+                "dateModified": "2026-11-28",
                 "description": "Independent research in Sapporo, Japan. Current research: AI governance.",
                 "mainEntity": {"@id": AUTHOR_ID},
             },
@@ -552,7 +552,7 @@ def about_page() -> str:
               </div>
               <div class="portrait-position">
                 <p class="portrait-question">What remains when form and function diverge?</p>
-                <p>I study authority, responsibility, and independent judgment. My current research asks how institutions retain the capacity to govern AI-assisted decisions, how that capacity is lost, and what an accountable exit requires.</p>
+                <p>I study authority, responsibility, and independent judgment within institutions. My current research examines how institutions retain the capacity to govern AI-assisted decisions, how that capacity is lost, and what an accountable exit requires.</p>
               </div>
             </div>
           </header>
@@ -634,7 +634,7 @@ def utility_page(
                         "url": f"{SITE}/{slug}",
                         "name": title,
                         "description": description,
-                        "dateModified": "2026-11-24" if slug == "colophon.html" else UPDATED,
+                        "dateModified": "2026-11-28" if slug == "colophon.html" else UPDATED,
                         "author": {"@id": AUTHOR_ID},
                     },
                     AUTHOR,
@@ -652,11 +652,11 @@ def legacy_notice(*, path: str, part: int | None = None) -> str:
         paper = PAPERS[part - 1]
         title = f"Part {paper['roman']} prototype superseded"
         destination = f"/papers/{paper['slug']}.html"
-        detail = "This prototype encoded an earlier research architecture and does not represent the current v6.2 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification."
+        detail = "This prototype encoded an earlier research architecture and does not represent the current v6.3 paper. It has been retired to prevent a legacy visualization from being mistaken for the present specification."
     else:
         title = "Research prototypes retired"
         destination = "/papers/"
-        detail = "The earlier interactive prototypes do not implement the current v6.2 papers. The paper records now provide the authoritative definitions, verification results, and claim boundaries."
+        detail = "The earlier interactive prototypes do not implement the current v6.3 papers. The paper records now provide the authoritative definitions, verification results, and claim boundaries."
 
     body = dedent(
         f"""

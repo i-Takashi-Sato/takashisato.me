@@ -12,10 +12,7 @@ The general publication catalogue is generated at `/publications/` and `/publica
 
 ## Research record
 
-The public archive preserves version 6.2 of the *Workflow-Centric AI Governance
-Trilogy* (revision date: 23 August 2026). SSRN is the primary external research
-record; `/pdf/v6.2/` contains immutable preserved copies with published byte counts
-and SHA-256 digests.
+The current *Workflow-Centric AI Governance Trilogy* is v6.3 (revision date: 28 November 2026). SSRN is the primary external research record. `/pdf/v6.3/` contains byte-identical copies of the verified SSRN downloads. `/reproduction/v6.3/trilogy_v6.3_publication_6953eeb9.zip` preserves the source archive. Earlier v6.2 PDFs and citations remain at their original versioned paths.
 
 | Part | Research function | SSRN | DOI |
 |---|---|---:|---|

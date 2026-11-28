@@ -53,9 +53,9 @@ SOCIAL_PROFILES: Final = (
     ("Instagram", "@takashisato.me", "https://www.instagram.com/takashisato.me/"),
 )
 
-UPDATED: Final = "2026-09-23"
-PAPER_REVISION_DATE: Final = "2026-08-23"
-VERSION: Final = "6.2"
+UPDATED: Final = "2026-11-28"
+PAPER_REVISION_DATE: Final = "2026-11-28"
+VERSION: Final = "6.3"
 ASSET_VERSION: Final = "6.28.0"
 
 GOOGLE_SITE_VERIFICATION: Final = "ESXaqBbWmxcZWPt2W_eI3ROS20FTy-KOziE5jfw0OSM"
@@ -94,7 +94,7 @@ AUTHOR: dict[str, object] = {
         "human oversight",
         "workflow governance",
         "governing capacity",
-        "Procedurally Masked Governing-Capacity Loss",
+        "Governing-capacity loss under procedural continuity (GCL-PC)",
         "accountable exit",
         "Proper Ending",
         "Authority Return",
@@ -108,14 +108,14 @@ PAPERS: list[Paper] = [
         "tone": "part-1",
         "slug": "part1",
         "title": "Workflow-Centric AI Governance",
-        "subtitle": "A Typed Gate Contract for Accountable Human-AI Decisions",
+        "subtitle": "A Typed Gate Contract for Accountable Human–AI Decisions",
         "description": "A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.",
         "ssrn": "5911063",
         "doi": "10.2139/ssrn.5911063",
         "posted": "2026-01-09",
-        "pages": 18,
-        "bytes": 514075,
-        "sha256": "edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8",
+        "pages": 21,
+        "bytes": 188461,
+        "sha256": "2a486605e10445df74066cec6704646c24ea9351f9ad79a6b5b4970e95f3c78f",
         "function": "Route the case",
         "question": "What may happen next?",
         "state": "Typed case contract",
@@ -126,17 +126,17 @@ PAPERS: list[Paper] = [
         "tone": "part-2",
         "slug": "part2",
         "title": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions",
-        "subtitle": "A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
-        "description": "A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.",
+        "subtitle": "A Descriptive Profile Model and a Rejection-Oriented Research Program",
+        "description": "A non-compensatory descriptive profile of governing-capacity loss under procedural continuity, with a separate causal question and a rejection-oriented research program.",
         "ssrn": "5913703",
         "doi": "10.2139/ssrn.5913703",
         "posted": "2026-01-12",
-        "pages": 20,
-        "bytes": 562947,
-        "sha256": "6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88",
+        "pages": 28,
+        "bytes": 211917,
+        "sha256": "eadac2bc35ce32200550b5c2cf5f884836455be3d7ac0cf7c3f5199750b92ae6",
         "function": "Diagnose the institution",
         "question": "Can it still govern?",
-        "state": "Descriptive state model",
+        "state": "Descriptive profile model",
     },
     {
         "part": 3,
@@ -149,9 +149,9 @@ PAPERS: list[Paper] = [
         "ssrn": "6066430",
         "doi": "10.2139/ssrn.6066430",
         "posted": "2026-02-10",
-        "pages": 39,
-        "bytes": 1032918,
-        "sha256": "7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72",
+        "pages": 55,
+        "bytes": 552532,
+        "sha256": "995239c1ce29d99cce996308ae503cc85dab77fb27e24671d60a7741f4501ab6",
         "function": "End and return authority",
         "question": "How does it end accountably?",
         "state": "Exit and authority protocol",

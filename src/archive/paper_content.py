@@ -78,6 +78,7 @@ def part1_content() -> str:
             <p class="caveat">The probe deliberately stops at a typed Stage-1 route. Signed institutional disposition and execution remain separate contracts.</p>
           </div>
           <p>All-PASS yields <strong>EXECUTION ELIGIBLE</strong> only. The actual act remains governed by a separate, versioned execution contract. A preliminary BLOCK is not a final denial, authority availability is not a decision event, and UNKNOWN cannot silently become PASS.</p>
+          <p>Every execution mode requires Gate 1 PASS with a current CLEAR hard assessment and Gate 3 PASS, bound current evidence, and execution authority. Correctable impediments require correction or reassessment; a signature cannot waive a prohibition. Modified candidates and stale evidence require revalidation.</p>
           <p>Review authority and review capacity are distinct inputs. Fallback authorization and operational readiness are distinct inputs. If either member of a pair is absent, that route is unavailable.</p>
         </section>
 
@@ -86,10 +87,10 @@ def part1_content() -> str:
           <h2>Complete over the declared truth tables.</h2>
           <div class="verification" role="list" aria-label="Verification results">
             <div role="listitem"><strong>1,024</strong><span>Stage-1 configurations enumerated</span></div>
-            <div role="listitem"><strong>1,248</strong><span>applicable Stage-2 configurations enumerated</span></div>
-            <div role="listitem"><strong>9 / 9</strong><span>isolated guard mutations produced a counterexample</span></div>
+            <div role="listitem"><strong>1,144</strong><span>applicable Stage-2 configurations enumerated</span></div>
+            <div role="listitem"><strong>134,672</strong><span>reachable integrated-model states</span></div>
           </div>
-          <p class="caveat"><strong>Execution provenance:</strong> the manuscript reports a v6.2 independent reimplementation, <code>verify_part1_contract_v62.py</code>, derived from the published finite specification rather than editing the v5.9 checker (p. 17). This is not a claim of third-party reproduction. <strong>Result:</strong> the authored functions produced zero invariant violations. “Exhaustive” means complete over the declared finite abstraction; it is not proof that the invariants are complete, comparison with external ground truth, or evidence of legal or field effectiveness.</p>
+          <p class="caveat"><strong>Execution provenance:</strong> finite-stage tests use two same-author encodings, not a claim of third-party reproduction. The integrated model has 134,672 reachable states and 1,787,292 transitions; no commitment violates separately encoded requirements, no nonterminal state is deadlocked, and every state has a path to a recorded outcome. Reachability does not imply inevitable progress or legal or field effectiveness.</p>
           <div class="fact-grid">
             <article class="fact"><code>CROSS-STAGE TEST</code><h3>Defer is not evidence hold</h3><p>A dedicated mutation catches any collapse of signed DEFER back into the Stage-1 EVIDENCE HOLD label.</p></article>
             <article class="fact"><code>PUBLIC RECORDS</code><h3>Traceability, not validation</h3><p>Fifteen author-coded units from three official investigations trace evidence, reasons, review access, authority, proportionality, feedback, and remedy.</p></article>
@@ -116,11 +117,11 @@ def part2_content() -> str:
           <p class="eyebrow">Research question</p>
           <h2>Can procedure remain visible after governing capacity has declined?</h2>
           <p class="lead">Part II models a joint institutional state in which observable process remains stable or improves while independent judgment, practical actionability, and a predeclared protected function materially deteriorate.</p>
-          <p>The primary construct is <strong>PMGCL</strong>: Procedurally Masked Governing-Capacity Loss. It is descriptive and does not assign an ordinary or malicious cause. <strong>PAC</strong>—Pre-Abuse Collapse—is only a provisional etiological subtype and requires an additional identified causal boundary.</p>
+          <p>The primary construct is <strong>GCL-PC</strong>: governing-capacity loss under procedural continuity. It implies neither concealment nor a particular cause. The ordinary-exposure causal question is separate from the profile.</p>
         </section>
 
         <section id="state-model">
-          <p class="eyebrow">Descriptive state model</p>
+          <p class="eyebrow">Descriptive profile model</p>
           <h2>Four objects must remain separate.</h2>
           <div class="model">
             <div class="model-head"><h3>Declared workflow · protected function · population · interval I</h3><span>formative, non-interchangeable elements</span></div>
@@ -130,9 +131,9 @@ def part2_content() -> str:
               <div class="construct"><strong>G</strong><b>Governing capacity</b><span>Practical ability to alter, resource, escalate, remedy, or stop.</span></div>
               <div class="construct"><strong>N</strong><b>Protected function</b><span>An independently measured, predeclared outcome—not model accuracy by default.</span></div>
             </div>
-            <div class="formula">PMGCL(I) = 1 iff F<sub>P</sub>(I) ∧ D<sub>J</sub>(I) ∧ D<sub>G</sub>(I) ∧ I<sub>N</sub>(I)<br>PAC(I) = 1 iff PMGCL(I) = 1 ∧ S<sub>NA</sub>(I) = IDENTIFIED</div>
+            <div class="formula">GCL-PC established iff F<sub>P</sub>, D<sub>J</sub>, D<sub>G</sub>, I<sub>N</sub> are all established.</div>
           </div>
-          <p>If judgment and capacity are credibly declining but protected-function impairment is not yet demonstrated, the correct state is <strong>incipient governing-capacity-loss risk</strong>. If all four descriptive conjuncts are established but the causal condition is unidentified, the correct state is <strong>realized PMGCL with etiology unresolved</strong>—not PAC.</p>
+          <p>Each condition is established, not met, or indeterminate. Of 81 profiles, one establishes GCL-PC, 65 do not meet it, and 15 remain indeterminate. Not met does not mean healthy. A separate causal specification assesses an ordinary exposure under an intervention disabling a named adversarial pathway, reporting identification and effect separately.</p>
         </section>
 
         <section id="mechanisms">
@@ -169,8 +170,8 @@ def part2_content() -> str:
           <p class="eyebrow">Claim boundary</p>
           <h2>Classification is not a detector or an accusation.</h2>
           <ul>
-            <li>The framework does not establish that any real institution satisfies PMGCL or PAC.</li>
-            <li>A verbal absence of malice, a directed acyclic graph alone, or retrospective conditioning on “no documented malice” cannot establish the PAC subtype.</li>
+            <li>The framework does not establish that any real institution satisfies GCL-PC.</li>
+            <li>A causal contrast requires a defined intervention and identification assumptions, not retrospective selection on the absence of documented adversarial conduct.</li>
             <li>The shared fifteen-unit official-record corpus supports theory-directed traceability, not frequency, necessity, sufficiency, prediction, or independent triangulation.</li>
             <li>Thresholds, measurement validity, site transportability, causal identification, and intervention utility remain empirical questions.</li>
           </ul>
@@ -230,18 +231,18 @@ def part3_content() -> str:
           <h2>The guard model is executable—and bounded.</h2>
           <div class="verification" role="list" aria-label="Finite-state verification results">
             <div role="listitem"><strong>8,564</strong><span>reachable states under exhaustive breadth-first exploration</span></div>
-            <div role="listitem"><strong>36,096</strong><span>enabled transitions explored</span></div>
-            <div role="listitem"><strong>30</strong><span>mutation-adequate guards with a minimal counterexample when weakened</span></div>
+            <div role="listitem"><strong>1,152</strong><span>historical states with no path to closure</span></div>
+            <div role="listitem"><strong>98,948</strong><span>reachable states in revised bounded PE-R1</span></div>
           </div>
-          <p class="caveat"><strong>Execution provenance:</strong> these reported results are carried forward from the frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation (p. 37). <strong>Result:</strong> no authored-invariant violation in the unmutated model. This is executable consistency testing of a selected abstraction—not certification, semantic validation, or proof that a real institution records facts honestly or performs remedy effectively.</p>
-          <p><strong>Archive re-execution · 24 November 2026.</strong> The recovered v5.9 checker was rerun without code changes in Python 3.13.5. Its JSON and Markdown outputs matched the stored files byte for byte. This is a subsequent author-side check, not a new execution reported by the v6.2 paper or independent replication. See the <a href="/reproduction/v5.9/part3-reexecution-2026-11-24.json">dated verification record and file digests</a>. <a href="/reproduction/v5.9/part3-historical-checker.zip" download>Download the recovered historical checker (ZIP)</a>, including the original MIT license and re-execution instructions. The bundle also contains the Part I v5.9 check, not its v6.2 reimplementation. It does not include the full synthetic benchmark or sensitivity audit.</p>
+          <p class="caveat"><strong>Execution provenance:</strong> the historical model has 8,564 states and 36,096 transitions with no authored safety violation; 1,152 states have no path to closure, including 288 stranded retirement-authorized states. Revised bounded PE-R1 permits one re-containment and separates historical records from current assessments. Its 98,948 states and 479,880 transitions contain no safety violation and no state without a path to closure. This does not establish real-world safety or unrestricted repeated episodes.</p>
+          <p><strong>Archive re-execution · 24 November 2026.</strong> The recovered v5.9 checker was rerun without code changes in Python 3.13.5. Its JSON and Markdown outputs matched the stored files byte for byte. This is a subsequent author-side check, not independent replication. See the <a href="/reproduction/v5.9/part3-reexecution-2026-11-24.json">dated verification record and file digests</a>. <a href="/reproduction/v5.9/part3-historical-checker.zip" download>Download the recovered historical checker (ZIP)</a>, including the original MIT license and re-execution instructions. The bundle also contains the Part I v5.9 check, not the current integrated model. It does not include the full synthetic benchmark or sensitivity audit.</p>
         </section>
 
         <section id="measurement">
           <p class="eyebrow">Measurement boundary</p>
           <h2>Indicators route investigation. They do not authorize action.</h2>
           <p>The Governance Drift Indicator layer asks whether rationales add held-out information, review time remains responsive to legitimate complexity, and corrective voice is supplied and acted upon. It is subordinate to the authorization protocol and is not a prerequisite for Proper Ending.</p>
-          <p>The synthetic benchmark is likewise carried forward from the frozen v5.9 computational artifact (p. 35, Table B3). Aggregate monitoring misses 92 of 100 constructed localized-collapse streams in the frozen benchmark. The added fixed subgroup rule recovers 97 of 100, and the union 98 of 100—but the subgroup definition matches the synthetic generator’s declared failure boundary. Those are internal implementation results, not field sensitivity, specificity, discovery, or a validated real-world threshold.</p>
+          <p>The historical synthetic benchmark is retained; its original generator is not included in this release. Aggregate monitoring misses 92 of 100 constructed localized-collapse streams in the frozen benchmark. The added fixed subgroup rule recovers 97 of 100, and the union 98 of 100—but the subgroup definition matches the synthetic generator’s declared failure boundary. Those are internal implementation results, not field sensitivity, specificity, discovery, or a validated real-world threshold.</p>
         </section>
 
         <section id="boundary">

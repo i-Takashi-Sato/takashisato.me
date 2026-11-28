@@ -38,6 +38,7 @@ ROUTES = {
         "site.webmanifest", "research-index.json", "publications.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
         "humans.txt", ".well-known/security.txt",
         "76a21f980fdabdd7e0452ee2206d1b18.txt",
+        "reproduction/v6.3/trilogy_v6.3_publication_6953eeb9.zip",
         "reproduction/v5.9/part3-historical-checker.zip",
         "reproduction/v5.9/part3-reexecution-2026-11-24.json",
     )},

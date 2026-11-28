@@ -25,23 +25,23 @@ CONCEPTS = [
         "verification"
     ],
     [
-        "pmgcl",
-        "Procedurally Masked Governing-Capacity Loss (PMGCL)",
+        "gcl-pc",
+        "Governing-capacity loss under procedural continuity (GCL-PC)",
         "part2",
         "II",
         "state-model",
-        "Descriptive state model.",
+        "Descriptive profile, not a causal label.",
         "Stable or improving procedural fidelity, persistent material losses of judgment and governing capacity, and material impairment of a predeclared protected function.",
         "propositions"
     ],
     [
-        "pac",
-        "Pre-Abuse Collapse (PAC)",
+        "ordinary-exposure",
+        "Ordinary-exposure causal question",
         "part2",
         "II",
         "overview",
-        "Provisional etiological subtype.",
-        "Requires PMGCL plus an identified materially adverse ordinary-exposure contrast under a predeclared malicious-pathway intervention or reference condition.",
+        "Separate causal specification.",
+        "A declared ordinary organizational exposure under an intervention disabling a named adversarial pathway; report identification status separately from effect assessment.",
         "propositions"
     ],
     [
@@ -77,16 +77,16 @@ CONCEPTS = [
 ]
 
 
-# Printed page locators in the immutable v6.2 papers (cover is page 1).
+# Printed page locators in the immutable v6.3 papers.
 # Each heading is checked against the preserved PDF by Archive QA.
 CONCEPT_SOURCES = {
-    "typed-gate": (9, 10, "total triage function"),
-    "evidence-hold": (9, 10, "total triage function"),
-    "pmgcl": (8, 9, "Core Constructs, Descriptive State"),
-    "pac": (8, 9, "Core Constructs, Descriptive State"),
-    "circuit-breaker": (13, 13, "5. Circuit Breaker"),
-    "proper-ending": (14, 15, "7. Proper Ending"),
-    "authority-return": (15, 16, "8. Authority Return"),
+    "typed-gate": (9, 10, "Total Routing Semantics"),
+    "evidence-hold": (9, 10, "Total Routing Semantics"),
+    "gcl-pc": (7, 9, "Four conditions"),
+    "ordinary-exposure": (10, 11, "Ordinary-exposure causal specification"),
+    "circuit-breaker": (16, 16, "5 Circuit Breaker"),
+    "proper-ending": (17, 19, "7 Proper Ending"),
+    "authority-return": (20, 22, "8 Authority Return"),
 }
 
 

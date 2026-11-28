@@ -31,7 +31,7 @@ class PublicPage:
 
 # Editorial changes to preserved research records do not revise the manuscripts.
 TRILOGY_PAGE_DATES = {
-    paper_url(paper).removeprefix(SITE): "2026-11-25"
+    paper_url(paper).removeprefix(SITE): "2026-11-28"
     for paper in PAPERS
 }
 
@@ -40,12 +40,12 @@ def public_pages(records: tuple[Publication, ...] | None = None) -> tuple[Public
     records = released_publications() if records is None else records
     validate_publications(records)
     pages = (
-        PublicPage("/", "2026-11-26"),
-        PublicPage("/publications/", "2026-11-26"),
-        PublicPage("/papers/", "2026-11-26"),
+        PublicPage("/", "2026-11-28"),
+        PublicPage("/publications/", "2026-11-28"),
+        PublicPage("/papers/", "2026-11-28"),
         *(PublicPage(work.path, TRILOGY_PAGE_DATES.get(work.path, work.revised or work.published)) for work in records),
-        PublicPage("/about.html", "2026-11-26"),
-        PublicPage("/colophon.html", "2026-11-24"),
+        PublicPage("/about.html", "2026-11-28"),
+        PublicPage("/colophon.html", "2026-11-28"),
         PublicPage("/privacy.html", UPDATED),
         PublicPage("/security.html", UPDATED),
     )
