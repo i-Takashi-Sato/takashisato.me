@@ -109,7 +109,7 @@ PAPERS: list[Paper] = [
         "slug": "part1",
         "title": "Workflow-Centric AI Governance",
         "subtitle": "A Typed Gate Contract for Accountable Human–AI Decisions",
-        "description": "A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.",
+        "description": "A typed two-stage gate contract and separate execution boundary for accountable human–AI decisions, with finite conformance and integrated temporal checks.",
         "ssrn": "5911063",
         "doi": "10.2139/ssrn.5911063",
         "posted": "2026-01-09",

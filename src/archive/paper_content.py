@@ -30,7 +30,7 @@ def part1_content() -> str:
               <div class="route-box"><span class="meta-label">Route</span><b>Typed status only</b><small>Execution eligible · Evidence hold · Authorized review · Fallback · Unresolved</small></div>
             </div>
             <div class="model-head model-head-spaced"><h3>Stage 2 · signed institutional disposition</h3><span>authorized review only</span></div>
-            <div class="disposition-grid" role="list" aria-label="Signed dispositions"><span role="listitem">RELEASE</span><span role="listitem">MODIFIED ACTION</span><span role="listitem">FINAL STOP</span><span role="listitem">AUTHORIZED DEFER</span><span role="listitem">FALLBACK</span></div>
+            <div class="disposition-grid" role="list" aria-label="Signed dispositions"><span role="listitem">RELEASE PENDING EXECUTION</span><span role="listitem">MODIFY PENDING RECHECK</span><span role="listitem">FINAL STOP</span><span role="listitem">AUTHORIZED DEFER</span><span role="listitem">FALLBACK PENDING EXECUTION</span></div>
           </div>
           <div class="gate-probe" data-gate-probe>
             <div class="gate-probe-head">
@@ -84,7 +84,7 @@ def part1_content() -> str:
 
         <section id="verification">
           <p class="eyebrow">Finite-domain verification</p>
-          <h2>Complete over the declared truth tables.</h2>
+          <h2>Finite conformance and temporal reachability.</h2>
           <div class="verification" role="list" aria-label="Verification results">
             <div role="listitem"><strong>1,024</strong><span>Stage-1 configurations enumerated</span></div>
             <div role="listitem"><strong>1,144</strong><span>applicable Stage-2 configurations enumerated</span></div>
@@ -228,9 +228,9 @@ def part3_content() -> str:
 
         <section id="verification">
           <p class="eyebrow">Finite-state safety verification</p>
-          <h2>The guard model is executable—and bounded.</h2>
+          <h2>Safety alone does not establish a path to closure.</h2>
           <div class="verification" role="list" aria-label="Finite-state verification results">
-            <div role="listitem"><strong>8,564</strong><span>reachable states under exhaustive breadth-first exploration</span></div>
+            <div role="listitem"><strong>8,564</strong><span>historical guard-model states</span></div>
             <div role="listitem"><strong>1,152</strong><span>historical states with no path to closure</span></div>
             <div role="listitem"><strong>98,948</strong><span>reachable states in revised bounded PE-R1</span></div>
           </div>
@@ -251,7 +251,7 @@ def part3_content() -> str:
           <ul>
             <li>That the synthetic indicators have prospective lead time, open-world validity, or an operationally justified threshold.</li>
             <li>That retirement bases are lawful, notice intelligible, remedy accessible, staffing sufficient, or successor and custodian roles legitimate in substance.</li>
-            <li>Repeated incidents, contested facts, parallel authorities, partial-population rollback, real calendar time, and jurisdictional conflict.</li>
+            <li>Unrestricted repeated incidents, contested facts, parallel authorities, partial-population rollback, real calendar time, and jurisdictional conflict.</li>
             <li>That “independence” is more than a label unless organizational separation, conflicts, evidence access, competence, power, reasons, and review routes are actually established.</li>
           </ul>
         </section>

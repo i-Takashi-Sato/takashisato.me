@@ -74,6 +74,7 @@ class LiveAuditTests(unittest.TestCase):
     def test_preservation_and_disclosure_inventory(self):
         for path in (
             "humans.txt", ".well-known/security.txt",
+            "reproduction/v6.3/trilogy_v6.3_publication_6953eeb9.zip",
             "reproduction/v5.9/part3-historical-checker.zip",
             "reproduction/v5.9/part3-reexecution-2026-11-24.json",
         ):

@@ -31,10 +31,12 @@ src/scripts/        progressive-enhancement modules
 tools/build_site.py build orchestration
 tools/build_assets.py deterministic CSS/JS compilation
 tools/generate_og.py deterministic social-card generation
-tools/verify_v62.py archive contract verification
+tools/verify_v63.py current archive contract verification
+tools/verify_v62.py historical v6.2 verifier (use on the v6.2 checkout)
 assets/             generated production CSS/JS, fonts, and OG cards
 papers/             generated HTML paper records
-pdf/v6.2/           immutable preserved papers
+pdf/v6.3/           current immutable preserved papers
+pdf/v6.2/           prior immutable preserved papers
 ```
 
 Production remains intentionally small: pre-rendered HTML, one shared stylesheet,
@@ -46,7 +48,7 @@ runtime, remote font request, client-side router, account system, or UI package.
 ```bash
 python tools/build_site.py
 python tools/generate_og.py
-python tools/verify_v62.py
+python tools/verify_v63.py
 ```
 
 `build_site.py` compiles source assets before rendering pages. CI then rebuilds the

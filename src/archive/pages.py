@@ -144,7 +144,7 @@ def home_page() -> str:
                 <p class="label">Part I / Finite contract</p>
                 <p>Part I reports 1,024 Stage-1 and 1,144 Stage-2 inputs and an integrated model with 134,672 reachable states. It is not an independent third-party replication. <a href="/papers/part1.html#verification">Truth-table abstraction and invariant checks.</a></p>
                 <p class="label">Part II / Descriptive model</p>
-                <p>Five rejectable propositions and a comparative retirement test. <a href="/papers/part2.html#propositions">Criteria for empirical rejection, not evidence of a validated classification.</a></p>
+                <p>Four three-valued conditions yield 81 descriptive profiles; five rejectable propositions and a comparative retirement test. <a href="/papers/part2.html#propositions">Criteria for empirical rejection, not evidence of a validated classification.</a></p>
                 <p class="label">Part III / Transition protocol</p>
                 <p>The historical model has 8,564 states and 36,096 transitions; 1,152 states have no path to closure, including 288 stranded retirement-authorized states. Revised bounded PE-R1 has 98,948 reachable states. <a href="/papers/part3.html#verification">Verification scope and disclosed execution provenance.</a></p>
                 <p>These quantities describe different research objects. They are not comparable measures of validity, performance or practical effectiveness.</p>
@@ -300,7 +300,7 @@ def papers_index_page() -> str:
                   <div><p>人間が手続に関与していても、必要な証拠、時間、決定権限、審査の余力、実行可能な代替手段のいずれかを欠けば、監督は実質を失い得る。型付きゲート規約（<span lang="en">Typed Gate Contract</span>）では、案件をどの経路に進めるかと、権限者が下した決定をどう記録するかを二段階に分けて規定する。</p>
                     <p>第一段階では、三つの診断結果、審査の権限と余力、代替手段の承認と準備状況から、案件の処理経路を定める。三つの診断がすべて通過しても、実行の資格が認められるにすぎない。実行そのものは、版管理された別の規約に従う。</p>
                     <p>権限者による審査に進んだ案件では、第二段階で、実際に下された署名付きの決定を記録する。その決定は、当該時点で有効であり、権限の範囲内になければならない。</p>
-                    <p>証拠の不足を暗黙のうちに通過とみなさない。暫定的な遮断も、最終的な否認とはみなさない。</p>
+                    <p>証拠の不足を暗黙のうちに通過とみなさない。暫定的な遮断も、最終的な否認とはみなさない。修正可能な障害と禁止事項を区別し、候補行為や証拠、権限が変化したときは再検証する。</p>
                     <p><a href="/papers/part1.html">論文・検証範囲{ja_phrases("（英語）")}</a></p></div>
                 </article>
                 <article class="record-row">

@@ -1,0 +1,1011 @@
+#!/usr/bin/env python3
+"""Repository-level QA for The Proper Ending Index v6.3; retains v6.2 coverage."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import subprocess
+import sys
+import tempfile
+import zipfile
+import unicodedata
+from html import unescape
+from html.parser import HTMLParser
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+from PIL import Image
+from pypdf import PdfReader
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.archive.abstracts import ABSTRACTS
+from src.archive.citations import citation_export
+from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path, runtime_url
+from src.archive.model import (
+    AUTHOR_ID,
+    GOOGLE_SITE_VERIFICATION,
+    PAPERS_BY_SLUG as PAPERS,
+    SERIES_ID,
+    SOCIAL_PROFILES,
+    SITE,
+    UPDATED,
+    VERSION,
+)
+
+from src.archive.routes import public_pages
+from verify_publications import audit_publications
+
+CORE_HTML = [page.file for page in public_pages()]
+ALL_HTML = CORE_HTML + ["404.html", "demo/index.html", "demo/altrion-part1.html", "demo/altrion-part2.html"]
+
+class AuditParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.tags: list[tuple[str, dict[str, str]]] = []
+        self.ids: set[str] = set()
+        self.id_list: list[str] = []
+        self.hrefs: list[tuple[str, dict[str, str]]] = []
+        self.json_ld: list[str] = []
+        self.inline_executable_scripts: list[int] = []
+        self.section_without_heading: list[int] = []
+        self.article_without_heading: list[int] = []
+        self._script_type = ""
+        self._script_src = ""
+        self._script_line = 0
+        self._in_script = False
+        self._script_text: list[str] = []
+        self._sectioning_stack: list[list[str | int | bool]] = []
+        self.h1_count = 0
+        self.title_text: list[str] = []
+        self._in_title = False
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        data = {key: value or "" for key, value in attrs}
+        self.tags.append((tag, data))
+        if data.get("id"):
+            self.ids.add(data["id"])
+            self.id_list.append(data["id"])
+        if tag == "a" and data.get("href"):
+            self.hrefs.append((data["href"], data))
+        if tag == "h1":
+            self.h1_count += 1
+        if tag in {"section", "article"}:
+            self._sectioning_stack.append([tag, self.getpos()[0], False])
+        elif re.fullmatch(r"h[1-6]", tag) and self._sectioning_stack:
+            self._sectioning_stack[-1][2] = True
+        if tag == "title":
+            self._in_title = True
+        if tag == "script":
+            self._script_type = data.get("type", "")
+            self._script_src = data.get("src", "")
+            self._script_line = self.getpos()[0]
+            self._in_script = True
+            self._script_text = []
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "title":
+            self._in_title = False
+        if tag == "script":
+            script_text = "".join(self._script_text)
+            if self._script_type.casefold() == "application/ld+json":
+                self.json_ld.append(script_text)
+            elif not self._script_src and script_text.strip():
+                self.inline_executable_scripts.append(self._script_line)
+            self._script_type = ""
+            self._script_src = ""
+            self._script_line = 0
+            self._in_script = False
+            self._script_text = []
+        if tag in {"section", "article"} and self._sectioning_stack:
+            sectioning_tag, line, has_heading = self._sectioning_stack.pop()
+            if sectioning_tag == tag and not has_heading:
+                target = self.section_without_heading if tag == "section" else self.article_without_heading
+                target.append(int(line))
+
+    def handle_data(self, data: str) -> None:
+        if self._in_title:
+            self.title_text.append(data)
+        if self._in_script:
+            self._script_text.append(data)
+
+
+def fail(errors: list[str], message: str) -> None:
+    errors.append(message)
+
+
+def relative_luminance(color: str) -> float:
+    channels = [int(color[index:index + 2], 16) / 255 for index in (1, 3, 5)]
+    linear = [value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels]
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+
+
+def contrast_ratio(first: str, second: str) -> float:
+    lighter, darker = sorted((relative_luminance(first), relative_luminance(second)), reverse=True)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+def local_target(href: str, source: Path) -> tuple[Path | None, str]:
+    parsed = urlparse(href)
+    if parsed.scheme or parsed.netloc or href.startswith("mailto:"):
+        return None, parsed.fragment
+    path = unquote(parsed.path)
+    if not path:
+        return source, parsed.fragment
+    if path.startswith("/"):
+        target = ROOT / path.lstrip("/")
+    else:
+        target = source.parent / path
+    if path.endswith("/"):
+        target = target / "index.html"
+    elif target.is_dir():
+        target = target / "index.html"
+    return target, parsed.fragment
+
+
+def audit_html(errors: list[str]) -> None:
+    for rel in ALL_HTML:
+        path = ROOT / rel
+        if not path.exists():
+            fail(errors, f"missing HTML: {rel}")
+            continue
+        text = path.read_text(encoding="utf-8")
+        parser = AuditParser()
+        parser.feed(text)
+
+        if not re.search(r'<html\s+lang="[^"]+"', text):
+            fail(errors, f"{rel}: missing html lang")
+        if parser.h1_count != 1:
+            fail(errors, f"{rel}: expected one h1, found {parser.h1_count}")
+        if len(parser.id_list) != len(parser.ids):
+            duplicates = sorted({value for value in parser.id_list if parser.id_list.count(value) > 1})
+            fail(errors, f"{rel}: duplicate id values: {duplicates}")
+        if not any(tag == "main" for tag, _ in parser.tags):
+            fail(errors, f"{rel}: missing main landmark")
+        if not "".join(parser.title_text).strip():
+            fail(errors, f"{rel}: empty title")
+        if not any(tag == "meta" and attrs.get("name") == "description" and attrs.get("content") for tag, attrs in parser.tags):
+            fail(errors, f"{rel}: missing meta description")
+        canonicals = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "canonical"]
+        if len(canonicals) != 1:
+            fail(errors, f"{rel}: expected one canonical, found {canonicals}")
+        inline_styles = [attrs.get("style", "") for _, attrs in parser.tags if attrs.get("style")]
+        if inline_styles:
+            fail(errors, f"{rel}: inline style attributes are not allowed")
+        style_blocks = [attrs for tag, attrs in parser.tags if tag == "style"]
+        if style_blocks:
+            fail(errors, f"{rel}: inline style blocks conflict with production style-src-elem CSP")
+        if parser.inline_executable_scripts:
+            fail(errors, f"{rel}: executable inline script conflicts with production CSP at lines {parser.inline_executable_scripts}")
+        if parser.section_without_heading:
+            fail(errors, f"{rel}: section elements lack headings at lines {parser.section_without_heading}")
+        if parser.article_without_heading:
+            fail(errors, f"{rel}: article elements lack headings at lines {parser.article_without_heading}")
+        for tag, attrs in parser.tags:
+            if tag == "div" and attrs.get("aria-label") and not attrs.get("role"):
+                fail(errors, f"{rel}: generic div with aria-label requires an explicit role")
+
+        expected_style = runtime_url("site.css")
+        expected_script = runtime_url("site.js")
+        styles = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "stylesheet"]
+        if styles != [expected_style]:
+            fail(errors, f"{rel}: stylesheet contract mismatch: {styles}")
+        scripts = [attrs for tag, attrs in parser.tags if tag == "script" and attrs.get("src")]
+        production_scripts = [attrs for attrs in scripts if attrs.get("src", "").startswith("/assets/site.")]
+        if [attrs.get("src") for attrs in production_scripts] != [expected_script]:
+            fail(errors, f"{rel}: production script contract mismatch: {production_scripts}")
+        if len(scripts) != 1:
+            fail(errors, f"{rel}: expected one production script, found {scripts}")
+        preloads = [attrs.get("href", "") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "preload" and attrs.get("as") == "style"]
+        if preloads != [expected_style]:
+            fail(errors, f"{rel}: stylesheet preload contract mismatch: {preloads}")
+        head_text = text.partition("</head>")[0]
+        if expected_style not in head_text or expected_script not in head_text:
+            fail(errors, f"{rel}: production assets are not loaded from head")
+
+        identity_links = {
+            attrs.get("href", "")
+            for tag, attrs in parser.tags
+            if tag == "link" and "me" in attrs.get("rel", "").split()
+        }
+        expected_identity_links = {
+            "https://orcid.org/0009-0003-1584-6965",
+            "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+            "https://scholar.google.com/citations?user=tN4zV68AAAAJ",
+            *(url for _, _, url in SOCIAL_PROFILES),
+        }
+        if identity_links != expected_identity_links:
+            fail(errors, f"{rel}: rel=me identity links mismatch: {sorted(identity_links)}")
+
+        for label, handle, url in SOCIAL_PROFILES:
+            matches = [attrs for href, attrs in parser.hrefs if href == url]
+            expected_count = 2 if rel == "about.html" else 1
+            if len(matches) != expected_count or any(
+                not {"me", "noopener", "noreferrer"}.issubset(attrs.get("rel", "").split())
+                for attrs in matches
+            ):
+                fail(errors, f"{rel}: social profile link contract mismatch: {label}")
+            if rel == "about.html" and handle not in text:
+                fail(errors, f"{rel}: missing approved public handle: {handle}")
+
+        for raw in parser.json_ld:
+            try:
+                json.loads(raw)
+            except json.JSONDecodeError as exc:
+                fail(errors, f"{rel}: invalid JSON-LD: {exc}")
+
+        if rel in CORE_HTML:
+            if len(parser.json_ld) != 1:
+                fail(errors, f"{rel}: expected one JSON-LD block, found {len(parser.json_ld)}")
+            elif parser.json_ld:
+                data = json.loads(parser.json_ld[0])
+                if data.get("@context") != "https://schema.org":
+                    fail(errors, f"{rel}: JSON-LD context mismatch")
+                nodes = data.get("@graph", [data])
+                for person in (node for node in nodes if node.get("@id") == AUTHOR_ID):
+                    if set(person.get("sameAs", [])) != expected_identity_links:
+                        fail(errors, f"{rel}: author sameAs mismatch")
+                if rel != "index.html" and not any(node.get("@type") == "BreadcrumbList" for node in nodes):
+                    fail(errors, f"{rel}: missing BreadcrumbList structured data")
+            if rel != "index.html" and not any(
+                tag == "nav" and "breadcrumbs" in attrs.get("class", "").split()
+                for tag, attrs in parser.tags
+            ):
+                fail(errors, f"{rel}: missing visible breadcrumb navigation")
+
+        if rel.startswith("papers/part"):
+            slug = Path(rel).stem
+            paper = PAPERS[slug]
+            meta_by_name: dict[str, list[str]] = {}
+            for tag, attrs in parser.tags:
+                if tag == "meta" and attrs.get("name"):
+                    meta_by_name.setdefault(attrs["name"], []).append(attrs.get("content", ""))
+            expected_citations = {
+                "citation_title": f"{paper['title']}: {paper['subtitle']}",
+                "citation_author": "Takashi Sato",
+                "citation_publication_date": paper["posted"].replace("-", "/"),
+                "citation_doi": paper["doi"],
+                "citation_language": "en",
+            }
+            for name, expected in expected_citations.items():
+                if meta_by_name.get(name) != [expected]:
+                    fail(errors, f"{rel}: {name} mismatch: {meta_by_name.get(name)}")
+            pdf_alternates = [
+                attrs.get("href", "")
+                for tag, attrs in parser.tags
+                if tag == "link" and attrs.get("rel") == "alternate" and attrs.get("type") == "application/pdf"
+            ]
+            expected_pdf = f"{SITE}/pdf/v{VERSION}/{slug}.pdf"
+            if pdf_alternates != [expected_pdf]:
+                fail(errors, f"{rel}: PDF alternate mismatch: {pdf_alternates}")
+
+        for href, attrs in parser.hrefs:
+            if attrs.get("target") == "_blank":
+                rel_tokens = set(attrs.get("rel", "").split())
+                if not {"noopener", "noreferrer"}.issubset(rel_tokens):
+                    fail(errors, f"{rel}: target=_blank lacks noopener noreferrer: {href}")
+            target, fragment = local_target(href, path)
+            if target is None:
+                continue
+            if not target.exists():
+                fail(errors, f"{rel}: broken local link {href} -> {target.relative_to(ROOT) if target.is_relative_to(ROOT) else target}")
+                continue
+            if fragment and target.suffix == ".html":
+                target_parser = AuditParser()
+                target_parser.feed(target.read_text(encoding="utf-8"))
+                if fragment not in target_parser.ids:
+                    fail(errors, f"{rel}: missing fragment #{fragment} in {target.relative_to(ROOT)}")
+
+
+def audit_content(errors: list[str]) -> None:
+    core = "\n".join((ROOT / rel).read_text(encoding="utf-8") for rel in CORE_HTML)
+    production_css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    for retired_mark in ("序", "破", "急", "Jo / Ha / Kyu"):
+        if retired_mark in production_css:
+            fail(errors, f"retired stage mark present in production CSS: {retired_mark}")
+    stale = ["Four-Gate", "Forecasting Failure", "Detecting Silent Governance Failure", "A Sociotechnical Architecture"]
+    for term in stale:
+        if term.casefold() in core.casefold():
+            fail(errors, f"stale current-research term present: {term}")
+    required = [
+        "EXECUTION ELIGIBLE",
+        "AUTHORIZED DEFER",
+        "GCL-PC",
+        "134,672",
+        "98,948",
+        "1,152",
+        "288",
+        "Authority Return",
+        "8,564",
+        "36,096",
+        "28 November 2026",
+    ]
+    for term in required:
+        if term not in core:
+            fail(errors, f"required v6.3 term missing: {term}")
+
+    commercial_traces = [
+        "/services/",
+        "/samples/",
+        "contact.html",
+        "Sapporo Investment",
+        "サッポロインベストメント",
+        "業務設計室",
+        "Operational Design",
+    ]
+    for term in commercial_traces:
+        if term.casefold() in core.casefold():
+            fail(errors, f"commercial or services trace present in current archive: {term}")
+
+    about = (ROOT / "about.html").read_text(encoding="utf-8")
+    for identity in ["佐藤貴士", "Sapporo", "0009-0003-1584-6965", "tN4zV68AAAAJ", "9540672"]:
+        if identity not in about:
+            fail(errors, f"about.html: identity element missing: {identity}")
+    for stale_copy in ["佐藤貴士について", "現在の研究では、人間が形式上", "AIガバナンス、人間による監督、ワークフロー・ガバナンス"]:
+        if stale_copy in about:
+            fail(errors, f"about.html: verbose Japanese profile copy returned: {stale_copy}")
+    if about.count('href="mailto:i@takashisato.me"') != 1:
+        fail(errors, "about.html: approved correspondence link must appear once")
+    if any(term in about for term in ["business operations", "organizational management", "competitive golf"]):
+        fail(errors, "about.html: private biography must remain outside the public author record")
+    if about.count('<p lang="ja">佐藤貴士</p>') != 1:
+        fail(errors, "about.html: native-name identity fact must be exactly one instance")
+    if "佐藤貴士　札幌" in about:
+        fail(errors, "about.html: awkward Japanese SEO phrase returned to the visible author record")
+
+    home = (ROOT / "index.html").read_text(encoding="utf-8")
+    if home.count('<span lang="ja">佐藤貴士</span>') != 1:
+        fail(errors, "index.html: native author name must appear once in visible copy")
+    for rel, html in [("index.html", home), ("about.html", about)]:
+        if "<title>Takashi Sato (佐藤貴士) — " not in html:
+            fail(errors, f"{rel}: bilingual identity title missing")
+    if '<link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">' not in about or "/assets/author-paper.webp" in home:
+        fail(errors, "author-only material preload contract violated")
+    if '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' not in about or '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' in home:
+        fail(errors, "author-only editorial font preload contract violated")
+    record_path = ROOT / "reproduction/v5.9/part3-reexecution-2026-11-24.json"
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    if record["artifactVersion"] != "5.9" or record["manuscriptVersion"] != "6.2" or record["independentReplication"] or record["fullPackagePublished"]:
+        fail(errors, "Part III re-execution scope mismatch")
+    if record["partIII"] != {"reachableStates": 8564, "enabledTransitions": 36096, "authoredInvariantViolations": 0, "mutationsWithCounterexamples": 30}:
+        fail(errors, "Part III re-execution results mismatch")
+    # Verify the downloadable historical source before executing it in an isolated directory.
+    bundle = ROOT / "reproduction/v5.9/part3-historical-checker.zip"
+    expected_bundle_sha = "f2daa94a5c9c88358d2d1579be2ada55afe20fe5ba8bd5ddbaff92e9f5b16086"
+    expected_members = {"LICENSE", "formal_protocol_checks.py", "README.txt"}
+    expected_hashes = {
+        "LICENSE": "7735ca7d95593d86cfeb31a7165dc3e8c8d6eec76a1c154954e71d98d610ac80",
+        "formal_protocol_checks.py": "ca82fc325fce1ddac2dcbcc407fe3eaa96892914855decc961ab220caebc0c7d",
+        "formal_protocol_results.json": "30608277c7c8f1ede88e86699674ac4679ad7a2cf0a36ebd3c2d5507928ef952",
+        "formal_protocol_results.md": "51e21af27021d1b94e20ff1b0f4f699c807f9a31303713217ba77d7a40fb6e5e",
+    }
+    subset = record.get("executableSubset", {})
+    if subset.get("sha256") != expected_bundle_sha or subset.get("bytes") != 8908 or subset.get("url") != f"{SITE}/reproduction/v5.9/part3-historical-checker.zip":
+        fail(errors, "historical checker metadata mismatch")
+    if not bundle.is_file() or bundle.stat().st_size != 8908 or hashlib.sha256(bundle.read_bytes()).hexdigest() != expected_bundle_sha:
+        fail(errors, "historical checker bundle integrity mismatch")
+    else:
+        with zipfile.ZipFile(bundle) as z:
+            if set(z.namelist()) != expected_members or len(z.namelist()) != 3 or z.testzip() is not None:
+                fail(errors, "historical checker bundle members mismatch")
+            elif any(hashlib.sha256(z.read(n)).hexdigest() != expected_hashes[n] for n in ("LICENSE", "formal_protocol_checks.py")):
+                fail(errors, "historical checker source or license mismatch")
+            else:
+                with tempfile.TemporaryDirectory(prefix="historical-checker-") as tmp:
+                    work = Path(tmp)
+                    (work / "formal_protocol_checks.py").write_bytes(z.read("formal_protocol_checks.py"))
+                    run = subprocess.run([sys.executable, "-I", "formal_protocol_checks.py", "--out", "rerun"], cwd=work, capture_output=True, timeout=120)
+                    if run.returncode:
+                        fail(errors, "historical checker re-execution failed")
+                    else:
+                        for n in ("formal_protocol_results.json", "formal_protocol_results.md"):
+                            output = work / "rerun" / n
+                            if not output.is_file() or hashlib.sha256(output.read_bytes()).hexdigest() != expected_hashes[n]:
+                                fail(errors, f"historical checker output mismatch: {n}")
+    if f'href="/reproduction/v5.9/part3-historical-checker.zip" download' not in (ROOT / "papers/part3.html").read_text(encoding="utf-8"):
+        fail(errors, "historical checker download link missing")
+    if '"dateModified":"2026-11-28"' not in (ROOT / "colophon.html").read_text(encoding="utf-8"):
+        fail(errors, "colophon.html: structured revision date mismatch")
+    if "It is not an independent third-party replication." not in home:
+        fail(errors, "index.html: author-side verification disclosure missing")
+    if "contain, retire, and transfer decision capacity" in home:
+        fail(errors, "index.html: workflow and decision-capacity objects conflated")
+    if GOOGLE_SITE_VERIFICATION not in home:
+        fail(errors, "index.html: Search Console ownership verification is missing")
+    if "<title>Takashi Sato (佐藤貴士) — Research &amp; Writings</title>" not in home:
+        fail(errors, "index.html: author archive title is missing")
+    if '<h1 id="hero-title">Takashi<br>Sato</h1>' not in home or "THE PROPER ENDING INDEX" not in home:
+        fail(errors, "index.html: author identity and featured collection must remain distinct")
+    if '"mainEntity":{"@id":"https://takashisato.me/publications/#catalogue"}' not in home:
+        fail(errors, "index.html: personal catalogue entity reference missing")
+    if '"@type":"WebSite","@id":"https://takashisato.me/#website","url":"https://takashisato.me/","name":"Takashi Sato"' not in home:
+        fail(errors, "index.html: personal site identity is missing")
+    if '"hasPart":[{"@id":"https://takashisato.me/papers/#trilogy"}]' not in home:
+        fail(errors, "index.html: published collection registry is missing")
+    if '"@type":"CreativeWorkSeries"' not in home or SERIES_ID not in home:
+        fail(errors, "index.html: canonical research-series entity is missing")
+
+    for slug, paper in PAPERS.items():
+        text = (ROOT / f"papers/{slug}.html").read_text(encoding="utf-8")
+        for value in [paper["title"], paper["subtitle"], paper["ssrn"], paper["doi"], "v6.3", paper["sha256"]]:
+            if str(value) not in text:
+                fail(errors, f"papers/{slug}.html: missing {value}")
+
+
+def audit_assets(errors: list[str]) -> None:
+    expected_assets = {
+        "site.css",
+        "site.js",
+        "brand-mark.svg",
+        "fonts/InterVariable.woff2",
+        "fonts/Inter-OFL.txt",
+        "fonts/Newsreader-Variable.woff2",
+        "fonts/Newsreader-OFL.txt",
+        "fonts/MeaCulpa.woff2",
+        "fonts/MeaCulpa-OFL.txt",
+        "og/home.jpg",
+        "og/archive.jpg",
+        "og/papers.jpg",
+        "og/about.jpg",
+        "author-mark.svg",
+        "author-paper.webp",
+        "research-metal.webp",
+        "favicon-source-20260117.png",
+        "og/part1.jpg",
+        "og/part2.jpg",
+        "og/part3.jpg",
+    }
+    actual_assets = {
+        str(path.relative_to(ROOT / "assets"))
+        for path in (ROOT / "assets").rglob("*")
+        if path.is_file()
+    }
+    # Current bundles must be committed and identical to their deterministic aliases.
+    for name in RUNTIME_NAMES:
+        current = runtime_path(name).removeprefix("assets/")
+        expected_assets.add(current)
+        target = ROOT / "assets" / current
+        if not target.is_file() or target.read_bytes() != (ROOT / "assets" / name).read_bytes():
+            fail(errors, f"current fingerprinted bundle missing or differs: {current}")
+    # Historical content-addressed bundles remain valid for cached documents.
+    # Do not allow arbitrary extras or mismatched hashes into the inventory.
+    for name in actual_assets - expected_assets:
+        match = re.fullmatch(r"site\.([0-9a-f]{64})\.(css|js)", name)
+        if match:
+            data = (ROOT / "assets" / name).read_bytes()
+            limit = 100_000 if match[2] == "css" else 20_000
+            if hashlib.sha256(data).hexdigest() == match[1] and len(data) <= limit:
+                expected_assets.add(name)
+    if actual_assets != expected_assets:
+        fail(
+            errors,
+            "runtime asset inventory mismatch; "
+            f"missing={sorted(expected_assets - actual_assets)}, extra={sorted(actual_assets - expected_assets)}",
+        )
+
+    texture = ROOT / "assets/author-paper.webp"
+    with Image.open(texture) as image:
+        if image.format != "WEBP" or image.size != (900, 599) or texture.stat().st_size > 12_000:
+            fail(errors, "author paper texture violates the local asset budget")
+    metal = ROOT / "assets/research-metal.webp"
+    with Image.open(metal) as image:
+        if image.format != "WEBP" or image.size != (480, 280) or metal.stat().st_size > 4_000 or image.getexif():
+            fail(errors, "research metal texture violates the local asset budget")
+    if hashlib.sha256(metal.read_bytes()).hexdigest() != "991c61263406b977f10b94dad4481afdde30f929028f33245e1c4349aed9c22c":
+        fail(errors, "research metal texture digest mismatch")
+    css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
+    if css.count("{") != css.count("}"):
+        fail(errors, "production stylesheet has unbalanced braces")
+    if re.search(r"https?://|@import\s+url", css):
+        fail(errors, "production stylesheet contains a remote dependency")
+    for token in [":focus-visible", "::selection", "prefers-reduced-motion", "@media print", "identity-hero-grid", "gate-probe"]:
+        if token not in css:
+            fail(errors, f"production stylesheet missing {token}")
+    for token in ["requestAnimationFrame", "data-gate-probe", "site-analytics:event"]:
+        if token not in js:
+            fail(errors, f"production script missing {token}")
+    for retired_pointer in ["has-custom-cursor", "cursorLabel", "initAuthorityCursor"]:
+        if retired_pointer in js:
+            fail(errors, f"retired custom pointer code remains: {retired_pointer}")
+    for retired in ["archive-v62.css", "archive-v66.css", "archive-v68.css", "archive-v610.css", "research-fluid.js"]:
+        if retired in js:
+            fail(errors, f"production script references retired runtime: {retired}")
+    if len(css.encode()) > 100_000:
+        fail(errors, f"production stylesheet exceeds 100 KB: {len(css.encode())}")
+    if len(js.encode()) > 20_000:
+        fail(errors, f"production script exceeds 20 KB: {len(js.encode())}")
+
+    fonts = {
+        "Inter": (ROOT / "assets/fonts/InterVariable.woff2", 100_000),
+        "Newsreader": (ROOT / "assets/fonts/Newsreader-Variable.woff2", 150_000),
+        "MeaCulpa": (ROOT / "assets/fonts/MeaCulpa.woff2", 50_000),
+    }
+    for family, (font_path, size_limit) in fonts.items():
+        if not font_path.read_bytes().startswith(b"wOF2"):
+            fail(errors, f"{family} webfont is not a valid WOFF2 payload")
+        if font_path.stat().st_size > size_limit:
+            fail(errors, f"{family} webfont exceeds {size_limit // 1000} KB: {font_path.stat().st_size}")
+        license_path = ROOT / f"assets/fonts/{family}-OFL.txt"
+        if "SIL OPEN FONT LICENSE Version 1.1" not in license_path.read_text(encoding="utf-8"):
+            fail(errors, f"{family} license record is missing or invalid")
+        if font_path.name not in css:
+            fail(errors, f"production stylesheet does not declare {family}")
+
+    # Only :root color tokens belong to the global paper/ink contrast test.
+    # Scoped dark research exhibits are audited against their actual backgrounds by axe.
+    required_palette = ("paper", "ink", "ink-soft", "ink-faint", "signal-soft")
+    root_bodies = re.findall(r":root\s*\{([^{}]*)\}", css)
+    # Print-only roots may override paper and ink without being the screen palette.
+    # Require one coherent root declaration containing the full semantic palette.
+    main_roots = [
+        root_body for root_body in root_bodies
+        if all(re.search(rf"--{token}\s*:", root_body) for token in required_palette)
+    ]
+    global_palette = (
+        dict(re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", main_roots[-1]))
+        if main_roots else {}
+    )
+    paper_color = global_palette.get("paper")
+    if not paper_color:
+        fail(errors, "production stylesheet is missing the root paper color token")
+    else:
+        for token in ("ink", "ink-soft", "ink-faint", "signal-soft"):
+            color = global_palette.get(token)
+            if not color:
+                fail(errors, f"production stylesheet missing global --{token} palette token")
+                continue
+            ratio = contrast_ratio(color, paper_color)
+            if ratio < 4.5:
+                fail(errors, f"global text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
+
+    for name in ["home", "papers", "about", "archive", *PAPERS]:
+        image_path = ROOT / f"assets/og/{name}.jpg"
+        if not image_path.exists():
+            fail(errors, f"missing OG image: {image_path.relative_to(ROOT)}")
+            continue
+        with Image.open(image_path) as image:
+            if image.size != (1200, 630):
+                fail(errors, f"{image_path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
+            if image.format != "JPEG":
+                fail(errors, f"{image_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
+    archive_image = ROOT / "assets/og/archive.jpg"
+    if archive_image.exists():
+        with Image.open(archive_image) as image:
+            if archive_image.stat().st_size > 180_000 or image.getexif():
+                fail(errors, "author archive social card exceeds size or privacy contract")
+    for rel in ("index.html", "publications/index.html"):
+        parser = AuditParser()
+        parser.feed((ROOT / rel).read_text(encoding="utf-8"))
+        for field, attribute in (("og:image", "property"), ("twitter:image", "name")):
+            values = [attrs.get("content") for tag, attrs in parser.tags if tag == "meta" and attrs.get(attribute) == field]
+            if values != [SITE + "/assets/og/archive.jpg"]:
+                fail(errors, f"{rel}: author archive social card mismatch")
+    brand_svg = (ROOT / "assets/brand-mark.svg").read_text(encoding="utf-8")
+    if 'M11 59V12H55V30M55 52V59H11' not in brand_svg or 'M29 41H64' not in brand_svg:
+        fail(errors, "archive brand geometry mismatch")
+    source_bytes = (ROOT / "assets/favicon-source-20260117.png").read_bytes()
+    git_header = f"blob {len(source_bytes)}".encode()+b"\x00"
+    if hashlib.sha1(git_header+source_bytes).hexdigest() != "77b0d7361039b623cc383ee053b88211d00c5735":
+        fail(errors, "recovered January favicon source mismatch")
+    for name in ("favicon.svg","favicon-dark.svg"):
+        svg = (ROOT / name).read_text(encoding="utf-8")
+        if 'Takashi Sato — personal T mark' not in svg or 'data:image/png;base64,' not in svg:
+            fail(errors, f"{name}: supplied personal mark missing")
+    for name, size in {
+        "android-chrome-192x192.png": (192, 192),
+        "android-chrome-512x512.png": (512, 512),
+        "apple-touch-icon.png": (180, 180),
+        "favicon-16x16.png": (16, 16),
+        "favicon-32x32.png": (32, 32),
+        "favicon-96x96.png": (96, 96),
+        "favicon-16x16-dark.png": (16, 16),
+        "favicon-32x32-dark.png": (32, 32),
+        "maskable-512x512.png": (512, 512),
+    }.items():
+        image_path = ROOT / name
+        if not image_path.exists():
+            fail(errors, f"missing icon: {name}")
+            continue
+        with Image.open(image_path) as image:
+            if image.size != size:
+                fail(errors, f"{name}: expected {size}, found {image.size}")
+    if "prefers-color-scheme:dark" not in (ROOT / "favicon.svg").read_text(encoding="utf-8"):
+        fail(errors, "favicon: missing adaptive theme")
+    with Image.open(ROOT / "favicon.ico") as image:
+        if image.ico.sizes() != {(16,16),(32,32),(48,48),(64,64)}:
+            fail(errors, "favicon.ico: incomplete multi-size master")
+        for n in (16,32):
+            with Image.open(ROOT / f"favicon-{n}x{n}.png") as png:
+                if image.ico.getimage((n,n)).convert("RGB").tobytes() != png.convert("RGB").tobytes():
+                    fail(errors, f"favicon.ico: optical {n}px variant mismatch")
+    with Image.open(ROOT / "maskable-512x512.png") as image:
+        pixels = image.convert("RGB").load()
+        bg = pixels[0,0]
+        if any(pixels[x,y] != bg for y in range(512) for x in range(512) if (x-255.5)**2+(y-255.5)**2 > (512*.40)**2):
+            fail(errors, "maskable icon: artwork exceeds circular safe zone")
+
+
+def normalize_abstract(value: str) -> str:
+    """Ignore layout-only whitespace, discretionary hyphens, and extraction controls."""
+    value = unicodedata.normalize("NFKC", value)
+    return "".join(
+        char for char in value
+        if not char.isspace() and unicodedata.category(char) not in {"Cc", "Cf", "Pd"}
+    )
+
+
+def audit_scholarly_apparatus(errors: list[str]) -> None:
+    index = json.loads((ROOT / "research-index.json").read_text(encoding="utf-8"))
+    for position, (slug, paper) in enumerate(PAPERS.items()):
+        abstract = "\n\n".join(ABSTRACTS[slug])
+        html = (ROOT / f"papers/{slug}.html").read_text(encoding="utf-8")
+        section = re.search(r'<section id="abstract">(.*?)</section>', html, re.S)
+        if not section:
+            fail(errors, f"{slug}: visible abstract missing")
+        else:
+            paragraphs = re.findall(r"<p>(.*?)</p>", section.group(1), re.S)
+            if [unescape(p) for p in paragraphs] != ABSTRACTS[slug]:
+                fail(errors, f"{slug}: visible abstract differs from source")
+        parser = AuditParser()
+        parser.feed(html)
+        articles = [
+            item for raw in parser.json_ld for item in json.loads(raw).get("@graph", [])
+            if item.get("@type") == "ScholarlyArticle"
+        ]
+        if len(articles) != 1 or articles[0].get("abstract") != abstract:
+            fail(errors, f"{slug}: article metadata abstract mismatch")
+        if position >= len(index.get("hasPart", [])) or index["hasPart"][position].get("abstract") != abstract:
+            fail(errors, f"{slug}: research-index abstract mismatch")
+        for kind in ("bib", "ris", "json"):
+            path = ROOT / f"citations/v{VERSION}/{slug}.{kind}"
+            if not path.exists() or path.read_text(encoding="utf-8") != citation_export(paper, kind):
+                fail(errors, f"{slug}: {kind} citation export mismatch")
+            if not any(href == f"/citations/v{VERSION}/{slug}.{kind}" for href, _ in parser.hrefs):
+                fail(errors, f"{slug}: {kind} citation link missing")
+        csl_path = ROOT / f"citations/v{VERSION}/{slug}.json"
+        if csl_path.exists():
+            try:
+                data = json.loads(csl_path.read_text(encoding="utf-8"))
+                record = data[0]
+                if len(data) != 1 or record["id"] != paper["doi"] or record["DOI"] != paper["doi"] or record["URL"] != f"https://doi.org/{paper['doi']}":
+                    fail(errors, f"{slug}: CSL identifier mismatch")
+                if record["type"] != "report" or record["genre"] != "Working paper" or record["title"] != f"{paper['title']}: {paper['subtitle']}" or record["author"] != [{"family": "Sato", "given": "Takashi"}]:
+                    fail(errors, f"{slug}: CSL scholarly identity mismatch")
+                if record["issued"]["date-parts"] != [[int(value) for value in paper["posted"].split("-")]]:
+                    fail(errors, f"{slug}: CSL publication date mismatch")
+            except (ValueError, KeyError, IndexError, TypeError) as exc:
+                fail(errors, f"{slug}: invalid CSL JSON: {exc}")
+        typed = {(attrs.get("rel"), attrs.get("href"), attrs.get("type")) for tag, attrs in parser.tags if tag == "link"}
+        required = {
+            ("related", f"https://doi.org/{paper['doi']}", None),
+            ("author", "https://orcid.org/0009-0003-1584-6965", None),
+            ("item", f"{SITE}/pdf/v{VERSION}/{slug}.pdf", "application/pdf"),
+            ("describedby", f"{SITE}/citations/v{VERSION}/{slug}.json", "application/json"),
+        }
+        if not required.issubset(typed):
+            fail(errors, f"{slug}: scholarly typed-link mismatch")
+        if any(relation == "cite-as" for relation, _, _ in typed):
+            fail(errors, f"{slug}: external DOI must not be presented as a self-resolving cite-as")
+
+
+def audit_pdfs(errors: list[str]) -> None:
+    for slug, expected in PAPERS.items():
+        path = ROOT / f"pdf/v{VERSION}/{slug}.pdf"
+        if not path.exists():
+            fail(errors, f"missing PDF: {path.relative_to(ROOT)}")
+            continue
+        payload = path.read_bytes()
+        if len(payload) != expected["bytes"]:
+            fail(errors, f"{path.relative_to(ROOT)}: byte size {len(payload)} != {expected['bytes']}")
+        digest = hashlib.sha256(payload).hexdigest()
+        if digest != expected["sha256"]:
+            fail(errors, f"{path.relative_to(ROOT)}: SHA-256 mismatch")
+        reader = PdfReader(path)
+        if len(reader.pages) > 1:
+            raw = reader.pages[0].extract_text() or ""
+            match = re.search(r"\bAbstract\s+(.*?)\bKeywords\s*:", raw, re.S | re.I)
+            if not match or normalize_abstract(match.group(1)) != normalize_abstract(" ".join(ABSTRACTS[slug])):
+                fail(errors, f"{slug}: transcribed abstract differs from preserved PDF page 1")
+        if len(reader.pages) != expected["pages"]:
+            fail(errors, f"{path.relative_to(ROOT)}: page count {len(reader.pages)} != {expected['pages']}")
+        metadata_title = (reader.metadata.title or "") if reader.metadata else ""
+        if expected["title"] not in metadata_title:
+            fail(errors, f"{path.relative_to(ROOT)}: PDF title metadata mismatch: {metadata_title!r}")
+        if not reader.metadata or reader.metadata.author != "Takashi Sato":
+            fail(errors, f"{path.relative_to(ROOT)}: PDF author metadata mismatch")
+        language = reader.trailer["/Root"].get("/Lang")
+        if str(language) != "en-US":
+            fail(errors, f"{path.relative_to(ROOT)}: PDF /Lang is {language!r}, expected en-US")
+    for slug in PAPERS:
+        legacy = ROOT / f"pdf/{slug}.pdf"
+        if legacy.exists():
+            fail(errors, f"mutable legacy PDF alias must not exist: {legacy.relative_to(ROOT)}")
+
+
+def audit_indexes(errors: list[str]) -> None:
+    index = json.loads((ROOT / "research-index.json").read_text(encoding="utf-8"))
+    manifest = json.loads((ROOT / "site.webmanifest").read_text(encoding="utf-8"))
+    if index.get("@context") != "https://schema.org" or index.get("@type") != "CreativeWorkSeries":
+        fail(errors, "research-index.json: expected a Schema.org CreativeWorkSeries")
+    if index.get("@id") != SERIES_ID:
+        fail(errors, "research-index.json: series identifier mismatch")
+    if index.get("dateModified") != UPDATED or index.get("version") != VERSION:
+        fail(errors, "research-index.json: stale version or update date")
+    creator = index.get("creator", {})
+    if creator.get("@id") != AUTHOR_ID:
+        fail(errors, "research-index.json: author entity identifier mismatch")
+    expected_same_as = {
+        "https://orcid.org/0009-0003-1584-6965",
+        "https://papers.ssrn.com/Sol3/Cf_Dev/AbsByAuth.cfm?per_id=9540672",
+        "https://scholar.google.com/citations?user=tN4zV68AAAAJ",
+        *(url for _, _, url in SOCIAL_PROFILES),
+    }
+    if set(creator.get("sameAs", [])) != expected_same_as:
+        fail(errors, "research-index.json: author sameAs mismatch")
+
+    parts = index.get("hasPart", [])
+    if len(parts) != 3:
+        fail(errors, "research-index.json: expected three papers")
+    for position, (slug, expected) in enumerate(PAPERS.items(), start=1):
+        if position > len(parts):
+            break
+        item = parts[position - 1]
+        if item.get("position") != position:
+            fail(errors, f"research-index.json: {slug} position mismatch")
+        if item.get("name") != f"{expected['title']}: {expected['subtitle']}":
+            fail(errors, f"research-index.json: {slug} title mismatch")
+        if item.get("version") != VERSION or item.get("pagination") != f"1-{expected['pages']}":
+            fail(errors, f"research-index.json: {slug} version or pagination mismatch")
+        identifiers = {entry.get("propertyID"): entry.get("value") for entry in item.get("identifier", [])}
+        if identifiers != {"DOI": expected["doi"], "SSRN": expected["ssrn"]}:
+            fail(errors, f"research-index.json: {slug} identifiers mismatch")
+        encoding = item.get("encoding", {})
+        if encoding.get("contentUrl") != f"{SITE}/pdf/v{VERSION}/{slug}.pdf":
+            fail(errors, f"research-index.json: {slug} PDF URL mismatch")
+        if encoding.get("contentSize") != f"{expected['bytes']} bytes" or encoding.get("sha256") != expected["sha256"]:
+            fail(errors, f"research-index.json: {slug} PDF preservation metadata mismatch")
+
+    # Preserve the disclosed distinction between manuscript and computational versions.
+    provenance_checks = {
+        "index.html": ("134,672", "98,948", "1,152", "288"),
+        "papers/part1.html": ("1,144", "134,672", "not a claim of third-party reproduction"),
+        "papers/part3.html": ("36,096", "98,948", "original generator is not included"),
+        "llms.txt": ("## Research provenance", "134,672", "98,948", "Current source and reproduction archive"),
+    }
+    for rel, phrases in provenance_checks.items():
+        content = (ROOT / rel).read_text(encoding="utf-8")
+        for phrase in phrases:
+            if phrase not in content:
+                fail(errors, f"{rel}: research provenance disclosure missing: {phrase}")
+    for position, markers in enumerate((
+        ("134,672", "same-author encodings"),
+        ("empirical validation is not established",),
+        ("8,564", "1,152", "98,948", "Historical synthetic generator is not included"),
+    )):
+        if position >= len(parts):
+            break
+        provenance = [
+            str(entry.get("value", "")) for entry in parts[position].get("additionalProperty", [])
+            if entry.get("name") == "Research provenance"
+        ]
+        if len(provenance) != 1 or not all(marker in provenance[0] for marker in markers):
+            fail(errors, f"research-index.json: Part {position + 1} provenance mismatch")
+
+    manifest_expectations = {
+        "name": "Takashi Sato",
+        "id": "/",
+        "start_url": "/",
+        "scope": "/",
+        "lang": "en",
+    }
+    for key, value in manifest_expectations.items():
+        if manifest.get(key) != value:
+            fail(errors, f"site.webmanifest: {key} mismatch")
+
+    if not any(x.get("src")=="/maskable-512x512.png" and x.get("purpose")=="maskable" for x in manifest.get("icons", [])):
+        fail(errors, "site.webmanifest: missing dedicated maskable icon")
+
+    sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+    pages = public_pages()
+    expected_urls = [SITE + page.path for page in pages]
+    actual_urls = re.findall(r"<loc>(.*?)</loc>", sitemap)
+    if actual_urls != expected_urls:
+        fail(errors, f"sitemap.xml: canonical URL inventory mismatch: {actual_urls}")
+    if "<priority>" in sitemap or "<changefreq>" in sitemap or "/demo/" in sitemap or "/pdf/" in sitemap:
+        fail(errors, "sitemap.xml contains ignored metadata or non-primary records")
+    # Page freshness is not the same as the immutable manuscript revision.
+    expected_lastmods = [page.lastmod for page in pages]
+    actual_lastmods = re.findall(r"<lastmod>(.*?)</lastmod>", sitemap)
+    if actual_lastmods != expected_lastmods:
+        fail(errors, f"sitemap.xml: per-page lastmod mismatch: {actual_lastmods}")
+    for page in pages:
+        parser = AuditParser()
+        parser.feed((ROOT / page.file).read_text(encoding="utf-8"))
+        canonicals = [attrs.get("href") for tag, attrs in parser.tags if tag == "link" and attrs.get("rel") == "canonical"]
+        if canonicals != [SITE + page.path]:
+            fail(errors, f"{page.file}: public route canonical mismatch: {canonicals}")
+
+    robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+    if f"Sitemap: {SITE}/sitemap.xml" not in robots or f"{SITE}/llms.txt" not in robots:
+        fail(errors, "robots.txt: sitemap or LLM orientation missing")
+    if "add your A+" in (ROOT / "colophon.html").read_text(encoding="utf-8"):
+        fail(errors, "colophon contains placeholder text")
+    if (ROOT / "demo/altrion-part3.html").exists():
+        fail(errors, "retired Part III prototype must not exist")
+    for rel in ALL_HTML[-3:]:
+        if "noindex,follow,noarchive" not in (ROOT / rel).read_text(encoding="utf-8"):
+            fail(errors, f"{rel}: superseded route is not noindexed")
+
+
+def audit_atom(errors: list[str]) -> None:
+    from xml.etree import ElementTree as ET
+    from src.archive.model import PAPER_REVISION_DATE, paper_url, ssrn_url
+
+    ns = {"a": "http://www.w3.org/2005/Atom"}
+    try:
+        feed = ET.parse(ROOT / "feed.xml").getroot()
+    except (OSError, ET.ParseError) as exc:
+        fail(errors, f"feed.xml: {exc}")
+        return
+    if feed.tag != "{http://www.w3.org/2005/Atom}feed":
+        fail(errors, "feed.xml: incorrect Atom namespace")
+    expected_updated = f"{PAPER_REVISION_DATE}T00:00:00Z"
+    if feed.findtext("a:id", namespaces=ns) != f"{SITE}/feed.xml":
+        fail(errors, "feed.xml: stable feed identifier missing")
+    if feed.findtext("a:updated", namespaces=ns) != expected_updated:
+        fail(errors, "feed.xml: scholarly revision date mismatch")
+    if feed.findtext("a:author/a:name", namespaces=ns) != "Takashi Sato":
+        fail(errors, "feed.xml: author mismatch")
+    self_links = [link.get("href") for link in feed.findall("a:link", ns) if link.get("rel") == "self"]
+    if self_links != [f"{SITE}/feed.xml"]:
+        fail(errors, "feed.xml: incorrect self link")
+    entries = feed.findall("a:entry", ns)
+    expected = sorted(PAPERS.values(), key=lambda paper: paper["posted"], reverse=True)
+    if len(entries) != len(expected):
+        fail(errors, "feed.xml: entry count mismatch")
+    for entry, paper in zip(entries, expected):
+        required = {
+            "id": f"https://doi.org/{paper['doi']}",
+            "title": f"{paper['title']}: {paper['subtitle']}",
+            "published": f"{paper['posted']}T00:00:00Z",
+            "updated": expected_updated,
+            "summary": f"Working paper · Version {VERSION}. {paper['description']}",
+        }
+        for key, value in required.items():
+            if entry.findtext(f"a:{key}", namespaces=ns) != value:
+                fail(errors, f"feed.xml: {paper['slug']} {key} mismatch")
+        links = {link.get("rel"): link.get("href") for link in entry.findall("a:link", ns)}
+        if links != {"alternate": paper_url(paper), "related": ssrn_url(paper)}:
+            fail(errors, f"feed.xml: {paper['slug']} links mismatch")
+    for rel in ALL_HTML:
+        parser = AuditParser()
+        parser.feed((ROOT / rel).read_text(encoding="utf-8"))
+        discovery = [attrs.get("href") for tag, attrs in parser.tags
+                     if tag == "link" and attrs.get("rel") == "alternate"
+                     and attrs.get("type") == "application/atom+xml"]
+        if discovery != [f"{SITE}/feed.xml"]:
+            fail(errors, f"{rel}: Atom discovery link mismatch")
+
+
+def audit_concept_register(errors: list[str]) -> None:
+    from src.archive.concepts import CONCEPTS, CONCEPT_SOURCES, concept_schema
+
+    expected_schema = concept_schema()
+    index = json.loads((ROOT / "research-index.json").read_text(encoding="utf-8"))
+    if index.get("subjectOf") != expected_schema:
+        fail(errors, "concept register: machine-readable index differs from canonical summaries")
+    html = (ROOT / "papers/index.html").read_text(encoding="utf-8")
+    graphs = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+    sets = [item for graph in graphs for item in json.loads(graph).get("@graph", []) if item.get("@type") == "DefinedTermSet"]
+    if sets != [expected_schema]:
+        fail(errors, "concept register: catalogue JSON-LD differs from canonical summaries")
+
+    parser = AuditParser()
+    parser.feed((ROOT / "papers/index.html").read_text(encoding="utf-8"))
+    anchors = {value for value in parser.ids if value.startswith("concept-")}
+    expected = {f"concept-{record[0]}" for record in CONCEPTS}
+    if anchors != expected or len(expected) != len(CONCEPTS):
+        fail(errors, "concept register: missing or duplicate stable anchors")
+    if set(CONCEPT_SOURCES) != {record[0] for record in CONCEPTS}:
+        fail(errors, "concept register: source locator coverage differs from records")
+        return
+    readers = {slug: PdfReader(ROOT / f"pdf/v{VERSION}/{slug}.pdf") for slug in PAPERS}
+    for slug, title, paper, roman, anchor, status, summary, assessment in CONCEPTS:
+        if paper not in PAPERS or PAPERS[paper]["roman"] != roman:
+            fail(errors, f"concept {slug}: unknown paper")
+            continue
+        for label, section in (("Explanation", anchor), ("Assessment", assessment), ("Limits", "boundary"), ("Citation", "citation")):
+            expected_href = f"/papers/{paper}.html#{section}"
+            if not any(href == expected_href and attrs.get("aria-label") == f"{label}: {title}" for href, attrs in parser.hrefs):
+                fail(errors, f"concept {slug}: missing contextual source link {section}")
+        start, end, heading = CONCEPT_SOURCES[slug]
+        if not 1 <= start <= end <= len(readers[paper].pages):
+            fail(errors, f"concept {slug}: invalid preserved PDF page range")
+            continue
+        text = re.sub(r"\s+", " ", readers[paper].pages[start - 1].extract_text() or "")
+        if heading.casefold() not in text.casefold():
+            fail(errors, f"concept {slug}: source heading absent from page {start}")
+        pages = f"p. {start}" if start == end else f"pp. {start}–{end}"
+        href = f"/pdf/v{VERSION}/{paper}.pdf#page={start}"
+        label = f"Preserved v{VERSION} PDF, {pages}: {title}"
+        if not any(value == href and attrs.get("aria-label") == label for value, attrs in parser.hrefs):
+            fail(errors, f"concept {slug}: missing preserved source locator")
+
+
+def audit_japanese_guide(errors: list[str]) -> None:
+    home = (ROOT / "index.html").read_text(encoding="utf-8")
+    papers = (ROOT / "papers/index.html").read_text(encoding="utf-8")
+    if home.count('href="/papers/#japanese" lang="ja"') != 1:
+        fail(errors, "Japanese guide: missing index entry")
+    if papers.count('href="#japanese" lang="ja"') != 1:
+        fail(errors, "Japanese guide: missing catalogue entry")
+    guide = papers.split('<section class="section compact" id="japanese" lang="ja"', 1)
+    if len(guide) != 2:
+        fail(errors, "Japanese guide: missing language-marked section")
+        return
+    section = guide[1].split("</section>", 1)[0]
+    for slug in ("part1", "part2", "part3"):
+        if section.count(f'href="/papers/{slug}.html"') != 1:
+            fail(errors, f"Japanese guide: missing unique English paper link {slug}")
+    if '<p class="section-intro">AIを用いる組織は、いかにして判断の主体であり続けられるか。</p>' not in section or "私の研究が問うのは" in section:
+        fail(errors, "Japanese guide: direct editorial question lost")
+    for required in ("正式な翻訳でも新たな研究結果でもない", "ワーキングペーパー", "実証するものではない", 'href="#concepts"', 'href="#critical-review"'):
+        if required not in section:
+            fail(errors, f"Japanese guide: missing interpretation boundary {required}")
+
+
+def audit_v63_release(errors: list[str]) -> None:
+    """Check both versioned assets and present-day claims without rewriting history."""
+    from verify_v63_assets import main as verify_assets
+    try:
+        verify_assets()
+    except (OSError, ValueError, KeyError) as exc:
+        fail(errors, f"v6.3 release assets: {exc}")
+    retired = re.compile(r"(?i)\\b(?:PMGCL|PAC)\\b|Pre-Abuse Collapse|procedurally masked")
+    for rel in (*CORE_HTML, "research-index.json", "publications.json", "llms.txt", "feed.xml", "sitemap.xml", "humans.txt", "README.md"):
+        if retired.search((ROOT / rel).read_text(encoding="utf-8")):
+            fail(errors, f"{rel}: withdrawn concept in current record")
+    for slug, markers in {
+        "part1": ("134,672", "1,144"),
+        "part2": ("81", "65", "15"),
+        "part3": ("98,948", "1,152", "288"),
+    }.items():
+        html = (ROOT / f"papers/{slug}.html").read_text(encoding="utf-8")
+        pdf = PdfReader(ROOT / f"pdf/v{VERSION}/{slug}.pdf")
+        full = " ".join(page.extract_text() or "" for page in pdf.pages)
+        for marker in markers:
+            if marker not in html or marker not in full:
+                fail(errors, f"{slug}: reported number {marker} absent from page or paper")
+        if f"/pdf/v6.2/{slug}.pdf" not in html or "Previous version (v6.2, 23 August 2026)" not in html:
+            fail(errors, f"{slug}: prior version not explicitly linked")
+
+def main() -> int:
+    errors: list[str] = []
+    audit_html(errors)
+    audit_content(errors)
+    audit_assets(errors)
+    audit_pdfs(errors)
+    audit_scholarly_apparatus(errors)
+    audit_indexes(errors)
+    audit_atom(errors)
+    audit_concept_register(errors)
+    audit_japanese_guide(errors)
+    audit_publications(ROOT, errors)
+    audit_v63_release(errors)
+    if errors:
+        print("v6.3 archive verification failed:", file=sys.stderr)
+        for error in errors:
+            print(f"  - {error}", file=sys.stderr)
+        return 1
+    print(f"Verified {len(ALL_HTML)} HTML pages, 3 preserved PDFs, 6 OG images, and the v6.3 metadata contract.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
