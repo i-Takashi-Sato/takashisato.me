@@ -6,7 +6,7 @@ import json
 from html import escape
 from textwrap import dedent
 
-from .runtime_assets import runtime_url
+from .runtime_assets import NAME_FONT_PATH, asset_url, runtime_url
 from .model import (
     GOOGLE_SITE_VERIFICATION,
     PAPER_REVISION_DATE,
@@ -60,6 +60,7 @@ def head(
         "about.jpg": "Takashi Sato, AI governance, Sapporo, Japan. Open-boundary mark on black paper.",
     }.get(image_kind, f"{paper['title']}: {paper['subtitle']}. Conceptual research instrument, not empirical data." if paper else title)
     safe_image_alt = escape(image_alt, quote=True)
+    image = asset_url(image.removeprefix("/assets/"))
 
     schema_html = json_ld(schema) if schema else ""
     social_identity = "\n          ".join(f'<link rel="me" href="{escape(url, quote=True)}">' for _, _, url in SOCIAL_PROFILES)
@@ -72,8 +73,13 @@ def head(
 
     author_material_preload = (
         '\n          <link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">'
-        '\n          <link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>'
+        f'\n          <link rel="preload" href="{asset_url("fonts/Newsreader-Variable.woff2")}" as="font" type="font/woff2" crossorigin>'
         if path == "/about.html" else ""
+    )
+
+    name_preload = (
+        f'\n          <link rel="preload" href="/{NAME_FONT_PATH}" as="font" type="font/woff2" crossorigin>'
+        if path in ("/", "/about.html") else ""
     )
 
     paper_meta = ""
@@ -125,7 +131,7 @@ def head(
           <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
           <link rel="alternate icon" href="/favicon.ico">
           <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-          <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>{author_material_preload}
+          <link rel="preload" href="{asset_url("fonts/InterVariable.woff2")}" as="font" type="font/woff2" crossorigin>{author_material_preload}{name_preload}
           <meta property="og:type" content="{og_type}">
           <meta property="og:locale" content="en_US">
           <meta property="og:site_name" content="{SITE_NAME}">

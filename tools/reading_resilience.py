@@ -39,8 +39,22 @@ MEASURE = """() => {
     .filter(el => el.getClientRects().length)
     .map(el => el.getBoundingClientRect())
     .some(r => r.width > 0 && (r.left < -3 || r.right > innerWidth + 3));
+  const overflowCandidates = root.scrollWidth > innerWidth + 3
+    ? [...document.querySelectorAll('body *')].filter(el => el.getClientRects().length)
+      .map(el => {
+        const r = el.getBoundingClientRect(), style = getComputedStyle(el);
+        return {tag: el.tagName, id: el.id, classes: el.getAttribute('class') || '',
+                left: Math.round(r.left), right: Math.round(r.right), width: Math.round(r.width),
+                scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
+                overflowX: style.overflowX, position: style.position};
+      }).filter(r => r.width > 0 && (r.left < -3 || r.right > innerWidth + 3 ||
+           (r.scrollWidth > r.clientWidth + 3 && r.overflowX === 'visible')))
+      .sort((a,b) => Math.max(b.right-innerWidth,-b.left,b.scrollWidth-b.clientWidth) -
+                     Math.max(a.right-innerWidth,-a.left,a.scrollWidth-a.clientWidth)).slice(0,30)
+    : [];
   return {viewport: innerWidth, scrollWidth: root.scrollWidth,
-          heading: head?.textContent.trim() || '', outside, headerOverlap, headerOutside};
+          heading: head?.textContent.trim() || '', outside, headerOverlap, headerOutside,
+          overflowCandidates, fontStatus: document.fonts.status};
 }"""
 
 
@@ -108,6 +122,7 @@ def run(engine: str) -> int:
                     page.emulate_media(media="screen")
                 records.append({"engine": engine, "mode": mode, "page": name, "metrics": metrics, "problems": problems})
                 if problems:
+                    print(f"{prefix} diagnostic geometry: {json.dumps(metrics, ensure_ascii=False)}", flush=True)
                     failures.extend(f"{prefix}: {problem}" for problem in problems)
                 if problems or mode == "large-text":
                     # WebKit can exceed its raster limit even when scrollHeight

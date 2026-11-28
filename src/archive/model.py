@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Final, TypedDict
 
 from .abstracts import ABSTRACTS
+from .runtime_assets import asset_url
 
 ROOT: Final = Path(__file__).resolve().parents[2]
 
@@ -187,7 +188,7 @@ def article_schema(paper: Paper) -> dict[str, object]:
         "isPartOf": {"@id": SERIES_ID},
         "url": paper_url(paper),
         "mainEntityOfPage": paper_url(paper),
-        "image": f"{SITE}/assets/og/{paper['slug']}.jpg",
+        "image": SITE + asset_url(f"og/{paper['slug']}.jpg"),
         "sameAs": [ssrn_url(paper), f"https://doi.org/{paper['doi']}"],
         "identifier": [
             {"@type": "PropertyValue", "propertyID": "DOI", "value": paper["doi"]},

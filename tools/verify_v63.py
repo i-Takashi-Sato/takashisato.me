@@ -26,7 +26,9 @@ if str(ROOT) not in sys.path:
 
 from src.archive.abstracts import ABSTRACTS
 from src.archive.citations import citation_export
-from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path, runtime_url
+from src.archive.runtime_assets import ASSET_NAMES, LEGACY_DIGESTS, asset_path, asset_url, fingerprint_path, runtime_path, runtime_url
+from build_name_font import NAME_FONT_PATH, WOFF2_SHA256, verify_font
+from fontTools.ttLib import TTFont
 from src.archive.model import (
     AUTHOR_ID,
     GOOGLE_SITE_VERIFICATION,
@@ -304,7 +306,7 @@ def audit_html(errors: list[str]) -> None:
 
 def audit_content(errors: list[str]) -> None:
     core = "\n".join((ROOT / rel).read_text(encoding="utf-8") for rel in CORE_HTML)
-    production_css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
+    production_css = (ROOT / runtime_path("site.css")).read_text(encoding="utf-8")
     for retired_mark in ("序", "破", "急", "Jo / Ha / Kyu"):
         if retired_mark in production_css:
             fail(errors, f"retired stage mark present in production CSS: {retired_mark}")
@@ -366,8 +368,16 @@ def audit_content(errors: list[str]) -> None:
             fail(errors, f"{rel}: bilingual identity title missing")
     if '<link rel="preload" href="/assets/author-paper.webp" as="image" type="image/webp" fetchpriority="high">' not in about or "/assets/author-paper.webp" in home:
         fail(errors, "author-only material preload contract violated")
-    if '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' not in about or '<link rel="preload" href="/assets/fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>' in home:
+    newsreader_preload = f'<link rel="preload" href="{asset_url("fonts/Newsreader-Variable.woff2")}" as="font" type="font/woff2" crossorigin>'
+    if newsreader_preload not in about or newsreader_preload in home:
         fail(errors, "author-only editorial font preload contract violated")
+    name_preload = f'<link rel="preload" href="/{NAME_FONT_PATH}" as="font" type="font/woff2" crossorigin>'
+    for rel in ("index.html", "about.html"):
+        if (ROOT / rel).read_text(encoding="utf-8").count(name_preload) != 1:
+            fail(errors, f"{rel}: missing unique author-name font preload")
+    for rel in ("papers/index.html", "papers/part1.html", "papers/part2.html", "papers/part3.html", "publications/index.html", "privacy.html", "security.html", "colophon.html", "404.html", "demo/index.html", "demo/altrion-part1.html", "demo/altrion-part2.html"):
+        if NAME_FONT_PATH in (ROOT / rel).read_text(encoding="utf-8"):
+            fail(errors, f"{rel}: unexpected author-name font preload")
     record_path = ROOT / "reproduction/v5.9/part3-reexecution-2026-11-24.json"
     record = json.loads(record_path.read_text(encoding="utf-8"))
     if record["artifactVersion"] != "5.9" or record["manuscriptVersion"] != "6.2" or record["independentReplication"] or record["fullPackagePublished"]:
@@ -448,6 +458,8 @@ def audit_assets(errors: list[str]) -> None:
         "fonts/Newsreader-OFL.txt",
         "fonts/MeaCulpa.woff2",
         "fonts/MeaCulpa-OFL.txt",
+        "fonts/TakashiNameSerif-OFL.txt",
+        NAME_FONT_PATH.removeprefix("assets/"),
         "og/home.jpg",
         "og/archive.jpg",
         "og/papers.jpg",
@@ -465,22 +477,31 @@ def audit_assets(errors: list[str]) -> None:
         for path in (ROOT / "assets").rglob("*")
         if path.is_file()
     }
-    # Current bundles must be committed and identical to their deterministic aliases.
-    for name in RUNTIME_NAMES:
-        current = runtime_path(name).removeprefix("assets/")
-        expected_assets.add(current)
-        target = ROOT / "assets" / current
-        if not target.is_file() or target.read_bytes() != (ROOT / "assets" / name).read_bytes():
-            fail(errors, f"current fingerprinted bundle missing or differs: {current}")
-    # Historical content-addressed bundles remain valid for cached documents.
-    # Do not allow arbitrary extras or mismatched hashes into the inventory.
+    # Every legacy URL is frozen to the verified public base; every current
+    # manifest entry is independently checked against its own content hash.
+    for name, digest in LEGACY_DIGESTS.items():
+        legacy = ROOT / "assets" / name
+        if not legacy.is_file() or hashlib.sha256(legacy.read_bytes()).hexdigest() != digest:
+            fail(errors, f"frozen legacy asset changed: {name}")
+    for name in ASSET_NAMES:
+        current = asset_path(name)
+        expected_assets.add(current.removeprefix("assets/"))
+    # Retain only valid historical content-addressed assets. Keep the existing
+    # runtime budgets and bound old social cards and webfonts by type.
+    limits = {"site.css": 100_000, "site.js": 20_000,
+              "fonts/InterVariable.woff2": 100_000,
+              "fonts/Newsreader-Variable.woff2": 150_000,
+              "fonts/MeaCulpa.woff2": 50_000}
     for name in actual_assets - expected_assets:
-        match = re.fullmatch(r"site\.([0-9a-f]{64})\.(css|js)", name)
-        if match:
-            data = (ROOT / "assets" / name).read_bytes()
-            limit = 100_000 if match[2] == "css" else 20_000
-            if hashlib.sha256(data).hexdigest() == match[1] and len(data) <= limit:
-                expected_assets.add(name)
+        match = re.fullmatch(r"(.+)\.([0-9a-f]{64})\.(css|js|woff2|jpg)", name)
+        if not match:
+            continue
+        legacy_name = f"{match[1]}.{match[3]}"
+        if legacy_name not in ASSET_NAMES:
+            continue
+        data = (ROOT / "assets" / name).read_bytes()
+        if fingerprint_path(legacy_name, data) == "assets/" + name and len(data) <= limits.get(legacy_name, 180_000):
+            expected_assets.add(name)
     if actual_assets != expected_assets:
         fail(
             errors,
@@ -498,8 +519,8 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, "research metal texture violates the local asset budget")
     if hashlib.sha256(metal.read_bytes()).hexdigest() != "991c61263406b977f10b94dad4481afdde30f929028f33245e1c4349aed9c22c":
         fail(errors, "research metal texture digest mismatch")
-    css = (ROOT / "assets/site.css").read_text(encoding="utf-8")
-    js = (ROOT / "assets/site.js").read_text(encoding="utf-8")
+    css = (ROOT / runtime_path("site.css")).read_text(encoding="utf-8")
+    js = (ROOT / runtime_path("site.js")).read_text(encoding="utf-8")
     if css.count("{") != css.count("}"):
         fail(errors, "production stylesheet has unbalanced braces")
     if re.search(r"https?://|@import\s+url", css):
@@ -522,9 +543,9 @@ def audit_assets(errors: list[str]) -> None:
         fail(errors, f"production script exceeds 20 KB: {len(js.encode())}")
 
     fonts = {
-        "Inter": (ROOT / "assets/fonts/InterVariable.woff2", 100_000),
-        "Newsreader": (ROOT / "assets/fonts/Newsreader-Variable.woff2", 150_000),
-        "MeaCulpa": (ROOT / "assets/fonts/MeaCulpa.woff2", 50_000),
+        "Inter": (ROOT / asset_path("fonts/InterVariable.woff2"), 100_000),
+        "Newsreader": (ROOT / asset_path("fonts/Newsreader-Variable.woff2"), 150_000),
+        "MeaCulpa": (ROOT / asset_path("fonts/MeaCulpa.woff2"), 50_000),
     }
     for family, (font_path, size_limit) in fonts.items():
         if not font_path.read_bytes().startswith(b"wOF2"):
@@ -536,6 +557,19 @@ def audit_assets(errors: list[str]) -> None:
             fail(errors, f"{family} license record is missing or invalid")
         if font_path.name not in css:
             fail(errors, f"production stylesheet does not declare {family}")
+
+    name_font = ROOT / NAME_FONT_PATH
+    try:
+        if hashlib.sha256(name_font.read_bytes()).hexdigest() != WOFF2_SHA256 or name_font.stat().st_size > 6000:
+            raise ValueError("Author font digest or size mismatch")
+        with TTFont(name_font) as subset_font:
+            verify_font(subset_font)
+        if name_font.name not in css or "unicode-range:U+4F50,U+85E4,U+8CB4,U+58EB" not in css:
+            raise ValueError("Author font URL or four-codepoint range mismatch")
+        if "SIL OPEN FONT LICENSE Version 1.1" not in (ROOT / "assets/fonts/TakashiNameSerif-OFL.txt").read_text(encoding="utf-8"):
+            raise ValueError("Missing author font license")
+    except (OSError, ValueError) as exc:
+        fail(errors, f"author font: {exc}")
 
     # Only :root color tokens belong to the global paper/ink contrast test.
     # Scoped dark research exhibits are audited against their actual backgrounds by axe.
@@ -565,7 +599,7 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"global text color {color} has insufficient contrast on {paper_color}: {ratio:.2f}:1")
 
     for name in ["home", "papers", "about", "archive", *PAPERS]:
-        image_path = ROOT / f"assets/og/{name}.jpg"
+        image_path = ROOT / asset_path(f"og/{name}.jpg")
         if not image_path.exists():
             fail(errors, f"missing OG image: {image_path.relative_to(ROOT)}")
             continue
@@ -574,7 +608,7 @@ def audit_assets(errors: list[str]) -> None:
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected 1200x630, found {image.size}")
             if image.format != "JPEG":
                 fail(errors, f"{image_path.relative_to(ROOT)}: expected JPEG, found {image.format}")
-    archive_image = ROOT / "assets/og/archive.jpg"
+    archive_image = ROOT / asset_path("og/archive.jpg")
     if archive_image.exists():
         with Image.open(archive_image) as image:
             if archive_image.stat().st_size > 180_000 or image.getexif():
@@ -584,7 +618,7 @@ def audit_assets(errors: list[str]) -> None:
         parser.feed((ROOT / rel).read_text(encoding="utf-8"))
         for field, attribute in (("og:image", "property"), ("twitter:image", "name")):
             values = [attrs.get("content") for tag, attrs in parser.tags if tag == "meta" and attrs.get(attribute) == field]
-            if values != [SITE + "/assets/og/archive.jpg"]:
+            if values != [SITE + asset_url("og/archive.jpg")]:
                 fail(errors, f"{rel}: author archive social card mismatch")
     brand_svg = (ROOT / "assets/brand-mark.svg").read_text(encoding="utf-8")
     if 'M11 59V12H55V30M55 52V59H11' not in brand_svg or 'M29 41H64' not in brand_svg:

@@ -719,6 +719,30 @@ def author_archive_entry_errors(browser, errors: list[str]) -> None:
             context.close()
 
 
+def cold_name_font_errors(browser, errors: list[str]) -> None:
+    """Observe actual rendered glyphs on a cold Chromium navigation, without forcing font loading."""
+    for width in (390, 1440):
+        for route, selector in (("/", ".identity-thesis [lang=ja]"), ("/about.html", ".portrait-name [lang=ja]")):
+            context = browser.new_context(viewport={"width": width, "height": 900}, reduced_motion="reduce")
+            try:
+                page = context.new_page()
+                session = context.new_cdp_session(page)
+                session.send("Network.enable")
+                session.send("Network.setCacheDisabled", {"cacheDisabled": True})
+                session.send("DOM.enable")
+                session.send("CSS.enable")
+                page.goto(BASE + route, wait_until="load")
+                page.wait_for_function("performance.getEntriesByName('first-contentful-paint').length > 0")
+                document = session.send("DOM.getDocument")
+                node = session.send("DOM.querySelector", {"nodeId": document["root"]["nodeId"], "selector": selector})["nodeId"]
+                fonts = session.send("CSS.getPlatformFontsForNode", {"nodeId": node})["fonts"]
+                print(f"Cold author name {route}@{width}: {fonts}", flush=True)
+                if not any(font["isCustomFont"] and font["familyName"] == "Takashi Name Serif" and font["glyphCount"] >= 4 for font in fonts):
+                    errors.append(f"{route}@{width}: cold navigation used fallback name glyphs: {fonts}")
+            finally:
+                context.close()
+
+
 def legacy_notice_errors(browser, errors: list[str]) -> None:
     """Check computed colors even when axe cannot evaluate background images."""
     routes = {
@@ -822,6 +846,7 @@ def main() -> None:
         japanese_guide_errors(browser, errors)
         publication_expansion_errors(browser, errors)
         author_archive_entry_errors(browser, errors)
+        cold_name_font_errors(browser, errors)
         legacy_notice_errors(browser, errors)
         browser.close()
 

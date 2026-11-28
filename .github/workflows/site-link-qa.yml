@@ -41,7 +41,6 @@ jobs:
       - name: Rebuild deterministic archive outputs
         run: |
           python tools/build_site.py
-          python tools/generate_og.py
 
       - name: Require committed generated output
         run: |
@@ -64,4 +63,4 @@ jobs:
       - name: Check Python and JavaScript syntax
         run: |
           python -m compileall -q tools
-          node --check assets/site.js
+          node --check "$(python -c 'from src.archive.runtime_assets import runtime_path; print(runtime_path("site.js"))')"
