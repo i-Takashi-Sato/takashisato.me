@@ -10,9 +10,9 @@ from .routes import public_pages
 
 
 RESEARCH_PROVENANCE = {
-    1: "Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here.",
-    2: "Descriptive model and rejectable propositions; empirical validation is not established.",
-    3: "Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation.",
+    1: "Finite-stage conformance using two same-author encodings and an integrated model with 134,672 reachable states. Every state has a path to a recorded outcome; independent third-party reproduction is not established.",
+    2: "Descriptive profile and separate causal specification; 81 three-valued profiles; empirical validation is not established.",
+    3: "Historical safety model (8,564 states, 36,096 transitions), reachability defect (1,152 states), and revised bounded PE-R1 (98,948 states). Historical synthetic generator is not included; no field validation.",
 }
 
 
@@ -64,7 +64,7 @@ def research_index() -> dict[str, object]:
             {
                 "@type": "PropertyValue",
                 "name": "Legacy prototype status",
-                "value": "Superseded; excluded from current research routes because the prototypes do not implement version 6.2.",
+                "value": "Superseded; excluded from current research routes because the prototypes do not implement version 6.3.",
             },
         ],
     }

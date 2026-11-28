@@ -7,7 +7,7 @@ The social-profile release was merged into main on 2026-11-26 (JST), commit
 Archive QA, Visual Smoke and Web Quality Gate. The main deployment
 (run 45715432895) and Live Release Verification (run 45715433185) succeeded.
 The main Archive QA (45715433249) and Visual Smoke (45715433306) also succeeded.
-The immutable v6.2 manuscripts and public research identity are preserved.
+The immutable v6.2 and v6.3 manuscripts and public research identity are preserved.
 This record describes observed checks, not aesthetic perfection or complete
 WCAG conformance.
 

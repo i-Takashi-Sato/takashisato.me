@@ -23,7 +23,7 @@ style swap, so the archive does not trade a fast first paint for a delayed LCP r
 model → layout → page renderers → build orchestration
   └──────→ feeds / schema / preservation metadata
 source CSS/JS → build_assets.py → runtime CSS/JS
-model + generated output → verify_v62.py
+model + generated output → verify_v63.py
 ```
 
 Renderers may depend on the model. The model must never depend on HTML output.
@@ -61,7 +61,7 @@ The Papers index contains a stable, semantic concept register. Citation-copy con
 
 Current HTML references the SHA-256-named CSS and JS bundles derived from the exact deterministic build bytes. The legacy `assets/site.css` and `assets/site.js` paths remain available for older links and are still byte-verified. Historical fingerprinted bundles are retained so cached documents cannot lose their referenced resources; the inventory validates their names, hashes and size limits. The current page still loads only one stylesheet and one script. No stylesheet or script content was changed in the initial migration.
 
-The concept register's secondary preserved-PDF links now point to exact starting pages in the immutable v6.2 manuscripts. Each page range is checked for bounds and its source heading is located in the preserved PDF. This verifies locators, not external construct validity. The SSRN reading route remains primary.
+The concept register's secondary preserved-PDF links now point to exact starting pages in the immutable current v6.3 manuscripts. Each page range is checked for bounds and its source heading is located in the preserved PDF. This verifies locators, not external construct validity. The SSRN reading route remains primary.
 
 ## Reading resilience
 

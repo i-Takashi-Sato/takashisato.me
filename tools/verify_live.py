@@ -26,6 +26,8 @@ ROUTES = {
     **{page.path: page.file for page in public_pages()},
     **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
     **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
+    **{f"/pdf/v6.2/{slug}.pdf": f"pdf/v6.2/{slug}.pdf" for slug in SLUGS},
+    **{f"/citations/v6.2/{slug}.{ext}": f"citations/v6.2/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
     **{f"/assets/og/{name}.jpg": f"assets/og/{name}.jpg" for name in ("home", "papers", "part1", "part2", "part3", "about", "archive")},
     # Check the exact URLs used by newly generated HTML as well as the legacy aliases.
     **{"/" + runtime_path(name): runtime_path(name) for name in RUNTIME_NAMES},
@@ -38,6 +40,7 @@ ROUTES = {
         "site.webmanifest", "research-index.json", "publications.json", "sitemap.xml", "robots.txt", "llms.txt", "feed.xml",
         "humans.txt", ".well-known/security.txt",
         "76a21f980fdabdd7e0452ee2206d1b18.txt",
+        "reproduction/v6.3/trilogy_v6.3_publication_6953eeb9.zip",
         "reproduction/v5.9/part3-historical-checker.zip",
         "reproduction/v5.9/part3-reexecution-2026-11-24.json",
     )},

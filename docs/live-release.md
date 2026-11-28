@@ -18,7 +18,7 @@ After accumulating successes across multiple attempts, the audit requires a fres
 
 ## Disclosure and reproducibility delivery
 
-The audit also covers the public security.txt and humans.txt records and the two published Part III historical-checker/re-execution artifacts. All four require exact bytes; the ZIP requires a recognized archive or binary MIME type. A local test checks the security disclosure contact, canonical URL, policy and unexpired RFC 9116 timestamp. This verifies delivery and freshness, not penetration-test results or mailbox ownership. The historical checker is not the full reproducibility package, and the author-side re-execution is not independent replication.
+The audit also covers the public security.txt and humans.txt records the versioned v6.2 PDFs and citations, the v6.3 source archive, and the two published Part III historical-checker/re-execution artifacts. All require exact bytes; ZIPs require a recognized archive or binary MIME type. A local test checks the security disclosure contact, canonical URL, policy and unexpired RFC 9116 timestamp. This verifies delivery and freshness, not penetration-test results or mailbox ownership. The historical checker is not the full reproducibility package, and the author-side re-execution is not independent replication.
 
 ## Catalogue coverage and canonical routing
 

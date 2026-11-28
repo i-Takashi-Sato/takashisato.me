@@ -7,8 +7,8 @@
   "url": "https://takashisato.me/papers/",
   "mainEntityOfPage": "https://takashisato.me/research-index.json",
   "description": "Independent research archive on workflow-centric AI governance, governing-capacity loss, Proper Ending, and Authority Return.",
-  "dateModified": "2026-09-23",
-  "version": "6.2",
+  "dateModified": "2026-11-28",
+  "version": "6.3",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "creator": {
@@ -58,7 +58,7 @@
       "human oversight",
       "workflow governance",
       "governing capacity",
-      "Procedurally Masked Governing-Capacity Loss",
+      "Governing-capacity loss under procedural continuity (GCL-PC)",
       "accountable exit",
       "Proper Ending",
       "Authority Return"
@@ -68,21 +68,21 @@
     {
       "@type": "ScholarlyArticle",
       "@id": "https://takashisato.me/papers/part1.html#article",
-      "headline": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions",
-      "name": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human-AI Decisions",
-      "description": "A falsifiable, two-stage state-and-authority grammar for routing consequential human-AI decisions without turning missing evidence, unavailable capacity, or preliminary machine states into silent approval or denial.",
-      "abstract": "Human oversight is frequently assigned as a role while the protocol that makes oversight meaningful remains underspecified. A person can be formally 'in the loop' while lacking admissible evidence, time, decisional authority, review capacity, or a usable fallback. This paper specifies a workflow-centric case contract for consequential human-AI decisions. Stage 1 maps three independent diagnostic states - each PASS, REVIEW, BLOCK, or UNKNOWN - plus distinct review-authority, review-capacity, fallback-authorization, and fallback-readiness inputs to one routing status. All-PASS yields EXECUTION ELIGIBLE only: execution is governed by a separate, versioned execution contract. Stage 2 records the actual current, in-scope signed disposition for cases routed to authorized review. A preliminary BLOCK is not a final denial; authority availability is not a decision event; UNKNOWN cannot silently become PASS; signed DEFER produces AUTHORIZED DEFER rather than reusing the Stage-1 EVIDENCE HOLD state; and fallback requires both authorization and operational readiness.\n\nThe v6.2 independent checker enumerates all 1,024 Stage-1 configurations and all 1,248 applicable Stage-2 configurations. The authored functions produce zero invariant violations, while nine isolated guard mutations each produce a counterexample, including a cross-stage mutation that collapses signed DEFER back into the Stage-1 EVIDENCE HOLD label. Exhaustive therefore means complete over the declared truth-table abstraction; it is not proof that the invariants are complete, comparison with external ground truth, or evidence of legal or field effectiveness. A shared fifteen-unit public-record corpus from official investigations of Robodebt, the Dutch childcare-allowance scandal, and Michigan unemployment-insurance claimant services is used only to show traceability of evidence, reasons, review access, authority, proportionality, feedback, and remedy.\n\nThe contribution is a falsifiable state-and-authority grammar for case routing. It does not establish that three gates are optimal, that the risk decomposition is exhaustive, that the routing priority is legally sufficient in any jurisdiction, or that the architecture improves outcomes. Its narrower claim is that missing evidence, unavailable capacity, nominal authority, and fallback readiness can be represented as different typed conditions rather than silently collapsed into approval or denial.",
+      "headline": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human–AI Decisions",
+      "name": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human–AI Decisions",
+      "description": "A typed two-stage gate contract and separate execution boundary for accountable human–AI decisions, with finite conformance and integrated temporal checks.",
+      "abstract": "The mere presence of a reviewer does not make a human–AI decision accountable. A decision workflow must distinguish diagnostic findings, routing, authenticated dispositions, and actual actions. This paper specifies a typed two-stage gate contract and a separate execution boundary. Stage 1 maps three four-valued diagnostic outputs to a unique route; Stage 2 records a typed instruction only within authorized review. Neither routing nor an authenticated instruction replaces legal admissibility, current evidence, execution authority, or a durable decision record. The revised design separates correctable objections from prohibitions and requires revalidation of the candidate action when its evidence or authorization becomes stale. Finite conformance tests check that routing and disposition clauses are mutually exclusive and exhaustive. An integrated finite model applies the same routing, disposition and execution guards to diagnosis, review, waiting, re-entry, evidence expiry and fallback. Among 134,672 reachable abstract states, no commitment violates the separately encoded requirements, no nonterminal state is deadlocked, and every state has a path to a recorded outcome. These exercises do not establish the legality, operational effectiveness, or real-world safety of a deployment. The contribution is a testable workflow specification and implementation contract, not a claim that human oversight alone suffices.",
       "author": {
         "@id": "https://takashisato.me/about.html#takashi-sato"
       },
       "datePublished": "2026-01-09",
-      "dateModified": "2026-08-23",
-      "version": "6.2",
+      "dateModified": "2026-11-28",
+      "version": "6.3",
       "inLanguage": "en-US",
       "isAccessibleForFree": true,
       "pageStart": 1,
-      "pageEnd": 18,
-      "pagination": "1-18",
+      "pageEnd": 21,
+      "pagination": "1-21",
       "isPartOf": {
         "@id": "https://takashisato.me/papers/#trilogy"
       },
@@ -107,11 +107,11 @@
       ],
       "encoding": {
         "@type": "MediaObject",
-        "contentUrl": "https://takashisato.me/pdf/v6.2/part1.pdf",
+        "contentUrl": "https://takashisato.me/pdf/v6.3/part1.pdf",
         "encodingFormat": "application/pdf",
-        "contentSize": "514075 bytes",
-        "sha256": "edf19f110f6b0302765e29d2dfa20ddb2cbea299ea93b9c30a6a98411f73c2e8",
-        "uploadDate": "2026-08-23"
+        "contentSize": "188461 bytes",
+        "sha256": "2a486605e10445df74066cec6704646c24ea9351f9ad79a6b5b4970e95f3c78f",
+        "uploadDate": "2026-11-28"
       },
       "keywords": [
         "AI governance",
@@ -141,28 +141,28 @@
         {
           "@type": "PropertyValue",
           "name": "Research provenance",
-          "value": "Reported from the v6.2 independent reimplementation (verify_part1_contract_v62.py), not an edit of the v5.9 checker. Independent third-party reproduction is not established here."
+          "value": "Finite-stage conformance using two same-author encodings and an integrated model with 134,672 reachable states. Every state has a path to a recorded outcome; independent third-party reproduction is not established."
         }
       ]
     },
     {
       "@type": "ScholarlyArticle",
       "@id": "https://takashisato.me/papers/part2.html#article",
-      "headline": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
-      "name": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive State Model with Pre-Abuse Collapse as a Provisional Etiological Subtype",
-      "description": "A descriptive state model for institutions whose visible procedure remains intact while independent judgment, practical governing capacity, and a predeclared protected function materially deteriorate.",
-      "abstract": "AI governance can mistake procedural completion for evidence that a human-controlled institution remains intact. That inference can fail. A workflow may complete every required step while human contributions become derivative, corrective voice becomes ineffective, practical authority fragments, and a declared protected function deteriorates. This paper develops a middle-range model of procedurally masked governing-capacity loss that is designed for empirical rejection but not yet validated. It separates a descriptive state from an etiological claim. Realized procedurally masked governing-capacity loss (PMGCL) requires stable or improving visible procedural fidelity, material and persistent declines in independent judgment and effective governing capacity, and material impairment of a predeclared protected function. Pre-Abuse Collapse (PAC) is retained only as a provisional etiological subtype: PAC additionally requires an identified, materially adverse ordinary-exposure contrast under a predeclared malicious-pathway intervention or reference condition. The contrast does not prove that malicious conduct is absent, unnecessary in a sufficient-component-cause sense, or irrelevant to any individual case. If protected-function impairment is unshown, the state is incipient governing-capacity-loss risk; if the causal contrast is unidentified, PMGCL may be classified but PAC may not.\n\nThe theory integrates established component mechanisms rather than claiming to invent them. Cognitive externalization, legibility capture, responsibility inversion, and voice attenuation are specified as candidate pathways with pressures, observable traces, countervailing conditions, rival explanations, and falsifiers. A shared fifteen-unit public-record corpus from official investigations of Robodebt, the Dutch childcare-allowance scandal, and Michigan unemployment-insurance claimant services is used only to establish traceability of mechanism-adjacent objects such as evidence sufficiency, categorical simplification, review access, feedback routing, warning persistence, and remedy. It does not classify any case as PAC, estimate prevalence, identify causal effects, or validate temporal sequence.\n\nThe paper derives five rejectable propositions and a future identification program. The fifth is a comparative retirement test: binary PMGCL and PAC classifications must be compared, under nested site- or time-blocked validation, with continuous component models and established-theory baselines on an independent outcome or intervention choice. Calibration and decision value must be reported; the protected-function element used to define the state cannot be reused as the target. PMGCL or the PAC label should be retired if it adds no reproducible discrimination, lead time, calibration, or intervention value beyond simpler models.",
+      "headline": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive Profile Model and a Rejection-Oriented Research Program",
+      "name": "Procedural Continuity and Governing-Capacity Loss in AI-Assisted Institutions: A Descriptive Profile Model and a Rejection-Oriented Research Program",
+      "description": "A non-compensatory descriptive profile of governing-capacity loss under procedural continuity, with a separate causal question and a rejection-oriented research program.",
+      "abstract": "An AI-assisted institution may fulfill its procedural obligations while independent epistemic contribution, practical corrective authority, and the performance of a protected function deteriorate. Procedural completion alone then provides little assurance that human control remains intact. This paper develops a middle-range model of this pattern. Governing-capacity loss under procedural continuity (GCL-PC) is a non-compensatory profile of four jointly established conditions within a declared workflow, population and interval: stable or improving procedural fidelity; material and persistent decline in independent judgment; material and persistent decline in institutional actionability; and material impairment of a predeclared protected function. Each condition is coded established, not met or indeterminate, so that missing evidence is not mistaken for evidence of sound governance. The profile implies neither concealment nor a particular cause. A separate causal question asks whether, under a well-defined intervention that disables a named adversarial pathway, a declared ordinary organizational exposure materially harms the protected outcome; identification status and effect assessment are reported on separate axes. Four candidate mechanisms, five testable propositions with rejection conditions, a measurement protocol that separates contribution from actionability, and retention and retirement rules that must be preregistered before evaluation define a research program. Fifteen public-record units from three official investigations of automated decision systems predating generative AI show only that objects associated with the proposed mechanisms are traceable; no field validation, individual causation, prevalence or predictive superiority is claimed. Whether the profile adds value beyond means–ends decoupling and effective-oversight frameworks is an empirical hypothesis, and the binary label must be retired for any use in which it fails to improve a declared decision beyond its continuous components and established baselines.",
       "author": {
         "@id": "https://takashisato.me/about.html#takashi-sato"
       },
       "datePublished": "2026-01-12",
-      "dateModified": "2026-08-23",
-      "version": "6.2",
+      "dateModified": "2026-11-28",
+      "version": "6.3",
       "inLanguage": "en-US",
       "isAccessibleForFree": true,
       "pageStart": 1,
-      "pageEnd": 20,
-      "pagination": "1-20",
+      "pageEnd": 28,
+      "pagination": "1-28",
       "isPartOf": {
         "@id": "https://takashisato.me/papers/#trilogy"
       },
@@ -187,11 +187,11 @@
       ],
       "encoding": {
         "@type": "MediaObject",
-        "contentUrl": "https://takashisato.me/pdf/v6.2/part2.pdf",
+        "contentUrl": "https://takashisato.me/pdf/v6.3/part2.pdf",
         "encodingFormat": "application/pdf",
-        "contentSize": "562947 bytes",
-        "sha256": "6cb7a21940caa3c62a20820f8156d8d684317ad8db3a0be8c4ceb8b85d1d5e88",
-        "uploadDate": "2026-08-23"
+        "contentSize": "211917 bytes",
+        "sha256": "eadac2bc35ce32200550b5c2cf5f884836455be3d7ac0cf7c3f5199750b92ae6",
+        "uploadDate": "2026-11-28"
       },
       "keywords": [
         "AI governance",
@@ -221,7 +221,7 @@
         {
           "@type": "PropertyValue",
           "name": "Research provenance",
-          "value": "Descriptive model and rejectable propositions; empirical validation is not established."
+          "value": "Descriptive profile and separate causal specification; 81 three-valued profiles; empirical validation is not established."
         }
       ]
     },
@@ -231,18 +231,18 @@
       "headline": "From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions",
       "name": "From Governance Drift to Accountable Exit: Proper Ending and Authority Return in AI-Assisted Institutions",
       "description": "A dependency-constrained protocol for containing and retiring AI-assisted workflows while preserving service, evidence, remedy, accountable ownership, and the practical capacity to decide.",
-      "abstract": "An AI-assisted workflow may remain technically available and procedurally complete after the institution has lost the independent judgment, corrective voice, and practical authority needed to govern it. Monitoring alone cannot resolve that failure: institutions also need a lawful transition from weak signal to investigation, reversible containment, remedy-preserving retirement, and reconstitution or residual disposition of decision capacity. This paper specifies that transition as Proper Ending and Authority Return.\n\nThe protocol separates measurement, incident finding, authority, containment, retirement, closure, temporary release, and post-closure redeployment. Closure requires preserved evidence, service-continuity arrangements, notice and remedy, ownership of every open case, and branch-specific post-exit responsibility: an accepting operational successor when the decision function continues, or a residual custodian or remedy authority when it ends. Temporary release from containment and redeployment after closure carry distinct authorization burdens. A selected finite abstraction of safety-critical guards contains 31 state variables and 29 named actions. Exhaustive breadth-first exploration reached 8,564 states and examined 36,096 enabled transitions without violating the authored safety invariants; isolated weakening of each of 30 mutation-adequate guards produced a counterexample. These results establish internal consistency only within the abstraction, not legal sufficiency, semantic adequacy, or field effectiveness.\n\nFifteen evidence units from official investigations of Robodebt, the Dutch childcare-allowance scandal, and Michigan unemployment-insurance claimant services are used only to show external traceability of the governance objects. A separate synthetic Governance Drift Indicator program remains subordinate to the exit protocol. In 100 constructed localized-collapse streams, the frozen aggregate rule identifies 8, a single pre-specified and code-frozen subgroup rule identifies 97, and their union 98, with no Level-2 candidate in six benign 100-stream scenarios. Because the subgroup boundary matches the generator's constructed failure boundary and aggregate performance is highly parameter-sensitive, this is a failure-mode and implementation test, not external validation. Indicators may route investigation; they may never contain, retire, resume, or redeploy a workflow.",
+      "abstract": "An AI-assisted workflow can remain technically available and procedurally complete after its institution has lost the independent judgment, corrective voice, and practical authority needed to govern it. Monitoring alone cannot resolve that failure. Institutions also need a lawful path from weak signals through investigation and reversible containment to retirement that preserves remedy and assigns decision capacity or residual responsibility. Proper Ending and Authority Return specify that path, keeping signals, research classifications, authorized determinations, containment, retirement, decommissioning, transfer and closure distinct. Closure requires preserved evidence, notice, a secured remedy route, an owner for every open case, and branch-specific post-exit responsibility: an accepting successor if the decision function continues, a residual custodian if it ends. Temporary release from containment and redeployment after closure carry distinct burdens. A finite model of events and authorization tests selected safety guards and whether closure remains reachable. The historical guard model (8,564 states and 36,096 transitions, with no safety violation) is retained unchanged; a follow-up audit finds 1,152 states with no path to closure, including 288 retirement-authorized states stranded after temporary release: safety held while authorized progress was impossible. The revised candidate PE-R1 permits one bounded re-containment and separates historical records from current assessments; its 98,948 reachable states contain no safety violation and no state from which closure is unreachable. These results establish properties of an abstraction, not lawful authority, effective remedy, unrestricted repeated episodes, or real-world safety. Fifteen evidence units from three official investigations of automated decision systems predating generative AI show only external traceability. The proposed Governance Drift Indicators remain subordinate to authorized decisions: they may route investigation but never contain, retire, resume, or redeploy a workflow.",
       "author": {
         "@id": "https://takashisato.me/about.html#takashi-sato"
       },
       "datePublished": "2026-02-10",
-      "dateModified": "2026-08-23",
-      "version": "6.2",
+      "dateModified": "2026-11-28",
+      "version": "6.3",
       "inLanguage": "en-US",
       "isAccessibleForFree": true,
       "pageStart": 1,
-      "pageEnd": 39,
-      "pagination": "1-39",
+      "pageEnd": 55,
+      "pagination": "1-55",
       "isPartOf": {
         "@id": "https://takashisato.me/papers/#trilogy"
       },
@@ -267,11 +267,11 @@
       ],
       "encoding": {
         "@type": "MediaObject",
-        "contentUrl": "https://takashisato.me/pdf/v6.2/part3.pdf",
+        "contentUrl": "https://takashisato.me/pdf/v6.3/part3.pdf",
         "encodingFormat": "application/pdf",
-        "contentSize": "1032918 bytes",
-        "sha256": "7cda8695056f7268d4ef9ffb794ac29022e478ff087b646c339f800b9fe1ef72",
-        "uploadDate": "2026-08-23"
+        "contentSize": "552532 bytes",
+        "sha256": "995239c1ce29d99cce996308ae503cc85dab77fb27e24671d60a7741f4501ab6",
+        "uploadDate": "2026-11-28"
       },
       "keywords": [
         "AI governance",
@@ -301,7 +301,7 @@
         {
           "@type": "PropertyValue",
           "name": "Research provenance",
-          "value": "Formal verification and synthetic benchmark results are carried forward from frozen v5.9 computational artifacts; v6.2 claims no new execution or empirical validation."
+          "value": "Historical safety model (8,564 states, 36,096 transitions), reachability defect (1,152 states), and revised bounded PE-R1 (98,948 states). Historical synthetic generator is not included; no field validation."
         }
       ]
     }
@@ -312,7 +312,7 @@
     "url": "https://takashisato.me/papers/#concepts",
     "name": "Concepts and evidence",
     "description": "An index of the archive's research concepts, not new definitions or independent validation.",
-    "version": "6.2",
+    "version": "6.3",
     "inLanguage": "en",
     "creator": {
       "@id": "https://takashisato.me/about.html#takashi-sato"
@@ -349,10 +349,10 @@
       },
       {
         "@type": "DefinedTerm",
-        "@id": "https://takashisato.me/papers/#concept-pmgcl",
-        "url": "https://takashisato.me/papers/#concept-pmgcl",
-        "name": "Procedurally Masked Governing-Capacity Loss (PMGCL)",
-        "description": "Descriptive state model. Stable or improving procedural fidelity, persistent material losses of judgment and governing capacity, and material impairment of a predeclared protected function.",
+        "@id": "https://takashisato.me/papers/#concept-gcl-pc",
+        "url": "https://takashisato.me/papers/#concept-gcl-pc",
+        "name": "Governing-capacity loss under procedural continuity (GCL-PC)",
+        "description": "Descriptive profile, not a causal label. Stable or improving procedural fidelity, persistent material losses of judgment and governing capacity, and material impairment of a predeclared protected function.",
         "inDefinedTermSet": {
           "@id": "https://takashisato.me/papers/#concepts"
         },
@@ -362,10 +362,10 @@
       },
       {
         "@type": "DefinedTerm",
-        "@id": "https://takashisato.me/papers/#concept-pac",
-        "url": "https://takashisato.me/papers/#concept-pac",
-        "name": "Pre-Abuse Collapse (PAC)",
-        "description": "Provisional etiological subtype. Requires PMGCL plus an identified materially adverse ordinary-exposure contrast under a predeclared malicious-pathway intervention or reference condition.",
+        "@id": "https://takashisato.me/papers/#concept-ordinary-exposure",
+        "url": "https://takashisato.me/papers/#concept-ordinary-exposure",
+        "name": "Ordinary-exposure causal question",
+        "description": "Separate causal specification. A declared ordinary organizational exposure under an intervention disabling a named adversarial pathway; report identification status separately from effect assessment.",
         "inDefinedTermSet": {
           "@id": "https://takashisato.me/papers/#concepts"
         },
@@ -431,7 +431,7 @@
     {
       "@type": "PropertyValue",
       "name": "Current version",
-      "value": "6.2"
+      "value": "6.3"
     },
     {
       "@type": "PropertyValue",
@@ -441,7 +441,7 @@
     {
       "@type": "PropertyValue",
       "name": "Legacy prototype status",
-      "value": "Superseded; excluded from current research routes because the prototypes do not implement version 6.2."
+      "value": "Superseded; excluded from current research routes because the prototypes do not implement version 6.3."
     }
   ]
 }

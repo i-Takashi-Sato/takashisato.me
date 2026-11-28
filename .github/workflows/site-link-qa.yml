@@ -53,7 +53,7 @@ jobs:
           fi
 
       - name: Verify archive, metadata, PDFs, and assets
-        run: python tools/verify_v62.py
+        run: python tools/verify_v63.py
 
       - name: Test deployed-byte verification locally
         run: |

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "10.2139/ssrn.5911063",
+    "type": "report",
+    "genre": "Working paper",
+    "title": "Workflow-Centric AI Governance: A Typed Gate Contract for Accountable Human–AI Decisions",
+    "author": [
+      {
+        "family": "Sato",
+        "given": "Takashi"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026,
+          1,
+          9
+        ]
+      ]
+    },
+    "DOI": "10.2139/ssrn.5911063",
+    "URL": "https://doi.org/10.2139/ssrn.5911063",
+    "language": "en",
+    "note": "Working paper, version 6.3, revised 2026-11-28"
+  }
+]
