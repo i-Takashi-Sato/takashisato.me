@@ -1,0 +1,14 @@
+{
+  "fonts/InterVariable.woff2": "assets/fonts/InterVariable.dd8a4575be9806105ac3decd02805cd2782fe7c05abb02c582316bc436ce03ae.woff2",
+  "fonts/MeaCulpa.woff2": "assets/fonts/MeaCulpa.b3907e33232e370842e8a07b773bcb6b5c3743eb19a7308bdccf08bd145b39d1.woff2",
+  "fonts/Newsreader-Variable.woff2": "assets/fonts/Newsreader-Variable.01817351be3edfc1714fe6d60ddea6a22a169a5ebd033b50c7f9495e5d9c386a.woff2",
+  "og/about.jpg": "assets/og/about.641941fb8f67bfae864c3f2263a941c8cca364fdd4bdd360992a213e99b79920.jpg",
+  "og/archive.jpg": "assets/og/archive.0ce9ae8f00a9a606a6c56ed7cf20ba5e21df7ce9a89b0d94479b5538a41d1a2d.jpg",
+  "og/home.jpg": "assets/og/home.7f0efa913b496058cfad1138f6250332ab61fae5d610def5ddf9c28fd20e8a4f.jpg",
+  "og/papers.jpg": "assets/og/papers.acac0cde4fe41d0b696ce85b2830d7a0321da0f0b75244f10c98b2338345ff8f.jpg",
+  "og/part1.jpg": "assets/og/part1.da10a3aca24c53eb3cdde3d5cd78e6093a5e048cd17643adfdea57aec898174c.jpg",
+  "og/part2.jpg": "assets/og/part2.51e707c2455f7ce724e626a58ae4699cc60aed2da649778f39650b666a7ed495.jpg",
+  "og/part3.jpg": "assets/og/part3.4ec77a7d13953d480f59f27d79e993a8615ca26aa3cb8796fe7dea90d3e8cd19.jpg",
+  "site.css": "assets/site.c9a90a149d6c6d56a85e6f5b3f4cd38d38fa741b6e553092d48a670250d36545.css",
+  "site.js": "assets/site.3167074d934c075877dc01b5c874cc147f84eca53208185f8dc65c3151f8ed7c.js"
+}
