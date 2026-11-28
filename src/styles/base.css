@@ -418,7 +418,7 @@ body[data-page="about"] { background: radial-gradient(68rem 46rem at 82% 5%, rgb
 .utility-page { padding-block: clamp(4rem, 10vw, 8rem); }
 .utility-page h1 { margin: 0; font-size: clamp(4.8rem, 9.4vw, 9.8rem); font-weight: 310; letter-spacing: -.05em; line-height: .8; }
 .utility-page .content { max-width: 51rem; margin-top: 3rem; }
-.notice { max-width: 58rem; padding: clamp(2rem, 6vw, 5rem); border: 1px solid var(--line-strong); background: linear-gradient(rgba(8, 8, 8, .78), rgba(8, 8, 8, .9)); }
+.notice { max-width: 58rem; padding: clamp(2rem, 6vw, 5rem); border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink); }
 .notice h1 { margin: .75rem 0 1rem; font-size: clamp(3.5rem, 7vw, 6.8rem); font-weight: 320; letter-spacing: -.05em; line-height: .86; }
 .notice p { color: var(--ink-soft); }
 

@@ -21,9 +21,12 @@ from src.archive.runtime_assets import RUNTIME_NAMES, runtime_path
 from src.archive.routes import public_pages
 
 SLUGS = tuple(paper["slug"] for paper in PAPERS)
-# Canonical public routes only; no mutable PDF aliases or third-party requests.
+# Canonical public routes plus explicit retired notices; no mutable PDF aliases or third-party requests.
 ROUTES = {
     **{page.path: page.file for page in public_pages()},
+    "/demo/": "demo/index.html",
+    "/demo/altrion-part1.html": "demo/altrion-part1.html",
+    "/demo/altrion-part2.html": "demo/altrion-part2.html",
     **{f"/pdf/v{VERSION}/{slug}.pdf": f"pdf/v{VERSION}/{slug}.pdf" for slug in SLUGS},
     **{f"/citations/v{VERSION}/{slug}.{ext}": f"citations/v{VERSION}/{slug}.{ext}" for slug in SLUGS for ext in ("bib", "ris", "json")},
     **{f"/pdf/v6.2/{slug}.pdf": f"pdf/v6.2/{slug}.pdf" for slug in SLUGS},

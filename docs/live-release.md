@@ -23,3 +23,7 @@ The audit also covers the public security.txt and humans.txt records the version
 ## Catalogue coverage and canonical routing
 
 The personal publication catalogue HTML and JSON are audited alongside the established trilogy. The HTML inventory is derived from the canonical route registry. On release `fcc6af81`, the first audit reached 56/57: current fingerprinted runtime assets matched, while the old mutable `/assets/site.css` alias remained cached at the prior hash (observed CDN HIT and increasing Age). The strict legacy-alias check remains in place. Do not treat a successful Pages deployment as a full byte-verification pass, and do not weaken comparison to conceal stale content.
+
+## Retired notice delivery
+
+The three noindex legacy prototype notices are included in exact-byte live verification. Their visible text and navigation contrast are checked in visual smoke at 390 and 1440 CSS pixels; the original v6.3 manuscript and citation bytes remain untouched.
