@@ -1,0 +1,45 @@
+# Temporary branch-only candidate generator; remove before merge.
+# Second build: compact catalogue reading entry.
+name: Generate editorial composition candidate
+on:
+  push:
+    branches: [design/editorial-composition-20261128]
+    paths: ['.github/workflows/stage-editorial-composition.yml']
+permissions:
+  contents: read
+jobs:
+  generate:
+    if: github.repository == 'i-Takashi-Sato/takashisato.me' && github.ref == 'refs/heads/design/editorial-composition-20261128'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13'
+      - name: Build pinned Japanese font subsets and verify candidate
+        run: |
+          set -euo pipefail
+          python -m pip install --requirement tools/requirements.txt
+          python tools/build_japanese_fonts.py
+          python tools/build_site.py
+          python tools/generate_og.py
+          python tools/verify_v63.py
+          python tools/test_verify_live.py
+          python tools/release_scope.py --base a311ddf0b344933af9236541e91269c7593c0e48 | grep -x scope=full
+      - name: Commit only candidate generated files to this branch
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "design/editorial-composition-20261128"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- '*.html' 'assets/site*.css' 'assets/fonts/JP*' docs/japanese-fonts.json
+          git diff --exit-code
+          test -z "$(git ls-files --others --exclude-standard)"
+          git diff --cached --quiet && exit 0
+          git commit -m "Generate pinned Japanese typography and editorial entry"
+          git push origin HEAD:refs/heads/design/editorial-composition-20261128

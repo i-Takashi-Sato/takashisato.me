@@ -114,6 +114,7 @@ def home_page() -> str:
                 <div class="identity-actions">
                   <a class="button primary" href="/publications/">Explore publications <span aria-hidden="true">↗</span></a>
                   <a class="button" href="/papers/">Featured research</a>
+                  <a class="button" href="/papers/#japanese" lang="ja">日本語の研究案内</a>
                 </div>
               </div>
               <figure class="identity-art">
@@ -177,7 +178,6 @@ def home_page() -> str:
                   <p class="lead">Current research examines how institutions retain accountable judgment in AI-assisted decisions. When governance fails, the question is how to contain or retire the workflow and restore or reassign the capacity to decide.</p>
                   <div class="hero-actions">
                     <a class="button" href="/about.html">About the author</a>
-                    <a class="button" href="/papers/#japanese" lang="ja">日本語の研究案内</a>
                     <a class="button" href="https://orcid.org/0009-0003-1584-6965" target="_blank" rel="me noopener noreferrer">ORCID <span class="arrow" aria-hidden="true">↗</span></a>
                   </div>
                 </div>
@@ -309,7 +309,7 @@ def papers_index_page() -> str:
                     <p>各条件は成立、非成立、判定不能に区別する。81通りの組合せのうち、成立は1、非成立は65、判定不能は15である。非成立は組織の健全性を意味しない。</p>
                     <p>成因については記述的分類とは別に、特定の悪意ある行為の経路を無効にする介入の下で、通常の組織的要因への曝露が保護対象の結果を実質的に損なうかを問う。因果効果の識別と効果の評価は区別する。</p>
                     <p>実証的な妥当性は未確認である。評価前に保持と撤回の条件を登録し、既存理論や各構成要素を連続量として扱うモデルと比較する。特定の用途で意思決定を改善できない場合、その用途での二値分類を撤回する。</p>
-                    <p><a href="/papers/part2.html">論文・状態モデルと反証条件{ja_phrases("（英語）")}</a></p></div>
+                    <p><a href="/papers/part2.html">論文・記述モデルと反証条件{ja_phrases("（英語）")}</a></p></div>
                 </article>
                 <article class="record-row">
                   <div><p class="label">第三部 ／ 終了と権限返還</p><h3>{ja_phrases("責任を保ったまま、", "いかに終えるか")}</h3></div>
@@ -323,7 +323,7 @@ def papers_index_page() -> str:
               <div class="ja-evidence">
                 <h3>検証の範囲</h3>
                 <div>
-              <p class="section-intro">第一部の統合モデルでは134,672の到達可能状態を検証し、定めた実行要件への違反や非終端状態のデッドロックがなく、全状態から結果の記録に至る経路が存在した。第三部の旧モデルでは安全条件に違反しない一方、1,152状態から終結に至る経路がなく、うち288状態では終了の承認後に進行不能となった。改訂モデルPE-R1では、再封じ込めを一回に制限した98,948の到達可能状態について、安全条件への違反も終結に到達できない状態もなかった。第二部は記述モデルと反証可能な研究計画を提示する。第三部の過去の合成試験の生成器は今回の公開資料に含まれない。いずれも現実の組織における有効性や検出性能を実証するものではない。</p>
+              <p class="section-intro">第一部の統合モデルでは134,672の到達可能状態を検証し、定めた実行要件への違反や非終端状態のデッドロックがなく、全状態から結果の記録に至る経路が存在した。第三部の旧モデルでは安全条件に違反しない一方、1,152状態から終結に至る経路がなく、うち288状態では、終了の承認後、一時的な封じ込め解除を経て進行不能となった。改訂モデルPE-R1では、再封じ込めを一回に制限した98,948の到達可能状態について、安全条件への違反も終結に到達できない状態もなかった。第二部は記述モデルと反証可能な研究計画を提示する。第三部の過去の合成試験の生成器は今回の公開資料に含まれない。いずれも現実の組織における有効性や検出性能を実証するものではない。</p>
               <p class="section-intro">オーストラリアのRobodebt制度に関する王立委員会、オランダの保育手当問題に関する議会調査、米国ミシガン州の失業保険に関する公的監査の記録から、三論文では同じ十五の記述箇所を用いている。研究目的に応じて選んだ失敗事例を、著者一人が理論に沿って分類した。示せるのは、統治に関わる対象を公的記録から追跡できるということに限られる。因果関係、発生頻度、予防効果は示さない。同じ記録を用いることは、三論文それぞれの独立した裏づけにはならない。</p>
               <p class="section-intro">独立した査読や現場検証の完了、法的な十分性、新規性の確定は、いずれも主張しない。<a href="#concepts">研究概念と根拠{ja_phrases("（英語）")}</a>、<a href="#critical-review">反証・批判の受付{ja_phrases("（英語）")}</a>も参照されたい。</p>
                 </div>

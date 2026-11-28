@@ -191,7 +191,7 @@ def publications_page(records: tuple[Publication, ...] | None = None) -> str:
             <p class="page-deck">A record of published work, with publication dates, revisions where applicable, and review status where known. Each entry leads to its individual record.</p>
             <div class="hero-actions"><a class="button primary" href="/papers/">The Proper Ending Index</a><a class="button" href="/publications.json">Machine-readable catalogue</a></div>
           </header>
-          <section class="section">
+          <section class="section compact">
             <div class="shell">
               <h2 class="sr-only">Publication records</h2>
               <div class="sequence">{rows}</div>

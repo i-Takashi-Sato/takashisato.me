@@ -56,7 +56,7 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(1rem,5vw,6rem);align-items:center;padding-block:clamp(3rem,7vw,7.2rem)}
 .portrait-name{min-width:0}
 .portrait-name h1{margin:0;color:#F5F4F0;font-family:var(--display);font-size:clamp(3.6rem,9.3vw,10.6rem);font-weight:470;line-height:.95;letter-spacing:-.075em}
-.portrait-name p{margin:1.65rem 0 0;color:#BDBDBD;font-size:.94rem;letter-spacing:.15em}
+.portrait-name p{margin:1.4rem 0 0;color:#D0D0CE;font-size:1.05rem;letter-spacing:.08em}
 .portrait-signature{width:100%;aspect-ratio:1000/504;background:linear-gradient(155deg,#F0EEE8,#C9C9C7 58%,#E8E6E0);mask:var(--signature-mask) center / contain no-repeat;max-width:30rem;justify-self:end}
 .portrait-position{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.4rem,6vw,6rem);border-top:1px solid #555;padding-top:clamp(1.6rem,3vw,2.8rem);align-items:start}
 .portrait-position p{margin:0;color:#D0D0CE;max-width:38rem;line-height:1.72}
@@ -108,7 +108,7 @@ body[data-page="home"] a.sequence-row:hover,body[data-page="papers"] .sequence-r
 @media(forced-colors:active){.portrait-chamber{background:Canvas;color:CanvasText}}
 
 /* Editorial composition: independent tracks for text and research plates. */
-body[data-page="papers"] .page-hero {min-height:0;padding-block:clamp(2.8rem,6vw,6.5rem) clamp(2rem,4vw,4rem)}
+body[data-page] .page-hero {min-height:0;padding-block:clamp(2.8rem,6vw,6.5rem) clamp(2rem,4vw,4rem)}
 body[data-page="papers"] .page-hero h1 {max-width:15ch}
 body[data-page="papers"] .research-map-section {margin-top:0;padding-bottom:clamp(2rem,4vw,4rem)}
 body[data-page="papers"] .research-map {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);background:var(--paper)}
@@ -137,7 +137,7 @@ body[data-tone^="part-"] .content>section+section {margin-top:clamp(3.4rem,6vw,6
   body[data-tone^="part-"] .paper-hero>.paper-meta {margin-top:1.65rem}
 }
 @media(max-width:44rem) {
-  body[data-page="papers"] .page-hero,body[data-tone^="part-"] .paper-hero {padding-block:2.25rem 2.5rem}
+  body[data-page] .page-hero,body[data-tone^="part-"] .paper-hero {padding-block:2.25rem 2.5rem}
   body[data-page="papers"] .page-hero h1 {max-width:16ch}
   body[data-page="papers"] .research-map {grid-template-columns:1fr}
   body[data-page="papers"] .research-map-node {grid-template-columns:minmax(0,1fr) minmax(5rem,.58fr);grid-template-rows:auto auto 1fr;column-gap:.85rem;row-gap:.45rem;border-right:0;border-bottom:1px solid var(--line);padding:1rem}
@@ -215,9 +215,12 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 @media(min-width:45rem){body[data-tone^="part-"] .paper-hero+.section{padding-block-start:clamp(2.5rem,4vw,4rem)}}
 
 /* Japanese editorial composition: a quiet reading surface, not a product grid. */
+@font-face{font-family:JPUI;src:url("/assets/fonts/JPUI.woff2");font-weight:500;font-display:swap}
+@font-face{font-family:JPText;src:url("/assets/fonts/JPText.woff2");font-weight:400 500;font-display:swap}
+:is(.identity-thesis,.portrait-name) [lang=ja],a[lang=ja]{font-family:JPUI,var(--sans);letter-spacing:.08em}
 #japanese {
-  --ja-serif: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho", "Noto Serif CJK JP", "Noto Serif JP", serif;
-  --ja-sans: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
+  --ja-serif: JPText, "Hiragino Mincho ProN", "Yu Mincho", "Newsreader Variable", serif;
+  --ja-sans: JPUI, "Hiragino Sans", "Yu Gothic", Meiryo, JPText, var(--sans);
   --ja-h3: clamp(1.15rem, 1.5vw, 1.45rem);
   font-family: var(--ja-serif);
   font-size: clamp(1.0625rem, 1rem + .22vw, 1.1875rem);
@@ -245,6 +248,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese .label { font: 600 .875rem/1.6 var(--ja-sans); letter-spacing: .07em; }
 #japanese h3 { font: 500 var(--ja-h3)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
 #japanese *:is(p,h2,h3) { overflow-wrap: anywhere; word-break: normal; }
+#japanese p{text-autospace:ideograph-alpha ideograph-numeric}
 #japanese .record-list { margin-top: 0; }
 #japanese .record-row { padding-block: clamp(1.9rem, 3.6vw, 3rem); }
 #japanese *:is(.record-row,.section-head,.ja-evidence) > div { min-width: 0; }
