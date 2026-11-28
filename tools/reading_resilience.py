@@ -39,8 +39,22 @@ MEASURE = """() => {
     .filter(el => el.getClientRects().length)
     .map(el => el.getBoundingClientRect())
     .some(r => r.width > 0 && (r.left < -3 || r.right > innerWidth + 3));
+  const overflowCandidates = root.scrollWidth > innerWidth + 3
+    ? [...document.querySelectorAll('body *')].filter(el => el.getClientRects().length)
+      .map(el => {
+        const r = el.getBoundingClientRect(), style = getComputedStyle(el);
+        return {tag: el.tagName, id: el.id, classes: el.getAttribute('class') || '',
+                left: Math.round(r.left), right: Math.round(r.right), width: Math.round(r.width),
+                scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
+                overflowX: style.overflowX, position: style.position};
+      }).filter(r => r.width > 0 && (r.left < -3 || r.right > innerWidth + 3 ||
+           (r.scrollWidth > r.clientWidth + 3 && r.overflowX === 'visible')))
+      .sort((a,b) => Math.max(b.right-innerWidth,-b.left,b.scrollWidth-b.clientWidth) -
+                     Math.max(a.right-innerWidth,-a.left,a.scrollWidth-a.clientWidth)).slice(0,30)
+    : [];
   return {viewport: innerWidth, scrollWidth: root.scrollWidth,
-          heading: head?.textContent.trim() || '', outside, headerOverlap, headerOutside};
+          heading: head?.textContent.trim() || '', outside, headerOverlap, headerOutside,
+          overflowCandidates, fontStatus: document.fonts.status};
 }"""
 
 

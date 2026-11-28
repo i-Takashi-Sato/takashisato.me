@@ -56,7 +56,9 @@ body[data-page="part3"] .footer-wordmark::after{left:0;right:0;transform:none}
 .portrait-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(1rem,5vw,6rem);align-items:center;padding-block:clamp(3rem,7vw,7.2rem)}
 .portrait-name{min-width:0}
 .portrait-name h1{margin:0;color:#F5F4F0;font-family:var(--display);font-size:clamp(3.6rem,9.3vw,10.6rem);font-weight:470;line-height:.95;letter-spacing:-.075em}
-.portrait-name p{margin:1.65rem 0 0;color:#BDBDBD;font-size:.94rem;letter-spacing:.15em}
+.portrait-name p{margin:1.65rem 0 0}
+:is(.identity-thesis,.portrait-name) [lang=ja]{display:block;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:500;font-size:clamp(1.05rem,1.5vw,1.4rem);letter-spacing:.18em;font-feature-settings:"palt" 0;line-height:1.4;color:var(--ink)}
+.portrait-name [lang=ja]{color:rgba(244,242,236,.86)}
 .portrait-signature{width:100%;aspect-ratio:1000/504;background:linear-gradient(155deg,#F0EEE8,#C9C9C7 58%,#E8E6E0);mask:var(--signature-mask) center / contain no-repeat;max-width:30rem;justify-self:end}
 .portrait-position{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.4rem,6vw,6rem);border-top:1px solid #555;padding-top:clamp(1.6rem,3vw,2.8rem);align-items:start}
 .portrait-position p{margin:0;color:#D0D0CE;max-width:38rem;line-height:1.72}
@@ -224,6 +226,8 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
   line-height: 2.05;
   letter-spacing: .01em;
   line-break: strict;
+  text-autospace: normal;
+  text-spacing-trim: normal;
   color: var(--ink);
 }
 #japanese .shell { max-width: 76rem; }
@@ -245,6 +249,7 @@ body[data-page="home"] .identity-copy h1,body[data-page="papers"] .page-hero h1 
 #japanese .label { font: 600 .875rem/1.6 var(--ja-sans); letter-spacing: .07em; }
 #japanese h3 { font: 500 var(--ja-h3)/1.55 var(--ja-serif); letter-spacing: .015em; margin: .6rem 0 0; }
 #japanese *:is(p,h2,h3) { overflow-wrap: anywhere; word-break: normal; }
+#japanese :is(h2,h3) { word-break: auto-phrase; }
 #japanese .record-list { margin-top: 0; }
 #japanese .record-row { padding-block: clamp(1.9rem, 3.6vw, 3rem); }
 #japanese *:is(.record-row,.section-head,.ja-evidence) > div { min-width: 0; }
